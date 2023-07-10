@@ -1,6 +1,20 @@
 <?php
-
-/* Copyright (c) 2021 Richard Klees <richard.klees@concepts-and-training.de>, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use PHPUnit\Framework\TestCase;
 
@@ -8,12 +22,12 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
 {
     protected ilComponentInfoDefinitionProcessor $processor;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->processor = new ilComponentInfoDefinitionProcessor();
     }
 
-    public function testPurge() : void
+    public function testPurge(): void
     {
         $type = "Modules";
         $name = "NAME";
@@ -26,7 +40,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->assertEquals([], $this->processor->getData());
     }
 
-    public function testBeginTag() : void
+    public function testBeginTag(): void
     {
         $type1 = "Modules";
         $name1 = "NAME1";
@@ -72,7 +86,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->assertEquals($expected, $this->processor->getData());
     }
 
-    public function testTagComponentTypeMismatch() : void
+    public function testTagComponentTypeMismatch(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -84,7 +98,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->processor->beginTag("module", ["id" => $id]);
     }
 
-    public function testMissingId() : void
+    public function testMissingId(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -95,7 +109,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->processor->beginTag("service", []);
     }
 
-    public function testDuplicateComponentId() : void
+    public function testDuplicateComponentId(): void
     {
         $this->expectException(\LogicException::class);
 
@@ -106,7 +120,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->processor->beginTag("module", ["id" => "id"]);
     }
 
-    public function testDuplicatePluginId() : void
+    public function testDuplicatePluginId(): void
     {
         $this->expectException(\LogicException::class);
 

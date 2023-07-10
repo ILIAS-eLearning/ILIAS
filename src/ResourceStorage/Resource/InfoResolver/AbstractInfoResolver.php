@@ -1,20 +1,25 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace ILIAS\ResourceStorage\Resource\InfoResolver;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\ResourceStorage\Resource\InfoResolver;
+
 /**
  * Class AbstractInfoResolver
  * @package ILIAS\ResourceStorage\Resource\InfoResolver
@@ -22,9 +27,9 @@ namespace ILIAS\ResourceStorage\Resource\InfoResolver;
  */
 abstract class AbstractInfoResolver implements InfoResolver
 {
-    protected int $revision_owner_id = 0;
-    protected string $revision_title = '';
-    protected int $next_version_number = 0;
+    protected int $next_version_number;
+    protected int $revision_owner_id;
+    protected string $revision_title;
 
     /**
      * AbstractInfoResolver constructor.
@@ -36,17 +41,17 @@ abstract class AbstractInfoResolver implements InfoResolver
         $this->revision_title = $revision_title;
     }
 
-    public function getNextVersionNumber() : int
+    public function getNextVersionNumber(): int
     {
         return $this->next_version_number;
     }
 
-    public function getOwnerId() : int
+    public function getOwnerId(): int
     {
         return $this->revision_owner_id;
     }
 
-    public function getRevisionTitle() : string
+    public function getRevisionTitle(): string
     {
         return $this->revision_title;
     }

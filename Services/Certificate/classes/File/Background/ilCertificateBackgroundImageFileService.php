@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Filesystem;
 
 /**
@@ -23,59 +25,35 @@ use ILIAS\Filesystem\Filesystem;
  */
 class ilCertificateBackgroundImageFileService
 {
-    public const BACKGROUND_IMAGE_NAME = 'background.jpg';
-    public const BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME = 'background_upload.tmp';
-    public const BACKGROUND_THUMBNAIL_FILE_ENDING = '.thumb.jpg';
-    public const PLACEHOLDER_CLIENT_WEB_DIRECTORY = '[CLIENT_WEB_DIR]';
-
-    private Filesystem $fileSystem;
-    private string $certificatePath;
-    private string $webDirectory;
+    final public const BACKGROUND_IMAGE_NAME = 'background.jpg';
+    final public const BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME = 'background_upload_tmp';
+    final public const BACKGROUND_THUMBNAIL_FILE_ENDING = '.thumb.jpg';
+    final public const PLACEHOLDER_CLIENT_WEB_DIRECTORY = '[CLIENT_WEB_DIR]';
+    final public const VALID_BACKGROUND_IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'gif', 'png'];
 
     public function __construct(
-        string $certificatePath,
-        Filesystem $filesystem,
-        string $webDirectory = CLIENT_WEB_DIR
+        private readonly string $certificatePath,
+        private readonly Filesystem $fileSystem,
+        private readonly string $webDirectory = CLIENT_WEB_DIR
     ) {
-        $this->certificatePath = $certificatePath;
-        $this->fileSystem = $filesystem;
-        $this->webDirectory = $webDirectory;
     }
 
-    public function hasBackgroundImage(ilCertificateTemplate $template) : bool
+    public function hasBackgroundImage(ilCertificateTemplate $template): bool
     {
         $backgroundImagePath = $template->getBackgroundImagePath();
         if ($backgroundImagePath === '') {
             return false;
         }
 
-        if ($this->fileSystem->has($backgroundImagePath)) {
-            return true;
-        }
-
-        return false;
+        return $this->fileSystem->has($backgroundImagePath);
     }
 
-    public function hasBackgroundImageThumbnail(ilCertificateTemplate $template) : bool
-    {
-        $backgroundImagePath = $template->getThumbnailImagePath();
-        if ($backgroundImagePath === '') {
-            return false;
-        }
-
-        if ($this->fileSystem->has($backgroundImagePath)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function getBackgroundImageThumbPath() : string
+    public function getBackgroundImageThumbPath(): string
     {
         return $this->webDirectory . $this->certificatePath . self::BACKGROUND_IMAGE_NAME . self::BACKGROUND_THUMBNAIL_FILE_ENDING;
     }
 
-    public function getBackgroundImageDirectory(string $backgroundImagePath = '') : string
+    public function getBackgroundImageDirectory(string $backgroundImagePath = ''): string
     {
         return str_replace(
             [$this->webDirectory, '//'],
@@ -84,8 +62,21 @@ class ilCertificateBackgroundImageFileService
         );
     }
 
-    public function getBackgroundImageTempfilePath() : string
+    public function getBackgroundImageTempfilePath(string $extension): string
     {
-        return $this->webDirectory . $this->certificatePath . self::BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME;
+        return implode('', [
+            $this->webDirectory,
+            $this->certificatePath,
+            self::BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME,
+            '.' . $extension
+        ]);
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function getValidBackgroundImageFileExtensions(): array
+    {
+        return self::VALID_BACKGROUND_IMAGE_EXTENSIONS;
     }
 }

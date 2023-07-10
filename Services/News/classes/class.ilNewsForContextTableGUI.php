@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for table NewsForContext
@@ -35,7 +38,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->perm_ref_id = $a_perm_ref_id;
@@ -54,17 +57,17 @@ class ilNewsForContextTableGUI extends ilTable2GUI
             "Services/News"
         );
     }
-    
+
     /**
     * Standard Version of Fill Row. Most likely to
     * be overwritten by derived class.
     */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
-        
+
         $news_set = new ilSetting("news");
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
@@ -76,7 +79,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
             $this->tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         // access
         if ($enable_internal_rss) {
             $this->tpl->setCurrentBlock("access");
@@ -106,7 +109,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
             );
             $this->tpl->parseCurrentBlock();
         }
-        
+
         // creation date
         $this->tpl->setVariable(
             "VAL_CREATION_DATE",
@@ -116,7 +119,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 
         // title
         $this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
-        
+
         // content
         if ($a_set["content"] != "") {
             $this->tpl->setCurrentBlock("content");

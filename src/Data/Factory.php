@@ -1,11 +1,28 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Data;
 
 use ILIAS\Data\Clock\ClockFactory;
 use ILIAS\Data\Clock\ClockFactoryImpl;
+use ILIAS\Data\Meta;
 
 /**
  * Builds data types.
@@ -22,13 +39,15 @@ class Factory
      */
     private ?Color\Factory $colorfactory = null;
     private ?Dimension\Factory $dimensionfactory = null;
+    private ?Meta\Html\Factory $html_metadata_factory = null;
+    private ?Meta\Html\OpenGraph\Factory $open_graph_metadata_factory = null;
 
     /**
      * Get an ok result.
      *
      * @param mixed $value
      */
-    public function ok($value) : Result
+    public function ok($value): Result
     {
         return new Result\Ok($value);
     }
@@ -39,7 +58,7 @@ class Factory
      * @param string|\Exception $e
      * @return Result
      */
-    public function error($e) : Result
+    public function error($e): Result
     {
         return new Result\Error($e);
     }
@@ -50,7 +69,7 @@ class Factory
      *
      * @param string|int[] $value
      */
-    public function color($value) : Color
+    public function color($value): Color
     {
         if (!$this->colorfactory) {
             $this->colorfactory = new Color\Factory();
@@ -63,7 +82,7 @@ class Factory
      * with restrictions imposed on valid characters and obliagtory
      * parts.
      */
-    public function uri(string $uri_string) : URI
+    public function uri(string $uri_string): URI
     {
         return new URI($uri_string);
     }
@@ -75,7 +94,7 @@ class Factory
      * @throw   \InvalidArgumentException if first argument is int and second is not a valid unit.
      * @throw   \InvalidArgumentException if string size can't be interpreted
      */
-    public function dataSize($size, string $unit = null) : DataSize
+    public function dataSize($size, string $unit = null): DataSize
     {
         if (is_string($size)) {
             $match = [];
@@ -93,22 +112,22 @@ class Factory
         return new DataSize($size * $unit_size, $unit_size);
     }
 
-    public function password(string $pass) : Password
+    public function password(string $pass): Password
     {
         return new Password($pass);
     }
 
-    public function clientId(string $clientId) : ClientId
+    public function clientId(string $clientId): ClientId
     {
         return new ClientId($clientId);
     }
 
-    public function refId(int $ref_id) : ReferenceId
+    public function refId(int $ref_id): ReferenceId
     {
         return new ReferenceId($ref_id);
     }
 
-    public function objId(int $obj_id) : ObjectId
+    public function objId(int $obj_id): ObjectId
     {
         return new ObjectId($obj_id);
     }
@@ -116,23 +135,23 @@ class Factory
     /**
      * @param mixed $value
      */
-    public function alphanumeric($value) : Alphanumeric
+    public function alphanumeric($value): Alphanumeric
     {
         return new Alphanumeric($value);
     }
 
-    public function positiveInteger(int $value) : PositiveInteger
+    public function positiveInteger(int $value): PositiveInteger
     {
         return new PositiveInteger($value);
     }
 
-    public function dateFormat() : DateFormat\Factory
+    public function dateFormat(): DateFormat\Factory
     {
         $builder = new DateFormat\FormatBuilder();
         return new DateFormat\Factory($builder);
     }
 
-    public function range(int $start, int $length) : Range
+    public function range(int $start, int $length): Range
     {
         return new Range($start, $length);
     }
@@ -140,7 +159,7 @@ class Factory
     /**
      * @param string $direction Order::ASC|Order::DESC
      */
-    public function order(string $subject, string $direction) : Order
+    public function order(string $subject, string $direction): Order
     {
         return new Order($subject, $direction);
     }
@@ -149,22 +168,22 @@ class Factory
      * @param string $version in the form \d+([.]\d+([.]\d+)?)?
      * @throws  \InvalidArgumentException if version string does not match \d+([.]\d+([.]\d+)?)?
      */
-    public function version(string $version) : Version
+    public function version(string $version): Version
     {
         return new Version($version);
     }
 
-    public function link(string $label, URI $url) : Link
+    public function link(string $label, URI $url): Link
     {
         return new Link($label, $url);
     }
 
-    public function clock() : ClockFactory
+    public function clock(): ClockFactory
     {
         return new ClockFactoryImpl();
     }
 
-    public function dimension() : Dimension\Factory
+    public function dimension(): Dimension\Factory
     {
         if (!$this->dimensionfactory) {
             $this->dimensionfactory = new Dimension\Factory();
@@ -175,8 +194,31 @@ class Factory
     /**
      * @param array<string, Dimension\Dimension> $dimensions Dimensions with their names as keys
      */
-    public function dataset(array $dimensions) : Chart\Dataset
+    public function dataset(array $dimensions): Chart\Dataset
     {
         return new Chart\Dataset($dimensions);
+    }
+
+    public function htmlMetadata(): Meta\Html\Factory
+    {
+        if (null === $this->html_metadata_factory) {
+            $this->html_metadata_factory = new Meta\Html\Factory();
+        }
+
+        return $this->html_metadata_factory;
+    }
+
+    public function openGraphMetadata(): Meta\Html\OpenGraph\Factory
+    {
+        if (null === $this->open_graph_metadata_factory) {
+            $this->open_graph_metadata_factory = new Meta\Html\OpenGraph\Factory();
+        }
+
+        return $this->open_graph_metadata_factory;
+    }
+
+    public function languageTag(string $language_tag): LanguageTag
+    {
+        return LanguageTag::fromString($language_tag);
     }
 }

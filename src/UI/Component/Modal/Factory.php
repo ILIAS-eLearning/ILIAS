@@ -1,9 +1,29 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Modal\InterruptiveItem;
+use ILIAS\UI\Component\Card\Card;
 
 /**
  * Interface Factory
@@ -46,7 +66,7 @@ interface Factory
      * @param string $form_action The URL where the modal posts its form data
      * @return \ILIAS\UI\Component\Modal\Interruptive
      */
-    public function interruptive(string $title, string $message, string $form_action) : Interruptive;
+    public function interruptive(string $title, string $message, string $form_action): Interruptive;
 
 
     /**
@@ -55,34 +75,19 @@ interface Factory
      *   purpose: >
      *     Interruptive items are displayed in an Interruptive modal and represent the object(s) being affected
      *     by the critical action, e.g. deleting.
-     *   composition:
-     *     An Interruptive item is composed of an Id, title, description and an icon.
+     *   composition: >
+     *     In a single interruptive modal, only one type of interruptive item SHOULD be used. If there are
+     *     interruptive items of multiple types in an interruptive modal, they MUST be rendered grouped
+     *     by type.
+     *
      * rules:
      *   usage:
      *     1: >
-     *       An interruptive item MUST have an ID and title.
-     *     2: >
-     *       An interruptive item SHOULD have an icon representing the affected object.
-     *     3: >
-     *       An interruptive item MAY have a description which helps to further identify the object.
-     *       If an Interruptive modal displays multiple items having the the same title,
-     *       the description MUST be used in order to distinct these objects from each other.
-     *     4: >
-     *       If an interruptive item represents an ILIAS object, e.g. a course, then the Id, title, description
-     *       and icon of the item MUST correspond to the Id, title, description and icon from the ILIAS object.
+     *       An interruptive item MUST have an ID.
      * ---
-     * @param string $id
-     * @param string $title
-     * @param Image $icon
-     * @param string $description
-     * @return \ILIAS\UI\Component\Modal\InterruptiveItem
+     * @return \ILIAS\UI\Component\Modal\InterruptiveItem\Factory
      */
-    public function interruptiveItem(
-        string $id,
-        string $title,
-        Image $icon = null,
-        string $description = ''
-    ) : InterruptiveItem;
+    public function interruptiveItem(): InterruptiveItem\Factory;
 
 
     /**
@@ -124,10 +129,12 @@ interface Factory
      *       does not fit the workflow presented on the screen.
      * ---
      * @param string $title
-     * @param Component\Component|Component\Component[] $content
+     * @param Component\Component|Component\Component[]|null $content
+     * @param Component\Input\Field\Input[] $inputs
+     * @param string|null $post_url
      * @return \ILIAS\UI\Component\Modal\RoundTrip
      */
-    public function roundtrip(string $title, array $content) : RoundTrip;
+    public function roundtrip(string $title, array $content, array $inputs = [], string $post_url = null): RoundTrip;
 
 
     /**
@@ -138,7 +145,8 @@ interface Factory
      *     that has a purely descriptive nature and does not offer interaction.
      *   composition: >
      *     A Lightbox modal consists of one or multiple lightbox pages representing the text or media together
-     *     with a title.
+     *     with a title. The Lightbox uses a dark scheme if there is one or more image pages and a bright scheme if
+     *     there are only text pages.
      *   effect: >
      *     Lightbox modals are activated by clicking the full view glyphicon,
      *     the title of the object, or it's thumbnail.
@@ -158,7 +166,7 @@ interface Factory
      * @param LightboxPage|LightboxPage[] $pages
      * @return \ILIAS\UI\Component\Modal\Lightbox
      */
-    public function lightbox($pages) : Lightbox;
+    public function lightbox($pages): Lightbox;
 
 
     /**
@@ -184,7 +192,7 @@ interface Factory
      * @param string $description
      * @return \ILIAS\UI\Component\Modal\LightboxImagePage
      */
-    public function lightboxImagePage(Image $image, string $title, string $description = '') : LightboxImagePage;
+    public function lightboxImagePage(Image $image, string $title, string $description = ''): LightboxImagePage;
 
     /**
      * ---
@@ -207,5 +215,27 @@ interface Factory
      * @param string $title
      * @return \ILIAS\UI\Component\Modal\LightboxTextPage
      */
-    public function lightboxTextPage(string $text, string $title) : LightboxTextPage;
+    public function lightboxTextPage(string $text, string $title): LightboxTextPage;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       A lightbox card page shows a card as a Lightbox modal.
+     *   composition: >
+     *       The page shows a card with it's hidden sections.
+     *   effect: >
+     *       The card title is used as the modal title and the sections and hidden sections are
+     *       displayed in the content section of the lightbox modal.
+     * rules:
+     *   usage:
+     *     1: >
+     *       A Lightbox card page MUST show a card.
+     *     2: >
+     *       A Lightbox card page SHOULD be used to show further information.
+     * ---
+     * @param Card $card
+     * @return \ILIAS\UI\Component\Modal\LightboxCardPage
+     */
+    public function lightboxCardPage(Card $card): LightboxCardPage;
 }

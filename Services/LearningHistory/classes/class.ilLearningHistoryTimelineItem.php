@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -38,12 +41,12 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
         $this->tree = $tree;
     }
 
-    public function getDatetime() : ilDateTime
+    public function getDatetime(): ilDateTime
     {
         return new ilDateTime($this->lh_entry->getTimestamp(), IL_CAL_UNIX);
     }
 
-    public function render() : string
+    public function render(): string
     {
         $access = $this->access;
         $parent_ref_id = 0;
@@ -97,14 +100,14 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
         return $tpl->get();
     }
 
-    protected function getEmphasizedTitle(string $title) : string
+    protected function getEmphasizedTitle(string $title): string
     {
         $tpl = new ilTemplate("tpl.emphasized_title.php", true, true, "Services/LearningHistory");
         $tpl->setVariable("TITLE", $title);
         return $tpl->get();
     }
 
-    public function renderFooter() : string
+    public function renderFooter(): string
     {
         return "";
     }

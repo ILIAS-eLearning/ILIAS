@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @classDescription Table presentation of course/group relevant user data fields
  * @author           Stefan Meyer <meyer@leifos.com>
@@ -59,7 +61,7 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['field_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['name']);
@@ -74,7 +76,7 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
     /**
      * @param ilCourseDefinedFieldDefinition[] $a_defs
      */
-    public function parse(array $a_defs) : void
+    public function parse(array $a_defs): void
     {
         $rows = [];
         foreach ($a_defs as $def) {

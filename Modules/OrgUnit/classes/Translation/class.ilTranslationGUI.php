@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,68 +25,41 @@
  */
 class ilTranslationGUI
 {
+    protected ilCtrl $ctrl;
+    public ilGlobalTemplateInterface $tpl;
+    protected ilAccessHandler $ilAccess;
+    protected ilLanguage $lng;
+    protected object $parent_gui;
+    protected object $object;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
-    /**
-     * @var ilAccessHandler
-     */
-    protected $ilAccess;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilObjOrgUnitGui
-     */
-    protected $ilObjOrgUnitGui;
-    /**
-     * @var ilObjOrgUnit
-     */
-    protected $ilObjectOrgUnit;
-
-    public function __construct(ilObjOrgUnitGUI $ilObjOrgUnitGUI)
+    public function __construct(object $ilObjOrgUnitGUI)
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
+
         $ilAccess = $DIC['ilAccess'];
-        /**
-         * @var $tpl    ilTemplate
-         * @var $ilCtrl ilCtrl
-         * @var $ilDB   ilDB
-         */
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-        $this->ilObjOrgUnitGui = $ilObjOrgUnitGUI;
-        $this->ilObjectOrgUnit = $ilObjOrgUnitGUI->object;
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->parent_gui = $ilObjOrgUnitGUI;
+        $this->object = $ilObjOrgUnitGUI->getObject();
         $this->ilAccess = $ilAccess;
 
-        if (!$ilAccess->checkAccess('write', '', $this->ilObjectOrgUnit->getRefId())) {
-            $main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
+        if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
     }
 
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         $this->$cmd();
     }
 
-    public function editTranslations($a_get_post_values = false, $a_add = false)
+    public function editTranslations(bool $a_get_post_values = false, bool $a_add = false): void
     {
-        $this->lng->loadLanguageModule($this->ilObjectOrgUnit->getType());
+        $this->lng->loadLanguageModule($this->object->getType());
 
         $table = new ilObjectTranslationTableGUI(
             $this,
@@ -90,7 +79,7 @@ class ilTranslationGUI
             }
             $table->setData($vals);
         } else {
-            $data = $this->ilObjectOrgUnit->getTranslations();
+            $data = $this->object->getTranslations();
             if ($a_add) {
                 $data[]["title"] = "";
             }
@@ -102,43 +91,41 @@ class ilTranslationGUI
     /**
      * Save title and translations
      */
-    public function saveTranslations()
+    public function saveTranslations(): void
     {
         // default language set?
         if (!isset($_POST["default"])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_default_language"));
-
-            return $this->editTranslations(true);
+            $this->editTranslations(true);
         }
 
         // all languages set?
         if (array_key_exists("", $_POST["lang"])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_language_selected"));
-
-            return $this->editTranslations(true);
+            $this->editTranslations(true);
         }
 
         // no single language is selected more than once?
         if (count(array_unique($_POST["lang"])) < count($_POST["lang"])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_multi_language_selected"));
 
-            return $this->editTranslations(true);
+            $this->editTranslations(true);
         }
 
         // save the stuff
-        $this->ilObjectOrgUnit->removeTranslations();
+        $this->object->removeTranslations();
         foreach ($_POST["title"] as $k => $v) {
-            $translations = $this->ilObjectOrgUnit->getTranslations();
+            $translations = $this->object->getTranslations();
 
             if (array_key_exists($_POST["lang"][$k], $translations)) {
-                $this->ilObjectOrgUnit->updateTranslation(
+                $this->object->updateTranslation(
                     ilUtil::stripSlashes($v),
                     ilUtil::stripSlashes($_POST["desc"][$k]),
                     ilUtil::stripSlashes($_POST["lang"][$k]),
                     ($_POST["default"] == $k) ? 1 : 0
                 );
             } else {
-                $this->ilObjectOrgUnit->addTranslation(
+                $this->object->addTranslation(
                     ilUtil::stripSlashes($v),
                     ilUtil::stripSlashes($_POST["desc"][$k]),
                     ilUtil::stripSlashes($_POST["lang"][$k]),
@@ -154,7 +141,7 @@ class ilTranslationGUI
     /**
      * Add a translation
      */
-    public function addTranslation()
+    public function addTranslation(): void
     {
         if ($_POST["title"]) {
             $k = max(array_keys($_POST["title"]));
@@ -169,7 +156,7 @@ class ilTranslationGUI
     /**
      * Remove translation
      */
-    public function deleteTranslations()
+    public function deleteTranslations(): void
     {
         foreach ($_POST["title"] as $k => $v) {
             if ($_POST["check"][$k]) {
@@ -181,7 +168,7 @@ class ilTranslationGUI
                 } else {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_default_language"));
 
-                    return $this->editTranslations();
+                    $this->editTranslations();
                 }
             }
         }

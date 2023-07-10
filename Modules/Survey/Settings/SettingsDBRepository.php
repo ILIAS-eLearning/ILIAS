@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Settings;
 
@@ -40,10 +45,10 @@ class SettingsDBRepository
      * @param int[] $survey_ids survey IDs
      * @return bool[] has ended true/false
      */
-    public function hasEnded(array $survey_ids) : array
+    public function hasEnded(array $survey_ids): array
     {
         $db = $this->db;
-        
+
         $set = $db->queryF(
             "SELECT survey_id, enddate FROM svy_svy " .
             " WHERE " . $db->in("survey_id", $survey_ids, false, "integer"),
@@ -63,7 +68,7 @@ class SettingsDBRepository
      */
     public function getObjIdsForSurveyIds(
         array $survey_ids
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -86,7 +91,7 @@ class SettingsDBRepository
      */
     protected function toUnixTS(
         string $date
-    ) : int {
+    ): int {
         if ($date > 0 && preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $date, $matches)) {
             return (int) mktime((int) $matches[4], (int) $matches[5], (int) $matches[6], (int) $matches[2], (int) $matches[3], (int) $matches[1]);
         }
@@ -99,9 +104,9 @@ class SettingsDBRepository
      */
     public function getAccessSettings(
         array $survey_ids
-    ) : array {
+    ): array {
         $db = $this->db;
-        
+
         $set = $db->queryF(
             "SELECT startdate, enddate, anonymize, survey_id FROM svy_svy " .
             " WHERE " . $db->in("survey_id", $survey_ids, false, "integer"),
@@ -111,8 +116,8 @@ class SettingsDBRepository
         $settings = [];
         while ($rec = $db->fetchAssoc($set)) {
             $settings[(int) $rec["survey_id"]] = $this->set_factory->accessSettings(
-                $this->toUnixTS($rec["startdate"]),
-                $this->toUnixTS($rec["enddate"]),
+                $this->toUnixTS($rec["startdate"] ?? ''),
+                $this->toUnixTS($rec["enddate"] ?? ''),
                 in_array($rec["anonymize"], ["1", "3"], true)
             );
         }

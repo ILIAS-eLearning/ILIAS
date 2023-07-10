@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Refinery\Password;
 
 use ILIAS\Refinery\Custom\Constraint;
@@ -29,10 +31,10 @@ class HasSpecialChars extends Constraint
     public function __construct(Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            static function (Data\Password $value) : bool {
+            static function (Data\Password $value): bool {
                 return (bool) preg_match(self::ALLOWED_CHARS, $value->toString());
             },
-            static function ($value) : string {
+            static function ($value): string {
                 return "Password must contain special chars.";
             },
             $data_factory,

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,23 +16,25 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Composite for nesting multiple purifiers
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
+final class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
 {
     /** @var ilHtmlPurifierInterface[]  */
-    protected array $purifiers = [];
+    private array $purifiers = [];
 
     /**
      * Adds a node to composite
      * @param ilHtmlPurifierInterface $purifier Instance of ilHtmlPurifierInterface
      * @return bool True if instance could be added, otherwise false
      */
-    public function addPurifier(ilHtmlPurifierInterface $purifier) : bool
+    public function addPurifier(ilHtmlPurifierInterface $purifier): bool
     {
-        if (false === in_array($purifier, $this->purifiers, true)) {
+        if (!in_array($purifier, $this->purifiers, true)) {
             $this->purifiers[] = $purifier;
             return true;
         }
@@ -45,7 +47,7 @@ class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
      * @param ilHtmlPurifierInterface $purifier Instance of ilHtmlPurifierInterface
      * @return bool True if instance could be removed, otherwise false
      */
-    public function removePurifier(ilHtmlPurifierInterface $purifier) : bool
+    public function removePurifier(ilHtmlPurifierInterface $purifier): bool
     {
         $key = array_search($purifier, $this->purifiers, true);
         if (false === $key) {
@@ -56,7 +58,7 @@ class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
         return true;
     }
 
-    public function purify(string $html) : string
+    public function purify(string $html): string
     {
         foreach ($this->purifiers as $purifier) {
             $html = $purifier->purify($html);
@@ -65,7 +67,7 @@ class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
         return $html;
     }
 
-    public function purifyArray(array $htmlCollection) : array
+    public function purifyArray(array $htmlCollection): array
     {
         foreach ($htmlCollection as $key => $html) {
             if (!is_string($html)) {

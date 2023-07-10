@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\ContentPage\GlobalSettings\StorageImpl;
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
@@ -24,7 +26,7 @@ use ILIAS\ContentPage\PageMetrics\Command\GetPageMetricsCommand;
 
 class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageObjectConstants
 {
-    private PageMetricsService $pageMetricsService;
+    private readonly PageMetricsService $pageMetricsService;
 
     public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
@@ -37,7 +39,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         );
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -54,7 +56,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         $this->lng->loadLanguageModule('copa');
     }
 
-    public function getInfoScreenStatus() : bool
+    public function getInfoScreenStatus(): bool
     {
         if (ilContainer::_lookupContainerSetting(
             $this->obj_id,
@@ -67,7 +69,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         return false;
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $properties = [];
 
@@ -113,13 +115,13 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
                 'property' => $this->lng->txt('copa_prop_reading_time'),
                 'value' => $readingTimePropertyValue,
             ];
-        } catch (CouldNotFindPageMetrics $e) {
+        } catch (CouldNotFindPageMetrics) {
         }
 
         return $properties;
     }
 
-    public function checkInfoPageOnAsynchronousRendering() : bool
+    public function checkInfoPageOnAsynchronousRendering(): bool
     {
         return true;
     }

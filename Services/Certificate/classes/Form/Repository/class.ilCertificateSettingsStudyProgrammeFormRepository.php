@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,16 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 
 class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificateFormRepository
 {
-    private ilLanguage $language;
-    private ilCertificateSettingsFormRepository $settingsFormRepository;
-    private ilObject $object;
-    private ilSetting $setting;
+    private readonly ilCertificateSettingsFormRepository $settingsFormRepository;
 
     public function __construct(
         ilObject $object,
@@ -36,35 +35,25 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-        ?ilCertificateSettingsFormRepository $settingsFormRepository = null,
-        ?ilSetting $setting = null
+        ?ilCertificateSettingsFormRepository $settingsFormRepository = null
     ) {
-        $this->object = $object;
-        $this->language = $language;
+        global $DIC;
 
-        if (null === $settingsFormRepository) {
-            $settingsFormRepository = new ilCertificateSettingsFormRepository(
-                $object->getId(),
-                $certificatePath,
-                $hasAdditionalElements,
-                $language,
-                $ctrl,
-                $access,
-                $toolbar,
-                $placeholderDescriptionObject
-            );
-        }
-
-        $this->settingsFormRepository = $settingsFormRepository;
-        if (null === $setting) {
-            $setting = new ilSetting('prg');
-        }
-        $this->setting = $setting;
+        $this->settingsFormRepository = $settingsFormRepository ?? new ilCertificateSettingsFormRepository(
+            $object->getId(),
+            $certificatePath,
+            $hasAdditionalElements,
+            $language,
+            $ctrl,
+            $access,
+            $toolbar,
+            $placeholderDescriptionObject,
+            $DIC->ui()->factory(),
+            $DIC->ui()->renderer()
+        );
     }
 
     /**
-     * @param ilCertificateGUI $certificateGUI
-     * @return ilPropertyFormGUI
      * @throws FileAlreadyExistsException
      * @throws FileNotFoundException
      * @throws IOException
@@ -72,16 +61,19 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
+    public function createForm(ilCertificateGUI $certificateGUI): ilPropertyFormGUI
     {
         return $this->settingsFormRepository->createForm($certificateGUI);
     }
 
-    public function save(array $formFields) : void
+    public function save(array $formFields): void
     {
     }
 
-    public function fetchFormFieldData(string $content) : array
+    /**
+     * @return array{pageformat: string, pagewidth: mixed, pageheight: mixed, margin_body_top: mixed, margin_body_right: mixed, margin_body_bottom: mixed, margin_body_left: mixed, certificate_text: string}
+     */
+    public function fetchFormFieldData(string $content): array
     {
         return $this->settingsFormRepository->fetchFormFieldData($content);
     }

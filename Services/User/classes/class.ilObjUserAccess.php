@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 
 /**
@@ -21,17 +24,17 @@
  */
 class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass
 {
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         throw new ilException("_getCommands must not be called on user object.");
     }
 
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         throw new ilException("_checkAccess must not be called on user object.");
     }
 
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -61,7 +64,7 @@ class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass
         return true;
     }
 
-    public function canBeDelivered(ilWACPath $ilWACPath) : bool
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         global $DIC;
 

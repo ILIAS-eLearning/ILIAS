@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\Integer;
 
 use ILIAS\Data\Factory;
@@ -31,7 +33,7 @@ class GroupTest extends TestCase
 {
     private IntegerGroup $group;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $dataFactory = new Factory();
         $language = $this->getMockBuilder(ilLanguage::class)
@@ -41,24 +43,24 @@ class GroupTest extends TestCase
         $this->group = new IntegerGroup($dataFactory, $language);
     }
 
-    public function testGreaterThanInstance() : void
+    public function testGreaterThanInstance(): void
     {
         $instance = $this->group->isGreaterThan(42);
         $this->assertInstanceOf(GreaterThan::class, $instance);
     }
-    public function testLowerThanInstance() : void
+    public function testLowerThanInstance(): void
     {
         $instance = $this->group->isLessThan(42);
         $this->assertInstanceOf(LessThan::class, $instance);
     }
 
-    public function testGreaterThanOrEqualInstance() : void
+    public function testGreaterThanOrEqualInstance(): void
     {
         $instance = $this->group->isGreaterThanOrEqual(42);
         $this->assertInstanceOf(GreaterThanOrEqual::class, $instance);
     }
 
-    public function testLessThanOrEqualInstance() : void
+    public function testLessThanOrEqualInstance(): void
     {
         $instance = $this->group->isLessThanOrEqual(42);
         $this->assertInstanceOf(LessThanOrEqual::class, $instance);

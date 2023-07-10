@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,10 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilBuddySystemRelationStateCollection
  * A collection of relation states
  * @author Michael Jansen <mjansen@databay.de>
+ * @implements ilBuddySystemCollection<ilBuddySystemRelationState>
  */
 class ilBuddySystemRelationStateCollection extends ilBuddySystemArrayCollection
 {

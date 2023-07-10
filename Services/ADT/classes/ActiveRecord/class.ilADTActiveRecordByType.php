@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ADT Active Record by type helper class
@@ -30,7 +47,7 @@ class ilADTActiveRecordByType
         $this->init();
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $this->tables_map = self::getTablesMap();
 
@@ -43,18 +60,18 @@ class ilADTActiveRecordByType
         }
     }
 
-    public function setElementIdColumn(string $a_name, string $a_type) : void
+    public function setElementIdColumn(string $a_name, string $a_type): void
     {
         $this->element_column = $a_name;
         $this->element_column_type = $a_type;
     }
 
-    public function getElementIdColumn() : string
+    public function getElementIdColumn(): string
     {
         return $this->element_column;
     }
 
-    protected static function getTablesMap() : array
+    protected static function getTablesMap(): array
     {
         return [
             'text' => ['Text'],
@@ -75,7 +92,7 @@ class ilADTActiveRecordByType
      * @param string $a_type
      * @return string
      */
-    protected function getTableForElementType(string $a_type) : string
+    protected function getTableForElementType(string $a_type): string
     {
         if (isset($this->tables_map_type[$a_type])) {
             return $this->properties->getTable() . "_" . $this->tables_map_type[$a_type];
@@ -87,7 +104,7 @@ class ilADTActiveRecordByType
      * Map all group elements to sub tables
      * @return array
      */
-    protected function mapElementsToTables() : array
+    protected function mapElementsToTables(): array
     {
         $res = [];
         foreach ($this->properties->getElements() as $element_id => $element) {
@@ -99,7 +116,7 @@ class ilADTActiveRecordByType
         return $res;
     }
 
-    protected function processTableRowForElement(string $a_sub_table, string $a_element_id, array $a_row) : array
+    protected function processTableRowForElement(string $a_sub_table, string $a_element_id, array $a_row): array
     {
         switch ($a_sub_table) {
             case "location":
@@ -223,7 +240,7 @@ class ilADTActiveRecordByType
      * Create/insert record
      * @param array $a_additional_data
      */
-    public function write(array $a_additional_data = null) : void
+    public function write(array $a_additional_data = null): void
     {
         // find existing entries
         $existing = [];
@@ -257,7 +274,7 @@ class ilADTActiveRecordByType
                     } else {
                         $tmp[$table][$element_id] = [];
                         foreach ($fields as $key => $value) {
-                            $key = substr($key, strlen($element_id) + 1);
+                            $key = substr((string) $key, strlen((string) $element_id) + 1);
                             // @todo other implementation required
                             if (substr($table, -8) == "location") {
                                 // long is reserved word
@@ -285,15 +302,23 @@ class ilADTActiveRecordByType
             foreach ($tmp as $table => $elements) {
                 foreach ($elements as $element_id => $fields) {
                     if (is_array($fields) && count($fields)) {
+                        $current_db_bridge = $this->findCurrentDBBridge($element_id);
                         if (isset($existing[$table][$element_id])) {
                             // update
-                            $primary = $this->properties->getPrimary();
+                            $primary = array_merge(
+                                $this->properties->getPrimary(),
+                                $current_db_bridge->getAdditionalPrimaryFields()
+                            );
                             $primary[$this->getElementIdColumn()] = array($this->element_column_type, $element_id);
                             $this->db->update($table, $fields, $primary);
                         } else {
                             // insert
                             $fields[$this->getElementIdColumn()] = array($this->element_column_type, $element_id);
-                            $fields = array_merge($this->properties->getPrimary(), $fields);
+                            $fields = array_merge(
+                                $this->properties->getPrimary(),
+                                $current_db_bridge->getAdditionalPrimaryFields(),
+                                $fields
+                            );
                             $this->db->insert($table, $fields);
                         }
                     }
@@ -328,7 +353,17 @@ class ilADTActiveRecordByType
         }
     }
 
-    protected static function buildPartialPrimaryWhere(array $a_primary) : string
+    protected function findCurrentDBBridge(int $element_id): ?ilADTDBBridge
+    {
+        foreach ($this->properties->getElements() as $prop_element_id => $prop_element) {
+            if ($element_id === $prop_element_id) {
+                return $prop_element;
+            }
+        }
+        return null;
+    }
+
+    protected static function buildPartialPrimaryWhere(array $a_primary): string
     {
         global $DIC;
 
@@ -348,7 +383,7 @@ class ilADTActiveRecordByType
         return '';
     }
 
-    public static function deleteByPrimary(string $a_table, array $a_primary, string $a_type = null) : void
+    public static function deleteByPrimary(string $a_table, array $a_primary, string $a_type = null): void
     {
         global $DIC;
 
@@ -382,7 +417,7 @@ class ilADTActiveRecordByType
         }
     }
 
-    public static function preloadByPrimary(string $a_table, array $a_primary) : bool
+    public static function preloadByPrimary(string $a_table, array $a_primary): bool
     {
         global $DIC;
 
@@ -405,14 +440,15 @@ class ilADTActiveRecordByType
         return true;
     }
 
-    protected static function getTableTypeMap() : array
+    protected static function getTableTypeMap(): array
     {
         return array(
             "text" => "text",
             "int" => "integer",
             "float" => "float",
             "date" => "date",
-            "datetime" => "timestamp"
+            "datetime" => "timestamp",
+            "intlink" => "integer"
         );
     }
 
@@ -431,7 +467,7 @@ class ilADTActiveRecordByType
         array $a_source_primary,
         array $a_target_primary,
         array $a_additional = null
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -479,10 +515,16 @@ class ilADTActiveRecordByType
                             $fields['value_index'] = [ilDBConstants::T_INTEGER, $row['value_index']];
                             break;
 
+                        case 'extlink':
+                            $fields['value'] = [ilDBConstants::T_TEXT, $row['value']];
+                            $fields['title'] = [ilDBConstants::T_TEXT, $row['title']];
+                            break;
+
                         default:
-                            $fields[self::SINGLE_COLUMN_NAME] = array($type_map[$table],
-                                                                      $row[self::SINGLE_COLUMN_NAME]
-                            );
+                            $fields[self::SINGLE_COLUMN_NAME] = [
+                                $type_map[$table],
+                                $row[self::SINGLE_COLUMN_NAME]
+                            ];
                             break;
                     }
 
@@ -506,7 +548,7 @@ class ilADTActiveRecordByType
      * @param string | null $a_type
      * @return array|void
      */
-    public static function readByPrimary(string $a_table, array $a_primary, ?string $a_type = null) : ?array
+    public static function readByPrimary(string $a_table, array $a_primary, ?string $a_type = null): ?array
     {
         global $DIC;
 
@@ -549,7 +591,7 @@ class ilADTActiveRecordByType
         return $res;
     }
 
-    public static function create(string $table, array $fields, string $type) : void
+    public static function create(string $table, array $fields, string $type): void
     {
         global $DIC;
 
@@ -591,7 +633,7 @@ class ilADTActiveRecordByType
      * @param string $a_type
      * @param        $a_value
      */
-    public static function writeByPrimary(string $a_table, array $a_primary, string $a_type, $a_value) : void
+    public static function writeByPrimary(string $a_table, array $a_primary, string $a_type, $a_value): void
     {
         global $DIC;
 
@@ -624,20 +666,14 @@ class ilADTActiveRecordByType
 
     /**
      * Find entries
-     * @param string $a_table
-     * @param string $a_type
-     * @param int    $a_field_id
-     * @param string $a_condition
-     * @param string $a_additional_fields
-     * @return array
      */
     public static function find(
         string $a_table,
         string $a_type,
         int $a_field_id,
         string $a_condition,
-        array $a_additional_fields = null
-    ) : ?array {
+        ?string $a_additional_fields = null
+    ): ?array {
         global $DIC;
 
         $ilDB = $DIC->database();

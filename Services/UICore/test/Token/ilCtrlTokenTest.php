@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -11,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilCtrlTokenTest extends TestCase
 {
-    public function testTokenRetrieval() : void
+    public function testTokenRetrieval(): void
     {
         $expected_value = 'test_token_1';
         $token = new ilCtrlToken($expected_value);
@@ -22,7 +24,7 @@ class ilCtrlTokenTest extends TestCase
         );
     }
 
-    public function testTokenVerification() : void
+    public function testTokenVerification(): void
     {
         $expected_value = 'test_token_2';
         $token = new ilCtrlToken($expected_value);

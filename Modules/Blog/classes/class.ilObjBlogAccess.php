@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjBlogAccess
@@ -30,7 +35,7 @@ class ilObjBlogAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         return array(
             array("permission" => "read", "cmd" => "preview", "lang_var" => "show", "default" => true),
@@ -40,19 +45,19 @@ class ilObjBlogAccess extends ilObjectAccess
             array("permission" => "write", "cmd" => "export", "lang_var" => "export_html")
         );
     }
-    
-    public static function _checkGoto(string $target) : bool
+
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
+
         $t_arr = explode("_", $target);
-        
+
         if (substr($target, -3) === "wsp") {
             return ilSharedResourceGUI::hasAccess($t_arr[1]);
         }
-        
+
         if ($t_arr[0] !== "blog" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
@@ -65,7 +70,7 @@ class ilObjBlogAccess extends ilObjectAccess
         return false;
     }
 
-    public function canBeDelivered(ilWACPath $ilWACPath) : bool
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         $ilUser = $this->user;
         $ilAccess = $this->access;
@@ -74,7 +79,7 @@ class ilObjBlogAccess extends ilObjectAccess
             if ($obj_id == "") {
                 return false;
             }
-            
+
             // personal workspace
             $tree = new ilWorkspaceTree(0);
             $node_id = $tree->lookupNodeId((int) $obj_id);
@@ -98,11 +103,12 @@ class ilObjBlogAccess extends ilObjectAccess
         return false;
     }
 
-    public static function isCommentsExportPossible(int $blog_id) : bool
+    public static function isCommentsExportPossible(int $blog_id): bool
     {
         global $DIC;
 
         $setting = $DIC->settings();
+        $notes = $DIC->notes();
         $privacy = ilPrivacySettings::getInstance();
         if ($setting->get("disable_comments")) {
             return false;
@@ -110,7 +116,7 @@ class ilObjBlogAccess extends ilObjectAccess
         if (!$privacy->enabledCommentsExport()) {
             return false;
         }
-        if (!ilNote::commentsActivated($blog_id, 0, "blog")) {
+        if (!$notes->domain()->commentsActive($blog_id)) {
             return false;
         }
         return true;

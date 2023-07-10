@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Condition\ExternalConditionObjective;
@@ -22,7 +24,7 @@ class ProxyConnectableCondition extends ExternalConditionObjective
     {
         parent::__construct(
             "Can establish a connection to proxy",
-            function (Setup\Environment $env) use ($config) : bool {
+            function (Setup\Environment $env) use ($config): bool {
                 try {
                     $host = $config->getProxyHost();
                     if (strspn($host, '.0123456789') != strlen($host) && strstr($host, '/') === false) {

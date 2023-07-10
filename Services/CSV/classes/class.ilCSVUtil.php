@@ -17,7 +17,6 @@
 
 class ilCSVUtil
 {
-    
     /**
      * Convertes an array for CSV usage
      *
@@ -36,7 +35,7 @@ class ilCSVUtil
         string $separator = ";",
         bool $outUTF8 = false,
         bool $compatibleWithMSExcel = true
-    ) : array {
+    ): array {
         $resultarray = [];
         foreach ($row as $rowindex => $entry) {
             $surround = false;

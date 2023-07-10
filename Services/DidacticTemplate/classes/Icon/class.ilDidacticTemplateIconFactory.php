@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -19,49 +21,31 @@ class ilDidacticTemplateIconFactory
 {
     private static ?ilDidacticTemplateIconFactory $instance = null;
 
-    /**
-     * @var ilObjectDefinition
-     */
     private ilObjectDefinition $definition;
-
-    /**
-     * @var ilDidacticTemplateSettings
-     */
     private ilDidacticTemplateSettings $settings;
-
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private array $icon_types = [];
-
-    /**
-     * @var array
-     */
+    /** @var array<int, int[]> */
     private array $assignments = [];
-
-    private ilLogger $logger;
 
     public function __construct()
     {
         global $DIC;
 
-        $this->logger = $DIC->logger()->otpl();
         $this->definition = $DIC['objDefinition'];
         $this->initTemplates();
     }
 
-    /**
-     * @return ilDidacticTemplateIconFactory
-     */
-    public static function getInstance() : ilDidacticTemplateIconFactory
+    public static function getInstance(): ilDidacticTemplateIconFactory
     {
         if (!isset(self::$instance)) {
             self::$instance = new self();
         }
+
         return self::$instance;
     }
 
-    public function getIconPathForReference(int $ref_id) : string
+    public function getIconPathForReference(int $ref_id): string
     {
         $obj_id = ilObject::_lookupObjId($ref_id);
         $type = ilObject::_lookupType($obj_id);
@@ -73,41 +57,40 @@ class ilDidacticTemplateIconFactory
         if (!$assigned_template) {
             return '';
         }
+
         $path = $this->getIconPathForTemplate($assigned_template);
         return $path;
     }
 
-    protected function getIconPathForTemplate(int $template_id) : ?string
+    protected function getIconPathForTemplate(int $template_id): ?string
     {
         foreach ($this->settings->getTemplates() as $template) {
-            if ($template->getId() == $template_id) {
+            if ($template->getId() === $template_id) {
                 return $template->getIconHandler()->getAbsolutePath();
             }
         }
+
         return null;
     }
 
-    /**
-     * @param int $ref_id
-     * @return int
-     */
-    protected function findAssignedTemplate(int $ref_id) : int
+    protected function findAssignedTemplate(int $ref_id): int
     {
         foreach ($this->assignments as $tpl_id => $assignments) {
-            if (in_array($ref_id, $assignments)) {
-                return (int) $tpl_id;
+            if (in_array($ref_id, $assignments, true)) {
+                return $tpl_id;
             }
         }
+
         return 0;
     }
 
     /**
      * Get icon path for object
-     * not applicable to non container objects, use getIconPathForReference instead
+     * Not applicable to non container objects, use getIconPathForReference instead
      * @param int $obj_id
      * @return string
      */
-    public function getIconPathForObject(int $obj_id) : string
+    public function getIconPathForObject(int $obj_id): string
     {
         // no support for referenced objects
         if (!$this->definition->isContainer(ilObject::_lookupType($obj_id))) {
@@ -115,29 +98,26 @@ class ilDidacticTemplateIconFactory
         }
         $refs = ilObject::_getAllReferences($obj_id);
         $ref_id = end($refs);
+
         return $this->getIconPathForReference((int) $ref_id);
     }
 
-    /**
-     * @param string $type
-     * @return bool
-     */
-    protected function supportsCustomIcon(string $type) : bool
+    protected function supportsCustomIcon(string $type): bool
     {
-        return in_array($type, $this->icon_types);
+        return in_array($type, $this->icon_types, true);
     }
 
-    private function initTemplates()
+    private function initTemplates(): void
     {
         $this->settings = ilDidacticTemplateSettings::getInstance();
         $this->icon_types = [];
 
         $templates = [];
         foreach ($this->settings->getTemplates() as $tpl) {
-            if ($tpl->getIconIdentifier() != '') {
+            if ($tpl->getIconIdentifier() !== '') {
                 $templates[] = $tpl->getId();
                 foreach ($tpl->getAssignments() as $assignment) {
-                    if (!in_array($assignment, $this->icon_types)) {
+                    if (!in_array($assignment, $this->icon_types, true)) {
                         $this->icon_types[] = $assignment;
                     }
                 }
@@ -145,5 +125,4 @@ class ilDidacticTemplateIconFactory
         }
         $this->assignments = ilDidacticTemplateObjSettings::getAssignmentsForTemplates($templates);
     }
-
 }

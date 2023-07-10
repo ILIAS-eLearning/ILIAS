@@ -20,6 +20,7 @@
       1. [Run the tests](#run-the-tests)
    1. [Run tests with CLI](#run-tests-with-cli)
       1. [Execute all tests](#execute-all-tests)
+      1. [Execution Order](#execution-order)
 1. [Guidelines](#guidelines)
    1. [Foreword](#foreword)
    1. [Naming](#naming)
@@ -206,8 +207,8 @@ Please make sure to add the xdebug extension to one of your php.ini files.
 <a name="configure-testframework"></a>
 #### Configure Testframework
 - Enter the PHPStorm settings.
-- Navigate to "Language & Frameworks -> PHP -> Testframeworks"
-- Select your interpreter
+- Navigate to "PHP -> Testframeworks"
+- Add a new configuration, e.g. `PHPUnit Local`
 - Select composer within the PHPUnit library section
 - Enter the path to the composer 
 autoload.php -> {ILIAS root}/libs/composer/vendor/autoload.php
@@ -220,7 +221,7 @@ autoload.php -> {ILIAS root}/libs/composer/vendor/autoload.php
 - Name it properly like global test suite.
 - Select the test scope radio option -> Defined in Configuration file
 - Tick use alternative configuration file
-- Enter the path -> {ILIAS root}/Services/PHPUnit/config/PhpUnitConfig.xml
+- Enter the path -> {ILIAS root}/CI/PHPUnit/phpunit.xml
 - Set the path custom working directory to the ILIAS root.
 - Hit the OK button to save the changes
 
@@ -241,12 +242,41 @@ The commands bellow must be run from the ILIAS web root directory.
 <a name="execute-all-tests"></a>
 #### Execute all tests
 
+To execute the complete ILIAS test suite you can either run the respective bash script or call the `PHPUnit`
+executable directly.
+
+Bash (all additional arguments passed are passed to the `PHPUnit` test runner):
+
+```bash
+./CI/PHPUnit/run_tests.sh
 ```
-./libs/composer/vendor/bin/phpunit -c ./Services/PHPUnit/config/PhpUnitConfig.xml \
-	--colors=always \
-	--report-useless-tests \
-	--disallow-todo-tests \
-	--no-globals-backup
+
+Executable:
+
+```bash
+./libs/composer/vendor/phpunit/phpunit/phpunit -c ./CI/PHPUnit/phpunit.xml
+```
+
+#### Execution Order
+
+Tests are executed in a random order to make issues visible which are caused by hidden dependencies of the tests
+among themselves.
+
+The random order seed is printed after the respective test suites have been added in a test run:
+
+```bash
+PHPUnit 9.5.20 #StandWithUkraine
+
+Runtime:       PHP 8.1.5
+Configuration: ./CI/PHPUnit/phpunit.xml
+Random Seed:   1651495463
+```
+
+To achieve the same test execution order given for the failed test run, make sure your local installation is based
+on the same code (GIT hash). Afterwads, execute `PHPUnit` with the addtional `--random-order-seed` option.
+
+```bash
+./CI/PHPUnit/run_tests.sh --random-order-seed 1651495463
 ```
 
 <a name="guidelines"></a>

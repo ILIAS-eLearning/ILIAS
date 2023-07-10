@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Calendar\FileHandler\ilFileProperty;
 
@@ -14,5 +16,5 @@ interface ilAppointmentFileHandler
     /**
      * @return ilFileProperty[]
      */
-    public function getFiles() : array;
+    public function getFiles(): array;
 }

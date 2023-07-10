@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
-/******************************************************************************
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
 * Parent object for SCORM GUI objects
 *
@@ -22,20 +27,20 @@
 */
 class ilSCORMObjectGUI
 {
-    public $sc_object;
-    public $tpl;
-    public $lng;
-
     /**
-     * @param $a_id
+     * @var ilSCORMManifest|ilSCORMItem|ilSCORMOrganization|ilSCORMOrganizations
      */
-    public function __construct($a_id = 0)
+    public $sc_object;
+    public ilGlobalTemplate $tpl;
+    public ilLanguage $lng;
+
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
         $tpl = $DIC['tpl'];
         $lng = $DIC->language();
 
-        if ($a_id != 0) {
+        if ($a_id !== 0) {
             $this->sc_object = new ilSCORMItem($a_id);
         }
         $this->tpl = $tpl;
@@ -43,7 +48,6 @@ class ilSCORMObjectGUI
     }
 
     /**
-     * @param int $a_id
      * @return ilSCORMItemGUI|ilSCORMManifestGUI|ilSCORMOrganizationGUI|ilSCORMOrganizationsGUI|ilSCORMResourceGUI|ilSCORMResourcesGUI
      */
     public function &getInstance(int $a_id)
@@ -71,18 +75,13 @@ class ilSCORMObjectGUI
                 return $srs_gui;
 
             default:
-                case "sre":					// resource
+            case "sre":					// resource
                 $sre_gui = new ilSCORMResourceGUI($a_id);
                 return $sre_gui;
         }
     }
 
-    /**
-     * @param string $a_name
-     * @param string $a_value
-     * @return void
-     */
-    public function displayParameter(string $a_name, string $a_value) : void
+    public function displayParameter(string $a_name, string $a_value): void
     {
         $this->tpl->setCurrentBlock("parameter");
         $this->tpl->setVariable("TXT_PARAMETER_NAME", $a_name);

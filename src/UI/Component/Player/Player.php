@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,5 +30,5 @@ interface Player extends \ILIAS\UI\Component\Component, JavaScriptBindable
     /**
      * Get the source path/url of the media
      */
-    public function getSource() : string;
+    public function getSource(): string;
 }

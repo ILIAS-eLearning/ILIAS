@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -37,7 +39,7 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
     /**
      * @inheritDoc
      */
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->desktop();
     }
@@ -46,7 +48,7 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
     /**
      * @inheritDoc
      */
-    public function getToolsForContextStack(CalledContexts $called_contexts) : array
+    public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
         $lang = $this->dic->language();
 
@@ -56,7 +58,7 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
 
         $tools = [];
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_skmg.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_skmg.svg"), $title);
 
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_SKILL_TREE, true)) {
@@ -64,27 +66,27 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
             $tools[] = $this->factory->tool($this->identification_provider->contextAwareIdentifier("tree"))
                 ->withTitle($title)
                 ->withSymbol($icon)
-                ->withContentWrapper(function () use ($tree_id) : Legacy {
+                ->withContentWrapper(function () use ($tree_id): Legacy {
                     return $this->dic->ui()->factory()->legacy($this->getSkillTree($tree_id));
                 });
         }
 
         $title = $lang->txt("skmg_skill_templates");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_skmg.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_skmg.svg"), $title);
 
         if ($additional_data->is(self::SHOW_TEMPLATE_TREE, true)) {
             $tree_id = $additional_data->get(self::SKILL_TREE_ID);
             $tools[] = $this->factory->tool($this->identification_provider->contextAwareIdentifier("tree"))
                 ->withTitle("Templates")
                 ->withSymbol($icon)
-                ->withContentWrapper(function () use ($tree_id) : Legacy {
+                ->withContentWrapper(function () use ($tree_id): Legacy {
                     return $this->dic->ui()->factory()->legacy($this->getTemplateTree($tree_id));
                 });
         }
         return $tools;
     }
 
-    private function getSkillTree(int $tree_id) : string
+    private function getSkillTree(int $tree_id): string
     {
         $exp = new ilSkillTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI",
                                            "SkillTreeAdminGUI", "ilObjSkillTreeGUI"], "showTree", $tree_id);
@@ -92,7 +94,7 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
         return $exp->getHTML();
     }
 
-    private function getTemplateTree(int $tree_id) : string
+    private function getTemplateTree(int $tree_id): string
     {
         $exp = new ilSkillTemplateTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI",
                                                    "SkillTreeAdminGUI", "ilObjSkillTreeGUI"], "showTree", $tree_id);

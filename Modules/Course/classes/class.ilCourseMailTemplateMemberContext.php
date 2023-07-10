@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Handles course mail placeholders
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -22,7 +24,7 @@
  */
 class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
 {
-    const ID = 'crs_context_member_manual';
+    public const ID = 'crs_context_member_manual';
 
     /** @var array */
     protected static array $periodInfoByObjIdCache = [];
@@ -38,12 +40,12 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
         parent::__construct($orgUnitUserService, $envHelper, $usernameHelper, $languageHelper);
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         global $DIC;
 
@@ -54,7 +56,7 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
         return $lng->txt('crs_mail_context_member_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         global $DIC;
 
@@ -65,7 +67,7 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
         return $lng->txt('crs_mail_context_member_info');
     }
 
-    public function getSpecificPlaceholders() : array
+    public function getSpecificPlaceholders(): array
     {
         /**
          * @var $lng ilLanguage
@@ -101,7 +103,7 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
         return $placeholders;
     }
 
-    private function getCachedPeriodByObjId(int $objId) : array
+    private function getCachedPeriodByObjId(int $objId): array
     {
         if (!array_key_exists($objId, self::$periodInfoByObjIdCache)) {
             self::$periodInfoByObjIdCache[$objId] = ilObjCourseAccess::lookupPeriodInfo($objId);
@@ -118,7 +120,7 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
         array $context_parameters,
         ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string {
+    ): string {
         /**
          * @var $ilObjDataCache ilObjectDataCache
          */

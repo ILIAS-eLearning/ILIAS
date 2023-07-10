@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks;
 
 use ILIAS\BackgroundTasks\Persistence;
@@ -38,22 +38,22 @@ class BackgroundTaskServices
         $this->container = $container;
     }
 
-    public function taskFactory() : TaskFactory
+    public function taskFactory(): TaskFactory
     {
         return $this->container['bt.task_factory'];
     }
 
-    public function persistence() : Persistence
+    public function persistence(): Persistence
     {
         return $this->container['bt.persistence'];
     }
 
-    public function taskManager() : TaskManager
+    public function taskManager(): TaskManager
     {
         return $this->container['bt.task_manager'];
     }
 
-    public function injector() : Injector
+    public function injector(): Injector
     {
         return $this->container['bt.injector'];
     }

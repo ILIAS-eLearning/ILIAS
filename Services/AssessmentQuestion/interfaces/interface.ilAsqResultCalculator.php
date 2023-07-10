@@ -17,15 +17,15 @@ interface ilAsqResultCalculator
      * @return void
      */
     public function setQuestion(ilAsqQuestion $question);
-    
+
     /**
      * @param ilAsqQuestionSolution $question
      * @return void
      */
     public function setSolution(ilAsqQuestionSolution $question);
-    
+
     /**
      * @return ilAsqQuestionResult
      */
-    public function calculate() : ilAsqQuestionResult;
+    public function calculate(): ilAsqQuestionResult;
 }

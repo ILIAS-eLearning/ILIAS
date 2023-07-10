@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBibliographicImporter
  *
@@ -26,7 +26,7 @@ class ilBibliographicImporter extends ilXmlImporter
     protected ?\ilBibliographicDataSet $ds = null;
 
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilBibliographicDataSet();
         $this->ds->setDSPrefix("ds");
@@ -37,7 +37,7 @@ class ilBibliographicImporter extends ilXmlImporter
     /**
      * Executes the Import
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         $parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(), $a_xml, $this->ds, $a_mapping);
     }

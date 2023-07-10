@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -34,14 +36,19 @@ class ilSkillResourcesManager
         $this->res = new ilSkillResources($a_base_skill, $a_tref_id);
     }
 
-    public function isLevelTooLow(array $a_levels, array $profile_levels, array $actual_levels) : bool
+    /**
+     * @param \ILIAS\Skill\Profile\SkillProfileLevel[] $profile_levels
+     */
+    public function isLevelTooLow(array $a_levels, array $profile_levels, array $actual_levels): bool
     {
         $too_low = true;
 
         foreach ($a_levels as $k => $v) {
+            $v["id"] = (int) $v["id"];
+            $v["skill_id"] = (int) $v["skill_id"];
             foreach ($profile_levels as $pl) {
-                if ($pl["level_id"] == $v["id"] &&
-                    $pl["base_skill_id"] == $v["skill_id"]) {
+                if ($pl->getLevelId() === $v["id"] &&
+                    $pl->getBaseSkillId() === $v["skill_id"]) {
                     $too_low = true;
                     $this->current_target_level = $v["id"];
                 }
@@ -58,7 +65,7 @@ class ilSkillResourcesManager
     /**
      * @return array{level_id: int, rep_ref_id: int, trigger: int, imparting: int}[]
      */
-    public function getSuggestedResources() : array
+    public function getSuggestedResources(): array
     {
         $resources = $this->res->getResources();
         $imp_resources = [];

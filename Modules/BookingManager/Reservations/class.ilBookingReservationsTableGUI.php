@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use ILIAS\BookingManager\Reservation\ReservationTableSessionRepository;
 
@@ -25,6 +24,10 @@ use ILIAS\BookingManager\Reservation\ReservationTableSessionRepository;
  */
 class ilBookingReservationsTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\BookingManager\InternalGUIService $gui;
+    protected ilObjBookingPool $pool;
+    protected \ILIAS\BookingManager\Schedule\ScheduleManager $schedule_manager;
+    protected \ILIAS\BookingManager\Reservations\ReservationDBRepository $reservation_repo;
     protected ReservationTableSessionRepository $table_repo;
     protected ilObjUser $user;
     protected ilAccessHandler $access;
@@ -40,21 +43,24 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     protected ilTree $tree;
     /** @var int[] ids of context objects (e.g. course ids) */
     protected ?array $context_obj_ids;
-    protected ilAdvancedMDRecordGUI $record_gui;
+    protected ?ilAdvancedMDRecordGUI $record_gui = null;
 
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
         int $a_ref_id,
-        int $a_pool_id,
+        ilObjBookingPool $pool,
         bool $a_show_all,
-        bool $a_has_schedule,
         array $a_filter_pre = null,
         int $a_group_id = null,
         array $context_obj_ids = null
     ) {
         global $DIC;
 
+        $this->gui = $DIC->bookingManager()->internal()->gui();
+        $this->pool = $pool;
+        $a_pool_id = $pool->getId();
+        $a_has_schedule = ($pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE);
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
@@ -63,6 +69,15 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         $ilUser = $DIC->user();
         $this->tree = $DIC->repositoryTree();
+        $this->reservation_repo = $DIC->bookingManager()
+            ->internal()
+            ->repo()
+            ->reservation();
+        $this->schedule_manager = $DIC
+            ->bookingManager()
+            ->internal()
+            ->domain()
+            ->schedules($a_pool_id);
 
         $this->context_obj_ids = $context_obj_ids;
         $this->pool_id = $a_pool_id;
@@ -75,24 +90,24 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             ->internal()
             ->repo()
             ->reservationTable();
-        
+
         $this->advmd = ilObjBookingPool::getAdvancedMDFields($a_ref_id);
-        
+
         $this->setId("bkrsv" . $a_ref_id);
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setTitle($lng->txt("book_reservations_list"));
 
         $this->addColumn("", "", 1);
         $this->addColumn($this->lng->txt("title"), "title");
-        
+
         $selected = $this->getSelectedColumns();
         $cols = $this->getSelectableColumns();
-        
+
         if ($this->has_schedule) {
             $this->lng->loadLanguageModule("dateplaner");
-            
+
             $this->addColumn($this->lng->txt("date"), "date");
             if (in_array("week", $selected, true)) {
                 $this->addColumn($this->lng->txt("wk_short"), "week");
@@ -104,13 +119,17 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             }
             $this->addColumn($this->lng->txt("book_schedule_slot"), "slot");
             $this->addColumn($this->lng->txt("book_no_of_objects"), "counter");
-            
+
             $this->setDefaultOrderField("date");
         } else {
             $this->addColumn($this->lng->txt("status"), "status");
-            
+
             $this->setDefaultOrderField("title");
         }
+        if ($this->showMessages()) {
+            $this->addColumn($this->lng->txt("book_message"));
+        }
+
         $this->setDefaultOrderDirection("asc");
 
         // non-user columns
@@ -122,7 +141,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 }
             }
         }
-                                
+
 
 
         $this->initFilter($a_filter_pre);
@@ -151,36 +170,45 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         }
 
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.booking_reservation_row.html", "Modules/BookingManager/Reservations");
         $this->setResetCommand("resetLogFilter");
         $this->setFilterCommand("applyLogFilter");
         $this->setDisableFilterHiding(true);
-                
+
 
         if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
             $this->addMultiCommand('rsvConfirmCancel', $lng->txt('book_set_cancel'));
+            if ($this->access->checkAccess('write', '', $this->ref_id)) {
+                $this->addMultiCommand('rsvConfirmDelete', $lng->txt('delete'));
+            }
             $this->setSelectAllCheckbox('mrsv');
         }
-        
+
 
         ilDatePresentation::setUseRelativeDates(false);
     }
-    
-    public function getSelectableColumns() : array
+
+    protected function showMessages(): bool
+    {
+        return $this->pool->usesMessages() &&
+            $this->access->checkAccess('write', '', $this->ref_id);
+    }
+
+    public function getSelectableColumns(): array
     {
         $cols = array();
-        
+
         if ($this->has_schedule) {
             $this->lng->loadLanguageModule("dateplaner");
-            
+
             $cols["week"] = array(
                 "txt" => $this->lng->txt("wk_short"),
                 "default" => true
             );
-            
+
             $cols["weekday"] = array(
                 "txt" => $this->lng->txt("cal_weekday"),
                 "default" => true
@@ -202,7 +230,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     /**
      * Get selectable user fields
      */
-    protected function getSelectableUserColumns() : array
+    protected function getSelectableUserColumns(): array
     {
         $cols = [];
         // additional user fields
@@ -219,7 +247,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    protected function getSelectedUserColumns() : array
+    protected function getSelectedUserColumns(): array
     {
         $user_cols = $this->getSelectableUserColumns();
         $sel = [];
@@ -231,7 +259,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         return $sel;
     }
 
-    protected function getParentGroupCourse() : ?array
+    protected function getParentGroupCourse(): ?array
     {
         $tree = $this->tree;
         if (($par_ref_id = $tree->checkForParentType($this->ref_id, "grp")) > 0) {
@@ -251,7 +279,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
     public function initFilter(
         array $a_filter_pre = null
-    ) : void {
+    ): void {
         if (is_array($a_filter_pre) &&
             isset($a_filter_pre["object"])) {
             $this->table_repo->setObjectFilter(
@@ -259,7 +287,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 serialize($a_filter_pre["object"])
             );
         }
-        
+
         $this->objects = array();
         foreach (ilBookingObject::getList($this->pool_id) as $item) {
             $this->objects[$item["booking_object_id"]] = $item["title"];
@@ -314,8 +342,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                     $options = array("" => $this->lng->txt('book_all'));
 
                     // schedule to slot
-                    foreach (ilBookingSchedule::getList($this->pool_id) as $def) {
-                        $schedule = new ilBookingSchedule($def["booking_schedule_id"]);
+                    foreach ($this->schedule_manager->getScheduleList() as $id => $title) {
+                        $schedule = new ilBookingSchedule($id);
                         foreach ($schedule->getDefinition() as $day => $slots) {
                             $day_caption = ilCalendarUtil::_numericDayToString((int) $map[$day], false);
 
@@ -340,7 +368,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
             // if period starts in the past we have to include past reservations
             // :TODO: to be discussed
-            if (is_object($this->filter["fromto"]["from"]) &&
+            if (isset($this->filter["fromto"]["from"]) &&
                 $this->filter["fromto"]["from"]->get(IL_CAL_DATE) < date("Y-m-d")) {
                 $item->setChecked(true);
             }
@@ -385,7 +413,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     /**
      * Get current filter settings
      */
-    public function getCurrentFilter() : array
+    public function getCurrentFilter(): array
     {
         $filter = array();
         if ($this->filter["object"]) {
@@ -397,7 +425,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         if ($this->filter["status"]) {
             $filter["status"] = $this->filter["status"];
         }
-        if ($this->filter["user_id"]) {
+        if (isset($this->filter["user_id"])) {
             $filter["user_id"] = $this->filter["user_id"];
         }
         if (!is_null($this->context_obj_ids)) {
@@ -409,10 +437,10 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 // needs distinct status because of aggregation
                 $filter["status"] = -ilBookingReservation::STATUS_CANCELLED;
             }
-            if ($this->filter["slot"]) {
+            if (isset($this->filter["slot"])) {
                 $filter["slot"] = $this->filter["slot"];
             }
-            
+
             if ($this->filter["fromto"]["from"] || $this->filter["fromto"]["to"]) {
                 if ($this->filter["fromto"]["from"]) {
                     $filter["from"] = $this->filter["fromto"]["from"]->get(IL_CAL_UNIX);
@@ -422,22 +450,21 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                     $filter["to"] = $day_end->get(IL_CAL_UNIX);
                 }
             }
-            
+
             $filter["past"] = (bool) $this->filter["past"];
         }
-
         return $filter;
     }
-    
-    public function numericOrdering(string $a_field) : bool
+
+    public function numericOrdering(string $a_field): bool
     {
         return in_array($a_field, array("counter", "date", "week", "weekday"));
     }
-    
+
     /**
      * Gather data and build rows
      */
-    public function getItems(array $filter) : void
+    public function getItems(array $filter): void
     {
         $ilUser = $this->user;
 
@@ -448,15 +475,14 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         } else {
             $ids = array($filter["object"]);
         }
-        
+
         if (!$this->show_all) {
             $filter["user_id"] = $ilUser->getId();
         }
 
-        $f = new ilBookingReservationDBRepositoryFactory();
-        $repo = $f->getRepo();
+        $repo = $this->reservation_repo;
         $data = $repo->getListByDate($this->has_schedule, $ids, $filter);
-        
+
         if ($this->advmd) {
             // advanced metadata
             $this->record_gui = new ilAdvancedMDRecordGUI(
@@ -467,11 +493,11 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             );
             $this->record_gui->setTableGUI($this);
             $this->record_gui->parse();
-            
+
             foreach (array_keys($data) as $idx) {
                 $data[$idx]["pool_id"] = $this->pool_id;
             }
-            
+
             $data = ilAdvancedMDValues::queryForRecords(
                 $this->ref_id,
                 "book",
@@ -568,40 +594,43 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    public function getAdvMDRecordGUI() : ilAdvancedMDRecordGUI
+    public function getAdvMDRecordGUI(): ?ilAdvancedMDRecordGUI
     {
         return $this->record_gui;
     }
-    
-    public function getOrderField() : string
+
+    public function getOrderField(): string
     {
         $field = parent::getOrderField();
-        
+
         // #16560 - this will enable matchting slot sorting to date/week
         if (in_array($field, array("date", "week"))) {
             $field = "_sortdate";
         }
-        
+
         return $field;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-        
+        $f = $this->gui->ui()->factory();
+
         $selected = $this->getSelectedColumns();
+
+        $dd_items = [];
 
         if ($this->has_items_with_host_context) {
             $this->tpl->setCurrentBlock("context");
-            $this->tpl->setVariable("VALUE_CONTEXT_TITLE", $a_set["context_obj_title"] . " ");
+            $this->tpl->setVariable("VALUE_CONTEXT_TITLE", ($a_set["context_obj_title"] ?? "") . " ");
             $this->tpl->parseCurrentBlock();
         }
 
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-        
+
         $can_be_cancelled = (($ilAccess->checkAccess('write', '', $this->ref_id) ||
             $a_set['user_id'] == $ilUser->getId()) &&
             $a_set["can_be_cancelled"]);
@@ -637,15 +666,20 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable("TXT_STATUS", "&nbsp;");
         }
+        if ($this->showMessages()) {
+            $this->tpl->setCurrentBlock("message");
+            $this->tpl->setVariable("MESSAGE", ilStr::shortenTextExtended($a_set["message"] . " ", 20, true));
+            $this->tpl->parseCurrentBlock();
+        }
 
         if ($this->advmd) {
             foreach ($this->advmd as $item) {
                 $advmd_id = (int) $item["id"];
-                
+
                 if (!in_array("advmd" . $advmd_id, $selected, true)) {
                     continue;
                 }
-                                
+
                 $val = " ";
                 $key = "md_" . $advmd_id . "_presentation";
                 if (isset($a_set[$key])) {
@@ -654,7 +688,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                         $val = $pb;
                     }
                 }
-                
+
                 $this->tpl->setCurrentBlock("advmd_bl");
                 $this->tpl->setVariable("VALUE_ADVMD", $val);
                 $this->tpl->parseCurrentBlock();
@@ -673,25 +707,45 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
         if ($can_be_cancelled) {
             $ilCtrl->setParameter($this->parent_obj, 'reservation_id', $a_set['booking_reservation_id']);
-            $this->tpl->setVariable("URL_ACTION", $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmCancel'));
+            $dd_items[] = $f->button()->shy(
+                $lng->txt('book_set_cancel'),
+                $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmCancel')
+            );
             $ilCtrl->setParameter($this->parent_obj, 'reservation_id', "");
-            $this->tpl->setVariable("TXT_ACTION", $lng->txt('book_set_cancel'));
-            $this->tpl->setCurrentBlock("action");
-            $this->tpl->parseCurrentBlock();
         }
 
 
         if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
             $ilCtrl->setParameter($this->parent_obj, 'reservation_id', $a_set['booking_reservation_id']);
-            $this->tpl->setVariable("URL_ACTION", $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmDelete'));
+            $dd_items[] = $f->button()->shy(
+                $lng->txt('delete'),
+                $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmDelete')
+            );
             $ilCtrl->setParameter($this->parent_obj, 'reservation_id', "");
-            $this->tpl->setVariable("TXT_ACTION", $lng->txt('delete'));
-            $this->tpl->setCurrentBlock("action");
-            $this->tpl->parseCurrentBlock();
+        }
+
+        $render_items = [];
+        if ($this->showMessages() && $a_set["message"] !== "") {
+            $c = $this->gui->modal(
+                $this->lng->txt("book_message"),
+                $this->lng->txt("close")
+            )
+                ->legacy(nl2br($a_set["message"]))
+                ->getTriggerButtonComponents(
+                    $this->lng->txt("book_show_message"),
+                    true
+                );
+            $dd_items[] = $c["button"];
+            $render_items[] = $c["modal"];
+        }
+
+        if (count($dd_items) > 0) {
+            $render_items[] = $f->dropdown()->standard($dd_items);
+            $this->tpl->setVariable("ACTIONS", $this->gui->ui()->renderer()->render($render_items));
         }
     }
 
-    protected function getAdditionalExportCols() : array
+    protected function getAdditionalExportCols(): array
     {
         $add_cols = [];
         $cols = $this->getSelectableColumns();
@@ -709,6 +763,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         }
 
         $add_cols["user_name"] = $this->lng->txt("user");
+        $add_cols["login"] = $this->lng->txt("login");
 
         // user columns
         foreach ($this->getSelectedColumns() as $col) {
@@ -725,7 +780,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     protected function fillHeaderExcel(
         ilExcel $a_excel,
         int &$a_row
-    ) : void {
+    ): void {
         $a_excel->setCell($a_row, 0, $this->lng->txt("title"));
         $col = 0;
         if ($this->has_schedule) {
@@ -737,11 +792,15 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         } else {
             $a_excel->setCell($a_row, ++$col, $this->lng->txt("status"));
         }
+        if ($this->showMessages()) {
+            $a_excel->setCell($a_row, ++$col, $this->lng->txt("book_message"));
+        }
+
 
         foreach ($this->getAdditionalExportCols() as $txt) {
             $a_excel->setCell($a_row, ++$col, $txt);
         }
-        
+
         $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($col) . $a_row);
     }
 
@@ -749,7 +808,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         ilExcel $a_excel,
         int &$a_row,
         array $a_set
-    ) : void {
+    ): void {
         $a_excel->setCell($a_row, 0, $a_set["title"]);
         $col = 0;
         if ($this->has_schedule) {
@@ -764,6 +823,9 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 $status = $this->lng->txt('book_reservation_status_' . $a_set['status']);
             }
             $a_excel->setCell($a_row, ++$col, $status);
+        }
+        if ($this->showMessages()) {
+            $a_excel->setCell($a_row, ++$col, $a_set["message"]);
         }
 
         foreach ($this->getAdditionalExportCols() as $colid => $txt) {
@@ -785,7 +847,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
     protected function fillHeaderCSV(
         ilCSVWriter $a_csv
-    ) : void {
+    ): void {
         $a_csv->addColumn($this->lng->txt("title"));
         if ($this->has_schedule) {
             $a_csv->addColumn($this->lng->txt("date"));
@@ -795,6 +857,9 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             $a_csv->addColumn($this->lng->txt("book_no_of_objects"));
         } else {
             $a_csv->addColumn($this->lng->txt("status"));
+        }
+        if ($this->showMessages()) {
+            $a_csv->addColumn($this->lng->txt("book_message"));
         }
 
         foreach ($this->getAdditionalExportCols() as $txt) {
@@ -807,7 +872,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     protected function fillRowCSV(
         ilCSVWriter $a_csv,
         array $a_set
-    ) : void {
+    ): void {
         $a_csv->addColumn($a_set["title"]);
         if ($this->has_schedule) {
             $a_csv->addColumn(ilDatePresentation::formatDate(new ilDate($a_set["date"], IL_CAL_DATE)));
@@ -821,6 +886,9 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 $status = $this->lng->txt('book_reservation_status_' . $a_set['status']);
             }
             $a_csv->addColumn($status);
+        }
+        if ($this->showMessages()) {
+            $a_csv->addColumn($a_set["message"]);
         }
 
         foreach ($this->getAdditionalExportCols() as $colid => $txt) {

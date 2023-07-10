@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\HTTP\Wrapper;
 
@@ -24,7 +26,6 @@ use ILIAS\Refinery\Transformation;
  */
 interface RequestWrapper
 {
-
     /**
      *
      * @return mixed
@@ -32,5 +33,5 @@ interface RequestWrapper
     public function retrieve(string $key, Transformation $transformation);
 
 
-    public function has(string $key) : bool;
+    public function has(string $key): bool;
 }

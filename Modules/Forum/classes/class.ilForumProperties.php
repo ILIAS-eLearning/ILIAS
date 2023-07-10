@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @ingroup ModulesForum
@@ -26,18 +28,12 @@ class ilForumProperties
     public const VIEW_DATE = 2;
     public const VIEW_DATE_ASC = 2;
     public const VIEW_DATE_DESC = 3;
-    public const FORUM_OVERVIEW_WITH_NEW_POSTS = 0;
-    public const FORUM_OVERVIEW_NO_NEW_POSTS = 1;
     public const FILE_UPLOAD_GLOBALLY_ALLOWED = 0;
     public const FILE_UPLOAD_INDIVIDUAL = 1;
-    public const THREAD_SORTING_DEFAULT = 0;
-    public const THREAD_SORTING_MANUAL = 1;
-
     /** @var array<int, ilForumProperties> */
     private static array $instances = [];
 
     private ilDBInterface $db;
-    private int $obj_id;
     private int $default_view = self::VIEW_DATE_ASC;
     private bool $anonymized = false;
     private bool $statistics_enabled = false;
@@ -58,7 +54,6 @@ class ilForumProperties
     /** Add 'Re: ' to subject on reply */
     private bool $add_re_subject = false;
     private bool $mark_mod_posts = false;
-    private int $thread_sorting = self::THREAD_SORTING_DEFAULT;
     private bool $is_thread_rating_enabled = false;
     private bool $file_upload_allowed = false;
     protected int $styleId = 0;
@@ -66,24 +61,19 @@ class ilForumProperties
     private ?int $lp_req_num_postings = null;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_service;
 
-    protected function __construct(int $a_obj_id = 0)
+    protected function __construct(private int $obj_id = 0)
     {
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->obj_id = $a_obj_id;
         $this->read();
         $this->content_style_service = $DIC
             ->contentStyle()
             ->domain()
-            ->styleForObjId($a_obj_id);
+            ->styleForObjId($obj_id);
     }
 
-    private function __clone()
-    {
-    }
-
-    public static function getInstance(int $a_obj_id = 0) : self
+    public static function getInstance(int $a_obj_id = 0): self
     {
         if (!isset(self::$instances[$a_obj_id])) {
             self::$instances[$a_obj_id] = new self($a_obj_id);
@@ -92,9 +82,9 @@ class ilForumProperties
         return self::$instances[$a_obj_id];
     }
 
-    private function read() : void
+    private function read(): void
     {
-        if ($this->obj_id) {
+        if ($this->obj_id !== 0) {
             $res = $this->db->queryF(
                 'SELECT * FROM frm_settings WHERE obj_id = %s',
                 ['integer'],
@@ -117,7 +107,6 @@ class ilForumProperties
 
                 $this->notification_type = $row->notification_type ?? 'default';
                 $this->mark_mod_posts = (bool) $row->mark_mod_posts;
-                $this->thread_sorting = (int) $row->thread_sorting;
                 $this->is_thread_rating_enabled = (bool) $row->thread_rating;
                 $this->file_upload_allowed = (bool) $row->file_upload_allowed;
                 if (is_numeric($row->lp_req_num_postings)) {
@@ -127,7 +116,7 @@ class ilForumProperties
         }
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         if ($this->obj_id && !$this->exists) {
             $this->db->insert(
@@ -144,7 +133,6 @@ class ilForumProperties
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
                     'notification_type' => ['text', $this->notification_type],
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
-                    'thread_sorting' => ['integer', $this->thread_sorting],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
                     'lp_req_num_postings' => ['integer', $this->lp_req_num_postings],
@@ -155,9 +143,9 @@ class ilForumProperties
         }
     }
 
-    public function update() : void
+    public function update(): void
     {
-        if ($this->obj_id) {
+        if ($this->obj_id !== 0) {
             if (!$this->exists) {
                 $this->insert();
                 return;
@@ -176,7 +164,6 @@ class ilForumProperties
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
                     'notification_type' => ['text', $this->notification_type],
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
-                    'thread_sorting' => ['integer', $this->thread_sorting],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
                     'lp_req_num_postings' => ['integer', (int) $this->lp_req_num_postings],
@@ -189,9 +176,9 @@ class ilForumProperties
         }
     }
 
-    public function copy(int $a_new_obj_id) : bool
+    public function copy(int $a_new_obj_id): bool
     {
-        if ($a_new_obj_id) {
+        if ($a_new_obj_id !== 0) {
             $this->content_style_service->cloneTo($a_new_obj_id);
 
             $this->db->update(
@@ -207,7 +194,6 @@ class ilForumProperties
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
                     'notification_type' => ['text', $this->notification_type],
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
-                    'thread_sorting' => ['integer', $this->thread_sorting],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
                     'lp_req_num_postings' => ['integer', $this->lp_req_num_postings],
@@ -224,47 +210,47 @@ class ilForumProperties
         return false;
     }
 
-    public function isIsThreadRatingEnabled() : bool
+    public function isIsThreadRatingEnabled(): bool
     {
         return $this->is_thread_rating_enabled;
     }
 
-    public function setIsThreadRatingEnabled(bool $is_thread_rating_enabled) : void
+    public function setIsThreadRatingEnabled(bool $is_thread_rating_enabled): void
     {
         $this->is_thread_rating_enabled = $is_thread_rating_enabled;
     }
 
-    public function setDefaultView($a_default_view) : void
+    public function setDefaultView(int $a_default_view): void
     {
         $this->default_view = $a_default_view;
     }
 
-    public function getDefaultView() : int
+    public function getDefaultView(): int
     {
         return $this->default_view;
     }
 
-    public function setStatisticsStatus(bool $a_statistic_status) : void
+    public function setStatisticsStatus(bool $a_statistic_status): void
     {
         $this->statistics_enabled = $a_statistic_status;
     }
 
-    public function isStatisticEnabled() : bool
+    public function isStatisticEnabled(): bool
     {
         return $this->statistics_enabled;
     }
 
-    public function setAnonymisation(bool $a_anonymized) : void
+    public function setAnonymisation(bool $a_anonymized): void
     {
         $this->anonymized = $a_anonymized;
     }
 
-    public function isAnonymized() : bool
+    public function isAnonymized(): bool
     {
         return $this->anonymized;
     }
 
-    public static function _isAnonymized(int $a_obj_id) : bool
+    public static function _isAnonymized(int $a_obj_id): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -282,48 +268,48 @@ class ilForumProperties
         return false;
     }
 
-    public function setPostActivation(bool $a_post_activation) : void
+    public function setPostActivation(bool $a_post_activation): void
     {
         $this->post_activation_enabled = $a_post_activation;
     }
 
-    public function isPostActivationEnabled() : bool
+    public function isPostActivationEnabled(): bool
     {
         return $this->post_activation_enabled;
     }
 
-    public function setObjId(int $a_obj_id) : void
+    public function setObjId(int $a_obj_id): void
     {
         $this->obj_id = $a_obj_id;
         $this->read();
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setAdminForceNoti(bool $a_admin_force) : void
+    public function setAdminForceNoti(bool $a_admin_force): void
     {
         $this->admin_force_noti = $a_admin_force;
     }
 
-    public function isAdminForceNoti() : bool
+    public function isAdminForceNoti(): bool
     {
         return $this->admin_force_noti;
     }
 
-    public function setUserToggleNoti(bool $a_user_toggle) : void
+    public function setUserToggleNoti(bool $a_user_toggle): void
     {
         $this->user_toggle_noti = $a_user_toggle;
     }
 
-    public function isUserToggleNoti() : bool
+    public function isUserToggleNoti(): bool
     {
         return $this->user_toggle_noti;
     }
 
-    public static function _isAdminForceNoti(int $a_obj_id) : bool
+    public static function _isAdminForceNoti(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -341,7 +327,7 @@ class ilForumProperties
         return false;
     }
 
-    public static function _isUserToggleNoti(int $a_obj_id) : bool
+    public static function _isUserToggleNoti(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -359,27 +345,27 @@ class ilForumProperties
         return false;
     }
 
-    public function setPresetSubject(bool $a_preset_subject) : void
+    public function setPresetSubject(bool $a_preset_subject): void
     {
         $this->preset_subject = $a_preset_subject;
     }
 
-    public function isSubjectPreset() : bool
+    public function isSubjectPreset(): bool
     {
         return $this->preset_subject;
     }
 
-    public function setAddReSubject(bool $a_add_re_subject) : void
+    public function setAddReSubject(bool $a_add_re_subject): void
     {
         $this->add_re_subject = $a_add_re_subject;
     }
 
-    public function isSubjectAdded() : bool
+    public function isSubjectAdded(): bool
     {
         return $this->add_re_subject;
     }
 
-    public function setNotificationType(?string $a_notification_type) : void
+    public function setNotificationType(?string $a_notification_type): void
     {
         if ($a_notification_type === null) {
             $this->notification_type = 'default';
@@ -388,12 +374,12 @@ class ilForumProperties
         }
     }
 
-    public function getNotificationType() : string
+    public function getNotificationType(): string
     {
         return $this->notification_type;
     }
 
-    public function getSubjectSetting() : string
+    public function getSubjectSetting(): string
     {
         if (!$this->isSubjectPreset() && !$this->isSubjectAdded()) {
             return "empty_subject";
@@ -410,7 +396,7 @@ class ilForumProperties
         return "preset_subject";
     }
 
-    public function setSubjectSetting($a_subject_setting) : void
+    public function setSubjectSetting($a_subject_setting): void
     {
         if ($a_subject_setting === 'empty_subject') {
             $this->setPresetSubject(false);
@@ -424,60 +410,46 @@ class ilForumProperties
         }
     }
 
-    public function setMarkModeratorPosts(bool $a_mod_post) : void
+    public function setMarkModeratorPosts(bool $a_mod_post): void
     {
         $this->mark_mod_posts = $a_mod_post;
     }
 
-    public function getMarkModeratorPosts() : bool
+    public function getMarkModeratorPosts(): bool
     {
         return $this->mark_mod_posts;
     }
 
-    public function setThreadSorting(int $a_thread_sorting) : void
-    {
-        $this->thread_sorting = $a_thread_sorting;
-    }
-
-    public function getThreadSorting() : int
-    {
-        return $this->thread_sorting;
-    }
-
-    public function getUserToggleNoti() : bool
+    public function getUserToggleNoti(): bool
     {
         return $this->user_toggle_noti;
     }
 
-    public function getAdminForceNoti() : bool
+    public function getAdminForceNoti(): bool
     {
         return $this->admin_force_noti;
     }
 
-    public function setFileUploadAllowed(bool $allowed) : void
+    public function setFileUploadAllowed(bool $allowed): void
     {
         $this->file_upload_allowed = $allowed;
     }
 
-    public function getFileUploadAllowed() : bool
+    public function getFileUploadAllowed(): bool
     {
         return $this->file_upload_allowed;
     }
 
-    public function isFileUploadAllowed() : bool
+    public function isFileUploadAllowed(): bool
     {
         if (self::isFileUploadGloballyAllowed()) {
             return true;
         }
 
-        if ($this->getFileUploadAllowed()) {
-            return true;
-        }
-
-        return false;
+        return $this->getFileUploadAllowed();
     }
 
-    public static function isFileUploadGloballyAllowed() : bool
+    public static function isFileUploadGloballyAllowed(): bool
     {
         global $DIC;
 
@@ -486,29 +458,29 @@ class ilForumProperties
         );
     }
 
-    public static function isSendAttachmentsByMailEnabled() : bool
+    public static function isSendAttachmentsByMailEnabled(): bool
     {
         global $DIC;
 
         return (bool) $DIC->settings()->get('send_attachments_by_mail');
     }
 
-    public function getInterestedEvents() : int
+    public function getInterestedEvents(): int
     {
         return $this->interested_events;
     }
 
-    public function setInterestedEvents(int $interested_events) : void
+    public function setInterestedEvents(int $interested_events): void
     {
         $this->interested_events = $interested_events;
     }
 
-    public function getLpReqNumPostings() : ?int
+    public function getLpReqNumPostings(): ?int
     {
         return $this->lp_req_num_postings;
     }
 
-    public function setLpReqNumPostings(?int $lp_req_num_postings) : void
+    public function setLpReqNumPostings(?int $lp_req_num_postings): void
     {
         $this->lp_req_num_postings = $lp_req_num_postings;
     }

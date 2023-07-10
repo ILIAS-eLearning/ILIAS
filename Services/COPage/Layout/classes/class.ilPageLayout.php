@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class for Page Layouts
@@ -24,6 +27,8 @@ class ilPageLayout
     public const MODULE_SCORM = 1;
     public const MODULE_PORTFOLIO = 2;
     public const MODULE_LM = 3;
+    protected ?string $xml_content = null;
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected int $special_page;
     protected int $style_id;
 
@@ -33,7 +38,7 @@ class ilPageLayout
     public string $description = "";
     public bool $active = false;
     public array $modules = array();
-    
+
     public function __construct(
         int $a_id = 0
     ) {
@@ -62,34 +67,35 @@ class ilPageLayout
         } else {
             $this->layout_id = $a_id;
         }
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
     }
-        
-    public function getActive() : bool
+
+    public function getActive(): bool
     {
         return $this->active;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
-        
-    public function setDescription(string $a_description) : void
+
+    public function setDescription(string $a_description): void
     {
         $this->description = $a_description;
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function setTitle(string $a_title) : void
+
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
-    
-    public function getId() : int
+
+    public function getId(): int
     {
         return $this->layout_id;
     }
@@ -107,7 +113,7 @@ class ilPageLayout
     }*/
 
 
-    public function setModules(array $a_values = []) : void
+    public function setModules(array $a_values = []): void
     {
         if ($a_values) {
             $valid = array_keys($this->getAvailableModules());
@@ -117,7 +123,7 @@ class ilPageLayout
         }
     }
 
-    public function getModules() : array
+    public function getModules(): array
     {
         return $this->modules;
     }
@@ -127,7 +133,7 @@ class ilPageLayout
      */
     public function activate(
         bool $a_setting = true
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         $query = "UPDATE page_layout SET active=" . $ilDB->quote($a_setting, "integer") .
@@ -138,7 +144,7 @@ class ilPageLayout
     /**
      * Delete page layout
      */
-    public function delete() : void
+    public function delete(): void
     {
         $ilDB = $this->db;
 
@@ -149,10 +155,10 @@ class ilPageLayout
     /**
      * Update page layout
      */
-    public function update() : void
+    public function update(): void
     {
         $ilDB = $this->db;
-        
+
         $mod_scorm = $mod_portfolio = $mod_lm = 0;
         if (in_array(self::MODULE_SCORM, $this->modules)) {
             $mod_scorm = 1;
@@ -171,20 +177,20 @@ class ilPageLayout
             ",mod_portfolio =" . $ilDB->quote($mod_portfolio, "integer") .
             ",mod_lm =" . $ilDB->quote($mod_lm, "integer") .
             " WHERE layout_id =" . $ilDB->quote($this->layout_id, "integer");
-    
+
         $result = $ilDB->manipulate($query);
     }
 
-    public function readObject() : void
+    public function readObject(): void
     {
         $ilDB = $this->db;
         $query = "SELECT * FROM page_layout WHERE layout_id =" . $ilDB->quote($this->layout_id, "integer");
         $result = $ilDB->query($query);
         $row = $ilDB->fetchAssoc($result);
-        $this->title = $row['title'];
-        $this->description = $row['description'];
-        $this->active = $row['active'];
-        
+        $this->title = (string) $row['title'];
+        $this->description = (string) $row['description'];
+        $this->active = (bool) $row['active'];
+
         $mods = array();
         if ($row["mod_scorm"]) {
             $mods[] = self::MODULE_SCORM;
@@ -198,54 +204,73 @@ class ilPageLayout
         $this->setModules($mods);
     }
 
-    public function getXMLContent() : string
+    public function setXMLContent(string $content): void
     {
+        $this->xml_content = $content;
+    }
+
+    public function getXMLContent(): string
+    {
+        if (!is_null($this->xml_content)) {
+            return $this->xml_content;
+        }
         $layout_page = new ilPageLayoutPage($this->layout_id);
         return $layout_page->getXMLContent();
     }
-    
-    public function getPreview() : string
+
+    public function getPreview(): string
     {
         return $this->generatePreview();
     }
-        
-    private function getXSLPath() : string
+
+    private function getXSLPath(): string
     {
         return "./Services/COPage/Layout/xml/layout2html.xsl";
     }
-    
-    private function generatePreview() : string
+
+    private function generatePreview(): string
     {
-        $xml = $this->getXMLContent();
-        
-        $dom = domxml_open_mem($xml, DOMXML_LOAD_PARSING, $error);
-        $xpc = xpath_new_context($dom);
+        $error = null;
+        $dom = $this->dom_util->docFromString($this->getXMLContent(), $error);
         $path = "////PlaceHolder";
-        $res = xpath_eval($xpc, $path);
-        
-        foreach ($res->nodeset as $item) {
-            $height = $item->get_attribute("Height");
-                
+        $nodes = $this->dom_util->path($dom, $path);
+        foreach ($nodes as $node) {
+            $height = $node->getAttribute("Height");
+
             $height = str_ireplace("px", "", $height);
             $height = $height / 10;
-            $item->set_attribute("Height", $height . "px");
+            $node->setAttribute("Height", $height . "px");
         }
-        $xsl = file_get_contents($this->getXSLPath());
-        
-        $xml = $dom->dump_mem(0, "UTF-8");
-            
-        $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
-        
-        $xh = xslt_create();
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, null);
-        xslt_error($xh);
-        xslt_free($xh);
+
+        $xml = $this->dom_util->dump($dom->documentElement);
+        $output = $this->xslt($xml, []);
         return $output;
     }
-    
+
+    protected function xslt(
+        string $xml,
+        array $params
+    ): string {
+        $xslt = new \XSLTProcessor();
+        $xsl = file_get_contents($this->getXSLPath());
+        $xslt_domdoc = new \DomDocument();
+        $xslt_domdoc->loadXML($xsl);
+        $xslt->importStylesheet($xslt_domdoc);
+        foreach ($params as $key => $value) {
+            $xslt->setParameter("", $key, (string) $value);
+        }
+        $xml_domdoc = new \DomDocument();
+        $xml_domdoc->loadXML($xml);
+        // show warnings again due to discussion in #12866
+        $result = $xslt->transformToXml($xml_domdoc);
+        unset($xslt);
+        return $result;
+    }
+
+
     public static function getLayoutsAsArray(
         int $a_active = 0
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -257,15 +282,17 @@ class ilPageLayout
         $query = "SELECT * FROM page_layout $add ORDER BY title ";
         $result = $ilDB->query($query);
         while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            $arr_layouts[] = $row;
+            if (ilPageObject::_exists("stys", $row["layout_id"])) {
+                $arr_layouts[] = $row;
+            }
         }
         return $arr_layouts;
     }
-    
+
     public static function getLayouts(
         bool $a_active = false,
         int $a_module = 0
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -280,7 +307,7 @@ class ilPageLayout
             case self::MODULE_SCORM:
                 $add .= $conc . " mod_scorm = 1";
                 break;
-            
+
             case self::MODULE_PORTFOLIO:
                 $add .= $conc . " mod_portfolio = 1";
                 break;
@@ -297,23 +324,23 @@ class ilPageLayout
 
         return $arr_layouts;
     }
-    
+
     /**
      * Get active layouts
      */
     public static function activeLayouts(
         int $a_module = 0
-    ) : array {
+    ): array {
         return self::getLayouts(true, $a_module);
     }
-    
+
     /**
      * Import page layout
      */
     public static function import(
         string $a_filename,
         string $a_filepath
-    ) : void {
+    ): void {
         $imp = new ilImport();
         $imp->importEntity(
             $a_filepath,
@@ -322,13 +349,13 @@ class ilPageLayout
             "Services/COPage"
         );
     }
-    
-    public static function getAvailableModules() : array
+
+    public static function getAvailableModules(): array
     {
         global $DIC;
 
         $lng = $DIC->language();
-        
+
         return array(
             self::MODULE_PORTFOLIO => $lng->txt("style_page_layout_module_portfolio"),
             self::MODULE_LM => $lng->txt("style_page_layout_module_learning_module")

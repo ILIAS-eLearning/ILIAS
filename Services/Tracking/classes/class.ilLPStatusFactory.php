@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -11,12 +13,12 @@
  */
 class ilLPStatusFactory
 {
-    private static self $instance;
+    private static ?self $instance = null;
     private static array $class_by_obj_id = array();
 
     private ilLogger $logger;
 
-    private static function getFactoryInstance() : ilLPStatusFactory
+    private static function getFactoryInstance(): ilLPStatusFactory
     {
         if (!self::$instance) {
             self::$instance = new self();
@@ -31,7 +33,7 @@ class ilLPStatusFactory
         $this->logger = $DIC->logger()->trac();
     }
 
-    private function getLogger() : ilLogger
+    private function getLogger(): ilLogger
     {
         return $this->logger;
     }
@@ -39,7 +41,7 @@ class ilLPStatusFactory
     public static function _getClassById(
         int $a_obj_id,
         ?int $a_mode = null
-    ) : string {
+    ): string {
         if ($a_mode === null) {
             $olp = ilObjectLP::getInstance($a_obj_id);
             $a_mode = $olp->getCurrentMode();
@@ -77,7 +79,7 @@ class ilLPStatusFactory
     public static function _getClassByIdAndType(
         int $a_obj_id,
         string $a_type
-    ) : string {
+    ): string {
         // id is ignored in the moment
         switch ($a_type) {
             case 'event':
@@ -94,7 +96,7 @@ class ilLPStatusFactory
     public static function _getInstance(
         int $a_obj_id,
         ?int $a_mode = null
-    ) : ilLPStatus {
+    ): ilLPStatus {
         if ($a_mode === null) {
             $olp = ilObjectLP::getInstance($a_obj_id);
             $a_mode = $olp->getCurrentMode();

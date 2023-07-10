@@ -1,10 +1,22 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilSendMailActivity
@@ -33,11 +45,6 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /** @var array $outputs Holds a list of valid output element IDs passed as third argument to the method. */
     private array $outputs;
 
-    /**
-     * Default constructor.
-     *
-     * @param ilNode $a_context
-     */
     public function __construct(ilNode $a_context)
     {
         $this->context = $a_context;
@@ -46,9 +53,9 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * Executes this action according to its settings.
      * @return void
-     *@todo Use exceptions / internal logging.
+     * @todo Use exceptions / internal logging.
      */
-    public function execute() : void
+    public function execute(): void
     {
         /** @var ilBaseWorkflow $workflow */
         $workflow = $this->getContext()->getContext();
@@ -58,13 +65,13 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
         $subject = '';
         foreach ($this->parameters as $parameter) {
             foreach ($definitions as $definition) {
-                if ($definition['id'] = $parameter) {
-                    switch (strtolower($definition['role'])) {
+                if ($definition['id'] == $parameter) {
+                    switch (strtolower((string) ($definition['role'] ?? ''))) {
                         case 'emailaddress':
-                            $recipient = $definition['value'];
+                            $recipient = (string) ($definition['value'] ?? '');
                             break;
                         case 'subject':
-                            $subject = $definition['value'];
+                            $subject = (string) ($definition['value'] ?? '');
                             break;
                     }
                 }
@@ -75,12 +82,12 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
         $mail_text = $this->decodeMessageText($mail_data['content']);
         $mail_text = $this->processPlaceholders($mail_text);
 
-        require_once './Services/WorkflowEngine/classes/activities/class.ilWorkflowEngineMailNotification.php';
-        $mail = new ilWorkflowEngineMailNotification();
-        $mail->setSubjectText($subject);
-        $mail->setBodyText($mail_text);
-
-        $mail->send($recipient);
+        if ($recipient !== '') {
+            $mail = new ilWorkflowEngineMailNotification();
+            $mail->setSubjectText($subject);
+            $mail->setBodyText($mail_text);
+            $mail->send($recipient);
+        }
     }
 
     /**
@@ -93,31 +100,22 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
         return $this->context;
     }
 
-    public function setName($name) : void
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getMessageName() : string
+    public function getMessageName(): string
     {
         return $this->message_name;
     }
 
-    /**
-     * @param string $message_name
-     */
-    public function setMessageName(string $message_name) : void
+    public function setMessageName(string $message_name): void
     {
         $this->message_name = $message_name;
     }
@@ -125,7 +123,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return array
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         return $this->parameters;
     }
@@ -133,7 +131,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @param array $parameters
      */
-    public function setParameters(array $parameters) : void
+    public function setParameters(array $parameters): void
     {
         $this->parameters = $parameters;
     }
@@ -141,7 +139,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return array
      */
-    public function getOutputs() : array
+    public function getOutputs(): array
     {
         return $this->outputs;
     }
@@ -149,27 +147,27 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @param array $outputs
      */
-    public function setOutputs(array $outputs) : void
+    public function setOutputs(array $outputs): void
     {
         $this->outputs = $outputs;
     }
 
-    public function decodeMessageText(string $message_text) : string
+    public function decodeMessageText(string $message_text): string
     {
         return base64_decode($message_text);
     }
 
-    public function processPlaceholders(string $message_text) : string
+    public function processPlaceholders(string $message_text): string
     {
-        $matches = array();
+        $matches = [];
         preg_match_all('/\[(.*?)\]/', $message_text, $matches, PREG_PATTERN_ORDER);
 
         foreach ($matches[0] as $match) {
-            $placeholder = substr($match, 1, strlen($match) - 2);
+            $placeholder = substr($match, 1, -1);
 
             $handled = false;
             $content = '';
-            if (strtolower(substr($placeholder, 0, strlen('EVENTLINK'))) == 'eventlink') {
+            if (stripos($placeholder, 'eventlink') === 0) {
                 $handled = true;
                 $content = $this->getEventLink($match);
             }
@@ -178,28 +176,29 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
                 $content = $this->context->getContext()->getInstanceVarById($placeholder);
             }
 
-            if (strlen($content)) {
+            if (is_string($content) && $content !== '') {
                 $message_text = str_replace($match, $content, $message_text);
             }
         }
         return $message_text;
     }
 
-    public function getEventLink(string $eventlink_string) : string
+    public function getEventLink(string $eventlink_string): string
     {
+        global $DIC;
+
         $type = substr($eventlink_string, 1, strpos($eventlink_string, ' ') - 1);
         $params = substr($eventlink_string, strpos($eventlink_string, ' ') + 1, -1);
 
-        $matches = array();
+        $matches = [];
         preg_match_all('/\{{(.*?)\}}/', $params, $matches, PREG_PATTERN_ORDER);
         foreach ($matches[1] as $match) {
-            if ($match == 'THIS:WFID') {
-                $params = str_replace('{{' . $match . '}}', $this->getContext()->getContext()->getDbId(), $params);
+            if ($match === 'THIS:WFID') {
+                $params = str_replace('{{' . $match . '}}', (string) $this->getContext()->getContext()->getDbId(), $params);
             }
         }
         $pieces = explode(':', $params);
-        /** @var ilias $ilias */
-        global $DIC;
+        /** @var ILIAS $ilias */
         $ilias = $DIC['ilias'];
 
         $address = ilUtil::_getHttpPath() . '/goto.php?target=wfe_WF'

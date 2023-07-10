@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface ilRBACAccessHandler
  * Checks access for ILIAS objects
@@ -25,7 +27,6 @@
  */
 interface ilRBACAccessHandler
 {
-
     /**
      * store access result
      */
@@ -36,7 +37,7 @@ interface ilRBACAccessHandler
         bool $a_access_granted,
         ?int $a_user_id = null,
         ?ilAccessInfo $a_info = null
-    ) : void;
+    ): void;
 
     /**
      * get stored access result
@@ -51,30 +52,30 @@ interface ilRBACAccessHandler
         string $a_cmd,
         int $a_ref_id,
         ?int $a_user_id = null
-    ) : array;
+    ): array;
 
     /**
      * Set prevent caching last result.
      */
-    public function setPreventCachingLastResult(bool $a_val) : void;
+    public function setPreventCachingLastResult(bool $a_val): void;
 
     /**
      * Get prevent caching last result.
      */
-    public function getPreventCachingLastResult() : bool;
+    public function getPreventCachingLastResult(): bool;
 
-    public function storeCache() : void;
+    public function storeCache(): void;
 
-    public function readCache(int $a_secs = 0) : bool;
+    public function readCache(int $a_secs = 0): bool;
 
-    public function getResults() : array;
+    public function getResults(): array;
 
     public function setResults(array $a_results);
 
     /**
      * add an info item to current info object
      */
-    public function addInfoItem(string $a_type, string $a_text, string $a_data = "") : void;
+    public function addInfoItem(string $a_type, string $a_text, string $a_data = ""): void;
 
     /**
      * check access for an object
@@ -87,7 +88,7 @@ interface ilRBACAccessHandler
         string $a_type = "",
         ?int $a_obj_id = null,
         ?int $a_tree_id = null
-    ) : bool;
+    ): bool;
 
     /**
      * check access for an object
@@ -101,20 +102,20 @@ interface ilRBACAccessHandler
         string $a_type = "",
         ?int $a_obj_id = null,
         ?int $a_tree_id = null
-    ) : bool;
+    ): bool;
 
     /**
      * get last info object
      * @see ilAccessInfo::getInfoItems()
      */
-    public function getInfo() : array;
+    public function getInfo(): array;
 
     /**
      * get last info object
      */
-    public function getResultLast() : array;
+    public function getResultLast(): array;
 
-    public function getResultAll(int $a_ref_id = 0) : array;
+    public function getResultAll(int $a_ref_id = 0): array;
 
     /**
      * look if result for current query is already in cache
@@ -125,7 +126,7 @@ interface ilRBACAccessHandler
         string $a_cmd,
         int $a_ref_id,
         int $a_user_id
-    ) : array;
+    ): array;
 
     /**
      * check if object is in tree and not deleted
@@ -135,7 +136,7 @@ interface ilRBACAccessHandler
         string $a_cmd,
         int $a_ref_id,
         int $a_user_id
-    ) : bool;
+    ): bool;
 
     /**
      * rbac check for current object
@@ -147,7 +148,7 @@ interface ilRBACAccessHandler
         int $a_ref_id,
         int $a_user_id,
         string $a_type
-    ) : bool;
+    ): bool;
 
     /**
      * check read permission for all parents
@@ -158,7 +159,7 @@ interface ilRBACAccessHandler
         int $a_ref_id,
         int $a_user_id,
         bool $a_all = false
-    ) : bool;
+    ): bool;
 
     /**
      * check for activation and centralized offline status.
@@ -170,7 +171,7 @@ interface ilRBACAccessHandler
         int $a_user_id,
         int $a_obj_id,
         string $a_type
-    ) : bool;
+    ): bool;
 
     /**
      * condition check (currently only implemented for read permission)
@@ -182,7 +183,7 @@ interface ilRBACAccessHandler
         int $a_user_id,
         int $a_obj_id,
         string $a_type
-    ) : bool;
+    ): bool;
 
     /**
      * object type specific check
@@ -194,12 +195,12 @@ interface ilRBACAccessHandler
         int $a_user_id,
         int $a_obj_id,
         string $a_type
-    ) : bool;
+    ): bool;
 
-    public function clear() : void;
+    public function clear(): void;
 
     /**
      * @deprected
      */
-    public function enable(string $a_str, bool $a_bool) : void;
+    public function enable(string $a_str, bool $a_bool): void;
 }

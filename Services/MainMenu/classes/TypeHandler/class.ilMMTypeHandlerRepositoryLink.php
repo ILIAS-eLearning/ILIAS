@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
@@ -12,11 +14,10 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
  */
 class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction implements TypeHandler
 {
-
     /**
      * @inheritdoc
      */
-    public function matchesForType() : string
+    public function matchesForType(): string
     {
         return RepositoryLink::class;
     }
@@ -25,7 +26,7 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
     /**
      * @inheritdoc
      */
-    public function enrichItem(isItem $item) : isItem
+    public function enrichItem(isItem $item): isItem
     {
         global $DIC;
         if ($item instanceof RepositoryLink && isset($this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION])) {
@@ -33,7 +34,7 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
             $item = $item->withRefId($ref_id)
                 ->withVisibilityCallable(
                     function () use ($DIC, $ref_id) {
-                        return $DIC->access()->checkAccess('visible', '', $ref_id)
+                        return $DIC->access()->checkAccess('join', '', $ref_id)
                             || $DIC->access()->checkAccess('read', '', $ref_id);
                     }
                 );
@@ -46,7 +47,7 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
     /**
      * @inheritdoc
      */
-    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification) : array
+    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification): array
     {
         global $DIC;
         $url = $DIC->ui()->factory()->input()->field()->numeric($this->getFieldTranslation());
@@ -61,7 +62,7 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
     /**
      * @inheritDoc
      */
-    protected function getFieldTranslation() : string
+    protected function getFieldTranslation(): string
     {
         global $DIC;
 
@@ -72,7 +73,7 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
     /**
      * @inheritDoc
      */
-    protected function getFieldInfoTranslation() : string
+    protected function getFieldInfoTranslation(): string
     {
         global $DIC;
 

@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey;
 
@@ -30,33 +35,27 @@ class InternalGUIService
 {
     use GlobalDICGUIServices;
 
-    protected \ilLanguage $lng;
+    protected \ilObjectService $object_service;
     protected ModeFactory $mode_factory;
     protected InternalDomainService $domain_service;
     protected ServerRequestInterface $request;
-    protected \ilObjUser $user;
 
     public function __construct(
-        \ilObjectServiceInterface $object_service,
+        \ilObjectService $object_service,
         ModeFactory $mode_factory,
         InternalDomainService $domain_service
     ) {
         global $DIC;
 
+        $this->initGUIServices($DIC);
         $this->object_service = $object_service;
         $this->mode_factory = $mode_factory;
         $this->domain_service = $domain_service;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->ui = $DIC->ui();
-        $this->lng = $DIC->language();
-        $this->user = $DIC->user();
         $this->request = $DIC->http()->request();
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->http = $DIC->http();
     }
 
-    public function surveySettings(\ilObjSurvey $survey) : Settings\UIFactory
+    public function surveySettings(\ilObjSurvey $survey): Settings\UIFactory
     {
         return new Settings\UIFactory(
             $this,
@@ -66,7 +65,7 @@ class InternalGUIService
         );
     }
 
-    public function evaluation(\ilObjSurvey $survey) : Evaluation\GUIService
+    public function evaluation(\ilObjSurvey $survey): Evaluation\GUIService
     {
         return new Evaluation\GUIService(
             $this,
@@ -76,7 +75,7 @@ class InternalGUIService
         );
     }
 
-    public function editing() : Editing\GUIService
+    public function editing(): Editing\GUIService
     {
         return new Editing\GUIService(
             $this,
@@ -84,7 +83,7 @@ class InternalGUIService
         );
     }
 
-    public function execution() : Execution\GUIService
+    public function execution(): Execution\GUIService
     {
         return new Execution\GUIService(
             $this,
@@ -95,13 +94,13 @@ class InternalGUIService
     public function infoScreen(
         \ilObjSurveyGUI $survey_gui,
         \ilToolbarGUI $toolbar
-    ) : \ilInfoScreenGUI {
+    ): \ilInfoScreenGUI {
         $info_screen = new InfoScreen\InfoScreenGUI(
             $survey_gui,
             $toolbar,
-            $this->user,
-            $this->lng,
-            $this->ctrl,
+            $this->domain_service->user(),
+            $this->domain_service->lng(),
+            $this->ctrl(),
             $this->request,
             $this->domain_service
         );
@@ -109,18 +108,18 @@ class InternalGUIService
         return $info_screen->getInfoScreenGUI();
     }
 
-    public function modeUIModifier(int $mode) : UIModifier
+    public function modeUIModifier(int $mode): UIModifier
     {
         $mode_provider = $this->mode_factory->getModeById($mode);
         return $mode_provider->getUIModifier();
     }
 
-    public function lng() : \ilLanguage
+    public function lng(): \ilLanguage
     {
-        return $this->lng;
+        return $this->domain_service->lng();
     }
 
-    public function print() : PrintView\GUIService
+    public function print(): PrintView\GUIService
     {
         return new PrintView\GUIService(
             $this,

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
@@ -31,7 +47,7 @@ class Factory implements ISlate\Factory
     /**
      * @inheritdoc
      */
-    public function legacy(string $name, Symbol $symbol, ILegacy $content) : ISlate\Legacy
+    public function legacy(string $name, Symbol $symbol, ILegacy $content): ISlate\Legacy
     {
         return new Legacy($this->signal_generator, $name, $symbol, $content);
     }
@@ -39,7 +55,7 @@ class Factory implements ISlate\Factory
     /**
      * @inheritdoc
      */
-    public function combined(string $name, Symbol $symbol) : ISlate\Combined
+    public function combined(string $name, Symbol $symbol): ISlate\Combined
     {
         return new Combined($this->signal_generator, $name, $symbol);
     }
@@ -47,7 +63,7 @@ class Factory implements ISlate\Factory
     /**
      * @inheritdoc
      */
-    public function notification(string $name, array $notification_items) : ISlate\Notification
+    public function notification(string $name, array $notification_items): ISlate\Notification
     {
         $notification_symbol = $this->symbol_factory->glyph()->notification();
         return new Notification($this->signal_generator, $name, $notification_items, $notification_symbol);
@@ -56,7 +72,7 @@ class Factory implements ISlate\Factory
     /**
      * @inheritdoc
      */
-    public function drilldown(string $name, Symbol $symbol, IDrilldownMenu $drilldown) : ISlate\Drilldown
+    public function drilldown(string $name, Symbol $symbol, IDrilldownMenu $drilldown): ISlate\Drilldown
     {
         return new Drilldown($this->signal_generator, $name, $symbol, $drilldown);
     }

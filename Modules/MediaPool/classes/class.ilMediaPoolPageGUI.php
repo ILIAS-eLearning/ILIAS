@@ -45,7 +45,11 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $this->tabs = $DIC->tabs();
         $this->access = $DIC->access();
         $this->lng = $DIC->language();
-        
+
+        if (in_array($this->ctrl->getCmd(), ["createMediaPoolPage", "saveMediaPoolPage", "cancelSaveNewMediaPoolPage"])) {
+            $a_id = 0;
+        }
+
         parent::__construct("mep", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 
         $cs = $DIC->contentStyle()
@@ -63,18 +67,18 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 
     public function setMediaPoolPage(
         ilMediaPoolPage $a_media_pool_page
-    ) : void {
+    ): void {
         $this->setPageObject($a_media_pool_page);
     }
 
-    public function getMediaPoolPage() : ilMediaPoolPage
+    public function getMediaPoolPage(): ilMediaPoolPage
     {
         /** @var ilMediaPoolPage $p */
         $p = $this->getPageObject();
         return $p;
     }
 
-    public function setPoolGUI(ilObjMediaPoolGUI $pool_gui) : void
+    public function setPoolGUI(ilObjMediaPoolGUI $pool_gui): void
     {
         $this->pool_gui = $pool_gui;
         /** @var ilObjMediaPool $pool */
@@ -94,7 +98,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 
     public function showPage(
         bool $a_no_title = false
-    ) : string {
+    ): string {
         $tpl = $this->tpl;
 
         // get raw page content is used for including into other pages
@@ -110,25 +114,24 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         return parent::showPage();
     }
 
-    public function getTabs(string $a_activate = "") : void
+    public function getTabs(string $a_activate = ""): void
     {
-        parent::getTabs($a_activate);
         $this->setMediaPoolPageTabs();
     }
-    
-    public function getRawContent() : string
+
+    public function getRawContent(): string
     {
         $this->setRawPageContent(true);
         $this->setLinkXml("");
         return $this->showPage(true);
     }
 
-    public function setTemplate(ilGlobalTemplateInterface $tpl) : void
+    public function setTemplate(ilGlobalTemplateInterface $tpl): void
     {
         $this->tpl = $tpl;
     }
 
-    public function createMediaPoolPage() : void
+    public function createMediaPoolPage(): void
     {
         $tpl = $this->tpl;
 
@@ -137,7 +140,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $this->tabs->clearTargets();
     }
 
-    public function editMediaPoolPage() : void
+    public function editMediaPoolPage(): void
     {
         $tpl = $this->tpl;
         $form = $this->initMediaPoolPageForm("edit");
@@ -145,7 +148,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function saveMediaPoolPage() : void
+    public function saveMediaPoolPage(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -184,7 +187,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $tpl->setContent($form->getHtml());
     }
 
-    public function updateMediaPoolPage() : void
+    public function updateMediaPoolPage(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -204,7 +207,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $tpl->setContent($form->getHtml());
     }
 
-    public function initMediaPoolPageForm(string $a_mode = "edit") : ilPropertyFormGUI
+    public function initMediaPoolPageForm(string $a_mode = "edit"): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -220,7 +223,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         // save and cancel commands
         if ($a_mode === "create") {
             $form->addCommandButton("saveMediaPoolPage", $lng->txt("save"));
-            $form->addCommandButton("cancelSave", $lng->txt("cancel"));
+            $form->addCommandButton("cancelSaveNewMediaPoolPage", $lng->txt("cancel"));
             $form->setTitle($lng->txt("mep_new_content_snippet"));
         } else {
             $form->addCommandButton("updateMediaPoolPage", $lng->txt("save"));
@@ -232,13 +235,13 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         return $form;
     }
 
-    protected function cancelSave() : void
+    protected function cancelSaveNewMediaPoolPage(): void
     {
         $ctrl = $this->ctrl;
         $ctrl->returnToParent($this);
     }
 
-    public function getMediaPoolPageValues(ilPropertyFormGUI $form) : void
+    public function getMediaPoolPageValues(ilPropertyFormGUI $form): void
     {
         $values = array();
 
@@ -247,11 +250,28 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $form->setValuesByArray($values);
     }
 
-    public function setMediaPoolPageTabs() : void
+    public function setMediaPoolPageTabs(): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
+
+        if ($this->use_meta_data) {
+            $mdgui = new ilObjectMetaDataGUI(
+                $this->meta_data_rep_obj,
+                $this->meta_data_type,
+                $this->meta_data_sub_obj_id
+            );
+            $mdtab = $mdgui->getTab();
+            if ($mdtab) {
+                $this->tabs_gui->addTarget(
+                    "meta_data",
+                    $mdtab,
+                    "",
+                    "ilobjectmetadatagui"
+                );
+            }
+        }
 
         $ilTabs->addTarget(
             "cont_usage",
@@ -266,11 +286,14 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
             get_class($this)
         );
         $ilCtrl->setParameter($this, "mepitem_id", $this->pool->getPoolTree()->getParentId($this->mep_request->getItemId()));
-        $ilTabs->setBackTarget($lng->txt("mep_folder"), $ilCtrl->getParentReturn($this));
+        $ilTabs->setBackTarget($lng->txt("mep_folder"), $ilCtrl->getLinkTargetByClass(
+            ilObjMediaPoolGUI::class,
+            "returnFromItem"
+        ));
         $ilCtrl->setParameter($this, "mepitem_id", $this->mep_request->getItemId());
     }
 
-    public function showAllMediaPoolPageUsages() : void
+    public function showAllMediaPoolPageUsages(): void
     {
         $this->showMediaPoolPageUsages(true);
     }
@@ -279,7 +302,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
     /**
      * List usages of the contnet snippet
      */
-    public function showMediaPoolPageUsages(bool $a_all = false) : void
+    public function showMediaPoolPageUsages(bool $a_all = false): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -313,5 +336,44 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $table = new ilMediaPoolPageUsagesTableGUI($this, $cmd, $page, $a_all);
 
         $tpl->setContent($table->getHTML());
+    }
+
+    public function finishEditing(): void
+    {
+        $this->ctrl->returnToParent($this);
+    }
+
+    public function getAdditionalPageActions(): array
+    {
+        $tabs = [];
+
+        $mdgui = new ilObjectMetaDataGUI(
+            $this->meta_data_rep_obj,
+            $this->meta_data_type,
+            $this->meta_data_sub_obj_id
+        );
+        $mdtab = $mdgui->getTab();
+        if ($mdtab) {
+            $tabs[] = $this->ui->factory()->link()->standard(
+                $this->lng->txt('meta_data'),
+                $mdtab
+            );
+        }
+
+        $tabs[] =
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt('cont_usage'),
+                $this->ctrl->getLinkTargetByClass([
+                    self::class
+                ], 'showMediaPoolPageUsages')
+            );
+        $tabs[] =
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt('settings'),
+                $this->ctrl->getLinkTargetByClass([
+                    self::class
+                ], 'editMediaPoolPage')
+            );
+        return $tabs;
     }
 }

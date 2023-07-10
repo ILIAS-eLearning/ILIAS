@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Refinery\Constraint;
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +28,7 @@ class PasswordContraintsTest extends TestCase
      *
      * @return array[[$constraint,$ok_values,$error_values]]
      */
-    public function constraintsProvider() : array
+    public function constraintsProvider(): array
     {
         $lng = $this->createMock(\ilLanguage::class);
         $d = new \ILIAS\Data\Factory();
@@ -70,7 +72,7 @@ class PasswordContraintsTest extends TestCase
      * @param ILIAS\Data\Password[] $ok_values
      * @param ILIAS\Data\Password[] $error_values
      */
-    public function testAccept(Constraint $constraint, array $ok_values, array $error_values) : void
+    public function testAccept(Constraint $constraint, array $ok_values, array $error_values): void
     {
         foreach ($ok_values as $ok_value) {
             $this->assertTrue($constraint->accepts($ok_value));

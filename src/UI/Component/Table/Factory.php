@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Nils Haagen <nhaagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
@@ -93,7 +109,7 @@ interface Factory
      * UI examples.
      *
      */
-    public function presentation(string $title, array $view_controls, Closure $row_mapping) : Presentation;
+    public function presentation(string $title, array $view_controls, Closure $row_mapping): Presentation;
 
     /**
      * ---
@@ -149,30 +165,37 @@ interface Factory
      *         The HTML tag enclosing the actual tabular presentation MUST have the
      *         role-attribute "grid".
      *       2: >
-     *         The HTML tag enclosing one record MUST have the role-attribute "row".
+     *         The HTML tag enclosing the actual tabular presentation MUST have an
+     *         attribute "aria-colcount" with the value set to the amount of
+     *         available cols (as opposed to visible cols!)
      *       3: >
-     *         A single cell MUST be marked with the role-attribute "gridcell".
-     *       4: >
-     *         Every single cell (including headers) MUST have a tabindex-attibute
-     *         initially set to "-1". When focused, this changes to "0".
-     *       5: >
      *         The row with the columns' headers and the area with the actual data
      *         MUST each be enclosed by a tag bearing the role-attribute "rowgroup".
+     *       4: >
+     *         The HTML tag enclosing one record MUST have the role-attribute "row".
+     *       5: >
+     *         A single cell MUST be marked with the role-attribute "gridcell".
      *       6: >
-     *         All (possible) columns of the Table MUST be counted; the result MUST
-     *         show in an attribute "aria-colcount" of the tag having the 'role="grid"'.
+     *         Every single cell (including headers) MUST have a tabindex-attibute
+     *         initially set to "-1". When focused, this changes to "0".
      *
      * ---
      * @param string     $title
+     * @param array<string, Column\Column>     $columns
      * @return \ILIAS\UI\Component\Table\Data
      */
-    public function data(string $title, ?int $page_size = 50) : Data;
+    public function data(
+        string $title,
+        array $columns,
+        DataRetrieval $data_retrieval
+    ): Data;
+
 
     /**
      * ---
      * description:
      *   purpose: >
-     *       Tables display data in a very structured way; columns are essential
+     *       Tables display data in a very structured way; Columns are essential
      *       in that matter, for they define the nature of one field (aspect) of
      *       the data record.
      *
@@ -181,7 +204,7 @@ interface Factory
      *       a Glyph will indicate the ability to sort as well as the current direction.
      *
      *   effect: >
-     *       Operating the order-glyphs in the column title will change the records' order.
+     *       Operating the order-glyphs in the Column title will change the records' order.
      *
      * rules:
      *   usage:
@@ -197,11 +220,44 @@ interface Factory
      *         If the data is sorted by this column, it's header MUST show the direction in the
      *         "aria-sort" attribute ('ascending'|'descending'|'none', if sortable but not applied).
      *       3: >
-     *         Every Column MUST have the attribute "aria-colindex" with its position
-     *         in all available - not visible - columns of the table.
+     *         Every Column MUST have the attribute "aria-colindex" with it's position
+     *         in all available ("available" as opposed to visible!) columns of the table.
+     *         Numbering starts at 1, not 0.
      * ---
-     * @param string     $title
      * @return \ILIAS\UI\Component\Table\Column\Factory
      */
-    public function column() : Column\Factory;
+    public function column(): Column\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       Consumers may attach Actions to the table; an Action is a Signal or
+     *       URL carrying a parameter that references the targeted record(s).
+     *       While there are Actions that make sense for only one record (e.g.
+     *       "edit" or "goto"), there are others that will only be used with
+     *       more than one record (e.g. "export", "compare"), and finally those
+     *       to be valid for both single and multi records (e.g. "delete").
+     *       However, Actions share a common concept - they will trigger an URL
+     *       or Signal, relay a parameter derived from the record to identify
+     *       targets and bear a label.
+     *   composition: >
+     *       An additional column will be added at the very end of the table
+     *       containing a Button (or Dropdown, for more than one action) if applicable.
+     *       If there is at least one Multi Action, an unlabled column will be
+     *       added at the very beginning of the table containing a checkbox to
+     *       include the row in the selection.
+     *       There is also a "withDisabledAction"-switch on an Action to opt out
+     *       an Action for a specific row; use it to disable a specific Action by
+     *       introspection of a record or to exit early on multi-Actions
+     *       with invalid selections.
+     *
+     * rules:
+     *   usage:
+     *       1: Actions MUST have a meaningful label describing the purpose of the action.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Table\Action\Factory
+     */
+    public function action(): Action\Factory;
 }

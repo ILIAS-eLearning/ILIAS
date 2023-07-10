@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  +-----------------------------------------------------------------------------+
@@ -37,7 +39,7 @@ class ilXMLResultSetRow
      * @param string
      * @return void
      */
-    public function setValue($index, string $value) : void
+    public function setValue($index, string $value): void
     {
         $this->columns[$index] = $value;
     }
@@ -45,7 +47,7 @@ class ilXMLResultSetRow
     /**
      * @return array<int|string, string>
      */
-    public function getColumns() : array
+    public function getColumns(): array
     {
         return $this->columns;
     }
@@ -53,7 +55,7 @@ class ilXMLResultSetRow
     /**
      * Set values from array
      */
-    public function setValues(array $values) : void
+    public function setValues(array $values): void
     {
         $i = 0;
         foreach ($values as $value) {
@@ -66,7 +68,7 @@ class ilXMLResultSetRow
      * @param int|string $idx
      * @return string
      */
-    public function getValue($idx) : string
+    public function getValue($idx): string
     {
         if (is_string($idx) && !array_key_exists($idx, $this->columns)) {
             throw new DomainException('Invalid index given: ' . $idx);

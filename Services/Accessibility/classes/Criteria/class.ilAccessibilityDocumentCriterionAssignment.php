@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilAccessibilityDocumentCriterionAssignment
@@ -21,14 +24,14 @@ class ilAccessibilityDocumentCriterionAssignment extends ActiveRecord implements
     public const TABLE_NAME = 'acc_criterion_to_doc';
 
     /**
-     * @var string
+     * @var int
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           4
      * @db_is_primary       true
      * @con_sequence        true
      */
-    protected string $id;
+    protected ?int $id = null;
 
     /**
      * @var int
@@ -87,41 +90,41 @@ class ilAccessibilityDocumentCriterionAssignment extends ActiveRecord implements
      */
     protected int $last_modified_usr_id = 0;
 
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->setAssignedTs(time());
 
         parent::create();
     }
 
-    public function update()
+    public function update(): void
     {
         $this->setModificationTs(time());
 
         parent::update();
     }
 
-    public function setCriterionValue(ilAccessibilityCriterionConfig $config) : void
+    public function setCriterionValue(ilAccessibilityCriterionConfig $config): void
     {
         $this->criterion_value = $config->toJson();
     }
 
-    public function getCriterionValue() : ilAccessibilityCriterionConfig
+    public function getCriterionValue(): ilAccessibilityCriterionConfig
     {
         return new ilAccessibilityCriterionConfig($this->criterion_value);
     }
 
-    public function getCriterionId() : string
+    public function getCriterionId(): string
     {
         return $this->criterion_id;
     }
 
-    public function equals($other) : bool
+    public function equals($other): bool
     {
         if (!($other instanceof static)) {
             return false;

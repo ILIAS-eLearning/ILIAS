@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,15 +16,16 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testEntryCanBeAddedToQueue() : void
+    public function testEntryCanBeAddedToQueue(): void
     {
-        $databaseMock = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $databaseMock = $this->createMock(ilDBInterface::class);
 
         $loggerMock = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -37,7 +38,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
             ->willReturn(20);
 
         $loggerMock->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $loggerMock->expects($this->atLeastOnce())
             ->method('debug');
@@ -71,17 +72,16 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
         $repository->addToQueue($queueEntry);
     }
 
-    public function testRemoveFromQueue() : void
+    public function testRemoveFromQueue(): void
     {
-        $databaseMock = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $databaseMock = $this->createMock(ilDBInterface::class);
 
         $loggerMock = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $loggerMock->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $databaseMock->expects($this->once())
             ->method('quote')
@@ -97,17 +97,16 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
         $repository->removeFromQueue(30);
     }
 
-    public function testFetchAllEntriesFromQueue() : void
+    public function testFetchAllEntriesFromQueue(): void
     {
-        $databaseMock = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $databaseMock = $this->createMock(ilDBInterface::class);
 
         $loggerMock = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $loggerMock->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $loggerMock->expects($this->atLeastOnce())
             ->method('debug');
@@ -125,7 +124,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
                     'adapter_class' => 'SomeClass',
                     'state' => 'SomeState',
                     'template_id' => 1000,
-                    'started_timestamp' => 123456789
+                    'started_timestamp' => 123_456_789
                 ],
                 [
                     'id' => 20,
@@ -134,7 +133,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
                     'adapter_class' => 'SomeClass',
                     'state' => 'SomeState',
                     'template_id' => 1000,
-                    'started_timestamp' => 123456789
+                    'started_timestamp' => 123_456_789
                 ]
             );
 

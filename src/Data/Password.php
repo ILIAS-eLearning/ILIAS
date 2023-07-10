@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -20,7 +22,7 @@ class Password
         $this->pass = $pass;
     }
 
-    public function toString() : string
+    public function toString(): string
     {
         return $this->pass;
     }

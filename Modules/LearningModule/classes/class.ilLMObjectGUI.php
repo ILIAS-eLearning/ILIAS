@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\LearningModule\Editing\EditingGUIRequest;
 
@@ -76,7 +79,7 @@ class ilLMObjectGUI
     /**
      * @param ?array $a_actions action array (key = action key, value = action language string)
      */
-    public function setActions(?array $a_actions = null) : void
+    public function setActions(?array $a_actions = null): void
     {
         if (is_array($a_actions)) {
             foreach ($a_actions as $name => $lng) {
@@ -97,7 +100,7 @@ class ilLMObjectGUI
     public function getTargetFrame(
         string $a_cmd,
         string $a_target_frame = ""
-    ) : string {
+    ): string {
         if ($this->target_frame[$a_cmd] != "") {
             return $this->target_frame[$a_cmd];
         } elseif (!empty($a_target_frame)) {
@@ -110,29 +113,29 @@ class ilLMObjectGUI
     /**
      * structure / page object creation form
      */
-    public function create() : void
+    public function create(): void
     {
         $form = $this->getCreateForm();
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function getCreateForm() : ilPropertyFormGUI
+    public function getCreateForm(): ilPropertyFormGUI
     {
         $new_type = $this->requested_new_type;
         $this->ctrl->setParameter($this, "new_type", $new_type);
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
         $form->setTitle($this->lng->txt($new_type . "_new"));
-        
+
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
         $form->addItem($title);
-        
+
         $desc = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
         $form->addItem($desc);
-        
+
         $form->addCommandButton("save", $this->lng->txt($new_type . "_add"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
-        
+
         return $form;
     }
 
@@ -140,7 +143,7 @@ class ilLMObjectGUI
     /**
      * put this object into content object tree
      */
-    public function putInTree(?int $target = 0) : void
+    public function putInTree(?int $target = 0): void
     {
         if ($target == 0) {
             $target = $this->requested_target;
@@ -171,11 +174,11 @@ class ilLMObjectGUI
     /**
      * Confirm deletion screen (delete page or structure objects)
      */
-    public function delete() : void
+    public function delete(): void
     {
         $this->setTabs();
 
-        $cont_obj_gui = new ilObjContentObjectGUI(
+        $cont_obj_gui = new ilObjLearningModuleGUI(
             "",
             $this->content_object->getRefId(),
             true,
@@ -184,11 +187,15 @@ class ilLMObjectGUI
         $cont_obj_gui->delete($this->obj->getId());
     }
 
+    public function setTabs(): void
+    {
+    }
 
-    /**
+
+        /**
      * cancel deletion of page/structure objects
      */
-    public function cancelDelete() : void
+    public function cancelDelete(): void
     {
         ilSession::clear("saved_post");
         $this->ctrl->redirect($this, $this->request->getBackCmd());
@@ -198,9 +205,9 @@ class ilLMObjectGUI
     /**
      * page and structure object deletion
      */
-    public function confirmedDelete() : void
+    public function confirmedDelete(): void
     {
-        $cont_obj_gui = new ilObjContentObjectGUI(
+        $cont_obj_gui = new ilObjLearningModuleGUI(
             "",
             $this->content_object->getRefId(),
             true,
@@ -213,7 +220,7 @@ class ilLMObjectGUI
     /**
      * show possible action (form buttons)
      */
-    public function showActions(array $a_actions) : void
+    public function showActions(array $a_actions): void
     {
         $d = [];
         foreach ($a_actions as $name => $lng) {
@@ -238,7 +245,7 @@ class ilLMObjectGUI
     /**
      * check the content object tree
      */
-    public function checkTree() : void
+    public function checkTree(): void
     {
         $this->content_object->checkTree();
     }

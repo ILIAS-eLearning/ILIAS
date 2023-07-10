@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Exercise;
 
 /**
@@ -37,12 +37,12 @@ class ilExAssignmentTypes
             : $service;
     }
 
-    public static function getInstance() : ilExAssignmentTypes
+    public static function getInstance(): ilExAssignmentTypes
     {
         return new self();
     }
 
-    public function getAllIds() : array
+    public function getAllIds(): array
     {
         return [
             ilExAssignment::TYPE_UPLOAD,
@@ -54,7 +54,7 @@ class ilExAssignmentTypes
         ];
     }
 
-    public function isValidId($a_id) : bool
+    public function isValidId($a_id): bool
     {
         return in_array($a_id, $this->getAllIds());
     }
@@ -66,7 +66,7 @@ class ilExAssignmentTypes
      * @return ilExAssignmentTypeInterface[]
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         return array_column(
             array_map(
@@ -79,13 +79,13 @@ class ilExAssignmentTypes
             0
         );
     }
-    
+
     /**
      * Get all activated
      * @return ilExAssignmentTypeInterface[]
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getAllActivated() : array
+    public function getAllActivated(): array
     {
         return array_filter($this->getAll(), function (ilExAssignmentTypeInterface $at) {
             return $at->isActive();
@@ -98,7 +98,7 @@ class ilExAssignmentTypes
      * @return ilExAssignmentTypeInterface[]
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getAllAllowed(ilObjExercise $exc) : array
+    public function getAllAllowed(ilObjExercise $exc): array
     {
         $random_manager = $this->service->domain()->assignment()->randomAssignments($exc);
         $active = $this->getAllActivated();
@@ -122,7 +122,7 @@ class ilExAssignmentTypes
      * @return ilExAssignmentTypeInterface
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getById(int $a_id) : ilExAssignmentTypeInterface
+    public function getById(int $a_id): ilExAssignmentTypeInterface
     {
         switch ($a_id) {
             case ilExAssignment::TYPE_UPLOAD:
@@ -153,7 +153,7 @@ class ilExAssignmentTypes
      * @return int[]
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getIdsForSubmissionType(string $a_submission_type) : array
+    public function getIdsForSubmissionType(string $a_submission_type): array
     {
         $ids = [];
         foreach ($this->getAllIds() as $id) {

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCTableGUI
@@ -25,7 +28,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -41,6 +44,14 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $this->http = $DIC->http();
     }
 
+    protected function getFormTitle(string $a_mode = "edit"): string
+    {
+        if ($a_mode === "create") {
+            return $this->lng->txt("cont_ed_insert_dtab");
+        }
+        return $this->lng->txt("cont_table_properties");
+    }
+
     /**
      * execute command
      * @return mixed
@@ -48,7 +59,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
     public function executeCommand()
     {
         $this->getCharacteristicsOfCurrentStyle(["table"]);	// scorm-2004
-        
+
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -64,7 +75,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         return $ret;
     }
 
-    
+
     ////
     //// Classic editing
     ////
@@ -72,7 +83,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
     /**
      * Update table data in dom and update page in db
      */
-    public function update(bool $a_redirect = true) : void
+    public function update(bool $a_redirect = true): void
     {
         $lng = $this->lng;
 
@@ -92,7 +103,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 }
             }
         }
-        
+
         $this->updated = $this->content_obj->setData($data);
 
         if ($this->updated !== true) {
@@ -111,11 +122,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
     /**
      * Update via JavaScript
      */
-    public function updateJS() : void
+    public function updateJS(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-                
+
         if ($this->request->getString("cancel_update") != "") {
             //			$this->ctrl->redirect($this, "editData");
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
@@ -128,7 +139,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
             if (substr($k, 0, 5) != "cell_") {
                 continue;
             }
-            
+
             // determine cell content
             $div = ilUtil::stripSlashes($content, false);
             $p1 = strpos($div, '>');
@@ -200,15 +211,15 @@ class ilPCDataTableGUI extends ilPCTableGUI
     /**
      * Get new table object
      */
-    public function getNewTableObject() : ilPCDataTable
+    public function getNewTableObject(): ilPCDataTable
     {
         return new ilPCDataTable($this->getPage());
     }
-    
+
     /**
      * After creation processing
      */
-    public function afterCreation() : void
+    public function afterCreation(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -218,11 +229,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $ilCtrl->setParameter($this, "pc_id", $this->content_obj->readPCId());
         $ilCtrl->redirect($this, "editData");
     }
-    
+
     /**
      * Perform operation on table (adding, moving, deleting rows/cols)
      */
-    public function tableAction() : void
+    public function tableAction(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -243,12 +254,37 @@ class ilPCDataTableGUI extends ilPCTableGUI
         }
         $ilCtrl->redirect($this, "editData");
     }
-    
+
     /**
      * Set tabs
      */
-    public function setTabs(string $data_tab_txt_key = "") : void
+    public function setTabs(string $data_tab_txt_key = ""): void
     {
         parent::setTabs("cont_ed_edit_data");
+    }
+
+    protected function getCellContent(int $i, int $j): string
+    {
+        $cmd = $this->ctrl->getCmd();
+        if ($cmd == "update") {
+            $s_text = ilUtil::stripSlashes("cell_" . $i . "_" . $j, false);
+        } else {
+            $s_text = ilPCParagraph::xml2output(
+                $this->content_obj->getCellText($i, $j),
+                true,
+                false
+            );
+            include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
+            $s_text = ilPCParagraphGUI::xml2outputJS(
+                $s_text,
+                "TableContent",
+                $this->content_obj->readPCId() . "_" . $i . "_" . $j
+            );
+        }
+
+        // #20628
+        $s_text = str_replace("{", "&#123;", $s_text);
+        $s_text = str_replace("}", "&#125;", $s_text);
+        return $s_text;
     }
 }

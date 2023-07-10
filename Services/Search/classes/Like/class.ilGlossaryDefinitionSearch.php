@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,24 +36,28 @@
 
 class ilGlossaryDefinitionSearch extends ilAbstractSearch
 {
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         // Search in glossary term
-        
+
         $this->setFields(array('term'));
 
         $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
 
-        $query = "SELECT glo_id,gt.id  " .
+        $query = "SELECT glo_id,id  " .
             $locate .
-            "FROM glossary_term gt JOIN " .
-            "glossary_definition ON (gt.id = glossary_definition.term_id) " .
+            "FROM glossary_term " .
             $where;
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->glo_id, 'glo', $this->__prepareFound($row), $row->id);
+            $this->search_result->addEntry(
+                (int) $row->glo_id,
+                'glo',
+                $this->__prepareFound($row),
+                (int) $row->id
+            );
         }
 
         return $this->search_result;

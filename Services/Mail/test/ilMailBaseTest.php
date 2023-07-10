@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 
@@ -25,7 +27,9 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilMailBaseTest extends TestCase
 {
-    protected function brutallyTrimHTML(string $html) : string
+    private ?Container $dic = null;
+
+    protected function brutallyTrimHTML(string $html): string
     {
         $html = str_replace(["\n", "\r", "\t"], "", $html);
         $html = preg_replace('# {2,}#', " ", $html);
@@ -36,22 +40,36 @@ abstract class ilMailBaseTest extends TestCase
         return trim($html);
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         if (!defined('ANONYMOUS_USER_ID')) {
             define('ANONYMOUS_USER_ID', 13);
         }
 
-        $GLOBALS['DIC'] = new Container();
+        global $DIC;
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
 
         parent::setUp();
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function tearDown(): void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
+    }
+
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
         $GLOBALS[$name] = $value;
+
 
         unset($DIC[$name]);
         $DIC[$name] = static function (Container $c) use ($name) {

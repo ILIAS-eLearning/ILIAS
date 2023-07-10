@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Data;
@@ -27,10 +29,10 @@ class HasMaxLength extends Constraint
     public function __construct(int $max_length, Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            static function ($value) use ($max_length) : bool {
+            static function ($value) use ($max_length): bool {
                 return strlen($value) <= $max_length;
             },
-            static function ($txt, $value) use ($max_length) : string {
+            static function ($txt, $value) use ($max_length): string {
                 return $txt("not_max_length", $max_length);
             },
             $data_factory,

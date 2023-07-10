@@ -1,0 +1,43 @@
+@use "sass:map";
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_legacy-and-ui-tag" as *;
+
+//== Tags
+
+.btn-tag {
+    display: inline-block;
+    white-space: nowrap;
+    padding: $il-padding-xs-vertical $il-padding-xs-horizontal;
+    margin: $il-padding-small-vertical $il-padding-small-horizontal $il-padding-small-vertical 0;
+    border-radius: $il-border-radius-secondary-small;
+
+    &.btn-tag-inactive {
+        cursor: default !important;
+    }
+
+    &.btn-tag-relevance-verylow {
+        color: map.get($tag-priority-text-colors, "verylow");
+        background-color: map.get($tag-priority-bg-colors, "verylow");
+    }
+
+    &.btn-tag-relevance-low {
+        color: map.get($tag-priority-text-colors, "low");
+        background-color: map.get($tag-priority-bg-colors, "low");
+    }
+
+    &.btn-tag-relevance-middle {
+        color: map.get($tag-priority-text-colors, "middle");
+        background-color: map.get($tag-priority-bg-colors, "middle");
+    }
+
+    &.btn-tag-relevance-high {
+        color: map.get($tag-priority-text-colors, "high");
+        background-color: map.get($tag-priority-bg-colors, "high");
+    }
+
+    &.btn-tag-relevance-veryhigh {
+        color: map.get($tag-priority-text-colors, "veryhigh");
+        background-color: map.get($tag-priority-bg-colors, "veryhigh");
+    }
+}

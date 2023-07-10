@@ -1,72 +1,80 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitOperationContextQueries
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @deprecated Please use OrgUnitOperationContextRepository
  */
 class ilOrgUnitOperationContextQueries
 {
+    protected static array $instance_by_name = array();
+    protected static ilOrgUnitOperationContextDBRepository $contextRepo;
 
-    /**
-     * @param      $context_name
-     * @param null $parent_context
-     * @throws \ilException
-     */
-    public static function registerNewContext($context_name, $parent_context = null)
+    protected static function getContextRepo()
     {
-        if (ilOrgUnitOperationContext::where(array('context' => $context_name))->hasSets()) {
-            throw new ilException('Context already registered');
+        if (!isset(self::$contextRepo)) {
+            $dic = ilOrgUnitLocalDIC::dic();
+            self::$contextRepo = $dic["repo.OperationContexts"];
         }
 
-        $parentList = ilOrgUnitOperationContext::where(array('context' => $parent_context));
-        $parent_id = 0;
-        if ($parent_context !== null && $parentList->hasSets()) {
-            /**
-             * @var $parent self
-             */
-            $parent = $parentList->first();
-            $parent_id = $parent->getId();
-        }
-
-        $context = new ilOrgUnitOperationContext();
-        $context->setContext($context_name);
-        $context->setParentContextId($parent_id);
-        $context->create();
+        return self::$contextRepo;
     }
 
     /**
-     * @var array
+     * @deprecated Please use get() from OrgUnitOperationContextRepository
      */
-    protected static $instance_by_name = array();
+    public static function registerNewContext(string $context_name, ?string $parent_context = null): void
+    {
+        $context = self::getContextRepo()->get($context_name, $parent_context);
+    }
+
 
     /**
-     * @param $context_name
-     * @return \ilOrgUnitOperationContext
+     * @deprecated Please use find() from OrgUnitOperationContextRepository
+     * @throws ilException
      */
-    public static function findByName($context_name)
+    public static function findByName(string $context_name): ilOrgUnitOperationContext
     {
         if (!isset(self::$instance_by_name[$context_name])) {
-            self::$instance_by_name[$context_name] = ilOrgUnitOperationContext::where(array('context' => $context_name))
-                                                                              ->first();
+            $context = self::getContextRepo()->find($context_name);
+            if (!$context) {
+                throw new ilException("Context not found");
+            }
+            self::$instance_by_name[$context_name] = $context;
         }
 
         return self::$instance_by_name[$context_name];
     }
 
     /**
-     * @param int $id
-     * @return \ilOrgUnitOperationContext
+     * @deprecated Please use find() from OrgUnitOperationContextRepository for context name
+     * Contexts should not be referenced by Id
      */
-    public static function findById($id)
+    public static function findById(int $id): ilOrgUnitOperationContext
     {
-        return ilOrgUnitOperationContext::find($id);
+        return self::getContextRepo()->getById($id);
     }
 
     /**
-     * @param int $ref_id
-     * @return \ilOrgUnitOperationContext
+     * @deprecated Please use getByRefId() from OrgUnitOperationContextRepository
      */
-    public static function findByRefId($ref_id)
+    public static function findByRefId(int $ref_id): ilOrgUnitOperationContext
     {
         $type_context = ilObject2::_lookupType($ref_id, true);
 
@@ -74,10 +82,9 @@ class ilOrgUnitOperationContextQueries
     }
 
     /**
-     * @param int $obj_id
-     * @return \ilOrgUnitOperationContext
+     * @deprecated Please use getByObjId() from OrgUnitOperationContextRepository
      */
-    public static function findByObjId($obj_id)
+    public static function findByObjId(int $obj_id): ilOrgUnitOperationContext
     {
         $type_context = ilObject2::_lookupType($obj_id, false);
 

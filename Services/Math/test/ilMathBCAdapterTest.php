@@ -23,7 +23,7 @@ class ilMathBCAdapterTest extends ilMathBaseAdapterTest
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         if (!extension_loaded('bcmath')) {
             $this->markTestSkipped('Could not execute test due to missing bcmath extension!');
@@ -36,7 +36,7 @@ class ilMathBCAdapterTest extends ilMathBaseAdapterTest
     /**
      * @return array
      */
-    public function powData() : array
+    public function powData(): array
     {
         return array_merge([
             ['2', '64', '18446744073709551616', null],

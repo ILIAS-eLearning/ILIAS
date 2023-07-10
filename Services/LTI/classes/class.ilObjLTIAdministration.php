@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
-/******************************************************************************
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilObjLTIAdministration
  * @author Jesús López <lopez@leifos.com>
@@ -29,7 +34,7 @@ class ilObjLTIAdministration extends ilObject
     /**
      * @return string[] Array of lti provider supportting object types
      */
-    public function getLTIObjectTypes() : array
+    public function getLTIObjectTypes(): array
     {
         $obj_def = new ilObjectDefinition();
         return $obj_def->getLTIProviderTypes();
@@ -38,7 +43,7 @@ class ilObjLTIAdministration extends ilObject
     /**
      * @return array available roles for LTI
      */
-    public function getLTIRoles() : array
+    public function getLTIRoles(): array
     {
         global $rbacreview;
 
@@ -59,18 +64,16 @@ class ilObjLTIAdministration extends ilObject
      * @param int   $a_consumer_id
      * @param array $a_obj_types
      */
-    public function saveConsumerObjectTypes(int $a_consumer_id, array $a_obj_types) : void
+    public function saveConsumerObjectTypes(int $a_consumer_id, array $a_obj_types): void
     {
-        global $ilDB;
-
-        $ilDB->manipulate("DELETE FROM lti_ext_consumer_otype WHERE consumer_id = " . $ilDB->quote($a_consumer_id, "integer"));
+        $this->db->manipulate("DELETE FROM lti_ext_consumer_otype WHERE consumer_id = " . $this->db->quote($a_consumer_id, "integer"));
 
         if ($a_obj_types) {
             $query = "INSERT INTO lti_ext_consumer_otype (consumer_id, object_type) VALUES (%s, %s)";
             $types = array("integer", "text");
             foreach ($a_obj_types as $ot) {
                 $values = array($a_consumer_id, $ot);
-                $ilDB->manipulateF($query, $types, $values);
+                $this->db->manipulateF($query, $types, $values);
             }
         }
     }
@@ -78,7 +81,7 @@ class ilObjLTIAdministration extends ilObject
     /**
      * @return array consumer active objects
      */
-    public static function getActiveObjectTypes(int $a_consumer_id) : array
+    public static function getActiveObjectTypes(int $a_consumer_id): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -91,17 +94,17 @@ class ilObjLTIAdministration extends ilObject
         }
         return $obj_ids;
     }
-    
+
     /**
      * Check if any consumer is enabled for an object type
      */
-    public static function isEnabledForType(string $a_type) : bool
+    public static function isEnabledForType(string $a_type): bool
     {
         /**
          * @var ilDBInterface
          */
         $db = $GLOBALS['DIC']->database();
-        
+
         $query = 'select id from lti_ext_consumer join lti_ext_consumer_otype on id = consumer_id ' .
             'WHERE active = ' . $db->quote(1, 'integer') . ' ' .
             'AND object_type = ' . $db->quote($a_type, 'text');
@@ -111,36 +114,36 @@ class ilObjLTIAdministration extends ilObject
         }
         return false;
     }
-    
+
     /**
      * Get enabled consumers for type
      * @param string object type
-     * @return ilLTIToolConsumer[]
+     * @return ilLTIPlatform[]
      */
-    public static function getEnabledConsumersForType(string $a_type) : array
+    public static function getEnabledConsumersForType(string $a_type): array
     {
         /**
          * @var ilDBInterface
          */
         $db = $GLOBALS['DIC']->database();
-        
+
         $query = 'select distinct(id) id from lti_ext_consumer join lti_ext_consumer_otype on id = consumer_id ' .
             'WHERE active = ' . $db->quote(1, 'integer') . ' ' .
             'AND object_type = ' . $db->quote($a_type, 'text');
         $res = $db->query($query);
-        
+
         $connector = new ilLTIDataConnector();
         $consumers = array();
         while ($row = $res->fetchObject()) {
-            $consumers[] = ilLTIToolConsumer::fromExternalConsumerId((int) $row->id, $connector);
+            $consumers[] = ilLTIPlatform::fromExternalConsumerId((int) $row->id, $connector);
         }
         return $consumers;
     }
-    
+
     /**
      * Lookup ref_id
      */
-    public static function lookupLTISettingsRefId() : ?int
+    public static function lookupLTISettingsRefId(): ?int
     {
         $lti_ref_id = null;
         $res = $GLOBALS['DIC']->database()->queryF(
@@ -158,26 +161,26 @@ class ilObjLTIAdministration extends ilObject
         }
         return $lti_ref_id;
     }
-    
+
     /**
      * Read released objects
      * @return array<int, array<string, mixed>>
      */
-    public static function readReleaseObjects() : array
+    public static function readReleaseObjects(): array
     {
         $db = $GLOBALS['DIC']->database();
-        
+
         $query = 'select ref_id, title from lti2_consumer join lti_ext_consumer ' .
             'on id = ext_consumer_id where enabled = ' . $db->quote(1, 'integer');
         $res = $db->query($query);
-        
+
         ilLoggerFactory::getLogger('ltis')->debug($query);
-        
+
         $rows = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $item['ref_id'] = $row->ref_id;
             $item['title'] = $row->title;
-            
+
             $rows[] = $item;
         }
         return $rows;

@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,12 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Cron for booking pools
@@ -34,12 +35,12 @@ class ilBookingPrefBookCron extends ilCronJob
         $this->lng = $DIC->language();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "book_pref_book";
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
 
@@ -48,7 +49,7 @@ class ilBookingPrefBookCron extends ilCronJob
         return $lng->txt("book_pref_book_cron");
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         $lng = $this->lng;
 
@@ -57,27 +58,27 @@ class ilBookingPrefBookCron extends ilCronJob
         return $lng->txt("book_pref_book_cron_info");
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $cron_status = ilCronJobResult::STATUS_NO_ACTION;
         $message = "";

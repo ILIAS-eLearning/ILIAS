@@ -1,0 +1,38 @@
+body#tinymce, body.mceContentBody {
+	height: auto;
+}
+
+body#tinymce {
+	background-color: white;
+	overflow: initial;
+}
+
+html.il-no-tiny-bg body#tinymce {
+	background-color: transparent;
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+.mceEditor, .mceLayout {
+	width: 100% !important;
+}
+
+table.mceLayout {
+	table-layout: fixed;
+}
+
+.mceIframeContainer iframe {
+	max-width: 100%;
+}
+
+table.mceToolbar {
+	table-layout: fixed;
+	display: inline-block;
+	float: left;
+	height: auto !important;
+	max-width: 100%;
+	tbody, tr, td {
+		display: inline-block;
+		white-space: normal !important;
+	}
+}

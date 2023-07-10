@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
-/******************************************************************************
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Description of class
  *
@@ -20,12 +25,9 @@
  */
 class ilSCORMTrackingItemsPerScoTableGUI extends ilTable2GUI
 {
-    private int $obj_id = 0;
+    private int $obj_id;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_obj_id, ?object $a_parent_obj, string $a_parent_cmd)
+    public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd)
     {
         $this->obj_id = $a_obj_id;
 
@@ -33,11 +35,7 @@ class ilSCORMTrackingItemsPerScoTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    /**
-     * Get Obj id
-     * @return int
-     */
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
@@ -45,11 +43,11 @@ class ilSCORMTrackingItemsPerScoTableGUI extends ilTable2GUI
     /**
      * Parse table content
      */
-    public function parse() : void
+    public function parse(): void
     {
         $this->initTable();
 
-        $scos = $this->getParentObject()->object->getTrackedItems();
+        $scos = $this->getParentObject()->getTrackedItems();
 
         $data = array();
         foreach ($scos as $row) {
@@ -65,9 +63,8 @@ class ilSCORMTrackingItemsPerScoTableGUI extends ilTable2GUI
 
     /**
      * Fill row template
-     * @param array $a_set
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -77,10 +74,7 @@ class ilSCORMTrackingItemsPerScoTableGUI extends ilTable2GUI
         $this->tpl->setVariable('LINK_ITEM', $ilCtrl->getLinkTarget($this->getParentObject(), 'showTrackingItemSco'));
     }
 
-    /**
-     * Init table
-     */
-    protected function initTable() : void
+    protected function initTable(): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();

@@ -1,5 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * Description of ilDidacticTemplateSettingsTableGUI
@@ -11,15 +16,18 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
     private $ref_id;
 
     private ilAccessHandler $access;
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
 
-    /**
-     * Constructor
-     */
     public function __construct(object $a_parent_obj, string $a_parent_cmd, int $ref_id)
     {
         global $DIC;
         $this->ref_id = $ref_id;
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
+
         $this->setId('tbl_didactic_tpl_settings');
 
         $this->access = $DIC->access();
@@ -28,7 +36,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init() : void
+    public function init(): void
     {
         $this->addColumn('', 'f', '1px');
         $this->lng->loadLanguageModule('search');
@@ -58,7 +66,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
     /**
      * Parse didactic templates
      */
-    public function parse(ilDidacticTemplateSettingsTableFilter $filter) : void
+    public function parse(ilDidacticTemplateSettingsTableFilter $filter): void
     {
         $tpls = ilDidacticTemplateSettings::getInstance();
         $tpls->readInactive();
@@ -90,11 +98,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    /**
-     * Fill row
-     * @param array $a_set
-     */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
@@ -103,7 +107,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         $this->tpl->setVariable('VAL_DESC', $a_set['description']);
 
-        if (strlen($a_set['icon'])) {
+        if (($a_set['icon'] ?? '') !== '') {
             $this->tpl->setVariable('ICON_SRC', $a_set['icon']);
             foreach ((array) $a_set['assignments'] as $obj_type) {
                 $this->tpl->setVariable('ICON_ALT', $this->lng->txt('objs_' . $obj_type));
@@ -163,36 +167,29 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('scope_txt');
             $this->tpl->setVariable(
                 'LOCAL_OR_GLOBAL',
-                $a_set['local'] ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global')
+                isset($a_set['local']) ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global')
             );
             $this->tpl->parseCurrentBlock();
         }
 
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
-            $actions = new ilAdvancedSelectionListGUI();
-            $actions->setId((string) $a_set['id']);
-            $actions->setListTitle($this->lng->txt("actions"));
-            // Edit
-            $actions->addItem(
-                $this->lng->txt('settings'),
-                '',
-                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'editTemplate')
+            $dropDownItems = array(
+                $this->uiFactory->button()->shy(
+                    $this->lng->txt('settings'),
+                    $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'editTemplate')
+                ),
+                $this->uiFactory->button()->shy(
+                    $this->lng->txt('copy'),
+                    $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'copyTemplate')
+                ),
+                $this->uiFactory->button()->shy(
+                    $this->lng->txt('didactic_do_export'),
+                    $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
+                )
             );
-
-            // Copy
-            $actions->addItem(
-                $this->lng->txt('copy'),
-                '',
-                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'copyTemplate')
-            );
-
-            // Export
-            $actions->addItem(
-                $this->lng->txt('didactic_do_export'),
-                '',
-                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
-            );
-            $this->tpl->setVariable('ACTION_DROPDOWN', $actions->getHTML());
+            $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                    ->withLabel($this->lng->txt("actions"));
+            $this->tpl->setVariable('ACTION_DROPDOWN', $this->renderer->render($dropDown));
         } else {
             //don't use dropdown if just one item is given ...
             // Export

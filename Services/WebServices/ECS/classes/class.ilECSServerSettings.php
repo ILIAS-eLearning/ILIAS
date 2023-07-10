@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
  * Collection of ECS settings
@@ -51,7 +54,7 @@ class ilECSServerSettings
      *
      * @return ilECSServerSettings
      */
-    public static function getInstance() : ilECSServerSettings
+    public static function getInstance(): ilECSServerSettings
     {
         return self::$instance ?? (self::$instance = new ilECSServerSettings());
     }
@@ -60,7 +63,7 @@ class ilECSServerSettings
      * Check if there is any active server
      * @return bool
      */
-    public function activeServerExists() : bool
+    public function activeServerExists(): bool
     {
         return count($this->getServers(static::ACTIVE_SERVER)) ? true : false;
     }
@@ -68,7 +71,7 @@ class ilECSServerSettings
     /**
      * Check if there is any server
      */
-    public function serverExists() : bool
+    public function serverExists(): bool
     {
         return count($this->getServers(static::ALL_SERVER)) ? true : false;
     }
@@ -78,7 +81,7 @@ class ilECSServerSettings
      * The function must be called with  ALL_SERVER, ACTIVE_SERVER or INACTIVE_SERVER
      * @return ilECSSetting[]
      */
-    public function getServers(int $server_type) : array
+    public function getServers(int $server_type): array
     {
         switch ($server_type) {
             case static::ALL_SERVER:
@@ -98,7 +101,7 @@ class ilECSServerSettings
     /**
      * Read all servers
      */
-    private function readServers() : void
+    private function readServers(): void
     {
         $query = 'SELECT server_id FROM ecs_server ' .
             'ORDER BY title ';

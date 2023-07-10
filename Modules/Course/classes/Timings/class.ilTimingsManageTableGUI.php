@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,9 +16,11 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * TableGUI class for timings administration
@@ -31,6 +35,8 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 
     protected Refinery $refinery;
     protected HTTPServices $http;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
 
     /**
@@ -46,6 +52,8 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->container = $a_container_obj;
         $this->main_container = $a_main_container;
@@ -53,12 +61,12 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         parent::__construct($a_parent_class, $a_parent_cmd);
     }
 
-    public function getContainerObject() : ilObject
+    public function getContainerObject(): ilObject
     {
         return $this->container;
     }
 
-    public function getMainContainer() : ilObjCourse
+    public function getMainContainer(): ilObjCourse
     {
         return $this->main_container;
     }
@@ -66,7 +74,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init() : void
+    public function init(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setRowTemplate('tpl.crs_manage_timings_row.html', 'Modules/Course');
@@ -88,46 +96,50 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(false);
     }
 
-    public function setFailureStatus(bool $a_status) : void
+    public function setFailureStatus(bool $a_status): void
     {
         $this->failure = $a_status;
     }
 
-    public function getFailureStatus() : bool
+    public function getFailureStatus(): bool
     {
         return $this->failure;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
-        if ($a_set['error'] == true) {
+        if ($a_set['error'] ?? false) {
             $this->tpl->setVariable('TD_CLASS', 'warning');
         } else {
             $this->tpl->setVariable('TD_CLASS', 'std');
         }
 
         // title
-        if (strlen($a_set['title_link'])) {
+        if (strlen($a_set['title_link'] ?? '')) {
             $this->tpl->setCurrentBlock('title_link');
-            $this->tpl->setVariable('TITLE_LINK', $a_set['title_link']);
-            $this->tpl->setVariable('TITLE_LINK_NAME', $a_set['title']);
+            $this->tpl->setVariable('TITLE_LINK', $a_set['title_link'] ?? '');
+            $this->tpl->setVariable('TITLE_LINK_NAME', $a_set['title'] ?? '');
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock('title_plain');
-            $this->tpl->setVariable('TITLE', $a_set['title']);
+            $this->tpl->setVariable('TITLE', $a_set['title'] ?? '');
             $this->tpl->parseCurrentBlock();
         }
-        if (strlen($a_set['desc'])) {
+        if (strlen($a_set['desc'] ?? '')) {
             $this->tpl->setCurrentBlock('item_description');
-            $this->tpl->setVariable('DESC', $a_set['desc']);
+            $this->tpl->setVariable('DESC', $a_set['desc'] ?? '');
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($a_set['failure']) {
+        if ($a_set['failure'] ?? false) {
+            $icon = $this->ui_factory->symbol()->icon()->custom(
+                ilUtil::getImagePath("icon_alert.svg"),
+                $this->lng->txt("alert"),
+                'medium'
+            );
             $this->tpl->setCurrentBlock('alert');
-            $this->tpl->setVariable('IMG_ALERT', ilUtil::getImagePath("icon_alert.svg"));
-            $this->tpl->setVariable('ALT_ALERT', $this->lng->txt("alert"));
-            $this->tpl->setVariable("TXT_ALERT", $this->lng->txt($a_set['failure']));
+            $this->tpl->setVariable('IMG_ALERT', $this->ui_renderer->render($icon));
+            $this->tpl->setVariable("TXT_ALERT", $this->lng->txt($a_set['failure'] ?? ''));
             $this->tpl->parseCurrentBlock();
         }
 
@@ -209,7 +221,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         }
     }
 
-    public function parse(array $a_item_data, array $a_failed_update = array()) : void
+    public function parse(array $a_item_data, array $a_failed_update = array()): void
     {
         $rows = array();
         foreach ($a_item_data as $item) {
@@ -234,7 +246,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    protected function parseTitle(array $current_row, array $item) : array
+    protected function parseTitle(array $current_row, array $item): array
     {
         switch ($item['type']) {
             case 'fold':
@@ -251,7 +263,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
                     $current_row['title'] = ilSessionAppointment::_appointmentToString(
                         $app_info['start'],
                         $app_info['end'],
-                        $app_info['fullday']
+                        (bool) $app_info['fullday']
                     );
                 }
                 $current_row['title_link'] = ilLink::_getLink($item['ref_id'], $item['type']);
@@ -261,7 +273,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
                 $current_row['title'] = $item['title'];
                 $current_row['title_link'] = '';
                 break;
-
         }
         $current_row['desc'] = $item['desc'];
 

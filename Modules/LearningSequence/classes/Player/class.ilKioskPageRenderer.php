@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Component\Component;
@@ -26,7 +28,6 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 
 class ilKioskPageRenderer
 {
-    protected ilGlobalPageTemplate $il_tpl;
     protected MetaContent $layout_meta_content;
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
@@ -37,7 +38,6 @@ class ilKioskPageRenderer
     protected string $window_base_title;
 
     public function __construct(
-        ilGlobalPageTemplate $il_global_template,
         MetaContent $layout_meta_content,
         Factory $ui_factory,
         Renderer $ui_renderer,
@@ -47,7 +47,6 @@ class ilKioskPageRenderer
         ilLSLocatorGUI $loc_gui,
         string $window_base_title
     ) {
-        $this->il_tpl = $il_global_template;
         $this->layout_meta_content = $layout_meta_content;
         $this->ui_factory = $ui_factory;
         $this->ui_renderer = $ui_renderer;
@@ -58,38 +57,36 @@ class ilKioskPageRenderer
         $this->window_base_title = $window_base_title;
     }
 
-    public function buildCurriculumSlate(Workflow $curriculum) : Slate
+    public function buildCurriculumSlate(Workflow $curriculum): Slate
     {
         $f = $this->ui_factory;
         return $this->ui_factory->maincontrols()->slate()->legacy(
             $this->lng->txt('lso_mainbar_button_label_curriculum'),
-            $f->symbol()->icon()->standard("lso", "Learning Sequence")
-                ->withIsOutlined(true),
+            $f->symbol()->icon()->standard("lso", "Learning Sequence"),
             $this->ui_factory->legacy(
                 $this->ui_renderer->render($curriculum)
             )
         );
     }
 
-    public function buildToCSlate(LSTOCBuilder $toc, Icon $icon) : Slate
+    public function buildToCSlate(LSTOCBuilder $toc, Icon $icon): Slate
     {
         $html = $this->toc_gui
             ->withStructure($toc->toJSON())
             ->getHTML();
         return $this->ui_factory->maincontrols()->slate()->legacy(
             $this->lng->txt('lso_mainbar_button_label_toc'),
-            $icon->withSize("small")->withIsOutlined(true),
+            $icon->withSize("small"),
             $this->ui_factory->legacy($html)
         );
     }
-
 
     public function render(
         LSControlBuilder $control_builder,
         string $obj_title,
         Component $icon,
         array $content
-    ) : string {
+    ): string {
         $this->tpl->setVariable(
             "OBJECT_ICON",
             $this->ui_renderer->render($icon)

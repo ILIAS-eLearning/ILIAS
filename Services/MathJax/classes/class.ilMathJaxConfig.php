@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -66,7 +68,7 @@ class ilMathJaxConfig
     /**
      * Should latex code be rendered in the browser
      */
-    public function isClientEnabled() : bool
+    public function isClientEnabled(): bool
     {
         return $this->client_enabled;
     }
@@ -74,7 +76,7 @@ class ilMathJaxConfig
     /**
      * Url of a javascript polyfill (needed by MathJax 3)
      */
-    public function getClintPolyfillUrl() : string
+    public function getClintPolyfillUrl(): string
     {
         return $this->client_polyfill_url;
     }
@@ -82,7 +84,7 @@ class ilMathJaxConfig
     /**
      * Url of Mathjax script to be embedded with script tag on the page
      */
-    public function getClientScriptUrl() : string
+    public function getClientScriptUrl(): string
     {
         return $this->client_script_url;
     }
@@ -90,7 +92,7 @@ class ilMathJaxConfig
     /**
      * Type of enclosing limiters for wich the embedded client-side Mathjax is configured
      */
-    public function getClientLimiter() : int
+    public function getClientLimiter(): int
     {
         return $this->client_limiter;
     }
@@ -99,7 +101,7 @@ class ilMathJaxConfig
      * Get the avaliable options for the client limiters
      * @return array limiter => display text
      */
-    public function getClientLimiterOptions() : array
+    public function getClientLimiterOptions(): array
     {
         return [
             self::LIMITER_MATHJAX => '\&#8203;(...\&#8203;)',
@@ -111,7 +113,7 @@ class ilMathJaxConfig
     /**
      * Start limiter of Latex code which the client-side Mathjax searches for
      */
-    public function getClientLimiterStart() : string
+    public function getClientLimiterStart(): string
     {
         switch ($this->client_limiter) {
             case self::LIMITER_TEX:
@@ -127,7 +129,7 @@ class ilMathJaxConfig
     /**
      * End limiter of Latex code which the client-side Mathjax searches for
      */
-    public function getClientLimiterEnd() : string
+    public function getClientLimiterEnd(): string
     {
         switch ($this->client_limiter) {
             case self::LIMITER_TEX:
@@ -143,7 +145,7 @@ class ilMathJaxConfig
     /**
      * Is a server side rendering engine configured and enabled
      */
-    public function isServerEnabled() : bool
+    public function isServerEnabled(): bool
     {
         return $this->server_enabled;
     }
@@ -151,7 +153,7 @@ class ilMathJaxConfig
     /**
      * Url of Mathjax server
      */
-    public function getServerAddress() : string
+    public function getServerAddress(): string
     {
         return $this->server_address;
     }
@@ -159,7 +161,7 @@ class ilMathJaxConfig
     /**
      * timeout (s) to wait for the result of the rendering server
      */
-    public function getServerTimeout() : int
+    public function getServerTimeout(): int
     {
         return $this->server_timeout;
     }
@@ -167,7 +169,7 @@ class ilMathJaxConfig
     /**
      * Should the server-side rendingeing be used for browser output
      */
-    public function isServerForBrowser() : bool
+    public function isServerForBrowser(): bool
     {
         return $this->server_for_browser;
     }
@@ -175,7 +177,7 @@ class ilMathJaxConfig
     /**
      * Should the server-side rendingeing be used for HTML exports
      */
-    public function isServerForExport() : bool
+    public function isServerForExport(): bool
     {
         return $this->server_for_export;
     }
@@ -183,7 +185,7 @@ class ilMathJaxConfig
     /**
      * Should the server-side rendingeing be used for PDF generation
      */
-    public function isServerForPdf() : bool
+    public function isServerForPdf(): bool
     {
         return $this->server_for_pdf;
     }
@@ -191,7 +193,7 @@ class ilMathJaxConfig
     /**
      * Enable latex code bing rendered in the browser
      */
-    public function withClientEnabled(bool $client_enabled) : ilMathJaxConfig
+    public function withClientEnabled(bool $client_enabled): ilMathJaxConfig
     {
         $clone = clone $this;
         $clone->client_enabled = $client_enabled;
@@ -201,7 +203,7 @@ class ilMathJaxConfig
     /**
      * Set the url of a polyfill script neededby MathJax 3
      */
-    public function withClientPolyfillUrl(string $client_js_url) : ilMathJaxConfig
+    public function withClientPolyfillUrl(string $client_js_url): ilMathJaxConfig
     {
         $clone = clone $this;
         $clone->client_polyfill_url = $client_js_url;
@@ -211,7 +213,7 @@ class ilMathJaxConfig
     /**
      * Set the url of Mathjax script to be embedded on the page (for MathJax 3)
      */
-    public function withClientScriptUrl(string $client_async_url) : ilMathJaxConfig
+    public function withClientScriptUrl(string $client_async_url): ilMathJaxConfig
     {
         $clone = clone $this;
         $clone->client_script_url = $client_async_url;
@@ -221,7 +223,7 @@ class ilMathJaxConfig
     /**
      * Set the type of enclosing limiters for wich the embedded client-side Mathjax is configured
      */
-    public function withClientLimiter(int $client_limiter) : ilMathJaxConfig
+    public function withClientLimiter(int $client_limiter): ilMathJaxConfig
     {
         $clone = clone $this;
         $clone->client_limiter = $client_limiter;
@@ -231,7 +233,7 @@ class ilMathJaxConfig
     /**
      * Enable a server side rendering engine configured and enabled
      */
-    public function withServerEnabled(bool $server_enabled) : ilMathJaxConfig
+    public function withServerEnabled(bool $server_enabled): ilMathJaxConfig
     {
         $clone = clone $this;
         $clone->server_enabled = $server_enabled;
@@ -241,7 +243,7 @@ class ilMathJaxConfig
     /**
      * Set the url of the Mathjax server
      */
-    public function withServerAddress(string $server_address) : ilMathJaxConfig
+    public function withServerAddress(string $server_address): ilMathJaxConfig
     {
         $clone = clone $this;
         $clone->server_address = $server_address;
@@ -251,7 +253,7 @@ class ilMathJaxConfig
     /**
      * Set the timeout (s) to wait for the result of the rendering server
      */
-    public function withServerTimeout(int $server_timeout) : ilMathJaxConfig
+    public function withServerTimeout(int $server_timeout): ilMathJaxConfig
     {
         $clone = clone $this;
         $clone->server_timeout = $server_timeout;
@@ -261,7 +263,7 @@ class ilMathJaxConfig
     /**
      * Enable the server-side rendingeing for browser output
      */
-    public function withServerForBrowser(bool $server_for_browser) : ilMathJaxConfig
+    public function withServerForBrowser(bool $server_for_browser): ilMathJaxConfig
     {
         $clone = clone $this;
         $clone->server_for_browser = $server_for_browser;
@@ -271,7 +273,7 @@ class ilMathJaxConfig
     /**
      * Enable the server-side rendingeing for HTML exports
      */
-    public function withServerForExport(bool $server_for_export) : ilMathJaxConfig
+    public function withServerForExport(bool $server_for_export): ilMathJaxConfig
     {
         $clone = clone $this;
         $clone->server_for_export = $server_for_export;
@@ -281,7 +283,7 @@ class ilMathJaxConfig
     /**
      * Enable the server-side rendingeing for PDF generation
      */
-    public function withServerForPdf(bool $server_for_pdf) : ilMathJaxConfig
+    public function withServerForPdf(bool $server_for_pdf): ilMathJaxConfig
     {
         $clone = clone $this;
         $clone->server_for_pdf = $server_for_pdf;

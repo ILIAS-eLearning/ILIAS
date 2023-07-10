@@ -1,18 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -24,52 +28,51 @@ class ilServicesActiveRecordConnectorTest extends TestCase
      * @var ilDBInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $db_mock;
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         global $DIC;
         $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
-        
+
         $DIC = new Container();
         $DIC['ilDB'] = $this->db_mock = $this->createMock(ilDBInterface::class);
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
         $DIC = $this->dic_backup;
     }
-    
-    public function testDbConnector() : void
+
+    public function testDbConnector(): void
     {
-        $test_ar = new ilBiblEntry();
+        $ilBiblEntry = new ilBiblEntry();
         $this->db_mock->expects($this->once())
                       ->method('nextId')
                       ->with(ilBiblEntry::TABLE_NAME)
                       ->willReturn(1);
-        
-        $connector = new arConnectorDB();
-        $this->assertEquals(1, $connector->nextID($test_ar));
-        
+
+        $arConnectorDB = new arConnectorDB($this->db_mock);
+        $this->assertEquals(1, $arConnectorDB->nextID($ilBiblEntry));
+
         $this->db_mock->expects($this->once())
                       ->method('tableExists')
                       ->with(ilBiblEntry::TABLE_NAME)
                       ->willReturn(true);
-        $this->assertEquals(true, $connector->checkTableExists($test_ar));
-        
+        $this->assertEquals(true, $arConnectorDB->checkTableExists($ilBiblEntry));
+
         $this->db_mock->expects($this->once())
                       ->method('tableColumnExists')
                       ->with(ilBiblEntry::TABLE_NAME, 'data_id')
                       ->willReturn(true);
-        $this->assertEquals(true, $connector->checkFieldExists($test_ar, 'data_id'));
+        $this->assertEquals(true, $arConnectorDB->checkFieldExists($ilBiblEntry, 'data_id'));
     }
-    
-    public function testConnectorMap() : void
+
+    public function testConnectorMap(): void
     {
-        $cache_connector = new arConnectorCache(new arConnectorDB());
-        $ar = new class extends ActiveRecord {
+        $arConnectorCache = new arConnectorCache(new arConnectorDB($this->db_mock));
+        $ar = new class () extends ActiveRecord {
             /**
-             * @var int
              *
              * @con_is_primary true
              * @con_is_unique  true
@@ -79,7 +82,7 @@ class ilServicesActiveRecordConnectorTest extends TestCase
              */
             protected int $id = 0;
         };
-        arConnectorMap::register($ar, $cache_connector);
-        $this->assertEquals($cache_connector, arConnectorMap::get($ar));
+        arConnectorMap::register($ar, $arConnectorCache);
+        $this->assertEquals($arConnectorCache, arConnectorMap::get($ar));
     }
 }

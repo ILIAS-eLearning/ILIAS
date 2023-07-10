@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Select repository nodes
@@ -23,22 +28,26 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 {
     protected ?Closure $title_modifier = null;
 
+    /**
+     * @param object|null $forwarder object that forwards to ilFormPropertyDispatchGUI, usually a form object
+     *                               but might be a table as well, e.g. if inputs are used in filter
+     */
     public function __construct(
         string $a_title,
         string $a_postvar,
         bool $a_multi = false,
-        ?ilPropertyFormGUI $form = null
+        ?object $forwarder = null
     ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->multi_nodes = $a_multi;
         $this->postvar = $a_postvar;
-        $form_class = (is_null($form))
+        $forwarder_class = (is_null($forwarder))
             ? ilPropertyFormGUI::class
-            : get_class($form);
+            : get_class($forwarder);
         $this->explorer_gui = new ilRepositorySelectorExplorerGUI(
-            [$form_class, ilFormPropertyDispatchGUI::class, ilRepositorySelector2InputGUI::class],
+            [$forwarder_class, ilFormPropertyDispatchGUI::class, ilRepositorySelector2InputGUI::class],
             $this->getExplHandleCmd(),
             $this,
             "selectRepositoryItem",
@@ -51,7 +60,7 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
         $this->setType("rep_select");
     }
 
-    public function setTitleModifier(?Closure $a_val) : void
+    public function setTitleModifier(?Closure $a_val): void
     {
         $this->title_modifier = $a_val;
         if ($a_val != null) {
@@ -63,12 +72,12 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
         }
     }
 
-    public function getTitleModifier() : ?Closure
+    public function getTitleModifier(): ?Closure
     {
         return $this->title_modifier;
     }
 
-    public function getTitleForNodeId($a_id) : string
+    public function getTitleForNodeId($a_id): string
     {
         $c = $this->getTitleModifier();
         if (is_callable($c)) {
@@ -77,17 +86,24 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
         return ilObject::_lookupTitle(ilObject::_lookupObjId((int) $a_id));
     }
 
-    public function getExplorerGUI() : ilRepositorySelectorExplorerGUI
+    public function getExplorerGUI(): ilRepositorySelectorExplorerGUI
     {
         return $this->explorer_gui;
     }
 
-    public function setExplorerGUI(\ilRepositorySelectorExplorerGUI $explorer) : void
+    public function setExplorerGUI(\ilRepositorySelectorExplorerGUI $explorer): void
     {
         $this->explorer_gui = $explorer;
     }
 
-    public function getHTML() : string
+    public function getOnloadCode(): array
+    {
+        return [
+            "il.Explorer2.initSelect('" . $this->getFieldId() . "');"
+        ];
+    }
+
+    public function getHTML(): string
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->postvar);
@@ -96,7 +112,7 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
         return $html;
     }
 
-    public function render(string $a_mode = "property_form") : string
+    public function render(string $a_mode = "property_form"): string
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->postvar);

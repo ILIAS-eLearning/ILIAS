@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,68 +16,55 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateQueueEntry
 {
-    private int $objId;
-    private int $userId;
-    private string $adapterClass;
-    private string $state;
-    private ?int $startedTimestamp;
-    private ?int $id;
-    private int $templateId;
-
     public function __construct(
-        int $objId,
-        int $userId,
-        string $adapterClass,
-        string $state,
-        int $templateId,
-        ?int $startedTimestamp = null,
-        ?int $id = null
+        private readonly int $objId,
+        private readonly int $userId,
+        private readonly string $adapterClass,
+        private readonly string $state,
+        private readonly int $templateId,
+        private readonly ?int $startedTimestamp = null,
+        private readonly ?int $id = null
     ) {
-        $this->objId = $objId;
-        $this->userId = $userId;
-        $this->adapterClass = $adapterClass;
-        $this->state = $state;
-        $this->templateId = $templateId;
-        $this->startedTimestamp = $startedTimestamp;
-        $this->id = $id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->objId;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    public function getAdapterClass() : string
+    public function getAdapterClass(): string
     {
         return $this->adapterClass;
     }
 
-    public function getState() : string
+    public function getState(): string
     {
         return $this->state;
     }
 
-    public function getStartedTimestamp() : int
+    public function getStartedTimestamp(): int
     {
         return $this->startedTimestamp;
     }
 
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTemplateId() : int
+    public function getTemplateId(): int
     {
         return $this->templateId;
     }

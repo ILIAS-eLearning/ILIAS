@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -68,17 +71,17 @@ class ilLMNavigationRendererGUI
         $this->lang = $service->getPresentationStatus()->getLang();
     }
 
-    public function renderTop() : string
+    public function renderTop(): string
     {
         return $this->render();
     }
 
-    public function renderBottom() : string
+    public function renderBottom(): string
     {
         return $this->render(false);
     }
 
-    protected function render(bool $top = true) : string
+    protected function render(bool $top = true): string
     {
         $page_id = $this->current_page;
 
@@ -210,14 +213,13 @@ class ilLMNavigationRendererGUI
                 if (!$this->offline) {
                     if ($this->lm->getRestrictForwardNavigation()) {
                         if ($this->tracker->hasPredIncorrectAnswers($succ_id)) {
-                            $this->main_tpl->addOnLoadCode("$('.ilc_page_rnav_RightNavigation').addClass('ilNoDisplay');");
+                            $this->main_tpl->addOnLoadCode("il.LearningModule.hideNextNavigation();");
                         }
                     }
                 }
             }
         }
-
-        $tpl->setVariable("CLASS", ($top) ? "tnav_Top": "bnav_Bottom");
+        $tpl->setVariable("CLASS", ($top) ? "tnav_Top" : "bnav_Bottom");
 
         return $tpl->get();
     }

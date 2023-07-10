@@ -1,6 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -37,7 +52,7 @@ class Select extends Input implements C\Input\Field\Select
     /**
      * @return array with the key/value options.
      */
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options;
     }
@@ -45,7 +60,7 @@ class Select extends Input implements C\Input\Field\Select
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         return in_array($value, array_keys($this->options)) || $value == "";
     }
@@ -53,17 +68,24 @@ class Select extends Input implements C\Input\Field\Select
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
-        return $this->refinery->string()->hasMinLength(1);
+        if ($this->requirement_constraint !== null) {
+            return $this->requirement_constraint;
+        }
+
+        return $this->refinery->logical()->sequential([
+            $this->refinery->to()->string(),
+            $this->refinery->string()->hasMinLength(1)
+        ]);
     }
 
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
-        return fn($id) => "$('#$id').on('input', function(event) {
+        return fn ($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());";
@@ -72,7 +94,7 @@ class Select extends Input implements C\Input\Field\Select
     /**
      * @inheritdoc
      */
-    public function isComplex() : bool
+    public function isComplex(): bool
     {
         return $this->complex;
     }

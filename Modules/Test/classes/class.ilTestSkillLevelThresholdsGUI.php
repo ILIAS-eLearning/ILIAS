@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -12,27 +26,13 @@
  */
 class ilTestSkillLevelThresholdsGUI
 {
-    const CMD_SHOW_SKILL_THRESHOLDS = 'showSkillThresholds';
-    const CMD_SAVE_SKILL_THRESHOLDS = 'saveSkillThresholds';
-    /**
-     * @var ilCtrl
-     */
-    private $ctrl;
+    public const CMD_SHOW_SKILL_THRESHOLDS = 'showSkillThresholds';
+    public const CMD_SAVE_SKILL_THRESHOLDS = 'saveSkillThresholds';
 
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    private $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    private $lng;
-
-    /**
-     * @var ilDBInterface
-     */
-    private $db;
+    private ilCtrl $ctrl;
+    private ilGlobalTemplateInterface $tpl;
+    private ilLanguage $lng;
+    private ilDBInterface $db;
 
     /**
      * @var int
@@ -44,7 +44,7 @@ class ilTestSkillLevelThresholdsGUI
      */
     private $questionContainerId;
 
-    private $questionAssignmentColumnsEnabled;
+    private bool $questionAssignmentColumnsEnabled;
 
     public function __construct(ilCtrl $ctrl, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, $testId)
     {
@@ -59,7 +59,7 @@ class ilTestSkillLevelThresholdsGUI
     /**
      * @return int
      */
-    public function getQuestionContainerId() : int
+    public function getQuestionContainerId(): int
     {
         return $this->questionContainerId;
     }
@@ -90,7 +90,7 @@ class ilTestSkillLevelThresholdsGUI
     /**
      * @return bool
      */
-    public function areQuestionAssignmentColumnsEnabled() : bool
+    public function areQuestionAssignmentColumnsEnabled(): bool
     {
         return $this->questionAssignmentColumnsEnabled;
     }
@@ -98,15 +98,13 @@ class ilTestSkillLevelThresholdsGUI
     /**
      * @return int
      */
-    public function getTestId() : int
+    public function getTestId(): int
     {
         return $this->testId;
     }
 
     private function saveSkillThresholdsCmd()
     {
-        require_once 'Modules/Test/classes/class.ilTestSkillLevelThreshold.php';
-
         if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
             $assignmentList = $this->buildSkillQuestionAssignmentList();
             $assignmentList->loadFromDb();
@@ -120,7 +118,7 @@ class ilTestSkillLevelThresholdsGUI
                     $valid = false;
                 }
 
-                $elm->setValueByArray($_POST);
+                $elm->setValue($_POST[$elm->getPostVar()]);
             }
 
             if (!$valid) {
@@ -130,7 +128,9 @@ class ilTestSkillLevelThresholdsGUI
             }
 
             $threshold = array();
-            foreach ($_POST as $key => $value) {
+            foreach ($elements as $elm) {
+                $key = $elm->getPostVar();
+                $value = $_POST[$key];
                 $matches = null;
                 if (preg_match('/^threshold_(\d+?):(\d+?)_(\d+?)$/', $key, $matches) && is_array($matches)) {
                     $threshold[$matches[1] . ':' . $matches[2]][$matches[3]] = $value;
@@ -199,7 +199,7 @@ class ilTestSkillLevelThresholdsGUI
     /**
      * @return ilTestSkillLevelThresholdsTableGUI
      */
-    protected function getPopulatedTable() : ilTestSkillLevelThresholdsTableGUI
+    protected function getPopulatedTable(): ilTestSkillLevelThresholdsTableGUI
     {
         $table = $this->buildTableGUI();
 
@@ -216,9 +216,8 @@ class ilTestSkillLevelThresholdsGUI
         return $table;
     }
 
-    private function buildTableGUI() : ilTestSkillLevelThresholdsTableGUI
+    private function buildTableGUI(): ilTestSkillLevelThresholdsTableGUI
     {
-        require_once 'Modules/Test/classes/tables/class.ilTestSkillLevelThresholdsTableGUI.php';
         $table = new ilTestSkillLevelThresholdsTableGUI(
             $this,
             $this->getTestId(),
@@ -232,18 +231,16 @@ class ilTestSkillLevelThresholdsGUI
         return $table;
     }
 
-    private function buildSkillQuestionAssignmentList() : ilAssQuestionSkillAssignmentList
+    private function buildSkillQuestionAssignmentList(): ilAssQuestionSkillAssignmentList
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
         $assignmentList->setParentObjId($this->getQuestionContainerId());
 
         return $assignmentList;
     }
 
-    private function buildSkillLevelThresholdList() : ilTestSkillLevelThresholdList
+    private function buildSkillLevelThresholdList(): ilTestSkillLevelThresholdList
     {
-        require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
         $thresholdList = new ilTestSkillLevelThresholdList($this->db);
         $thresholdList->setTestId($this->getTestId());
 

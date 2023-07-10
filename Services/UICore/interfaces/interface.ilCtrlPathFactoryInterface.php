@@ -17,7 +17,7 @@ interface ilCtrlPathFactoryInterface
      * @param string[]|string        $target
      * @return ilCtrlPathInterface
      */
-    public function find(ilCtrlContextInterface $context, $target) : ilCtrlPathInterface;
+    public function find(ilCtrlContextInterface $context, $target): ilCtrlPathInterface;
 
     /**
      * Returns an instance of an existing ilCtrlPath.
@@ -25,12 +25,12 @@ interface ilCtrlPathFactoryInterface
      * @param string $cid_path
      * @return ilCtrlPathInterface
      */
-    public function existing(string $cid_path) : ilCtrlPathInterface;
+    public function existing(string $cid_path): ilCtrlPathInterface;
 
     /**
      * Returns a pseudo instance of an ilCtrlPath.
      *
      * @return ilCtrlPathInterface
      */
-    public function null() : ilCtrlPathInterface;
+    public function null(): ilCtrlPathInterface;
 }

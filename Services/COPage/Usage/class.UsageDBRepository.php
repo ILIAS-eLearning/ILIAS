@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class UsageDBRepository
         int $a_id,
         int $a_usage_hist_nr,
         string $a_lang = "-"
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $and_hist = " AND usage_hist_nr > 0 AND usage_hist_nr <= " . $db->quote($a_usage_hist_nr, "integer");

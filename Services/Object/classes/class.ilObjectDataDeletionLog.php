@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBadgeManagementGUI
  *
@@ -26,7 +28,7 @@
  */
 class ilObjectDataDeletionLog
 {
-    public static function add(ilObject $object) : void
+    public static function add(ilObject $object): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -38,11 +40,11 @@ class ilObjectDataDeletionLog
             "type" => ["text", $object->getType()],
             "description" => ["clob", $object->getLongDescription()]
         ];
-        
+
         $ilDB->insert("object_data_del", $values);
     }
-    
-    public static function get(int $a_object_id) : ?array
+
+    public static function get(int $a_object_id): ?array
     {
         global $DIC;
         $ilDB = $DIC->database();

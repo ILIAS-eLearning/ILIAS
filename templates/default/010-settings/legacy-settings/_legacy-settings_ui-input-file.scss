@@ -1,0 +1,9 @@
+@use "../../010-settings/" as *;
+
+$il-input-file-info-container-border-width: 0px;
+$il-input-file-info-container-border-style: none;
+$il-input-file-info-container-border-color: transparent;
+
+$il-input-file-progress-height: 3px;
+$il-input-file-progress-base-color: $il-main-darker-bg;
+$il-input-file-progress-indicator-color: $il-main-border-dark-color;

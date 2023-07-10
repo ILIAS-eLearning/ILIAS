@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for taxonomies
@@ -25,7 +39,6 @@ class ilTaxonomyTableGUI extends ilTable2GUI
         ilObjTaxonomy $a_tax
     ) {
         global $DIC;
-
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
@@ -78,7 +91,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
         $this->addCommandButton("saveSorting", $lng->txt("save"));
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field == "order_nr") {
             return true;
@@ -86,7 +99,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
         return false;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
 

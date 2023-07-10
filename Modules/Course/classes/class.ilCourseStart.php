@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -42,32 +44,32 @@ class ilCourseStart
         $this->__read();
     }
 
-    public function setId(int $a_id) : void
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setRefId(int $a_ref_id) : void
+    public function setRefId(int $a_ref_id): void
     {
         $this->ref_id = $a_ref_id;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function getStartObjects() : array
+    public function getStartObjects(): array
     {
         return $this->start_objs;
     }
 
-    public function cloneDependencies(int $a_target_id, int $a_copy_id) : void
+    public function cloneDependencies(int $a_target_id, int $a_copy_id): void
     {
         $this->logger->debug('Begin course start objects...');
 
@@ -88,7 +90,7 @@ class ilCourseStart
         $this->logger->debug('... end course start objects');
     }
 
-    public function delete(int $a_crs_start_id) : void
+    public function delete(int $a_crs_start_id): void
     {
         $query = "DELETE FROM crs_start " .
             "WHERE crs_start_id = " . $this->db->quote($a_crs_start_id, 'integer') . " " .
@@ -96,7 +98,7 @@ class ilCourseStart
         $res = $this->db->manipulate($query);
     }
 
-    public function exists(int $a_item_ref_id) : bool
+    public function exists(int $a_item_ref_id): bool
     {
         $query = "SELECT * FROM crs_start " .
             "WHERE crs_id = " . $this->db->quote($this->getId(), 'integer') . " " .
@@ -105,7 +107,7 @@ class ilCourseStart
         return (bool) $res->numRows();
     }
 
-    public function add(int $a_item_ref_id) : void
+    public function add(int $a_item_ref_id): void
     {
         if ($a_item_ref_id) {
             $next_id = $this->db->nextId('crs_start');
@@ -119,7 +121,7 @@ class ilCourseStart
         }
     }
 
-    public function getPossibleStarters() : array
+    public function getPossibleStarters(): array
     {
         $poss_items = [];
         foreach (ilObjectActivation::getItems($this->getRefId(), false) as $node) {
@@ -135,7 +137,7 @@ class ilCourseStart
         return $poss_items;
     }
 
-    public function allFullfilled($user_id) : bool
+    public function allFullfilled($user_id): bool
     {
         foreach ($this->getStartObjects() as $item) {
             if (!$this->isFullfilled($user_id, $item['item_ref_id'])) {
@@ -145,7 +147,7 @@ class ilCourseStart
         return true;
     }
 
-    public function isFullfilled(int $user_id, int $item_id) : bool
+    public function isFullfilled(int $user_id, int $item_id): bool
     {
         $lm_continue = new ilCourseLMHistory($this->getRefId(), $user_id);
         $continue_data = $lm_continue->getLMHistory();
@@ -179,7 +181,7 @@ class ilCourseStart
         return true;
     }
 
-    public function __read() : void
+    public function __read(): void
     {
         $this->start_objs = array();
         $query = "SELECT * FROM crs_start " .

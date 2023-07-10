@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +21,9 @@
 
 namespace ILIAS\Skill\Service;
 
+use ILIAS\Skill\Profile;
+use ILIAS\Skill\Personal;
+
 /**
  * Skill internal repo service
  * @author famula@leifos.de
@@ -32,18 +37,53 @@ class SkillInternalRepoService
         $this->factory = $factory;
     }
 
-    public function getLevelRepo() : \ilBasicSkillLevelRepository
+    public function getLevelRepo(): \ilSkillLevelRepository
     {
-        return new \ilBasicSkillLevelDBRepository($this->getTreeRepo());
+        return new \ilSkillLevelDBRepository($this->getTreeRepo());
     }
 
-    public function getUserLevelRepo() : \ilBasicSkillUserLevelRepository
+    public function getUserLevelRepo(): \ilSkillUserLevelRepository
     {
-        return new \ilBasicSkillUserLevelDBRepository();
+        return new \ilSkillUserLevelDBRepository();
     }
 
-    public function getTreeRepo() : \ilBasicSkillTreeRepository
+    public function getTreeRepo(): \ilSkillTreeRepository
     {
-        return new \ilBasicSkillTreeDBRepository($this->factory->tree());
+        return new \ilSkillTreeDBRepository($this->factory->tree());
+    }
+
+    public function getProfileRepo(): Profile\SkillProfileDBRepository
+    {
+        return new Profile\SkillProfileDBRepository();
+    }
+
+    public function getProfileLevelsRepo(): Profile\SkillProfileLevelsDBRepository
+    {
+        return new Profile\SkillProfileLevelsDBRepository();
+    }
+
+    public function getProfileUserRepo(): Profile\SkillProfileUserDBRepository
+    {
+        return new Profile\SkillProfileUserDBRepository();
+    }
+
+    public function getProfileRoleRepo(): Profile\SkillProfileRoleDBRepository
+    {
+        return new Profile\SkillProfileRoleDBRepository();
+    }
+
+    public function getProfileCompletionRepo(): Profile\SkillProfileCompletionDBRepository
+    {
+        return new Profile\SkillProfileCompletionDBRepository();
+    }
+
+    public function getPersonalSkillRepo(): Personal\PersonalSkillDBRepository
+    {
+        return new Personal\PersonalSkillDBRepository($this->getTreeRepo());
+    }
+
+    public function getAssignedMaterialRepo(): Personal\AssignedMaterialDBRepository
+    {
+        return new Personal\AssignedMaterialDBRepository();
     }
 }

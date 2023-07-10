@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
@@ -58,7 +74,7 @@ abstract class Slate implements ISlate\Slate
     /**
      * Set the signals for this component.
      */
-    protected function initSignals() : void
+    protected function initSignals(): void
     {
         $this->toggle_signal = $this->signal_generator->create();
         $this->engage_signal = $this->signal_generator->create();
@@ -69,7 +85,7 @@ abstract class Slate implements ISlate\Slate
     /**
      * @inheritdoc
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -77,7 +93,7 @@ abstract class Slate implements ISlate\Slate
     /**
      * @inheritdoc
      */
-    public function getSymbol() : Symbol
+    public function getSymbol(): Symbol
     {
         return $this->symbol;
     }
@@ -85,7 +101,7 @@ abstract class Slate implements ISlate\Slate
     /**
      * @inheritdoc
      */
-    public function getToggleSignal() : Signal
+    public function getToggleSignal(): Signal
     {
         return $this->toggle_signal;
     }
@@ -93,7 +109,7 @@ abstract class Slate implements ISlate\Slate
     /**
      * @inheritdoc
      */
-    public function getEngageSignal() : Signal
+    public function getEngageSignal(): Signal
     {
         return $this->engage_signal;
     }
@@ -101,7 +117,7 @@ abstract class Slate implements ISlate\Slate
     /**
      * @inheritdoc
      */
-    public function withEngaged(bool $state) : ISlate\Slate
+    public function withEngaged(bool $state): ISlate\Slate
     {
         $clone = clone $this;
         $clone->engaged = $state;
@@ -111,7 +127,7 @@ abstract class Slate implements ISlate\Slate
     /**
      * @inheritdoc
      */
-    public function getEngaged() : bool
+    public function getEngaged(): bool
     {
         return $this->engaged;
     }
@@ -119,12 +135,12 @@ abstract class Slate implements ISlate\Slate
     /**
      * @inheritdoc
      */
-    abstract public function getContents() : array;
+    abstract public function getContents(): array;
 
     /**
      * @inheritdoc
      */
-    public function getReplaceSignal() : ?Signal
+    public function getReplaceSignal(): ?Signal
     {
         return $this->replace_signal;
     }
@@ -132,30 +148,30 @@ abstract class Slate implements ISlate\Slate
     /**
      * @inheritdoc
      */
-    public function appendOnInView(Signal $signal) : ISlate\Slate
+    public function appendOnInView(Signal $signal): ISlate\Slate
     {
         return $this->appendTriggeredSignal($signal, 'in_view');
     }
 
 
-    abstract public function withMappedSubNodes(callable $f) : ISlate\Slate;
+    abstract public function withMappedSubNodes(callable $f): ISlate\Slate;
 
     /**
      * @inheritdoc
      */
-    public function withMainBarTreePosition(string $tree_pos) : ISlate\Slate
+    public function withMainBarTreePosition(string $tree_pos): ISlate\Slate
     {
         $clone = clone $this;
         $clone->mainbar_tree_position = $tree_pos;
         return $clone;
     }
 
-    public function getMainBarTreePosition() : ?string
+    public function getMainBarTreePosition(): ?string
     {
         return $this->mainbar_tree_position;
     }
 
-    public function getMainBarTreeDepth() : int
+    public function getMainBarTreeDepth(): int
     {
         $pos = explode(':', $this->mainbar_tree_position);
         return count($pos) - 1;
@@ -164,7 +180,7 @@ abstract class Slate implements ISlate\Slate
     /**
      * Get a slate like this, but with an additional ARIA role.
      */
-    public function withAriaRole(string $aria_role) : ISlate\Slate
+    public function withAriaRole(string $aria_role): ISlate\Slate
     {
         $this->checkArgIsElement(
             "role",
@@ -180,7 +196,7 @@ abstract class Slate implements ISlate\Slate
     /**
      * Get the ARIA role on the slate.
      */
-    public function getAriaRole() : ?string
+    public function getAriaRole(): ?string
     {
         return $this->aria_role;
     }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestEvaluationPassDataTest
@@ -10,19 +26,19 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
 {
     private ilTestEvaluationPassData $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->testObj = new ilTestEvaluationPassData();
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestEvaluationPassData::class, $this->testObj);
     }
 
-    public function test__sleep() : void
+    public function test__sleep(): void
     {
         $expected = [
             "answeredQuestions",
@@ -37,43 +53,43 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
         $this->assertEquals($expected, $this->testObj->__sleep());
     }
 
-    public function testNrOfAnsweredQuestions() : void
+    public function testNrOfAnsweredQuestions(): void
     {
         $this->testObj->setNrOfAnsweredQuestions(20);
         $this->assertEquals(20, $this->testObj->getNrOfAnsweredQuestions());
     }
 
-    public function testReachedPoints() : void
+    public function testReachedPoints(): void
     {
         $this->testObj->setReachedPoints(20);
         $this->assertEquals(20, $this->testObj->getReachedPoints());
     }
 
-    public function testMaxPoints() : void
+    public function testMaxPoints(): void
     {
         $this->testObj->setMaxPoints(20);
         $this->assertEquals(20, $this->testObj->getMaxPoints());
     }
 
-    public function testQuestionCount() : void
+    public function testQuestionCount(): void
     {
         $this->testObj->setQuestionCount(20);
         $this->assertEquals(20, $this->testObj->getQuestionCount());
     }
 
-    public function testWorkingTime() : void
+    public function testWorkingTime(): void
     {
         $this->testObj->setWorkingTime(20);
         $this->assertEquals(20, $this->testObj->getWorkingTime());
     }
 
-    public function testPass() : void
+    public function testPass(): void
     {
         $this->testObj->setPass(20);
         $this->assertEquals(20, $this->testObj->getPass());
     }
 
-    public function testAnsweredQuestions() : void
+    public function testAnsweredQuestions(): void
     {
         $expected = [
             ["id" => 20, "points" => 2.5, "reached" => 1.5, "isAnswered" => true, "sequence" => null, "manual" => 0],
@@ -98,7 +114,7 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
         $this->assertEquals($expected[1], $this->testObj->getAnsweredQuestion(1));
     }
 
-    public function testGetAnsweredQuestionByQuestionId() : void
+    public function testGetAnsweredQuestionByQuestionId(): void
     {
         $expected = [
             ["id" => 20, "points" => 2.5, "reached" => 1.5, "isAnswered" => true, "sequence" => null, "manual" => 0],
@@ -121,7 +137,7 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
         $this->assertEquals($expected[1], $this->testObj->getAnsweredQuestionByQuestionId(12));
     }
 
-    public function testGetAnsweredQuestionCount() : void
+    public function testGetAnsweredQuestionCount(): void
     {
         $expected = [
             ["id" => 20, "points" => 2.5, "reached" => 1.5, "isAnswered" => true, "sequence" => null, "manual" => 0],
@@ -144,28 +160,28 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
         $this->assertEquals(4, $this->testObj->getAnsweredQuestionCount());
     }
 
-    public function testRequestedHintsCount() : void
+    public function testRequestedHintsCount(): void
     {
         $this->testObj->setRequestedHintsCount(5);
 
         $this->assertEquals(5, $this->testObj->getRequestedHintsCount());
     }
 
-    public function testDeductedHintPoints() : void
+    public function testDeductedHintPoints(): void
     {
         $this->testObj->setDeductedHintPoints(5);
 
         $this->assertEquals(5, $this->testObj->getDeductedHintPoints());
     }
 
-    public function testObligationsAnswered() : void
+    public function testObligationsAnswered(): void
     {
         $this->testObj->setObligationsAnswered(true);
 
         $this->assertTrue($this->testObj->areObligationsAnswered());
     }
 
-    public function testExamId() : void
+    public function testExamId(): void
     {
         $this->testObj->setExamId("5");
 

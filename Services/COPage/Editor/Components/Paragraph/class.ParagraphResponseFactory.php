@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\Paragraph;
 
@@ -38,7 +41,7 @@ class ParagraphResponseFactory
         \ilPageObjectGUI $page_gui,
         $updated,
         string $pcid
-    ) : Server\Response {
+    ): Server\Response {
         $error = null;
         $rendered_content = null;
         $last_change = null;
@@ -87,7 +90,7 @@ class ParagraphResponseFactory
         \ilPageObjectGUI $page_gui,
         $updated,
         array $pcids
-    ) : Server\Response {
+    ): Server\Response {
         $error = null;
         $rendered_content = null;
         $last_change = null;
@@ -123,7 +126,7 @@ class ParagraphResponseFactory
     protected function getParagraphOutput(
         \ilPageObjectGUI $page_gui,
         string $pcid
-    ) : string {
+    ): string {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 

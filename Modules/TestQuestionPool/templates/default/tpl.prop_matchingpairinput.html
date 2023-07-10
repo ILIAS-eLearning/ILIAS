@@ -32,19 +32,11 @@
 				<!-- BEGIN points_value -->value="{POINTS_VALUE}" <!-- END points_value --> />
 			</td>
 			<td class="ilValignTop" style="text-align:right;">
-				<button type="button" name="{CMD_ADD}" class="matchingpair_add btn btn-link" id="add_{ID}" onclick="javascript: void(0); return false;">
-					{ADD_BUTTON}
-				</button>
-				<button type="button" name="{CMD_REMOVE}" class="matchingpair_remove btn btn-link" id="remove_{ID}" onclick="javascript: void(0); return false;">
-					{REMOVE_BUTTON}
-				</button>
+				<div class="matchingpair_add btn btn-link" id="add_{ID}">{ADD_BUTTON}</idv>
+				<div class="matchingpair_remove btn btn-link" id="remove_{ID}">{REMOVE_BUTTON}</div>
 				<!-- BEGIN move -->
-				<button type="button" name="{CMD_UP}" class="matchingpair_up btn btn-link" id="up_{ID}" onclick="javascript: void(0); return false;">
-					{UP_BUTTON}
-				</button>
-				<button type="button" name="{CMD_DOWN}" class="matchingpair_down btn btn-link" id="down_{ID}" onclick="javascript: void(0); return false;">
-					{DOWN_BUTTON}
-				</button>
+				<div class="matchingpair_up btn btn-link" id="up_{ID}">{UP_BUTTON}</div>
+				<div class="matchingpair_down btn btn-link" id="down_{ID}">{DOWN_BUTTON}</div>
 				<!-- END move -->
 			</td>
 		</tr>

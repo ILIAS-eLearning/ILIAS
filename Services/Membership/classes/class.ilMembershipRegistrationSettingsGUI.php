@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Registration settings
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -28,7 +30,7 @@ abstract class ilMembershipRegistrationSettingsGUI
     private ilObjectGUI $gui_object;
     protected ilLanguage $lng;
     private array $options = [];
-    
+
     public function __construct(ilObjectGUI $gui_object, ilObject $object, array $a_options)
     {
         global $DIC;
@@ -42,24 +44,24 @@ abstract class ilMembershipRegistrationSettingsGUI
     /**
      * Set form values
      */
-    abstract public function setFormValues(ilPropertyFormGUI $form) : void;
+    abstract public function setFormValues(ilPropertyFormGUI $form): void;
 
-    public function getCurrentObject() : ilObject
+    public function getCurrentObject(): ilObject
     {
         return $this->object;
     }
 
-    public function getCurrentGUI() : ilObjectGUI
+    public function getCurrentGUI(): ilObjectGUI
     {
         return $this->gui_object;
     }
 
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    final public function addMembershipFormElements(ilPropertyFormGUI $form, string $a_parent_post = '') : void
+    final public function addMembershipFormElements(ilPropertyFormGUI $form, string $a_parent_post = ''): void
     {
         // Registration type
         $reg_type = new ilRadioGroupInputGUI($this->txt('reg_type'), 'registration_type');
@@ -196,7 +198,7 @@ abstract class ilMembershipRegistrationSettingsGUI
     /**
      * Translate type specific
      */
-    protected function txt(string $a_lang_key) : string
+    protected function txt(string $a_lang_key): string
     {
         $prefix = $this->getCurrentObject()->getType();
         return $this->lng->txt($prefix . '_' . $a_lang_key);

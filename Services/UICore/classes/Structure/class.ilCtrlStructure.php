@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -79,7 +81,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function isBaseClass(string $class_name) : bool
+    public function isBaseClass(string $class_name): bool
     {
         // baseclass must be contained within the current structure
         // and within the current baseclass array.
@@ -91,7 +93,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getObjNameByCid(string $cid) : ?string
+    public function getObjNameByCid(string $cid): ?string
     {
         return $this->getValueForKeyByCid(self::KEY_CLASS_NAME, $cid);
     }
@@ -99,7 +101,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getObjNameByName(string $class_name) : ?string
+    public function getObjNameByName(string $class_name): ?string
     {
         return $this->getValueForKeyByName(self::KEY_CLASS_NAME, $class_name);
     }
@@ -107,7 +109,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getClassNameByCid(string $cid) : ?string
+    public function getClassNameByCid(string $cid): ?string
     {
         $class_name = $this->getValueForKeyByCid(
             self::KEY_CLASS_NAME,
@@ -120,7 +122,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getClassCidByName(string $class_name) : ?string
+    public function getClassCidByName(string $class_name): ?string
     {
         return $this->getValueForKeyByName(self::KEY_CLASS_CID, $class_name);
     }
@@ -128,7 +130,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getRelativePathByName(string $class_name) : ?string
+    public function getRelativePathByName(string $class_name): ?string
     {
         return $this->getValueForKeyByName(self::KEY_CLASS_PATH, $class_name);
     }
@@ -136,7 +138,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getRelativePathByCid(string $cid) : ?string
+    public function getRelativePathByCid(string $cid): ?string
     {
         return $this->getValueForKeyByCid(self::KEY_CLASS_PATH, $cid);
     }
@@ -144,7 +146,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getChildrenByCid(string $cid) : ?array
+    public function getChildrenByCid(string $cid): ?array
     {
         $children = $this->getValueForKeyByCid(self::KEY_CLASS_CHILDREN, $cid);
         if (empty($children)) {
@@ -157,7 +159,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getChildrenByName(string $class_name) : ?array
+    public function getChildrenByName(string $class_name): ?array
     {
         $children = $this->getValueForKeyByName(self::KEY_CLASS_CHILDREN, $class_name);
         if (empty($children)) {
@@ -170,7 +172,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getParentsByCid(string $cid) : ?array
+    public function getParentsByCid(string $cid): ?array
     {
         $parents = $this->getValueForKeyByCid(self::KEY_CLASS_PARENTS, $cid);
         if (empty($parents)) {
@@ -183,7 +185,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getParentsByName(string $class_name) : ?array
+    public function getParentsByName(string $class_name): ?array
     {
         $parents = $this->getValueForKeyByName(self::KEY_CLASS_PARENTS, $class_name);
         if (empty($parents)) {
@@ -196,7 +198,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function setPermanentParameterByClass(string $class_name, string $parameter_name) : void
+    public function setPermanentParameterByClass(string $class_name, string $parameter_name): void
     {
         if (in_array($parameter_name, ilCtrlInterface::PROTECTED_PARAMETERS, true)) {
             throw new ilCtrlException("Parameter '$parameter_name' must not be saved, it could mess with the control flow.");
@@ -212,7 +214,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function removePermanentParametersByClass(string $class_name) : void
+    public function removePermanentParametersByClass(string $class_name): void
     {
         $class_name = $this->lowercase($class_name);
         if (isset($this->permanent_parameters[$class_name])) {
@@ -223,7 +225,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getPermanentParametersByClass(string $class_name) : ?array
+    public function getPermanentParametersByClass(string $class_name): ?array
     {
         return $this->permanent_parameters[$this->lowercase($class_name)] ?? null;
     }
@@ -231,7 +233,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function setTemporaryParameterByClass(string $class_name, string $parameter_name, $value) : void
+    public function setTemporaryParameterByClass(string $class_name, string $parameter_name, $value): void
     {
         if (!preg_match(self::PARAM_NAME_REGEX, $parameter_name)) {
             throw new ilCtrlException("Cannot save parameter '$parameter_name', as it contains invalid characters.");
@@ -243,7 +245,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function removeTemporaryParametersByClass(string $class_name) : void
+    public function removeTemporaryParametersByClass(string $class_name): void
     {
         $class_name = $this->lowercase($class_name);
         if (isset($this->temporary_parameters[$class_name])) {
@@ -254,7 +256,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getTemporaryParametersByClass(string $class_name) : ?array
+    public function getTemporaryParametersByClass(string $class_name): ?array
     {
         return $this->temporary_parameters[$this->lowercase($class_name)] ?? null;
     }
@@ -262,7 +264,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function removeSingleParameterByClass(string $class_name, string $parameter_name) : void
+    public function removeSingleParameterByClass(string $class_name, string $parameter_name): void
     {
         $class_name = $this->lowercase($class_name);
 
@@ -292,7 +294,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function setReturnTargetByClass(string $class_name, string $target_url) : void
+    public function setReturnTargetByClass(string $class_name, string $target_url): void
     {
         $this->return_targets[$this->lowercase($class_name)] = $target_url;
     }
@@ -300,7 +302,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getReturnTargetByClass(string $class_name) : ?string
+    public function getReturnTargetByClass(string $class_name): ?string
     {
         return $this->return_targets[$this->lowercase($class_name)] ?? null;
     }
@@ -308,7 +310,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getUnsafeCommandsByCid(string $cid) : array
+    public function getUnsafeCommandsByCid(string $cid): array
     {
         $class_name = $this->getClassNameByCid($cid);
         if (null !== $class_name) {
@@ -321,7 +323,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getUnsafeCommandsByName(string $class_name) : array
+    public function getUnsafeCommandsByName(string $class_name): array
     {
         return $this->security[$this->lowercase($class_name)][self::KEY_UNSAFE_COMMANDS] ?? [];
     }
@@ -329,7 +331,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getSafeCommandsByCid(string $cid) : array
+    public function getSafeCommandsByCid(string $cid): array
     {
         $class_name = $this->getClassNameByCid($cid);
         if (null !== $class_name) {
@@ -342,7 +344,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getSafeCommandsByName(string $class_name) : array
+    public function getSafeCommandsByName(string $class_name): array
     {
         return $this->security[$this->lowercase($class_name)][self::KEY_SAFE_COMMANDS] ?? [];
     }
@@ -392,7 +394,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
      * @param string $string
      * @return string
      */
-    private function lowercase(string $string) : string
+    private function lowercase(string $string): string
     {
         return strtolower($string);
     }

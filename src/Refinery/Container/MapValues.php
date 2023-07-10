@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,9 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Refinery\Container;
 
-use ILIAS\Data\Factory;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
@@ -43,7 +44,7 @@ class MapValues implements Transformation
     /**
      * @inheritDoc
      */
-    public function transform($from) : array
+    public function transform($from): array
     {
         if (!is_array($from)) {
             throw new InvalidArgumentException(__METHOD__ . " argument is not an array.");

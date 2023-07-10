@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -22,7 +24,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
     protected int $obj_id;
     protected int $rec_id = 0;
     protected ilImportMapping $mapping;
-    protected string $cdata;
+    protected string $cdata = "";
     protected ?ilSaxController $sax_controller = null;
 
     /**
@@ -50,18 +52,18 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         $this->log = ilLoggerFactory::getLogger('amet');
 
         $parts = explode(":", $a_obj_id);
-        $this->obj_id = $parts[0];
+        $this->obj_id = (int) $parts[0];
         $this->mapping = $a_mapping;
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         $this->sax_controller = new ilSaxController();
         $this->sax_controller->setHandlers($a_xml_parser);
         $this->sax_controller->setDefaultElementHandler($this);
     }
 
-    public function createLocalRecord(int $a_old_id, string $a_xml, int $a_obj_id, ?string $a_sub_type = null) : void
+    public function createLocalRecord(int $a_old_id, string $a_xml, int $a_obj_id, ?string $a_sub_type = null): void
     {
         $tmp_file = ilFileUtils::ilTempnam();
         file_put_contents($tmp_file, $a_xml);
@@ -90,7 +92,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
             foreach ($fields as $import_id => $new_id) {
                 $import_ids = explode('_', $import_id);
                 $old_id = array_pop($import_ids);
-                $this->mapping->addMapping("Services/AdvancedMetaData", "lfld", $old_id, $new_id);
+                $this->mapping->addMapping("Services/AdvancedMetaData", "lfld", $old_id, (string) $new_id);
             }
         }
         $map_keys = array_keys($map);
@@ -98,7 +100,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         $this->local_rec_map[$a_old_id] = $new_id;
     }
 
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case 'AdvancedMetaData':
@@ -119,7 +121,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         }
     }
 
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         switch ($a_name) {
             case 'AdvancedMetaData':
@@ -144,8 +146,8 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         }
         $this->cdata = '';
     }
-    
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($a_data != "\n") {
             // Replace multiple tabs with one space
@@ -160,11 +162,11 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         string $a_sub_type = "",
         int $a_sub_id = 0,
         int $a_local_rec_id = null
-    ) : void {
+    ): void {
         $this->current_value = null;
 
         // get parent objects
-        $new_parent_id = (int) $this->mapping->getMapping("Services/AdvancedMetaData", "parent", $this->obj_id);
+        $new_parent_id = (int) $this->mapping->getMapping("Services/AdvancedMetaData", "parent", (string) $this->obj_id);
         $this->log->notice('Found new parent id:' . $new_parent_id);
         if (!$new_parent_id) {
             return;
@@ -185,7 +187,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         // done here because we need object context
         if (is_array($this->local_record)) {
             $this->createLocalRecord(
-                $this->local_record['id'],
+                (int) $this->local_record['id'],
                 $this->local_record['xml'],
                 $new_parent_id,
                 $a_sub_type
@@ -271,7 +273,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
     /**
      * @return int[]
      */
-    public function getRecordIds() : array
+    public function getRecordIds(): array
     {
         return $this->record_ids;
     }

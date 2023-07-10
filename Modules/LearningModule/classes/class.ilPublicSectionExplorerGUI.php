@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * tree explorer lm public area
@@ -40,7 +43,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
     /**
      * @param object|array $a_node
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $lang = ($this->requested_transl != "")
             ? $this->requested_transl
@@ -59,7 +62,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
     /**
      * @param object|array $a_node
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath("icon_lm.svg");
@@ -99,7 +102,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
         return $icon;
     }
 
-    public function beforeRendering() : void
+    public function beforeRendering(): void
     {
         //select public pages and open public chapters
         foreach ($this->getAllNodes() as $node) {
@@ -112,7 +115,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
         }
     }
 
-    protected function getAllNodes(?int $from_id = null) : array
+    protected function getAllNodes(?int $from_id = null): array
     {
         $nodes = array();
 
@@ -134,7 +137,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
      * @param object|array $a_node
      * @return bool
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         if ($a_node["type"] == "pg") {
             return true;

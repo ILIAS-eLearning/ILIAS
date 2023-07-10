@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\LocatorBuilder;
 use ILIAS\KioskMode\TOCBuilder;
@@ -26,8 +28,8 @@ use ILIAS\UI\Component\JavaScriptBindable;
 
 class LSControlBuilder implements ControlBuilder
 {
-    const CMD_START_OBJECT = 'start_legacy_obj';
-    const CMD_CHECK_CURRENT_ITEM_LP = 'ccilp';
+    public const CMD_START_OBJECT = 'start_legacy_obj';
+    public const CMD_CHECK_CURRENT_ITEM_LP = 'ccilp';
 
     /**
      * @var Component[]
@@ -75,7 +77,7 @@ class LSControlBuilder implements ControlBuilder
     /**
      * @return \ILIAS\UI\Component\Component[]
      */
-    public function getToggles() : array
+    public function getToggles(): array
     {
         return $this->toggles;
     }
@@ -83,7 +85,7 @@ class LSControlBuilder implements ControlBuilder
     /**
      * @return \ILIAS\UI\Component\Component[]
      */
-    public function getModeControls() : array
+    public function getModeControls(): array
     {
         return $this->mode_controls;
     }
@@ -91,42 +93,42 @@ class LSControlBuilder implements ControlBuilder
     /**
      * @return \ILIAS\UI\Component\Component[]
      */
-    public function getControls() : array
+    public function getControls(): array
     {
         return $this->controls;
     }
 
-    public function getExitControl() : ?Component
+    public function getExitControl(): ?Component
     {
         return $this->exit_control;
     }
 
-    public function getPreviousControl() : ?Component
+    public function getPreviousControl(): ?Component
     {
         return $this->previous_control;
     }
 
-    public function getNextControl() : ?Component
+    public function getNextControl(): ?Component
     {
         return $this->next_control;
     }
 
-    public function getDoneControl() : ?Component
+    public function getDoneControl(): ?Component
     {
         return $this->done_control;
     }
 
-    public function getToc() : ?TOCBuilder
+    public function getToc(): ?TOCBuilder
     {
         return $this->toc;
     }
 
-    public function getLocator() : ?LocatorBuilder
+    public function getLocator(): ?LocatorBuilder
     {
         return $this->loc;
     }
 
-    public function exit(string $command) : ControlBuilder
+    public function exit(string $command): ControlBuilder
     {
         if ($this->exit_control) {
             throw new \LogicException("Only one exit-control per view...", 1);
@@ -148,7 +150,7 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    public function next(string $command, int $parameter = null) : ControlBuilder
+    public function next(string $command, int $parameter = null): ControlBuilder
     {
         if ($this->next_control) {
             throw new \LogicException("Only one next-control per view...", 1);
@@ -163,7 +165,7 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    public function previous(string $command, int $parameter = null) : ControlBuilder
+    public function previous(string $command, int $parameter = null): ControlBuilder
     {
         if ($this->previous_control) {
             throw new \LogicException("Only one previous-control per view...", 1);
@@ -178,7 +180,7 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    public function done(string $command, int $parameter = null) : ControlBuilder
+    public function done(string $command, int $parameter = null): ControlBuilder
     {
         if ($this->done_control) {
             throw new \LogicException("Only one done-control per view...", 1);
@@ -190,26 +192,26 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    public function generic(string $label, string $command, int $parameter = null) : ControlBuilder
+    public function generic(string $label, string $command, int $parameter = null): ControlBuilder
     {
         $cmd = $this->url_builder->getHref($command, $parameter);
         $this->controls[] = $this->ui_factory->button()->standard($label, $cmd);
         return $this;
     }
 
-    public function genericWithSignal(string $label, Signal $signal) : ControlBuilder
+    public function genericWithSignal(string $label, Signal $signal): ControlBuilder
     {
         $this->controls[] = $this->ui_factory->button()->standard($label, '')
             ->withOnClick($signal);
         return $this;
     }
 
-    public function toggle(string $label, string $on_command, string $off_command) : ControlBuilder
+    public function toggle(string $label, string $on_command, string $off_command): ControlBuilder
     {
         throw new \Exception("NYI: Toggles", 1);
     }
 
-    public function mode(string $command, array $labels) : ControlBuilder
+    public function mode(string $command, array $labels): ControlBuilder
     {
         $actions = [];
         foreach ($labels as $parameter => $label) {
@@ -219,7 +221,7 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    public function locator(string $command) : LocatorBuilder
+    public function locator(string $command): LocatorBuilder
     {
         if ($this->loc) {
             throw new \LogicException("Only one locator per view...", 1);
@@ -233,7 +235,7 @@ class LSControlBuilder implements ControlBuilder
         string $command,
         int $parameter = null,
         $state = null
-    ) : TOCBuilder {
+    ): TOCBuilder {
         if ($this->toc) {
             throw new \LogicException("Only one ToC per view...", 1);
         }
@@ -248,7 +250,7 @@ class LSControlBuilder implements ControlBuilder
      *
      * The start-control is exclusively used to open an ILIAS-Object in a new windwow/tab.
      */
-    public function start(string $label, string $url, int $obj_id) : ControlBuilder
+    public function start(string $label, string $url, int $obj_id): ControlBuilder
     {
         if ($this->start) {
             throw new \LogicException("Only one start-control per view...", 1);
@@ -273,12 +275,12 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    public function getStartControl() : ?JavaScriptBindable
+    public function getStartControl(): ?JavaScriptBindable
     {
         return $this->start;
     }
 
-    public function getAdditionalJS() : ?string
+    public function getAdditionalJS(): ?string
     {
         return $this->additional_js;
     }
@@ -286,7 +288,7 @@ class LSControlBuilder implements ControlBuilder
     protected function setListenerJS(
         string $check_lp_url,
         string $on_lp_change_url
-    ) : void {
+    ): void {
         $this->additional_js =
 <<<JS
 function lso_checkLPOfObject()

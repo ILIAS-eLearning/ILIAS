@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * TableGUI clipboard items
@@ -48,36 +51,36 @@ class ilClipboardTableGUI extends ilTable2GUI
             "Modules/MediaPool/Clipboard"
         );
         $this->getItems();
-        
+
         // title
         $this->setTitle($lng->txt("clipboard"));
 
         $this->setDefaultOrderField("title");
-        
+
         // action commands
         if ($this->parent_obj->mode === "getObject") {
             $this->addMultiCommand("insert", $this->parent_obj->getInsertButtonTitle());
         }
         $this->addMultiCommand("remove", $lng->txt("remove"));
-        
+
         $this->setSelectAllCheckbox("id");
     }
 
     /**
      * Get items from user clipboard
      */
-    public function getItems() : void
+    public function getItems(): void
     {
         $ilUser = $this->user;
-        
+
         $objs = $ilUser->getClipboardObjects("mob");
         $objs2 = $ilUser->getClipboardObjects("incl");
         $objs = array_merge($objs, $objs2);
 
         $this->setData($objs);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
 

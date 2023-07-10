@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,19 +16,20 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
-    private ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValuesObject;
-    private ilLanguage $language;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateParticipantsHelper $participantsHelper;
-    private ilCertificateUtilHelper $ilUtilHelper;
-    private ilCertificateDateHelper $dateHelper;
-    private ilCertificateLPStatusHelper $lpStatusHelper;
+    private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
+    private readonly ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValuesObject;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateParticipantsHelper $participantsHelper;
+    private readonly ilCertificateUtilHelper $ilUtilHelper;
+    private readonly ilCertificateDateHelper $dateHelper;
+    private readonly ilCertificateLPStatusHelper $lpStatusHelper;
 
     public function __construct(
         ?ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValues = null,
@@ -45,7 +46,6 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
             $language = $DIC->language();
             $language->loadLanguageModule('certificate');
         }
-        $this->language = $language;
 
         if (null === $defaultPlaceholderValues) {
             $defaultPlaceholderValues = new ilDefaultPlaceholderValues();
@@ -86,9 +86,8 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 
     /**
      * @param mixed $possibleDate
-     * @return bool
      */
-    private function hasCompletionDate($possibleDate) : bool
+    private function hasCompletionDate($possibleDate): bool
     {
         return (
             $possibleDate !== false &&
@@ -103,16 +102,13 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     * @param int $userId
-     * @param int $objId
-     * @return array - [PLACEHOLDER] => 'actual value'
      * @throws ilDatabaseException
      * @throws ilDateTimeException
      * @throws ilException
      * @throws ilInvalidCertificateException
      * @throws ilObjectNotFoundException
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array
+    public function getPlaceholderValues(int $userId, int $objId): array
     {
         $courseObject = $this->objectHelper->getInstanceByObjId($objId);
 
@@ -144,15 +140,12 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     * @param int $userId
-     * @param int $objId
-     * @return array
      * @throws ilDatabaseException
      * @throws ilDateTimeException
      * @throws ilException
      * @throws ilObjectNotFoundException
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 

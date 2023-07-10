@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Listing;
 
@@ -15,7 +31,7 @@ class Factory implements L\Factory
     /**
      * @inheritdoc
      */
-    public function unordered(array $items) : L\Unordered
+    public function unordered(array $items): L\Unordered
     {
         return new Unordered($items);
     }
@@ -23,7 +39,7 @@ class Factory implements L\Factory
     /**
      * @inheritdoc
      */
-    public function ordered(array $items) : L\Ordered
+    public function ordered(array $items): L\Ordered
     {
         return new Ordered($items);
     }
@@ -31,7 +47,7 @@ class Factory implements L\Factory
     /**
      * @inheritdoc
      */
-    public function descriptive(array $items) : L\Descriptive
+    public function descriptive(array $items): L\Descriptive
     {
         return new Descriptive($items);
     }
@@ -39,7 +55,7 @@ class Factory implements L\Factory
     /**
      * @inheritdoc
      */
-    public function workflow() : L\Workflow\Factory
+    public function workflow(): L\Workflow\Factory
     {
         return new Workflow\Factory();
     }
@@ -47,7 +63,7 @@ class Factory implements L\Factory
     /**
      * @inheritdoc
      */
-    public function characteristicValue() : L\CharacteristicValue\Factory
+    public function characteristicValue(): L\CharacteristicValue\Factory
     {
         return new CharacteristicValue\Factory();
     }

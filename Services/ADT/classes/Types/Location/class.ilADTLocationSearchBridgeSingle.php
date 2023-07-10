@@ -1,8 +1,29 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * @author Stefan Meyer <meyer@leifos.de>
+ */
 class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
-    protected ?int $radius;
+    protected ?int $radius = null;
     protected bool $force_valid = false;
 
     protected ilLanguage $lng;
@@ -15,14 +36,14 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
         parent::__construct($a_adt_def);
     }
 
-    protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
+    protected function isValidADTDefinition(ilADTDefinition $a_adt_def): bool
     {
         return ($a_adt_def instanceof ilADTLocationDefinition);
     }
 
     // table2gui / filter
 
-    public function loadFilter() : void
+    public function loadFilter(): void
     {
         $value = $this->readFilter();
         if ($value !== null) {
@@ -32,7 +53,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     // form
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         $adt = $this->getADT();
 
@@ -42,9 +63,9 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 
             // use installation default
             $def = ilMapUtil::getDefaultSettings();
-            $adt->setLatitude($def["latitude"]);
-            $adt->setLongitude($def["longitude"]);
-            $adt->setZoom($def["zoom"]);
+            $adt->setLatitude((float) ($def["latitude"] ?? null));
+            $adt->setLongitude((float) ($def["longitude"] ?? null));
+            $adt->setZoom((int) ($def["zoom"] ?? 0));
 
             $default = true;
         }
@@ -71,12 +92,12 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($optional);
     }
 
-    protected function shouldBeImportedFromPost($a_post) : bool
+    protected function shouldBeImportedFromPost($a_post): bool
     {
-        return (bool) $a_post["tgl"];
+        return (bool) ($a_post["tgl"] ?? false);
     }
 
-    public function importFromPost(array $a_post = null) : bool
+    public function importFromPost(array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 
@@ -106,7 +127,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
         return true;
     }
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         return (parent::isValid() && ((int) $this->radius || $this->force_valid));
     }
@@ -121,7 +142,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
      * @param int   $a_radius
      * @return array
      */
-    protected function getBoundingBox(float $a_latitude, float $a_longitude, int $a_radius) : array
+    protected function getBoundingBox(float $a_latitude, float $a_longitude, int $a_radius): array
     {
         $earth_radius = 6371;
 
@@ -140,7 +161,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     // db
 
-    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []): string
     {
         if (!$this->isNull() && $this->isValid()) {
             $box = $this->getBoundingBox(
@@ -162,7 +183,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     //  import/export
 
-    public function getSerializedValue() : string
+    public function getSerializedValue(): string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array(
@@ -178,7 +199,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
         return '';
     }
 
-    public function setSerializedValue(string $a_value) : void
+    public function setSerializedValue(string $a_value): void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

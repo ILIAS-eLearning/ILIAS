@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -27,20 +29,16 @@ interface ilCertificatePlaceholderValues
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     * @param int $userId
-     * @param int $objId
-     * @return array - [PLACEHOLDER] => 'actual value'
+     * @return array<string, string> - [PLACEHOLDER] => 'actual value'
      * @throws ilInvalidCertificateException
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array;
+    public function getPlaceholderValues(int $userId, int $objId): array;
 
     /**
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     * @param int $userId
-     * @param int $objId
-     * @return array
+     * @return array<string, string> - [PLACEHOLDER] => 'actual value'
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array;
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array;
 }

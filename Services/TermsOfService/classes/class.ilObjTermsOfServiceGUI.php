@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Component\Component;
+
 /**
  * @author            Michael Jansen <mjansen@databay.de>
  * @ilCtrl_Calls      ilObjTermsOfServiceGUI: ilPermissionGUI
@@ -27,6 +31,11 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 {
     protected ILIAS\DI\Container $dic;
     protected ilErrorHandling $error;
+    /** @var Component[]  */
+    protected array $components = [];
+
+    final public const F_TOS_STATUS = 'tos_status';
+    final public const F_TOS_REEVALUATE_ON_LOGIN = 'tos_reevaluate_on_login';
 
     /**
      * @inheritdoc
@@ -45,12 +54,12 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         $this->lng->loadLanguageModule('meta');
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return 'tos';
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->prepareOutput();
 
@@ -121,7 +130,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -163,55 +172,80 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
     }
 
-    protected function getSettingsForm() : ilTermsOfServiceSettingsFormGUI
+    public function getSettingsForm(): ILIAS\UI\Component\Input\Container\Form\Standard
     {
         /** @var ilObjTermsOfService $obj */
         $obj = $this->object;
-        $form = new ilTermsOfServiceSettingsFormGUI(
-            $obj,
-            $this->ctrl->getFormAction($this, 'saveSettings'),
-            'saveSettings',
-            $this->rbac_system->checkAccess('write', $this->object->getRefId())
-        );
 
-        ilAdministrationSettingsFormHandler::addFieldsToForm(
-            ilAdministrationSettingsFormHandler::FORM_TOS,
-            $form,
-            $this
+        $fields = [];
+
+        $fields[self::F_TOS_STATUS] = $this->dic->ui()->factory()->input()->field()->optionalGroup(
+            [
+                self::F_TOS_REEVALUATE_ON_LOGIN => $this->dic->ui()->factory()->input()->field()->checkbox(
+                    $this->lng->txt('tos_reevaluate_on_login'),
+                    $this->lng->txt('tos_reevaluate_on_login_desc')
+                )->withValue($obj->shouldReevaluateOnLogin())
+                ->withDisabled(!$this->rbac_system->checkAccess('write', $this->object->getRefId()))
+            ],
+            $this->lng->txt('tos_status_enable'),
+            $this->lng->txt('tos_status_desc')
+        )->withValue($this->object->getStatus() ? [self::F_TOS_REEVALUATE_ON_LOGIN => $this->object->shouldReevaluateOnLogin()] : null)
+        ->withDisabled(!$this->rbac_system->checkAccess('write', $this->object->getRefId()));
+
+        $form = $this->dic->ui()->factory()->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'saveSettings'),
+            $fields
         );
 
         return $form;
     }
 
-    protected function saveSettings() : void
+    protected function saveSettings(): void
     {
         if (!$this->rbac_system->checkAccess('write', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+            $this->settings();
         }
+
+        $this->request = $this->dic->http()->request();
+        $bindToModelTransformation = $this->refinery->custom()->transformation(function (array $values): array {
+            $this->object->bindFormInput($values);
+            return $values;
+        });
 
         $form = $this->getSettingsForm();
-        if ($form->saveObject()) {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
-            $this->ctrl->redirect($this, 'settings');
-        } elseif ($form->hasTranslatedError()) {
-            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
-        }
+        $form = $form->withAdditionalTransformation($bindToModelTransformation);
+        $form = $form->withRequest($this->request);
+        if ('POST' === $this->request->getMethod()) {
+            $form = $form->withRequest($this->dic->http()->request());
 
-        $this->tpl->setContent($form->getHTML());
+            $formData = $form->getData();
+            if (!is_null($formData)) {
+                $hasDocuments = ilTermsOfServiceDocument::where([])->count() > 0;
+                if (!$hasDocuments) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tos_no_documents_exist_cant_save'), true);
+                } else {
+                    $this->object->store();
+                }
+                $this->ctrl->redirect($this, 'settings');
+            }
+        }
     }
 
-    protected function showMissingDocuments() : void
+    protected function showMissingDocuments(): void
     {
         if ($this->object->getStatus()) {
             return;
         }
 
         if (0 === ilTermsOfServiceDocument::where([])->count()) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tos_no_documents_exist'));
+            $this->components[] = $this->dic->ui()->factory()->messageBox()->info(
+                $this->lng->txt('tos_no_documents_exist')
+            );
         }
     }
 
-    protected function settings() : void
+    protected function settings(): void
     {
         if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -220,6 +254,20 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         $this->showMissingDocuments();
 
         $form = $this->getSettingsForm();
-        $this->tpl->setContent($form->getHTML());
+
+        $this->components[] = $this->dic->ui()->factory()->messageBox()->info(
+            $this->lng->txt('tos_withdrawal_usr_deletion') . ': ' . ($this->dic->settings()->get(
+                'tos_withdrawal_usr_deletion',
+                '0'
+            ) ? $this->lng->txt('enabled') : $this->lng->txt('disabled'))
+        )->withLinks([
+            $this->dic->ui()->factory()->link()->standard(
+                $this->lng->txt('adm_external_setting_edit'),
+                $this->ctrl->getLinkTargetByClass(ilObjUserFolderGUI::class, 'generalSettings')
+            )
+        ]);
+
+        $this->components[] = $form;
+        $this->tpl->setContent($this->dic->ui()->renderer()->render($this->components));
     }
 }

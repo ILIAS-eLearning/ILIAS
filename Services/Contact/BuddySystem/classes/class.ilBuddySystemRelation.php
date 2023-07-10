@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilBuddySystemRelation
  * @author Michael Jansen <mjansen@databay.de>
@@ -23,32 +25,24 @@
 class ilBuddySystemRelation
 {
     protected ilBuddySystemRelationState $state;
-    protected int $usrId;
-    protected int $buddyUsrId;
-    protected bool $isOwnedByActor;
-    protected int $timestamp;
     protected ?ilBuddySystemRelationState $priorState = null;
 
     public function __construct(
         ilBuddySystemRelationState $state,
-        int $usrId,
-        int $buddyUsrId,
-        bool $isOwnedByActor,
-        int $timestamp
+        protected int $usrId,
+        protected int $buddyUsrId,
+        protected bool $isOwnedByActor,
+        protected int $timestamp
     ) {
-        $this->usrId = $usrId;
-        $this->buddyUsrId = $buddyUsrId;
-        $this->isOwnedByActor = $isOwnedByActor;
-        $this->timestamp = $timestamp;
         $this->setState($state, false);
     }
 
-    private function setPriorState(ilBuddySystemRelationState $prior_state) : void
+    private function setPriorState(ilBuddySystemRelationState $prior_state): void
     {
         $this->priorState = $prior_state;
     }
 
-    public function setState(ilBuddySystemRelationState $state, bool $rememberPriorState = true) : self
+    public function setState(ilBuddySystemRelationState $state, bool $rememberPriorState = true): self
     {
         if ($rememberPriorState) {
             $this->setPriorState($this->getState());
@@ -58,22 +52,22 @@ class ilBuddySystemRelation
         return $this;
     }
 
-    public function getState() : ilBuddySystemRelationState
+    public function getState(): ilBuddySystemRelationState
     {
         return $this->state;
     }
 
-    public function getPriorState() : ?ilBuddySystemRelationState
+    public function getPriorState(): ?ilBuddySystemRelationState
     {
         return $this->priorState;
     }
 
-    public function isOwnedByActor() : bool
+    public function isOwnedByActor(): bool
     {
         return $this->isOwnedByActor;
     }
 
-    public function withIsOwnedByActor(bool $isOwnedByActor) : self
+    public function withIsOwnedByActor(bool $isOwnedByActor): self
     {
         $clone = clone $this;
         $clone->isOwnedByActor = $isOwnedByActor;
@@ -81,12 +75,12 @@ class ilBuddySystemRelation
         return $clone;
     }
 
-    public function getBuddyUsrId() : int
+    public function getBuddyUsrId(): int
     {
         return $this->buddyUsrId;
     }
 
-    public function withBuddyUsrId(int $buddyUsrId) : self
+    public function withBuddyUsrId(int $buddyUsrId): self
     {
         $clone = clone $this;
         $clone->buddyUsrId = $buddyUsrId;
@@ -94,12 +88,12 @@ class ilBuddySystemRelation
         return $clone;
     }
 
-    public function getUsrId() : int
+    public function getUsrId(): int
     {
         return $this->usrId;
     }
 
-    public function withUsrId(int $usrId) : self
+    public function withUsrId(int $usrId): self
     {
         $clone = clone $this;
         $clone->usrId = $usrId;
@@ -107,12 +101,12 @@ class ilBuddySystemRelation
         return $clone;
     }
 
-    public function getTimestamp() : int
+    public function getTimestamp(): int
     {
         return $this->timestamp;
     }
 
-    public function withTimestamp(int $timestamp) : self
+    public function withTimestamp(int $timestamp): self
     {
         $clone = clone $this;
         $clone->timestamp = $timestamp;
@@ -120,16 +114,15 @@ class ilBuddySystemRelation
         return $clone;
     }
 
-    public function getCurrentPossibleTargetStates() : ilBuddySystemCollection
+    public function getCurrentPossibleTargetStates(): ilBuddySystemCollection
     {
         return ilBuddySystemRelationStateFilterRuleFactory::getInstance()->getFilterRuleByRelation($this)->getStates();
     }
 
     /**
-     * @return self
      * @throws ilBuddySystemRelationStateException
      */
-    public function link() : self
+    public function link(): self
     {
         if ($this->getUsrId() === $this->getBuddyUsrId()) {
             throw new ilBuddySystemRelationStateException("Can't change a state when the requester equals the requestee.");
@@ -140,10 +133,9 @@ class ilBuddySystemRelation
     }
 
     /**
-     * @return self
      * @throws ilBuddySystemRelationStateException
      */
-    public function unlink() : self
+    public function unlink(): self
     {
         if ($this->getUsrId() === $this->getBuddyUsrId()) {
             throw new ilBuddySystemRelationStateException("Can't change a state when the requester equals the requestee.");
@@ -154,10 +146,9 @@ class ilBuddySystemRelation
     }
 
     /**
-     * @return self
      * @throws ilBuddySystemRelationStateException
      */
-    public function request() : self
+    public function request(): self
     {
         if ($this->getUsrId() === $this->getBuddyUsrId()) {
             throw new ilBuddySystemRelationStateException("Can't change a state when the requester equals the requestee.");
@@ -168,10 +159,9 @@ class ilBuddySystemRelation
     }
 
     /**
-     * @return self
      * @throws ilBuddySystemRelationStateException
      */
-    public function ignore() : self
+    public function ignore(): self
     {
         if ($this->getUsrId() === $this->getBuddyUsrId()) {
             throw new ilBuddySystemRelationStateException("Can't change a state when the requester equals the requestee.");
@@ -181,42 +171,42 @@ class ilBuddySystemRelation
         return $this;
     }
 
-    public function isLinked() : bool
+    public function isLinked(): bool
     {
         return $this->getState() instanceof ilBuddySystemLinkedRelationState;
     }
 
-    public function isUnlinked() : bool
+    public function isUnlinked(): bool
     {
         return $this->getState() instanceof ilBuddySystemUnlinkedRelationState;
     }
 
-    public function isRequested() : bool
+    public function isRequested(): bool
     {
         return $this->getState() instanceof ilBuddySystemRequestedRelationState;
     }
 
-    public function isIgnored() : bool
+    public function isIgnored(): bool
     {
         return $this->getState() instanceof ilBuddySystemIgnoredRequestRelationState;
     }
 
-    public function wasLinked() : bool
+    public function wasLinked(): bool
     {
         return $this->getPriorState() instanceof ilBuddySystemLinkedRelationState;
     }
 
-    public function wasUnlinked() : bool
+    public function wasUnlinked(): bool
     {
         return $this->getPriorState() instanceof ilBuddySystemUnlinkedRelationState;
     }
 
-    public function wasRequested() : bool
+    public function wasRequested(): bool
     {
         return $this->getPriorState() instanceof ilBuddySystemRequestedRelationState;
     }
 
-    public function wasIgnored() : bool
+    public function wasIgnored(): bool
     {
         return $this->getPriorState() instanceof ilBuddySystemIgnoredRequestRelationState;
     }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Skill\Service\SkillTreeService;
 
@@ -39,9 +42,9 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->survey = $a_survey;
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->getSkills();
         $this->setTitle($lng->txt("survey_competences"));
@@ -61,8 +64,8 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.svy_skill_row.html", "Modules/Survey");
     }
-    
-    public function getSkills() : void
+
+    public function getSkills(): void
     {
         $sskill = new ilSurveySkill($this->survey);
         $opts = $sskill->getAllAssignedSkillsAsOptions();
@@ -80,11 +83,11 @@ class ilSurveySkillTableGUI extends ilTable2GUI
                 "scale_sum" => $scale_sum
                 );
         }
-        
+
         $this->setData($data);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -111,14 +114,14 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->tpl->setVariable("MAX_SCALE_POINTS", $a_set["scale_sum"]);
         $this->tpl->setVariable("CMD", $ilCtrl->getLinkTarget($this->parent_obj, "listSkillThresholds"));
         $this->tpl->setVariable("ACTION", $lng->txt("edit"));
-        
+
         $bs = new ilBasicSkill($a_set["base_skill"]);
         $ld = $bs->getLevelData();
         foreach ($ld as $l) {
             $this->tpl->setCurrentBlock("points");
             $this->tpl->setVariable("LEV", $l["title"]);
 
-            $tr = $this->thresholds[$l["id"]][$a_set["tref_id"]];
+            $tr = $this->thresholds[$l["id"]][$a_set["tref_id"]] ?? 0;
             if ((int) $tr !== 0) {
                 $this->tpl->setVariable("THRESHOLD", (int) $tr);
             } else {

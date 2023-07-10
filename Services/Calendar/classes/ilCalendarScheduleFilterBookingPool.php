@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -21,7 +23,7 @@ class ilCalendarScheduleFilterBookingPool implements ilCalendarScheduleFilter
     /**
      * @inheritDoc
      */
-    public function filterCategories(array $a_cats) : array
+    public function filterCategories(array $a_cats): array
     {
         return $a_cats;
     }
@@ -29,7 +31,7 @@ class ilCalendarScheduleFilterBookingPool implements ilCalendarScheduleFilter
     /**
      * @inheritDoc
      */
-    public function modifyEvent(ilCalendarEntry $a_event) : ?ilCalendarEntry
+    public function modifyEvent(ilCalendarEntry $a_event): ?ilCalendarEntry
     {
         $category = $this->isBookingPoolCategory(ilCalendarCategoryAssignments::_lookupCategory($a_event->getEntryId()));
 
@@ -52,7 +54,7 @@ class ilCalendarScheduleFilterBookingPool implements ilCalendarScheduleFilter
     /**
      * @inheritDoc
      */
-    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories) : array
+    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories): array
     {
         return [];
     }
@@ -61,7 +63,7 @@ class ilCalendarScheduleFilterBookingPool implements ilCalendarScheduleFilter
      * @param $a_cat_id
      * @return null|ilCalendarCategory
      */
-    protected function isBookingPoolCategory(int $a_cat_id) : ?ilCalendarCategory
+    protected function isBookingPoolCategory(int $a_cat_id): ?ilCalendarCategory
     {
         $category = ilCalendarCategory::getInstanceByCategoryId($a_cat_id);
 

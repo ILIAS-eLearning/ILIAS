@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -18,31 +20,31 @@ class ilSearchLuceneQueryParserTest extends TestCase
 
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->initDependencies();
         parent::setUp();
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $qp = new ilLuceneQueryParser('query');
         $this->assertTrue($qp instanceof ilLuceneQueryParser);
     }
 
-    public function testValidation() : void
+    public function testValidation(): void
     {
         $qp = new ilLuceneQueryParser('');
         $this->assertTrue(ilLuceneQueryParser::validateQuery('type:crs'));
     }
 
-    public function testFailedParenthesis() : void
+    public function testFailedParenthesis(): void
     {
         $this->expectException(ilLuceneQueryParserException::class);
         ilLuceneQueryParser::validateQuery('(()');
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -53,7 +55,7 @@ class ilSearchLuceneQueryParserTest extends TestCase
         };
     }
 
-    protected function initDependencies() : void
+    protected function initDependencies(): void
     {
     }
 }

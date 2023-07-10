@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -24,7 +26,7 @@ class ilBookingPeriod implements ilDatePeriod
     /**
      * @see ilDatePeriod::getEnd()
      */
-    public function getEnd() : ?ilDateTime
+    public function getEnd(): ?ilDateTime
     {
         return $this->end;
     }
@@ -32,7 +34,7 @@ class ilBookingPeriod implements ilDatePeriod
     /**
      * @see ilDatePeriod::getStart()
      */
-    public function getStart() : ?ilDateTime
+    public function getStart(): ?ilDateTime
     {
         return $this->start;
     }
@@ -40,7 +42,7 @@ class ilBookingPeriod implements ilDatePeriod
     /**
      * @see ilDatePeriod::isFullday()
      */
-    public function isFullday() : bool
+    public function isFullday(): bool
     {
         return false;
     }

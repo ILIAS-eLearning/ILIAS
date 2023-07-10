@@ -1,0 +1,8 @@
+{
+  "require": [
+    "@babel/register"
+  ],
+  "spec": [
+    "tests"
+  ]
+}

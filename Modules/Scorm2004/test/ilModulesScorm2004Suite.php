@@ -1,11 +1,25 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2022 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
-
-require_once __DIR__ . '/bootstrap.php';
 
 /**
  * Class ilModulesScorm2004Suite
@@ -14,17 +28,12 @@ require_once __DIR__ . '/bootstrap.php';
 class ilModulesScorm2004Suite extends TestSuite
 {
     /**
-     * @return self
      * @throws ReflectionException
      */
-    public static function suite() : self
+    public static function suite(): self
     {
         if (!defined("ILIAS_HTTP_PATH")) {
             define("ILIAS_HTTP_PATH", "http://localhost");
-        }
-
-        if (!defined("DEBUG")) {
-            define("DEBUG", false);
         }
 
         if (!defined("ILIAS_LOG_ENABLED")) {
@@ -51,10 +60,10 @@ class ilModulesScorm2004Suite extends TestSuite
         }
 
         if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
+//            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+//            ilUnitUtil::performInitialisation();
         } else {
-            chdir(dirname(__FILE__));
+            chdir(__DIR__);
             chdir('../../../');
         }
 
@@ -67,8 +76,6 @@ class ilModulesScorm2004Suite extends TestSuite
             ),
             '/BaseTest\.php$/'
         ) as $file) {
-            /** @var SplFileInfo $file */
-            require_once $file->getPathname();
         }
 
         foreach (new RegExIterator(
@@ -78,9 +85,6 @@ class ilModulesScorm2004Suite extends TestSuite
             ),
             '/(?<!Base)Test\.php$/'
         ) as $file) {
-            /** @var SplFileInfo $file */
-            require_once $file->getPathname();
-
             $className = preg_replace('/(.*?)(\.php)/', '$1', $file->getBasename());
             if (class_exists($className)) {
                 $reflection = new ReflectionClass($className);

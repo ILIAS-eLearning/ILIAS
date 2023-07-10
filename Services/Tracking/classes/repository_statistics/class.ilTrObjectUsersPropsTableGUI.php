@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -20,9 +21,9 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
     protected array $user_fields;
     protected int $in_course = 0;
     protected int $in_group = 0;
-    protected bool $has_edit;
-    protected bool $has_collection;
-    protected bool $has_multi;
+    protected bool $has_edit = false;
+    protected bool $has_collection = false;
+    protected bool $has_multi = false;
 
     protected int $obj_id;
     protected int $ref_id;
@@ -60,7 +61,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
             $this->in_group = ilObject::_lookupObjId($this->in_group);
         } else {
             $this->in_course = $this->tree->checkForParentType(
-                $this->ref_id, "crs"
+                $this->ref_id,
+                "crs"
             );
             if ($this->in_course) {
                 $this->in_course = ilObject::_lookupObjId($this->in_course);
@@ -77,10 +79,12 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
             // see ilObjCourseGUI::addMailToMemberButton()
             $mail = new ilMail($DIC->user()->getId());
             if ($this->rbacsystem->checkAccess(
-                "internal_mail", $mail->getMailObjectReferenceId()
+                "internal_mail",
+                $mail->getMailObjectReferenceId()
             )) {
                 $this->addMultiCommand(
-                    "mailselectedusers", $this->lng->txt("send_mail")
+                    "mailselectedusers",
+                    $this->lng->txt("send_mail")
                 );
             }
             $this->lng->loadLanguageModule('user');
@@ -115,7 +119,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
             $this->ctrl->getFormActionByClass(get_class($this))
         );
         $this->setRowTemplate(
-            "tpl.object_users_props_row.html", "Services/Tracking"
+            "tpl.object_users_props_row.html",
+            "Services/Tracking"
         );
         $this->setEnableTitle(true);
         $this->setShowTemplates(true);
@@ -132,18 +137,20 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
         // #13807
         $this->has_edit = ilLearningProgressAccess::checkPermission(
-            'edit_learning_progress', $this->ref_id
+            'edit_learning_progress',
+            $this->ref_id
         );
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         if ($this->selectable_columns) {
             return $this->selectable_columns;
         }
 
         $cols = $this->getSelectableUserColumns(
-            $this->in_course, $this->in_group
+            $this->in_course,
+            $this->in_group
         );
         $this->user_fields = $cols[1];
         $this->selectable_columns = $cols[0];
@@ -154,7 +161,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
     /**
      * Get user items
      */
-    public function getItems() : void
+    public function getItems(): void
     {
         $this->determineOffsetAndOrder();
         $additional_fields = $this->getSelectedColumns();
@@ -174,7 +181,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                 $check_agreement = $this->in_group;
             }
         }
-
         $tr_data = ilTrQuery::getUserDataForObject(
             $this->ref_id,
             ilUtil::stripSlashes($this->getOrderField()),
@@ -186,7 +192,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
             $check_agreement,
             $this->user_fields
         );
-
         if (count($tr_data["set"]) == 0 && $this->getOffset() > 0) {
             $this->resetOffset();
             $tr_data = ilTrQuery::getUserDataForObject(
@@ -201,12 +206,11 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                 $this->user_fields
             );
         }
-
         $this->setMaxCount($tr_data["cnt"]);
         $this->setData($tr_data["set"]);
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         foreach ($this->getSelectableColumns() as $column => $meta) {
             // no udf!
@@ -228,7 +232,9 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                     if ($column != "mark" ||
                         ilObjectLP::supportsMark($this->type)) {
                         $item = $this->addFilterItemByMetaType(
-                            $column, ilTable2GUI::FILTER_TEXT, true,
+                            $column,
+                            ilTable2GUI::FILTER_TEXT,
+                            true,
                             $meta["txt"]
                         );
                         $this->filter[$column] = $item->getValue();
@@ -250,7 +256,9 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
                 case "birthday":
                     $item = $this->addFilterItemByMetaType(
-                        $column, ilTable2GUI::FILTER_DATE_RANGE, true,
+                        $column,
+                        ilTable2GUI::FILTER_DATE_RANGE,
+                        true,
                         $meta["txt"]
                     );
                     $this->filter[$column] = $item->getDate();
@@ -269,7 +277,10 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
                 case "gender":
                     $item = $this->addFilterItemByMetaType(
-                        "gender", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]
+                        "gender",
+                        ilTable2GUI::FILTER_SELECT,
+                        true,
+                        $meta["txt"]
                     );
                     $item->setOptions(
                         array(
@@ -304,7 +315,10 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
                 case "status":
                     $item = $this->addFilterItemByMetaType(
-                        "status", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]
+                        "status",
+                        ilTable2GUI::FILTER_SELECT,
+                        true,
+                        $meta["txt"]
                     );
                     $item->setOptions(
                         array("" => $this->lng->txt("trac_all"),
@@ -330,7 +344,9 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
                 case "language":
                     $item = $this->addFilterItemByMetaType(
-                        "language", ilTable2GUI::FILTER_LANGUAGE, true
+                        "language",
+                        ilTable2GUI::FILTER_LANGUAGE,
+                        true
                     );
                     $this->filter["language"] = $item->getValue();
                     break;
@@ -355,36 +371,39 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->has_multi) {
             $this->tpl->setVariable("USER_ID", $a_set["usr_id"]);
         }
 
         foreach ($this->getSelectedColumns() as $c) {
-            if (!(bool) $a_set["privacy_conflict"]) {
+            if (!(bool) ($a_set["privacy_conflict"] ?? null)) {
                 if ($c == 'status' && $a_set[$c] != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                     $timing = $this->showTimingsWarning(
-                        $this->ref_id, $a_set["usr_id"]
+                        $this->ref_id,
+                        $a_set["usr_id"]
                     );
                     if ($timing) {
                         if ($timing !== true) {
                             $timing = ": " . ilDatePresentation::formatDate(
-                                    new ilDate($timing, IL_CAL_UNIX)
-                                );
+                                new ilDate($timing, IL_CAL_UNIX)
+                            );
                         } else {
                             $timing = "";
                         }
                         $this->tpl->setCurrentBlock('warning_img');
                         $this->tpl->setVariable(
-                            'WARNING_IMG', ilUtil::getImagePath(
-                            'time_warn.svg'
-                        )
+                            'WARNING_IMG',
+                            ilUtil::getImagePath(
+                                'time_warn.svg'
+                            )
                         );
                         $this->tpl->setVariable(
-                            'WARNING_ALT', $this->lng->txt(
-                                             'trac_time_passed'
-                                         ) . $timing
+                            'WARNING_ALT',
+                            $this->lng->txt(
+                                'trac_time_passed'
+                            ) . $timing
                         );
                         $this->tpl->parseCurrentBlock();
                     }
@@ -394,7 +413,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                 if ($c == 'login' && !$a_set["active"]) {
                     $this->tpl->setCurrentBlock('inactive_bl');
                     $this->tpl->setVariable(
-                        'TXT_INACTIVE', $this->lng->txt("inactive")
+                        'TXT_INACTIVE',
+                        $this->lng->txt("inactive")
                     );
                     $this->tpl->parseCurrentBlock();
                 }
@@ -404,9 +424,10 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                 if ($c == 'login') {
                     $this->tpl->setCurrentBlock('inactive_bl');
                     $this->tpl->setVariable(
-                        'TXT_INACTIVE', $this->lng->txt(
-                        "status_no_permission"
-                    )
+                        'TXT_INACTIVE',
+                        $this->lng->txt(
+                            "status_no_permission"
+                        )
                     );
                     $this->tpl->parseCurrentBlock();
                 }
@@ -420,10 +441,12 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         }
 
         $this->ctrl->setParameterByClass(
-            "illplistofobjectsgui", "user_id", $a_set["usr_id"]
+            "illplistofobjectsgui",
+            "user_id",
+            $a_set["usr_id"]
         );
 
-        if (!$this->getPrintMode() && !(bool) $a_set["privacy_conflict"]) {
+        if (!$this->getPrintMode() && !(bool) ($a_set["privacy_conflict"] ?? null)) {
             // details for containers and collections
             if ($this->has_collection ||
                 $this->objDefinition->isContainer($this->type)) {
@@ -431,11 +454,13 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                 $this->tpl->setVariable(
                     "HREF_COMMAND",
                     $this->ctrl->getLinkTargetByClass(
-                        "illplistofobjectsgui", "userdetails"
+                        "illplistofobjectsgui",
+                        "userdetails"
                     )
                 );
                 $this->tpl->setVariable(
-                    "TXT_COMMAND", $this->lng->txt('details')
+                    "TXT_COMMAND",
+                    $this->lng->txt('details')
                 );
                 $this->tpl->parseCurrentBlock();
             }
@@ -445,7 +470,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                 $this->tpl->setVariable(
                     "HREF_COMMAND",
                     $this->ctrl->getLinkTargetByClass(
-                        "illplistofobjectsgui", "edituser"
+                        "illplistofobjectsgui",
+                        "edituser"
                     )
                 );
                 $this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('edit'));
@@ -456,7 +482,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         $this->ctrl->setParameterByClass("illplistofobjectsgui", 'user_id', '');
     }
 
-    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void
     {
         $labels = $this->getSelectableColumns();
         $cnt = 0;
@@ -473,7 +499,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         ilExcel $a_excel,
         int &$a_row,
         array $a_set
-    ) : void {
+    ): void {
         $cnt = 0;
         foreach ($this->getSelectedColumns() as $c) {
             if ($c != 'status') {
@@ -487,7 +513,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
+    protected function fillHeaderCSV(ilCSVWriter $a_csv): void
     {
         $labels = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $c) {
@@ -497,7 +523,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         foreach ($this->getSelectedColumns() as $c) {
             if ($c != 'status') {

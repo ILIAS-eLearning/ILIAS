@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Services\User;
 
@@ -34,12 +39,12 @@ class InterestedUserFieldChangeListener
         $this->fieldName = $fieldName;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getFieldName() : string
+    public function getFieldName(): string
     {
         return $this->fieldName;
     }
@@ -47,12 +52,12 @@ class InterestedUserFieldChangeListener
     /**
      * @return InterestedUserFieldAttribute[]
      */
-    public function getAttributes() : array
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
 
-    public function addAttribute(string $attributeName) : InterestedUserFieldAttribute
+    public function addAttribute(string $attributeName): InterestedUserFieldAttribute
     {
         foreach ($this->attributes as $attribute) {
             if ($attribute->getAttributeName() === $attributeName) {

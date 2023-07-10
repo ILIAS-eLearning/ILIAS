@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\To\Transformation;
 
 use DateTimeImmutable;
@@ -27,12 +29,12 @@ class DateTimeTransformationTest extends TestCase
 {
     private DateTimeTransformation $trans;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->trans = new DateTimeTransformation();
     }
 
-    public function testTransform() : void
+    public function testTransform(): void
     {
         $value = '26.05.1977';
         $expected = new DateTimeImmutable($value);
@@ -43,13 +45,13 @@ class DateTimeTransformationTest extends TestCase
         );
     }
 
-    public function testInvalidTransform() : void
+    public function testInvalidTransform(): void
     {
         $this->expectException(UnexpectedValueException::class);
         $this->trans->transform('erroneous');
     }
 
-    public function testInvoke() : void
+    public function testInvoke(): void
     {
         $value = '2019/05/26';
         $expected = new DateTimeImmutable($value);

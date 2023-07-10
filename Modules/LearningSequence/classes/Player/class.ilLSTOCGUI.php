@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\KioskMode\TOCBuilder;
 
 /**
@@ -23,7 +25,10 @@ use ILIAS\KioskMode\TOCBuilder;
  */
 class ilLSTOCGUI extends ilExplorerBaseGUI
 {
-    const NODE_ICONS = [
+    /**
+     * @deprecated will be deleted with R8
+     */
+    public const NODE_ICONS = [
         TOCBuilder::LP_NOT_STARTED => "./templates/default/images/scorm/not_attempted.svg",
         TOCBuilder::LP_IN_PROGRESS => "./templates/default/images/scorm/incomplete.svg",
         TOCBuilder::LP_COMPLETED => "./templates/default/images/scorm/completed.svg",
@@ -42,6 +47,16 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     protected LSUrlBuilder $url_builder;
     protected int $counter = 0;
 
+    /**
+     * @var array<string>
+     */
+    protected array $node_icons = [
+        TOCBuilder::LP_NOT_STARTED => '',
+        TOCBuilder::LP_IN_PROGRESS => '',
+        TOCBuilder::LP_COMPLETED => '',
+        TOCBuilder::LP_FAILED => ''
+    ];
+
     public function __construct(LSUrlBuilder $url_builder)
     {
         parent::__construct("lsq_toc", null, "");
@@ -49,9 +64,16 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
         $this->url_builder = $url_builder;
         $this->setSkipRootNode(false);
         $this->setNodeOnclickEnabled(true);
+
+        //get the image paths to the node icons
+        $lp_icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
+        $this->node_icons[TOCBuilder::LP_NOT_STARTED] = $lp_icons->getImagePathNotAttempted();
+        $this->node_icons[TOCBuilder::LP_COMPLETED] = $lp_icons->getImagePathCompleted();
+        $this->node_icons[TOCBuilder::LP_IN_PROGRESS] = $lp_icons->getImagePathInProgress();
+        $this->node_icons[TOCBuilder::LP_FAILED] = $lp_icons->getImagePathFailed();
     }
 
-    public function withStructure(string $json_structure) : self
+    public function withStructure(string $json_structure): self
     {
         $clone = clone $this;
         $clone->structure = $clone->addIds(json_decode($json_structure, true));
@@ -60,7 +82,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
         return $clone;
     }
 
-    protected function addIds(array $node) : array
+    protected function addIds(array $node): array
     {
         $node['_id'] = $this->counter;
         $this->counter++;
@@ -72,7 +94,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
         return $node;
     }
 
-    protected function buildLookup(array $node) : void
+    protected function buildLookup(array $node): void
     {
         $this->nodes[$node['_id']] = $node;
         if (array_key_exists('childs', $node)) {
@@ -93,16 +115,16 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getChildsOfNode($a_parent_node_id) : array
+    public function getChildsOfNode($a_parent_node_id): array
     {
         $parent_node = $this->nodes[$a_parent_node_id];
-        return (array) $parent_node['childs'];
+        return (array) ($parent_node['childs'] ?? []);
     }
 
     /**
      * @inheritdoc
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         return $a_node['label'];
     }
@@ -110,10 +132,10 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         $state = $a_node['state'] ?? TOCBuilder::LP_NOT_STARTED;
-        return static::NODE_ICONS[$state];
+        return $this->node_icons[$state];
     }
 
     /**
@@ -127,7 +149,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         return $this->url_builder->getHref($a_node['command'], $a_node['parameter']);
     }
@@ -135,7 +157,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         return !is_null($a_node['parameter']);
     }
@@ -143,8 +165,8 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function isNodeHighlighted($a_node) : bool
+    public function isNodeHighlighted($a_node): bool
     {
-        return $a_node['current'];
+        return $a_node['current'] ?? false;
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,30 +9,30 @@
  */
 class ilLPStatusCollectionMobs extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $users = array();
 
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-        if (is_array($status_info["user_status"]["in_progress"])) {
+        if (isset($status_info["user_status"]["in_progress"])) {
             $users = $status_info["user_status"]["in_progress"];
         }
         return $users;
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $users = array();
 
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-        if (is_array($status_info["user_status"]["completed"])) {
+        if (isset($status_info["user_status"]["completed"])) {
             $users = $status_info["user_status"]["completed"];
         }
 
         return $users;
     }
 
-    public static function _getStatusInfo(int $a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id): array
     {
         global $DIC;
 
@@ -79,14 +81,14 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         foreach ($users as $user_id) {
-            if ((!is_array($res["user_status"]["in_progress"]) || !in_array(
-                        $user_id,
-                        $res["user_status"]["in_progress"]
-                    )) &&
-                (!is_array($res["user_status"]["completed"]) || !in_array(
-                        $user_id,
-                        $res["user_status"]["completed"]
-                    ))) {
+            if ((!isset($res["user_status"]["in_progress"]) || !in_array(
+                $user_id,
+                $res["user_status"]["in_progress"]
+            )) &&
+                (!isset($res["user_status"]["completed"]) || !in_array(
+                    $user_id,
+                    $res["user_status"]["completed"]
+                ))) {
                 $res["user_status"]["in_progress"][] = (int) $user_id;
             }
         }
@@ -126,7 +128,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
             $status = self::LP_STATUS_IN_PROGRESS_NUM;
@@ -134,7 +136,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 
         // an empty collection is always not attempted
         $items = self::getCollectionItems($a_obj_id);
-        if (sizeof($items)) {
+        if (count($items) > 0) {
             // process mob status for user
 
             $found = array();
@@ -148,14 +150,44 @@ class ilLPStatusCollectionMobs extends ilLPStatus
                 $found[] = (int) $row["obj_id"];
             }
 
-            if (sizeof($found)) {
+            if (count($found) > 0) {
                 $status = self::LP_STATUS_IN_PROGRESS_NUM;
 
-                if (sizeof($found) == sizeof($items)) {
+                if (count($found) == count($items)) {
                     $status = self::LP_STATUS_COMPLETED_NUM;
                 }
             }
         }
         return $status;
+    }
+
+    public function determinePercentage(
+        int $a_obj_id,
+        int $a_usr_id,
+        ?object $a_obj = null
+    ): int {
+        $per = 0;
+
+        // an empty collection is always not attempted
+        $items = self::getCollectionItems($a_obj_id);
+        if (count($items) > 0) {
+            // process mob status for user
+
+            $found = array();
+            $set = $this->db->query(
+                "SELECT obj_id FROM read_event" .
+                " WHERE usr_id = " . $this->db->quote($a_usr_id, "integer") .
+                " AND " . $this->db->in("obj_id", $items, false, "integer")
+            );
+            while ($row = $this->db->fetchAssoc($set)) {
+                $found[] = (int) $row["obj_id"];
+            }
+
+            if (count($found) > 0 && count($items) > 0) {
+                $per = round(100 / count($items) * count($found));
+            }
+        }
+
+        return $per;
     }
 }

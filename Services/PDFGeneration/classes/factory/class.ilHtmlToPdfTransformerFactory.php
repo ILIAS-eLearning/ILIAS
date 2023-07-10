@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+/**
+ * @deprecated
+ */
 class ilHtmlToPdfTransformerFactory
 {
     private const PDF_OUTPUT_DOWNLOAD = 'D';
@@ -30,7 +35,7 @@ class ilHtmlToPdfTransformerFactory
         $this->lng = $lng;
     }
 
-    protected function generateTempPath(string $output) : string
+    protected function generateTempPath(string $output): string
     {
         $dir = ilFileUtils::ilTempnam();
         if (!is_dir($dir)) {
@@ -45,7 +50,7 @@ class ilHtmlToPdfTransformerFactory
     /**
      * @throws Exception
      */
-    public function deliverPDFFromHTMLString(array $src, string $output, string $delivery_type, string $service, string $purpose)
+    public function deliverPDFFromHTMLString(string $src, string $output, string $delivery_type, string $service, string $purpose)
     {
         $map = ilPDFGeneratorUtils::getRendererMapForPurpose($service, $purpose);
         $renderer = ilPDFGeneratorUtils::getRendererInstance($map['selected']);
@@ -54,7 +59,7 @@ class ilHtmlToPdfTransformerFactory
         if (basename($output) === $output) {
             $output = $this->generateTempPath($output);
         }
-        
+
         $job = new ilPDFGenerationJob();
         $job->setFilename($output);
         $job->addPage($src);
@@ -80,7 +85,7 @@ class ilHtmlToPdfTransformerFactory
         return false;
     }
 
-    protected function createOneFileFromArray(array $src) : string
+    protected function createOneFileFromArray(array $src): string
     {
         $tmp_file = dirname(reset($src)) . '/complete_pages_overview.html';
         $html_content = '';

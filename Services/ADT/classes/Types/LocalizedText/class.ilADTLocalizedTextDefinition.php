@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -14,12 +16,12 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     private string $default_language = '';
     private int $max_length;
 
-    public function getMaxLength() : ?int
+    public function getMaxLength(): ?int
     {
         return $this->max_length;
     }
 
-    public function setMaxLength(int $max_length) : void
+    public function setMaxLength(int $max_length): void
     {
         $this->max_length = $max_length;
     }
@@ -27,12 +29,12 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     /**
      * @return string[]
      */
-    public function getActiveLanguages() : array
+    public function getActiveLanguages(): array
     {
         return $this->active_languages;
     }
 
-    public function setActiveLanguages(array $active) : void
+    public function setActiveLanguages(array $active): void
     {
         $this->active_languages = $active;
     }
@@ -40,7 +42,7 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     /**
      * @inheritDoc
      */
-    public function isComparableTo(ilADT $a_adt) : bool
+    public function isComparableTo(ilADT $a_adt): bool
     {
         return $a_adt instanceof ilADTLocalizedText;
     }
@@ -48,7 +50,7 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     /**
      * @return string
      */
-    public function getDefaultLanguage() : string
+    public function getDefaultLanguage(): string
     {
         return $this->default_language;
     }
@@ -56,7 +58,7 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     /**
      * @param string $default_language
      */
-    public function setDefaultLanguage(string $default_language) : void
+    public function setDefaultLanguage(string $default_language): void
     {
         $this->default_language = $default_language;
     }
@@ -64,7 +66,7 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     /**
      * @return bool
      */
-    public function supportsTranslations() : bool
+    public function supportsTranslations(): bool
     {
         return strlen($this->getDefaultLanguage()) > 0;
     }

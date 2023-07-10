@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -37,9 +40,7 @@ class ilPageActivationDBRepository
         array $ids,
         bool $check_scheduled_activation = false,
         string $lang = ""
-    ) : array {
-
-
+    ): array {
         // language must be set at least to "-"
         if ($lang == "") {
             $lang = "-";
@@ -66,7 +67,7 @@ class ilPageActivationDBRepository
         array $ids,
         bool $check_scheduled_activation = false,
         string $lang = ""
-    ) : array {
+    ): array {
         $db = $this->db;
         $set = $db->queryF(
             "SELECT page_id, active, activation_start, activation_end, show_activation_info FROM page_object WHERE " .

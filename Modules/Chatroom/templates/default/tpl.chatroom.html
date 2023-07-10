@@ -4,11 +4,8 @@
 	document.addEventListener('DOMContentLoaded', (event) => {
 		const lang = {
 			main: {LBL_MAINROOM},
-			leave: {LBL_LEAVE_PRIVATE_ROOM},
 			left: {LBL_LEFT_PRIVATE_ROOM},
 			enter: {LBL_JOIN},
-			delete_private_room_question: {LBL_DELETE_PRIVATE_ROOM_QUESTION},
-			delete_private_room: {LBL_DELETE_PRIVATE_ROOM},
 			invite_users: {LBL_INVITE_TO_PRIVATE_ROOM},
 			kick: {LBL_KICK},
 			ban: {LBL_BAN},
@@ -20,7 +17,6 @@
 			whisper_to: {LBL_WHISPER_TO},
 			connect: {LBL_CONNECT},
 			disconnected: {LBL_DISCONNECT},
-			create_private_room: {LBL_CREATE_PRIVATE_ROOM_JS},
 			welcome_to_chat: {LBL_WELCOME_TO_CHAT},
 			user_invited: {LBL_USER_INVITED},
 			user_kicked: {LBL_USER_KICKED},
@@ -56,20 +52,14 @@
 		</ul>
 	</div>
 </div>
-
+<div class="ilHeadAction" id="chat_actions_wrapper">
+	<div class="btn-group" id="chat_actions">
+		<button onclick="this.blur(); return false;" type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" data-container="body">
+		<span id="chat_actions_title">{ACTIONS}</span> <span class="caret" alt=""></span>
+		</button>
+	</div>
+</div>
 <table id="chat_wrapper">
-	<tr id="chat_head_line">
-		<td class="ilValignBottom">
-			<h3 class="ilHeader current_room_title"></h3>
-			<div class="ilHeadAction" id="chat_actions_wrapper">
-				<div class="btn-group" id="chat_actions">
-					<button onclick="this.blur(); return false;" type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" data-container="body">
-						<span id="chat_actions_title">{ACTIONS}</span> <span class="caret" alt=""></span>
-					</button>
-				</div>
-			</div>
-		</td>
-	</tr>
 	<tr>
 		<td>
 			<div id="chat_messages"></div>
@@ -94,7 +84,7 @@
 					</div>
 					<div class="help-block"></div>
 				</div>
-				<div class="form-group">
+				<div class="form-group row">
 					<div class="col-sm-3">
 						<label class="control-label" for="submit_message_text">
 							<span id="message_recipient_info_all">{LBL_TOALL}</span>
@@ -112,7 +102,3 @@
 </table>
 
 <input class="ilHidden" type="text" name="moreOptions" id="moreOptions" />
-
-<div class="ilNoDisplayChat" id="create_private_room_dialog">
-	<label for="new_room_name">{LBL_CREATE_PRIVATE_ROOM_TEXT}:</label> <input class="form-control" type="text" id="new_room_name" />
-</div>

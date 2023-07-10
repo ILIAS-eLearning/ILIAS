@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 require_once 'Services/User/classes/class.ilUserAutoComplete.php';
 
 /**
@@ -24,7 +26,7 @@ require_once 'Services/User/classes/class.ilUserAutoComplete.php';
  */
 class ilOnScreenChatUserUserAutoComplete extends ilUserAutoComplete
 {
-    protected function getFromPart() : string
+    protected function getFromPart(): string
     {
         global $DIC;
 
@@ -38,7 +40,7 @@ class ilOnScreenChatUserUserAutoComplete extends ilUserAutoComplete
         return $from_part;
     }
 
-    protected function getWherePart(array $search_query) : string
+    protected function getWherePart(array $search_query): string
     {
         global $DIC;
 

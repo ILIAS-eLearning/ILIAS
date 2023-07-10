@@ -92,7 +92,7 @@ class exTestPlayerGUI
 
         $playerQstPageHTML; // complete question page html
     }
-    
+
     /**
      * With the presentation of an assessment question, this question also gets submitted having any solution
      * filled out by any user. With the first presentation there should be no previous user response available.
@@ -123,46 +123,46 @@ class exTestPlayerGUI
     public function submitSolution()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         // this can also be $_REQUEST or any other future ilias post-request handler
         $serverRequestObject; /* @var \Psr\Http\Message\ServerRequestInterface $serverRequestObject */
-        
+
         $questionId = 0; // initialise with id of question that just submits
-        
+
         /**
          * fetch possibly existing participant solution, an empty one is required otherwise
          */
-        
+
         $participantSolution = $this->getParticipantSolution($questionId);
-        
+
         /**
          * let the solution object instance harvest the submission post data
          */
-        
+
         $participantSolution->initFromServerRequest($serverRequestObject);
-        
+
         /**
          * get results calculator to be used to retrieve calculated reached points
          * that can be stored in a test result storage managed by the test object
          */
-        
+
         $questionInstance = $DIC->question()->getQuestionInstance($questionId);
         $solutionInstance = $this->getParticipantSolution($questionId);
         $resultCalculator = $DIC->question()->getResultCalculator($questionInstance, $solutionInstance);
-        
+
         $resultInstance = $resultCalculator->calculate();
-        
+
         /**
          * handle the calculated result in any kind
          */
-        
+
         // can be stored in any ilTestResult object managed by the test
         $reachedPoints = $resultInstance->getPoints();
-        
+
         // can be used to differ answer status in CTM's test sequence
         $isCorrect = $resultInstance->isCorrect();
     }
-    
+
     /**
      * this method returns either an initialised solution object instance, or and empty one,
      * depending on self managed test results (handled by a future ilTestResult)
@@ -173,18 +173,18 @@ class exTestPlayerGUI
     public function getParticipantSolution($questionId)
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         /**
          * when the test has any test result based on an existing participant solution,
          * the solution id needs to be looked up. an empty solution is returned otherwise.
          */
-        
+
         $solutionId = 0;
-        
+
         if ($solutionId) {
             return $DIC->question()->getQuestionSolutionInstance($questionId, $solutionId);
         }
-        
+
         return $DIC->question()->getEmptyQuestionSolutionInstance($questionId);
     }
 }

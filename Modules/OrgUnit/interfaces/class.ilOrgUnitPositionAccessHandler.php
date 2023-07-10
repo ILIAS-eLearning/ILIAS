@@ -7,7 +7,6 @@
  */
 interface ilOrgUnitPositionAccessHandler
 {
-
     /**
      * @param int[]  $user_ids           List of ILIAS-User-IDs which shall be filtered
      * @param string $permission
@@ -17,7 +16,7 @@ interface ilOrgUnitPositionAccessHandler
      *                                   ilOrgUnitPositionAccessHandler
      * @see getAvailablePositionRelatedPermissions for available permissions
      */
-    public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, string $permission) : array;
+    public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, string $permission): array;
 
     /**
      * @param int[]  $user_ids           List of ILIAS-User-IDs which shall be filtered
@@ -29,7 +28,11 @@ interface ilOrgUnitPositionAccessHandler
      *                                   ilOrgUnitPositionAccessHandler
      * @see getAvailablePositionRelatedPermissions for available permissions
      */
-    public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, int $for_user_id, string $permission) : array;
+    public function filterUserIdsForUsersPositionsAndPermission(
+        array $user_ids,
+        int $for_user_id,
+        string $permission
+    ): array;
 
     /**
      * @param string $permission
@@ -37,7 +40,7 @@ interface ilOrgUnitPositionAccessHandler
      * @return bool
      * @see getAvailablePositionRelatedPermissions for available permissions
      */
-    public function isCurrentUserBasedOnPositionsAllowedTo(string $permission, array $on_user_ids) : bool;
+    public function isCurrentUserBasedOnPositionsAllowedTo(string $permission, array $on_user_ids): bool;
 
     /**
      * @param int    $which_user_id Permission check for this ILIAS-User-ID
@@ -46,7 +49,7 @@ interface ilOrgUnitPositionAccessHandler
      * @return bool
      * @see getAvailablePositionRelatedPermissions for available permissions
      */
-    public function isUserBasedOnPositionsAllowedTo(int $which_user_id, string $permission, array $on_user_ids) : bool;
+    public function isUserBasedOnPositionsAllowedTo(int $which_user_id, string $permission, array $on_user_ids): bool;
 
     /**
      * @param string $pos_perm
@@ -54,13 +57,13 @@ interface ilOrgUnitPositionAccessHandler
      * @return bool
      * @see getAvailablePositionRelatedPermissions for available permissions
      */
-    public function checkPositionAccess(string $pos_perm, int $ref_id) : bool;
+    public function checkPositionAccess(string $pos_perm, int $ref_id): bool;
 
     /**
      * @param int $ref_id
      * @return bool
      */
-    public function hasCurrentUserAnyPositionAccess(int $ref_id) : bool;
+    public function hasCurrentUserAnyPositionAccess(int $ref_id): bool;
 
     /**
      * @param string $pos_perm
@@ -69,7 +72,7 @@ interface ilOrgUnitPositionAccessHandler
      * @return int[]
      * @see getAvailablePositionRelatedPermissions for available permissions
      */
-    public function filterUserIdsByPositionOfCurrentUser(string $pos_perm, int $ref_id, array $user_ids) : array;
+    public function filterUserIdsByPositionOfCurrentUser(string $pos_perm, int $ref_id, array $user_ids): array;
 
     /**
      * @param int    $user_id
@@ -79,5 +82,5 @@ interface ilOrgUnitPositionAccessHandler
      * @return int[]
      * @see getAvailablePositionRelatedPermissions for available permissions
      */
-    public function filterUserIdsByPositionOfUser(int $user_id, string $pos_perm, int $ref_id, array $user_ids) : array;
+    public function filterUserIdsByPositionOfUser(int $user_id, string $pos_perm, int $ref_id, array $user_ids): array;
 }

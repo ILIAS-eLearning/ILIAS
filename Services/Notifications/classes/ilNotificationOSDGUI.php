@@ -1,7 +1,6 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,15 +11,16 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Notifications;
 
 use ilGlobalTemplateInterface;
-use ILIAS\DI\UIServices;
 use iljQueryUtil;
 use ilLanguage;
 use ilObjUser;
@@ -33,23 +33,18 @@ use ilTemplate;
  */
 class ilNotificationOSDGUI
 {
-    protected ilObjUser $user;
-    protected ilGlobalTemplateInterface $page;
-    protected ilLanguage $lng;
+    final public const DEFAULT_POLLING_INTERVAL = 60000;
 
-    public function __construct(ilGlobalTemplateInterface $page, ilLanguage $language)
+    protected ilObjUser $user;
+
+    public function __construct(protected ilGlobalTemplateInterface $page, protected ilLanguage $lng)
     {
         global $DIC;
 
         $this->user = $DIC->user();
-        $this->page = $page;
-        $this->lng = $language;
     }
 
-    /**
-     *
-     */
-    public function populatePage() : void
+    public function populatePage(): void
     {
         if ($this->user->isAnonymous() || 0 === $this->user->getId()) {
             return;
@@ -61,11 +56,11 @@ class ilNotificationOSDGUI
 
         $osdTemplate->setVariable(
             'OSD_INTERVAL',
-            $notificationSettings->get('osd_interval') ? : '60'
+            $notificationSettings->get('osd_interval', (string) self::DEFAULT_POLLING_INTERVAL)
         );
         $osdTemplate->setVariable(
             'OSD_PLAY_SOUND',
-            $notificationSettings->get('play_sound') && $this->user->getPref('play_sound') ? 'true' : 'false'
+            $notificationSettings->get('osd_play_sound') && $this->user->getPref('osd_play_sound') ? 'true' : 'false'
         );
 
         iljQueryUtil::initjQuery($this->page);

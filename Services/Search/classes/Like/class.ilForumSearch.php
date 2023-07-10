@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,10 +36,10 @@
 
 class ilForumSearch extends ilAbstractSearch
 {
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         // Search in topic titles, posting title, posting
-        
+
         // First: search topics:
         $this->setFields(array('thr_subject'));
 
@@ -51,11 +53,16 @@ class ilForumSearch extends ilAbstractSearch
             $and;
 
         $res = $this->db->query($query);
-        
+
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             #$thread_post = $row->thr_pk.'_0';
             $thread_post = $row->thr_pk;
-            $this->search_result->addEntry($row->frm_id, 'frm', $this->__prepareFound($row), $thread_post);
+            $this->search_result->addEntry(
+                (int) $row->frm_id,
+                'frm',
+                $this->__prepareFound($row),
+                (int) $thread_post
+            );
         }
 
         // First: search post title, content:
@@ -69,12 +76,17 @@ class ilForumSearch extends ilAbstractSearch
             "FROM  frm_posts,frm_data " .
             "WHERE pos_top_fk = top_pk " .
             $and;
-            
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             #$thread_post = $row->pos_thr_fk.'_'.$row->pos_pk;
             $thread_post = $row->pos_thr_fk;
-            $this->search_result->addEntry($row->frm_id, 'frm', $this->__prepareFound($row), $thread_post);
+            $this->search_result->addEntry(
+                (int) $row->frm_id,
+                'frm',
+                $this->__prepareFound($row),
+                (int) $thread_post
+            );
         }
         return $this->search_result;
     }

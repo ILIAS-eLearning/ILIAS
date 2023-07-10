@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Taxonomy classification provider
@@ -8,30 +22,30 @@
  */
 class ilTaxonomyClassificationProvider extends ilClassificationProvider
 {
-    protected array $selection;
+    protected array $selection = [];
     protected static array $valid_tax_map = [];
-    protected int $incoming_id;
+    protected int $incoming_id = 0;
 
-    public static function isActive(int $a_parent_ref_id, int $a_parent_obj_id, string $a_parent_obj_type) : bool
+    public static function isActive(int $a_parent_ref_id, int $a_parent_obj_id, string $a_parent_obj_type): bool
     {
         return (bool) self::getActiveTaxonomiesForParentRefId($a_parent_ref_id);
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $params = $this->request->getQueryParams();
         $body = $this->request->getParsedBody();
         $this->incoming_id = (int) ($body["tax_node"] ?? ($params["tax_node"] ?? null));
     }
 
-    public function render(array &$a_html, object $a_parent_gui) : void
+    public function render(array &$a_html, object $a_parent_gui): void
     {
         foreach (self::$valid_tax_map[$this->parent_ref_id] as $tax_id) {
-            $tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, null, (int) $tax_id, null, null);
+            $tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, "", (int) $tax_id, "", "");
             $tax_exp->setSkipRootNode(true);
             $tax_exp->setOnClick("il.Classification.toggle({tax_node: '{NODE_CHILD}'});");
 
-            if (is_array($this->selection)) {
+            if (isset($this->selection) && is_array($this->selection)) {
                 foreach ($this->selection as $node_id) {
                     $tax_exp->setPathOpen($node_id);
                     $tax_exp->setNodeSelected($node_id);
@@ -47,7 +61,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         }
     }
 
-    public function importPostData(?array $a_saved = null) : array
+    public function importPostData(?array $a_saved = null): array
     {
         $incoming_id = $this->incoming_id;
         if ($incoming_id !== 0) {
@@ -70,12 +84,12 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    public function setSelection(array $a_value) : void
+    public function setSelection(array $a_value): void
     {
         $this->selection = $a_value;
     }
 
-    protected static function getActiveTaxonomiesForParentRefId(int $a_parent_ref_id) : int
+    protected static function getActiveTaxonomiesForParentRefId(int $a_parent_ref_id): int
     {
         global $DIC;
 
@@ -130,7 +144,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         return 0;
     }
 
-    public function getFilteredObjects() : array
+    public function getFilteredObjects(): array
     {
         $tax_obj_ids = array();
         $tax_map = array();

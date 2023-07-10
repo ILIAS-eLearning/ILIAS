@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\Style\Content;
@@ -77,7 +82,7 @@ class ilStyleCharacteristicGUI
 
     protected function extractParametersOfTag(
         bool $a_custom = false
-    ) : array {
+    ): array {
         $style = $this->object->getStyle();
         $parameters = array();
         foreach ($style as $tag) {
@@ -95,7 +100,7 @@ class ilStyleCharacteristicGUI
     /**
      * Execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->gui_service->ctrl();
 
@@ -116,7 +121,7 @@ class ilStyleCharacteristicGUI
         }
     }
 
-    public function listCharacteristics() : void
+    public function listCharacteristics(): void
     {
         $lng = $this->domain_service->lng();
         $ilTabs = $this->gui_service->tabs();
@@ -173,7 +178,7 @@ class ilStyleCharacteristicGUI
         $tpl->setContent($table_gui->getHTML());
     }
 
-    public function setListSubTabs() : void
+    public function setListSubTabs(): void
     {
         $lng = $this->domain_service->lng();
         $tabs = $this->gui_service->tabs();
@@ -194,7 +199,7 @@ class ilStyleCharacteristicGUI
         $ctrl->setParameter($this, "style_type", $this->style_type);
     }
 
-    public function addCharacteristic() : void
+    public function addCharacteristic(): void
     {
         $tpl = $this->gui_service->mainTemplate();
 
@@ -202,7 +207,7 @@ class ilStyleCharacteristicGUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function saveCharacteristic() : void
+    public function saveCharacteristic(): void
     {
         $ilCtrl = $this->gui_service->ctrl();
         $tpl = $this->gui_service->mainTemplate();
@@ -232,7 +237,7 @@ class ilStyleCharacteristicGUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function deleteCharacteristicConfirmation() : void
+    public function deleteCharacteristicConfirmation(): void
     {
         $ilCtrl = $this->gui_service->ctrl();
         $tpl = $this->gui_service->mainTemplate();
@@ -270,7 +275,7 @@ class ilStyleCharacteristicGUI
     }
 
     // Message that appears, when user tries to delete core characteristics
-    public function deleteCoreCharMessage() : void
+    public function deleteCoreCharMessage(): void
     {
         $ilCtrl = $this->gui_service->ctrl();
         $tpl = $this->gui_service->mainTemplate();
@@ -307,7 +312,7 @@ class ilStyleCharacteristicGUI
         $tpl->setContent($cgui->getHTML());
     }
 
-    public function cancelCharacteristicDeletion() : void
+    public function cancelCharacteristicDeletion(): void
     {
         $ilCtrl = $this->gui_service->ctrl();
         $lng = $this->domain_service->lng();
@@ -320,7 +325,7 @@ class ilStyleCharacteristicGUI
      * Delete one or multiple style characteristic
      * @throws Content\ContentStyleNoPermissionException
      */
-    public function deleteCharacteristic() : void
+    public function deleteCharacteristic(): void
     {
         $ilCtrl = $this->gui_service->ctrl();
 
@@ -343,7 +348,7 @@ class ilStyleCharacteristicGUI
     /**
      * Init tag style editing form
      */
-    public function initCharacteristicForm() : ilPropertyFormGUI
+    public function initCharacteristicForm(): ilPropertyFormGUI
     {
         $lng = $this->domain_service->lng();
         $ilCtrl = $this->gui_service->ctrl();
@@ -385,7 +390,7 @@ class ilStyleCharacteristicGUI
         return $form;
     }
 
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
         $tabs = $this->gui_service->tabs();
         $ctrl = $this->gui_service->ctrl();
@@ -415,7 +420,7 @@ class ilStyleCharacteristicGUI
         );
     }
 
-    protected function setParameterSubTabs() : void
+    protected function setParameterSubTabs(): void
     {
         $tabs = $this->gui_service->tabs();
         $ctrl = $this->gui_service->ctrl();
@@ -454,7 +459,7 @@ class ilStyleCharacteristicGUI
         }
     }
 
-    protected function editTagStyle() : void
+    protected function editTagStyle(): void
     {
         $ilToolbar = $this->gui_service->toolbar();
         $lng = $this->domain_service->lng();
@@ -494,7 +499,7 @@ class ilStyleCharacteristicGUI
      * @throws ilCtrlException
      * @throws ilFormException
      */
-    protected function initTagStyleForm() : ilPropertyFormGUI
+    protected function initTagStyleForm(): ilPropertyFormGUI
     {
         $lng = $this->domain_service->lng();
         $ilCtrl = $this->gui_service->ctrl();
@@ -554,7 +559,7 @@ class ilStyleCharacteristicGUI
                         if (ilObjStyleSheet::_getStyleParameterInputType($par) == "numeric_no_perc") {
                             $num_input->setAllowPercentage(false);
                         }
-                    $form_gui->addItem($num_input);
+                        $form_gui->addItem($num_input);
                         break;
 
                     case "percentage":
@@ -641,7 +646,7 @@ class ilStyleCharacteristicGUI
     /**
      * FORM: Get current values from persistent object.
      */
-    protected function getValues(ilPropertyFormGUI $form) : void
+    protected function getValues(ilPropertyFormGUI $form): void
     {
         $cur_parameters = $this->extractParametersOfTag();
         $parameters = ilObjStyleSheet::_getStyleParameters();
@@ -683,7 +688,7 @@ class ilStyleCharacteristicGUI
         $input->setValue($vals);
     }
 
-    protected function outputTagStyleEditScreen(ilPropertyFormGUI $form) : void
+    protected function outputTagStyleEditScreen(ilPropertyFormGUI $form): void
     {
         $tpl = $this->gui_service->mainTemplate();
 
@@ -711,14 +716,14 @@ class ilStyleCharacteristicGUI
         $tpl->setContent($ts_tpl->get());
     }
 
-    protected function setTitle() : void
+    protected function setTitle(): void
     {
         $tpl = $this->gui_service->mainTemplate();
         $lng = $this->domain_service->lng();
         $tpl->setTitle($this->current_class . " (" . $lng->txt("sty_type_" . $this->style_type) . ")");
     }
 
-    protected function refreshTagStyle() : void
+    protected function refreshTagStyle(): void
     {
         $ilCtrl = $this->gui_service->ctrl();
 
@@ -733,7 +738,7 @@ class ilStyleCharacteristicGUI
         }
     }
 
-    protected function updateTagStyle() : void
+    protected function updateTagStyle(): void
     {
         $ilCtrl = $this->gui_service->ctrl();
 
@@ -747,7 +752,7 @@ class ilStyleCharacteristicGUI
         }
     }
 
-    protected function saveTagStyle(ilPropertyFormGUI $form) : void
+    protected function saveTagStyle(ilPropertyFormGUI $form): void
     {
         $avail_pars = ilObjStyleSheet::_getStyleParameters($this->current_tag);
         foreach ($avail_pars as $par => $v) {
@@ -830,7 +835,7 @@ class ilStyleCharacteristicGUI
     /**
      * Write style parameter
      */
-    protected function writeStylePar(string $par, string $value, bool $a_custom = false) : void
+    protected function writeStylePar(string $par, string $value, bool $a_custom = false): void
     {
         if ($this->style_type == "") {
             return;
@@ -847,7 +852,7 @@ class ilStyleCharacteristicGUI
         );
     }
 
-    protected function editTagTitles() : void
+    protected function editTagTitles(): void
     {
         $this->setTabs();
         $tpl = $this->gui_service->mainTemplate();
@@ -863,7 +868,7 @@ class ilStyleCharacteristicGUI
     /**
      * @throws ilCtrlException
      */
-    protected function getTagTitlesForm() : Standard
+    protected function getTagTitlesForm(): Standard
     {
         $ui = $this->gui_service->ui();
         $f = $ui->factory();
@@ -893,7 +898,7 @@ class ilStyleCharacteristicGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    public function saveTagTitles() : void
+    public function saveTagTitles(): void
     {
         $request = $this->gui_service->http()->request();
         $form = $this->getTagTitlesForm();
@@ -928,7 +933,7 @@ class ilStyleCharacteristicGUI
      * @throws Content\ContentStyleNoPermissionException
      * @throws ilCtrlException
      */
-    public function saveStatus() : void
+    public function saveStatus(): void
     {
         $ilCtrl = $this->gui_service->ctrl();
         $lng = $this->domain_service->lng();
@@ -966,7 +971,7 @@ class ilStyleCharacteristicGUI
         $ilCtrl->redirect($this, "listCharacteristics");
     }
 
-    protected function setOutdated() : void
+    protected function setOutdated(): void
     {
         $lng = $this->domain_service->lng();
         $ctrl = $this->gui_service->ctrl();
@@ -996,7 +1001,7 @@ class ilStyleCharacteristicGUI
         $ctrl->redirect($this, "listCharacteristics");
     }
 
-    protected function removeOutdated() : void
+    protected function removeOutdated(): void
     {
         $lng = $this->domain_service->lng();
         $ctrl = $this->gui_service->ctrl();
@@ -1026,7 +1031,7 @@ class ilStyleCharacteristicGUI
         $ctrl->redirect($this, "listCharacteristics");
     }
 
-    public function copyCharacteristics() : void
+    public function copyCharacteristics(): void
     {
         $ilCtrl = $this->gui_service->ctrl();
         $lng = $this->domain_service->lng();
@@ -1045,7 +1050,7 @@ class ilStyleCharacteristicGUI
         $ilCtrl->redirect($this, "listCharacteristics");
     }
 
-    public function pasteCharacteristicsOverview() : void
+    public function pasteCharacteristicsOverview(): void
     {
         $tpl = $this->gui_service->mainTemplate();
         $ilTabs = $this->gui_service->tabs();
@@ -1066,7 +1071,7 @@ class ilStyleCharacteristicGUI
      * Init past within style form
      * @throws ilCtrlException
      */
-    public function getPasteWithinStyleForm() : Standard
+    public function getPasteWithinStyleForm(): Standard
     {
         $ui = $this->gui_service->ui();
         $f = $ui->factory();
@@ -1090,7 +1095,7 @@ class ilStyleCharacteristicGUI
      * Init past from other style form
      * @throws ilCtrlException
      */
-    public function getPasteFromOtherStyleForm() : Standard
+    public function getPasteFromOtherStyleForm(): Standard
     {
         $ui = $this->gui_service->ui();
         $lng = $this->domain_service->lng();
@@ -1138,7 +1143,7 @@ class ilStyleCharacteristicGUI
     /**
      * Get character title form section
      */
-    protected function getCharacterTitleFormFields(string $char) : array
+    protected function getCharacterTitleFormFields(string $char): array
     {
         $ui = $this->gui_service->ui();
         $f = $ui->factory();
@@ -1151,7 +1156,7 @@ class ilStyleCharacteristicGUI
         $lng->loadLanguageModule("meta");
 
         $char_regexp_constraint = $refinery->custom()->constraint(function ($v) use ($lng) {
-            return preg_match("/^[a-zA-Z]+[a-zA-Z0-9]*$/", $v);
+            return (bool) preg_match("/^[a-zA-Z]+[a-zA-Z0-9]*$/", $v);
         }, $lng->txt("sty_msg_characteristic_must_only_include") . " A-Z, a-z, 0-9");
 
         $char_exists_constraint = $refinery->custom()->constraint(function ($v) use ($style_obj, $style_type) {
@@ -1174,7 +1179,7 @@ class ilStyleCharacteristicGUI
         return $fields;
     }
 
-    public function pasteCharacteristicsWithinStyle() : void
+    public function pasteCharacteristicsWithinStyle(): void
     {
         $ui = $this->gui_service->ui();
         $request = $this->gui_service->http()->request();
@@ -1219,7 +1224,7 @@ class ilStyleCharacteristicGUI
      * @throws Content\ContentStyleNoPermissionException
      * @throws ilCtrlException
      */
-    public function pasteCharacteristicsFromOtherStyle() : void
+    public function pasteCharacteristicsFromOtherStyle(): void
     {
         $request = $this->gui_service->http()->request();
         $form = $this->getPasteFromOtherStyleForm();
@@ -1275,7 +1280,7 @@ class ilStyleCharacteristicGUI
         $ctrl->redirect($this, "listCharacteristics");
     }
 
-    public function pasteCharacteristics() : void
+    public function pasteCharacteristics(): void
     {
         $ilCtrl = $this->gui_service->ctrl();
         $lng = $this->domain_service->lng();

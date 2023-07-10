@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -15,7 +16,7 @@ class ilModulesGroupTasks
      * @param array  $params
      * @return array
      */
-    public static function readMembersFromGroup(ilNode $context, array $params) : array
+    public static function readMembersFromGroup(ilNode $context, array $params): array
     {
         /*
          * Modelling:
@@ -27,13 +28,12 @@ class ilModulesGroupTasks
       </bpmn2:extensionElements>
 
          */
-        require_once './Modules/Group/classes/class.ilGroupParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
         $participants = ilGroupParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['grpRefId']));
         $members = $participants->getMembers();
-        $retval = array($output_params[0] => $members);
+        $retval = [$output_params[0] => $members];
 
         return $retval;
     }
@@ -43,7 +43,7 @@ class ilModulesGroupTasks
      * @param array  $params
      * @return array
      */
-    public static function readAdminsFromGroup(ilNode $context, array $params) : array
+    public static function readAdminsFromGroup(ilNode $context, array $params): array
     {
         /*
          * Modelling:
@@ -56,13 +56,12 @@ class ilModulesGroupTasks
 
          */
 
-        require_once './Modules/Group/classes/class.ilGroupParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
         $participants = ilGroupParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['grpRefId']));
         $admins = $participants->getAdmins();
-        $retval = array($output_params[0] => $admins);
+        $retval = [$output_params[0] => $admins];
 
         return $retval;
     }
@@ -71,7 +70,7 @@ class ilModulesGroupTasks
      * @param ilNode $context
      * @param array  $params
      */
-    public static function assignMembersToGroup(ilNode $context, array $params) : void
+    public static function assignMembersToGroup(ilNode $context, array $params): void
     {
         /*
          * Modelling:
@@ -84,7 +83,6 @@ class ilModulesGroupTasks
 
          */
 
-        require_once './Modules/Group/classes/class.ilGroupParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
@@ -98,7 +96,7 @@ class ilModulesGroupTasks
      * @param ilNode $context
      * @param array  $params
      */
-    public static function assignAdminsToGroup(ilNode $context, array $params)
+    public static function assignAdminsToGroup(ilNode $context, array $params): void
     {
         /*
          * Modelling:
@@ -111,7 +109,6 @@ class ilModulesGroupTasks
 
          */
 
-        require_once './Modules/Group/classes/class.ilGroupParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
@@ -119,6 +116,5 @@ class ilModulesGroupTasks
         foreach ($input_params['usrIdList'] as $user_id) {
             $participants->add($user_id, ilParticipants::IL_GRP_ADMIN);
         }
-        return;
     }
 }

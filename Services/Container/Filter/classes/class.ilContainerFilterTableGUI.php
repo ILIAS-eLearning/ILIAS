@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Filter admin table
@@ -37,11 +51,11 @@ class ilContainerFilterTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.cont_filter_row.html", "Services/Container/Filter");
     }
 
-    protected function getItems() : array
+    protected function getItems(): array
     {
         $service = $this->container_filter_service;
 
-        $items = array_map(static function (ilContainerFilterField $i) use ($service) : array {
+        $items = array_map(static function (ilContainerFilterField $i) use ($service): array {
             return [
                 "record_set_id" => $i->getRecordSetId(),
                 "record_title" => $service->util()->getContainerRecordTitle($i->getRecordSetId()),
@@ -51,7 +65,7 @@ class ilContainerFilterTableGUI extends ilTable2GUI
         return $items;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $tpl = $this->tpl;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * class ilRbacLog
  *  Log changes in Rbac-related settings
@@ -32,12 +34,12 @@ class ilRbacLog
     public const EDIT_TEMPLATE_EXISTING = 7;
     public const CHANGE_OWNER = 8;
 
-    public static function isActive() : bool
+    public static function isActive(): bool
     {
         return ilPrivacySettings::getInstance()->enabledRbacLog();
     }
 
-    public static function gatherFaPa(int $a_ref_id, array $a_role_ids, bool $a_add_action = false) : array
+    public static function gatherFaPa(int $a_ref_id, array $a_role_ids, bool $a_add_action = false): array
     {
         global $DIC;
 
@@ -70,7 +72,7 @@ class ilRbacLog
         return $result;
     }
 
-    public static function diffFaPa(array $a_old, array $a_new) : array
+    public static function diffFaPa(array $a_old, array $a_new): array
     {
         $result = array();
 
@@ -105,7 +107,7 @@ class ilRbacLog
         return $result;
     }
 
-    public static function gatherTemplate(int $a_role_ref_id, int $a_role_id) : array
+    public static function gatherTemplate(int $a_role_ref_id, int $a_role_id): array
     {
         global $DIC;
 
@@ -113,7 +115,7 @@ class ilRbacLog
         return $rbacreview->getAllOperationsOfRole($a_role_id, $a_role_ref_id);
     }
 
-    public static function diffTemplate(array $a_old, array $a_new) : array
+    public static function diffTemplate(array $a_old, array $a_new): array
     {
         $result = array();
         $types = array_unique(array_merge(array_keys($a_old), array_keys($a_new)));
@@ -136,7 +138,7 @@ class ilRbacLog
         return $result;
     }
 
-    public static function add(int $a_action, int $a_ref_id, array $a_diff, bool $a_source_ref_id = false) : bool
+    public static function add(int $a_action, int $a_ref_id, array $a_diff, bool $a_source_ref_id = false): bool
     {
         global $DIC;
 
@@ -159,7 +161,7 @@ class ilRbacLog
         return false;
     }
 
-    protected static function isValidAction(int $a_action) : bool
+    protected static function isValidAction(int $a_action): bool
     {
         if (in_array(
             $a_action,
@@ -179,7 +181,7 @@ class ilRbacLog
         return false;
     }
 
-    public static function getLogItems(int $a_ref_id, int $a_limit, int $a_offset, array $a_filter = null) : array
+    public static function getLogItems(int $a_ref_id, int $a_limit, int $a_offset, array $a_filter = null): array
     {
         global $DIC;
 
@@ -225,7 +227,7 @@ class ilRbacLog
         return ["cnt" => $count, "set" => $result];
     }
 
-    public static function delete(int $a_ref_id) : void
+    public static function delete(int $a_ref_id): void
     {
         global $DIC;
 
@@ -234,7 +236,7 @@ class ilRbacLog
         self::garbageCollection();
     }
 
-    public static function garbageCollection() : void
+    public static function garbageCollection(): void
     {
         global $DIC;
 

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -35,20 +37,18 @@ class ilCertificateTypeClassMap
     ];
 
     /**
-     * @param string $type
-     * @return string
      * @throws ilException
      */
-    public function getPlaceHolderClassNameByType(string $type) : string
+    public function getPlaceHolderClassNameByType(string $type): string
     {
-        if (false === $this->typeExistsInMap($type)) {
+        if (!$this->typeExistsInMap($type)) {
             throw new ilException('The given type ' . $type . 'is not mapped as a class on the class map');
         }
 
         return $this->typeClassMap[$type]['placeholder'];
     }
 
-    public function typeExistsInMap(string $type) : bool
+    public function typeExistsInMap(string $type): bool
     {
         return array_key_exists($type, $this->typeClassMap);
     }

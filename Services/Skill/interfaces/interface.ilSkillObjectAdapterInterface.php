@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -22,9 +24,9 @@
  */
 interface ilSkillObjectAdapterInterface
 {
-    public function getObjIdForRefId(int $a_ref_id) : int;
+    public function getObjIdForRefId(int $a_ref_id): int;
 
-    public function getTypeForObjId(int $a_obj_id) : ?string;
+    public function getTypeForObjId(int $a_obj_id): ?string;
 
-    public function getTitleForObjId(int $a_obj_id) : string;
+    public function getTitleForObjId(int $a_obj_id): string;
 }

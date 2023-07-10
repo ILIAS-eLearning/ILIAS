@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Filesystem\Util\Convert\ImageConversionOptions;
+use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
+use ILIAS\Filesystem\Util\Convert\LegacyImages;
+
 /**
  * Just a wrapper class to create Unit Test for other classes.
  * Can be remove when the static method calls have been removed
@@ -23,7 +29,14 @@
  */
 class ilCertificateUtilHelper
 {
-    public function deliverData(string $data, string $fileName, string $mimeType) : void
+    private \ILIAS\Filesystem\Util\Convert\LegacyImages $image_converter;
+
+    public function __construct()
+    {
+        $this->image_converter = new LegacyImages();
+    }
+
+    public function deliverData(string $data, string $fileName, string $mimeType): void
     {
         ilUtil::deliverData(
             $data,
@@ -32,7 +45,7 @@ class ilCertificateUtilHelper
         );
     }
 
-    public function prepareFormOutput(string $string) : string
+    public function prepareFormOutput(string $string): string
     {
         return ilLegacyFormElementsUtil::prepareFormOutput($string);
     }
@@ -40,50 +53,48 @@ class ilCertificateUtilHelper
     public function convertImage(
         string $from,
         string $to,
-        string $targetFormat = '',
-        string $geometry = '',
-        string $backgroundColor = ''
-    ) : void {
-        ilShellUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
+        string $geometry = ''
+    ): void {
+        $this->image_converter->convertToFormat(
+            $from,
+            $to,
+            ImageOutputOptions::FORMAT_JPG,
+            $geometry === '' ? null : (int) $geometry,
+            $geometry === '' ? null : (int) $geometry,
+        );
     }
 
-    public function stripSlashes(string $string) : string
+    public function stripSlashes(string $string): string
     {
         return ilUtil::stripSlashes($string);
     }
 
-    public function zip(string $exportPath, string $zipPath) : void
+    public function zip(string $exportPath, string $zipPath): void
     {
         ilFileUtils::zip($exportPath, $zipPath);
     }
 
-    public function deliverFile(string $zipPath, string $zipFileName, string $mime) : void
+    public function deliverFile(string $zipPath, string $zipFileName, string $mime): void
     {
         ilFileDelivery::deliverFileLegacy($zipPath, $zipFileName, $mime);
     }
 
-    public function getDir(string $copyDirectory) : array
+    public function getDir(string $copyDirectory): array
     {
         return ilFileUtils::getDir($copyDirectory);
     }
 
-    public function unzip(string $file, bool $overwrite) : void
+    public function unzip(string $file, bool $overwrite): void
     {
         ilFileUtils::unzip($file, $overwrite);
     }
 
-    public function delDir(string $path) : void
+    public function delDir(string $path): void
     {
         ilFileUtils::delDir($path);
     }
 
     /**
-     * @param string $file
-     * @param string $name
-     * @param string $target
-     * @param bool   $raise_errors
-     * @param string $mode
-     * @return bool
      * @throws ilException
      */
     public function moveUploadedFile(
@@ -92,7 +103,7 @@ class ilCertificateUtilHelper
         string $target,
         bool $raise_errors = true,
         string $mode = 'move_uploaded'
-    ) : bool {
+    ): bool {
         return ilFileUtils::moveUploadedFile(
             $file,
             $name,
@@ -107,7 +118,7 @@ class ilCertificateUtilHelper
         string $module_path = "",
         string $mode = "output",
         bool $offline = false
-    ) : string {
+    ): string {
         return ilUtil::getImagePath(
             $img,
             $module_path,

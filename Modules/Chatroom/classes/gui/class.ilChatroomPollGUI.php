@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilChatroomPostMessageGUI
  * @author  Jan Posselt <jposselt@databay.de>
@@ -24,7 +26,7 @@
  */
 class ilChatroomPollGUI extends ilChatroomGUIHandler
 {
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->sendResponse(['success' => true]);
     }

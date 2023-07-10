@@ -65,7 +65,7 @@ class ilObjCourseReference extends ilContainerReference
     /**
      * @return bool
      */
-    public function isMemberUpdateEnabled() : bool
+    public function isMemberUpdateEnabled(): bool
     {
         return $this->member_update;
     }
@@ -74,7 +74,7 @@ class ilObjCourseReference extends ilContainerReference
      * @param int $obj_id
      * @return bool
      */
-    public static function lookupMemberUpdateEnabled(int $obj_id) : bool
+    public static function lookupMemberUpdateEnabled(int $obj_id): bool
     {
         global $DIC;
 
@@ -93,7 +93,7 @@ class ilObjCourseReference extends ilContainerReference
     /**
      * @return @inheritdoc
      */
-    public function create() : int
+    public function create(): int
     {
         $id = parent::create();
 
@@ -109,7 +109,7 @@ class ilObjCourseReference extends ilContainerReference
     /**
      * @inheritdoc
      */
-    public function read() : void
+    public function read(): void
     {
         parent::read();
 
@@ -124,7 +124,7 @@ class ilObjCourseReference extends ilContainerReference
     /**
      * @inheritdoc
      */
-    public function update() : bool
+    public function update(): bool
     {
         parent::update();
         $query = 'UPDATE crs_reference_settings ' .
@@ -140,7 +140,7 @@ class ilObjCourseReference extends ilContainerReference
     /**
      * @inheritdoc
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         if (!parent::delete()) {
             return false;
@@ -155,7 +155,7 @@ class ilObjCourseReference extends ilContainerReference
     /**
      * @inheritdoc
      */
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false): ?ilObject
     {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $new_obj->enableMemberUpdate($this->isMemberUpdateEnabled());

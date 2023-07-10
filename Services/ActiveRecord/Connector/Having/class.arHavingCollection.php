@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class arWhereCollection
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -20,17 +23,17 @@
  */
 class arHavingCollection extends arStatementCollection
 {
-    public function asSQLStatement() : string
+    public function asSQLStatement(): string
     {
         $return = '';
         if ($this->hasStatements()) {
             $return .= ' HAVING ';
             $havings = $this->getHavings();
             $last = end($havings);
-            foreach ($havings as $arWhere) {
-                $return .= $arWhere->asSQLStatement($this->getAr());
-                if ($arWhere !== $last) {
-                    $return .= ' ' . $arWhere->getGlue() . ' ';
+            foreach ($havings as $having) {
+                $return .= $having->asSQLStatement($this->getAr());
+                if ($having !== $last) {
+                    $return .= ' ' . $having->getGlue() . ' ';
                 }
             }
         }
@@ -41,7 +44,7 @@ class arHavingCollection extends arStatementCollection
     /**
      * @return arHaving[]
      */
-    public function getHavings() : array
+    public function getHavings(): array
     {
         return $this->statements;
     }

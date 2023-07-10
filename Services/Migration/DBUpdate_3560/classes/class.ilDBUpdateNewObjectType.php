@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -131,21 +133,21 @@ class ilDBUpdateNewObjectType
             ],
         ]
     ];
-    
+
     /**
      * Add new type to object data
      *
      * @deprecated use Services/Object/classes/Setup/class.ilObjectNewTypeAddedObjective.php instead
      */
-    public static function addNewType(string $type_id, string $type_title) : int
+    public static function addNewType(string $type_id, string $type_title): int
     {
         global $ilDB;
         $db = $ilDB;
 
         // check if it already exists
-        $type_id = ilObject::_getObjectTypeIdByTitle($type_id);
-        if ($type_id) {
-            return $type_id;
+        $id = ilObject::_getObjectTypeIdByTitle($type_id);
+        if ($id) {
+            return $id;
         }
 
         $id = $db->nextId("object_data");
@@ -161,49 +163,49 @@ class ilDBUpdateNewObjectType
         ];
 
         $db->insert("object_data", $values);
-        
-        return $type_id;
+
+        return $id;
     }
-    
+
     /**
      * Add RBAC operations for type
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationsAddedObjective.php instead
      */
-    public static function addRBACOperations(int $type_id, array $operations) : void
+    public static function addRBACOperations(int $type_id, array $operations): void
     {
         foreach ($operations as $ops_id) {
             if (self::isValidRBACOperation($ops_id)) {
                 if ($ops_id == self::RBAC_OP_COPY) {
                     $ops_id = ilRbacReview::_getCustomRBACOperationId('copy');
                 }
-                
+
                 self::addRBACOperation($type_id, $ops_id);
             }
         }
     }
-    
+
     /**
      * Add RBAC operation
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationsAddedObjective.php instead
      */
-    public static function addRBACOperation(int $type_id, int $ops_id) : bool
+    public static function addRBACOperation(int $type_id, int $ops_id): bool
     {
         global $ilDB;
 
         $sql =
             "SELECT typ_id" . PHP_EOL
-            ."FROM rbac_ta" . PHP_EOL
-            ."WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
-            ."AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
+            . "FROM rbac_ta" . PHP_EOL
+            . "WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
+            . "AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
         ;
         $res = $ilDB->query($sql);
 
         if ($ilDB->numRows($res)) {
             return false;
         }
-        
+
         $fields = [
             'typ_id' => ['integer', $type_id],
             'ops_id' => ['integer', $ops_id]
@@ -218,15 +220,15 @@ class ilDBUpdateNewObjectType
      *
      * @deprecated use ilRbacReview::_isRBACOperation instead
      */
-    public static function isRBACOperation(int $type_id, int $ops_id) : bool
+    public static function isRBACOperation(int $type_id, int $ops_id): bool
     {
         global $ilDB;
 
         $sql =
             "SELECT typ_id" . PHP_EOL
-            ."FROM rbac_ta" . PHP_EOL
-            ."WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
-            ."AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
+            . "FROM rbac_ta" . PHP_EOL
+            . "WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
+            . "AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
         ;
 
         return (bool) $ilDB->numRows($ilDB->query($sql));
@@ -237,14 +239,14 @@ class ilDBUpdateNewObjectType
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationDeletedObjective.php instead
      */
-    public static function deleteRBACOperation(string $type, int $ops_id) : void
+    public static function deleteRBACOperation(string $type, int $ops_id): void
     {
         global $ilDB;
-        
+
         if (!$type || !$ops_id) {
             return;
         }
-        
+
         $type_id = ilObject::_getObjectTypeIdByTitle($type);
         if (!$type_id) {
             return;
@@ -252,32 +254,32 @@ class ilDBUpdateNewObjectType
 
         $sql =
             "DELETE FROM rbac_ta" . PHP_EOL
-            ."WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
-            ."AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
+            . "WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
+            . "AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
         ;
         $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $sql);
         $ilDB->manipulate($sql);
-        
+
         self::deleteRBACTemplateOperation($type, $ops_id);
     }
-    
+
     /**
      * Delete operation for type in templates
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationDeletedObjective.php instead
      */
-    public static function deleteRBACTemplateOperation(string $type, int $ops_id) : void
+    public static function deleteRBACTemplateOperation(string $type, int $ops_id): void
     {
         global $ilDB;
-        
+
         if (!$type || !$ops_id) {
             return;
         }
 
         $sql =
             "DELETE FROM rbac_templates" . PHP_EOL
-            ."WHERE type = " . $ilDB->quote($type, "text") . PHP_EOL
-            ."ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
+            . "WHERE type = " . $ilDB->quote($type, "text") . PHP_EOL
+            . "ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
         ;
         $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $sql);
         $ilDB->manipulate($sql);
@@ -288,7 +290,7 @@ class ilDBUpdateNewObjectType
      *
      * @deprecated
      */
-    protected static function isValidRBACOperation(int $ops_id) : bool
+    protected static function isValidRBACOperation(int $ops_id): bool
     {
         $valid = [
             self::RBAC_OP_EDIT_PERMISSIONS,
@@ -301,20 +303,20 @@ class ilDBUpdateNewObjectType
 
         return in_array($ops_id, $valid);
     }
-    
+
     /**
      * Get id of RBAC operation
      *
      * @deprecated use ilRbacReview::_getCustomRBACOperationId instead
      */
-    public static function getCustomRBACOperationId(string $operation) : ?int
+    public static function getCustomRBACOperationId(string $operation): ?int
     {
         global $ilDB;
 
         $sql =
             "SELECT ops_id" . PHP_EOL
-            ."FROM rbac_operations" . PHP_EOL
-            ."WHERE operation = " . $ilDB->quote($operation, "text") . PHP_EOL
+            . "FROM rbac_operations" . PHP_EOL
+            . "WHERE operation = " . $ilDB->quote($operation, "text") . PHP_EOL
         ;
 
         $res = $ilDB->query($sql);
@@ -325,31 +327,31 @@ class ilDBUpdateNewObjectType
         $row = $ilDB->fetchAssoc($res);
         return (int) $row["ops_id"] ?? null;
     }
-    
+
     /**
      * Add custom RBAC operation
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessCustomRBACOperationAddedObjective.php instead
      */
-    public static function addCustomRBACOperation(string $id, string $title, string $class, int $pos) : int
+    public static function addCustomRBACOperation(string $id, string $title, string $class, int $pos): int
     {
         global $ilDB;
-        
+
         // check if it already exists
         $ops_id = ilRbacReview::_getCustomRBACOperationId($id);
         if ($ops_id) {
             return $ops_id;
         }
-        
+
         if (!in_array($class, array('create', 'object', 'general'))) {
             throw new InvalidArgumentException("Class type '$class' is not supportet by RBAC system.");
         }
         if ($class == 'create') {
             $pos = 9999;
         }
-        
+
         $ops_id = $ilDB->nextId('rbac_operations');
-        
+
         $fields = [
             'ops_id' => ['integer', $ops_id],
             'operation' => ['text', $id],
@@ -358,7 +360,7 @@ class ilDBUpdateNewObjectType
             'op_order' => ['integer', $pos]
         ];
         $ilDB->insert('rbac_operations', $fields);
-        
+
         return $ops_id;
     }
 
@@ -367,14 +369,14 @@ class ilDBUpdateNewObjectType
      *
      * @deprecated use ilObject::_getObjectTypeIdByTitle() instead
      */
-    public static function getObjectTypeId(string $type) : ?int
+    public static function getObjectTypeId(string $type): ?int
     {
         global $ilDB;
 
         $sql =
             "SELECT obj_id FROM object_data" . PHP_EOL
-            ."WHERE type = 'typ'" . PHP_EOL
-            ."AND title = " . $ilDB->quote($type, 'text') . PHP_EOL
+            . "WHERE type = 'typ'" . PHP_EOL
+            . "AND title = " . $ilDB->quote($type, 'text') . PHP_EOL
         ;
 
         $res = $ilDB->query($sql);
@@ -385,17 +387,17 @@ class ilDBUpdateNewObjectType
         $row = $ilDB->fetchAssoc($res);
         return (int) $row['obj_id'] ?? null;
     }
-    
+
     /**
      * Add create RBAC operations for parent object types
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessCustomRBACOperationAddedObjective.php instead
      *             use 'create' for class param
      */
-    public static function addRBACCreate(string $id, string $title, array $parent_types) : void
+    public static function addRBACCreate(string $id, string $title, array $parent_types): void
     {
         $ops_id = self::addCustomRBACOperation($id, $title, 'create', 9999);
-        
+
         foreach ($parent_types as $type) {
             $type_id = ilObject::_getObjectTypeIdByTitle($type);
             if ($type_id) {
@@ -403,36 +405,36 @@ class ilDBUpdateNewObjectType
             }
         }
     }
-    
+
     /**
      * Change order of operations
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationOrderUpdatedObjective.php instead
      */
-    public static function updateOperationOrder(string $operation, int $pos) : void
+    public static function updateOperationOrder(string $operation, int $pos): void
     {
         global $ilDB;
-        
+
         $ilDB->update(
             'rbac_operations',
             ['op_order' => ['integer', $pos]],
             ['operation' => ['text', $operation]]
         );
     }
-    
+
     /**
      * Create new admin object node
      *
      * @deprecated use Services/Tree/classes/Setup/class.ilTreeAdminNodeAddedObjective.php instead
      */
-    public static function addAdminNode(string $obj_type, string $title) : void
+    public static function addAdminNode(string $obj_type, string $title): void
     {
         global $ilDB, $tree;
-        
+
         if (ilObject::_getObjectTypeIdByTitle($obj_type)) {
             return;
         }
-        
+
         $obj_type_id = self::addNewType($obj_type, $title);
         $obj_id = $ilDB->nextId('object_data');
         $values = [
@@ -468,27 +470,28 @@ class ilDBUpdateNewObjectType
 
         self::addRBACOperations($obj_type_id, $rbac_ops);
     }
-    
+
     /**
      * Clone RBAC-settings between operations
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationClonedObjective.php instead
      */
-    public static function cloneOperation(string $obj_type, int $source_op_id, int $target_op_id) : void
+    public static function cloneOperation(string $obj_type, int $source_op_id, int $target_op_id): void
     {
         global $ilDB;
         $db = $ilDB;
 
         $sql =
             "SELECT rpa.rol_id, rpa.ops_id, rpa.ref_id" . PHP_EOL
-            ."FROM rbac_pa rpa" . PHP_EOL
-            ."JOIN object_reference ref ON (ref.ref_id = rpa.ref_id)" . PHP_EOL
-            ."JOIN object_data od ON (od.obj_id = ref.obj_id AND od.type = " . $db->quote($obj_type, "text") . ")" . PHP_EOL
-            ."WHERE (" . $db->like("ops_id", "text", "%i:" . $source_op_id . "%") . PHP_EOL
-            ."OR " . $db->like("ops_id", "text", "%:\"" . $source_op_id . "\";%") . ")" . PHP_EOL
+            . "FROM rbac_pa rpa" . PHP_EOL
+            . "JOIN object_reference ref ON (ref.ref_id = rpa.ref_id)" . PHP_EOL
+            . "JOIN object_data od ON (od.obj_id = ref.obj_id AND od.type = " . $db->quote($obj_type, "text") . ")" . PHP_EOL
+            . "WHERE (" . $db->like("ops_id", "text", "%i:" . $source_op_id . "%") . PHP_EOL
+            . "OR " . $db->like("ops_id", "text", "%:\"" . $source_op_id . "\";%") . ")" . PHP_EOL
         ;
 
-        while ($row = $db->fetchAssoc($db->query($sql))) {
+        $res = $db->query($sql);
+        while ($row = $db->fetchAssoc($res)) {
             $ops = unserialize($row["ops_id"]);
             // the query above could match by array KEY, we need extra checks
             if (in_array($source_op_id, $ops) && !in_array($target_op_id, $ops)) {
@@ -496,9 +499,9 @@ class ilDBUpdateNewObjectType
 
                 $sql =
                     "UPDATE rbac_pa" . PHP_EOL
-                    ."SET ops_id = " . $db->quote(serialize($ops), "text") . PHP_EOL
-                    ."WHERE rol_id = " . $db->quote($row["rol_id"], "integer") . PHP_EOL
-                    ."AND ref_id = " . $db->quote($row["ref_id"], "integer") . PHP_EOL
+                    . "SET ops_id = " . $db->quote(serialize($ops), "text") . PHP_EOL
+                    . "WHERE rol_id = " . $db->quote($row["rol_id"], "integer") . PHP_EOL
+                    . "AND ref_id = " . $db->quote($row["ref_id"], "integer") . PHP_EOL
                 ;
 
                 $db->manipulate($sql);
@@ -509,20 +512,21 @@ class ilDBUpdateNewObjectType
         $tmp = [];
         $sql =
             "SELECT rol_id, parent, ops_id" . PHP_EOL
-            ."FROM rbac_templates" . PHP_EOL
-            ."WHERE type = " . $db->quote($obj_type, "text") . PHP_EOL
-            ."AND (ops_id = " . $db->quote($source_op_id, "integer") . PHP_EOL
-            ."OR ops_id = " . $db->quote($target_op_id, "integer") . ")" . PHP_EOL
+            . "FROM rbac_templates" . PHP_EOL
+            . "WHERE type = " . $db->quote($obj_type, "text") . PHP_EOL
+            . "AND (ops_id = " . $db->quote($source_op_id, "integer") . PHP_EOL
+            . "OR ops_id = " . $db->quote($target_op_id, "integer") . ")" . PHP_EOL
         ;
 
-        while ($row = $db->fetchAssoc($db->query($sql))) {
+        $res = $db->query($sql);
+        while ($row = $db->fetchAssoc($res)) {
             $tmp[$row["rol_id"]][$row["parent"]][] = $row["ops_id"];
         }
 
         foreach ($tmp as $role_id => $parents) {
             foreach ($parents as $parent_id => $ops_ids) {
                 // only if the target op is missing
-                if (sizeof($ops_ids) < 2 && in_array($source_op_id, $ops_ids)) {
+                if (count($ops_ids) < 2 && in_array($source_op_id, $ops_ids)) {
                     $values = [
                         "rol_id" => ["integer", $role_id],
                         "type" => ["text", $obj_type],
@@ -539,7 +543,7 @@ class ilDBUpdateNewObjectType
     /**
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRolePermissionSetObjective.php instead
      */
-    public static function setRolePermission(int $a_rol_id, string $a_type, array $a_ops, int $a_ref_id) : void
+    public static function setRolePermission(int $a_rol_id, string $a_type, array $a_ops, int $a_ref_id): void
     {
         global $DIC;
 
@@ -567,7 +571,6 @@ class ilDBUpdateNewObjectType
     /**
      * This method will apply the 'Initial Permissions Guideline' when introducing new object types.
      * This method does not apply permissions to existing obejcts in the ILIAS repository ('change existing objects').
-     * @param string $objectType
      * @param bool $hasLearningProgress A boolean flag whether the object type supports learning progress
      * @param bool $usedForAuthoring A boolean flag to tell whether the object type is mainly used for authoring
      * @see https://www.ilias.de/docu/goto_docu_wiki_wpage_2273_1357.html
@@ -577,7 +580,7 @@ class ilDBUpdateNewObjectType
         string $objectType,
         bool $hasLearningProgress = false,
         bool $usedForAuthoring = false
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -605,7 +608,7 @@ class ilDBUpdateNewObjectType
         foreach (self::$initialPermissionDefinition as $roleType => $roles) {
             foreach ($roles as $roleTitle => $definition) {
                 if (
-                    true === $usedForAuthoring &&
+                    $usedForAuthoring &&
                     array_key_exists('ignore_for_authoring_objects', $definition) &&
                     true === $definition['ignore_for_authoring_objects']
                 ) {
@@ -631,7 +634,7 @@ class ilDBUpdateNewObjectType
                     $operationIds = [];
 
                     if (array_key_exists('object', $definition) && is_array($definition['object'])) {
-                        $operationIds = array_merge($operationIds, (array) $definition['object']);
+                        $operationIds = array_merge($operationIds, $definition['object']);
                     }
 
                     if (array_key_exists('lp', $definition) && true === $definition['lp']) {

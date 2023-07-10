@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -66,12 +68,12 @@ class SkillInternalGUIService
      * not be used.
      */
 
-    public function admin_request() : SkillAdminGUIRequest
+    public function admin_request(): SkillAdminGUIRequest
     {
         return $this->admin_request;
     }
 
-    public function personal_request() : SkillPersonalGUIRequest
+    public function personal_request(): SkillPersonalGUIRequest
     {
         return $this->personal_request;
     }

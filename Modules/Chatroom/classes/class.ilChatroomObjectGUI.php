@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 
@@ -37,11 +39,9 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 
 
     /**
-     * @param string $gui
-     * @param string $method
      * @return bool A boolean flag whether or not the request could be dispatched
      */
-    protected function dispatchCall(string $gui, string $method) : bool
+    protected function dispatchCall(string $gui, string $method): bool
     {
         $definition = $this->getObjectDefinition();
         if ($definition->hasGUI($gui)) {
@@ -54,19 +54,19 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
         return false;
     }
 
-    abstract protected function getObjectDefinition() : ilChatroomObjectDefinition;
+    abstract protected function getObjectDefinition(): ilChatroomObjectDefinition;
 
-    abstract public function getConnector() : ilChatroomServerConnector;
+    abstract public function getConnector(): ilChatroomServerConnector;
 
     /**
      * Calls $this->prepareOutput() method.
      */
-    public function switchToVisibleMode() : void
+    public function switchToVisibleMode(): void
     {
         $this->prepareOutput();
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if (
             $this->http->wrapper()->query()->has('admin_mode') &&
@@ -84,7 +84,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
         }
 
         if ($this->tree->getSavedNodeData($this->object->getRefId())) {
-            $this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', get_class($this));
+            $this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', $this::class);
         }
     }
 }

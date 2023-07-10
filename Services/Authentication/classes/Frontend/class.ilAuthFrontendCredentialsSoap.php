@@ -1,18 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -23,7 +27,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
     private ilCtrl $ctrl;
 
     private ilSetting $settings;
-    
+
     private ilAuthSession $authSession;
     private \ilGlobalTemplateInterface $main_tpl;
     private ilLogger $logger;
@@ -49,7 +53,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
     /**
      * Check if an authentication attempt should be done when login page has been called.
      */
-    public function tryAuthenticationOnLoginPage() : void
+    public function tryAuthenticationOnLoginPage(): void
     {
         $cmd = '';
         if (isset($this->httpRequest->getQueryParams()['cmd']) && is_string($this->httpRequest->getQueryParams()['cmd'])) {
@@ -62,10 +66,10 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
 
         $passedSso = '';
         if (isset($this->httpRequest->getQueryParams()['passed_sso']) && is_string($this->httpRequest->getQueryParams()['passed_sso'])) {
-            $passedSso = $this->httpRequest->getParsedBody()['passed_sso'];
+            $passedSso = $this->httpRequest->getQueryParams()['passed_sso'];
         }
 
-        if ('force_login' === $cmd || !empty($passedSso)) {
+        if (!empty($passedSso)) {
             return;
         }
 

@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\Transformation;
 
@@ -14,34 +29,28 @@ class assClozeGapTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../');
 
         parent::setUp();
 
-        require_once './Services/Utilities/classes/class.ilUtil.php';
         $util_mock = $this->createMock('ilUtil', array('stripSlashes'), array(), '', false);
         $util_mock->expects($this->any())->method('stripSlashes')->will($this->returnArgument(0));
         $this->setGlobalVariable('ilUtils', $util_mock);
     }
 
-    public function test_instantiateObject_shouldReturnInstance()
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
-
         // Act
         $instance = new assClozeGap(0); // 0 - text gap
 
         $this->assertInstanceOf('assClozeGap', $instance);
     }
 
-    public function test_setGetType_shouldReturnUnchangedValue()
+    public function test_setGetType_shouldReturnUnchangedValue(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
         $expected = 1; // 1 - select gap
 
@@ -53,10 +62,8 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setType_shouldSetDefaultIfNotPassed()
+    public function test_setType_shouldSetDefaultIfNotPassed(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
         $expected = 0; // 0 - text gap
 
@@ -68,10 +75,8 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetShuffle_shouldReturnUnchangedValue()
+    public function test_setGetShuffle_shouldReturnUnchangedValue(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
         $expected = true;
 
@@ -83,11 +88,8 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_arrayShuffle_shouldNotReturnArrayUnshuffled()
+    public function test_arrayShuffle_shouldNotReturnArrayUnshuffled(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
-        
         $instance = new assClozeGap(0); // 0 - text gap
 
         // Act
@@ -104,29 +106,23 @@ class assClozeGapTest extends assBaseTestCase
         // Assert
         $this->assertEquals($theExpected, $actual);
     }
-    
-    public function test_addGetItem_shouldReturnValueUnchanged()
+
+    public function test_addGetItem_shouldReturnValueUnchanged(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $expected = new assAnswerCloze('Esther', 1.0, 0);
-        
+
         // Act
         $instance->addItem($expected);
         $actual = $instance->getItem(0);
-        
+
         // Assert
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_addGetItem_shouldReturnValueUnchangedMultiple()
+    public function test_addGetItem_shouldReturnValueUnchangedMultiple(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $answer = new assAnswerCloze('Bert', 1.0, 0);
         $expected = new assAnswerCloze('Esther', 1.0, 0);
 
@@ -139,12 +135,9 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getItem_shouldReturnNullIfNoItemAtGivenIndex()
+    public function test_getItem_shouldReturnNullIfNoItemAtGivenIndex(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $answer1 = new assAnswerCloze('Bert', 1.0, 0);
         $answer2 = new assAnswerCloze('Esther', 1.0, 1);
 
@@ -159,14 +152,10 @@ class assClozeGapTest extends assBaseTestCase
         // Assert
         $this->assertEquals($expected, $actual);
     }
-    
-    public function test_addGetItem_shouldReturnValueUnchangedMultiplePlus()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
-        $instance = new assClozeGap(0); // 0 - text gap
 
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+    public function test_addGetItem_shouldReturnValueUnchangedMultiplePlus(): void
+    {
+        $instance = new assClozeGap(0); // 0 - text gap
         $answer = new assAnswerCloze('Bert', 1.0, 1);
         $answer2 = new assAnswerCloze('Fred', 1.0, 2);
         $answer3 = new assAnswerCloze('Karl', 1.0, 3);
@@ -183,12 +172,9 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getItems_shouldReturnItemsAdded()
+    public function test_getItems_shouldReturnItemsAdded(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze('Bert', 1.0, 0);
         $item2 = new assAnswerCloze('Fred', 1.0, 1);
         $item3 = new assAnswerCloze('Karl', 1.0, 2);
@@ -208,13 +194,10 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getItemsWithShuffle_shouldReturnItemsAddedShuffled()
+    public function test_getItemsWithShuffle_shouldReturnItemsAddedShuffled(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
         $instance->setShuffle(true);
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $expected = [
             new assAnswerCloze('Bert', 1.0, 0),
             new assAnswerCloze('Fred', 1.0, 1),
@@ -242,12 +225,9 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($shuffledArray, $actual);
     }
 
-    public function test_getItemsRaw_shouldReturnItemsAdded()
+    public function test_getItemsRaw_shouldReturnItemsAdded(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze('Bert', 1.0, 0);
         $item2 = new assAnswerCloze('Fred', 1.0, 1);
         $item3 = new assAnswerCloze('Karl', 1.0, 2);
@@ -265,12 +245,9 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getItemCount_shouldReturnCorrectCount()
+    public function test_getItemCount_shouldReturnCorrectCount(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze('Bert', 1.0, 0);
         $item2 = new assAnswerCloze('Fred', 1.0, 2);
         $item3 = new assAnswerCloze('Karl', 1.0, 1);
@@ -288,12 +265,9 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setItemPoints_shouldSetItemPoints()
+    public function test_setItemPoints_shouldSetItemPoints(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze('Esther', 1.0, 0);
         $instance->addItem($item1);
         $expected = 4;
@@ -308,12 +282,9 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_deleteItem_shouldDeleteGivenItem()
+    public function test_deleteItem_shouldDeleteGivenItem(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze('Bert', 1.0, 0);
         $item2 = new assAnswerCloze('Fred', 1.0, 1);
 
@@ -331,12 +302,9 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_clearItems_shouldClearItems()
+    public function test_clearItems_shouldClearItems(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze('Bert', 1.0, 0);
         $item2 = new assAnswerCloze('Fred', 1.0, 2);
         $item3 = new assAnswerCloze('Karl', 1.0, 1);
@@ -357,12 +325,9 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setItemLowerBound_shouldSetItemsLowerBound()
+    public function test_setItemLowerBound_shouldSetItemsLowerBound(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze(20, 1.0, 0);
 
         $instance->addItem($item1);
@@ -378,12 +343,9 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setItemLowerBound_shouldSetItemsAnswerIfBoundTooHigh()
+    public function test_setItemLowerBound_shouldSetItemsAnswerIfBoundTooHigh(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze(20, 1.0, 0);
 
         $instance->addItem($item1);
@@ -400,12 +362,9 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($item_retrieved->getAnswerText(), $actual);
     }
 
-    public function test_setItemUpperBound_shouldSetItemsUpperBound()
+    public function test_setItemUpperBound_shouldSetItemsUpperBound(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze(5, 1.0, 0);
 
         $instance->addItem($item1);
@@ -421,12 +380,9 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setItemUpperBound_shouldSetItemsAnswerIfBoundTooLow()
+    public function test_setItemUpperBound_shouldSetItemsAnswerIfBoundTooLow(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze(20, 1.0, 0);
 
         $instance->addItem($item1);
@@ -443,12 +399,9 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($item_retrieved->getAnswerText(), $actual);
     }
 
-    public function test_getMaxWidth_shouldReturnCharacterCountOfLongestAnswertext()
+    public function test_getMaxWidth_shouldReturnCharacterCountOfLongestAnswertext(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze('Bert', 1.0, 0);
         $item2 = new assAnswerCloze('Fred', 1.0, 2);
         $item3 = new assAnswerCloze('Karl', 1.0, 1);
@@ -468,12 +421,9 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getBestSolutionIndexes_shouldReturnBestSolutionIndexes()
+    public function test_getBestSolutionIndexes_shouldReturnBestSolutionIndexes(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze('Bert', 1.0, 0);
         $item2 = new assAnswerCloze('Fred', 2.0, 2);
         $item3 = new assAnswerCloze('Karl', 3.0, 1);
@@ -493,19 +443,14 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getBestSolutionOutput_shouldReturnBestSolutionOutput_CaseText()
+    public function test_getBestSolutionOutput_shouldReturnBestSolutionOutput_CaseText(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze('Bert', 1.0, 0);
         $item2 = new assAnswerCloze('Fred', 2.0, 2);
         $item3 = new assAnswerCloze('Karl', 3.0, 1);
         $item4 = new assAnswerCloze('Esther', 4.0, 3);
 
-        // We need the $lng-mock.
-        require_once './Services/Language/classes/class.ilLanguage.php';
         $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
         $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
         global $DIC;
@@ -527,26 +472,21 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getBestSolutionOutput_shouldReturnBestSolutionOutput_CaseTextMulti()
+    public function test_getBestSolutionOutput_shouldReturnBestSolutionOutput_CaseTextMulti(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(0); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze('Bert', 1.0, 0);
         $item2 = new assAnswerCloze('Fred', 2.0, 2);
         $item3 = new assAnswerCloze('Karl', 4, 1);
         $item4 = new assAnswerCloze('Esther', 4, 3);
 
-        // We need the $lng-mock.
-        require_once './Services/Language/classes/class.ilLanguage.php';
         $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
         $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('or'));
         global $DIC;
         unset($DIC['lng']);
         $DIC['lng'] = $lng_mock;
         $GLOBALS['lng'] = $DIC['lng'];
-        
+
         $instance->setShuffle(true);
         $instance->addItem($item1);
         $instance->addItem($item2);
@@ -563,19 +503,15 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertTrue(($actual == $expected1) || ($actual == $expected2));
     }
 
-    public function test_getBestSolutionOutput_shouldReturnBestSolutionOutput_CaseNumeric()
+    public function test_getBestSolutionOutput_shouldReturnBestSolutionOutput_CaseNumeric(): void
     {
         // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(2); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze(10, 1.0, 0);
         $item2 = new assAnswerCloze(20, 2.0, 2);
         $item3 = new assAnswerCloze(30, 3.0, 1);
         $item4 = new assAnswerCloze(100, 4.0, 3);
 
-        // We need the $lng-mock.
-        require_once './Services/Language/classes/class.ilLanguage.php';
         $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
         $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
         global $DIC;
@@ -597,19 +533,14 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getBestSolutionOutput_shouldReturnEmptyStringOnUnknownType_WhichMakesNoSenseButK()
+    public function test_getBestSolutionOutput_shouldReturnEmptyStringOnUnknownType_WhichMakesNoSenseButK(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
         $instance = new assClozeGap(11); // 0 - text gap
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze(10, 1.0, 0);
         $item2 = new assAnswerCloze(20, 2.0, 2);
         $item3 = new assAnswerCloze(30, 3.0, 1);
         $item4 = new assAnswerCloze(100, 4.0, 3);
 
-        // We need the $lng-mock.
-        require_once './Services/Language/classes/class.ilLanguage.php';
         $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
         $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
         global $DIC;
@@ -631,7 +562,7 @@ class assClozeGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    private function getDummyTransformationMock() : Transformation
+    private function getDummyTransformationMock(): Transformation
     {
         $transformationMock = $this->getMockBuilder(Transformation::class)->getMock();
         $transformationMock->expects(self::any())->method('transform')->willReturnCallback(static function (array $array) {

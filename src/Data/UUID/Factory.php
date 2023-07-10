@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Data\UUID;
 
@@ -20,17 +22,17 @@ class Factory
         $this->uuid_factory = new UuidFactory();
     }
 
-    public function uuid4() : Uuid
+    public function uuid4(): Uuid
     {
         return new RamseyUuidWrapper($this->uuid_factory->uuid4());
     }
 
-    public function uuid4AsString() : string
+    public function uuid4AsString(): string
     {
         return $this->uuid4()->toString();
     }
 
-    public function fromString(string $uuid) : Uuid
+    public function fromString(string $uuid): Uuid
     {
         return new RamseyUuidWrapper($this->uuid_factory->fromString($uuid));
     }

@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -10,26 +24,11 @@
  */
 class ilQuestionPoolDuplicatedTaxonomiesKeysMap
 {
-    /**
-     * @var array
-     */
-    private $taxonomyKeyMap = array();
+    private array $taxonomyKeyMap = array();
+    private array $taxNodeKeyMap = array();
+    private array $taxRootNodeKeyMap = array();
 
-    /**
-     * @var array
-     */
-    private $taxNodeKeyMap = array();
-
-    /**
-     * @var array
-     */
-    private $taxRootNodeKeyMap = array();
-
-    /**
-     * @param ilObjTaxonomy $originalTaxonomyId
-     * @param ilObjTaxonomy $mappedTaxonomyId
-     */
-    public function addDuplicatedTaxonomy(ilObjTaxonomy $originalTaxonomy, ilObjTaxonomy $mappedTaxonomy)
+    public function addDuplicatedTaxonomy(ilObjTaxonomy $originalTaxonomy, ilObjTaxonomy $mappedTaxonomy): void
     {
         $this->taxonomyKeyMap[ $originalTaxonomy->getId() ] = $mappedTaxonomy->getId();
 
@@ -42,16 +41,19 @@ class ilQuestionPoolDuplicatedTaxonomiesKeysMap
      * @param integer $originalTaxonomyId
      * @return integer
      */
-    public function getMappedTaxonomyId($originalTaxonomyId) : int
+    public function getMappedTaxonomyId($originalTaxonomyId): int
     {
-        return $this->taxonomyKeyMap[$originalTaxonomyId];
+        if (isset($this->taxonomyKeyMap[$originalTaxonomyId])) {
+            return $this->taxonomyKeyMap[$originalTaxonomyId];
+        }
+        return 0;
     }
 
     /**
      * @param integer $originalTaxNodeId
      * @return integer
      */
-    public function getMappedTaxNodeId($originalTaxNodeId) : int
+    public function getMappedTaxNodeId($originalTaxNodeId): int
     {
         return $this->taxNodeKeyMap[$originalTaxNodeId];
     }
@@ -59,7 +61,7 @@ class ilQuestionPoolDuplicatedTaxonomiesKeysMap
     /**
      * @return array
      */
-    public function getTaxonomyRootNodeMap() : array
+    public function getTaxonomyRootNodeMap(): array
     {
         return $this->taxRootNodeKeyMap;
     }

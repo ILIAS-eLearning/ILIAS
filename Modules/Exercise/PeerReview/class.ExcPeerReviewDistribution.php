@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Exercise\PeerReview;
 
 /**
@@ -67,7 +69,7 @@ class ExcPeerReviewDistribution
         $this->initDistribution();
     }
 
-    protected function initDistribution() : void
+    protected function initDistribution(): void
     {
         $this->user_order = $this->randomUserOrder($this->user_ids);
     }
@@ -77,7 +79,7 @@ class ExcPeerReviewDistribution
      * @param int[]
      * @return int[]
      */
-    protected function randomUserOrder(array $user_ids) : array
+    protected function randomUserOrder(array $user_ids): array
     {
         $order = [];
         while (count($user_ids) > 0) {
@@ -89,7 +91,7 @@ class ExcPeerReviewDistribution
         return $order;
     }
 
-    public function getUserOrder() : array
+    public function getUserOrder(): array
     {
         return $this->user_order;
     }
@@ -99,7 +101,7 @@ class ExcPeerReviewDistribution
      *
      * @return int[]
      */
-    public function getPeersOfRater(int $user_id) : array
+    public function getPeersOfRater(int $user_id): array
     {
         $peers = [];
         $key = array_search($user_id, $this->user_order);

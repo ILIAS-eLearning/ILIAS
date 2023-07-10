@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -71,24 +73,23 @@ class ilUserFilterGUI
     /**
     * execute command
     */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         switch ($this->ctrl->getNextClass()) {
             default:
                 $cmd = $this->ctrl->getCmd() ? $this->ctrl->getCmd() : 'show';
                 $this->$cmd();
-
         }
     }
 
-    
-    public function getUserId() : int
+
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
 
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $tpl = new ilTemplate('tpl.search_user_filter.html', true, true, 'Services/Search');
 
@@ -112,9 +113,9 @@ class ilUserFilterGUI
         return $tpl->get();
     }
 
-        
-        
-    public function refresh() : bool
+
+
+    public function refresh(): bool
     {
         $filter = [];
         if ($this->http->wrapper()->post()->has('filter')) {
@@ -128,7 +129,7 @@ class ilUserFilterGUI
     }
 
 
-    public function __initFilter() : bool
+    public function __initFilter(): bool
     {
         $this->filter = new ilUserSearchFilter($this->user->getId());
         return true;

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,9 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
 {
-    public function testIsActive() : void
+    public function testIsActive(): void
     {
         $learningHistoryFactory = $this->getMockBuilder(ilLearningHistoryFactory::class)
             ->disableOriginalConstructor()
@@ -40,7 +42,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -75,7 +77,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
         $this->assertTrue($provider->isActive());
     }
 
-    public function testGetEntries() : void
+    public function testGetEntries(): void
     {
         $learningHistoryFactory = $this->getMockBuilder(ilLearningHistoryFactory::class)
             ->disableOriginalConstructor()
@@ -120,7 +122,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                             'crs',
                             300,
                             'Ilyas Odys',
-                            123456789,
+                            123_456_789,
                             '<xml>Some Content</xml>',
                             '["SOME_PLACEHOLDER"]',
                             null,
@@ -143,7 +145,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                             'tst',
                             5000,
                             'Ilyas Odys',
-                            987654321,
+                            987_654_321,
                             '<xml>Some Content</xml>',
                             '["SOME_PLACEHOLDER"]',
                             null,
@@ -160,7 +162,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                 ]
             );
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -240,23 +242,23 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                 'Certificate for link achieved.',
                 'Certificate for link achieved.',
                 '/some/acutal/image/path/background.png',
-                123456789,
+                123_456_789,
                 200
             ),
             new ilLearningHistoryEntry(
                 'Certificate for link achieved.',
                 'Certificate for link achieved.',
                 '/some/acutal/image/path/background.png',
-                987654321,
+                987_654_321,
                 500
             ),
         ];
 
-        $actualEntries = $provider->getEntries(123456789, 987654321);
+        $actualEntries = $provider->getEntries(123_456_789, 987_654_321);
         $this->assertEquals($expectedEntries, $actualEntries);
     }
 
-    public function testGetName() : void
+    public function testGetName(): void
     {
         $learningHistoryFactory = $this->getMockBuilder(ilLearningHistoryFactory::class)
             ->disableOriginalConstructor()
@@ -283,7 +285,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 

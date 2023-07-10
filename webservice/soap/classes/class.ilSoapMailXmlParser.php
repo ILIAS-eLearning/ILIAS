@@ -29,12 +29,12 @@ class ilSoapMailXmlParser extends ilSaxParser
         $this->setXMLContent($a_xml);
     }
 
-    public function getMails() : array
+    public function getMails(): array
     {
         return $this->mails;
     }
 
-    public function start() : bool
+    public function start(): bool
     {
         $this->startParsing();
         return true;
@@ -44,7 +44,7 @@ class ilSoapMailXmlParser extends ilSaxParser
      * Set event handlers
      * @param XMLParser|resource A reference to the xml parser
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -57,7 +57,7 @@ class ilSoapMailXmlParser extends ilSaxParser
      * @param string $a_name element name
      * @param array $a_attribs element attributes array
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case 'Mail':
@@ -89,7 +89,6 @@ class ilSoapMailXmlParser extends ilSaxParser
                 $this->attachment = array();
                 $this->attachment['name'] = $a_attribs['name'];
                 break;
-
         }
     }
 
@@ -98,7 +97,7 @@ class ilSoapMailXmlParser extends ilSaxParser
      * @param XMLParser|resource $a_xml_parser xml parser
      * @param string $a_name element name
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         switch ($a_name) {
             case 'Mail':
@@ -131,7 +130,7 @@ class ilSoapMailXmlParser extends ilSaxParser
      * @param string $a_data
      * @return void
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($a_data !== "\n") {
             // Replace multiple tabs with one space
@@ -140,7 +139,7 @@ class ilSoapMailXmlParser extends ilSaxParser
         }
     }
 
-    protected function parseName(array $a_attribs) : string
+    protected function parseName(array $a_attribs): string
     {
         if ($a_attribs['obj_id']) {
             $il_id = explode('_', $a_attribs['obj_id']);

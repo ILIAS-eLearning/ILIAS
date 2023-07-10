@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -39,6 +41,7 @@ class ilPathGUI
 
     protected ilLanguage $lng;
     protected ilTree $tree;
+    protected ilObjectDefinition $objectDefinition;
 
     /**
      * Constructor
@@ -49,9 +52,9 @@ class ilPathGUI
 
         $this->startnode = (int) ROOT_FOLDER_ID;
         $this->endnode = (int) ROOT_FOLDER_ID;
-
         $this->tree = $DIC->repositoryTree();
         $this->lng = $DIC->language();
+        $this->objectDefinition = $DIC['objDefinition'];
     }
 
     /**
@@ -60,7 +63,7 @@ class ilPathGUI
      * @param int $a_endnode   ref_id of endnode
      * @return string html
      */
-    public function getPath(int $a_startnode, int $a_endnode) : string
+    public function getPath(int $a_startnode, int $a_endnode): string
     {
         $this->startnode = $a_startnode;
         $this->endnode = $a_endnode;
@@ -73,12 +76,12 @@ class ilPathGUI
      * @param bool $a_text_only path as text only true/false
      * @return void
      */
-    public function enableTextOnly(bool $a_status) : void
+    public function enableTextOnly(bool $a_status): void
     {
         $this->textOnly = $a_status;
     }
 
-    public function textOnly() : bool
+    public function textOnly(): bool
     {
         return $this->textOnly;
     }
@@ -86,17 +89,17 @@ class ilPathGUI
     /**
      * Hide leaf node in path
      */
-    public function enableHideLeaf(bool $a_status) : void
+    public function enableHideLeaf(bool $a_status): void
     {
         $this->hide_leaf = $a_status;
     }
 
-    public function hideLeaf() : bool
+    public function hideLeaf(): bool
     {
         return $this->hide_leaf;
     }
 
-    public function setUseImages(bool $a_status) : void
+    public function setUseImages(bool $a_status): void
     {
         $this->useImages = $a_status;
     }
@@ -105,7 +108,7 @@ class ilPathGUI
      * get use images
      * @return bool
      */
-    public function getUseImages() : bool
+    public function getUseImages(): bool
     {
         return $this->useImages;
     }
@@ -113,7 +116,7 @@ class ilPathGUI
     /**
      * Display a cut with "..."
      */
-    public function enableDisplayCut(bool $a_status) : void
+    public function enableDisplayCut(bool $a_status): void
     {
         $this->display_cut = $a_status;
     }
@@ -121,7 +124,7 @@ class ilPathGUI
     /**
      * Display a cut with "..."
      */
-    public function displayCut() : bool
+    public function displayCut(): bool
     {
         return $this->display_cut;
     }
@@ -129,7 +132,7 @@ class ilPathGUI
     /**
      * get html
      */
-    protected function getHTML() : string
+    protected function getHTML(): string
     {
         if ($this->textOnly()) {
             $tpl = new ilTemplate('tpl.locator_text_only.html', true, true, "Services/Locator");
@@ -216,15 +219,19 @@ class ilPathGUI
         }
     }
 
-    protected function buildTitle(int $a_obj_id) : string
+    protected function buildTitle(int $a_obj_id): string
     {
+        $type = ilObject::_lookupType($a_obj_id);
+        if ($this->objectDefinition->isAdministrationObject($type)) {
+            return $this->lng->txt('obj_' . $type);
+        }
         return ilObject::_lookupTitle($a_obj_id);
     }
 
     /**
      * @return int[]
      */
-    protected function getPathIds() : array
+    protected function getPathIds(): array
     {
         $path = $this->tree->getPathId($this->endnode, $this->startnode);
         if ($this->hideLeaf() && count($path)) {

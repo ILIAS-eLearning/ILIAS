@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Component\Tree\Node\Factory;
 use ILIAS\UI\Component\Tree\Node\Node;
 use ILIAS\UI\Component\Tree\Tree;
@@ -30,8 +32,8 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMailExplorer extends ilTreeExplorerGUI
 {
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
     private int $currentFolderId = 0;
 
     public function __construct(ilMailGUI $parentObject, int $userId)
@@ -52,25 +54,28 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $this->setOrderField('title,m_type');
     }
 
-    protected function initFolder() : void
+    protected function initFolder(): void
     {
         if ($this->http->wrapper()->post()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } else {
-            $folderId = $this->refinery->kindlyTo()->int()->transform(ilSession::get('mobj_id'));
+            $folderId = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always($this->currentFolderId),
+            ])->transform(ilSession::get('mobj_id'));
         }
 
         $this->currentFolderId = $folderId;
     }
 
-    public function getTreeLabel() : string
+    public function getTreeLabel(): string
     {
         return $this->lng->txt("mail_folders");
     }
 
-    public function getTreeComponent() : Tree
+    public function getTreeComponent(): Tree
     {
         $f = $this->ui->factory();
 
@@ -84,18 +89,18 @@ class ilMailExplorer extends ilTreeExplorerGUI
         Factory $factory,
         $record,
         $environment = null
-    ) : Node {
+    ): Node {
         return parent::build($factory, $record, $environment)->withHighlighted($this->currentFolderId === (int) $record['child']);
     }
 
-    protected function getNodeStateToggleCmdClasses($record) : array
+    protected function getNodeStateToggleCmdClasses($record): array
     {
         return [
             ilMailGUI::class,
         ];
     }
 
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $content = $a_node['title'];
 
@@ -108,12 +113,12 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return $content;
     }
 
-    public function getNodeIconAlt($a_node) : string
+    public function getNodeIconAlt($a_node): string
     {
         return $this->getNodeContent($a_node);
     }
 
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         if ((int) $a_node['child'] === (int) $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath('icon_mail.svg');
@@ -129,7 +134,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return $icon;
     }
 
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         if ((int) $a_node['child'] === (int) $this->getNodeId($this->getRootNode())) {
             $a_node['child'] = 0;

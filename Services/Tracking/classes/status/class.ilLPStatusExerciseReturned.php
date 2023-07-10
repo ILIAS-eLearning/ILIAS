@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,33 +29,37 @@
  */
 class ilLPStatusExerciseReturned extends ilLPStatus
 {
-    public static function _getNotAttempted(int $a_obj_id) : array
+    public static function _getNotAttempted(int $a_obj_id): array
     {
         $users = array();
 
         $members = self::getMembers($a_obj_id);
         if ($members) {
             $users = array_diff(
-                $members, ilLPStatusWrapper::_getInProgress($a_obj_id)
+                $members,
+                ilLPStatusWrapper::_getInProgress($a_obj_id)
             );
             $users = array_diff(
-                $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+                $users,
+                ilLPStatusWrapper::_getCompleted($a_obj_id)
             );
             $users = array_diff(
-                $users, ilLPStatusWrapper::_getFailed($a_obj_id)
+                $users,
+                ilLPStatusWrapper::_getFailed($a_obj_id)
             );
         }
         return $users;
     }
 
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $users = ilExerciseMembers::_getReturned($a_obj_id);
         $all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         $users = $users + $all;
 
         $users = array_diff(
-            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+            $users,
+            ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
         $users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));
 
@@ -65,12 +71,12 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         return $users;
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         return ilExerciseMembers::_getPassedUsers($a_obj_id);
     }
 
-    public static function _getFailed(int $a_obj_id) : array
+    public static function _getFailed(int $a_obj_id): array
     {
         return ilExerciseMembers::_getFailedUsers($a_obj_id);
     }
@@ -82,7 +88,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -95,7 +101,8 @@ class ilLPStatusExerciseReturned extends ilLPStatus
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
                 }
                 $ex_stat = ilExerciseMembers::_lookupStatus(
-                    $a_obj_id, $a_usr_id
+                    $a_obj_id,
+                    $a_usr_id
                 );
                 if ($ex_stat == "passed") {
                     $status = self::LP_STATUS_COMPLETED_NUM;
@@ -122,7 +129,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
     public static function _lookupCompletedForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
-    ) : array {
+    ): array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
@@ -130,7 +137,9 @@ class ilLPStatusExerciseReturned extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_COMPLETED_NUM,
+            $a_user_ids
         );
     }
 
@@ -140,7 +149,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
     public static function _lookupFailedForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
-    ) : array {
+    ): array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
@@ -148,7 +157,9 @@ class ilLPStatusExerciseReturned extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_FAILED_NUM,
+            $a_user_ids
         );
     }
 
@@ -158,7 +169,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
     public static function _lookupInProgressForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
-    ) : array {
+    ): array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
@@ -166,7 +177,9 @@ class ilLPStatusExerciseReturned extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_IN_PROGRESS_NUM,
+            $a_user_ids
         );
     }
 }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * AMD Form Page element
@@ -19,12 +22,11 @@
  */
 class ilPCAMDForm extends ilPageContent
 {
-    protected php4DOMElement $amdfrm_node;
     protected int $ref_id;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -40,18 +42,12 @@ class ilPCAMDForm extends ilPageContent
         $this->ref_id = $request->getRefId();
     }
 
-    public static function getLangVars() : array
+    public static function getLangVars(): array
     {
         return array("ed_insert_amdfrm", "pc_amdfrm");
     }
 
-    public function setNode(php4DOMElement $a_node) : void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->amdfrm_node = $a_node->first_child();		// this is the courses node
-    }
-
-    protected function isTemplate() : bool
+    protected function isTemplate(): bool
     {
         return ($this->getPage()->getParentType() === "prtt");
     }
@@ -60,22 +56,22 @@ class ilPCAMDForm extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
-        $this->node = $this->createPageContentNode();
+    ): void {
+        $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->amdfrm_node = $this->dom->create_element("AMDForm");
-        $this->amdfrm_node = $this->node->append_child($this->amdfrm_node);
+        $amdfrm_node = $this->dom_doc->createElement("AMDForm");
+        $this->getDomNode()->appendChild($amdfrm_node);
     }
 
-    public function setRecordIds(array $record_ids) : void
+    public function setRecordIds(array $record_ids): void
     {
-        $this->amdfrm_node->set_attribute("RecordIds", implode(",", $record_ids));
+        $this->getChildNode()->setAttribute("RecordIds", implode(",", $record_ids));
     }
 
-    public function getRecordIds() : array
+    public function getRecordIds(): array
     {
-        if (is_object($this->amdfrm_node)) {
-            return explode(",", $this->amdfrm_node->get_attribute("RecordIds"));
+        if (is_object($this->getChildNode())) {
+            return explode(",", $this->getChildNode()->getAttribute("RecordIds"));
         }
         return [];
     }
@@ -85,7 +81,7 @@ class ilPCAMDForm extends ilPageContent
         string $a_output,
         string $a_mode,
         bool $a_abstract_only = false
-    ) : string {
+    ): string {
         $end = 0;
         $start = strpos($a_output, "[[[[[AMDForm;");
         if (is_int($start)) {
@@ -123,7 +119,7 @@ class ilPCAMDForm extends ilPageContent
         bool $a_clone_mobs = false,
         int $new_parent_id = 0,
         int $obj_copy_id = 0
-    ) : void {
+    ): void {
         if ($obj_copy_id > 0) {
             $cp_options = ilCopyWizardOptions::_getInstance($obj_copy_id);
             $mappings = $cp_options->getMappings();
@@ -133,8 +129,9 @@ class ilPCAMDForm extends ilPageContent
                 $nodes = $xpath->query("//AMDForm");
                 foreach ($nodes as $node) {
                     $old_ids = explode(",", (string) $node->getAttribute("RecordIds"));
+                    // 36565: do not overwrite RecordIds that are not mapped
                     $new_ids = array_map(static function ($i) use ($mappings, $key) {
-                        return $mappings[$key][(int) $i];
+                        return $mappings[$key][(int) $i] ?? $i;
                     }, $old_ids);
                     $new_ids = implode(",", $new_ids);
                     if ($new_ids !== "") {

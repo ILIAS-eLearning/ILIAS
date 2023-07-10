@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,23 +16,25 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Interface ilMailMimeTransport
  * @author Michael Jansen <mjansen@databay.de>
  */
 interface ilMailMimeSender
 {
-    public function hasReplyToAddress() : bool;
+    public function hasReplyToAddress(): bool;
 
-    public function getReplyToAddress() : string;
+    public function getReplyToAddress(): string;
 
-    public function getReplyToName() : string;
+    public function getReplyToName(): string;
 
-    public function hasEnvelopFromAddress() : bool;
+    public function hasEnvelopFromAddress(): bool;
 
-    public function getEnvelopFromAddress() : string;
+    public function getEnvelopFromAddress(): string;
 
-    public function getFromAddress() : string;
+    public function getFromAddress(): string;
 
-    public function getFromName() : string;
+    public function getFromName(): string;
 }

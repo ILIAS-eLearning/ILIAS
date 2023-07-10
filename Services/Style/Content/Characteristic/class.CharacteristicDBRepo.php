@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Style\Content;
 
@@ -41,7 +46,7 @@ class CharacteristicDBRepo
         bool $hidden = false,
         int $order_nr = 0,
         bool $outdated = false
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $db->insert("style_char", [
@@ -58,7 +63,7 @@ class CharacteristicDBRepo
         int $style_id,
         string $type,
         string $char
-    ) : bool {
+    ): bool {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -77,7 +82,7 @@ class CharacteristicDBRepo
         int $style_id,
         string $type,
         string $characteristic
-    ) : ?Characteristic {
+    ): ?Characteristic {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -113,7 +118,7 @@ class CharacteristicDBRepo
     public function getByType(
         int $style_id,
         string $type
-    ) : array {
+    ): array {
         return $this->getByTypes(
             $style_id,
             [$type]
@@ -125,7 +130,7 @@ class CharacteristicDBRepo
         array $types,
         bool $include_hidden = true,
         bool $include_outdated = true
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -172,7 +177,7 @@ class CharacteristicDBRepo
     public function getBySuperType(
         int $style_id,
         string $super_type
-    ) : array {
+    ): array {
         $stypes = ilObjStyleSheet::_getStyleSuperTypes();
         $types = $stypes[$super_type];
 
@@ -191,7 +196,7 @@ class CharacteristicDBRepo
         string $type,
         string $characteristic,
         array $titles
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $db->manipulateF(
@@ -220,7 +225,7 @@ class CharacteristicDBRepo
         string $type,
         string $characteristic,
         bool $hide
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $db->update(
@@ -244,7 +249,7 @@ class CharacteristicDBRepo
         string $type,
         string $characteristic,
         bool $outdated
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $db->update(
@@ -265,7 +270,7 @@ class CharacteristicDBRepo
         string $type,
         string $characteristic,
         int $order_nr
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $db->update(
@@ -286,7 +291,7 @@ class CharacteristicDBRepo
         string $type,
         string $tag,
         string $class
-    ) : void {
+    ): void {
         $db = $this->db;
 
         // delete characteristic record
@@ -317,7 +322,7 @@ class CharacteristicDBRepo
         string $a_type,
         int $a_mq_id = 0,
         bool $a_custom = false
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -368,7 +373,7 @@ class CharacteristicDBRepo
         string $type,
         int $mq_id = 0,
         bool $custom = false
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $q = "DELETE FROM style_parameter WHERE " .
@@ -387,7 +392,7 @@ class CharacteristicDBRepo
         int $style_id,
         string $old_name,
         string $new_name
-    ) : void {
+    ): void {
         if ($old_name == $new_name) {
             return;
         }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ContentPage\GlobalSettings;
 
 use ilSetting;
@@ -29,14 +31,11 @@ class StorageImpl implements Storage
 {
     private const P_READING_TIME_STATUS = 'reading_time_status';
 
-    private ilSetting $globalSettings;
-
-    public function __construct(ilSetting $globalSettings)
+    public function __construct(private readonly ilSetting $globalSettings)
     {
-        $this->globalSettings = $globalSettings;
     }
 
-    public function getSettings() : Settings
+    public function getSettings(): Settings
     {
         $settings = new Settings();
 
@@ -49,7 +48,7 @@ class StorageImpl implements Storage
         return $settings;
     }
 
-    public function store(Settings $settings) : void
+    public function store(Settings $settings): void
     {
         $this->globalSettings->set(self::P_READING_TIME_STATUS, ((string) (int) $settings->isReadingTimeEnabled()));
     }

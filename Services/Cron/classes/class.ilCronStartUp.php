@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,30 +16,23 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilCronStartUp
 {
-    private string $client;
-    private string $username;
-    private string $password;
-    private ilAuthSession $authSession;
+    private readonly ilAuthSession $authSession;
+    private bool $authenticated = false;
 
     public function __construct(
-        string $a_client_id,
-        string $a_login,
-        string $a_password,
+        private readonly string $client,
+        private readonly string $username,
         ?ilAuthSession $authSession = null
     ) {
-        $this->client = $a_client_id;
-        $this->username = $a_login;
-        $this->password = $a_password;
-    
         /** @noRector  */
-        require_once './Services/Context/classes/class.ilContext.php';
         ilContext::init(ilContext::CONTEXT_CRON);
 
-        // @see mantis 20371: To get rid of this, the authentication service has to provide a mechanism to pass the client_id
+        // TODO @see mantis 20371: To get rid of this, the authentication service has to provide a mechanism to pass the client_id
         $_GET['client_id'] = $this->client;
-        /** @noRector  */
         require_once './include/inc.header.php';
 
         if (null === $authSession) {
@@ -51,49 +44,46 @@ class ilCronStartUp
 
 
     /**
-     * Start authentication
      * @throws ilCronException if authentication failed.
      */
-    public function authenticate() : bool
+    public function authenticate(): bool
     {
         $credentials = new ilAuthFrontendCredentials();
         $credentials->setUsername($this->username);
-        $credentials->setPassword($this->password);
-
-        $provider_factory = new ilAuthProviderFactory();
-        $providers = $provider_factory->getProviders($credentials);
 
         $status = ilAuthStatus::getInstance();
 
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_CLI);
 
+        $provider_factory = new ilAuthProviderCliFactory();
+
         $frontend = $frontend_factory->getFrontend(
             $this->authSession,
             $status,
             $credentials,
-            $providers
+            $provider_factory->getProviders($credentials)
         );
 
         $frontend->authenticate();
 
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
+                $this->authenticated = true;
                 ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
                 return true;
-
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
             default:
                 throw new ilCronException($status->getTranslatedReason());
         }
-
-        return true;
     }
 
-    public function logout() : void
+    public function logout(): void
     {
-        ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
-        $this->authSession->logout();
+        if ($this->authenticated) {
+            ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
+            $this->authSession->logout();
+        }
     }
 }

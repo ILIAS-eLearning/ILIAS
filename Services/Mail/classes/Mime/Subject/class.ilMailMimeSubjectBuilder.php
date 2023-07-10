@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,22 +16,19 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailMimeSubjectBuilder
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMailMimeSubjectBuilder
 {
-    private ilSetting $settings;
-    private string $defaultPrefix;
-
-    public function __construct(ilSetting $settings, string $defaultPrefix)
+    public function __construct(private readonly ilSetting $settings, private readonly string $defaultPrefix)
     {
-        $this->settings = $settings;
-        $this->defaultPrefix = $defaultPrefix;
     }
 
-    public function subject(string $subject, bool $addPrefix = false, string $contextPrefix = '') : string
+    public function subject(string $subject, bool $addPrefix = false, string $contextPrefix = ''): string
     {
         $subject = trim($subject);
         $contextPrefix = trim($contextPrefix);

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilStudyProgrammeMailMemberSearchGUI
 {
@@ -12,6 +28,7 @@ class ilStudyProgrammeMailMemberSearchGUI
     protected ILIAS\Refinery\Factory $refinery;
 
     protected array $assignments = [];
+    protected array $user_ids = [];
     private ?string $back_target = null;
 
     public function __construct(
@@ -33,39 +50,44 @@ class ilStudyProgrammeMailMemberSearchGUI
         $this->lng->loadLanguageModule('search');
     }
 
-    public function getAssignments() : array
+    public function getAssignments(): array
     {
         return $this->assignments;
     }
 
-    public function setAssignments(array $assignments) : void
+    public function setAssignments(array $assignments): void
     {
         $this->assignments = $assignments;
     }
 
-    public function getBackTarget() : ?string
+    public function getBackTarget(): ?string
     {
         return $this->back_target;
     }
 
-    public function setBackTarget(string $target) : void
+    public function setBackTarget(string $target): void
     {
         $this->back_target = $target;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
         $this->ctrl->setReturn($this, '');
 
         switch ($cmd) {
-            case 'sendMailToSelectedUsers':
-                $this->sendMailToSelectedUsers();
-                break;
             case 'showSelectableUsers':
             case 'members':
                 $this->showSelectableUsers();
+                break;
+            case 'sendMailToSelectedUsers':
+                $this->user_ids = $this->retrieveUserIds();
+                $this->sendMailToSelectedUsers();
+                break;
+            case 'mailUserMulti':
+                $this->user_ids = array_keys($this->getProcessData());
+                $this->sendMailToSelectedUsers();
                 break;
             case 'cancel':
                 $this->redirectToParent();
@@ -75,7 +97,7 @@ class ilStudyProgrammeMailMemberSearchGUI
         }
     }
 
-    protected function showSelectableUsers() : void
+    protected function showSelectableUsers(): void
     {
         $this->tpl->loadStandardTemplate();
         $tbl = new ilStudyProgrammeMailMemberSearchTableGUI($this, $this->getRootPrgObjId(), 'showSelectableUsers');
@@ -84,7 +106,7 @@ class ilStudyProgrammeMailMemberSearchGUI
         $this->tpl->setContent($tbl->getHTML());
     }
 
-    protected function getProcessData() : array
+    protected function getProcessData(): array
     {
         $data = [];
 
@@ -93,10 +115,7 @@ class ilStudyProgrammeMailMemberSearchGUI
             $name = ilObjUser::_lookupName($user_id);
             $login = ilObjUser::_lookupLogin($user_id);
 
-            $publicName = '';
-            if (in_array(ilObjUser::_lookupPref($user_id, 'public_profile'), array('g', 'y'))) {
-                $publicName = $name['lastname'] . ', ' . $name['firstname'];
-            }
+            $publicName = $name['lastname'] . ', ' . $name['firstname'];
 
             $data[$user_id]['user_id'] = $user_id;
             $data[$user_id]['login'] = $login;
@@ -106,12 +125,12 @@ class ilStudyProgrammeMailMemberSearchGUI
         return $data;
     }
 
-    protected function getPRGMembersGUI() : ilObjStudyProgrammeMembersGUI
+    protected function getPRGMembersGUI(): ilObjStudyProgrammeMembersGUI
     {
         return ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeMembersGUI'];
     }
 
-    protected function sendMailToSelectedUsers() : bool
+    protected function retrieveUserIds(): array
     {
         $user_ids = [];
         if ($this->http_wrapper->post()->has("user_ids")) {
@@ -120,7 +139,12 @@ class ilStudyProgrammeMailMemberSearchGUI
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
         }
+        return $user_ids;
+    }
 
+    protected function sendMailToSelectedUsers(): bool
+    {
+        $user_ids = $this->user_ids;
         if (!count($user_ids)) {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
@@ -154,7 +178,7 @@ class ilStudyProgrammeMailMemberSearchGUI
         return true;
     }
 
-    protected function generateContextArray() : array
+    protected function generateContextArray(): array
     {
         $context_array = [];
         $ref_id = $this->getRootPrgRefId();
@@ -173,7 +197,7 @@ class ilStudyProgrammeMailMemberSearchGUI
         return $context_array;
     }
 
-    protected function redirectToParent() : void
+    protected function redirectToParent(): void
     {
         $back_target = $this->getBackTarget();
         if (is_null($back_target)) {
@@ -183,7 +207,7 @@ class ilStudyProgrammeMailMemberSearchGUI
         $this->ctrl->redirectToURL($back_target);
     }
 
-    protected function createMailSignature() : string
+    protected function createMailSignature(): string
     {
         $link = chr(13) . chr(10) . chr(13) . chr(10);
         $link .= $this->lng->txt('prg_mail_permanent_link');
@@ -192,14 +216,14 @@ class ilStudyProgrammeMailMemberSearchGUI
         return rawurlencode(base64_encode($link));
     }
 
-    protected function getRootPrgRefId() : int
+    protected function getRootPrgRefId(): int
     {
         $assignments = $this->getAssignments();
         $assignment = array_shift($assignments);
         return ilObjStudyProgramme::getRefIdFor($assignment->getRootId());
     }
 
-    protected function getRootPrgObjId() : int
+    protected function getRootPrgObjId(): int
     {
         $assignments = $this->getAssignments();
         $assignment = array_shift($assignments);

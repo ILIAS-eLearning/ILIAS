@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -38,7 +40,7 @@ class ilAdvancedMDRecordImportFiles
         $this->init();
     }
 
-    public function getImportDirectory() : string
+    public function getImportDirectory(): string
     {
         return $this->import_dir;
     }
@@ -48,7 +50,7 @@ class ilAdvancedMDRecordImportFiles
      * @param int creation date (unix time)
      * @return string absolute path
      */
-    public function getImportFileByCreationDate(int $a_unix_time) : string
+    public function getImportFileByCreationDate(int $a_unix_time): string
     {
         $unix_time = $a_unix_time;
         return $this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . $unix_time . '.xml';
@@ -58,7 +60,7 @@ class ilAdvancedMDRecordImportFiles
      * Delete a file
      * @param int creation date (unix time)
      */
-    public function deleteFileByCreationDate(int $a_unix_time) : bool
+    public function deleteFileByCreationDate(int $a_unix_time): bool
     {
         $unix_time = $a_unix_time;
         return unlink($this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . $unix_time . '.xml');
@@ -70,7 +72,7 @@ class ilAdvancedMDRecordImportFiles
      * @param string tmp name
      * @return int creation time of newly created file. 0 on error
      */
-    public function moveUploadedFile(string $a_temp_name) : int
+    public function moveUploadedFile(string $a_temp_name): int
     {
         $creation_time = time();
         $file_name = $this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . $creation_time . '.xml';
@@ -84,7 +86,7 @@ class ilAdvancedMDRecordImportFiles
     /**
      * init function: create import directory, delete old files
      */
-    private function init() : void
+    private function init(): void
     {
         if (!is_dir($this->import_dir)) {
             ilFileUtils::makeDirParents($this->import_dir);

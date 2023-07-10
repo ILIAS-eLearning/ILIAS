@@ -1,33 +1,46 @@
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ******************************************************************** */
 
-import ACTIONS from "../actions/page-action-types.js";
+import ACTIONS from '../actions/page-action-types.js';
 
 /**
  * Page UI action handler
  */
 export default class PageUIActionHandler {
-
-  //debug = true;
+  // debug = true;
 
   /**
    * @type {PageUI}
    */
-  //ui;
+  // ui;
 
   /**
    * @type {ActionFactory}
    */
-  //actionFactory;
+  // actionFactory;
 
   /**
    * @type {Dispatcher}
    */
-  //dispatcher;
+  // dispatcher;
 
   /**
    * @type {Client}
    */
-  //client;
+  // client;
 
   /**
    * @param {ActionFactory} actionFactory
@@ -66,54 +79,59 @@ export default class PageUIActionHandler {
    * @param {PageModel} model
    */
   handle(action, model) {
-
-    const dispatcher = this.dispatcher;
-    const actionFactory = this.actionFactory;
-    const client = this.client;
+    const { dispatcher } = this;
+    const { actionFactory } = this;
+    const { client } = this;
     let form_sent = false;
 
     const params = action.getParams();
     switch (action.getType()) {
-
-      case "component.insert":
+      case 'component.insert':
         // legacy
         console.log(model.getCurrentPCName());
 
-        if (!["Paragraph", "Grid", "MediaObject", "Section"].includes(model.getCurrentPCName())) {
-          let ctype = this.ui.getPCTypeForName(params.cname);
-          client.sendForm(actionFactory.page().command().createLegacy(ctype, params.pcid,
-            params.hierid, params.pluginName));
+        if (!['Paragraph', 'Grid', 'MediaObject', 'Section'].includes(model.getCurrentPCName())) {
+          const ctype = this.ui.getPCTypeForName(params.cname);
+          client.sendForm(actionFactory.page().command().createLegacy(
+            ctype,
+            params.pcid,
+            params.hierid,
+            params.pluginName,
+          ));
           form_sent = true;
         }
         // generic
-        if (["Grid", "MediaObject", "Section"].includes(model.getCurrentPCName())) {
+        if (['Grid', 'MediaObject', 'Section'].includes(model.getCurrentPCName())) {
           this.ui.showGenericCreationForm();
         }
         break;
 
-      case "component.cancel":
+      case 'component.cancel':
         if (model.getComponentState() === model.STATE_COMPONENT_INSERT) {
-          if (model.getCurrentPCName() !== "Paragraph") {
+          if (model.getCurrentPCName() !== 'Paragraph') {
             const pcid = model.getCurrentPCId();
             this.ui.removeInsertedComponent(pcid);
           }
         }
         break;
 
-      case "component.save":
+      case 'component.save':
         this.sendInsertCommand(params, model);
         break;
 
-      case "component.update":
+      case 'component.update':
         this.sendUpdateCommand(params);
         break;
 
-      case "component.edit":
-        if (["MediaObject", "Section"].includes(model.getCurrentPCName())) {   // generic load editing form
+      case 'component.edit':
+        if (['MediaObject', 'Section'].includes(model.getCurrentPCName())) { // generic load editing form
           this.ui.loadGenericEditingForm(params.cname, params.pcid, params.hierid);
-        } else if (!["Paragraph", "PlaceHolder"].includes(model.getCurrentPCName())) {   // legacy underworld
-          client.sendForm(actionFactory.page().command().editLegacy(params.cname, params.pcid,
-            params.hierid));
+        } else if (!['Paragraph', 'PlaceHolder'].includes(model.getCurrentPCName())) { // legacy underworld
+          client.sendForm(actionFactory.page().command().editLegacy(
+            params.cname,
+            params.pcid,
+            params.hierid,
+          ));
           form_sent = true;
         }
         break;
@@ -121,9 +139,12 @@ export default class PageUIActionHandler {
       // legacy underworld, note MediaObject e.g. use component.edit to show the
       // generic editing form in the slate, then it is using component.settings to link to the
       // advanced settings in (legacy underworld) afterwards
-      case "component.settings":
-        client.sendForm(actionFactory.page().command().editLegacy(params.cname, params.pcid,
-          params.hierid));
+      case 'component.settings':
+        client.sendForm(actionFactory.page().command().editLegacy(
+          params.cname,
+          params.pcid,
+          params.hierid,
+        ));
         form_sent = true;
         break;
 
@@ -133,12 +154,12 @@ export default class PageUIActionHandler {
         this.ui.highlightSelected(model.getSelected());
         break;
 
-      case "multi.toggle":
-      case "format.cancel":
+      case 'multi.toggle':
+      case 'format.cancel':
         this.ui.highlightSelected(model.getSelected());
         break;
 
-      case "multi.paste":
+      case 'multi.paste':
         this.sendPasteCommand(model, params);
         break;
 
@@ -146,62 +167,82 @@ export default class PageUIActionHandler {
         this.sendDropCommand(params);
         break;
 
-      case "multi.action":
-        let type = params.type;
+      case 'dnd.stopped':
+        // note: stopped is being called after drop
+        // in this case we do not want remove the STATE_SERVER_CMD state
+        if (model.getState() === model.STATE_DRAG_DROP) {
+          // console.log("**** SETTING PAGE STATE");
+          // console.log(this.model.getState());
+          // we set a timeout to prevent click events
+          // on "drop", that would open the component edit views
+          const af = this.actionFactory;
+          const dispatch = this.dispatcher;
+          window.setTimeout(() => {
+            model.setState(model.STATE_PAGE);
+            dispatch.dispatch(af.page().editor().enablePageEditing());
+          }, 500);
+        }
+        break;
 
-        if (["all", "none", "cut", "copy"].includes(type)) {
+      case 'multi.action':
+        const { type } = params;
+
+        if (['all', 'none', 'cut', 'copy'].includes(type)) {
           this.ui.highlightSelected(model.getSelected());
         }
         switch (type) {
-          case "cut":
+          case 'cut':
             this.ui.pageModifier.cut(model.getCutItems());
             this.sendCutCommand(model);
             break;
 
-          case "copy":
+          case 'copy':
             this.sendCopyCommand(model);
             break;
 
-          case "characteristic":
+          case 'characteristic':
             this.ui.initFormatButtons();
             break;
 
-          case "delete":
+          case 'delete':
             this.ui.showDeleteConfirmation();
             break;
 
-          case "activate":
+          case 'activate':
             this.sendActivateCommand();
             break;
         }
         break;
 
-      case "format.paragraph":
+      case 'format.paragraph':
         this.ui.setParagraphFormat(model.getParagraphFormat());
         break;
 
-      case "format.section":
+      case 'format.section':
         this.ui.setSectionFormat(model.getSectionFormat());
         break;
 
-      case "format.media":
+      case 'format.media':
         this.ui.setMediaFormat(model.getMediaFormat());
         break;
 
-      case "format.save":
+      case 'format.save':
         this.sendFormatCommand(params);
         break;
 
-      case "multi.delete":
+      case 'multi.delete':
         this.ui.hideDeleteConfirmation();
         this.sendDeleteCommand(params);
         break;
 
-      case "multi.activate":
+      case 'multi.activate':
         this.sendActivateCommand(params);
         break;
-    }
 
+      case 'list.edit':
+        this.sendListEditCommand(params);
+        break;
+    }
 
     // if we sent a (legacy) form, deactivate everything
     if (form_sent === true) {
@@ -210,62 +251,29 @@ export default class PageUIActionHandler {
       this.ui.hideDropareas();
       this.ui.disableDragDrop();
     } else {
+      this.log(`page-ui-action-handler.handle state ${model.getState()}`);
 
-      this.log("page-ui-action-handler.handle state " + model.getState());
+      this.ui.refreshUIFromModelState(model);
 
-      switch (model.getState()) {
-        case model.STATE_PAGE:
-          this.ui.showEditPage();
-          this.ui.showAddButtons();
-          this.ui.hideDropareas();
-          this.ui.enableDragDrop();
-          break;
-
-        case model.STATE_MULTI_ACTION:
-          if ([model.STATE_MULTI_CUT, model.STATE_MULTI_COPY].includes(model.getMultiState())) {
-            this.ui.showAddButtons();
-          } else {
-            this.ui.hideAddButtons();
-          }
-          this.ui.showMultiButtons();
-          this.ui.hideDropareas();
-          this.ui.disableDragDrop();
-          break;
-
-        case model.STATE_DRAG_DROP:
-          this.ui.showEditPage();
-          this.ui.hideAddButtons();
-          this.ui.showDropareas();
-          break;
-
-        case model.STATE_COMPONENT:
-          //this.ui.showPageHelp();
-          this.ui.hideAddButtons();
-          this.ui.hideDropareas();
-          this.ui.disableDragDrop();
-          break;
-      }
       this.ui.markCurrent();
     }
   }
-
 
   sendCutCommand(model) {
     let cut_action;
     const af = this.actionFactory;
 
     const cutPcIds = Array.from(
-      model.getCutItems()).map(x => (x.split(":")[1])
-    );
+      model.getCutItems(),
+    ).map((x) => (x.split(':')[1]));
 
     cut_action = af.page().command().cut(
-      cutPcIds
+      cutPcIds,
     );
 
-    this.client.sendCommand(cut_action).then(result => {
+    this.client.sendCommand(cut_action).then((result) => {
       this.ui.handlePageReloadResponse(result);
     });
-
   }
 
   sendCopyCommand(model) {
@@ -273,44 +281,46 @@ export default class PageUIActionHandler {
     const af = this.actionFactory;
 
     const copyPcIds = Array.from(
-      model.getCopyItems()).map(x => (x.split(":")[1])
-    );
+      model.getCopyItems(),
+    ).map((x) => (x.split(':')[1]));
 
     copy_action = af.page().command().copy(
-      copyPcIds
+      copyPcIds,
     );
 
-    this.client.sendCommand(copy_action).then(result => {
+    this.client.sendCommand(copy_action).then((result) => {
       this.ui.handlePageReloadResponse(result);
     });
-
   }
 
   sendPasteCommand(model, params) {
     let paste_action;
     const af = this.actionFactory;
+    const dispatch = this.dispatcher;
 
     paste_action = af.page().command().paste(
       params.pcid,
     );
 
-    this.client.sendCommand(paste_action).then(result => {
+    this.client.sendCommand(paste_action).then((result) => {
       this.ui.handlePageReloadResponse(result);
+      dispatch.dispatch(af.page().editor().enablePageEditing());
     });
-
   }
 
   sendDropCommand(params) {
     let drop_action;
     const af = this.actionFactory;
+    const dispatch = this.dispatcher;
 
     drop_action = af.page().command().dragDrop(
       params.target,
-      params.source
+      params.source,
     );
 
-    this.client.sendCommand(drop_action).then(result => {
+    this.client.sendCommand(drop_action).then((result) => {
       this.ui.handlePageReloadResponse(result);
+      dispatch.dispatch(af.page().editor().enablePageEditing());
     });
   }
 
@@ -318,17 +328,17 @@ export default class PageUIActionHandler {
     let drop_action;
     const af = this.actionFactory;
     const pcids = Array.from(
-      params.pcids).map(x => (x.split(":")[1])
-    );
+      params.pcids,
+    ).map((x) => (x.split(':')[1]));
 
     drop_action = af.page().command().format(
       pcids,
       params.parFormat,
       params.secFormat,
-      params.medFormat
+      params.medFormat,
     );
 
-    this.client.sendCommand(drop_action).then(result => {
+    this.client.sendCommand(drop_action).then((result) => {
       this.ui.handlePageReloadResponse(result);
     });
   }
@@ -336,32 +346,36 @@ export default class PageUIActionHandler {
   sendDeleteCommand(params) {
     let delete_action;
     const af = this.actionFactory;
+    const dispatch = this.dispatcher;
     const pcids = Array.from(
-      params.pcids).map(x => (x.split(":")[1])
-    );
+      params.pcids,
+    ).map((x) => (x.split(':')[1]));
 
     delete_action = af.page().command().delete(
-      pcids
+      pcids,
     );
 
-    this.client.sendCommand(delete_action).then(result => {
+    this.client.sendCommand(delete_action).then((result) => {
       this.ui.handlePageReloadResponse(result);
+      dispatch.dispatch(af.page().editor().enablePageEditing());
     });
   }
 
   sendActivateCommand(params) {
     let activate_action;
     const af = this.actionFactory;
+    const dispatch = this.dispatcher;
     const pcids = Array.from(
-      params.pcids).map(x => (x.split(":")[1])
-    );
+      params.pcids,
+    ).map((x) => (x.split(':')[1]));
 
     activate_action = af.page().command().activate(
-      pcids
+      pcids,
     );
 
-    this.client.sendCommand(activate_action).then(result => {
+    this.client.sendCommand(activate_action).then((result) => {
       this.ui.handlePageReloadResponse(result);
+      dispatch.dispatch(af.page().editor().enablePageEditing());
     });
   }
 
@@ -374,42 +388,66 @@ export default class PageUIActionHandler {
       params.afterPcid,
       params.pcid,
       params.component,
-      params.data
+      params.data,
     );
 
-    this.ui.toolSlate.setContent("");
-    if (this.ui.uiModel.components[model.getCurrentPCName()] &&
-        this.ui.uiModel.components[model.getCurrentPCName()].icon) {
-      document.querySelector(".copg-new-content-placeholder img").src = this.ui.uiModel.loaderUrl;
+    this.ui.toolSlate.setContent('');
+    if (this.ui.uiModel.components[model.getCurrentPCName()]
+        && this.ui.uiModel.components[model.getCurrentPCName()].icon) {
+      document.querySelector('.copg-new-content-placeholder img').src = this.ui.uiModel.loaderUrl;
     }
 
-    this.client.sendCommand(insert_action).then(result => {
-      this.ui.handlePageReloadResponse(result);
-
-      //after_pcid, pcid, component, data
-      dispatch.dispatch(af.page().editor().componentAfterSave(
+    this.client.sendCommand(insert_action).then((result) => {
+      const p = result.payload;
+      if (p.formError) {
+        document.querySelector('.copg-new-content-placeholder img').outerHTML = this.ui.uiModel.components[model.getCurrentPCName()].icon;
+        this.ui.showFormAfterError(p.form);
+      } else {
+        this.ui.handlePageReloadResponse(result);
+        // after_pcid, pcid, component, data
+        dispatch.dispatch(af.page().editor().componentAfterSave(
           params.afterPcid,
           params.pcid,
           params.component,
-          params.data
-      ));
-
+          params.data,
+        ));
+      }
     });
   }
 
   sendUpdateCommand(params) {
     let update_action;
     const af = this.actionFactory;
+    const dispatch = this.dispatcher;
 
     update_action = af.page().command().update(
       params.pcid,
       params.component,
-      params.data
-  );
+      params.data,
+    );
 
-    this.client.sendCommand(update_action).then(result => {
+    this.client.sendCommand(update_action).then((result) => {
       this.ui.handlePageReloadResponse(result);
+      dispatch.dispatch(af.page().editor().enablePageEditing());
     });
   }
 
+  sendListEditCommand(params) {
+    let list_action;
+    const af = this.actionFactory;
+    const { pcid } = params;
+    const { listCmd } = params;
+    const dispatch = this.dispatcher;
+
+    list_action = af.page().command().editListItem(
+      listCmd,
+      'Page',
+      pcid,
+    );
+
+    this.client.sendCommand(list_action).then((result) => {
+      this.ui.handlePageReloadResponse(result);
+      dispatch.dispatch(af.page().editor().enablePageEditing());
+    });
+  }
 }

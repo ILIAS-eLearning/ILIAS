@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,12 +9,12 @@
  */
 class ilLPStatusCollectionTLT extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
         $users = array();
-        if (is_array($status_info['in_progress'])) {
+        if (isset($status_info['in_progress'])) {
             foreach ($status_info['in_progress'] as $in_progress) {
                 $users = array_merge($users, $in_progress);
             }
@@ -20,13 +22,14 @@ class ilLPStatusCollectionTLT extends ilLPStatus
         }
 
         $users = array_diff(
-            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+            $users,
+            ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
 
         return $users;
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -46,7 +49,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
         return $users;
     }
 
-    public static function _getStatusInfo(int $a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id): array
     {
         global $DIC;
 
@@ -63,7 +66,8 @@ class ilLPStatusCollectionTLT extends ilLPStatus
                 $status_info["completed"][$item_id] = array();
 
                 $status_info["tlt"][$item_id] = ilMDEducational::_getTypicalLearningTimeSeconds(
-                    $a_obj_id, $item_id
+                    $a_obj_id,
+                    $item_id
                 );
             }
 
@@ -104,12 +108,12 @@ class ilLPStatusCollectionTLT extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         $info = self::_getStatusInfo($a_obj_id);
 
         $completed_once = false;
 
-        if (is_array($info["completed"])) {
+        if (isset($info["completed"])) {
             $completed = true;
             foreach ($info["completed"] as $user_ids) {
                 // must have completed all items to complete collection
@@ -130,7 +134,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
             return self::LP_STATUS_IN_PROGRESS_NUM;
         }
 
-        if (is_array($info["in_progress"])) {
+        if (isset($info["in_progress"])) {
             foreach ($info["in_progress"] as $user_ids) {
                 if (in_array($a_usr_id, $user_ids)) {
                     return self::LP_STATUS_IN_PROGRESS_NUM;

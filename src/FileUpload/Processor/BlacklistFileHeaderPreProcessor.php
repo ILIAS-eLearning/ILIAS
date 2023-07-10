@@ -53,7 +53,7 @@ final class BlacklistFileHeaderPreProcessor implements PreProcessor
     /**
      * @inheritDoc
      */
-    public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus
+    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
     {
         $header = $stream->read($this->fileHeaderLength);
         if (strcmp($this->fileHeader, $header) !== 0) {

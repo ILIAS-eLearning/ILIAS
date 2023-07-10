@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Build a view.
  */
@@ -35,7 +37,7 @@ class ilLSViewFactory
         $this->access = $access;
     }
 
-    public function getViewFor(LSLearnerItem $item) : ILIAS\KioskMode\View
+    public function getViewFor(LSLearnerItem $item): ILIAS\KioskMode\View
     {
         $obj = $this->getInstanceByRefId($item->getRefId());
         if ($this->kiosk_mode_service->hasKioskMode($item->getType())) {
@@ -45,13 +47,13 @@ class ilLSViewFactory
         }
     }
 
-    protected function getInstanceByRefId(int $ref_id) : ?\ilObject
+    protected function getInstanceByRefId(int $ref_id): ?\ilObject
     {
         return ilObjectFactory::getInstanceByRefId($ref_id, false);
     }
 
 
-    protected function getLegacyViewFor(ilObject $obj) : ilLegacyKioskModeView
+    protected function getLegacyViewFor(ilObject $obj): ilLegacyKioskModeView
     {
         return new ilLegacyKioskModeView(
             $obj,

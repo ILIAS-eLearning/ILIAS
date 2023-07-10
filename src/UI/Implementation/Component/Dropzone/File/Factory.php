@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,63 +14,78 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-use ILIAS\UI\Component\Dropzone\File\Standard as StandardInterface;
-use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperInterface;
-use ILIAS\UI\Component\Dropzone\File\Factory as FactoryInterface;
-use ILIAS\UI\Component\Input\Factory as InputFactory;
-use ILIAS\UI\Component\Input\Field\UploadHandler;
+use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Component\Dropzone\File\Factory as FileDropzoneFactory;
+use ILIAS\UI\Component\Dropzone\File\Standard as StandardDropzone;
+use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperDropzone;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Field\File as FileInput;
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Field\Input;
-use ilLanguage;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class Factory implements FactoryInterface
+class Factory implements FileDropzoneFactory
 {
-    protected InputFactory $factory;
-    protected ilLanguage $language;
+    protected SignalGeneratorInterface $signal_generator;
+    protected FieldFactory $field_factory;
 
-    public function __construct(InputFactory $factory, ilLanguage $language)
+    public function __construct(SignalGeneratorInterface $signal_generator, FieldFactory $field_factory)
     {
-        $this->factory = $factory;
-        $this->language = $language;
+        $this->signal_generator = $signal_generator;
+        $this->field_factory = $field_factory;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function standard(
-        UploadHandler $upload_handler,
+        string $title,
+        string $message,
         string $post_url,
-        ?Input $metadata_input = null
-    ) : StandardInterface {
+        FileInput $file_input,
+        ?Input $additional_input = null,
+    ): StandardDropzone {
         return new Standard(
-            $this->factory,
-            $this->language,
-            $upload_handler,
+            $this->signal_generator,
+            $this->field_factory,
+            new FormInputNameSource(),
+            $title,
+            $message,
             $post_url,
-            $metadata_input
+            $file_input,
+            $additional_input
         );
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function wrapper(
-        UploadHandler $upload_handler,
+        string $title,
         string $post_url,
         $content,
-        ?Input $metadata_input = null
-    ) : WrapperInterface {
+        FileInput $file_input,
+        ?Input $additional_input = null,
+    ): WrapperDropzone {
         return new Wrapper(
-            $this->factory,
-            $this->language,
-            $upload_handler,
-            $post_url,
+            $this->signal_generator,
+            $this->field_factory,
+            new FormInputNameSource(),
+            $title,
             $content,
-            $metadata_input
+            $post_url,
+            $file_input,
+            $additional_input
         );
     }
 }

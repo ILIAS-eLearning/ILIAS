@@ -25,17 +25,17 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
         $this->config = $config;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "ILIAS directories are created";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return false;
     }
@@ -43,7 +43,7 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
     /**
      * @return \ILIAS\Setup\Objective\DirectoryCreatedObjective[]|\ilIniFilesPopulatedObjective[]
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
         $data_dir = $this->config->getDataDir();
@@ -65,7 +65,7 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
 
@@ -81,7 +81,7 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
 

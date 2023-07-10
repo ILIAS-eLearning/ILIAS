@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,13 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Interface ilTermsOfServiceEvaluableCriterion
  * @author Michael Jansen <mjansen@databay.de>
  */
 interface ilTermsOfServiceEvaluableCriterion
 {
-    public function getCriterionValue() : ilTermsOfServiceCriterionConfig;
+    public function getCriterionValue(): ilTermsOfServiceCriterionConfig;
 
-    public function getCriterionId() : string;
+    public function getCriterionId(): string;
 }

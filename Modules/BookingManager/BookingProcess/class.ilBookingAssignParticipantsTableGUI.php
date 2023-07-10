@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * List participant / booking pool  assignment.
@@ -35,7 +34,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
     protected ilObjBookingPool $pool;
 
     public function __construct(
-        ilBookingProcessGUI $a_parent_obj,
+        object $a_parent_obj,
         string $a_parent_cmd,
         int $a_ref_id,
         int $a_pool_id,
@@ -91,7 +90,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
         }
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $data = ilBookingParticipant::getList($this->pool_id, []);
@@ -102,7 +101,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $this->tpl->setCurrentBlock("multi");

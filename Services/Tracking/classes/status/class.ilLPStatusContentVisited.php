@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,7 +12,7 @@ class ilLPStatusContentVisited extends ilLPStatus
     /**
      * @inheritdoc
      */
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $userIds = [];
 
@@ -29,7 +31,7 @@ class ilLPStatusContentVisited extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         /**
          * @var $ilObjDataCache ilObjectDataCache
          */

@@ -12,32 +12,32 @@
  */
 class ilAssessmentQuestionExporter extends ilXmlExporter
 {
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         /* export schema versions code */
     }
-    
-    public function init() : void
+
+    public function init(): void
     {
         /* assessment question init code */
     }
-    
+
     /**
      * @param string $a_entity
      * @param string $a_schema_version
      * @param string $a_id
      */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         /**
          * the assessment question export does simply get the id an returns
          * the qti xml representation of the question.
          */
-        
+
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $questionInstance = $DIC->question()->getQuestionInstance($a_id);
-        
+
         return $questionInstance->toQtiXML();
     }
 }

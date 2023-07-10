@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Show wiki pages
@@ -32,7 +35,7 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
         $this->user = $DIC->user();
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $lng = $this->lng;
 
@@ -44,18 +47,19 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
                 $this->tpl->setVariable('TXT_FRAGMENT', $this->getHighlighter()->getContent($this->getObjId(), $sub_item));
                 $this->tpl->parseCurrentBlock();
             }
-            
+
             $this->tpl->setCurrentBlock('subitem');
-            
+
             // TODO: subitem type must returned from lucene
-            if (($title = ilWikiPage::lookupTitle($sub_item)) !== false) {
+            $title = (string) ilWikiPage::lookupTitle($sub_item);
+            if ($title !== '') {
                 // Page
                 $this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('obj_pg'));
                 $this->tpl->setVariable('SEPERATOR', ':');
 
                 $link = '&srcstring=1';
                 $link = ilObjWikiGUI::getGotoLink($this->getRefId(), $title) . $link;
-                
+
                 $this->tpl->setVariable('LINK', $link);
                 $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame(''));
                 $this->tpl->setVariable('TITLE', $title);
@@ -74,12 +78,12 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
             if (count($this->getSubItemIds(true)) > 1) {
                 $this->parseRelevance($sub_item);
             }
-            
+
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->showDetailsLink();
-        
+
         return $this->tpl->get();
     }
 }

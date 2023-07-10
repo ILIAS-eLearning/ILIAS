@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
-/******************************************************************************
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
 * Class ilSAHSPresentationGUI
 *
@@ -26,10 +31,17 @@
 */
 class ilSAHSEditGUI implements ilCtrlBaseClassInterface
 {
+    private \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
+    private \ILIAS\Refinery\Factory $refinery;
     protected ilGlobalPageTemplate $tpl;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected int $refId;
+
+    /**
+     * @var ilObjSCORMLearningModuleGUI|ilObjSCORM2004LearningModuleGUI
+     */
+    protected $slm_gui;
 
     /**
      * @throws ilCtrlException
@@ -40,17 +52,17 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         $this->tpl = $DIC['tpl'];
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
         $this->refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
-        
+
         $this->ctrl->saveParameter($this, "ref_id");
     }
 
     /**
-     * execute command
-     * @return void
      * @throws ilCtrlException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -70,7 +82,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         if (!$ilAccess->checkAccess("write", "", $this->refId)) {
             $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
         }
-        
+
         // add entry to navigation history
         $ilNavigationHistory->addItem(
             $this->refId,
@@ -85,7 +97,6 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
         switch ($type) {
-
             case "scorm":
                 $this->slm_gui = new ilObjSCORMLearningModuleGUI([], $this->refId, true, false);
                 break;
@@ -93,16 +104,14 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
             case "scorm2004":
                 $this->slm_gui = new ilObjSCORM2004LearningModuleGUI([], $this->refId, true, false);
                 break;
-                
         }
 
         if ($next_class == "") {
             switch ($type) {
-                
                 case "scorm2004":
                     $this->ctrl->setCmdClass("ilobjscorm2004learningmodulegui");
                     break;
-                    
+
                 case "scorm":
                     $this->ctrl->setCmdClass("ilobjscormlearningmodulegui");
                     break;
@@ -111,45 +120,44 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         }
 
         switch ($next_class) {
-        case "ilobjscormlearningmodulegui":
-        case "ilobjscorm2004learningmodulegui":
-            $ret = $this->ctrl->forwardCommand($this->slm_gui);
-            break;
+            case "ilobjscormlearningmodulegui":
+            case "ilobjscorm2004learningmodulegui":
+                $ret = $this->ctrl->forwardCommand($this->slm_gui);
+                break;
 
-        case "ilexportgui":
-            $obj_id = ilObject::_lookupObjectId($this->refId);
-            if ($cmd == "create_xml") {
-                $exporter = new ilScormAiccExporter();
-                $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", (string) $obj_id);
-            } elseif ($cmd == "download") {
-                $file = $_GET["file"];
-                $ftmp = explode(":", $file);
-                $fileName = (string) $ftmp[1];
-                $exportDir = ilExport::_getExportDirectory($obj_id);
-                ilFileDelivery::deliverFileLegacy($exportDir . "/" . $fileName, $fileName, "zip");
-            } elseif ($cmd == "confirmDeletion") {
-                $exportDir = ilExport::_getExportDirectory($obj_id);
-                //not possible - no array
-//                $files = $report = $DIC->http()->wrapper()->post()->retrieve('file',$DIC->refinery()->kindlyTo()->string());
-                $files = $_POST['file'];
-                foreach ($files as $file) {
-                    $file = explode(":", $file);
-                    $file[1] = basename($file[1]);
-                    $exp_file = $exportDir . "/" . str_replace("..", "", $file[1]);
-                    if (@is_file($exp_file)) {
-                        unlink($exp_file);
+            case "ilexportgui":
+                $obj_id = ilObject::_lookupObjectId($this->refId);
+                if ($cmd === "create_xml") {
+                    $exporter = new ilScormAiccExporter();
+                    $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", (string) $obj_id);
+                } elseif ($cmd === "download") {
+                    $file = $this->wrapper->query()->retrieve('file', $this->refinery->kindlyTo()->string());
+                    $ftmp = explode(":", $file);
+                    $fileName = (string) $ftmp[1];
+                    $exportDir = ilExport::_getExportDirectory($obj_id);
+                    ilFileDelivery::deliverFileLegacy($exportDir . "/" . $fileName, $fileName, "zip");
+                } elseif ($cmd === "confirmDeletion") {
+                    $exportDir = ilExport::_getExportDirectory($obj_id);
+                    //                $files = $_POST['file'];
+                    $files = $this->wrapper->post()->retrieve('file', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()));
+                    foreach ($files as $file) {
+                        $file = explode(":", $file);
+                        $file[1] = basename($file[1]);
+                        $exp_file = $exportDir . "/" . str_replace("..", "", $file[1]);
+                        if (@is_file($exp_file)) {
+                            unlink($exp_file);
+                        }
                     }
                 }
-            }
-            $this->ctrl->setCmd("export");
-            ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&cmd=export&ref_id=" . $this->refId);
-            break;
+                $this->ctrl->setCmd("export");
+                ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&cmd=export&ref_id=" . $this->refId);
+                break;
 
 
-        default:
-            die("ilSAHSEdit: Class $next_class not found.");
+            default:
+                die("ilSAHSEdit: Class $next_class not found.");
         }
-        
+
         $this->tpl->printToStdout();
     }
 }

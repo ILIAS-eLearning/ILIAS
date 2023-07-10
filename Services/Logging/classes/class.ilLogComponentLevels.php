@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -20,7 +22,7 @@ class ilLogComponentLevels
     protected array $components = array();
 
     protected ilDBInterface $db;
-    
+
     /**
      * constructor
      */
@@ -30,16 +32,19 @@ class ilLogComponentLevels
         $this->db = $DIC->database();
         $this->read();
     }
-    
-    public static function getInstance() : ilLogComponentLevels
+
+    public static function getInstance(): ilLogComponentLevels
     {
         if (!self::$instance) {
             self::$instance = new self();
         }
         return self::$instance;
     }
-    
-    public static function updateFromXML($a_component_id) : bool
+
+    /**
+     * @param string $a_component_id
+     */
+    public static function updateFromXML($a_component_id): bool
     {
         global $DIC;
 
@@ -47,7 +52,7 @@ class ilLogComponentLevels
         if (!$a_component_id) {
             return false;
         }
-        
+
         $query = 'SELECT * FROM log_components ' .
                 'WHERE component_id = ' . $ilDB->quote($a_component_id, 'text');
         $res = $ilDB->query($query);
@@ -60,21 +65,21 @@ class ilLogComponentLevels
         }
         return true;
     }
-    
+
     /**
      * Get component levels
      * @return ilLogComponentLevel[]
      */
-    public function getLogComponents() : array
+    public function getLogComponents(): array
     {
         return $this->components;
     }
-    
-    public function read()
+
+    public function read(): void
     {
         $query = 'SELECT * FROM log_components ';
         $res = $this->db->query($query);
-        
+
         $this->components = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->components[] = new ilLogComponentLevel((string) $row->component_id, (int) $row->log_level);

@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 *
@@ -34,13 +37,13 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
     {
         parent::__construct();
     }
-    
+
     /**
      * init
      *
      * @access public
      */
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = false;
         $this->static_link_enabled = true;
@@ -51,12 +54,12 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
         $this->info_screen_enabled = true;
         $this->type = 'rcrs';
         $this->gui_class_name = 'ilobjremotecoursegui';
-        
+
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;
         }
-        
+
         // general commands array
         $this->commands = ilObjRemoteCourseAccess::_getCommands();
     }
@@ -69,7 +72,7 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
      * @param
      *
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         global $lng;
 
@@ -83,7 +86,7 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
 
         return array();
     }
-    
+
     /**q
      * get command frame
      *
@@ -91,7 +94,7 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
      * @param
      * @return
      */
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         switch ($cmd) {
             case 'show':
@@ -101,7 +104,7 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
                 )) {
                     return '_blank';
                 }
-                
+
                 // no break
             default:
                 return parent::getCommandFrame($cmd);

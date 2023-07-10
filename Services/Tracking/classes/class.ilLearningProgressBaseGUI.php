@@ -1,6 +1,22 @@
-<?php declare(strict_types=0);
+<?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=0);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
@@ -94,27 +110,27 @@ class ilLearningProgressBaseGUI
         $this->logger = $DIC->logger()->trac();
     }
 
-    public function isAnonymized() : bool
+    public function isAnonymized(): bool
     {
         return $this->anonymized;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    protected function initUserIdFromQuery() : int
+    protected function initUserIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('user_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -125,7 +141,7 @@ class ilLearningProgressBaseGUI
         return 0;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         if ($this->usr_id) {
             return $this->usr_id;
@@ -136,7 +152,7 @@ class ilLearningProgressBaseGUI
         return 0;
     }
 
-    public function __getDefaultCommand() : string
+    public function __getDefaultCommand(): string
     {
         if (strlen($cmd = $this->ctrl->getCmd())) {
             return $cmd;
@@ -144,7 +160,7 @@ class ilLearningProgressBaseGUI
         return 'show';
     }
 
-    public function __setSubTabs(int $a_active) : void
+    public function __setSubTabs(int $a_active): void
     {
         switch ($this->getMode()) {
             case self::LP_CONTEXT_PERSONAL_DESKTOP:
@@ -154,7 +170,8 @@ class ilLearningProgressBaseGUI
                     $this->tabs_gui->addTarget(
                         'trac_progress',
                         $this->ctrl->getLinkTargetByClass(
-                            'illplistofprogressgui', ''
+                            'illplistofprogressgui',
+                            ''
                         ),
                         "",
                         "",
@@ -167,7 +184,8 @@ class ilLearningProgressBaseGUI
                     $this->tabs_gui->addTarget(
                         'trac_objects',
                         $this->ctrl->getLinkTargetByClass(
-                            "illplistofobjectsgui", ''
+                            "illplistofobjectsgui",
+                            ''
                         ),
                         "",
                         "",
@@ -182,18 +200,21 @@ class ilLearningProgressBaseGUI
                 $olp = ilObjectLP::getInstance($this->obj_id);
                 if ($olp->isActive()) {
                     $has_read = ilLearningProgressAccess::checkPermission(
-                        'read_learning_progress', $this->getRefId()
+                        'read_learning_progress',
+                        $this->getRefId()
                     );
 
                     if ($this->isAnonymized() || !$has_read) {
                         $this->ctrl->setParameterByClass(
-                            'illplistofprogressgui', 'user_id',
+                            'illplistofprogressgui',
+                            'user_id',
                             $this->getUserId()
                         );
                         $this->tabs_gui->addSubTabTarget(
                             'trac_progress',
                             $this->ctrl->getLinkTargetByClass(
-                                'illplistofprogressgui', ''
+                                'illplistofprogressgui',
+                                ''
                             ),
                             "",
                             "",
@@ -203,17 +224,18 @@ class ilLearningProgressBaseGUI
                     } else {
                         // Check if it is a course
                         $sub_tab = ($this->ilObjectDataCache->lookupType(
-                                $this->ilObjectDataCache->lookupObjId(
-                                    $this->getRefId()
-                                )
-                            ) == 'crs') ?
+                            $this->ilObjectDataCache->lookupObjId(
+                                $this->getRefId()
+                            )
+                        ) == 'crs') ?
                             'trac_crs_objects' :
                             'trac_objects';
 
                         $this->tabs_gui->addSubTabTarget(
                             $sub_tab,
                             $this->ctrl->getLinkTargetByClass(
-                                "illplistofobjectsgui", ''
+                                "illplistofobjectsgui",
+                                ''
                             ),
                             "",
                             "",
@@ -242,7 +264,8 @@ class ilLearningProgressBaseGUI
                         $this->tabs_gui->addSubTabTarget(
                             "trac_summary",
                             $this->ctrl->getLinkTargetByClass(
-                                "illplistofobjectsgui", 'showObjectSummary'
+                                "illplistofobjectsgui",
+                                'showObjectSummary'
                             ),
                             "",
                             "",
@@ -253,12 +276,14 @@ class ilLearningProgressBaseGUI
                 }
                 if (!($olp instanceof ilPluginLP) &&
                     ilLearningProgressAccess::checkPermission(
-                        'edit_learning_progress', $this->getRefId()
+                        'edit_learning_progress',
+                        $this->getRefId()
                     )) {
                     $this->tabs_gui->addSubTabTarget(
                         'trac_settings',
                         $this->ctrl->getLinkTargetByClass(
-                            'illplistofsettingsgui', ''
+                            'illplistofsettingsgui',
+                            ''
                         ),
                         "",
                         "",
@@ -277,7 +302,8 @@ class ilLearningProgressBaseGUI
                 $this->tabs_gui->addSubTabTarget(
                     'trac_objects',
                     $this->ctrl->getLinkTargetByClass(
-                        "illplistofobjectsgui", ''
+                        "illplistofobjectsgui",
+                        ''
                     ),
                     "",
                     "",
@@ -297,7 +323,7 @@ class ilLearningProgressBaseGUI
         }
     }
 
-    public function __buildFooter() : void
+    public function __buildFooter(): void
     {
         switch ($this->getMode()) {
             case self::LP_CONTEXT_PERSONAL_DESKTOP:
@@ -305,51 +331,18 @@ class ilLearningProgressBaseGUI
         }
     }
 
-    public function __buildHeader() : void
+    public function __buildHeader(): void
     {
-    }
-
-    /**
-     * Get image path for status
-     * @param string|int
-     * @return string
-     * @todo separate string int
-     */
-    public static function _getImagePathForStatus($a_status) : string
-    {
-        // constants are either number or string, so make comparison string-based
-        switch ($a_status) {
-            case ilLPStatus::LP_STATUS_IN_PROGRESS_NUM:
-            case ilLPStatus::LP_STATUS_IN_PROGRESS:
-            case ilLPStatus::LP_STATUS_REGISTERED:
-                return ilUtil::getImagePath('scorm/incomplete.svg');
-
-            case ilLPStatus::LP_STATUS_COMPLETED_NUM:
-            case ilLPStatus::LP_STATUS_COMPLETED:
-            case ilLPStatus::LP_STATUS_PARTICIPATED:
-                return ilUtil::getImagePath('scorm/complete.svg');
-
-            case ilLPStatus::LP_STATUS_NOT_ATTEMPTED:
-            case ilLPStatus::LP_STATUS_NOT_PARTICIPATED:
-            case ilLPStatus::LP_STATUS_NOT_REGISTERED:
-                return ilUtil::getImagePath('scorm/not_attempted.svg');
-
-            case ilLPStatus::LP_STATUS_FAILED_NUM:
-            case ilLPStatus::LP_STATUS_FAILED:
-                return ilUtil::getImagePath('scorm/failed.svg');
-
-            default:
-                return ilUtil::getImagePath('scorm/not_attempted.svg');
-        }
     }
 
     /**
      * Get status alt text
+     * @todo Move this to a factory.
      */
     public static function _getStatusText(
         int $a_status,
         ?ilLanguage $a_lng = null
-    ) : string {
+    ): string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -381,7 +374,7 @@ class ilLearningProgressBaseGUI
         ilInfoScreenGUI $info,
         int $item_id = 0,
         bool $add_section = true
-    ) : bool {
+    ): bool {
         $details_id = $item_id ?: $this->details_id;
 
         $olp = ilObjectLP::getInstance($details_id);
@@ -417,9 +410,8 @@ class ilLearningProgressBaseGUI
         ilInfoScreenGUI $info,
         int $item_id,
         int $user_id
-    ) : void {
+    ): void {
         $type = $this->ilObjectDataCache->lookupType($item_id);
-
         // Section learning_progress
         // $info->addSection($this->lng->txt('trac_learning_progress'));
         // see ilLPTableBaseGUI::parseTitle();
@@ -435,48 +427,54 @@ class ilLearningProgressBaseGUI
         );
 
         if (ilObjectLP::isSupportedObjectType($type)) {
-            $status = $this->__readStatus($item_id, $user_id);
-            $status_path = ilLearningProgressBaseGUI::_getImagePathForStatus(
-                $status
-            );
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
             $status_text = ilLearningProgressBaseGUI::_getStatusText(
                 ilLPStatus::_lookupStatus($item_id, $user_id)
             );
             $info->addProperty(
                 $this->lng->txt('trac_status'),
-                ilUtil::img($status_path, $status_text) . " " . $status_text
+                $icons->renderIconForStatus(ilLPStatus::_lookupStatus($item_id, $user_id)) .
+                    " " .
+                    $status_text
             );
 
-            // status
-            $i_tpl = new ilTemplate(
-                "tpl.lp_edit_manual_info_page.html", true, true,
-                "Services/Tracking"
-            );
-            $i_tpl->setVariable(
-                "INFO_EDITED", $this->lng->txt("trac_info_edited")
-            );
-            $i_tpl->setVariable(
-                "SELECT_STATUS",
-                ilLegacyFormElementsUtil::formSelect(
-                    (int) ilLPMarks::_hasCompleted(
-                        $user_id,
-                        $item_id
-                    ),
-                    'lp_edit',
-                    [0 => $this->lng->txt('trac_not_completed'),
-                     1 => $this->lng->txt('trac_completed')
-                    ],
-                    false,
-                    true
-                )
-            );
-            $i_tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-            $info->addProperty($this->lng->txt('trac_status'), $i_tpl->get());
+            if ($olp->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
+                // status
+                $i_tpl = new ilTemplate(
+                    "tpl.lp_edit_manual_info_page.html",
+                    true,
+                    true,
+                    "Services/Tracking"
+                );
+                $i_tpl->setVariable(
+                    "INFO_EDITED",
+                    $this->lng->txt("trac_info_edited")
+                );
+                $i_tpl->setVariable(
+                    "SELECT_STATUS",
+                    ilLegacyFormElementsUtil::formSelect(
+                        (int) ilLPMarks::_hasCompleted(
+                            $user_id,
+                            $item_id
+                        ),
+                        'lp_edit',
+                        [0 => $this->lng->txt('trac_not_completed'),
+                         1 => $this->lng->txt('trac_completed')
+                        ],
+                        false,
+                        true
+                    )
+                );
+                $i_tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+                $info->addProperty($this->lng->txt('trac_status'), $i_tpl->get());
+            }
 
             // #15334 - see ilLPTableBaseGUI::isPercentageAvailable()
             $mode = $olp->getCurrentMode();
             if (in_array(
-                $mode, array(ilLPObjSettings::LP_MODE_TLT,
+                $mode,
+                array(ilLPObjSettings::LP_MODE_TLT,
                              ilLPObjSettings::LP_MODE_VISITS,
                              // ilLPObjSettings::LP_MODE_OBJECTIVES,
                              ilLPObjSettings::LP_MODE_LTI_OUTCOME,
@@ -492,7 +490,8 @@ class ilLearningProgressBaseGUI
             )) {
                 $perc = ilLPStatus::_lookupPercentage($item_id, $user_id);
                 $info->addProperty(
-                    $this->lng->txt('trac_percentage'), (int) $perc . "%"
+                    $this->lng->txt('trac_percentage'),
+                    (int) $perc . "%"
                 );
             }
         }
@@ -510,7 +509,7 @@ class ilLearningProgressBaseGUI
         // More infos for lm's
         if (in_array($type, ["lm", "htlm"])) {
             $progress = ilLearningProgress::_getProgress($user_id, $item_id);
-            if ($progress['access_time']) {
+            if ($progress['access_time'] ?? false) {
                 $info->addProperty(
                     $this->lng->txt('trac_last_access'),
                     ilDatePresentation::formatDate(
@@ -526,7 +525,7 @@ class ilLearningProgressBaseGUI
 
             $info->addProperty(
                 $this->lng->txt('trac_visits'),
-                (string) $progress['visits']
+                (string) ($progress['visits'] ?? "")
             );
 
             if ($type == 'lm') {
@@ -541,7 +540,7 @@ class ilLearningProgressBaseGUI
     }
 
     /** @noinspection PhpInconsistentReturnPointsInspection */
-    public static function __readStatus(int $a_obj_id, int $user_id) : string
+    public static function __readStatus(int $a_obj_id, int $user_id): string
     {
         $status = ilLPStatus::_lookupStatus($a_obj_id, $user_id);
 
@@ -561,26 +560,31 @@ class ilLearningProgressBaseGUI
         }
     }
 
-    public function __getLegendHTML() : string
+    public function __getLegendHTML(int $variant = ilLPStatusIcons::ICON_VARIANT_LONG): string
     {
+        $icons = ilLPStatusIcons::getInstance($variant);
+
         $tpl = new ilTemplate(
-            "tpl.lp_legend.html", true, true, "Services/Tracking"
+            "tpl.lp_legend.html",
+            true,
+            true,
+            "Services/Tracking"
         );
         $tpl->setVariable(
             "IMG_NOT_ATTEMPTED",
-            ilUtil::getImagePath("scorm/not_attempted.svg")
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM)
         );
         $tpl->setVariable(
             "IMG_IN_PROGRESS",
-            ilUtil::getImagePath("scorm/incomplete.svg")
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM)
         );
         $tpl->setVariable(
             "IMG_COMPLETED",
-            ilUtil::getImagePath("scorm/completed.svg")
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM)
         );
         $tpl->setVariable(
             "IMG_FAILED",
-            ilUtil::getImagePath("scorm/failed.svg")
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_FAILED_NUM)
         );
         $tpl->setVariable(
             "TXT_NOT_ATTEMPTED",
@@ -610,7 +614,7 @@ class ilLearningProgressBaseGUI
         int $a_user_id,
         int $a_obj_id,
         ?string $a_cancel = null
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $olp = ilObjectLP::getInstance($a_obj_id);
         $lp_mode = $olp->getCurrentMode();
 
@@ -647,7 +651,8 @@ class ilLearningProgressBaseGUI
             $completed = ilLPStatus::_lookupStatus($a_obj_id, $a_user_id);
 
             $status = new ilCheckboxInputGUI(
-                $this->lng->txt('trac_completed'), "completed"
+                $this->lng->txt('trac_completed'),
+                "completed"
             );
             $status->setChecked(
                 ($completed == ilLPStatus::LP_STATUS_COMPLETED_NUM)
@@ -669,7 +674,7 @@ class ilLearningProgressBaseGUI
         int $a_ref_id,
         ?string $a_cancel = null,
         int $a_sub_id = 0
-    ) : string {
+    ): string {
         if (!$a_sub_id) {
             $obj_id = ilObject::_lookupObjId($a_ref_id);
         } else {
@@ -682,7 +687,7 @@ class ilLearningProgressBaseGUI
         return $form->getHTML();
     }
 
-    public function __updateUser(int $user_id, int $obj_id) : void
+    public function __updateUser(int $user_id, int $obj_id): void
     {
         $form = $this->initEditUserForm($user_id, $obj_id);
         if ($form->checkInput()) {
@@ -719,7 +724,7 @@ class ilLearningProgressBaseGUI
     public static function isObjectOffline(
         int $a_obj_id,
         string $a_type = ''
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];

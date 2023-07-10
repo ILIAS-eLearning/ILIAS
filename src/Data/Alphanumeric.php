@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -43,7 +45,7 @@ class Alphanumeric
         return $this->value;
     }
 
-    public function asString() : string
+    public function asString(): string
     {
         return (string) $this->value;
     }

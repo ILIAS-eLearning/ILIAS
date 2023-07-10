@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,13 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjContactAdministration
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilObjContactAdministration extends ilObject2
 {
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = 'cadm';
     }

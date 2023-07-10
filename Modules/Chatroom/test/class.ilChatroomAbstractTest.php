@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,8 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ilChatroomAbstractTest
@@ -25,31 +28,41 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilChatroomAbstractTest extends TestCase
 {
-    /** @var PHPUnit\Framework\MockObject\MockObject|ilChatroom */
+    /** @var MockObject&ilChatroom */
     protected $ilChatroomMock;
-
-    /** @var PHPUnit\Framework\MockObject\MockObject|ilChatroomUser */
+    /** @var MockObject&ilChatroomUser */
     protected $ilChatroomUserMock;
+    private ?Container $dic = null;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         global $DIC;
-        $GLOBALS['DIC'] = $DIC = new Container();
-        $DIC['tpl'] = $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock();
-        
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
+
+        $this->setGlobalVariable(
+            'tpl',
+            $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock()
+        );
+
         parent::setUp();
     }
 
-    protected function createIlChatroomMock() : ilChatroom
+    protected function tearDown(): void
     {
-        $this->ilChatroomMock = $this->getMockBuilder(ilChatroom::class)->disableOriginalConstructor()->onlyMethods(
-            ['isOwnerOfPrivateRoom', 'clearMessages']
-        )->getMock();
+        global $DIC;
 
-        return $this->ilChatroomMock;
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 
-    protected function createIlChatroomUserMock() : ilChatroomUser
+    /**
+     * @return ilChatroomUser&MockObject
+     */
+    protected function createIlChatroomUserMock(): ilChatroomUser
     {
         $this->ilChatroomUserMock = $this->getMockBuilder(ilChatroomUser::class)->disableOriginalConstructor()->onlyMethods(
             ['getUserId', 'getUsername']
@@ -58,10 +71,13 @@ abstract class ilChatroomAbstractTest extends TestCase
         return $this->ilChatroomUserMock;
     }
 
-    protected function createGlobalIlDBMock() : ilDBInterface
+    /**
+     * @return ilDBInterface&MockObject
+     */
+    protected function createGlobalIlDBMock(): ilDBInterface
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $db->method('quote')->willReturnCallback(static function ($arg) : string {
+        $db->method('quote')->willReturnCallback(static function ($arg): string {
             return "'" . $arg . "'";
         });
 
@@ -70,7 +86,7 @@ abstract class ilChatroomAbstractTest extends TestCase
         return $db;
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 

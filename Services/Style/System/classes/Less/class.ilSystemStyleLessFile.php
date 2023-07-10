@@ -60,7 +60,7 @@ class ilSystemStyleLessFile
      * Reads the file from the file system
      * @throws ilSystemStyleException
      */
-    public function read() : void
+    public function read(): void
     {
         $last_variable_comment = '';
         $last_category_id = '';
@@ -146,12 +146,12 @@ class ilSystemStyleLessFile
     /**
      * Write the complete file back to the file system (including comments and random content)
      */
-    public function write() : void
+    public function write(): void
     {
         file_put_contents($this->getLessVariablesFilePathName(), $this->getContent());
     }
 
-    public function getContent() : string
+    public function getContent(): string
     {
         $output = '';
 
@@ -161,7 +161,7 @@ class ilSystemStyleLessFile
         return $output;
     }
 
-    public function addItem(ilSystemStyleLessItem $item) : int
+    public function addItem(ilSystemStyleLessItem $item): int
     {
         $id = array_push($this->items, $item) - 1;
 
@@ -179,7 +179,7 @@ class ilSystemStyleLessFile
     /**
      * @return ilSystemStyleLessCategory[]
      */
-    public function getCategories() : array
+    public function getCategories(): array
     {
         $categories = [];
 
@@ -193,7 +193,7 @@ class ilSystemStyleLessFile
     /**
      * @return ilSystemStyleLessVariable[]
      */
-    public function getVariablesPerCategory(string $category = '') : array
+    public function getVariablesPerCategory(string $category = ''): array
     {
         $variables = [];
 
@@ -206,12 +206,12 @@ class ilSystemStyleLessFile
         return $variables;
     }
 
-    public function getItemById(int $id) : ilSystemStyleLessItem
+    public function getItemById(int $id): ilSystemStyleLessItem
     {
         return $this->items[$id];
     }
 
-    public function getVariableByName(string $name = '') : ?ilSystemStyleLessItem
+    public function getVariableByName(string $name = ''): ?ilSystemStyleLessItem
     {
         foreach ($this->variables_ids as $variables_id) {
             if ($this->items[$variables_id]->getName() == $name) {
@@ -221,7 +221,7 @@ class ilSystemStyleLessFile
         return null;
     }
 
-    public function getReferencesToVariable(string $variable_name) : array
+    public function getReferencesToVariable(string $variable_name): array
     {
         $references = [];
 
@@ -235,7 +235,7 @@ class ilSystemStyleLessFile
         return $references;
     }
 
-    public function getReferencesToVariableAsString(string $variable_name) : string
+    public function getReferencesToVariableAsString(string $variable_name): string
     {
         $references_string = '';
         foreach ($this->getReferencesToVariable($variable_name) as $reference) {
@@ -244,7 +244,7 @@ class ilSystemStyleLessFile
         return $references_string;
     }
 
-    public function getRefAndCommentAsString(string $variable_name, string $refs_wording) : string
+    public function getRefAndCommentAsString(string $variable_name, string $refs_wording): string
     {
         $references_string = '';
         foreach ($this->getReferencesToVariable($variable_name) as $reference) {
@@ -266,12 +266,12 @@ class ilSystemStyleLessFile
         return $info;
     }
 
-    public function getLessVariablesFilePathName() : string
+    public function getLessVariablesFilePathName(): string
     {
         return $this->less_variables_file_path_name;
     }
 
-    public function setLessVariablesFilePathName(string $less_variables_file_path_name) : void
+    public function setLessVariablesFilePathName(string $less_variables_file_path_name): void
     {
         $this->less_variables_file_path_name = $less_variables_file_path_name;
     }
@@ -279,22 +279,22 @@ class ilSystemStyleLessFile
     /**
      * @return ilSystemStyleLessVariable[]
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }
 
-    public function getCommentsIds() : array
+    public function getCommentsIds(): array
     {
         return $this->comments_ids;
     }
 
-    public function getVariablesIds() : array
+    public function getVariablesIds(): array
     {
         return $this->variables_ids;
     }
 
-    public function getCategoriesIds() : array
+    public function getCategoriesIds(): array
     {
         return $this->categories_ids;
     }

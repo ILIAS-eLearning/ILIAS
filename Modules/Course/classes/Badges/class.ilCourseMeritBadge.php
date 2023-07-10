@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilCourseMeritBadge
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -31,17 +33,17 @@ class ilCourseMeritBadge implements ilBadgeType
         $this->lng = $DIC->language();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "merit";
     }
 
-    public function getCaption() : string
+    public function getCaption(): string
     {
         return $this->lng->txt("badge_crs_merit");
     }
 
-    public function isSingleton() : bool
+    public function isSingleton(): bool
     {
         return true;
     }
@@ -49,12 +51,12 @@ class ilCourseMeritBadge implements ilBadgeType
     /**
      * @return string[]
      */
-    public function getValidObjectTypes() : array
+    public function getValidObjectTypes(): array
     {
         return ["crs", "grp"];
     }
 
-    public function getConfigGUIInstance() : ?ilBadgeTypeGUI
+    public function getConfigGUIInstance(): ?ilBadgeTypeGUI
     {
         return null;
     }

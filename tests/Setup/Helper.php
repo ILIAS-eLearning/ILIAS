@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
@@ -23,7 +25,7 @@ use ILIAS\UI\Component\Input\Field\Input as Input;
 
 trait Helper
 {
-    protected function newAgent() : Setup\Agent
+    protected function newAgent(): Setup\Agent
     {
         static $no = 0;
 
@@ -36,7 +38,7 @@ trait Helper
         return $consumer;
     }
 
-    protected function newObjectiveConstructor() : Setup\ObjectiveConstructor
+    protected function newObjectiveConstructor(): Setup\ObjectiveConstructor
     {
         static $no = 0;
         return new Setup\ObjectiveConstructor("named-objective-" . ($no++), static function () {
@@ -44,7 +46,7 @@ trait Helper
         });
     }
 
-    protected function newObjective() : Setup\Objective
+    protected function newObjective(): Setup\Objective
     {
         static $no = 0;
 
@@ -61,7 +63,7 @@ trait Helper
         return $goal;
     }
 
-    protected function newInput() : Input
+    protected function newInput(): Input
     {
         static $no = 0;
 
@@ -74,7 +76,7 @@ trait Helper
         return $input;
     }
 
-    protected function newConfig() : Setup\Config
+    protected function newConfig(): Setup\Config
     {
         static $no = 0;
 

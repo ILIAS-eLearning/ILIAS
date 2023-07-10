@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Declaration of authorship (data gateway)
@@ -36,8 +39,8 @@ class ilPortfolioDeclarationOfAuthorship
      */
     public function getForLanguage(
         string $l
-    ) : string {
-        return $this->prtf_settings->get("decl_author_" . $l);
+    ): string {
+        return (string) $this->prtf_settings->get("decl_author_" . $l);
     }
 
     /**
@@ -46,7 +49,7 @@ class ilPortfolioDeclarationOfAuthorship
     public function setForLanguage(
         string $l,
         string $value
-    ) : void {
+    ): void {
         $this->prtf_settings->set("decl_author_" . $l, $value);
     }
 
@@ -55,7 +58,7 @@ class ilPortfolioDeclarationOfAuthorship
      */
     public function getForUser(
         ilObjUser $user
-    ) : string {
+    ): string {
         $lng = $this->lng;
 
         $decl = $this->getForLanguage($user->getLanguage());

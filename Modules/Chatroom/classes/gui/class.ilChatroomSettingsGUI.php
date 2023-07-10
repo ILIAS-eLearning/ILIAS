@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilChatroomSettingsGUI
  * @author  Jan Posselt <jposselt@databay.de>
@@ -24,11 +26,10 @@
  */
 class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 {
-    public function saveGeneral() : void
+    public function saveGeneral(): void
     {
         $formFactory = new ilChatroomFormFactory();
-        $settingsForm = $formFactory->getSettingsForm();
-        $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->getObject())->addTileImage();
+        $settingsForm = $formFactory->getSettingsForm($this->obj_service, $this->gui->getObject());
 
         if (!$settingsForm->checkInput()) {
             $settingsForm->setValuesByPost();
@@ -71,7 +72,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         }
     }
 
-    public function general(ilPropertyFormGUI $settingsForm = null) : void
+    public function general(ilPropertyFormGUI $settingsForm = null): void
     {
         if (!ilChatroom::checkUserPermissions(['visible', 'read'], $this->gui->getRefId())) {
             $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
@@ -90,7 +91,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
 
         if (!$settingsForm) {
-            $settingsForm = $formFactory->getSettingsForm();
+            $settingsForm = $formFactory->getSettingsForm($this->obj_service, $this->gui->getObject());
 
             $settings = [
                 'title' => $this->gui->getObject()->getTitle(),
@@ -107,11 +108,6 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
                 ],
                 'access_visibility' => (bool) $this->gui->getObject()->getAccessVisibility()
             ];
-
-            $presentationHeader = new ilFormSectionHeaderGUI();
-            $presentationHeader->setTitle($this->ilLng->txt('settings_presentation_header'));
-            $settingsForm->addItem($presentationHeader);
-            $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->getObject())->addTileImage();
 
             if ($room) {
                 ilChatroomFormFactory::applyValues(
@@ -130,7 +126,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         $this->mainTpl->setVariable('ADM_CONTENT', $settingsForm->getHTML());
     }
 
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->general();
     }

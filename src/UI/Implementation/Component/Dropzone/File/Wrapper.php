@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,64 +14,63 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperInterface;
-use ILIAS\UI\Component\Input\Factory as InputFactory;
-use ILIAS\UI\Component\Input\Field\UploadHandler;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperDropzone;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Field\File as FileInput;
 use ILIAS\UI\Component\Component;
-use LogicException;
-use ilLanguage;
 use ILIAS\UI\Component\Input\Field\Input;
 
 /**
- * @author  nmaerchy <nm@studer-raimann.ch>
  * @author  Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class Wrapper extends File implements WrapperInterface
+class Wrapper extends File implements WrapperDropzone
 {
     /**
      * @var Component[]
      */
-    protected array $components;
+    protected array $content;
 
     /**
-     * @param Component[]|Component $content
+     * @param Component|Component[] $content
      */
     public function __construct(
-        InputFactory $input_factory,
-        ilLanguage $language,
-        UploadHandler $upload_handler,
-        string $post_url,
+        SignalGeneratorInterface $signal_generator,
+        FieldFactory $field_factory,
+        NameSource $name_source,
+        string $title,
         $content,
-        ?Input $metadata_input
+        string $post_url,
+        FileInput $file_input,
+        ?Input $additional_input
     ) {
-        parent::__construct($input_factory, $language, $upload_handler, $post_url, $metadata_input);
+        parent::__construct(
+            $signal_generator,
+            $field_factory,
+            $name_source,
+            $title,
+            $post_url,
+            $file_input,
+            $additional_input,
+        );
 
         $content = $this->toArray($content);
         $this->checkArgListElements('content', $content, [Component::class]);
-        $this->checkEmptyArray($content);
-
-        $this->components = $content;
-    }
-
-    public function getContent() : array
-    {
-        return $this->components;
+        $this->content = $content;
     }
 
     /**
-     * Checks if the passed array contains at least one element, throws a LogicException otherwise.
-     * @throws LogicException if the passed in argument counts 0
+     * @return Component[]
      */
-    private function checkEmptyArray(array $array) : void
+    public function getContent(): array
     {
-        if (count($array) === 0) {
-            throw new LogicException("At least one component from the UI framework is required, otherwise
-			the wrapper dropzone is not visible.");
-        }
+        return $this->content;
     }
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ContentPage\PageMetrics\ValueObject;
 
 use ilException;
@@ -27,13 +29,8 @@ use ilException;
  */
 class PageReadingTime
 {
-    private int $minutes;
+    private readonly int $minutes;
 
-    /**
-     * PageReadingTime constructor.
-     * @param int $minutes
-     * @throws ilException
-     */
     public function __construct(int $minutes)
     {
         if ($minutes < 0) {
@@ -47,7 +44,7 @@ class PageReadingTime
         $this->minutes = $minutes;
     }
 
-    public function minutes() : int
+    public function minutes(): int
     {
         return $this->minutes;
     }

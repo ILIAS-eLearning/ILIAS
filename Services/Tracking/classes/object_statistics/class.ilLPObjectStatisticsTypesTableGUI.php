@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for learning progress
@@ -71,7 +86,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field != "title") {
             return true;
@@ -82,7 +97,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
     /**
      * Init filter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->setDisableFilterHiding(true);
 
@@ -137,7 +152,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         $this->filter["year"] = $si->getValue();
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $res = ilTrQuery::getObjectTypeStatisticsPerMonth(
             $this->filter["aggregation"],
@@ -162,11 +177,14 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
                 $data[$type]["icon"] = ilObject::_getIcon(0, "tiny", $type);
             } else {
                 $data[$type]["title"] = $this->lng->txt("objs_" . $type);
-                $data[$type]["icon"] = ilObject::_getIcon(null, "tiny", $type);
+                $data[$type]["icon"] = ilObject::_getIcon(0, "tiny", $type);
             }
 
             foreach ($months as $month => $row) {
-                $value = $row[$this->filter["measure"]];
+                $value = '';
+                if (isset($this->filter['measure']) && isset($row[$this->filter['measure']])) {
+                    $value = $row[$this->filter["measure"]];
+                }
                 $data[$type]["month_" . $month] = $value;
             }
         }
@@ -197,8 +215,10 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
                         $type
                     );
                 }
-
-                $value = $item[$this->filter["measure"]];
+                $value = '';
+                if (isset($this->filter['measure']) && isset($item[$this->filter['measure']])) {
+                    $value = $item[$this->filter["measure"]];
+                }
                 $data[$type]["month_live"] = $value;
             }
         }
@@ -209,7 +229,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("ICON_SRC", $a_set["icon"]);
         $this->tpl->setVariable(
@@ -233,7 +253,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
             $this->tpl->setVariable(
                 "VALUE_ITEM",
                 $this->anonymizeValue(
-                    (int) $a_set["month_" . $month]
+                    (int) ($a_set["month_" . $month] ?? 0)
                 )
             );
             $this->tpl->parseCurrentBlock();
@@ -243,17 +263,17 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
             $this->tpl->setVariable(
                 "VALUE_ITEM",
                 $this->anonymizeValue(
-                    (int) $a_set["month_live"]
+                    (int) ($a_set["month_live"] ?? 0)
                 )
             );
             $this->tpl->parseCurrentBlock();
         }
     }
 
-    public function getGraph(array $a_graph_items) : string
+    public function getGraph(array $a_graph_items): string
     {
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objsttp");
-        $chart->setSize(700, 500);
+        $chart->setSize("700", "500");
 
         $legend = new ilChartLegend();
         $chart->setLegend($legend);
@@ -281,7 +301,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
                 ) as $idx => $month) {
                     $series->addPoint(
                         $idx + 1,
-                        (int) $object["month_" . $month]
+                        (int) ($object["month_" . $month] ?? 0)
                     );
                 }
 
@@ -292,7 +312,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         return $chart->getHTML();
     }
 
-    protected function fillMetaExcel(ilExcel $a_excel, int &$a_row) : void
+    protected function fillMetaExcel(ilExcel $a_excel, int &$a_row): void
     {
     }
 
@@ -300,37 +320,37 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         ilExcel $a_excel,
         int &$a_row,
         array $a_set
-    ) : void {
+    ): void {
         $a_excel->setCell($a_row, 0, $a_set["title"]);
 
         $cnt = 1;
         foreach (array_keys(
             $this->getMonthsYear($this->filter["year"])
         ) as $month) {
-            $value = $this->anonymizeValue((int) $a_set["month_" . $month]);
+            $value = $this->anonymizeValue((int) ($a_set["month_" . $month] ?? 0));
             $a_excel->setCell($a_row, $cnt++, $value);
         }
 
-        $value = $this->anonymizeValue((int) $a_set["month_live"]);
+        $value = $this->anonymizeValue((int) ($a_set["month_live"] ?? 0));
         $a_excel->setCell($a_row, $cnt, $value);
     }
 
-    protected function fillMetaCSV(ilCSVWriter $a_csv) : void
+    protected function fillMetaCSV(ilCSVWriter $a_csv): void
     {
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         $a_csv->addColumn($a_set["title"]);
 
         foreach (array_keys(
             $this->getMonthsYear($this->filter["year"])
         ) as $month) {
-            $value = $this->anonymizeValue((int) $a_set["month_" . $month]);
+            $value = $this->anonymizeValue((int) ($a_set["month_" . $month] ?? 0));
             $a_csv->addColumn($value);
         }
 
-        $value = $this->anonymizeValue((int) $a_set["month_live"]);
+        $value = $this->anonymizeValue((int) ($a_set["month_live"] ?? 0));
         $a_csv->addColumn($value);
 
         $a_csv->addRow();

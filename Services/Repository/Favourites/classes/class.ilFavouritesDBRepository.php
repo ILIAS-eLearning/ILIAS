@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -39,7 +42,7 @@ class ilFavouritesDBRepository
 
 
     // Add favourite
-    public function add(int $user_id, int $ref_id) : void
+    public function add(int $user_id, int $ref_id): void
     {
         $db = $this->db;
 
@@ -64,7 +67,7 @@ class ilFavouritesDBRepository
     }
 
     // Remove favourite
-    public function remove(int $user_id, int $ref_id) : void
+    public function remove(int $user_id, int $ref_id): void
     {
         $db = $this->db;
 
@@ -83,7 +86,7 @@ class ilFavouritesDBRepository
      * note: the implementation of this method is not good style (directly
      * reading tables object_data and object_reference), must be revised someday...
      */
-    public function getFavouritesOfUser(int $user_id, ?array $a_types = null) : array
+    public function getFavouritesOfUser(int $user_id, ?array $a_types = null): array
     {
         $tree = $this->tree;
         $ilDB = $this->db;
@@ -100,8 +103,8 @@ class ilFavouritesDBRepository
             while ($item_rec = $ilDB->fetchAssoc($item_set)) {
                 if ($item_rec["type"] !== "rolf" &&
                     $item_rec["type"] !== "itgr" &&
-                    $tree->isInTree($item_rec["ref_id"])) { // due to bug 11508
-                    $parent_ref = $tree->getParentId($item_rec["ref_id"]);
+                    $tree->isInTree((int) $item_rec["ref_id"])) { // due to bug 11508
+                    $parent_ref = $tree->getParentId((int) $item_rec["ref_id"]);
 
                     if (!isset($all_parent_path[$parent_ref])) {
                         if ($parent_ref > 0) {	// workaround for #0023176
@@ -118,12 +121,12 @@ class ilFavouritesDBRepository
                     $desc = ilObject::_lookupDescription($item_rec["obj_id"]);
                     $items[$parent_path . $title . $item_rec["ref_id"]] =
                         [
-                            "ref_id" => $item_rec["ref_id"],
-                            "obj_id" => $item_rec["obj_id"],
+                            "ref_id" => (int) $item_rec["ref_id"],
+                            "obj_id" => (int) $item_rec["obj_id"],
                             "type" => $item_rec["type"],
                             "title" => $title,
                             "description" => $desc,
-                            "parent_ref" => $parent_ref
+                            "parent_ref" => (int) $parent_ref
                         ];
                 }
             }
@@ -150,9 +153,11 @@ class ilFavouritesDBRepository
                     $desc = ilObject::_lookupDescription($item_rec["obj_id"]);
                     $items[$title . $a_type . $item_rec["ref_id"]] =
                         [
-                            "ref_id" => $item_rec["ref_id"],
-                            "obj_id" => $item_rec["obj_id"], "type" => $a_type,
-                            "title" => $title, "description" => $desc
+                            "ref_id" => (int) $item_rec["ref_id"],
+                            "obj_id" => (int) $item_rec["obj_id"],
+                            "type" => $a_type,
+                            "title" => $title,
+                            "description" => $desc
                         ];
                 }
             }
@@ -162,7 +167,7 @@ class ilFavouritesDBRepository
     }
 
     // check whether an item is on the users desktop or not
-    public function ifIsFavourite(int $user_id, int $ref_id) : bool
+    public function ifIsFavourite(int $user_id, int $ref_id): bool
     {
         $db = $this->db;
 
@@ -184,7 +189,7 @@ class ilFavouritesDBRepository
     }
 
     // Load favourites data
-    public function loadData(int $user_id, array $ref_ids) : void
+    public function loadData(int $user_id, array $ref_ids): void
     {
         $db = $this->db;
         if (!is_array($ref_ids)) {
@@ -214,7 +219,7 @@ class ilFavouritesDBRepository
     }
 
     // Remove favourite entries of a repository item
-    public function removeFavouritesOfRefId(int $ref_id) : void
+    public function removeFavouritesOfRefId(int $ref_id): void
     {
         $db = $this->db;
 
@@ -227,7 +232,7 @@ class ilFavouritesDBRepository
     }
 
     // Remove favourite entries of a user
-    public function removeFavouritesOfUser(int $user_id) : void
+    public function removeFavouritesOfUser(int $user_id): void
     {
         $db = $this->db;
 

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager;
 
@@ -49,12 +52,12 @@ class ilPortfolioRoleAssignmentTableGUI extends ilTable2GUI
         $this->addMultiCommand("confirmAssignmentDeletion", $this->lng->txt("prtf_delete_assignment"));
     }
 
-    protected function getItems() : array
+    protected function getItems(): array
     {
         return $this->manager->getAllAssignmentData();
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $tpl = $this->tpl;
         $tpl->setVariable("ROLE_ID", $a_set["role_id"]);

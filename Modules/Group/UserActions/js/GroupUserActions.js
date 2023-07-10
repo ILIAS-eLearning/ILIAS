@@ -10,28 +10,25 @@ il.Group = il.Group || {};
 		public_interface = {
 
 			initCreationForm: function (event, url) {
-				console.log("initCreationForm");
 				event.preventDefault();
 				event.stopPropagation();
-				il.Util.sendAjaxGetRequestToUrl (url, {}, {}, function (o) {
-					if (o.responseText !== undefined) {
-						$('#il_grp_action_modal_content').html(o.responseText);
-						il.Group.UserActions.setCreationSubmit();
-					}
+				il.repository.core.fetchHtml(url).then((html) => {
+					const modalContent = document.getElementById('il_grp_action_modal_content');
+					il.repository.core.setInnerHTML(modalContent, html);
+					il.Group.UserActions.setCreationSubmit();
 				});
 			},
 
 			setCreationSubmit: function () {
 				$('#il_grp_action_modal_content form').on("submit", function(e) {
-					var values;
-
 					e.preventDefault();
-					values = $('#il_grp_action_modal_content form').serializeArray();
-					console.log("Form Submitted...");
-					console.log(values);
-					il.Util.sendAjaxPostRequestToUrl($(this).attr('action'), values, function (o) {
-						console.log("post sucess on form submitted");
-						$('#il_grp_action_modal_content').html(o);
+					const form = document.querySelector("#il_grp_action_modal_content form");
+					const formData = new FormData(form);
+					let data = {};
+					formData.forEach((value	, key) => (data[key] = value));
+					il.repository.core.fetchHtml(form.action, data, true). then(function (o) {
+						const contentEl = document.getElementById("il_grp_action_modal_content");
+						il.repository.core.setInnerHTML(contentEl, o);
 						il.Group.UserActions.setCreationSubmit();
 					});
 				});
@@ -39,12 +36,14 @@ il.Group = il.Group || {};
 			},
 
 			createGroup: function (e) {
-				console.log("createGroup");
 				e.preventDefault();
-				values = $('#il_grp_action_modal_content form').serializeArray();
-				il.Util.sendAjaxPostRequestToUrl($('#il_grp_action_modal_content form').attr('action'), values, function (o) {
-					console.log("post sucess in createGroup");
-					$('#il_grp_action_modal_content').html(o);
+				const form = document.querySelector("#il_grp_action_modal_content form");
+				const formData = new FormData(form);
+				let data = {};
+				formData.forEach((value, key) => (data[key] = value));
+				il.repository.core.fetchHtml(form.action, data, true). then(function (o) {
+					const contentEl = document.getElementById("il_grp_action_modal_content");
+					il.repository.core.setInnerHTML(contentEl, o);
 				});
 			},
 
@@ -61,8 +60,6 @@ il.Group = il.Group || {};
 	$(function () {
 
 		function initEvents(id) {
-			console.log(id);
-
 			$(id).find("[data-grp-action-add-to='1']").each(function () {
 				$(this).on("click", function(e) {
 					var url;
@@ -75,16 +72,16 @@ il.Group = il.Group || {};
 
 					if ($('#il_grp_action_modal_content').length) {
 						url = url + "&modal_exists=1";
+					} else {
+						url = url + "&modal_exists=0";
 					}
-
-					il.Util.sendAjaxGetRequestToUrl(url, [], [], function (r) {
-						var modal_content = $('#il_grp_action_modal_content');
-						//console.log(r.responseText);
-						if (modal_content.length) {
-							modal_content.html(r.responseText);
-							modal_content.closest('.il-modal-roundtrip').modal().show();
+					il.repository.core.fetchHtml(url).then((html) => {
+						const modalContent = document.getElementById('il_grp_action_modal_content');
+						if (modalContent) {
+							il.repository.core.setInnerHTML(modalContent, html);
+							$(modal_content).closest('.il-modal-roundtrip').modal().show();
 						} else {
-							$("body").append(r.responseText);
+							$("body").append(html);
 						}
 					});
 				});
@@ -92,7 +89,6 @@ il.Group = il.Group || {};
 		}
 
 		$(document).on('il.user.actions.updated', function(ev, id) {
-			console.log("il.user.actions.updated catched, id: " + id);
 			initEvents("#" + id);
 		});
 		initEvents("body");

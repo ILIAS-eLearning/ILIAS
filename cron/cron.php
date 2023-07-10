@@ -1,37 +1,29 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 chdir(__DIR__);
 chdir('..');
 
-require_once './Services/Cron/classes/class.ilCronStartUp.php';
+require_once './libs/composer/vendor/autoload.php';
 
-if ($_SERVER['argc'] < 4) {
-    echo "Usage: cron.php username password client\n";
-    exit(1);
-}
-
-[$script, $login, $password, $client] = $_SERVER['argv'];
-
-$cron = new ilCronStartUp(
-    $client,
-    $login,
-    $password
+$cron = new ILIAS\Cron\CLI\App(
+    new ILIAS\Cron\CLI\Commands\RunActiveJobsCommand()
 );
-
-try {
-    global $DIC;
-
-    $cron->authenticate();
-
-    $strictCronManager = new ilStrictCliCronManager(
-        $DIC->cron()->manager()
-    );
-    $strictCronManager->runActiveJobs($DIC->user());
-
-    $cron->logout();
-} catch (Exception $e) {
-    $cron->logout();
-
-    echo $e->getMessage() . "\n";
-    exit(1);
-}
+$cron->run();

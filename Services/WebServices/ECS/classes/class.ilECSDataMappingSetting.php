@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
@@ -27,10 +30,10 @@ class ilECSDataMappingSetting
 
     private int $server_id = 0;
     private int $mapping_type = 0;
-    private $ecs_field = 0;
-    private $advmd_id = 0;
+    private string $ecs_field = '';
+    private int $advmd_id = 0;
 
-    public function __construct($a_server_id = 0, $mapping_type = 0, $ecs_field = '')
+    public function __construct(int $a_server_id = 0, int $mapping_type = 0, string $ecs_field = '')
     {
         global $DIC;
 
@@ -43,9 +46,8 @@ class ilECSDataMappingSetting
 
     /**
      * set server id
-     * @param int $a_server_id
      */
-    public function setServerId($a_server_id) : void
+    public function setServerId(int $a_server_id): void
     {
         $this->server_id = $a_server_id;
     }
@@ -53,16 +55,12 @@ class ilECSDataMappingSetting
     /**
      * Get server id
      */
-    public function getServerId() : int
+    public function getServerId(): int
     {
         return $this->server_id;
     }
 
-    /**
-     *
-     * @param string $ecs_field
-     */
-    public function setECSField($ecs_field) : void
+    public function setECSField(string $ecs_field): void
     {
         $this->ecs_field = $ecs_field;
     }
@@ -70,7 +68,7 @@ class ilECSDataMappingSetting
     /**
      * Get ecs field
      */
-    public function getECSField() : int
+    public function getECSField(): string
     {
         return $this->ecs_field;
     }
@@ -78,7 +76,7 @@ class ilECSDataMappingSetting
     /**
      * Set mapping type
      */
-    public function setMappingType(int $mapping_type) : void
+    public function setMappingType(int $mapping_type): void
     {
         $this->mapping_type = $mapping_type;
     }
@@ -86,17 +84,17 @@ class ilECSDataMappingSetting
     /**
      * Get mapping type
      */
-    public function getMappingType() : int
+    public function getMappingType(): int
     {
         return $this->mapping_type;
     }
 
-    public function getAdvMDId() : int
+    public function getAdvMDId(): int
     {
         return $this->advmd_id;
     }
 
-    public function setAdvMDId($a_id) : void
+    public function setAdvMDId(int $a_id): void
     {
         $this->advmd_id = $a_id;
     }
@@ -104,7 +102,7 @@ class ilECSDataMappingSetting
     /**
      * Save mappings
      */
-    public function save() : void
+    public function save(): void
     {
         $query = 'SELECT * FROM ecs_data_mapping ' .
             'WHERE sid = ' . $this->db->quote($this->getServerId(), 'integer') . ' ' .
@@ -121,7 +119,7 @@ class ilECSDataMappingSetting
     /**
      * Update setting
      */
-    protected function update() : void
+    protected function update(): void
     {
         $query = 'UPDATE ecs_data_mapping ' .
             'SET advmd_id = ' . $this->db->quote($this->getAdvMDId(), 'integer') . ' ' .
@@ -131,7 +129,7 @@ class ilECSDataMappingSetting
         $this->db->manipulate($query);
     }
 
-    protected function create() : bool
+    protected function create(): bool
     {
         $query = 'INSERT INTO ecs_data_mapping (sid,mapping_type,ecs_field,advmd_id) ' .
             'VALUES(' .
@@ -147,7 +145,7 @@ class ilECSDataMappingSetting
     /**
      * Read settings
      */
-    private function read() : void
+    private function read(): void
     {
         if ($this->getServerId() || $this->getMappingType() || $this->getECSField()) {
             $query = 'SELECT * FROM ecs_data_mapping ' .

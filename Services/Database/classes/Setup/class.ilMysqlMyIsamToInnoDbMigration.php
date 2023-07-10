@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Setup;
 
 use ilDatabaseInitializedObjective;
@@ -17,7 +33,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     /**
      * @inheritDoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Migration to convert tables from MyISAM to Innodb service";
     }
@@ -25,7 +41,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     /**
      * @inheritDoc
      */
-    public function getDefaultAmountOfStepsPerRun() : int
+    public function getDefaultAmountOfStepsPerRun(): int
     {
         return 20;
     }
@@ -33,7 +49,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     /**
      * @inheritDoc
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -45,7 +61,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     /**
      * @inheritDoc
      */
-    public function prepare(Environment $environment) : void
+    public function prepare(Environment $environment): void
     {
         /**
          * @var $client_id  string
@@ -59,22 +75,27 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
      * @inheritDoc
      * @throws ilException
      */
-    public function step(Environment $environment) : void
+    public function step(Environment $environment): void
     {
         $rows = $this->getNonInnoDBTables();
         $table_name = array_pop($rows);
-        if (is_string($table_name) && strlen($table_name) > 0) {
-            $migration = $this->database->migrateTableToEngine($table_name);
-        }
-        if (isset($migration) && $migration === false) {
-            throw new ilException("The migration of the following tables did throw errors, please resolve the problem before you continue: \n" . $table_name);
+
+        if (is_string($table_name) && $table_name !== '') {
+            try {
+                $this->database->migrateTableToEngine($table_name);
+            } catch (\ilDatabaseException $e) {
+                throw new UnachievableException(
+                    "The migration of the following tables did throw errors, " .
+                    "please resolve the problem before you continue: \n" . $table_name . " -> " . $e->getMessage()
+                );
+            }
         }
     }
 
     /**
      * @inheritDoc
      */
-    public function getRemainingAmountOfSteps() : int
+    public function getRemainingAmountOfSteps(): int
     {
         if ($this->db_name !== null) {
             $rows = $this->getNonInnoDBTables();
@@ -83,7 +104,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
         return 0;
     }
 
-    protected function getNonInnoDBTables() : array
+    protected function getNonInnoDBTables(): array
     {
         $tables = [];
         $set = $this->database->queryF("SELECT table_name

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * GUI class for course registrations
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
@@ -53,7 +55,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         }
     }
 
-    protected function getFormTitle() : string
+    protected function getFormTitle(): string
     {
         if ($this->getWaitingList()->isOnList($this->user->getId())) {
             return $this->lng->txt('member_status');
@@ -61,7 +63,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         return $this->lng->txt('crs_registration');
     }
 
-    protected function fillInformations() : void
+    protected function fillInformations(): void
     {
         if ($this->container->getImportantInformation()) {
             $imp = new ilNonEditableValueGUI($this->lng->txt('crs_important_info'), "", true);
@@ -78,7 +80,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         }
     }
 
-    protected function fillRegistrationPeriod() : void
+    protected function fillRegistrationPeriod(): void
     {
         $now = new ilDateTime(time(), IL_CAL_UNIX, 'UTC');
 
@@ -130,7 +132,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         $this->form->addItem($reg);
     }
 
-    protected function fillMaxMembers() : void
+    protected function fillMaxMembers(): void
     {
         if (!$this->container->isSubscriptionMembershipLimited()) {
             return;
@@ -202,7 +204,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         $this->form->addItem($max);
     }
 
-    protected function fillRegistrationType() : void
+    protected function fillRegistrationType(): void
     {
         if ($this->container->getSubscriptionLimitationType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED) {
             $reg = new ilCustomInputGUI($this->lng->txt('mem_reg_type'));
@@ -277,7 +279,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         }
     }
 
-    protected function addCommandButtons() : void
+    protected function addCommandButtons(): void
     {
         parent::addCommandButtons();
         switch ($this->container->getSubscriptionType()) {
@@ -303,7 +305,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         }
     }
 
-    protected function validate() : bool
+    protected function validate(): bool
     {
         if ($this->user->getId() == ANONYMOUS_USER_ID) {
             $this->join_error = $this->lng->txt('permission_denied');
@@ -436,19 +438,19 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         }
     }
 
-    protected function initParticipants() : ilParticipants
+    protected function initParticipants(): ilParticipants
     {
         $this->participants = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
         return $this->participants;
     }
 
-    protected function initWaitingList() : ilWaitingList
+    protected function initWaitingList(): ilWaitingList
     {
         $this->waiting_list = new ilCourseWaitingList($this->container->getId());
         return $this->waiting_list;
     }
 
-    protected function isWaitingListActive() : bool
+    protected function isWaitingListActive(): bool
     {
         static $active = null;
 

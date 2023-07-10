@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -30,7 +32,7 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
  *
  * @author Thomas Famula <famula@leifos.de>
  *
- * @ilCtrl_isCalledBy ilSkillProfileUploadHandlerGUI : ilObjSkillManagementGUI, ilContSkillAdminGUI
+ * @ilCtrl_isCalledBy ilSkillProfileUploadHandlerGUI : ilObjSkillTreeGUI, ilContSkillAdminGUI
  */
 class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
@@ -45,7 +47,7 @@ class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         $this->stakeholder = new ilSkillProfileStorageStakeHolder();
     }
 
-    protected function getUploadResult() : HandlerResultInterface
+    protected function getUploadResult(): HandlerResultInterface
     {
         $this->upload->process();
         /**
@@ -67,7 +69,7 @@ class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
 
-    protected function getRemoveResult(string $identifier) : HandlerResultInterface
+    protected function getRemoveResult(string $identifier): HandlerResultInterface
     {
         $id = $this->storage->manage()->find($identifier);
         if ($id !== null) {
@@ -79,7 +81,7 @@ class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         }
     }
 
-    public function getInfoResult(string $identifier) : ?FileInfoResult
+    public function getInfoResult(string $identifier): ?FileInfoResult
     {
         $id = $this->storage->manage()->find($identifier);
         if ($id === null) {
@@ -96,7 +98,7 @@ class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         );
     }
 
-    public function getInfoForExistingFiles(array $file_ids) : array
+    public function getInfoForExistingFiles(array $file_ids): array
     {
         $infos = [];
         foreach ($file_ids as $file_id) {

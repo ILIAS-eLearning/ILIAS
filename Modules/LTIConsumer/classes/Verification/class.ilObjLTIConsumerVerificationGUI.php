@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilObjLTIConsumerVerificationGUI
  *
@@ -24,20 +29,20 @@
  */
 class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
 {
-    public function getType() : string
+    public function getType(): string
     {
         return "ltiv";
     }
-    
+
     /**
      * List all tests in which current user participated
      */
-    public function create() : void
+    public function create(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $this->lng->loadLanguageModule("ltiv");
-        
+
         $DIC->tabs()->setBackTarget(
             $this->lng->txt("back"),
             $this->ctrl->getLinkTarget($this, "cancel")
@@ -45,11 +50,11 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
         $table = new ilLTIConsumerVerificationTableGUI($this, "create");
         $this->tpl->setContent($table->getHTML());
     }
-    
+
     /**
      * create new instance and save it
      */
-    public function save() : void
+    public function save(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -78,11 +83,11 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
                 return;
             }
 
-            if ($newObj) {
+            if ($newObj !== null) {
                 $parent_id = $this->node_id;
                 $this->node_id = null;
                 $this->putObjectInTree($newObj, $parent_id);
-                
+
                 $this->afterSave($newObj);
             } else {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_failed"));
@@ -90,14 +95,14 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
         } else {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
         }
-        
+
         $this->create();
     }
-    
-    public function deliver() : void
+
+    public function deliver(): void
     {
         $file = $this->object->getFilePath();
-        
+
         if ($file) {
             ilFileDelivery::deliverFileLegacy($file, $this->object->getTitle() . ".pdf");
         }
@@ -105,11 +110,8 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
 
     /**
      * Render content
-     * @param bool $a_return
-     * @param bool $a_url
-     * @return string
      */
-    public function render(bool $a_return = false, bool $a_url = false) : string
+    public function render(bool $a_return = false, bool $a_url = false): string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $message = '';
@@ -119,9 +121,9 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
         } else {
             $tree = new ilWorkspaceTree($DIC->user()->getId());
             $wsp_id = $tree->lookupNodeId($this->object->getId());
-            
+
             $caption = $DIC->language()->txt("wsp_type_ltiv") . ' "' . $this->object->getTitle() . '"';
-            
+
             $valid = true;
             if (!file_exists($this->object->getFilePath())) {
                 $valid = false;
@@ -133,7 +135,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
                     $message = $DIC->language()->txt("permission_denied");
                 }
             }
-            
+
             if ($valid) {
                 if (!$a_url) {
                     $a_url = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());
@@ -145,18 +147,18 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
         }
         return '';
     }
-    
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
+
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page): void
     {
         global $DIC;
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
             $this->deliver();
         }
-        
+
         $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->MESSAGE);
     }
-    
-    public static function _goto($a_target) : void
+
+    public static function _goto($a_target): void
     {
         global $DIC;
         $ctrl = $DIC->ctrl();
@@ -170,21 +172,14 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
         $ctrl->redirectByClass(ilSharedResourceGUI::class);
     }
 
-    /**
-     * @param string $key
-     * @param mixed  $default
-     * @return mixed|null
-     */
-    protected function getRequestValue(string $key, $default = null)
+    protected function getRequestValue(string $key): ?string
     {
-        if (isset($this->request->getQueryParams()[$key])) {
-            return $this->request->getQueryParams()[$key];
+        if ($this->request_wrapper->has($key)) {
+            return $this->request_wrapper->retrieve($key, $this->refinery->kindlyTo()->string());
         }
-
-        if (isset($this->request->getParsedBody()[$key])) {
-            return $this->request->getParsedBody()[$key];
+        if ($this->post_wrapper->has($key)) {
+            return $this->post_wrapper->retrieve($key, $this->refinery->kindlyTo()->string());
         }
-
-        return $default ?? null;
+        return null;
     }
 }

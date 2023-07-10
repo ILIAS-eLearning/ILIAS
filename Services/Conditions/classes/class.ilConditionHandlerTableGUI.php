@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -50,13 +52,12 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
         $this->initTable();
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('OBJ_SRC', $a_set['icon']);
         $this->tpl->setVariable('OBJ_ALT', $a_set['icon_alt']);
         $this->tpl->setVariable('OBJ_TITLE', $a_set['title']);
-
-        $this->tpl->setVariable('OBJ_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
+        $this->tpl->setVariable('OBJ_LINK', ilLink::_getLink($a_set['ref_id']));
         $this->tpl->setVariable('OBJ_DESCRIPTION', $a_set['description']);
         $this->tpl->setVariable('COND_ID', $a_set['id']);
         $this->tpl->setVariable('OBJ_CONDITION', $a_set['condition']);
@@ -95,7 +96,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
      * Set and parse conditions
      * @param array $a_conditions
      */
-    public function setConditions(array $a_conditions) : void
+    public function setConditions(array $a_conditions): void
     {
         $rows = [];
         foreach ($a_conditions as $condition) {
@@ -120,11 +121,11 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
     /**
      * Init Table
      */
-    protected function initTable() : void
+    protected function initTable(): void
     {
         $this->lng->loadLanguageModule('rbac');
 
-        $this->setRowTemplate('tpl.condition_handler_row.html', 'Services/AccessControl');
+        $this->setRowTemplate('tpl.condition_handler_row.html', 'Services/Conditions');
         $this->setTitle($this->lng->txt('active_preconditions'));
         $this->addColumn('', '', '1');
         $this->addColumn($this->lng->txt('rbac_precondition_source'), 'title', '66%');

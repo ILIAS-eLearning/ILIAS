@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Values\ScalarValues;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
@@ -23,12 +23,12 @@ use ILIAS\BackgroundTasks\Value;
 
 class IntegerValue extends ScalarValue
 {
-    public function setValue($value) : void
+    public function setValue($value): void
     {
         if (!is_int($value)) {
             throw new InvalidArgumentException("The value given must be an integer! See php-documentation is_integer().");
         }
-        
+
         parent::setValue($value);
     }
 }

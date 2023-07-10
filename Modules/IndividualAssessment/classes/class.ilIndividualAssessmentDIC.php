@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Data;
 use Pimple\Container;
@@ -10,7 +26,7 @@ trait ilIndividualAssessmentDIC
     public function getObjectDIC(
         ilObjIndividualAssessment $object,
         ArrayAccess $dic
-    ) : Container {
+    ): Container {
         $container = new Container();
 
         $container['DataFactory'] = function () {
@@ -52,7 +68,8 @@ trait ilIndividualAssessmentDIC
                 $dic['ilErr'],
                 $c['ilIndividualAssessmentMemberGUI'],
                 $dic->refinery(),
-                $dic->http()->wrapper()
+                $dic->http()->wrapper(),
+                $c['helper.dateformat']
             );
         };
 
@@ -65,6 +82,7 @@ trait ilIndividualAssessmentDIC
                 $dic['ui.factory']->input(),
                 $dic['ui.factory']->messageBox(),
                 $dic['ui.factory']->button(),
+                $dic['ui.factory']->link(),
                 $dic['refinery'],
                 $c['DataFactory'],
                 $dic['ui.renderer'],
@@ -74,7 +92,8 @@ trait ilIndividualAssessmentDIC
                 $object,
                 $dic['ilErr'],
                 $dic->refinery(),
-                $dic->http()->wrapper()->query()
+                $dic->http()->wrapper()->query(),
+                $c['helper.dateformat']
             );
         };
 
@@ -88,6 +107,11 @@ trait ilIndividualAssessmentDIC
             );
         };
 
+        $container['helper.dateformat'] = function ($c) use ($dic) {
+            return new ilIndividualAssessmentDateFormatter(
+                $c['DataFactory']
+            );
+        };
 
         return $container;
     }

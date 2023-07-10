@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 /**
  * Add learning progress and availability information to the LSItem
  */
@@ -42,36 +44,37 @@ class LSLearnerItem extends LSItem
             $ls_item->isOnline(),
             $ls_item->getOrderNumber(),
             $ls_item->getPostCondition(),
-            $ls_item->getRefId()
+            $ls_item->getRefId(),
+            $ls_item->getLPMode()
         );
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
 
-    public function getLearningProgressStatus() : int
+    public function getLearningProgressStatus(): int
     {
         return $this->learning_progress_status;
     }
 
-    public function getAvailability() : int
+    public function getAvailability(): int
     {
         return $this->availability_status;
     }
 
-    public function withPostCondition(ilLSPostCondition $post_condition) : LSItem
+    public function withPostCondition(ilLSPostCondition $post_condition): LSItem
     {
         throw new \LogicException('keep this item receptive only');
     }
 
-    public function withOrderNumber(int $order_number) : LSItem
+    public function withOrderNumber(int $order_number): LSItem
     {
         throw new \LogicException('keep this item receptive only');
     }
 
-    public function withOnline(bool $online) : LSItem
+    public function withOnline(bool $online): LSItem
     {
         throw new \LogicException('keep this item receptive only');
     }

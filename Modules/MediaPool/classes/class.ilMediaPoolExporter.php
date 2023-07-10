@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Export2 class for media pools
@@ -23,7 +26,7 @@ class ilMediaPoolExporter extends ilXmlExporter
     private ilMediaPoolDataSet $ds;
     private ilExportConfig $config;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilMediaPoolDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -40,7 +43,7 @@ class ilMediaPoolExporter extends ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         $mob_ids = array();
 
         foreach ($a_ids as $id) {
@@ -66,7 +69,7 @@ class ilMediaPoolExporter extends ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         $pg_ids = array();
 
         foreach ($a_ids as $id) {
@@ -88,6 +91,10 @@ class ilMediaPoolExporter extends ilXmlExporter
                 "component" => "Services/Object",
                 "entity" => "transl",
                 "ids" => $a_ids);
+            $deps[] = array(
+                "component" => "Services/Object",
+                "entity" => "transl_entry",
+                "ids" => $a_ids);
         }
 
         $deps[] = array(
@@ -102,11 +109,11 @@ class ilMediaPoolExporter extends ilXmlExporter
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string {
+    ): string {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "5.1.0" => array(

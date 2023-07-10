@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -9,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 class CategoryReferenceTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $dic = new ILIAS\DI\Container();
         $GLOBALS['DIC'] = $dic;
@@ -31,7 +33,7 @@ class CategoryReferenceTest extends TestCase
      * @param string $name
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -43,14 +45,14 @@ class CategoryReferenceTest extends TestCase
         };
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test commands
      */
-    public function testCommands() : void
+    public function testCommands(): void
     {
         $commands = ilObjCategoryReferenceAccess::_getCommands(10);
         $this->assertIsArray($commands);

@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Page;
 
@@ -34,7 +39,7 @@ class GUIService
         $this->domain_service = $domain_service;
     }
 
-    public function editRequest() : EditGUIRequest
+    public function editRequest(): EditGUIRequest
     {
         return new EditGUIRequest(
             $this->gui_service->http(),

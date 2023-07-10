@@ -1,6 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -31,7 +46,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         ilLanguage $lng,
         array $inputs,
         string $label,
-        string $byline = null
+        ?string $byline = null
     ) {
         $this->checkArgListElements("inputs", $inputs, Group::class);
         parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);
@@ -40,15 +55,19 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
+        if ($this->requirement_constraint !== null) {
+            return $this->requirement_constraint;
+        }
+
         return null;
     }
 
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         if (!is_string($value) && !is_int($value)) {
             return false;
@@ -56,15 +75,15 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         return array_key_exists($value, $this->inputs);
     }
 
-    public function withRequired($is_required) : Field\Input
+    public function withRequired($is_required, ?Constraint $requirement_constraint = null): Field\Input
     {
-        return Input::withRequired($is_required);
+        return Input::withRequired($is_required, $requirement_constraint);
     }
 
     /**
      * @inheritdoc
      */
-    public function withValue($value) : Field\Input
+    public function withValue($value): Field\Input
     {
         if (is_string($value) || is_int($value)) {
             return Input::withValue($value);
@@ -96,7 +115,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $input) : Field\Input
+    public function withInput(InputData $input): Field\Input
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");

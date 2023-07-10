@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCPlugged
@@ -22,24 +25,17 @@
 class ilPCPlugged extends ilPageContent
 {
     protected ilLanguage $lng;
-    public php4DOMElement $plug_node;
-    protected ilComponentRepository $component_repository;
-    protected ilComponentFactory $component_factory;
+    protected ?ilComponentRepository $component_repository = null;
+    protected ?ilComponentFactory $component_factory = null;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->setType("plug");
-        $this->component_repository = $DIC["component.repository"];
-        $this->component_factory = $DIC["component.factory"];
-    }
-
-    public function setNode(php4DOMElement $a_node) : void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->plug_node = $a_node->first_child();		// this is the Plugged node
+        $this->component_repository = $DIC["component.repository"] ?? null;
+        $this->component_factory = $DIC["component.factory"] ?? null;
     }
 
     /**
@@ -51,36 +47,33 @@ class ilPCPlugged extends ilPageContent
         string $a_pc_id,
         string $a_plugin_name,
         string $a_plugin_version
-    ) : void {
-        $this->node = $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->plug_node = $this->dom->create_element("Plugged");
-        $this->plug_node = $this->node->append_child($this->plug_node);
-        $this->plug_node->set_attribute("PluginName", $a_plugin_name);
-        $this->plug_node->set_attribute("PluginVersion", $a_plugin_version);
+    ): void {
+        $this->createInitialChildNode(
+            $a_hier_id,
+            $a_pc_id,
+            "Plugged",
+            ["PluginName" => $a_plugin_name, "PluginVersion" => $a_plugin_version]
+        );
     }
 
     /**
      * Set properties of plugged component.
      */
-    public function setProperties(array $a_properties) : void
+    public function setProperties(array $a_properties): void
     {
-        if (!is_object($this->plug_node)) {
+        if (!is_object($this->getChildNode())) {
             return;
         }
-        
+
         // delete properties
-        $children = $this->plug_node->child_nodes();
-        for ($i = 0; $i < count($children); $i++) {
-            $this->plug_node->remove_child($children[$i]);
-        }
+        $this->dom_util->deleteAllChilds($this->getChildNode());
         // set properties
         foreach ($a_properties as $key => $value) {
-            $prop_node = $this->dom->create_element("PluggedProperty");
-            $prop_node = $this->plug_node->append_child($prop_node);
-            $prop_node->set_attribute("Name", $key);
+            $prop_node = $this->dom_doc->createElement("PluggedProperty");
+            $prop_node = $this->getChildNode()->appendChild($prop_node);
+            $prop_node->setAttribute("Name", $key);
             if ($value != "") {
-                $prop_node->set_content($value);
+                $this->dom_util->setContent($prop_node, $value);
             }
         }
     }
@@ -88,58 +81,56 @@ class ilPCPlugged extends ilPageContent
     /**
      * Get properties of plugged component
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $properties = array();
-        
-        if (is_object($this->plug_node)) {
-            // delete properties
-            $children = $this->plug_node->child_nodes();
-            for ($i = 0; $i < count($children); $i++) {
-                if ($children[$i]->node_name() == "PluggedProperty") {
-                    $properties[$children[$i]->get_attribute("Name")] =
-                        $children[$i]->get_content();
+
+        if (is_object($this->getChildNode())) {
+            foreach ($this->getChildNode()->childNodes as $c) {
+                if ($c->nodeName == "PluggedProperty") {
+                    $properties[$c->getAttribute("Name")] =
+                        $this->dom_util->getContent($c);
                 }
             }
         }
-        
+
         return $properties;
     }
-    
-    public function setPluginVersion(string $a_version) : void
+
+    public function setPluginVersion(string $a_version): void
     {
         if (!empty($a_version)) {
-            $this->plug_node->set_attribute("PluginVersion", $a_version);
+            $this->getChildNode()->setAttribute("PluginVersion", $a_version);
         } else {
-            if ($this->plug_node->has_attribute("PluginVersion")) {
-                $this->plug_node->remove_attribute("PluginVersion");
+            if ($this->getChildNode()->hasAttribute("PluginVersion")) {
+                $this->getChildNode()->removeAttribute("PluginVersion");
             }
         }
     }
 
-    public function getPluginVersion() : string
+    public function getPluginVersion(): string
     {
-        if (is_object($this->plug_node)) {
-            return $this->plug_node->get_attribute("PluginVersion");
+        if (is_object($this->getChildNode())) {
+            return $this->getChildNode()->getAttribute("PluginVersion");
         }
         return "";
     }
 
-    public function setPluginName(string $a_name) : void
+    public function setPluginName(string $a_name): void
     {
         if (!empty($a_name)) {
-            $this->plug_node->set_attribute("PluginName", $a_name);
+            $this->getChildNode()->setAttribute("PluginName", $a_name);
         } else {
-            if ($this->plug_node->has_attribute("PluginName")) {
-                $this->plug_node->remove_attribute("PluginName");
+            if ($this->getChildNode()->hasAttribute("PluginName")) {
+                $this->getChildNode()->removeAttribute("PluginName");
             }
         }
     }
 
-    public function getPluginName() : string
+    public function getPluginName(): string
     {
-        if (is_object($this->plug_node)) {
-            return $this->plug_node->get_attribute("PluginName");
+        if (is_object($this->getChildNode())) {
+            return $this->getChildNode()->getAttribute("PluginName");
         }
         return "";
     }
@@ -151,7 +142,7 @@ class ilPCPlugged extends ilPageContent
     public static function handleCopiedPluggedContent(
         ilPageObject $a_page,
         DOMDocument $a_domdoc
-    ) : void {
+    ): void {
         global $DIC;
         $component_repository = $DIC['component.repository'];
         $component_factory = $DIC['component.factory'];
@@ -184,7 +175,10 @@ class ilPCPlugged extends ilPageContent
                     $node->removeChild($child);
                 }
                 foreach ($properties as $name => $value) {
-                    $child = new DOMElement('PluggedProperty', $value);
+                    $child = new DOMElement(
+                        'PluggedProperty',
+                        str_replace("&", "&amp;", $value)
+                    );
                     $node->appendChild($child);
                     $child->setAttribute('Name', $name);
                 }
@@ -195,10 +189,16 @@ class ilPCPlugged extends ilPageContent
     /**
      * After repository (container) copy action
      */
-    public static function afterRepositoryCopy(ilPageObject $page, array $mapping, int $source_ref_id) : void
+    public static function afterRepositoryCopy(ilPageObject $page, array $mapping, int $source_ref_id): void
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+
+        /** @var ilComponentFactory $component_factory */
+        $component_factory = $DIC["component.factory"];
+
+        /** @var ilComponentRepository $component_repository */
+        $component_repository = $DIC["component.repository"];
 
         $xpath = new DOMXPath($page->getDomDoc());
         $nodes = $xpath->query("//Plugged");
@@ -208,9 +208,14 @@ class ilPCPlugged extends ilPageContent
             $plugin_name = $node->getAttribute('PluginName');
             $plugin_version = $node->getAttribute('PluginVersion');
 
-            if ($ilPluginAdmin->isActive(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
+            $info = null;
+            try {
+                $info = $component_repository->getPluginByName($plugin_name);
+            } catch (InvalidArgumentException $e) {
+            }
+            if (!is_null($info) && $info->isActive()) {
                 /** @var ilPageComponentPlugin $plugin_obj */
-                $plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name);
+                $plugin_obj = $component_factory->getPlugin($info->getId());
                 $plugin_obj->setPageObj($page);
 
                 $properties = array();
@@ -241,8 +246,9 @@ class ilPCPlugged extends ilPageContent
      */
     public static function handleDeletedPluggedNode(
         ilPageObject $a_page,
-        DOMNode $a_node
-    ) : void {
+        DOMNode $a_node,
+        bool $move_operation = false
+    ): void {
         global $DIC;
         $component_repository = $DIC['component.repository'];
         $component_factory = $DIC['component.factory'];
@@ -263,7 +269,7 @@ class ilPCPlugged extends ilPageContent
             }
 
             // let the plugin delete additional content
-            $plugin_obj->onDelete($properties, $plugin_version);
+            $plugin_obj->onDelete($properties, $plugin_version, $move_operation);
         }
     }
 
@@ -271,7 +277,7 @@ class ilPCPlugged extends ilPageContent
         string $a_output,
         string $a_mode,
         bool $a_abstract_only = false
-    ) : string {
+    ): string {
         $lng = $this->lng;
 
         $end = 0;
@@ -293,7 +299,7 @@ class ilPCPlugged extends ilPageContent
             for ($i = 3; $i < count($param); $i += 2) {
                 $properties[$param[$i]] = $param[$i + 1];
             }
-            
+
             // get html from plugin
             if ($a_mode == "edit") {
                 $plugin_html = '<div class="ilBox">' . $lng->txt("content_plugin_not_activated") . " (" . $plugin_name . ")</div>";
@@ -307,7 +313,7 @@ class ilPCPlugged extends ilPageContent
                 $gui_obj = $plugin_obj->getUIClassInstance();
                 $plugin_html = $gui_obj->getElementHTML($a_mode, $properties, $plugin_version);
             }
-            
+
             $a_output = substr($a_output, 0, $start) .
                 $plugin_html .
                 substr($a_output, $end + 5);
@@ -322,18 +328,18 @@ class ilPCPlugged extends ilPageContent
                 $end = strpos($a_output, "}}}}}", $start);
             }
         }
-                
+
         return $a_output;
     }
-    
-    public function getJavascriptFiles(string $a_mode) : array
+
+    public function getJavascriptFiles(string $a_mode): array
     {
         $js_files = array();
-        
+
         foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
             $plugin->setPageObj($this->getPage());
             $pl_dir = $plugin->getDirectory();
-            
+
             $pl_js_files = $plugin->getJavascriptFiles($a_mode);
             foreach ($pl_js_files as $pl_js_file) {
                 if (!is_int(strpos($pl_js_file, "//"))) {
@@ -347,15 +353,15 @@ class ilPCPlugged extends ilPageContent
         //var_dump($js_files);
         return $js_files;
     }
-    
-    public function getCssFiles(string $a_mode) : array
+
+    public function getCssFiles(string $a_mode): array
     {
         $css_files = array();
-        
+
         foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
             $plugin->setPageObj($this->getPage());
             $pl_dir = $plugin->getDirectory();
-            
+
             $pl_css_files = $plugin->getCssFiles($a_mode);
             foreach ($pl_css_files as $pl_css_file) {
                 if (!is_int(strpos($pl_css_file, "//"))) {

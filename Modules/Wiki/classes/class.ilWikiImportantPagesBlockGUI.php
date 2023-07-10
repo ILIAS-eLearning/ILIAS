@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Important pages wiki block
@@ -21,8 +24,9 @@
 class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 {
     public static string $block_type = "wikiimppages";
+    protected \ILIAS\Wiki\InternalGUIService $gui;
     protected bool $export = false;
-    
+
     public function __construct()
     {
         global $DIC;
@@ -31,22 +35,23 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $lng = $DIC->language();
-        
+
         parent::__construct();
-        
+
         $lng->loadLanguageModule("wiki");
         $this->setEnableNumInfo(false);
-        
+
         $this->setTitle($lng->txt("wiki_navigation"));
         $this->allow_moving = false;
+        $this->gui = $DIC->wiki()->internal()->gui();
     }
 
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
 
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return false;
     }
@@ -67,7 +72,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         }
     }
 
-    public function getHTML(bool $a_export = false) : string
+    public function getHTML(bool $a_export = false): string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -80,11 +85,11 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
                 $lng->txt("edit")
             );
         }
-        
+
         return parent::getHTML();
     }
 
-    public function fillDataSection() : void
+    public function fillDataSection(): void
     {
         $this->setDataSection($this->getLegacyContent());
     }
@@ -96,45 +101,46 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
     protected bool $new_rendering = true;
 
 
-    protected function getLegacyContent() : string
+    protected function getLegacyContent(): string
     {
         $ilCtrl = $this->ctrl;
         $cpar[1] = 0;
-        
-        $list = new ilNestedList();
-        $list->setItemClass("ilWikiBlockItem");
-        $list->setListClass("ilWikiBlockList");
-        $list->setListClass("ilWikiBlockListNoIndent", 1);
-        
+
+        $listing = $this->gui->listing();
+
         $cnt = 1;
         $title = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($this->requested_ref_id));
         if (!$this->export) {
-            $list->addListNode("<p class='small'><a href='" .
+            $listing->node($this->ui->factory()->link()->standard(
+                $title,
                 $ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoStartPage")
-                . "'>" . $title . "</a></p>", 1, 0);
+            ), "1", "0");
         } else {
-            $list->addListNode("<p class='small'><a href='" .
-                "index.html" .
-                "'>" . $title . "</a></p>", 1, 0);
+            $listing->node($this->ui->factory()->link()->standard(
+                $title,
+                "index.html"
+            ), "1", "0");
         }
         $cpar[0] = 1;
-        
+
         $ipages = ilObjWiki::_lookupImportantPagesList(ilObject::_lookupObjId($this->requested_ref_id));
         foreach ($ipages as $p) {
             $cnt++;
             $title = ilWikiPage::lookupTitle($p["page_id"]);
             if (!$this->export) {
-                $list->addListNode("<p class='small'><a href='" .
-                    ilObjWikiGUI::getGotoLink($this->requested_ref_id, $title)
-                    . "'>" . $title . "</a></p>", $cnt, (int) $cpar[$p["indent"] - 1]);
+                $listing->node($this->ui->factory()->link()->standard(
+                    $title,
+                    ilObjWikiGUI::getGotoLink($this->requested_ref_id, (string) $title)
+                ), (string) $cnt, (string) ($cpar[$p["indent"] - 1] ?? 0));
             } else {
-                $list->addListNode("<p class='small'><a href='" .
-                    "wpg_" . $p["page_id"] . ".html" .
-                    "'>" . $title . "</a></p>", $cnt, (int) $cpar[$p["indent"] - 1]);
+                $listing->node($this->ui->factory()->link()->standard(
+                    $title,
+                    "wpg_" . $p["page_id"] . ".html"
+                ), (string) $cnt, (string) ($cpar[$p["indent"] - 1] ?? 0));
             }
             $cpar[$p["indent"]] = $cnt;
         }
-        
-        return $list->getHTML();
+
+        return $listing->render();
     }
 }

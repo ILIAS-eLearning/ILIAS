@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\Random;
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
@@ -28,12 +30,12 @@ class GroupTest extends TestCase
 {
     private RandomGroup $group;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->group = new RandomGroup();
     }
 
-    public function testShuffle() : void
+    public function testShuffle(): void
     {
         $mock = $this->getMockBuilder(Seed::class)->getMock();
         $mock->expects(self::never())->method('seedRandomGenerator');
@@ -41,7 +43,7 @@ class GroupTest extends TestCase
         $this->assertInstanceOf(ShuffleTransformation::class, $instance);
     }
 
-    public function testDontShuffle() : void
+    public function testDontShuffle(): void
     {
         $instance = $this->group->dontShuffle();
         $this->assertInstanceOf(IdentityTransformation::class, $instance);

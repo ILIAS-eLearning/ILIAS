@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Event listener for study programs. Has the following tasks:
@@ -18,8 +34,10 @@ class ilStudyProgrammeAppEventListener
     /**
      * @throws ilException
      */
-    public static function handleEvent(string $component, string $event, array $parameter)
+    public static function handleEvent(string $component, string $event, array $parameter): void
     {
+        global $DIC;
+
         switch ($component) {
             case "Services/User":
                 switch ($event) {
@@ -125,18 +143,18 @@ class ilStudyProgrammeAppEventListener
                         break;
                 }
                 break;
-            case "Modules/StudyProgramme":
+
+            case 'Modules/StudyProgramme':
                 switch ($event) {
-                    case "userReAssigned":
-                        self::sendReAssignedMail($parameter);
+                    case 'userSuccessful':
+                        $DIC->certificate()->userCertificates()->certificateCriteriaMet(
+                            (int) $parameter['usr_id'],
+                            (int) $parameter['prg_id']
+                        );
                         break;
-                    case 'informUserToRestart':
-                        self::sendInformToReAssignMail($parameter);
-                        break;
-                    case 'userRiskyToFail':
-                        self::sendRiskyToFailMail($parameter);
                 }
                 break;
+
             default:
                 throw new ilException(
                     "ilStudyProgrammeAppEventListener::handleEvent: Won't handle events of '$component'."
@@ -144,28 +162,26 @@ class ilStudyProgrammeAppEventListener
         }
     }
 
-    private static function onServiceUserDeleteUser(array $parameter) : void
+    private static function onServiceUserDeleteUser(array $parameter): void
     {
-        $assignments = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB']
-            ->getInstancesOfUser((int) $parameter["usr_id"])
-        ;
+        $repo = ilStudyProgrammeDIC::dic()['repo.assignment'];
+        $assignments = $repo->getForUser((int) $parameter["usr_id"]);
 
         foreach ($assignments as $ass) {
-            $prg = ilObjStudyProgramme::getInstanceByObjId($ass->getRootId());
-            $prg->removeAssignment($ass);
+            $repo->delete($ass);
         }
     }
 
-    private static function onServiceTrackingUpdateStatus(array $parameter) : void
+    private static function onServiceTrackingUpdateStatus(array $parameter): void
     {
-        if ($parameter["status"] != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+        if ((int) $parameter["status"] !== ilLPStatus::LP_STATUS_COMPLETED_NUM) {
             return;
         }
 
         ilObjStudyProgramme::setProgressesCompletedFor((int) $parameter["obj_id"], (int) $parameter["usr_id"]);
     }
 
-    private static function onServiceTreeInsertNode(array $parameter) : void
+    private static function onServiceTreeInsertNode(array $parameter): void
     {
         $node_ref_id = (int) $parameter["node_id"];
         $parent_ref_id = (int) $parameter["parent_id"];
@@ -173,18 +189,18 @@ class ilStudyProgrammeAppEventListener
         $node_type = ilObject::_lookupType($node_ref_id, true);
         $parent_type = ilObject::_lookupType($parent_ref_id, true);
 
-        if ($node_type == "crsr" && $parent_type == "prg") {
+        if ($node_type === "crsr" && $parent_type === "prg") {
             self::adjustProgrammeLPMode($parent_ref_id);
         }
-        if (in_array($node_type, ["prg", "prgr"]) && $parent_type == "prg") {
+        if ($parent_type === "prg" && in_array($node_type, ["prg", "prgr"])) {
             self::addMissingProgresses($parent_ref_id);
         }
-        if ($node_type == "crs" && $parent_type == "cat") {
+        if ($node_type === "crs" && $parent_type === "cat") {
             self::addCrsToProgrammes($node_ref_id, $parent_ref_id);
         }
     }
 
-    private static function onServiceTreeMoveTree(array $parameter) : void
+    private static function onServiceTreeMoveTree(array $parameter): void
     {
         $node_ref_id = (int) $parameter["source_id"];
         $new_parent_ref_id = (int) $parameter["target_id"];
@@ -196,9 +212,9 @@ class ilStudyProgrammeAppEventListener
 
         if (!in_array($node_type, ["crsr","crs"])
             || (
-                ($new_parent_type != "prg" && $old_parent_type != "prg")
+                ($new_parent_type !== "prg" && $old_parent_type !== "prg")
                 &&
-                $old_parent_type != "cat"
+                $old_parent_type !== "cat"
             )
         ) {
             return;
@@ -211,14 +227,14 @@ class ilStudyProgrammeAppEventListener
             }
         }
 
-        if ($new_parent_type == "prg") {
+        if ($new_parent_type === "prg") {
             self::adjustProgrammeLPMode($new_parent_ref_id);
-        } elseif ($old_parent_type == "prg") {
+        } elseif ($old_parent_type === "prg") {
             self::adjustProgrammeLPMode($old_parent_ref_id);
         }
     }
 
-    private static function onServiceObjectDeleteOrToTrash(array $parameter) : void
+    private static function onServiceObjectDeleteOrToTrash(array $parameter): void
     {
         $old_parent_ref_id = (int) $parameter["old_parent_ref_id"];
 
@@ -231,34 +247,34 @@ class ilStudyProgrammeAppEventListener
         self::adjustProgrammeLPMode($old_parent_ref_id);
     }
 
-    private static function getStudyProgramme(int $ref_id) : ilObjStudyProgramme
+    private static function getStudyProgramme(int $ref_id): ilObjStudyProgramme
     {
         return ilObjStudyProgramme::getInstanceByRefId($ref_id);
     }
 
-    private static function adjustProgrammeLPMode(int $ref_id) : void
+    private static function adjustProgrammeLPMode(int $ref_id): void
     {
         $obj = self::getStudyProgramme($ref_id);
         $obj->adjustLPMode();
     }
 
-    private static function addMissingProgresses(int $ref_id) : void
+    private static function addMissingProgresses(int $ref_id): void
     {
         $obj = self::getStudyProgramme($ref_id);
         $obj->addMissingProgresses();
     }
 
-    private static function addCrsToProgrammes(int $crs_ref_id, int $cat_ref_id) : void
+    private static function addCrsToProgrammes(int $crs_ref_id, int $cat_ref_id): void
     {
         ilObjStudyProgramme::addCrsToProgrammes($crs_ref_id, $cat_ref_id);
     }
 
-    private static function removeCrsFromProgrammes(int $crs_ref_id, int $cat_ref_id) : void
+    private static function removeCrsFromProgrammes(int $crs_ref_id, int $cat_ref_id): void
     {
         ilObjStudyProgramme::removeCrsFromProgrammes($crs_ref_id, $cat_ref_id);
     }
 
-    private static function addMemberToProgrammes(string $src_type, array $params) : void
+    private static function addMemberToProgrammes(string $src_type, array $params): void
     {
         $usr_id = $params['usr_id'];
         $id = $params['obj_id'];
@@ -276,7 +292,7 @@ class ilStudyProgrammeAppEventListener
         ilObjStudyProgramme::addMemberToProgrammes($src_type, $id, $usr_id);
     }
 
-    private static function removeMemberFromProgrammes(string $src_type, array $params) : void
+    private static function removeMemberFromProgrammes(string $src_type, array $params): void
     {
         $usr_id = $params['usr_id'];
         $id = $params['obj_id'];
@@ -292,29 +308,5 @@ class ilStudyProgrammeAppEventListener
         }
 
         ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $id, $usr_id);
-    }
-
-    private static function sendReAssignedMail(array $params) : void
-    {
-        $usr_id = $params['usr_id'];
-        $ref_id = $params['root_prg_ref_id'];
-        ilObjStudyProgramme::sendReAssignedMail($ref_id, $usr_id);
-    }
-
-    private static function sendInformToReAssignMail(array $params) : void
-    {
-        $usr_id = $params['usr_id'];
-        $progress_id = $params['progress_id'];
-        ilObjStudyProgramme::sendInformToReAssignMail($progress_id, $usr_id);
-    }
-
-    /**
-     * @throws ilException
-     */
-    private static function sendRiskyToFailMail(array $params) : void
-    {
-        $usr_id = $params['usr_id'];
-        $progress_id = $params['progress_id'];
-        ilObjStudyProgramme::sendRiskyToFailMail($progress_id, $usr_id);
     }
 }

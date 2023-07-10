@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Style\Content;
 
@@ -29,15 +34,18 @@ class ImageManager
     protected ImageFileRepo $repo;
     protected Access\StyleAccessManager $access_manager;
     protected int $style_id;
+    private Filesystem\Util\Convert\LegacyImages $image_conversion;
 
     public function __construct(
         int $style_id,
         Access\StyleAccessManager $access_manager,
         ImageFileRepo $repo
     ) {
+        global $DIC;
         $this->repo = $repo;
         $this->access_manager = $access_manager;
         $this->style_id = $style_id;
+        $this->image_conversion = $DIC->fileConverters()->legacyImages();
     }
 
     /**
@@ -45,12 +53,12 @@ class ImageManager
      * @return Generator
      * @throws Filesystem\Exception\DirectoryNotFoundException
      */
-    public function getImages() : Generator
+    public function getImages(): Generator
     {
         return $this->repo->getImages($this->style_id);
     }
 
-    public function filenameExists(string $filename) : bool
+    public function filenameExists(string $filename): bool
     {
         /** @var Image $i */
         foreach ($this->getImages() as $i) {
@@ -62,13 +70,13 @@ class ImageManager
     }
 
     // get web data dir path for output
-    public function getWebPath(Image $image) : string
+    public function getWebPath(Image $image): string
     {
         return $this->repo->getWebPath($image->getPath());
     }
 
     // get image data object by filename
-    public function getByFilename(string $filename) : Image
+    public function getByFilename(string $filename): Image
     {
         return $this->repo->getByFilename($this->style_id, $filename);
     }
@@ -79,10 +87,11 @@ class ImageManager
         int $width,
         int $height,
         bool $constrain_proportions
-    ) : void {
+    ): void {
         if ($this->filenameExists($filename)) {
             $file = $this->getWebPath($this->getByFilename($filename));
-            ilShellUtil::resizeImage(
+
+            $this->image_conversion->resizeToFixedSize(
                 $file,
                 $file,
                 $width,
@@ -95,7 +104,7 @@ class ImageManager
     // resize image
     public function supportsResize(
         Image $image
-    ) : bool {
+    ): bool {
         // for svg, see
         // https://stackoverflow.com/questions/6532261/how-do-you-get-the-width-and-height-of-an-svg-picture-in-php
         if (in_array(
@@ -108,12 +117,12 @@ class ImageManager
     }
 
     // upload image
-    public function uploadImage() : void
+    public function uploadImage(): void
     {
         $this->repo->uploadImage($this->style_id);
     }
 
-    public function deleteByFilename(string $filename) : void
+    public function deleteByFilename(string $filename): void
     {
         $this->repo->deleteImageByFilename($this->style_id, $filename);
     }

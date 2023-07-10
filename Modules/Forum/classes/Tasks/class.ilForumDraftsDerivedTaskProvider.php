@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,35 +16,25 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilForumDraftsDerivedTaskProvider
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilForumDraftsDerivedTaskProvider implements ilDerivedTaskProvider
 {
-    protected ilTaskService $taskService;
-    protected ilAccessHandler $accessHandler;
-    protected ilLanguage $lng;
-    protected ilSetting $settings;
-    protected ilCtrlInterface $ctrl;
-
     public function __construct(
-        ilTaskService $taskService,
-        ilAccessHandler $accessHandler,
-        ilLanguage $lng,
-        ilSetting $settings,
-        ilCtrlInterface $ctrl
+        protected ilTaskService $taskService,
+        protected ilAccessHandler $accessHandler,
+        protected ilLanguage $lng,
+        protected ilSetting $settings,
+        protected ilCtrlInterface $ctrl
     ) {
-        $this->taskService = $taskService;
-        $this->accessHandler = $accessHandler;
-        $this->lng = $lng;
-        $this->settings = $settings;
-        $this->ctrl = $ctrl;
-
         $this->lng->loadLanguageModule('forum');
     }
 
-    public function getTasks(int $user_id) : array
+    public function getTasks(int $user_id): array
     {
         $tasks = [];
 
@@ -75,17 +65,31 @@ class ilForumDraftsDerivedTaskProvider implements ilDerivedTaskProvider
             }
 
             $anchor = '';
+            $params = ['ref_id' => $refId];
             if ($isThread) {
                 $params['draft_id'] = $draft->getDraftId();
-                $params['cmd'] = 'editThreadDraft';
+                $cmd = 'editThreadDraft';
             } else {
                 $params['thr_pk'] = $draft->getThreadId();
                 $params['pos_pk'] = $draft->getPostId();
-                $params['cmd'] = 'viewThread';
-                $anchor = '#draft_' . $draft->getDraftId();
+                $cmd = 'viewThread';
+                $anchor = 'draft_' . $draft->getDraftId();
             }
 
-            $url = ilLink::_getLink($refId, 'frm', $params) . $anchor;
+            foreach ($params as $name => $value) {
+                $this->ctrl->setParameterByClass(ilObjForumGUI::class, $name, $value);
+            }
+            $url = $this->ctrl->getLinkTargetByClass(
+                [
+                    ilRepositoryGUI::class,
+                    ilObjForumGUI::class
+                ],
+                $cmd,
+                $anchor
+            );
+            foreach (array_keys($params) as $name) {
+                $this->ctrl->setParameterByClass(ilObjForumGUI::class, $name, null);
+            }
 
             $tasks[] = $task->withUrl($url);
         }
@@ -93,7 +97,7 @@ class ilForumDraftsDerivedTaskProvider implements ilDerivedTaskProvider
         return $tasks;
     }
 
-    protected function getFirstRefIdWithPermission(string $operation, int $objId, int $userId) : int
+    protected function getFirstRefIdWithPermission(string $operation, int $objId, int $userId): int
     {
         foreach (ilObject::_getAllReferences($objId) as $refId) {
             if ($this->accessHandler->checkAccessOfUser($userId, $operation, '', $refId)) {
@@ -104,7 +108,7 @@ class ilForumDraftsDerivedTaskProvider implements ilDerivedTaskProvider
         return 0;
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return (bool) $this->settings->get('save_post_drafts', '0');
     }

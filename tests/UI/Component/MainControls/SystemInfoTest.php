@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\MainControls\SystemInfo;
@@ -18,13 +36,13 @@ class SystemInfoTest extends ILIAS_UI_TestBase
 {
     private SignalGenerator $sig_gen;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
         $this->sig_gen = new SignalGenerator();
     }
 
-    public function testRenderingDefault() : void
+    public function testRenderingDefault(): void
     {
         $headline = 'That\'s one small step for [a] man';
         $information = 'Lorem IPsum dolor sit amet';
@@ -33,16 +51,16 @@ class SystemInfoTest extends ILIAS_UI_TestBase
 
         // Neutral
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span class="il-system-info-headline">$headline</span>
-            <span class="il-system-info-body">$information</span>
+            <span id="id_headline" class="il-system-info-headline">$headline</span>
+            <span id="id_description" class="il-system-info-body">$information</span>
         </div>
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -56,7 +74,7 @@ EOT;
         );
     }
 
-    public function testRenderingNeutral() : void
+    public function testRenderingNeutral(): void
     {
         $headline = 'That\'s one small step for [a] man';
         $information = 'Lorem IPsum dolor sit amet';
@@ -66,16 +84,16 @@ EOT;
 
         // Neutral
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span class="il-system-info-headline">$headline</span>
-            <span class="il-system-info-body">$information</span>
+            <span id="id_headline" class="il-system-info-headline">$headline</span>
+            <span id="id_description" class="il-system-info-body">$information</span>
         </div>
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -89,7 +107,7 @@ EOT;
         );
     }
 
-    public function testRenderingImportant() : void
+    public function testRenderingImportant(): void
     {
         $headline = 'That\'s one small step for [a] man';
         $information = 'Lorem IPsum dolor sit amet';
@@ -99,16 +117,16 @@ EOT;
 
         $actual = $r->render($system_info);
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-important" data-close-uri="" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+<div id="id" class="container-fluid il-system-info il-system-info-important" data-close-uri="" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span class="il-system-info-headline">$headline</span>
-            <span class="il-system-info-body">$information</span>
+            <span id="id_headline" class="il-system-info-headline">$headline</span>
+            <span id="id_description" class="il-system-info-body">$information</span>
         </div>
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -121,7 +139,7 @@ EOT;
         );
     }
 
-    public function testRenderingBreaking() : void
+    public function testRenderingBreaking(): void
     {
         $headline = 'That\'s one small step for [a] man';
         $information = 'Lorem IPsum dolor sit amet';
@@ -131,16 +149,16 @@ EOT;
 
         // Breaking
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-breaking" data-close-uri="" role="alert" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+<div id="id" class="container-fluid il-system-info il-system-info-breaking" data-close-uri="" role="alert" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span class="il-system-info-headline">$headline</span>
-            <span class="il-system-info-body">$information</span>
+            <span id="id_headline" class="il-system-info-headline">$headline</span>
+            <span id="id_description" class="il-system-info-body">$information</span>
         </div>
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -155,7 +173,7 @@ EOT;
     }
 
 
-    public function testRenderingCloseAction() : void
+    public function testRenderingCloseAction(): void
     {
         $headline = 'That\'s one small step for [a] man';
         $information = 'Lorem IPsum dolor sit amet';
@@ -166,18 +184,18 @@ EOT;
             ->withDismissAction($action);
 
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="$uri_string" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="$uri_string" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span class="il-system-info-headline">$headline</span>
-            <span class="il-system-info-body">$information</span>
+            <span id="id_headline" class="il-system-info-headline">$headline</span>
+            <span id="id_description" class="il-system-info-body">$information</span>
         </div>
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
         </span>
-        <span class="il-system-info-close"><a class="glyph" href="#" aria-label="close" id="id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span>
+        <span class="il-system-info-close"><a tabindex="0" class="glyph" href="#" aria-label="close" id="id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span>
     </div>
 </div>
 EOT;
@@ -192,29 +210,29 @@ EOT;
     public function getDefaultRenderer(
         JavaScriptBinding $js_binding = null,
         array $with_stub_renderings = []
-    ) : TestDefaultRenderer {
-        return parent::getDefaultRenderer(new class implements JavaScriptBinding {
-            public function createId() : string
+    ): TestDefaultRenderer {
+        return parent::getDefaultRenderer(new class () implements JavaScriptBinding {
+            public function createId(): string
             {
                 return "id";
             }
 
             public array $on_load_code = array();
 
-            public function addOnLoadCode(string $code) : void
+            public function addOnLoadCode(string $code): void
             {
                 $this->on_load_code[] = $code;
             }
 
-            public function getOnLoadCodeAsync() : string
+            public function getOnLoadCodeAsync(): string
             {
             }
         });
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        $factory = new class() extends NoUIFactory {
+        $factory = new class () extends NoUIFactory {
             public SignalGenerator $sig_gen;
 
             public function __construct()
@@ -222,7 +240,7 @@ EOT;
                 $this->sig_gen = new SignalGenerator();
             }
 
-            public function symbol() : ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): ILIAS\UI\Component\Symbol\Factory
             {
                 return new Factory(
                     new \ILIAS\UI\Implementation\Component\Symbol\Icon\Factory(),
@@ -231,7 +249,7 @@ EOT;
                 );
             }
 
-            public function mainControls() : \ILIAS\UI\Component\MainControls\Factory
+            public function mainControls(): \ILIAS\UI\Component\MainControls\Factory
             {
                 return new \ILIAS\UI\Implementation\Component\MainControls\Factory(
                     $this->sig_gen,

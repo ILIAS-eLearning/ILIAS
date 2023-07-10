@@ -1,7 +1,6 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,37 +11,39 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Notifications;
 
 use ilDBInterface;
 use ilDBStatement;
 use Iterator;
+use ilDBConstants;
 
 /**
  * @author Jan Posselt <jposselt@databay.de>
+ * @implements Iterator<int, array<string, mixed>>
  */
 class ilNotificationUserIterator implements Iterator
 {
-    /**
-     * @var int[]
-     */
-    private array $userids;
     private ilDBStatement $rset;
-    private ilDBInterface $db;
-    private array $data;
-    private string $module;
+    private readonly ilDBInterface $db;
+    /** @var array<string, mixed>|null */
+    private ?array $data = null;
 
-    public function __construct(string $module, array $userids = [])
+    /**
+     * @param list<int> $userids
+     */
+    public function __construct(private readonly string $module, private readonly array $userids = [])
     {
-        global $ilDB;
-        $this->db = $ilDB;
-        $this->userids = $userids;
-        $this->module = $module;
+        global $DIC;
+
+        $this->db = $DIC->database();
         $this->rewind();
     }
 
@@ -51,31 +52,40 @@ class ilNotificationUserIterator implements Iterator
         $this->db->free($this->rset);
     }
 
-    public function current() : array
+    /**
+     * @return array<string, mixed>
+     */
+    public function current(): array
     {
         return $this->data;
     }
 
-    public function key() : int
+    public function key(): int
     {
         return (int) $this->data['usr_id'];
     }
 
-    public function next() : void
+    public function next(): void
     {
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
-        $query = 'SELECT usr_id, module, channel FROM ' . ilNotificationSetupHelper::$tbl_userconfig . ' WHERE module=%s AND ' . $this->db->in('usr_id', $this->userids, false, 'integer');
-        $types = array('text');
-        $values = array($this->module);
+        $query = 'SELECT usr_id, module, channel FROM ' . ilNotificationSetupHelper::$tbl_userconfig . ' WHERE module = %s AND ' . $this->db->in(
+            'usr_id',
+            $this->userids,
+            false,
+            ilDBConstants::T_INTEGER
+        );
+        $types = [ilDBConstants::T_TEXT];
+        $values = [$this->module];
         $this->rset = $this->db->queryF($query, $types, $values);
     }
 
-    public function valid() : bool
+    public function valid(): bool
     {
         $this->data = $this->db->fetchAssoc($this->rset);
+
         return is_array($this->data);
     }
 }

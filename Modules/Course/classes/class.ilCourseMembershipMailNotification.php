@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
@@ -72,7 +74,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
     /**
      * @inheritDoc
      */
-    protected function initMail() : ilMail
+    protected function initMail(): ilMail
     {
         parent::initMail();
         $this->mail = $this->mail->withContextParameters([
@@ -89,12 +91,12 @@ class ilCourseMembershipMailNotification extends ilMailNotification
     /**
      * Force sending mail independent from global setting
      */
-    public function forceSendingMail(bool $a_status) : void
+    public function forceSendingMail(bool $a_status): void
     {
         $this->force_sending_mail = $a_status;
     }
 
-    public function send() : bool
+    public function send(): bool
     {
         if (
             $this->getRefId() &&
@@ -433,13 +435,13 @@ class ilCourseMembershipMailNotification extends ilMailNotification
         return true;
     }
 
-    protected function initLanguage(int $a_usr_id) : void
+    protected function initLanguage(int $a_usr_id): void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('crs');
     }
 
-    protected function createCourseStatus(int $a_usr_id) : string
+    protected function createCourseStatus(int $a_usr_id): string
     {
         $part = ilCourseParticipants::_getInstanceByObjId($this->getObjId());
 
@@ -486,7 +488,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
      * get setting "mail_crs_member_notification" and excludes types which are not affected by this setting
      * See description of $this->permanent_enabled_notifications
      */
-    protected function isNotificationTypeEnabled(int $a_type) : bool
+    protected function isNotificationTypeEnabled(int $a_type): bool
     {
         return
             $this->force_sending_mail ||

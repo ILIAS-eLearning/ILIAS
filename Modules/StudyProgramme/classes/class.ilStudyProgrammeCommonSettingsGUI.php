@@ -1,9 +1,27 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilStudyProgrammeCommonSettingsGUI
 {
-    const CMD_EDIT = 'editSettings';
-    const CMD_SAVE = 'saveSettings';
+    private const CMD_EDIT = 'editSettings';
+    private const CMD_SAVE = 'saveSettings';
 
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
@@ -46,12 +64,12 @@ class ilStudyProgrammeCommonSettingsGUI
         }
     }
 
-    public function setObject(ilObjStudyProgramme $object) : void
+    public function setObject(ilObjStudyProgramme $object): void
     {
         $this->object = $object;
     }
 
-    protected function editSettings(ilPropertyFormGUI $form = null) : string
+    protected function editSettings(ilPropertyFormGUI $form = null): string
     {
         if (is_null($form)) {
             $form = $this->buildForm();
@@ -59,7 +77,7 @@ class ilStudyProgrammeCommonSettingsGUI
         return $form->getHTML();
     }
 
-    protected function buildForm() : ilPropertyFormGUI
+    protected function buildForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -72,7 +90,7 @@ class ilStudyProgrammeCommonSettingsGUI
         return $form;
     }
 
-    protected function addServiceSettingsToForm(ilPropertyFormGUI $form) : void
+    protected function addServiceSettingsToForm(ilPropertyFormGUI $form): void
     {
         ilObjectServiceSettingsGUI::initServiceSettingsForm(
             $this->object->getId(),
@@ -83,7 +101,7 @@ class ilStudyProgrammeCommonSettingsGUI
         );
     }
 
-    protected function saveSettings() : void
+    protected function saveSettings(): void
     {
         $form = $this->buildForm();
 
@@ -105,7 +123,7 @@ class ilStudyProgrammeCommonSettingsGUI
         $this->ctrl->redirect($this, self::CMD_EDIT);
     }
 
-    protected function txt(string $code) : string
+    protected function txt(string $code): string
     {
         return $this->lng->txt($code);
     }

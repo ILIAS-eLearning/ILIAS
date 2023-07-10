@@ -1,39 +1,46 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use ILIAS\FileUpload\MimeType;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
+use ILIAS\ResourceStorage\Preloader\SecureString;
 
 /**
- * @deprecated $
+ * @deprecated Will be removed in ILIAS 10. Use ILIAS ResourceStorageService as replacement.
  */
 class ilFileSystemTableGUI extends ilTable2GUI
 {
+    use SecureString; // This is just for those legacy classes which will be removed soon anyway.
     protected bool $has_multi = false;
     protected array $row_commands = [];
     protected bool $label_enable = false;
     protected string $label_header = "";
     protected string $cur_dir = '';
     protected string $cur_subdir = '';
+    protected string $relative_cur_dir;
     protected ?bool $post_dir_path = null;
     protected array $file_labels = [];
-
+    protected \ILIAS\Filesystem\Filesystem $filesystem;
+    protected ilFileSystemGUI $filesystem_gui;
     /**
      * Constructor
      */
     public function __construct(
-        object $a_parent_obj,
+        ilFileSystemGUI $a_parent_obj,
         string $a_parent_cmd,
         string $a_cur_dir,
         string $a_cur_subdir,
@@ -45,24 +52,29 @@ class ilFileSystemTableGUI extends ilTable2GUI
         ?string $a_table_id = ""
     ) {
         global $DIC;
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->lng = $DIC['lng'];
-
         $this->setId($a_table_id);
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        if ($a_cur_dir !== realpath($a_cur_dir)) {
+            throw new \InvalidArgumentException('$a_cur_dir must be a absolute path');
+        }
+        $this->filesystem = LegacyPathHelper::deriveFilesystemFrom($a_cur_dir);
+        $this->relative_cur_dir = LegacyPathHelper::createRelativePath($a_cur_dir);
         $this->cur_dir = $a_cur_dir;
         $this->cur_subdir = $a_cur_subdir;
         $this->label_enable = $a_label_enable;
         $this->label_header = $a_label_header;
         $this->file_labels = $a_file_labels;
         $this->post_dir_path = $a_post_dir_path;
+        $this->filesystem_gui = $a_parent_obj;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setTitle($this->lng->txt("cont_files") . " " . $this->cur_subdir);
 
         $this->has_multi = false;
 
-        foreach ($a_commands as $i => $command) {
-            if (!$command["single"]) {
+        foreach ((array) $a_commands as $i => $command) {
+            if (!($command["single"] ?? false)) {
                 // does also handle internal commands
                 $this->addMultiCommand("extCommand_" . $i, $command["name"]);
                 $this->has_multi = true;
@@ -70,11 +82,10 @@ class ilFileSystemTableGUI extends ilTable2GUI
                 $this->row_commands[] = array(
                     "cmd" => "extCommand_" . $i,
                     "caption" => $command["name"],
-                    "allow_dir" => $command["allow_dir"]
+                    "allow_dir" => $command["allow_dir"] ?? ""
                 );
             }
         }
-
         $this->addColumns();
 
         $this->setDefaultOrderField("name");
@@ -89,7 +100,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field == "size") {
             return true;
@@ -97,7 +108,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         return false;
     }
 
-    protected function prepareOutput() : void
+    protected function prepareOutput(): void
     {
         $this->determineOffsetAndOrder(true);
         $this->setData($this->getEntries());
@@ -106,10 +117,33 @@ class ilFileSystemTableGUI extends ilTable2GUI
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function getEntries() : array
+    public function getEntries(): array
     {
-        if (is_dir($this->cur_dir)) {
-            $entries = ilFileUtils::getDir($this->cur_dir);
+        if ($this->filesystem->has($this->relative_cur_dir)) {
+            $entries = [];
+            if ($this->cur_dir!=='') {
+                $entries['..'] = [
+                    'order_val' => -1,
+                    'order_id' => -1,
+                    'entry' => '..',
+                    'type' => 'dir',
+                    'subdir' => '',
+                    'size' => 0
+                ];
+            }
+
+
+            foreach ($this->filesystem->listContents($this->relative_cur_dir) as $i => $content) {
+                $basename = basename($content->getPath());
+                $entries[$basename] = [
+                    'order_val' => $i,
+                    'order_id' => $i,
+                    'entry' => $basename,
+                    'type' => $content->isDir() ? 'dir' : 'file',
+                    'subdir' => '',
+                    'size' => $content->isFile() ? $this->filesystem->getSize($content->getPath(), 1)->inBytes() : 0
+                ];
+            }
         } else {
             $entries = array(array("type" => "dir", "entry" => ".."));
         }
@@ -124,7 +158,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
                 : $e["entry"];
 
             if ($this->label_enable) {
-                $label = (is_array($this->file_labels[$cfile]))
+                $label = (isset($this->file_labels[$cfile]) && is_array($this->file_labels[$cfile]))
                     ? implode(", ", $this->file_labels[$cfile])
                     : "";
             }
@@ -136,14 +170,14 @@ class ilFileSystemTableGUI extends ilTable2GUI
                              "entry" => $e["entry"],
                              "type" => $e["type"],
                              "label" => $label ?? '',
-                             "size" => $e["size"],
+                             "size" => $e["size"] ?? '',
                              "name" => $pref . $e["entry"]
             );
         }
         return $items;
     }
 
-    public function addColumns() : void
+    public function addColumns(): void
     {
         if ($this->has_multi) {
             $this->setSelectAllCheckbox("file[]");
@@ -163,7 +197,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         }
     }
 
-    private function isDoubleDotDirectory(array $entry) : bool
+    private function isDoubleDotDirectory(array $entry): bool
     {
         return $entry['entry'] === '..';
     }
@@ -171,7 +205,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $hash = $this->post_dir_path
             ? md5($a_set["file"])
@@ -211,7 +245,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
             $this->ctrl->setParameter($this->parent_obj, "resetoffset", "");
         } else {
             $this->tpl->setCurrentBlock("File");
-            $this->tpl->setVariable("TXT_FILENAME2", $a_set["entry"]);
+            $this->tpl->setVariable("TXT_FILENAME2", $this->secure($a_set["entry"]));
             $this->tpl->parseCurrentBlock();
         }
 

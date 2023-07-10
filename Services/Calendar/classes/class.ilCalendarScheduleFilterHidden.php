@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -24,7 +26,7 @@ class ilCalendarScheduleFilterHidden implements ilCalendarScheduleFilter
     /**
      * @ineritDoc
      */
-    public function filterCategories(array $a_cats) : array
+    public function filterCategories(array $a_cats): array
     {
         return $this->hidden_cat->filterHidden(
             $a_cats,
@@ -35,7 +37,7 @@ class ilCalendarScheduleFilterHidden implements ilCalendarScheduleFilter
     /**
      * @inheritDoc
      */
-    public function modifyEvent(ilCalendarEntry $a_event) : ?ilCalendarEntry
+    public function modifyEvent(ilCalendarEntry $a_event): ?ilCalendarEntry
     {
         // the not is ok since isAppointmentVisible return false for visible appointments
         if (!$this->hidden_cat->isAppointmentVisible($a_event->getEntryId())) {
@@ -47,7 +49,7 @@ class ilCalendarScheduleFilterHidden implements ilCalendarScheduleFilter
     /**
      * @inheritDoc
      */
-    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories) : array
+    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories): array
     {
         return [];
     }

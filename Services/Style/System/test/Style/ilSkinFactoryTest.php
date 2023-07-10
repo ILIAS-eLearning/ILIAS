@@ -27,7 +27,7 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
     protected ilSkinStyle $style2;
     protected ilSkinFactory $factory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -62,7 +62,7 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
         $DIC['tpl'] = $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock();
     }
 
-    public function testSkinFromXML() : void
+    public function testSkinFromXML(): void
     {
         $factory = new ilSkinFactory($this->lng);
         $skin = $factory->skinFromXML($this->system_style_config->getCustomizingSkinPath() . 'skin1/template.xml');
@@ -72,7 +72,7 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
         );
     }
 
-    public function testSkinStyleContainerFromId() : void
+    public function testSkinStyleContainerFromId(): void
     {
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $this->assertEquals($container->getSkin()->getId(), $this->skin->getId());
@@ -82,7 +82,7 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($container->getSkin()->getStyle($this->style2->getId()), $this->style2);
     }
 
-    public function testCopySkin() : void
+    public function testCopySkin(): void
     {
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $skin = $container->getSkin();
@@ -105,7 +105,7 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
         $this->assertEquals('0.1', $skin_copy->getVersion());
     }
 
-    public function testCopySkinWithInjectedName() : void
+    public function testCopySkinWithInjectedName(): void
     {
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $skin = $container->getSkin();
@@ -117,8 +117,11 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
         $this->assertEquals('0.1', $skin_copy->getVersion());
     }
 
-    public function testImportSkin() : void
+    public function testImportSkin(): void
     {
+        $this->markTestSkipped('This test is skipped, because it is not possible to create a zip file, which can be unzipped at the moment in Test-Context. The test is violating thr policy to access only directories which are known to the LegacyPathHelper.');
+
+
         if (!defined('PATH_TO_ZIP')) {
             if (file_exists('ilias.ini.php')) {
                 $ini = parse_ini_file('ilias.ini.php', true);
@@ -142,7 +145,7 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
         }
 
         //Only perform this test, if an unzip path has been found.
-        if (PATH_TO_UNZIP != '') {
+        if (PATH_TO_UNZIP != '' && PATH_TO_ZIP != "") {
             $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
             $skin = $container->getSkin();
 

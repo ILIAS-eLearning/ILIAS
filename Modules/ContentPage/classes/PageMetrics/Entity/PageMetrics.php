@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ContentPage\PageMetrics\Entity;
 
 use ILIAS\ContentPage\PageMetrics\ValueObject\PageReadingTime;
@@ -26,35 +28,30 @@ use ILIAS\ContentPage\PageMetrics\ValueObject\PageReadingTime;
  */
 class PageMetrics
 {
-    private int $contentPageId;
-    private int $pageId;
-    private string $language;
-    private PageReadingTime $readingTime;
-
-    public function __construct(int $contentPageId, int $pageId, string $language, PageReadingTime $readingTime)
-    {
-        $this->contentPageId = $contentPageId;
-        $this->pageId = $pageId;
-        $this->language = $language;
-        $this->readingTime = $readingTime;
+    public function __construct(
+        private readonly int $contentPageId,
+        private readonly int $pageId,
+        private readonly string $language,
+        private readonly PageReadingTime $readingTime
+    ) {
     }
 
-    public function contentPageId() : int
+    public function contentPageId(): int
     {
         return $this->contentPageId;
     }
 
-    public function pageId() : int
+    public function pageId(): int
     {
         return $this->pageId;
     }
 
-    public function language() : string
+    public function language(): string
     {
         return $this->language;
     }
 
-    public function readingTime() : PageReadingTime
+    public function readingTime(): PageReadingTime
     {
         return $this->readingTime;
     }

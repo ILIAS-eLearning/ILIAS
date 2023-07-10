@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -26,27 +28,27 @@ class ilWebServicesSetupConfig implements Setup\Config
         $this->rpc_server_port = $rpc_server_port;
     }
 
-    public function isSOAPUserAdministration() : bool
+    public function isSOAPUserAdministration(): bool
     {
         return $this->soap_user_administration;
     }
 
-    public function getSOAPWsdlPath() : string
+    public function getSOAPWsdlPath(): string
     {
         return $this->soap_wsdl_path;
     }
 
-    public function getSOAPConnectTimeout() : int
+    public function getSOAPConnectTimeout(): int
     {
         return $this->soap_connect_timeout;
     }
 
-    public function getRPCServerHost() : string
+    public function getRPCServerHost(): string
     {
         return $this->rpc_server_host;
     }
 
-    public function getRPCServerPort() : int
+    public function getRPCServerPort(): int
     {
         return $this->rpc_server_port;
     }

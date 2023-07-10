@@ -1,5 +1,22 @@
-<?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=0);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -27,7 +44,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         bool $a_print_mode = false
     ) {
         global $DIC;
-
         $this->objDefinition = $DIC['objDefinition'];
         $this->rbacsystem = $DIC->rbac()->system();
         $this->access = $DIC->access();
@@ -63,7 +79,12 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         $labels = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $c) {
-            $this->addColumn($labels[$c]["txt"], $c);
+            // see bug #35119; these column list percentage lists and are not sortable
+            if (in_array($c, ["status", "mark", "language", "country", "gender", "city", "sel_country"])) {
+                $this->addColumn($labels[$c]["txt"]);
+            } else {
+                $this->addColumn($labels[$c]["txt"], $c);
+            }
         }
 
         if ($this->rbacsystem->checkAccess('write', $this->ref_id)) {
@@ -82,7 +103,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         $this->getItems($a_parent_obj->getObjId(), $a_ref_id);
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         $lng_map = array("user_total" => "users",
                          "first_access_min" => "trac_first_access",
@@ -113,29 +134,29 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS
         )) {
             if ($this->is_root || !$this->type || ilObjectLP::supportsSpentSeconds(
-                    $this->type
-                )) {
+                $this->type
+            )) {
                 $all[] = "spent_seconds_avg";
                 $default[] = "spent_seconds_avg";
             }
         }
         if ($tracking->hasExtendedData(
-                ilObjUserTracking::EXTENDED_DATA_READ_COUNT
-            ) &&
+            ilObjUserTracking::EXTENDED_DATA_READ_COUNT
+        ) &&
             $tracking->hasExtendedData(
                 ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS
             )) {
             if ($this->is_root || !$this->type || ilObjectLP::supportsSpentSeconds(
-                    $this->type
-                )) {
+                $this->type
+            )) {
                 $all[] = "read_count_spent_seconds_avg";
                 // $default[] = "read_count_spent_seconds_avg";
             }
         }
 
         if ($this->is_root || !$this->type || $this->isPercentageAvailable(
-                $this->obj_id
-            )) {
+            $this->obj_id
+        )) {
             $all[] = "percentage_avg";
         }
 
@@ -145,8 +166,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         }
 
         if ($this->is_root || !$this->type || ilObjectLP::supportsMark(
-                $this->type
-            )) {
+            $this->type
+        )) {
             $all[] = "mark";
         }
 
@@ -191,7 +212,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             $txt = $prefix . $this->lng->txt($l);
 
             if (in_array(
-                $column, array("read_count_avg",
+                $column,
+                array("read_count_avg",
                                "spent_seconds_avg",
                                "percentage_avg"
             )
@@ -207,7 +229,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         return $columns;
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         if ($this->is_root) {
             parent::initBaseFilter(true, false);
@@ -229,7 +251,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             ilObjUserTracking::EXTENDED_DATA_READ_COUNT
         )) {
             $item = $this->addFilterItemByMetaType(
-                "read_count",
+                "read_count_sum",
                 ilTable2GUI::FILTER_NUMBER_RANGE,
                 true,
                 "&#8721; " . $this->lng->txt("trac_read_count")
@@ -241,8 +263,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS
         )) {
             if ($this->is_root || !$this->type || ilObjectLP::supportsSpentSeconds(
-                    $this->type
-                )) {
+                $this->type
+            )) {
                 $item = $this->addFilterItemByMetaType(
                     "spent_seconds",
                     ilTable2GUI::FILTER_DURATION_RANGE,
@@ -261,8 +283,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         }
 
         if ($this->is_root || !$this->type || $this->isPercentageAvailable(
-                $this->obj_id
-            )) {
+            $this->obj_id
+        )) {
             $item = $this->addFilterItemByMetaType(
                 "percentage",
                 ilTable2GUI::FILTER_NUMBER_RANGE,
@@ -276,7 +298,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         if ($this->is_root || !$this->olp || $this->olp->isActive()) {
             $item = $this->addFilterItemByMetaType(
-                "status", ilTable2GUI::FILTER_SELECT, true
+                "status",
+                ilTable2GUI::FILTER_SELECT,
+                true
             );
             $item->setOptions(
                 array("" => $this->lng->txt("trac_all"),
@@ -300,14 +324,17 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             }
 
             $item = $this->addFilterItemByMetaType(
-                "trac_status_changed", ilTable2GUI::FILTER_DATE_RANGE, true
+                "status_changed_max",
+                ilTable2GUI::FILTER_DATE_RANGE,
+                true,
+                $this->lng->txt("trac_status_changed")
             );
             $this->filter["status_changed"] = $item->getDate();
         }
 
         if ($this->is_root || !$this->type || ilObjectLP::supportsMark(
-                $this->type
-            )) {
+            $this->type
+        )) {
             $item = $this->addFilterItemByMetaType(
                 "mark",
                 ilTable2GUI::FILTER_TEXT,
@@ -319,7 +346,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         if ($this->setting->get("usr_settings_course_export_gender")) {
             $item = $this->addFilterItemByMetaType(
-                "gender", ilTable2GUI::FILTER_SELECT, true
+                "gender",
+                ilTable2GUI::FILTER_SELECT,
+                true
             );
             $item->setOptions(
                 array(
@@ -334,21 +363,27 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         if ($this->setting->get("usr_settings_course_export_city")) {
             $item = $this->addFilterItemByMetaType(
-                "city", ilTable2GUI::FILTER_TEXT, true
+                "city",
+                ilTable2GUI::FILTER_TEXT,
+                true
             );
             $this->filter["city"] = $item->getValue();
         }
 
         if ($this->setting->get("usr_settings_course_export_country")) {
             $item = $this->addFilterItemByMetaType(
-                "country", ilTable2GUI::FILTER_TEXT, true
+                "country",
+                ilTable2GUI::FILTER_TEXT,
+                true
             );
             $this->filter["country"] = $item->getValue();
         }
 
         if ($this->setting->get("usr_settings_course_export_sel_country")) {
             $item = $this->addFilterItemByMetaType(
-                "sel_country", ilTable2GUI::FILTER_SELECT, true
+                "sel_country",
+                ilTable2GUI::FILTER_SELECT,
+                true
             );
             $item->setOptions(
                 array("" => $this->lng->txt(
@@ -360,7 +395,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         }
 
         $item = $this->addFilterItemByMetaType(
-            "language", ilTable2GUI::FILTER_LANGUAGE, true
+            "language",
+            ilTable2GUI::FILTER_LANGUAGE,
+            true
         );
         $this->filter["language"] = $item->getValue();
 
@@ -368,23 +405,31 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS
         )) {
             $item = $this->addFilterItemByMetaType(
-                "trac_first_access", ilTable2GUI::FILTER_DATETIME_RANGE, true
+                "first_access_min",
+                ilTable2GUI::FILTER_DATETIME_RANGE,
+                true,
+                $this->lng->txt("trac_first_access")
             );
             $this->filter["first_access"] = $item->getDate();
 
             $item = $this->addFilterItemByMetaType(
-                "trac_last_access", ilTable2GUI::FILTER_DATETIME_RANGE, true
+                "last_access_max",
+                ilTable2GUI::FILTER_DATETIME_RANGE,
+                true,
+                $this->lng->txt("trac_last_access")
             );
             $this->filter["last_access"] = $item->getDate();
         }
 
         $item = $this->addFilterItemByMetaType(
-            "registration_filter", ilTable2GUI::FILTER_DATE_RANGE, true
+            "registration_filter",
+            ilTable2GUI::FILTER_DATE_RANGE,
+            true
         );
         $this->filter["registration"] = $item->getDate();
     }
 
-    public function getSelCountryCodes() : array
+    public function getSelCountryCodes(): array
     {
         $options = array();
         foreach (ilCountry::getCountryCodes() as $c) {
@@ -397,7 +442,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
     /**
      * Build summary item rows for given object and filter(s
      */
-    public function getItems(int $a_object_id, int $a_ref_id) : void
+    public function getItems(int $a_object_id, int $a_ref_id): void
     {
         // show only selected subobjects for lp mode
         $preselected_obj_ids = $filter = null;
@@ -426,7 +471,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             // using search to get all relevant objects
             // #8498/#8499: restrict to objects with at least "read_learning_progress" access
             $preselected_obj_ids = $this->searchObjects(
-                $this->getCurrentFilter(true), "read_learning_progress"
+                $this->getCurrentFilter(true),
+                "read_learning_progress"
             );
         } else {
             // using summary filters
@@ -452,10 +498,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                               ilLPStatus::LP_STATUS_FAILED_NUM
         );
         $status_map = array();
+        $status_icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
         foreach ($valid_status as $status) {
-            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-            $text = ilLearningProgressBaseGUI::_getStatusText($status);
-            $status_map[$status] = ilUtil::img($path, $text);
+            $status_map[$status] = $status_icons->renderIconForStatus($status);
         }
 
         // language map
@@ -484,7 +529,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                 $valid = false;
                 foreach ($result["ref_ids"] as $check_ref_id) {
                     if (ilLearningProgressAccess::checkPermission(
-                        'read_learning_progress', $check_ref_id
+                        'read_learning_progress',
+                        $check_ref_id
                     )) {
                         $valid = true;
                         break;
@@ -493,7 +539,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                 if (!$valid) {
                     foreach (array_keys($data["set"][$idx]) as $col_id) {
                         if (!in_array(
-                            $col_id, array("type",
+                            $col_id,
+                            array("type",
                                            "title",
                                            "obj_id",
                                            "ref_id",
@@ -511,17 +558,21 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             // percentages
             $users_no = $result["user_total"];
             $data["set"][$idx]["country"] = $this->getItemsPercentages(
-                $result["country"], $users_no
+                $result["country"],
+                $users_no
             );
             $data["set"][$idx]["gender"] = $this->getItemsPercentages(
-                $result["gender"], $users_no, array(
+                $result["gender"],
+                $users_no,
+                array(
                 "n" => $this->lng->txt("gender_n"),
                 "m" => $this->lng->txt("gender_m"),
                 "f" => $this->lng->txt("gender_f"),
             )
             );
             $data["set"][$idx]["city"] = $this->getItemsPercentages(
-                $result["city"], $users_no
+                $result["city"],
+                $users_no
             );
             $data["set"][$idx]["sel_country"] = $this->getItemsPercentages(
                 $result["sel_country"],
@@ -529,24 +580,31 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                 $this->getSelCountryCodes()
             );
             $data["set"][$idx]["mark"] = $this->getItemsPercentages(
-                $result["mark"], $users_no
+                $result["mark"],
+                $users_no
             );
             $data["set"][$idx]["language"] = $this->getItemsPercentages(
-                $result["language"], $users_no, $languages
+                $result["language"],
+                $users_no,
+                $languages
             );
 
             // if we encounter any invalid status codes, e.g. null, map them to not attempted instead
             foreach ($result["status"] as $status_code => $status_counter) {
                 // null is cast to ""
                 if ($status_code === "" || !in_array(
-                        $status_code, $valid_status
-                    )) {
-                    $result["status"][ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM] += $status_counter;
+                    $status_code,
+                    $valid_status
+                )) {
+                    $result['status'][ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM] =
+                        $result['status'][ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM] ?? 0 + $status_counter;
                     unset($result["status"][$status_code]);
                 }
             }
             $data["set"][$idx]["status"] = $this->getItemsPercentagesStatus(
-                $result["status"], $users_no, $status_map
+                $result["status"],
+                $users_no,
+                $status_map
             );
 
             if (!$this->isPercentageAvailable($result["obj_id"])) {
@@ -566,7 +624,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         int $overall = 0,
         array $value_map = null,
         $limit = 3
-    ) : array {
+    ): array {
         if (!$overall) {
             return [];
         }
@@ -619,8 +677,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                 $perc = round($others_sum / $overall * 100);
                 $result[] = array(
                     "caption" => $others_counter . "  " . $this->lng->txt(
-                            "trac_others"
-                        ),
+                        "trac_others"
+                    ),
                     "absolute" => $others_sum,
                     // ." ".($others_sum > 1 ? $lng->txt("users") : $lng->txt("user")),
                     "percentage" => $perc
@@ -638,7 +696,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         $data = null,
         int $overall = 0,
         array $value_map = null
-    ) : array {
+    ): array {
         $result = array();
         foreach ($value_map as $id => $caption) {
             $count = 0;
@@ -659,21 +717,22 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
     protected function parseValue(
         string $id,
-        string $value,
+        ?string $value,
         string $type
-    ) : string {
+    ): string {
         // get rid of aggregation
         $pos = strrpos($id, "_");
         if ($pos !== false) {
             $function = strtoupper(substr($id, $pos + 1));
             if (in_array(
-                $function, array("MIN", "MAX", "SUM", "AVG", "COUNT")
+                $function,
+                array("MIN", "MAX", "SUM", "AVG", "COUNT")
             )) {
                 $id = substr($id, 0, $pos);
             }
         }
 
-        if (trim($value) == "") {
+        if (trim((string) $value) == "") {
             if ($id == "title") {
                 return "--" . $this->lng->txt("none") . "--";
             }
@@ -700,7 +759,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                     $value = "-";
                 } else {
                     $value = ilDatePresentation::secondsToString(
-                        (int) $value, $value < 3600
+                        (int) $value,
+                        $value < 3600
                     ); // #14858
                 }
                 break;
@@ -726,22 +786,25 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable(
-            "ICON", ilObject::_getIcon(
-            (int) $a_set["obj_id"], "tiny", $a_set["type"]
-        )
+            "ICON",
+            ilObject::_getIcon(
+                (int) $a_set["obj_id"],
+                "tiny",
+                $a_set["type"]
+            )
         );
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
         $this->tpl->setVariable("TITLE", $a_set["title"]);
 
-        if ($a_set["offline"] || $a_set["privacy_conflict"]) {
+        if ($a_set["offline"] || ($a_set["privacy_conflict"] ?? null)) {
             $mess = array();
             if ($a_set["offline"]) {
                 $mess[] = $this->lng->txt("offline");
             }
-            if ($a_set["privacy_conflict"]) {
+            if ($a_set["privacy_conflict"] ?? null) {
                 $mess[] = $this->lng->txt("status_no_permission");
             }
             $this->tpl->setCurrentBlock("status_bl");
@@ -763,13 +826,13 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
                 case "percentage_avg":
                     if ((int) $a_set[$c] === 0 || !$this->isPercentageAvailable(
-                            $a_set["obj_id"]
-                        )) {
+                        $a_set["obj_id"]
+                    )) {
                         $this->tpl->setVariable(strtoupper($c), "");
                         break;
                     }
 
-                // no break
+                    // no break
                 default:
                     $value = $this->parseValue($c, $a_set[$c], $a_set["type"]);
                     $this->tpl->setVariable(strtoupper($c), $value);
@@ -786,30 +849,39 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
                     if (!$this->anonymized) {
                         $this->ctrl->setParameterByClass(
-                            $this->ctrl->getCmdClass(), 'details_id', $ref_id
+                            $this->ctrl->getCmdClass(),
+                            'details_id',
+                            $ref_id
                         );
                         $this->tpl->setVariable(
                             "URL_DETAILS",
                             $this->ctrl->getLinkTargetByClass(
-                                $this->ctrl->getCmdClass(), 'details'
+                                $this->ctrl->getCmdClass(),
+                                'details'
                             )
                         );
                         $this->ctrl->setParameterByClass(
-                            $this->ctrl->getCmdClass(), 'details_id', ''
+                            $this->ctrl->getCmdClass(),
+                            'details_id',
+                            ''
                         );
                         $this->tpl->setVariable(
-                            "TXT_DETAILS", $this->lng->txt(
-                            'trac_participants'
-                        )
+                            "TXT_DETAILS",
+                            $this->lng->txt(
+                                'trac_participants'
+                            )
                         );
                     } else {
                         $this->tpl->setVariable(
-                            "URL_DETAILS", ilLink::_getLink(
-                            $ref_id, $a_set["type"]
-                        )
+                            "URL_DETAILS",
+                            ilLink::_getLink(
+                                $ref_id,
+                                $a_set["type"]
+                            )
                         );
                         $this->tpl->setVariable(
-                            "TXT_DETAILS", $this->lng->txt('view')
+                            "TXT_DETAILS",
+                            $this->lng->txt('view')
                         );
                     }
 
@@ -819,15 +891,20 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
             $this->tpl->setCurrentBlock("item_command");
             $this->ctrl->setParameterByClass(
-                get_class($this), 'hide', $a_set["obj_id"]
+                get_class($this),
+                'hide',
+                $a_set["obj_id"]
             );
             $this->tpl->setVariable(
-                "HREF_COMMAND", $this->ctrl->getLinkTargetByClass(
-                get_class($this), 'hide'
-            )
+                "HREF_COMMAND",
+                $this->ctrl->getLinkTargetByClass(
+                    get_class($this),
+                    'hide'
+                )
             );
             $this->tpl->setVariable(
-                "TXT_COMMAND", $this->lng->txt('trac_hide')
+                "TXT_COMMAND",
+                $this->lng->txt('trac_hide')
             );
             $this->tpl->parseCurrentBlock();
 
@@ -836,17 +913,19 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             // #16453
             $path = new ilPathGUI();
             $path = $path->getPath(
-                $this->ref_id, (int) array_pop($a_set["ref_ids"])
+                $this->ref_id,
+                (int) array_pop($a_set["ref_ids"])
             );
             if ($path) {
                 $this->tpl->setVariable(
-                    'COLL_PATH', $this->lng->txt('path') . ': ' . $path
+                    'COLL_PATH',
+                    $this->lng->txt('path') . ': ' . $path
                 );
             }
         }
     }
 
-    protected function renderPercentages(string $id, array $data) : void
+    protected function renderPercentages(string $id, array $data): void
     {
         if ($data) {
             foreach ($data as $item) {
@@ -861,10 +940,11 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function isArrayColumn(string $a_name) : bool
+    protected function isArrayColumn(string $a_name): bool
     {
         if (in_array(
-            $a_name, array("country",
+            $a_name,
+            array("country",
                            "gender",
                            "city",
                            "language",
@@ -878,13 +958,14 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         return false;
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         $pos = strrpos($a_field, "_");
         if ($pos !== false) {
             $function = strtoupper(substr($a_field, $pos + 1));
             if (in_array(
-                $function, array("MIN", "MAX", "SUM", "AVG", "COUNT", "TOTAL")
+                $function,
+                array("MIN", "MAX", "SUM", "AVG", "COUNT", "TOTAL")
             )) {
                 return true;
             }
@@ -892,7 +973,12 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         return false;
     }
 
-    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
+    public function isStatusShown(): bool
+    {
+        return in_array('status', $this->getSelectedColumns());
+    }
+
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt("title"));
 
@@ -901,10 +987,14 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         foreach ($this->getSelectedColumns() as $c) {
             $label = $labels[$c]["txt"];
             $label = str_replace(
-                "&#216;", $this->lng->txt("trac_average"), $label
+                "&#216;",
+                $this->lng->txt("trac_average"),
+                $label
             );
             $label = str_replace(
-                "&#8721;", $this->lng->txt("trac_sum"), $label
+                "&#8721;",
+                $this->lng->txt("trac_sum"),
+                $label
             );
 
             if (!$this->isArrayColumn($c)) {
@@ -922,19 +1012,25 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                     $a_excel->setCell($a_row, ++$cnt, $label . " #3");
                     $a_excel->setCell($a_row, ++$cnt, $label . " #3 %");
                     $a_excel->setCell(
-                        $a_row, ++$cnt, $label . " " . $this->lng->txt(
-                                  "trac_others"
-                              )
+                        $a_row,
+                        ++$cnt,
+                        $label . " " . $this->lng->txt(
+                            "trac_others"
+                        )
                     );
                     $a_excel->setCell(
-                        $a_row, ++$cnt, $label . " " . $this->lng->txt(
-                                  "trac_others"
-                              )
+                        $a_row,
+                        ++$cnt,
+                        $label . " " . $this->lng->txt(
+                            "trac_others"
+                        )
                     );
                     $a_excel->setCell(
-                        $a_row, ++$cnt, $label . " " . $this->lng->txt(
-                                  "trac_others"
-                              ) . " %"
+                        $a_row,
+                        ++$cnt,
+                        $label . " " . $this->lng->txt(
+                            "trac_others"
+                        ) . " %"
                     );
                 } else {
                     // build status to image map
@@ -965,7 +1061,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         ilExcel $a_excel,
         int &$a_row,
         array $a_set
-    ) : void {
+    ): void {
         $a_excel->setCell($a_row, 0, $a_set["title"]);
 
         $cnt = 1;
@@ -978,18 +1074,26 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                 foreach ((array) $a_set[$c] as $idx => $value) {
                     if ($c == "status") {
                         $a_excel->setCell(
-                            $a_row, $cnt, (int) $value["absolute"]
+                            $a_row,
+                            $cnt,
+                            (int) $value["absolute"]
                         );
                         $a_excel->setCell(
-                            $a_row, ++$cnt, $value["percentage"] . "%"
+                            $a_row,
+                            ++$cnt,
+                            $value["percentage"] . "%"
                         );
                     } else {
                         $a_excel->setCell($a_row, $cnt, $value["caption"]);
                         $a_excel->setCell(
-                            $a_row, ++$cnt, (int) $value["absolute"]
+                            $a_row,
+                            ++$cnt,
+                            (int) $value["absolute"]
                         );
                         $a_excel->setCell(
-                            $a_row, ++$cnt, $value["percentage"] . "%"
+                            $a_row,
+                            ++$cnt,
+                            $value["percentage"] . "%"
                         );
                     }
                     $cnt++;
@@ -1006,7 +1110,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
+    protected function fillHeaderCSV(ilCSVWriter $a_csv): void
     {
         $a_csv->addColumn($this->lng->txt("title"));
 
@@ -1014,10 +1118,14 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         foreach ($this->getSelectedColumns() as $c) {
             $label = $labels[$c]["txt"];
             $label = str_replace(
-                "&#216;", $this->lng->txt("trac_average"), $label
+                "&#216;",
+                $this->lng->txt("trac_average"),
+                $label
             );
             $label = str_replace(
-                "&#8721;", $this->lng->txt("trac_sum"), $label
+                "&#8721;",
+                $this->lng->txt("trac_sum"),
+                $label
             );
 
             if (!$this->isArrayColumn($c)) {
@@ -1063,7 +1171,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         $a_csv->addColumn($a_set["title"]);
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -13,25 +15,25 @@ class ilCOPageDefinitionProcessor implements ilComponentDefinitionProcessor
         $this->db = $db;
     }
 
-    public function purge() : void
+    public function purge(): void
     {
         $this->db->manipulate("DELETE FROM copg_pc_def");
         $this->db->manipulate("DELETE FROM copg_pobj_def");
     }
 
-    public function beginComponent(string $component, string $type) : void
+    public function beginComponent(string $component, string $type): void
     {
         $this->component = $component;
         $this->type = $type;
     }
 
-    public function endComponent(string $component, string $type) : void
+    public function endComponent(string $component, string $type): void
     {
         $this->component = null;
         $this->type = null;
     }
 
-    public function beginTag(string $name, array $attributes) : void
+    public function beginTag(string $name, array $attributes): void
     {
         switch ($name) {
             case "pagecontent":
@@ -62,7 +64,7 @@ class ilCOPageDefinitionProcessor implements ilComponentDefinitionProcessor
         }
     }
 
-    public function endTag(string $name) : void
+    public function endTag(string $name): void
     {
     }
 }

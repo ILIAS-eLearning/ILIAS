@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\KioskMode\LocatorBuilder;
 use ILIAS\KioskMode\ControlBuilder;
 
@@ -38,7 +40,7 @@ class LSLocatorBuilder implements LocatorBuilder
     /**
      * @return int[][]|string[][]
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }
@@ -46,7 +48,7 @@ class LSLocatorBuilder implements LocatorBuilder
     /**
      * @inheritdoc
      */
-    public function end() : ControlBuilder
+    public function end(): ControlBuilder
     {
         return $this->control_builder;
     }
@@ -54,7 +56,7 @@ class LSLocatorBuilder implements LocatorBuilder
     /**
      * @inheritdoc
      */
-    public function item(string $label, int $parameter) : LocatorBuilder
+    public function item(string $label, int $parameter): LocatorBuilder
     {
         $this->items[] = [
             'label' => $label,

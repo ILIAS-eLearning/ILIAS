@@ -9,17 +9,17 @@ class AwarenessSessionRepositoryTest extends TestCase
 {
     protected \ILIAS\Awareness\AwarenessSessionRepository $repo;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repo = new \ILIAS\Awareness\AwarenessSessionRepository();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    public function testCount() : void
+    public function testCount(): void
     {
         $repo = $this->repo;
         $repo->setCount(15);
@@ -29,7 +29,7 @@ class AwarenessSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testHighlightCount() : void
+    public function testHighlightCount(): void
     {
         $repo = $this->repo;
         $repo->setHighlightCount(6);
@@ -39,7 +39,7 @@ class AwarenessSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testLastUpdate() : void
+    public function testLastUpdate(): void
     {
         $repo = $this->repo;
         $repo->setLastUpdate(1234);
@@ -49,7 +49,7 @@ class AwarenessSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testOnlineUsersTS() : void
+    public function testOnlineUsersTS(): void
     {
         $repo = $this->repo;
         $repo->setOnlineUsersTS("2022-01-01 16:00:05");

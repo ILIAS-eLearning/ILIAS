@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class MediaPoolRepository
         string $format_filter = "",
         string $keyword_filter = '',
         string $caption_filter = ""
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $query = "SELECT DISTINCT mep_tree.*, object_data.* " .
@@ -104,7 +106,7 @@ class MediaPoolRepository
         string $format_filter = "",
         string $keyword_filter = '',
         string $caption_filter = ""
-    ) : array {
+    ): array {
         // format filter snippets come with internal "pg" format
         if (!in_array($format_filter, ["pg", ""])) {
             return [];
@@ -160,19 +162,23 @@ class MediaPoolRepository
         string $format_filter = "",
         string $keyword_filter = "",
         string $caption_filter = ""
-    ) : array {
-        $mobs = $this->getMediaObjects($pool_id,
+    ): array {
+        $mobs = $this->getMediaObjects(
+            $pool_id,
             $title_filter,
             $format_filter,
             $keyword_filter,
-            $caption_filter);
+            $caption_filter
+        );
 
-        $snippets = $this->getContentSnippets($pool_id,
+        $snippets = $this->getContentSnippets(
+            $pool_id,
             $title_filter,
             $format_filter,
             $keyword_filter,
-            $caption_filter);
+            $caption_filter
+        );
 
-         return \ilArrayUtil::sortArray(array_merge($mobs, $snippets), "title", "asc");
+        return \ilArrayUtil::sortArray(array_merge($mobs, $snippets), "title", "asc");
     }
 }

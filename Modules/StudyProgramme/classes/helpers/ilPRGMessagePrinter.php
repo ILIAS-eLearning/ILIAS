@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Util around ilPRGMessageCollection
@@ -20,12 +38,12 @@ class ilPRGMessagePrinter
         $this->tpl = $tpl;
     }
 
-    public function getMessageCollection(string $topic) : ilPRGMessageCollection
+    public function getMessageCollection(string $topic): ilPRGMessageCollection
     {
         return $this->collection->withNewTopic($topic);
     }
 
-    public function showMessages(ilPRGMessageCollection $msg) : void
+    public function showMessages(ilPRGMessageCollection $msg): void
     {
         if ($msg->hasSuccess()) {
             $out = sprintf(
@@ -38,7 +56,7 @@ class ilPRGMessagePrinter
         if ($msg->hasErrors()) {
             $errmsg = [];
             foreach ($msg->getErrors() as $err) {
-                list($message, $rec_indentifier) = $err;
+                [$message, $rec_indentifier] = $err;
                 $errmsg[] = sprintf('<li>%s (%s)</li>', $rec_indentifier, $this->lng->txt($message));
             }
 
@@ -48,7 +66,7 @@ class ilPRGMessagePrinter
             )
             . '<ul>' . implode('', $errmsg) . '</ul>';
 
-            $this->tpl->setOnScreenMessage("success", $out, true);
+            $this->tpl->setOnScreenMessage("failure", $out, true);
         }
     }
 }

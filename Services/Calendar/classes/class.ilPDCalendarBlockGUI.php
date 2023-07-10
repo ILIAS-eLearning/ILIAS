@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -28,7 +30,7 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
     /**
      * @inheritdoc
      */
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
@@ -36,7 +38,7 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
     /**
      * @inheritDoc
      */
-    protected function initCategories() : void
+    protected function initCategories(): void
     {
         if (!$this->initialized) {
             if (ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP) {
@@ -58,7 +60,7 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
     /**
      * @inheritDoc
      */
-    public function returnToUpperContext() : void
+    public function returnToUpperContext(): void
     {
         $this->ctrl->redirectByClass("ildashboardgui", "show");
     }

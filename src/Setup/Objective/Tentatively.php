@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\Objective;
 
 use ILIAS\Setup;
@@ -33,7 +35,7 @@ class Tentatively implements Setup\Objective
         $this->other = $other;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         if ($this->other instanceof Tentatively) {
             return $this->other->getHash();
@@ -41,7 +43,7 @@ class Tentatively implements Setup\Objective
         return "tentatively " . $this->other->getHash();
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         if ($this->other instanceof Tentatively) {
             return $this->other->getLabel();
@@ -49,7 +51,7 @@ class Tentatively implements Setup\Objective
         return "Tentatively: " . $this->other->getLabel();
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return $this->other->isNotable();
     }
@@ -57,13 +59,13 @@ class Tentatively implements Setup\Objective
     /*
      * @inheritdocs
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         if ($this->other instanceof Tentatively) {
             return $this->other->getPreconditions($environment);
         }
         return array_map(
-            function ($p) : \ILIAS\Setup\Objective\Tentatively {
+            function ($p): \ILIAS\Setup\Objective\Tentatively {
                 if ($p instanceof Tentatively) {
                     return $p;
                 }
@@ -76,7 +78,7 @@ class Tentatively implements Setup\Objective
     /**
      * @inheritdocs
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         try {
             return $this->other->achieve($environment);
@@ -88,7 +90,7 @@ class Tentatively implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return $this->other->isApplicable($environment);
     }

@@ -61,7 +61,6 @@ il.UI = il.UI || {};
                 file_input_id: dropzone.find(SELECTOR.file_input).attr('id'),
             };
 
-            adjustModalContentStyles(dropzone);
             initDropzoneEventListeners(dropzone);
             initGlobalEventListeners();
         }
@@ -110,6 +109,14 @@ il.UI = il.UI || {};
                     );
                 }
             }
+        }
+
+        let removeAllFilesFromQueue = function (dropzone_id) {
+            if (typeof dropzones[dropzone_id] === 'undefined') {
+                console.error(`Error: tried accessing unknown dropzone '${dropzone_id}'.`);
+                return;
+            }
+            il.UI.Input.File.removeAllFilesFromQueue(dropzones[dropzone_id].file_input_id);
         }
 
         /**
@@ -164,16 +171,6 @@ il.UI = il.UI || {};
         }
 
         /**
-         * @param {jQuery} dropzone
-         */
-        let adjustModalContentStyles = function (dropzone) {
-            // remove the first form-group column (labels) and
-            // expand the content column to the width of the modal.
-            dropzone.find('.form-group .col-sm-3').css('display', 'none');
-            dropzone.find('.form-group .col-sm-9').css('width', '100%');
-        }
-
-        /**
          * @param {Event} event
          */
         let disableDefaultEventBehaviour = function (event) {
@@ -183,6 +180,7 @@ il.UI = il.UI || {};
 
         return {
             init: init,
+            removeAllFilesFromQueue: removeAllFilesFromQueue,
         }
     })($);
 })($, il.UI);

@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\MediaObjects;
 
@@ -38,7 +43,7 @@ class InternalGUIService
         $this->initGUIServices($DIC);
     }
 
-    public function imageMap() : ImageMap\GUIService
+    public function imageMap(): ImageMap\GUIService
     {
         return new ImageMap\GUIService(
             $this->domain_service,
@@ -46,7 +51,7 @@ class InternalGUIService
         );
     }
 
-    public function creation() : Creation\GUIService
+    public function creation(): Creation\GUIService
     {
         return new Creation\GUIService(
             $this->domain_service,
@@ -54,9 +59,17 @@ class InternalGUIService
         );
     }
 
-    public function subTitles() : SubTitles\GUIService
+    public function subTitles(): SubTitles\GUIService
     {
         return new SubTitles\GUIService(
+            $this->domain_service,
+            $this
+        );
+    }
+
+    public function player(): Player\GUIService
+    {
+        return new Player\GUIService(
             $this->domain_service,
             $this
         );

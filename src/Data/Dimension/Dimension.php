@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,10 +28,10 @@ abstract class Dimension
 {
     protected array $value_labels = [];
 
-    public function getLabels() : array
+    public function getLabels(): array
     {
         return $this->value_labels;
     }
 
-    abstract public function checkValue($value) : void;
+    abstract public function checkValue($value): void;
 }

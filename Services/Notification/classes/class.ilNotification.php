@@ -15,7 +15,6 @@
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilNotification:
  */
 class ilNotification
 {
@@ -38,7 +37,7 @@ class ilNotification
         int $type,
         int $user_id,
         int $id
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -67,8 +66,12 @@ class ilNotification
                     " AND id = " . $ilDB->quote($id, "integer") .
                     " AND activated = " . $ilDB->quote(0, "integer"));
                 $rec = $ilDB->fetchAssoc($set);
+                // if there is no user record, take the default value
+                if (!isset($rec["user_id"])) {
+                    return $notification;
+                }
                 // ... except when the opted out
-                return isset($rec["user_id"]) && $rec["user_id"] !== $user_id;
+                return isset($rec["user_id"]) && ((int) $rec["user_id"] !== $user_id);
             }
 
             if ($notification && $setting->getMode() === ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
@@ -89,7 +92,7 @@ class ilNotification
     /**
      * Is opt out (disable notification) allowed?
      */
-    public static function hasOptOut(int $obj_id) : bool
+    public static function hasOptOut(int $obj_id): bool
     {
         $setting = new ilObjNotificationSettings($obj_id);
         return $setting->getMode() !== ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT;
@@ -103,11 +106,16 @@ class ilNotification
         int $id,
         ?int $page_id = null,
         bool $ignore_threshold = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
         $tree = $DIC->repositoryTree();
+
+
+        $log = ilLoggerFactory::getLogger('noti');
+        $log->debug("Get notifications for type " . $type . ", id " . $id . ", page_id " . $page_id .
+            ", ignore threshold " . $ignore_threshold);
 
         // currently done for blog
         $recipients = array();
@@ -135,6 +143,9 @@ class ilNotification
             }
         }
 
+        $log->debug("Step 1 recipients: " . print_r($recipients, true));
+
+
         // remove all users that deactivated the feature
         if ($setting->getMode() === ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT) {
             $sql = "SELECT user_id FROM notification" .
@@ -145,15 +156,17 @@ class ilNotification
             $set = $ilDB->query($sql);
             while ($rec = $ilDB->fetchAssoc($set)) {
                 unset($recipients[$rec["user_id"]]);
+                $log->debug("Remove due to deactivation: " . $rec["user_id"]);
             }
         }
 
         // remove all users that got a mail
-        if ($setting->getMode() !== ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION && !$ignore_threshold) {
+        // see #22773
+        //if ($setting->getMode() !== ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION && !$ignore_threshold) {
+        if (!$ignore_threshold) {
             $sql = "SELECT user_id FROM notification" .
                 " WHERE type = " . $ilDB->quote($type, "integer") .
                 " AND id = " . $ilDB->quote($id, "integer") .
-                " AND activated = " . $ilDB->quote(1, "integer") .
                 " AND " . $ilDB->in("user_id", $recipients, false, "integer");
             $sql .= " AND (last_mail > " . $ilDB->quote(date(
                 "Y-m-d H:i:s",
@@ -163,10 +176,10 @@ class ilNotification
                 $sql .= " AND page_id = " . $ilDB->quote($page_id, "integer");
             }
             $sql .= ")";
-
             $set = $ilDB->query($sql);
             while ($rec = $ilDB->fetchAssoc($set)) {
                 unset($recipients[$rec["user_id"]]);
+                $log->debug("Remove due to got mail: " . $rec["user_id"]);
             }
         }
 
@@ -190,6 +203,7 @@ class ilNotification
             $set = $ilDB->query($sql);
             while ($row = $ilDB->fetchAssoc($set)) {
                 $recipients[$row["user_id"]] = $row["user_id"];
+                $log->debug("Adding single subscription: " . $row["user_id"]);
             }
         }
 
@@ -204,7 +218,7 @@ class ilNotification
         int $user_id,
         int $id,
         bool $status = true
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -225,10 +239,37 @@ class ilNotification
         int $id,
         array $user_ids,
         ?int $page_id = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
+
+        // create initial entries, if not existing
+        // see #22773, currently only done for wiki, might be feasible for other variants
+        if (in_array($type, [self::TYPE_WIKI, self::TYPE_BLOG])) {
+            $set = $ilDB->queryF(
+                "SELECT user_id FROM notification " .
+                " WHERE type = %s AND id = %s AND " .
+                $ilDB->in("user_id", $user_ids, false, "integer"),
+                ["integer", "integer"],
+                [$type, $id]
+            );
+            $noti_users = [];
+            while ($rec = $ilDB->fetchAssoc($set)) {
+                $noti_users[] = $rec["user_id"];
+            }
+            foreach ($user_ids as $user_id) {
+                if (!in_array($user_id, $noti_users)) {
+                    $ilDB->insert("notification", [
+                        "type" => ["integer", $type],
+                        "id" => ["integer", $id],
+                        "user_id" => ["integer", $user_id],
+                        "page_id" => ["integer", (int) $page_id],
+                        "activated" => ["integer", 1]
+                    ]);
+                }
+            }
+        }
 
         $sql = "UPDATE notification" .
                 " SET last_mail = " . $ilDB->quote(date("Y-m-d H:i:s"), "timestamp");
@@ -240,7 +281,6 @@ class ilNotification
         $sql .= " WHERE type = " . $ilDB->quote($type, "integer") .
                 " AND id = " . $ilDB->quote($id, "integer") .
                 " AND " . $ilDB->in("user_id", $user_ids, false, "integer");
-
         $ilDB->query($sql);
     }
 
@@ -250,7 +290,7 @@ class ilNotification
     public static function removeForObject(
         int $type,
         int $id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -265,7 +305,7 @@ class ilNotification
      */
     public static function removeForUser(
         int $user_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -281,7 +321,7 @@ class ilNotification
     public static function getActivatedNotifications(
         int $type,
         int $user_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $db = $DIC->database();

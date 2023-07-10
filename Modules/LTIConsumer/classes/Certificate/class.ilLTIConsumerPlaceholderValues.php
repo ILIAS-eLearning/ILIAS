@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilLTIConsumerPlaceholderValues
  *
@@ -42,12 +47,7 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
 
     /**
      * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
-     * @param ilLanguage|null $language
-     * @param ilCertificateObjectHelper|null $objectHelper
      * @param ilCertificateTestObjectHelper|null $testObjectHelper
-     * @param ilCertificateUserObjectHelper|null $userObjectHelper
-     * @param ilCertificateLPStatusHelper|null $lpStatusHelper
-     * @param ilCertificateUtilHelper|null $utilHelper
      * @param ilDatePresentation|null $dateHelper
      */
     public function __construct(
@@ -97,13 +97,11 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
     }
 
     /**
-     * @param int $userId
-     * @param int $objId
-     * @return array
      * @throws ilDateTimeException
      * @throws ilException
+     * @return mixed[]
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
@@ -112,21 +110,19 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
 
         $placeholders['MASTERY_SCORE'] = $this->utilHelper->prepareFormOutput($this->language->txt('lti_cert_ph_mastery_score'));
         $placeholders['REACHED_SCORE'] = $this->utilHelper->prepareFormOutput($this->language->txt('lti_cert_ph_reached_score'));
-        
+
         return $placeholders;
     }
 
     /**
-     * @param int $userId
-     * @param int $objId
-     * @return array
      * @throws ilDatabaseException
      * @throws ilDateTimeException
      * @throws ilException
      * @throws ilInvalidCertificateException
      * @throws ilObjectNotFoundException
+     * @return mixed[]
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array
+    public function getPlaceholderValues(int $userId, int $objId): array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
@@ -138,7 +134,7 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
 
         $placeholders['MASTERY_SCORE'] = $this->utilHelper->prepareFormOutput($this->getMasteryScore($object));
         $placeholders['REACHED_SCORE'] = $this->utilHelper->prepareFormOutput($this->getReachedScore($object, $userId));
-        
+
         $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
         if ($completionDate != false &&
             $completionDate !== null &&
@@ -151,27 +147,17 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
         return $placeholders;
     }
 
-    /**
-     * @param ilObjLTIConsumer $object
-     * @return string
-     */
-    protected function getMasteryScore(ilObjLTIConsumer $object) : string
+    protected function getMasteryScore(ilObjLTIConsumer $object): string
     {
-        $masteryScore = sprintf('%0.2f %%', $object->getMasteryScorePercent());
-        return $masteryScore;
+        return sprintf('%0.2f %%', $object->getMasteryScorePercent());
     }
 
-    /**
-     * @param ilObjLTIConsumer $object
-     * @param int              $userId
-     * @return string
-     */
-    protected function getReachedScore(ilObjLTIConsumer $object, int $userId) : string
+    protected function getReachedScore(ilObjLTIConsumer $object, int $userId): string
     {
         $userResult = ilLTIConsumerResult::getByKeys($object->getId(), $userId);
 
         $reachedScore = sprintf('%0.2f %%', 0);
-        if ($userResult) {
+        if ($userResult !== null) {
             $reachedScore = sprintf('%0.2f %%', $userResult->getResult() * 100);
         }
 

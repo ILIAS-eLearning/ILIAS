@@ -33,7 +33,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         ilMath::setDefaultAdapter($this->mathAdapter);
         $this->evalMath = new EvalMath();
@@ -48,7 +48,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
      * @param string $actual
      * @param string $expected
      */
-    private function assertEqualNumbers(string $actual, string $expected) : void
+    private function assertEqualNumbers(string $actual, string $expected): void
     {
         $differ = new Differ(new UnifiedDiffOutputBuilder("\n--- Expected\n+++ Actual\n"));
 
@@ -59,7 +59,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @dataProvider addData
      */
-    public function testAdd(string $a, string $b, string $result, int $scale) : void
+    public function testAdd(string $a, string $b, string $result, int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->add($a, $b, $scale));
     }
@@ -67,7 +67,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider subData
      */
-    public function testSub(string $a, string $b, string $result, int $scale) : void
+    public function testSub(string $a, string $b, string $result, int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->sub($a, $b, $scale));
     }
@@ -75,7 +75,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider mulData
      */
-    public function testMul(string $a, string $b, string $result, int $scale) : void
+    public function testMul(string $a, string $b, string $result, int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->mul($a, $b, $scale));
     }
@@ -83,7 +83,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider divData
      */
-    public function testDiv(string $a, string $b, string $result, int $scale) : void
+    public function testDiv(string $a, string $b, string $result, int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->div($a, $b, $scale));
     }
@@ -91,7 +91,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider sqrtData
      */
-    public function testSqrt(string $a, string $result, ?int $scale) : void
+    public function testSqrt(string $a, string $result, ?int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->sqrt($a, $scale));
     }
@@ -99,7 +99,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider powData
      */
-    public function testPow(string $a, string $b, string $result, ?int $scale) : void
+    public function testPow(string $a, string $b, string $result, ?int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->pow($a, $b, $scale));
     }
@@ -108,7 +108,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
      * @dataProvider modData
      * @throws ilMathDivisionByZeroException
      */
-    public function testMod(string $a, string $b, string $result) : void
+    public function testMod(string $a, string $b, string $result): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->mod($a, $b));
     }
@@ -116,7 +116,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider equalsData
      */
-    public function testEquals(string $a, string $b, bool $result, ?int $scale) : void
+    public function testEquals(string $a, string $b, bool $result, ?int $scale): void
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->equals($a, $b, $scale));
     }
@@ -124,7 +124,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider calcData
      */
-    public function testCalculation(string $formula, string $result, int $scale) : void
+    public function testCalculation(string $formula, string $result, int $scale): void
     {
         $this->assertEqualNumbers($result, ilMath::_applyScale($this->evalMath->evaluate($formula), $scale));
     }
@@ -132,7 +132,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *
      */
-    public function testDivisionsByZero() : void
+    public function testDivisionsByZero(): void
     {
         $this->expectException(ilMathDivisionByZeroException::class);
 
@@ -142,7 +142,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *
      */
-    public function testModuloByZero() : void
+    public function testModuloByZero(): void
     {
         $this->expectException(ilMathDivisionByZeroException::class);
 
@@ -152,7 +152,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function addData() : array
+    public function addData(): array
     {
         return [
             ['1', '2', '3', self::DEFAULT_SCALE]
@@ -162,7 +162,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function subData() : array
+    public function subData(): array
     {
         return [
             ['1', '2', '-1', self::DEFAULT_SCALE]
@@ -172,7 +172,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function mulData() : array
+    public function mulData(): array
     {
         return [
             'Multiplication with integer operands' => ['1', '2', '2', self::DEFAULT_SCALE],
@@ -184,7 +184,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function divData() : array
+    public function divData(): array
     {
         return [
             'Division with integer operands' => ['1', '2', '0.5', self::DEFAULT_SCALE],
@@ -196,7 +196,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function modData() : array
+    public function modData(): array
     {
         return [
             ['1', '2', '1']
@@ -206,7 +206,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function sqrtData() : array
+    public function sqrtData(): array
     {
         return [
             ['9', '3', self::DEFAULT_SCALE],
@@ -219,7 +219,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function powData() : array
+    public function powData(): array
     {
         return [
             ['3', '2', '9', self::DEFAULT_SCALE]
@@ -229,7 +229,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function equalsData() : array
+    public function equalsData(): array
     {
         return [
             ['3', '3', true, null],
@@ -240,7 +240,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *
      */
-    public function calcData() : array
+    public function calcData(): array
     {
         return [
             ['3+5', '8', self::DEFAULT_SCALE],

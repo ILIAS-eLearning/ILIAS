@@ -1,87 +1,113 @@
 <?php
 
-namespace ILIAS\LTI\ToolProvider;
-
-use ILIAS\LTIOAuth;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
-#require_once dirname(__DIR__, 4) . "/Modules/LTIConsumer/lib/OAuth.php";
-#require_once dirname(__DIR__, 2) . "/src/OAuth/OAuth.php";
-class OAuthDataStore extends LTIOAuth\OAuthDataStore
-{
+ *********************************************************************/
+
+namespace ILIAS\LTI\ToolProvider;
+
+use ILIAS\LTIOAuth;
+use ILIAS\LTIOAuth\OAuthConsumer;
+use ILIAS\LTIOAuth\OAuthToken;
+use ILIAS\LTIOAuth\OAuthException;
 
 /**
-     * Tool Provider object.
+ * Class to represent an OAuth datastore
+ *
+ * @author  Stephen P Vickers <stephen@spvsoftwareproducts.com>
+ * @copyright  SPV Software Products
+ * @license  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3
+ */
+class OAuthDataStore extends LTIOAuth\OAuthDataStore
+{
+    /**
+     * System object.
+     *
+     * @var Tool|Platform|null $system
      */
-    private ?\ILIAS\LTI\ToolProvider\ToolProvider $toolProvider = null;
+    private $system = null;
 
     /**
      * Class constructor.
-     * @param ToolProvider $toolProvider Tool_Provider object
+     *
+     * @param Tool|Platform $system System object
      */
-    public function __construct(ToolProvider $toolProvider)
+    public function __construct($system)
     {
-        $this->toolProvider = $toolProvider;
+        $this->system = $system;
     }
 
     /**
-     * Create an OAuthConsumer object for the tool consumer.
-     *
+     * Create an OAuthConsumer object for the system.
      * @param string $consumerKey Consumer key value
-     *
-     * @return \ILIAS\LTIOAuth\OAuthConsumer OAuthConsumer object
+     * @return OAuthConsumer OAuthConsumer object
      */
-    public function lookup_consumer(string $consumerKey) : \ILIAS\LTIOAuth\OAuthConsumer
+    public function lookup_consumer(string $consumerKey): OAuthConsumer
     {
-        return new \ILIAS\LTIOAuth\OAuthConsumer(
-            $this->toolProvider->consumer->getKey(),
-            $this->toolProvider->consumer->secret
-        );
+        $key = $this->system->getKey();
+        $secret = '';
+        if (!empty($key)) {
+            $secret = $this->system->secret;
+        } elseif (($this->system instanceof Tool) && !empty($this->system->platform)) {
+            $key = $this->system->platform->getKey();
+            $secret = $this->system->platform->secret;
+        } elseif (($this->system instanceof Platform) && !empty(Tool::$defaultTool)) {
+            $key = Tool::$defaultTool->getKey();
+            $secret = Tool::$defaultTool->secret;
+        }
+        if ($key !== $consumerKey) {
+            throw new OAuthException('Consumer key not found');
+        }
+
+        return new OAuthConsumer($key, $secret);
     }
 
     /**
-     * Create an OAuthToken object for the tool consumer.
-     *
-     * @param string $consumer   OAuthConsumer object
-     * @param string $tokenType  Token type
-     * @param string $token      Token value
-     *
-     * @return \ILIAS\LTIOAuth\OAuthToken OAuthToken object
+     * Create an OAuthToken object for the system.
+     * @param OAuthConsumer $consumer  OAuthConsumer object //UK: removed string
+     * @param string $tokenType Token type
+     * @param string $token     Token value
+     * @return OAuthToken OAuthToken object
      */
-    public function lookup_token($consumer, string $tokenType, string $token) : \ILIAS\LTIOAuth\OAuthToken
+    public function lookup_token(OAuthConsumer $consumer, string $tokenType, string $token): OAuthToken
     {
-        return new \ILIAS\LTIOAuth\OAuthToken($consumer, '');
+        return new OAuthToken($consumer, '');
     }
 
     /**
-     * Lookup nonce value for the tool consumer.
-     * @param \ILIAS\LTIOAuth\OAuthConsumer $consumer  OAuthConsumer object
-     * @param LTIOAuth\OAuthToken|null      $token
-     * @param string                        $value     Nonce value
-     * @param int                        $timestamp Date/time of request
-     * @return boolean True if the nonce value already exists
+     * Lookup nonce value for the system.
+     * @param OAuthConsumer   $consumer  OAuthConsumer object
+     * @param OAuthToken|null $token     Token value //UK: removed string
+     * @param string          $value     Nonce value
+     * @param int             $timestamp Date/time of request //UK: removed string
+     * @return bool    True if the nonce value already exists
      */
-    public function lookup_nonce(\ILIAS\LTIOAuth\OAuthConsumer $consumer, ?\ILIAS\LTIOAuth\OAuthToken $token, string $value, int $timestamp) : bool
+    public function lookup_nonce(OAuthConsumer $consumer, ?OAuthToken $token, string $value, int $timestamp): bool
     {
-        $nonce = new ConsumerNonce($this->toolProvider->consumer, $value);
+        if ($this->system instanceof Platform) {
+            $platform = $this->system;
+        } else {
+            $platform = $this->system->platform;
+        }
+        $nonce = new PlatformNonce($platform, $value);
         $ok = !$nonce->load();
         if ($ok) {
             $ok = $nonce->save();
         }
         if (!$ok) {
-            $this->toolProvider->reason = 'Invalid nonce.';
+            $this->system->reason = 'Invalid nonce.';
         }
 
         return !$ok;
@@ -89,25 +115,23 @@ class OAuthDataStore extends LTIOAuth\OAuthDataStore
 
     /**
      * Get new request token.
-     *
-     * @param \ILIAS\LTIOAuth\OAuthConsumer $consumer  OAuthConsumer object
-     * @param string        $callback  Callback URL
-     *
+     * @param OAuthConsumer $consumer OAuthConsumer object
+     * @param mixed        $callback Callback URL //UK: removed string CHECK
      * @return string Null value
      */
-    public function new_request_token(\ILIAS\LTIOAuth\OAuthConsumer $consumer, ?string $callback = null) : ?string
+    public function new_request_token(OAuthConsumer $consumer, $callback = null): ?string
     {
         return null;
     }
 
     /**
      * Get new access token.
-     * @param string                        $token    Token value
-     * @param \ILIAS\LTIOAuth\OAuthConsumer $consumer OAuthConsumer object
-     * @param string|null                   $verifier Verification code
+     * @param OAuthToken    $token    Token value //UK: removed string CHECK
+     * @param OAuthConsumer $consumer OAuthConsumer object
+     * @param string        $verifier Verification code
      * @return string Null value
      */
-    public function new_access_token($token, LTIOAuth\OAuthConsumer $consumer, string $verifier = null) : ?string
+    public function new_access_token(OAuthToken $token, OAuthConsumer $consumer, $verifier = null): ?string
     {
         return null;
     }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Factory;
@@ -30,7 +32,7 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
 {
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
@@ -45,23 +47,21 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
     }
 
     /**
-     * @return MockObject|ilLanguage
+     * @return MockObject&ilLanguage
      */
-    protected function getLanguageMock() : ilLanguage
+    protected function getLanguageMock(): ilLanguage
     {
-        $lng = $this
+        return $this
             ->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
             ->getMock();
-
-        return $lng;
     }
 
     /**
-     * @return MockObject|Factory
+     * @return MockObject&Factory
      */
-    protected function getUiFactoryMock() : Factory
+    protected function getUiFactoryMock(): Factory
     {
         $ui = $this
             ->getMockBuilder(Factory::class)
@@ -80,10 +80,9 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
     }
 
     /**
-     * @param string $name
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -97,9 +96,8 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
 
     /**
      * @param mixed $value
-     * @return ilTermsOfServiceCriterionConfig
      */
-    protected function getCriterionConfig($value = null) : ilTermsOfServiceCriterionConfig
+    protected function getCriterionConfig($value = null): ilTermsOfServiceCriterionConfig
     {
         if (null === $value) {
             return new ilTermsOfServiceCriterionConfig();

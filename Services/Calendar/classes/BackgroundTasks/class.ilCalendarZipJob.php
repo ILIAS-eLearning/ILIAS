@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -30,7 +32,7 @@ class ilCalendarZipJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return
             [
@@ -41,7 +43,7 @@ class ilCalendarZipJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
@@ -49,7 +51,7 @@ class ilCalendarZipJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
@@ -58,7 +60,7 @@ class ilCalendarZipJob extends AbstractJob
      * @inheritDoc
      * @todo use filsystem service
      */
-    public function run(array $input, Observer $observer) : Value
+    public function run(array $input, Observer $observer): Value
     {
         $this->logger->debug('Start zipping input dir!');
         $tmpdir = $input[0]->getValue();
@@ -77,7 +79,7 @@ class ilCalendarZipJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

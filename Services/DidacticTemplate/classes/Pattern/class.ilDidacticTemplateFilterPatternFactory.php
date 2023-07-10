@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,7 +10,7 @@
  */
 class ilDidacticTemplateFilterPatternFactory
 {
-    public static function lookupPatternsByParentId(int $a_parent_id, string $a_parent_type) : array
+    public static function lookupPatternsByParentId(int $a_parent_id, string $a_parent_type): array
     {
         global $DIC;
 
@@ -21,20 +23,19 @@ class ilDidacticTemplateFilterPatternFactory
 
         $patterns = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-
-
             switch ($row->pattern_type) {
                 case ilDidacticTemplateFilterPattern::PATTERN_INCLUDE:
 
-                    $patterns[] = new ilDidacticTemplateIncludeFilterPattern($row->pattern_id);
+                    $patterns[] = new ilDidacticTemplateIncludeFilterPattern((int) $row->pattern_id);
                     break;
 
                 case ilDidacticTemplateFilterPattern::PATTERN_EXCLUDE:
 
-                    $patterns[] = new ilDidacticTemplateExcludeFilterPattern($row->pattern_id);
+                    $patterns[] = new ilDidacticTemplateExcludeFilterPattern((int) $row->pattern_id);
                     break;
             }
         }
+
         return $patterns;
     }
 }

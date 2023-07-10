@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\FileUpload;
 
 use ILIAS\Filesystem\Exception\IOException;
@@ -22,19 +38,6 @@ use RecursiveIteratorIterator;
 use ILIAS\HTTP\GlobalHttpState;
 use ilFileUtils;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class FileUploadImpl
  *
@@ -84,9 +87,25 @@ final class FileUploadImpl implements FileUpload
     }
 
     /**
+     * @description This is the very last thing we can do if a preprocessor DENIEs an upload. This is a hard removal,
+     * not beautiful, but it works.
+     */
+    private function hardRemoveUpload(string $identifier): void
+    {
+        // we delete the file from the temporary directory and remove it from the global $_FILES array
+        $file_stream = $this->uploadStreams[$identifier];
+        $uri = $file_stream->getMetadata('uri');
+        $file_stream->close();
+        unlink($uri);
+        unset($this->uploadStreams[$identifier]);
+        unset($_FILES[$identifier]);
+        throw new IllegalStateException("File upload removed due to security reasons.");
+    }
+
+    /**
      * @inheritdoc
      */
-    public function moveOneFileTo(UploadResult $uploadResult, string $destination, int $location = Location::STORAGE, string $file_name = '', bool $override_existing = false) : bool
+    public function moveOneFileTo(UploadResult $uploadResult, string $destination, int $location = Location::STORAGE, string $file_name = '', bool $override_existing = false): bool
     {
         if (!$this->processed) {
             throw new \RuntimeException('Can not move unprocessed files.');
@@ -116,7 +135,7 @@ final class FileUploadImpl implements FileUpload
     /**
      * @inheritDoc
      */
-    public function moveFilesTo(string $destination, int $location = Location::STORAGE) : void
+    public function moveFilesTo(string $destination, int $location = Location::STORAGE): void
     {
         if (!$this->processed) {
             throw new \RuntimeException('Can not move unprocessed files.');
@@ -157,7 +176,7 @@ final class FileUploadImpl implements FileUpload
      *
      * @return UploadResult         The cloned result with the given path.
      */
-    private function regenerateUploadResultWithPath(UploadResult $result, string $path) : UploadResult
+    private function regenerateUploadResultWithPath(UploadResult $result, string $path): UploadResult
     {
         return new UploadResult(
             $result->getName(),
@@ -178,7 +197,7 @@ final class FileUploadImpl implements FileUpload
      *
      * @return UploadResult                 The newly cloned rejected result.
      */
-    private function regenerateUploadResultWithCopyError(UploadResult $result, string $errorReason) : UploadResult
+    private function regenerateUploadResultWithCopyError(UploadResult $result, string $errorReason): UploadResult
     {
         return new UploadResult(
             $result->getName(),
@@ -200,7 +219,7 @@ final class FileUploadImpl implements FileUpload
      * @see Location
      * @throws \InvalidArgumentException    Thrown if the location is not a valid Location constant.
      */
-    private function selectFilesystem(int $location) : Filesystem
+    private function selectFilesystem(int $location): Filesystem
     {
         switch ($location) {
             case Location::CUSTOMIZING:
@@ -220,7 +239,7 @@ final class FileUploadImpl implements FileUpload
     /**
      * @inheritDoc
      */
-    public function uploadSizeLimit() : int
+    public function uploadSizeLimit(): int
     {
         return ilFileUtils::getUploadSizeLimitBytes();
     }
@@ -229,7 +248,7 @@ final class FileUploadImpl implements FileUpload
     /**
      * @inheritDoc
      */
-    public function register(PreProcessor $preProcessor) : void
+    public function register(PreProcessor $preProcessor): void
     {
         if (!$this->processed) {
             $this->processorManager->with($preProcessor);
@@ -242,7 +261,7 @@ final class FileUploadImpl implements FileUpload
     /**
      * @inheritDoc
      */
-    public function process() : void
+    public function process(): void
     {
         if ($this->processed) {
             throw new IllegalStateException('Can not reprocess the uploaded files.');
@@ -268,13 +287,20 @@ final class FileUploadImpl implements FileUpload
 
             if ($file->getError() === UPLOAD_ERR_OK) {
                 $processingResult = $this->processorManager->process($stream, $metadata);
+
+                // we do discard if the result is a DENIED that there is no further pissibility to process the file.
+                if ($processingResult->getCode() === ProcessingStatus::DENIED) {
+                    $this->hardRemoveUpload($identifier);
+                    continue;
+                }
+
                 $result = new UploadResult(
                     $metadata->getFilename(),
                     $metadata->getUploadSize(),
                     $metadata->getMimeType(),
                     $metadata->additionalMetaData(),
                     $processingResult,
-                    is_string($identifier)?$identifier:''
+                    is_string($identifier) ? $identifier : ''
                 );
                 $this->uploadResult[$identifier] = $result;
             } else {
@@ -291,7 +317,7 @@ final class FileUploadImpl implements FileUpload
      *
      * @param Metadata              $metadata The metadata used to create the rejected result.
      */
-    private function rejectFailedUpload(Metadata $metadata) : void
+    private function rejectFailedUpload(Metadata $metadata): void
     {
         //reject failed upload
         $processingStatus = new ProcessingStatus(ProcessingStatus::REJECTED, 'Upload failed');
@@ -312,7 +338,7 @@ final class FileUploadImpl implements FileUpload
     /**
      * @inheritDoc
      */
-    public function getResults() : array
+    public function getResults(): array
     {
         if ($this->processed) {
             return array_merge($this->uploadResult, $this->rejectedUploadResult);
@@ -325,7 +351,7 @@ final class FileUploadImpl implements FileUpload
     /**
      * @inheritDoc
      */
-    public function hasUploads() : bool
+    public function hasUploads(): bool
     {
         if ($this->moved) {
             return false;
@@ -336,8 +362,8 @@ final class FileUploadImpl implements FileUpload
         return ($uploadedFiles !== []);
     }
 
-    
-    protected function flattenUploadedFiles(array $uploadedFiles) : array
+
+    protected function flattenUploadedFiles(array $uploadedFiles): array
     {
         $recursiveIterator = new RecursiveIteratorIterator(
             new RecursiveArrayIterator(
@@ -351,7 +377,7 @@ final class FileUploadImpl implements FileUpload
     }
 
 
-    public function hasBeenProcessed() : bool
+    public function hasBeenProcessed(): bool
     {
         return $this->processed;
     }

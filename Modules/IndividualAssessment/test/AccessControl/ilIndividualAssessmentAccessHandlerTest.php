@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -28,7 +44,7 @@ class ilIndividualAssessmentAccessHandlerTest extends TestCase
      */
     private $obj_user;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->iass_object = $this->createMock(ilObjIndividualAssessment::class);
         $this->access_handler = $this->createMock(ilAccessHandler::class);
@@ -37,7 +53,7 @@ class ilIndividualAssessmentAccessHandlerTest extends TestCase
         $this->obj_user = $this->createMock(ilObjUser::class);
     }
 
-    public function testObjectCreation() : void
+    public function testObjectCreation(): void
     {
         $obj = new ilIndividualAssessmentAccessHandler(
             $this->iass_object,

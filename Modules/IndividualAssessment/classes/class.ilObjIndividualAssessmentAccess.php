@@ -1,13 +1,29 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilObjIndividualAssessmentAccess extends ilObjectAccess implements ilConditionHandling
 {
     /**
      * @inheritdoc
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         return [
             ["permission" => "read", "cmd" => "", "lang_var" => "show", "default" => true],
@@ -20,7 +36,7 @@ class ilObjIndividualAssessmentAccess extends ilObjectAccess implements ilCondit
      *
      * @inheritdoc
      */
-    public static function getConditionOperators() : array
+    public static function getConditionOperators(): array
     {
         return [
             ilConditionHandler::OPERATOR_PASSED,
@@ -31,7 +47,7 @@ class ilObjIndividualAssessmentAccess extends ilObjectAccess implements ilCondit
     /**
      * @inheritdoc
      */
-    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id): bool
     {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:

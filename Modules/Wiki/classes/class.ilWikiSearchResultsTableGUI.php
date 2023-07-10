@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for recent changes in wiki
@@ -35,10 +38,10 @@ class ilWikiSearchResultsTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->wiki_id = $a_wiki_id;
-        
+
         $this->addColumn($lng->txt("wiki_page"), "", "100%");
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -46,14 +49,14 @@ class ilWikiSearchResultsTableGUI extends ilTable2GUI
             "tpl.search_result.html",
             "Modules/Wiki"
         );
-            
+
         $this->setData($a_results);
         $this->setLimit(0);
-        
+
         $this->setTitle($lng->txt("wiki_search_results") . ' "' . str_replace(array('"'), "", $a_term) . '"');
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
 

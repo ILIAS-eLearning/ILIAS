@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI
@@ -12,22 +24,17 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTable2GUI
 {
-    const PARENT_DEFAULT_CMD = 'showManScoringByQuestionParticipantsTable';
-    const PARENT_APPLY_FILTER_CMD = 'applyManScoringByQuestionFilter';
-    const PARENT_RESET_FILTER_CMD = 'resetManScoringByQuestionFilter';
-    const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
-    
-    private $curQuestionMaxPoints = null;
-    
-    /**
-     * @var bool
-     */
-    protected $first_row_rendered = false;
+    public const PARENT_DEFAULT_CMD = 'showManScoringByQuestionParticipantsTable';
+    public const PARENT_APPLY_FILTER_CMD = 'applyManScoringByQuestionFilter';
+    public const PARENT_RESET_FILTER_CMD = 'resetManScoringByQuestionFilter';
+    public const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
 
-    /**
-     * @var bool
-     */
-    protected $first_row = true;
+    private ?float $curQuestionMaxPoints = null;
+
+    protected bool $first_row_rendered = false;
+
+    protected bool $first_row = true;
+    protected array $filter = [];
 
     public function __construct($parentObj)
     {
@@ -46,12 +53,12 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->setRowTemplate("tpl.il_as_tst_man_scoring_by_question_tblrow.html", "Modules/Test");
         $this->setShowRowsSelector(true);
 
-	$this->initOrdering();
+        $this->initOrdering();
         $this->initColumns();
         $this->initFilter();
     }
 
-    private function initColumns()
+    private function initColumns(): void
     {
         $this->addColumn($this->lng->txt('name'), 'name');
         $this->addColumn($this->lng->txt('tst_reached_points'), 'reached_points');
@@ -60,10 +67,10 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->addColumn($this->lng->txt('finalized_evaluation'), 'finalized_evaluation');
         $this->addColumn($this->lng->txt('finalized_by'), 'finalized_by_uid');
         $this->addColumn($this->lng->txt('finalized_on'), 'finalized_tstamp');
-        $this->addColumn('', '');
+        $this->addColumn($this->lng->txt('actions'), '', '1%');
     }
 
-    private function initOrdering()
+    private function initOrdering(): void
     {
         $this->enable('sort');
 
@@ -71,11 +78,10 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->setDefaultOrderDirection("asc");
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->setDisableFilterHiding(true);
 
-        include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
         $available_questions = new ilSelectInputGUI($this->lng->txt('question'), 'question');
         $select_questions = array();
         if (!$this->getParentObject()->getObject()->isRandomTest()) {
@@ -85,7 +91,6 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         }
         $scoring = ilObjAssessmentFolder::_getManualScoring();
         foreach ($questions as $data) {
-            include_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
             $info = assQuestion::_getQuestionInfo($data['question_id']);
             $type = $info["question_type_fi"];
             if (in_array($type, $scoring)) {
@@ -95,7 +100,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
                 } else {
                     $maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('points') . ')';
                 }
-                
+
                 $select_questions[$data["question_id"]] = $data['title'] . $maxpoints . ' [' . $this->lng->txt('question_id_short') . ': ' . $data["question_id"] . ']';
             }
         }
@@ -117,6 +122,13 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->addFilterItem($pass);
         $pass->readFromSession();
         $this->filter['pass'] = $pass->getValue();
+
+        $only_answered = new ilCheckboxInputGUI($this->lng->txt('tst_man_scoring_only_answered'), 'only_answered');
+        $this->addFilterItem($only_answered);
+        $only_answered->readFromSession();
+        ;
+        $this->filter['only_answered'] = $only_answered->getChecked();
+
         $correction = new ilSelectInputGUI(
             $this->lng->txt('finalized_evaluation'),
             'finalize_evaluation'
@@ -132,10 +144,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->filter['finalize_evaluation'] = $correction->getValue();
     }
 
-    /**
-     * @param array $a_set
-     */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -151,7 +160,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
             $this->tpl->setVariable('VAL_NAME', $this->lng->txt("anonymous"));
         } else {
             $this->tpl->setVariable('VAL_NAME', $a_set['name']);
-	    }
+        }
 
         if (!$this->first_row_rendered) {
             $this->first_row_rendered = true;
@@ -160,20 +169,20 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
         $this->tpl->setVariable('VAL_REACHED_POINTS', $a_set['reached_points']);
         $this->tpl->setVariable('VAL_MAX_POINTS', $a_set['maximum_points']);
-        $finalized = (isset($row['finalized_evaluation']) && $a_set['finalized_evaluation'] == 1);
+        $finalized = isset($a_set['finalized_evaluation']) && ((int) $a_set['finalized_evaluation']) === 1;
         $this->tpl->setVariable(
             'VAL_EVALUATED',
-            ($finalized) ? $this->lng->txt('yes') : $this->lng->txt('no')
+            $finalized ? $this->lng->txt('yes') : $this->lng->txt('no')
         );
-        $fin_usr_id = $a_set['finalized_by_usr_id'];
+        $fin_usr_id = $a_set['finalized_by_usr_id'] ?? null;
 
-        $this->tpl->setVariable('VAL_MODAL_CORRECTION', $a_set['feedback']);
-        if ($fin_usr_id > 0) {
+        $this->tpl->setVariable('VAL_MODAL_CORRECTION', $a_set['feedback'] ?? '');
+        if (is_numeric($fin_usr_id) && $fin_usr_id > 0) {
             $this->tpl->setVariable('VAL_FINALIZED_BY', ilObjUser::_lookupFullname($fin_usr_id));
         }
-        $fin_timestamp = $a_set['finalized_tstamp'];
+        $fin_timestamp = $a_set['finalized_tstamp'] ?? 0;
         if ($fin_timestamp > 0) {
-            $time = new ilDateTime($fin_timestamp, 3);
+            $time = new ilDateTime($fin_timestamp, IL_CAL_UNIX);
             $this->tpl->setVariable('VAL_FINALIZED_ON', \ilDatePresentation::formatDate($time));
         }
 
@@ -197,18 +206,13 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->tpl->setVariable('VAL_TXT_ANSWER', $this->lng->txt('tst_eval_show_answer'));
         $this->tpl->setVariable('ANSWER_TITLE', $this->lng->txt('answer_of') . ': ' . $a_set['name']);
     }
-    
-    public function setManualScoringPointsPostData($manPointsPostData)
-    {
-        $this->manPointsPostData = $manPointsPostData;
-    }
 
-    public function getCurQuestionMaxPoints()
+    public function getCurQuestionMaxPoints(): ?float
     {
         return $this->curQuestionMaxPoints;
     }
 
-    public function setCurQuestionMaxPoints($curQuestionMaxPoints)
+    public function setCurQuestionMaxPoints(float $curQuestionMaxPoints): void
     {
         $this->curQuestionMaxPoints = $curQuestionMaxPoints;
     }

@@ -25,18 +25,18 @@ interface ilSaxSubsetParser
      *
      * @param	resource	$a_xml_parser		xml parser
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void;
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void;
 
     /**
      * End element handler
      *
      * @param	resource	$a_xml_parser		xml parser
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void;
+    public function handlerEndTag($a_xml_parser, string $a_name): void;
 
     /**
      * Character data handler
      * @param	resource	$a_xml_parser		xml parser
      */
-    public function handlerCharacterData($a_xml_parser, string $a_name) : void;
+    public function handlerCharacterData($a_xml_parser, string $a_name): void;
 }

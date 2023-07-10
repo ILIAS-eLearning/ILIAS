@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -23,7 +25,7 @@ class ClockFactoryImpl implements ClockFactory
     /**
      * @inheritDoc
      */
-    public function system() : ClockInterface
+    public function system(): ClockInterface
     {
         return new SystemClock();
     }
@@ -31,7 +33,7 @@ class ClockFactoryImpl implements ClockFactory
     /**
      * @inheritDoc
      */
-    public function utc() : ClockInterface
+    public function utc(): ClockInterface
     {
         return new UtcClock();
     }
@@ -39,7 +41,7 @@ class ClockFactoryImpl implements ClockFactory
     /**
      * @inheritDoc
      */
-    public function local(DateTimeZone $time_zone) : ClockInterface
+    public function local(DateTimeZone $time_zone): ClockInterface
     {
         return new LocalClock($time_zone);
     }

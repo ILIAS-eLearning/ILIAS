@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Interface ilTermsOfServiceCriterionType
  * @author Michael Jansen <mjansen@databay.de>
@@ -24,27 +26,16 @@ interface ilTermsOfServiceCriterionType
 {
     /**
      * Returns a unique id of the criterion type
-     * @return string
      */
-    public function getTypeIdent() : string;
+    public function getTypeIdent(): string;
 
     /**
      * Returns whether or not a criterion is unique by it's nature.
      * Example: "User Language". A user account can only have one profile language .
-     * @return bool
      */
-    public function hasUniqueNature() : bool;
+    public function hasUniqueNature(): bool;
 
-    /**
-     * @param ilObjUser                       $user
-     * @param ilTermsOfServiceCriterionConfig $config
-     * @return bool
-     */
-    public function evaluate(ilObjUser $user, ilTermsOfServiceCriterionConfig $config) : bool;
+    public function evaluate(ilObjUser $user, ilTermsOfServiceCriterionConfig $config): bool;
 
-    /**
-     * @param ilLanguage $lng
-     * @return ilTermsOfServiceCriterionTypeGUI
-     */
-    public function ui(ilLanguage $lng) : ilTermsOfServiceCriterionTypeGUI;
+    public function ui(ilLanguage $lng): ilTermsOfServiceCriterionTypeGUI;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -14,7 +16,7 @@ class ilAppointmentExerciseFileHandler extends ilAppointmentBaseFileHandler impl
     /**
      * @inheritDoc
      */
-    public function getFiles() : array
+    public function getFiles(): array
     {
         // see ilExAssignment->handleCalendarEntries $dl parameter
         $ass_id = $this->appointment['event']->getContextId() / 10;

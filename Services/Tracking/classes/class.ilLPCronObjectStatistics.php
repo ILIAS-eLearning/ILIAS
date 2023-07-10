@@ -1,6 +1,24 @@
-<?php declare(strict_types=0);
+<?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=0);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Cron for lp object statistics
@@ -29,42 +47,42 @@ class ilLPCronObjectStatistics extends ilCronJob
         $this->cron_manager = $DIC->cron()->manager();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "lp_object_statistics";
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt("trac_object_statistics");
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt("trac_object_statistics_info");
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         // all date related operations are based on this timestamp
         // should be midnight of yesterday (see gatherUserData()) to always have full day
@@ -91,7 +109,7 @@ class ilLPCronObjectStatistics extends ilCronJob
     /**
      * gather course data
      */
-    protected function gatherCourseLPData() : int
+    protected function gatherCourseLPData(): int
     {
         $count = 0;
 
@@ -123,7 +141,8 @@ class ilLPCronObjectStatistics extends ilCronJob
                         "DELETE FROM obj_lp_stat WHERE" .
                         " obj_id = " . $this->db->quote($crs_id, "integer") .
                         " AND fulldate = " . $this->db->quote(
-                            date("Ymd", $this->date), "integer"
+                            date("Ymd", $this->date),
+                            "integer"
                         )
                     );
 
@@ -132,24 +151,27 @@ class ilLPCronObjectStatistics extends ilCronJob
 
                     $in_progress = count(
                         ilLPStatusWrapper::_lookupInProgressForObject(
-                            $crs_id, $members
+                            $crs_id,
+                            $members
                         )
                     );
                     $completed = count(
                         ilLPStatusWrapper::_lookupCompletedForObject(
-                            $crs_id, $members
+                            $crs_id,
+                            $members
                         )
                     );
                     $failed = count(
                         ilLPStatusWrapper::_lookupFailedForObject(
-                            $crs_id, $members
+                            $crs_id,
+                            $members
                         )
                     );
 
                     // calculate with other values - there is not direct method
                     $not_attempted = count(
-                            $members
-                        ) - $in_progress - $completed - $failed;
+                        $members
+                    ) - $in_progress - $completed - $failed;
 
                     $set = array(
                         "type" => array("text", "crs"),
@@ -176,7 +198,7 @@ class ilLPCronObjectStatistics extends ilCronJob
         return $count;
     }
 
-    protected function gatherTypesData() : int
+    protected function gatherTypesData(): int
     {
         $count = 0;
         $data = ilTrQuery::getObjectTypeStatistics();
@@ -186,7 +208,8 @@ class ilLPCronObjectStatistics extends ilCronJob
                 "DELETE FROM obj_type_stat WHERE" .
                 " type = " . $this->db->quote($type, "text") .
                 " AND fulldate = " . $this->db->quote(
-                    date("Ymd", $this->date), "integer"
+                    date("Ymd", $this->date),
+                    "integer"
                 )
             );
 
@@ -198,7 +221,7 @@ class ilLPCronObjectStatistics extends ilCronJob
                 "fulldate" => array("integer", date("Ymd", $this->date)),
                 "cnt_references" => array("integer", (int) $item["references"]),
                 "cnt_objects" => array("integer", (int) $item["objects"]),
-                "cnt_deleted" => array("integer", (int) $item["deleted"])
+                "cnt_deleted" => array("integer", isset($item["deleted"]) ? (int) $item["deleted"] : 0)
             );
 
             $this->db->insert("obj_type_stat", $set);
@@ -209,17 +232,22 @@ class ilLPCronObjectStatistics extends ilCronJob
         return $count;
     }
 
-    protected function gatherUserData() : int
+    protected function gatherUserData(): int
     {
         $count = 0;
         $to = mktime(
-            23, 59, 59, date("m", $this->date), date("d", $this->date),
+            23,
+            59,
+            59,
+            date("m", $this->date),
+            date("d", $this->date),
             date("Y", $this->date)
         );
 
         $sql = "SELECT COUNT(DISTINCT(usr_id)) counter,obj_id FROM read_event" .
             " WHERE last_access >= " . $this->db->quote(
-                $this->date, "integer"
+                $this->date,
+                "integer"
             ) .
             " AND last_access <= " . $this->db->quote($to, "integer") .
             " GROUP BY obj_id";
@@ -229,7 +257,8 @@ class ilLPCronObjectStatistics extends ilCronJob
             $this->db->manipulate(
                 "DELETE FROM obj_user_stat" .
                 " WHERE fulldate = " . $this->db->quote(
-                    date("Ymd", $this->date), "integer"
+                    date("Ymd", $this->date),
+                    "integer"
                 ) .
                 " AND obj_id = " . $this->db->quote($row["obj_id"], "integer")
             );

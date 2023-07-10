@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
@@ -8,14 +26,13 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  */
 class ilMMItemTranslationStorage extends CachedActiveRecord
 {
-    
     /**
      * @param IdentificationInterface $identification
      * @param string                  $language_key
      * @param string                  $translation
      * @return ilMMItemTranslationStorage
      */
-    public static function storeTranslation(IdentificationInterface $identification, string $language_key, string $translation) : self
+    public static function storeTranslation(IdentificationInterface $identification, string $language_key, string $translation): self
     {
         if ($translation === "-") {
             return new self();
@@ -28,29 +45,29 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
             $mt->setIdentification($identification->serialize());
             $mt->create();
         }
-        
+
         $mt->setTranslation($translation);
         $mt->setLanguageKey($language_key);
         $mt->update();
-        
+
         return $mt;
     }
-    
+
     /**
      * @param IdentificationInterface $identification
      * @param string                  $translation
      * @return ilMMItemTranslationStorage
      */
-    public static function storeDefaultTranslation(IdentificationInterface $identification, string $translation) : self
+    public static function storeDefaultTranslation(IdentificationInterface $identification, string $translation): self
     {
         return self::storeTranslation($identification, self::getDefaultLanguage(), $translation);
     }
-    
+
     /**
      * @param IdentificationInterface $identification
      * @return string
      */
-    public static function getDefaultTranslation(IdentificationInterface $identification) : string
+    public static function getDefaultTranslation(IdentificationInterface $identification): string
     {
         if (!self::hasDefaultTranslation($identification)) {
             return "";
@@ -63,36 +80,36 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
         if ($item = self::find($key)) {
             return $item->getTranslation();
         }
-        
+
         return "";
     }
-    
+
     /**
      * @param IdentificationInterface $identification
      * @return bool
      */
-    public static function hasDefaultTranslation(IdentificationInterface $identification) : bool
+    public static function hasDefaultTranslation(IdentificationInterface $identification): bool
     {
         $lng = self::getDefaultLanguage();
         $key = "{$identification->serialize()}|$lng";
-        
+
         return self::find($key) instanceof self;
     }
-    
+
     /**
      * @return string
      */
-    public static function getDefaultLanguage() : string
+    public static function getDefaultLanguage(): string
     {
         static $default_language;
         global $DIC;
-        if (!$default_language) {
+        if (!isset($default_language)) {
             $default_language = $DIC->language()->getDefaultLanguage() ? $DIC->language()->getDefaultLanguage() : "en";
         }
-        
+
         return $default_language;
     }
-    
+
     /**
      * @con_is_primary true
      * @con_is_unique  true
@@ -106,7 +123,7 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected string $identification;
+    protected string $identification = '';
     /**
      * @con_has_field  true
      * @con_fieldtype  text
@@ -123,76 +140,68 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
      * @var string
      */
     protected string $connector_container_name = "il_mm_translation";
-    
+
     /**
      * @return string
      */
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
-    
+
     /**
      * @param string $id
      */
-    public function setId(string $id) : void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }
-    
+
     /**
      * @return string
      */
-    public function getIdentification() : string
+    public function getIdentification(): string
     {
         return $this->identification;
     }
-    
+
     /**
      * @param string $identification
      */
-    public function setIdentification(string $identification) : void
+    public function setIdentification(string $identification): void
     {
         $this->identification = $identification;
     }
-    
+
     /**
      * @return string
      */
-    public function getTranslation() : string
+    public function getTranslation(): string
     {
         return $this->translation;
     }
-    
+
     /**
      * @param string $translation
      */
-    public function setTranslation(string $translation) : void
+    public function setTranslation(string $translation): void
     {
         $this->translation = $translation;
     }
-    
+
     /**
      * @return string
      */
-    public function getLanguageKey() : string
+    public function getLanguageKey(): string
     {
         return $this->language_key;
     }
-    
+
     /**
      * @param string $language_key
      */
-    public function setLanguageKey(string $language_key) : void
+    public function setLanguageKey(string $language_key): void
     {
         $this->language_key = $language_key;
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    public function getCache() : ilGlobalCache
-    {
-        return ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
     }
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,11 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\OnScreenChat\Repository\Subscriber;
 
 class SubscriberRepositoryTest extends ilOnScreenChatBaseTest
 {
-    public function testSubscribersCanBeRetrieved() : void
+    public function testSubscribersCanBeRetrieved(): void
     {
         $user = $this->getMockBuilder(ilObjUser::class)->onlyMethods(['getId'])->disableOriginalConstructor()->getMock();
         $user->method('getId')->willReturn(1);
@@ -53,8 +55,8 @@ class SubscriberRepositoryTest extends ilOnScreenChatBaseTest
             null,
         );
 
-        $repository = new class($db, $user) extends Subscriber {
-            public function getDataByUserIds(array $usrIds) : array
+        $repository = new class ($db, $user) extends Subscriber {
+            public function getDataByUserIds(array $usrIds): array
             {
                 $data = [];
                 foreach ($usrIds as $usrId) {

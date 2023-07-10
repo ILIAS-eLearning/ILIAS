@@ -29,9 +29,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 interface RequestFactory
 {
-
     /**
      * Creates a new ServerRequest object with the help of the underlying library.
      */
-    public function create() : ServerRequestInterface;
+    public function create(): ServerRequestInterface;
 }

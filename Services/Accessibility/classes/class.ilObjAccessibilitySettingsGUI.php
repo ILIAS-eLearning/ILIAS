@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Accessibility Settings.
@@ -21,6 +24,7 @@
  */
 class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected ilPropertyFormGUI $form;
     protected \ILIAS\DI\Container $dic;
     protected ilTabsGUI $tabs;
@@ -48,7 +52,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('meta');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -109,7 +113,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         }
     }
 
-    protected function getSettingsForm() : ilPropertyFormGUI
+    protected function getSettingsForm(): ilPropertyFormGUI
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setTitle($this->lng->txt('settings'));
@@ -141,7 +145,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
     /**
      * Save accessibility settings form
      */
-    public function saveAccessibilitySettings() : void
+    public function saveAccessibilitySettings(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -169,17 +173,17 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         }
     }
 
-    protected function editAccessibilitySettings(ilPropertyFormGUI $form = null) : void
+    protected function editAccessibilitySettings(ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->setTabActive('acc_settings');
         if (!$form) {
             $this->form = $this->getSettingsForm();
         }
-        
+
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
         $ilTabs = $this->tabs;

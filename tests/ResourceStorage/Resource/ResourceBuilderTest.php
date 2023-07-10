@@ -1,29 +1,32 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\ResourceStorage\Resource;
 
 use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ResourceBuilderTest
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class ResourceBuilderTest extends AbstractBaseResourceBuilderTest
 {
-    public function testNewUpload() : void
+    public function testNewUpload(): void
     {
         // EXPECTED VALUES
         $expected_file_name = 'info.xml';
@@ -34,15 +37,13 @@ class ResourceBuilderTest extends AbstractBaseResourceBuilderTest
 
         $resource_builder = new ResourceBuilder(
             $this->storage_handler_factory,
-            $this->revision_repository,
-            $this->resource_repository,
-            $this->information_repository,
-            $this->stakeholder_repository,
-            $this->locking
+            $this->repositories,
+            $this->locking,
+            $this->stream_access
         );
 
         // MOCK
-        list($upload_result, $info_resolver, $identification) = $this->mockResourceAndRevision(
+        [$upload_result, $info_resolver, $identification] = $this->mockResourceAndRevision(
             $expected_file_name,
             $expected_mime_type,
             $expected_size,

@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace XapiProxy;
 
@@ -7,34 +25,26 @@ use GuzzleHttp\Promise;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
+use ILIAS\DI\Container;
 
 //use GuzzleHttp\Exception\ConnectException;
 //use GuzzleHttp\Exception\RequestException;
-
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
 class XapiProxyRequest
 {
-    private $dic;
-    private $xapiproxy;
-//    private $request;
-    private $xapiProxyResponse;
+    private Container $dic;
 
-    public function __construct($xapiproxy)
+    private XapiProxy $xapiproxy;
+
+    private XapiProxyResponse $xapiProxyResponse;
+
+    public function __construct(XapiProxy $xapiproxy)
     {
         $this->dic = $GLOBALS['DIC'];
         $this->xapiproxy = $xapiproxy;
 //        $this->request = $this->dic->http()->request();
     }
 
-    public function handle() : void
+    public function handle(): void
     {
         $this->xapiProxyResponse = $this->xapiproxy->getXapiProxyResponse();
         $request = $this->dic->http()->request();
@@ -53,12 +63,12 @@ class XapiProxyRequest
         }
     }
 
-    private function msg($msg)
+    private function msg(string $msg): string
     {
         return $this->xapiproxy->msg($msg);
     }
 
-    private function handleStatementsRequest($request) : void
+    private function handleStatementsRequest(\Psr\Http\Message\RequestInterface $request): void
     {
         $method = $this->xapiproxy->method();
         if ($method === "post" || $method === "put") {
@@ -69,7 +79,7 @@ class XapiProxyRequest
         }
     }
 
-    private function handlePostPutStatementsRequest($request) : void
+    private function handlePostPutStatementsRequest(\Psr\Http\Message\RequestInterface $request): void
     {
         $body = $request->getBody()->getContents();
         if (empty($body)) {
@@ -100,7 +110,7 @@ class XapiProxyRequest
 
     // Cookies?, ServerRequestParams required?
 
-    private function handleProxy($request, $fakePostBody = null) : void
+    private function handleProxy(\Psr\Http\Message\RequestInterface $request, $fakePostBody = null): void
     {
         $endpointDefault = $this->xapiproxy->getDefaultLrsEndpoint();
         $endpointFallback = $this->xapiproxy->getFallbackLrsEndpoint();
@@ -163,7 +173,7 @@ class XapiProxyRequest
                         $fakePostBody
                     );
                 } catch (\Exception $e) {
-                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
+//                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                     $this->xapiProxyResponse->exitProxyError();
                 }
             } elseif ($fallbackOk) {
@@ -174,7 +184,7 @@ class XapiProxyRequest
                         $fakePostBody
                     );
                 } catch (\Exception $e) {
-                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
+//                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                     $this->xapiProxyResponse->exitProxyError();
                 }
             } else {
@@ -199,7 +209,7 @@ class XapiProxyRequest
                         $fakePostBody
                     );
                 } catch (\Exception $e) {
-                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
+//                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                     $this->xapiProxyResponse->exitProxyError();
                 }
             } else {
@@ -208,7 +218,7 @@ class XapiProxyRequest
         }
     }
 
-    private function createProxyRequest($request, $uri, $auth, $body) : \GuzzleHttp\Psr7\Request
+    private function createProxyRequest(\Psr\Http\Message\RequestInterface $request, \GuzzleHttp\Psr7\Uri $uri, string $auth, string $body): \GuzzleHttp\Psr7\Request
     {
         $headers = array(
             'Cache-Control' => 'no-cache, no-store, must-revalidate',

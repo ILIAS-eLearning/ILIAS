@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -37,41 +39,41 @@ class ilCondition
         $this->value = $value;
     }
 
-    public function getTrigger() : ilConditionTrigger
+    public function getTrigger(): ilConditionTrigger
     {
         return $this->trigger;
     }
 
-    public function getOperator() : string
+    public function getOperator(): string
     {
         return $this->operator;
     }
 
-    public function getValue() : ?string
+    public function getValue(): ?string
     {
         return $this->value;
     }
 
-    public function withObligatory(bool $obligatory) : ilCondition
+    public function withObligatory(bool $obligatory): ilCondition
     {
         $clone = clone $this;
         $clone->obligatory = $obligatory;
         return $clone;
     }
 
-    public function getObligatory() : bool
+    public function getObligatory(): bool
     {
         return $this->obligatory;
     }
 
-    public function withId(int $id) : ilCondition
+    public function withId(int $id): ilCondition
     {
         $clone = clone $this;
         $clone->id = $id;
         return $clone;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }

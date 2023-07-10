@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilLearningSequenceEditParticipantsTableGUI extends ilTable2GUI
 {
     protected ilLearningSequenceMembershipGUI $parent_gui;
@@ -58,7 +60,7 @@ class ilLearningSequenceEditParticipantsTableGUI extends ilTable2GUI
         $this->disable('select_all');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
@@ -71,7 +73,7 @@ class ilLearningSequenceEditParticipantsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_ACCESS', $a_set['access_time']);
         }
 
-        $assigned = $this->ls_participants->getAssignedRoles($a_set['usr_id']);
+        $assigned = $this->ls_participants->getAssignedRoles((int) $a_set['usr_id']);
         foreach ($this->ls_object->getLocalLearningSequenceRoles(true) as $name => $role_id) {
             $this->tpl->setCurrentBlock('roles');
             $this->tpl->setVariable('ROLE_ID', $role_id);

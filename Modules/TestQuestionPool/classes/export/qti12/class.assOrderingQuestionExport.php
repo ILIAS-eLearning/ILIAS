@@ -1,7 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class for ordering question exports
@@ -18,21 +30,20 @@ class assOrderingQuestionExport extends assQuestionExport
      * @var assOrderingQuestion
      */
     public $object;
-    
+
     /**
     * Returns a QTI xml representation of the question
     * Returns a QTI xml representation of the question and sets the internal
     * domxml variable with the DOM XML representation of the QTI xml representation
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
         $ilias = $DIC['ilias'];
-        
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
-        $a_xml_writer = new ilXmlWriter;
+
+        $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();
         $a_xml_writer->xmlStartTag("questestinterop");
@@ -44,11 +55,6 @@ class assOrderingQuestionExport extends assQuestionExport
         $a_xml_writer->xmlStartTag("item", $attrs);
         // add question description
         $a_xml_writer->xmlElement("qticomment", null, $this->object->getComment());
-        // add estimated working time
-        $workingtime = $this->object->getEstimatedWorkingTime();
-        $duration = sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]);
-        $a_xml_writer->xmlElement("duration", null, $duration);
-        // add ILIAS specific metadata
         $a_xml_writer->xmlStartTag("itemmetadata");
         $a_xml_writer->xmlStartTag("qtimetadata");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -63,14 +69,14 @@ class assOrderingQuestionExport extends assQuestionExport
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getAuthor());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-        
+
         // additional content editing information
         $this->addAdditionalContentEditingModeInformation($a_xml_writer);
         $this->addGeneralMetadata($a_xml_writer);
-        
+
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "thumb_geometry");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->object->getThumbGeometry());
+        $a_xml_writer->xmlElement("fieldentry", null, $this->object->getThumbSize());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "element_height");
@@ -114,7 +120,7 @@ class assOrderingQuestionExport extends assQuestionExport
             $attrs["output"] = "javascript";
         }
         $a_xml_writer->xmlStartTag("response_lid", $attrs);
-        $solution = $this->object->getSuggestedSolution(0);
+        $solution = $this->object->getSuggestedSolution(0) ?? [];
         if (count($solution)) {
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
                 $a_xml_writer->xmlStartTag("material");
@@ -151,7 +157,7 @@ class assOrderingQuestionExport extends assQuestionExport
             if ($this->object->getOrderingType() == OQ_PICTURES
             || $this->object->getOrderingType() == OQ_NESTED_PICTURES) {
                 $imagetype = "image/jpeg";
-                
+
                 $a_xml_writer->xmlStartTag("material");
                 if ($force_image_references) {
                     $attrs = array(
@@ -162,21 +168,23 @@ class assOrderingQuestionExport extends assQuestionExport
                     $a_xml_writer->xmlElement("matimage", $attrs);
                 } else {
                     $imagepath = $this->object->getImagePath() . $element->getContent();
-                    $fh = @fopen($imagepath, "rb");
-                    if ($fh != false) {
-                        $imagefile = fread($fh, filesize($imagepath));
-                        fclose($fh);
-                        $base64 = base64_encode($imagefile);
-                        
-                        if (preg_match("/.*\.(png|gif)$/", $element->getContent(), $matches)) {
-                            $imagetype = "image/" . $matches[1];
+                    if (file_exists($imagepath) && is_file($imagepath)) {
+                        $fh = @fopen($imagepath, "rb");
+                        if ($fh != false) {
+                            $imagefile = fread($fh, filesize($imagepath));
+                            fclose($fh);
+                            $base64 = base64_encode($imagefile);
+
+                            if (preg_match("/.*\.(png|gif)$/", $element->getContent(), $matches)) {
+                                $imagetype = "image/" . $matches[1];
+                            }
+                            $attrs = array(
+                                "imagtype" => $imagetype,
+                                "label" => $element->getContent(),
+                                "embedded" => "base64"
+                            );
+                            $a_xml_writer->xmlElement("matimage", $attrs, $base64, false, false);
                         }
-                        $attrs = array(
-                            "imagtype" => $imagetype,
-                            "label" => $element->getContent(),
-                            "embedded" => "base64"
-                        );
-                        $a_xml_writer->xmlElement("matimage", $attrs, $base64, false, false);
                     }
                 }
                 $a_xml_writer->xmlEndTag("material");
@@ -212,7 +220,7 @@ class assOrderingQuestionExport extends assQuestionExport
             // qti conditionvar
             $a_xml_writer->xmlStartTag("conditionvar");
             $attrs = array();
-            
+
             if ($this->object->getOrderingType() == OQ_PICTURES) {
                 $ordering_type = 'OQP';
             } elseif ($this->object->getOrderingType() == OQ_NESTED_PICTURES) {
@@ -222,9 +230,9 @@ class assOrderingQuestionExport extends assQuestionExport
             } elseif ($this->object->getOrderingType() == OQ_TERMS) {
                 $ordering_type = 'OQT';
             }
-            
+
             $attrs = array("respident" => $ordering_type);
-            
+
             $attrs["index"] = $element->getPosition();
             $a_xml_writer->xmlElement("varequal", $attrs, $element->getPosition());
             $a_xml_writer->xmlEndTag("conditionvar");
@@ -257,7 +265,7 @@ class assOrderingQuestionExport extends assQuestionExport
 
             foreach ($this->object->getOrderingElementList() as $element) {
                 $attrs = array();
-                
+
                 if ($this->object->getOrderingType() == OQ_PICTURES) {
                     $ordering_type = 'OQP';
                 } elseif ($this->object->getOrderingType() == OQ_NESTED_PICTURES) {
@@ -310,7 +318,7 @@ class assOrderingQuestionExport extends assQuestionExport
                 }
 
                 $attrs = array("respident" => $ordering_type);
-                
+
                 $attrs["index"] = $element->getPosition();
                 $a_xml_writer->xmlElement("varequal", $attrs, $element->getPosition());
             }
@@ -372,7 +380,9 @@ class assOrderingQuestionExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-        
+
+        $a_xml_writer = $this->addSolutionHints($a_xml_writer);
+
         $a_xml_writer->xmlEndTag("item");
         $a_xml_writer->xmlEndTag("questestinterop");
 

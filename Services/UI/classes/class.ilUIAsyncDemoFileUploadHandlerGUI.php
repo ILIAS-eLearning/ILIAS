@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@
  */
 class ilUIAsyncDemoFileUploadHandlerGUI extends ilUIDemoFileUploadHandlerGUI
 {
-    public function getUploadURL() : string
+    public function getUploadURL(): string
     {
         return $this->ctrl->getLinkTargetByClass(
             [ilUIPluginRouterGUI::class, self::class],
@@ -33,7 +35,7 @@ class ilUIAsyncDemoFileUploadHandlerGUI extends ilUIDemoFileUploadHandlerGUI
         );
     }
 
-    public function getExistingFileInfoURL() : string
+    public function getExistingFileInfoURL(): string
     {
         return $this->ctrl->getLinkTargetByClass(
             [ilUIPluginRouterGUI::class, self::class],
@@ -43,7 +45,7 @@ class ilUIAsyncDemoFileUploadHandlerGUI extends ilUIDemoFileUploadHandlerGUI
         );
     }
 
-    public function getFileRemovalURL() : string
+    public function getFileRemovalURL(): string
     {
         return $this->ctrl->getLinkTargetByClass(
             [ilUIPluginRouterGUI::class, self::class],

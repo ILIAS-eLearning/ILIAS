@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
@@ -35,28 +35,28 @@ use ILIAS\BackgroundTasks\Value;
 abstract class AbstractTask implements Task
 {
     use BasicScalarValueFactory;
-    
-    const MAIN_REMOVE = 'bt_main_remove';
-    const MAIN_ABORT = 'bt_main_abort';
+
+    public const MAIN_REMOVE = 'bt_main_remove';
+    public const MAIN_ABORT = 'bt_main_abort';
     /**
      * @var Value[]
      */
     protected array $input = [];
     protected \ILIAS\BackgroundTasks\Value $output;
-    
+
     /**
      * @param Value[]|Task[] $values
      */
-    public function setInput(array $values) : void
+    public function setInput(array $values): void
     {
         $this->input = $this->getValues($values);
         $this->checkTypes($this->input);
     }
-    
+
     protected function checkTypes($values)
     {
         $expectedTypes = $this->getInputTypes();
-        
+
         foreach ($expectedTypes as $i => $expectedType) {
             $givenType = $this->extractType($values[$i]);
             if (!$givenType->isExtensionOf($expectedType)) {
@@ -66,12 +66,12 @@ abstract class AbstractTask implements Task
             }
         }
     }
-    
+
     /**
      * @param $value Value|Task
      * @throws InvalidArgumentException
      */
-    protected function extractType($value) : Type
+    protected function extractType($value): Type
     {
         if (is_a($value, Value::class)) {
             return $value->getType();
@@ -79,30 +79,30 @@ abstract class AbstractTask implements Task
         if (is_a($value, Task::class)) {
             return $value->getOutputType();
         }
-        
+
         throw new InvalidArgumentException("Input values must be Tasks or Values (extend BT\\Task or BT\\Value).");
     }
-    
+
     /**
      * @return Value Returns a thunk value (yet to be calculated). It's used for task composition
      *               and type checks.
      */
-    public function getOutput() : Value
+    public function getOutput(): Value
     {
         $thunk = new ThunkValue($this->getOutputType());
         $thunk->setParentTask($this);
-        
+
         return $thunk;
     }
-    
+
     /**
      * @param $values (Value|Task)[]
      * @return Value[]
      */
-    private function getValues($values) : array
+    private function getValues($values): array
     {
         $inputs = [];
-        
+
         foreach ($values as $value) {
             if ($value instanceof Task) {
                 $inputs[] = $value->getOutput();
@@ -112,29 +112,29 @@ abstract class AbstractTask implements Task
                 $inputs[] = $this->wrapScalar($value);
             }
         }
-        
+
         return $inputs;
     }
-    
+
     /**
      * @return Value[]
      */
-    public function getInput() : array
+    public function getInput(): array
     {
         return $this->input;
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return static::class;
     }
-    
+
     /**
      * Unfold the task. If task A has dependency B and B' and B has dependency C, the resulting
      * list will be [A, B, C, B'].
      * @return Task[]
      */
-    public function unfoldTask() : array
+    public function unfoldTask(): array
     {
         $list = [$this];
         foreach ($this->getInput() as $input) {
@@ -142,22 +142,22 @@ abstract class AbstractTask implements Task
                 $list = array_merge($list, $input->getParentTask()->unfoldTask());
             }
         }
-        
+
         return $list;
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function getRemoveOption() : Option
+    public function getRemoveOption(): Option
     {
         return new UserInteractionOption('remove', self::MAIN_REMOVE);
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function getAbortOption() : Option
+    public function getAbortOption(): Option
     {
         return new UserInteractionOption('abort', self::MAIN_ABORT);
     }

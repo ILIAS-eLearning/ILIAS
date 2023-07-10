@@ -18,6 +18,8 @@
  */
 
 use ILIAS\Skill\Service\SkillTreeService;
+use ILIAS\Skill\Service\SkillProfileService;
+use ILIAS\Skill\Service\SkillPersonalService;
 
 /**
  * Skills of a container
@@ -28,6 +30,8 @@ class ilContainerMemberSkills
 {
     protected ilDBInterface $db;
     protected SkillTreeService $tree_service;
+    protected SkillProfileService $profile_service;
+    protected SkillPersonalService $personal_service;
     protected array $skills = [];
     protected int $obj_id = 0;
     protected int $user_id = 0;
@@ -40,6 +44,8 @@ class ilContainerMemberSkills
 
         $this->db = $DIC->database();
         $this->tree_service = $DIC->skills()->tree();
+        $this->profile_service = $DIC->skills()->profile();
+        $this->personal_service = $DIC->skills()->personal();
 
         $this->setObjId($a_obj_id);
         $this->setUserId($a_user_id);
@@ -48,27 +54,27 @@ class ilContainerMemberSkills
         }
     }
 
-    public function setObjId(int $a_val) : void
+    public function setObjId(int $a_val): void
     {
         $this->obj_id = $a_val;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setUserId(int $a_val) : void
+    public function setUserId(int $a_val): void
     {
         $this->user_id = $a_val;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $db = $this->db;
 
@@ -87,7 +93,7 @@ class ilContainerMemberSkills
     /**
      * @return array (key is skill_id:tref_id, value is level id)
      */
-    public function getSkillLevels() : array
+    public function getSkillLevels(): array
     {
         return $this->skill_levels;
     }
@@ -95,9 +101,9 @@ class ilContainerMemberSkills
     /**
      * @return array[] each item comes with keys "level_id", "skill_id", "tref_id"
      */
-    public function getOrderedSkillLevels() : array
+    public function getOrderedSkillLevels(): array
     {
-        $skill_levels = array_map(static function ($a, $k) : array {
+        $skill_levels = array_map(static function ($a, $k): array {
             $s = explode(":", $k);
             return ["level_id" => $a, "skill_id" => $s[0], "tref_id" => $s[1]];
         }, $this->getSkillLevels(), array_keys($this->getSkillLevels()));
@@ -106,7 +112,7 @@ class ilContainerMemberSkills
         return $vtree->getOrderedNodeset($skill_levels, "skill_id", "tref_id");
     }
 
-    public function getPublished() : bool
+    public function getPublished(): bool
     {
         return $this->published;
     }
@@ -114,7 +120,7 @@ class ilContainerMemberSkills
     /**
      * @param array $a_level_data (key is skill_id:tref_id, value is level id)
      */
-    public function saveLevelForSkills(array $a_level_data) : void
+    public function saveLevelForSkills(array $a_level_data): void
     {
         $db = $this->db;
 
@@ -138,7 +144,7 @@ class ilContainerMemberSkills
     /**
      * Delete all level data for current user
      */
-    public function delete() : void
+    public function delete(): void
     {
         $db = $this->db;
 
@@ -147,7 +153,7 @@ class ilContainerMemberSkills
             " AND user_id = " . $db->quote($this->getUserId(), "integer"));
     }
 
-    public function publish(int $a_ref_id) : bool
+    public function publish(int $a_ref_id): bool
     {
         $db = $this->db;
 
@@ -173,15 +179,14 @@ class ilContainerMemberSkills
             );
 
             if ($sk[1] > 0) {
-                ilPersonalSkill::addPersonalSkill($this->getUserId(), $sk[1]);
+                $this->personal_service->addPersonalSkill($this->getUserId(), $sk[1]);
             } else {
-                ilPersonalSkill::addPersonalSkill($this->getUserId(), $sk[0]);
+                $this->personal_service->addPersonalSkill($this->getUserId(), $sk[0]);
             }
         }
 
         //write profile completion entries if fulfilment status has changed
-        $prof_manager = new ilSkillProfileCompletionManager($this->getUserId());
-        $prof_manager->writeCompletionEntryForAllProfiles();
+        $this->profile_service->writeCompletionEntryForAllProfiles($this->getUserId());
 
         $db->manipulate("UPDATE cont_member_skills SET " .
             " published = " . $db->quote(1, "integer") .
@@ -191,7 +196,7 @@ class ilContainerMemberSkills
         return $changed;
     }
 
-    public function removeAllSkillLevels() : void
+    public function removeAllSkillLevels(): void
     {
         ilBasicSkill::removeAllUserSkillLevelStatusOfObject(
             $this->getUserId(),

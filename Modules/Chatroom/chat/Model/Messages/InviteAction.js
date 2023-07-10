@@ -9,14 +9,13 @@ var InviteAction = function InviteAction() {};
 
 /**
  * @param {number} roomId
- * @param {number} subRoomId
  * @param {string} title
  * @param {number} owner
  *
- * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number, title: string, owner: number}}
+ * @returns {{type: string, timestamp: number, content: string, roomId: number, title: string, owner: number}}
  */
-InviteAction.prototype.create = function(roomId, subRoomId, title, owner) {
-	var message = Message.create('user_invited', 'user_invited', roomId, subRoomId);
+InviteAction.prototype.create = function(roomId, title, owner) {
+	var message = Message.create('user_invited', 'user_invited', roomId);
 
 	message.title = title;
 	message.owner = owner;

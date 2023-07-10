@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilVirusScannerClamAV extends ilVirusScanner
 {
     private const ADD_SCAN_PARAMS = '--no-summary -i';
@@ -27,7 +29,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
         $this->scanZipFiles = true;
     }
 
-    public function scanBuffer(string $buffer) : bool
+    public function scanBuffer(string $buffer): bool
     {
         if (!$this->isBufferScanPossible()) {
             return $this->scanFileFromBuffer($buffer);
@@ -36,7 +38,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
         return $this->processBufferScan($buffer);
     }
 
-    protected function isBufferScanPossible() : bool
+    protected function isBufferScanPossible(): bool
     {
         $functions = ['proc_open', 'proc_close'];
 
@@ -51,7 +53,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
         return true;
     }
 
-    protected function processBufferScan(string $buffer) : bool
+    protected function processBufferScan(string $buffer): bool
     {
         $descriptor_spec = [
             0 => ["pipe", "r"],  // stdin is a pipe that the child will read from
@@ -83,17 +85,25 @@ class ilVirusScannerClamAV extends ilVirusScanner
         return (bool) $this->hasDetections($detectionReport);
     }
 
-    protected function buildScanCommand(string $file = '-') : string
+    protected function buildScanCommand(string $file = '-'): string
     {
         return $this->scanCommand . ' ' . self::ADD_SCAN_PARAMS . ' ' . $file;
     }
+    /**
+     * @return string $scanCommand
+     */
+    protected function buildScanCommandArguments($file = '-') // default means piping
+    {
+        return ' ' . self::ADD_SCAN_PARAMS . ' ' . $file;
+    }
 
-    protected function hasDetections(string $detectionReport) : int
+
+    protected function hasDetections(string $detectionReport): int
     {
         return preg_match("/FOUND/", $detectionReport);
     }
 
-    public function scanFile(string $file_path, string $org_name = "") : string
+    public function scanFile(string $file_path, string $org_name = ""): string
     {
         $this->scanFilePath = $file_path;
         $this->scanFileOrigName = $org_name;
@@ -101,19 +111,28 @@ class ilVirusScannerClamAV extends ilVirusScanner
         $perm = fileperms($file_path) | 0640;
         chmod($file_path, $perm);
 
-        // Call of antivir command
-        $cmd = $this->buildScanCommand($file_path) . " 2>&1";
-        exec($cmd, $out, $ret);
-        $this->scanResult = implode("\n", $out);
+        $a_filepath = realpath($file_path);
+        if(file_exists($file_path)) {
+            $args = ilShellUtil::escapeShellArg($file_path);
+            $arguments = $this->buildScanCommandArguments($args) . " 2>&1";
+            $cmd = ilShellUtil::escapeShellCmd($this->scanCommand);
+            $out = ilShellUtil::execQuoted($cmd, $arguments);
+            $this->scanResult = implode("\n", $out);
 
-        // sophie could be called
-        if ($this->hasDetections($this->scanResult)) {
-            $this->scanFileIsInfected = true;
-            $this->logScanResult();
-            return $this->scanResult;
+            if ($this->hasDetections($this->scanResult)) {
+                $this->scanFileIsInfected = true;
+                $this->logScanResult();
+                return $this->scanResult;
+            } else {
+                $this->scanFileIsInfected = false;
+                return "";
+            }
         }
 
-        $this->scanFileIsInfected = false;
-        return "";
+        $return_error = "ERROR (Virus Scanner failed): "
+            . $this->scanResult
+            . "; Path=" . $a_filepath;
+        $this->log->write($return_error);
+        return $return_error;
     }
 }

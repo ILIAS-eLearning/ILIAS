@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -19,34 +21,48 @@
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class PlayerVideoTest extends ILIAS_UI_TestBase
 {
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function modal() : C\Modal\Factory
-            {
-                return new I\Component\Modal\Factory(new I\Component\SignalGenerator());
+        return new class (
+            $this->createMock(C\Modal\InterruptiveItem\Factory::class),
+            $this->createMock(FieldFactory::class),
+        ) extends NoUIFactory {
+            public function __construct(
+                protected C\Modal\InterruptiveItem\Factory $item_factory,
+                protected FieldFactory $field_factory,
+            ) {
             }
-            public function button() : C\Button\Factory
+
+            public function modal(): C\Modal\Factory
+            {
+                return new I\Component\Modal\Factory(
+                    new I\Component\SignalGenerator(),
+                    $this->item_factory,
+                    $this->field_factory,
+                );
+            }
+            public function button(): C\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
         };
     }
 
-    public function getFactory() : C\Player\Factory
+    public function getFactory(): C\Player\Factory
     {
         return new I\Component\Player\Factory();
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getFactory();
 
@@ -55,7 +71,7 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Player\\Video", $video);
     }
 
-    public function test_get_title_get_source() : void
+    public function test_get_title_get_source(): void
     {
         $f = $this->getFactory();
 
@@ -64,7 +80,7 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
         $this->assertEquals("/foo", $video->getSource());
     }
 
-    public function test_get_title_get_poster() : void
+    public function test_get_title_get_poster(): void
     {
         $f = $this->getFactory();
 
@@ -73,7 +89,7 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
         $this->assertEquals("bar.jpg", $video->getPoster());
     }
 
-    public function test_get_title_get_subtitle_file() : void
+    public function test_get_title_get_subtitle_file(): void
     {
         $f = $this->getFactory();
 
@@ -82,7 +98,7 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
         $this->assertEquals(["en" => "subtitles.vtt"], $video->getSubtitleFiles());
     }
 
-    public function test_render_video() : void
+    public function test_render_video(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -102,7 +118,7 @@ EOT;
         );
     }
 
-    public function test_render_with_poster() : void
+    public function test_render_with_poster(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -123,7 +139,7 @@ EOT;
         );
     }
 
-    public function test_render_with_subtitles() : void
+    public function test_render_with_subtitles(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

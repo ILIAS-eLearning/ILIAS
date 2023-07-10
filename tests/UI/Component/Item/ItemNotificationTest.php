@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Timon Amstutz <timon.amstutz@ilub.unibe.ch Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -16,37 +32,37 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 {
     protected I\Component\SignalGenerator $sig_gen;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->sig_gen = new I\Component\SignalGenerator();
     }
 
-    public function getIcon() : C\Symbol\Icon\Standard
+    public function getIcon(): C\Symbol\Icon\Standard
     {
         return $this->getUIFactory()->symbol()->icon()->standard("name", "aria_label", "small", false);
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
+        $factory = new class () extends NoUIFactory {
             public I\Component\SignalGenerator $sig_gen;
 
-            public function item() : C\Item\Factory
+            public function item(): C\Item\Factory
             {
                 return new I\Component\Item\Factory();
             }
 
-            public function Link() : C\Link\Factory
+            public function Link(): C\Link\Factory
             {
                 return new I\Component\Link\Factory();
             }
 
-            public function button() : C\Button\Factory
+            public function button(): C\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
 
-            public function symbol() : C\Symbol\Factory
+            public function symbol(): C\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
@@ -55,7 +71,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
                 );
             }
 
-            public function mainControls() : C\MainControls\Factory
+            public function mainControls(): C\MainControls\Factory
             {
                 return new I\Component\MainControls\Factory(
                     $this->sig_gen,
@@ -71,14 +87,14 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    public function testImplementsFactoryInterface() : void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getUIFactory()->item();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Item\\Notification", $f->notification("title", $this->getIcon()));
     }
 
-    public function testGetTitle() : void
+    public function testGetTitle(): void
     {
         $f = $this->getUIFactory()->item();
         $c = $f->standard("title");
@@ -86,7 +102,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals("title", $c->getTitle());
     }
 
-    public function testGetTitleAsLink() : void
+    public function testGetTitleAsLink(): void
     {
         $f = $this->getUIFactory()->item();
         $title_link = $this->getUIFactory()->link()->standard("TestLink", "");
@@ -95,7 +111,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getTitle(), $title_link);
     }
 
-    public function testWithDescription() : void
+    public function testWithDescription(): void
     {
         $f = $this->getUIFactory()->item();
 
@@ -104,7 +120,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals("description", $c->getDescription());
     }
 
-    public function testWithProperties() : void
+    public function testWithProperties(): void
     {
         $f = $this->getUIFactory()->item();
 
@@ -114,7 +130,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getProperties(), $props);
     }
 
-    public function testWithActions() : void
+    public function testWithActions(): void
     {
         $f = $this->getUIFactory()->item();
 
@@ -127,18 +143,18 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getActions(), $actions);
     }
 
-    public function testWithLeadIcon() : void
+    public function testWithLeadIcon(): void
     {
         $f = $this->getUIFactory()->item();
 
         $c = $f->notification("title", $this->getIcon());
         $this->assertEquals($c->getLeadIcon(), $this->getIcon());
-        $icon2 = $this->getIcon()->withIsOutlined(true);
+        $icon2 = $this->getIcon();
 
         $this->assertEquals($c->withLeadIcon($icon2)->getLeadIcon(), $icon2);
     }
 
-    public function testWithCloseAction() : void
+    public function testWithCloseAction(): void
     {
         $f = $this->getUIFactory()->item();
 
@@ -147,7 +163,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals("closeAction", $c->getCloseAction());
     }
 
-    public function testWithAdditionalContent() : void
+    public function testWithAdditionalContent(): void
     {
         $f = $this->getUIFactory()->item();
 
@@ -157,7 +173,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getAdditionalContent(), $content);
     }
 
-    public function testWithAggregateNotifications() : void
+    public function testWithAggregateNotifications(): void
     {
         $f = $this->getUIFactory()->item();
 
@@ -169,23 +185,23 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getAggregateNotifications(), [$aggregate,$aggregate]);
     }
 
-    public function testRenderFullyFeatured() : void
+    public function testRenderFullyFeatured(): void
     {
         $f = $this->getUIFactory()->item();
-        $r = $this->getDefaultRenderer(new class implements JavaScriptBinding {
+        $r = $this->getDefaultRenderer(new class () implements JavaScriptBinding {
             public array $on_load_code = array();
 
-            public function createId() : string
+            public function createId(): string
             {
                 return "id";
             }
 
-            public function addOnLoadCode(string $code) : void
+            public function addOnLoadCode(string $code): void
             {
                 $this->on_load_code[] = $code;
             }
 
-            public function getOnLoadCodeAsync() : string
+            public function getOnLoadCodeAsync(): string
             {
             }
         });
@@ -206,7 +222,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
             ->withAggregateNotifications([$aggregate])
             ->withCloseAction("closeAction")
             ->withActions($actions)
-            ;
+        ;
 
         $html = $this->brutallyTrimHTML($r->render($c));
         $expected = <<<EOT
@@ -225,10 +241,10 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 				</button>
 				<div class="il-item-description">description</div>
 				<div class="dropdown">
-					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="actions" aria-haspopup="true" aria-expanded="false">
+					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_menu">
 						<span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu">
+					<ul id="id_menu" class="dropdown-menu">
 						<li>
 							<button class="btn btn-link" data-action="https://www.ilias.de" id="id">ILIAS</button>
 						</li>
@@ -240,24 +256,18 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 				<div class="il-item-additional-content">someContent</div>
 				<hr class="il-item-divider">
 					<div class="row il-item-properties">
-						<div class="col-md-12">
-							<div class="row">
-								<div class="col-sm-3 il-item-property-name">prop1</div>
-								<div class="col-sm-9 il-item-property-value il-multi-line-cap-3">val1</div>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="row">
-								<div class="col-sm-3 il-item-property-name">prop2</div>
-								<div class="col-sm-9 il-item-property-value il-multi-line-cap-3">val2</div>
-							</div>
-						</div>
+                        <div class="col-sm-12 il-multi-line-cap-3">
+                            <span class="il-item-property-name">prop1</span><span class="il-item-property-value">val1</span>
+                        </div>
+                        <div class="col-sm-12 il-multi-line-cap-3">
+                            <span class="il-item-property-name">prop2</span><span class="il-item-property-value">val2</span>
+                        </div>
 					</div>
 					<div class="il-aggregate-notifications" data-aggregatedby="id">
 						<div class="il-maincontrols-slate il-maincontrols-slate-notification">
 							<div class="il-maincontrols-slate-notification-title">
 								<button class="btn btn-bulky" data-action="">
-									<span class="glyph" aria-label="back" role="img">
+									<span class="glyph" role="img">
 										<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 									</span>
 									<span class="bulky-label">back</span>
@@ -276,7 +286,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 													<div class="il-maincontrols-slate il-maincontrols-slate-notification">
 														<div class="il-maincontrols-slate-notification-title">
 															<button class="btn btn-bulky" data-action="">
-																<span class="glyph" aria-label="back" role="img">
+												 				<span class="glyph" role="img">
 																	<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 																</span>
 																<span class="bulky-label">back</span>

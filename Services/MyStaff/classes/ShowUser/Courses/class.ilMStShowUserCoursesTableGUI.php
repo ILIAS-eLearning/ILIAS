@@ -1,26 +1,31 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
-namespace ILIAS\MyStaff\Courses\ShowUser;
+// no namespace for ilCtrl classes
+//namespace ILIAS\MyStaff\Courses\ShowUser;
 
-use Closure;
-use ilAdvancedSelectionListGUI;
-use ilCSVWriter;
-use ilExcel;
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\MyStaff\ListCourses\ilMStListCourse;
-use ilLPStatus;
-use ilMStShowUserCoursesGUI;
-use ilMyStaffGUI;
-use ilObjUserTracking;
-use ilOrgUnitOperation;
-use ilRepositorySelectorInputGUI;
-use ilSelectInputGUI;
-use ilTable2GUI;
-use ilTextInputGUI;
 
 /**
  * Class ilMStShowUserCoursesTableGUI
  * @author Martin Studer <ms@studer-raimann.ch>
+ * @ilCtrl_Calls ilMStShowUserCoursesTableGUI: ilFormPropertyDispatchGUI
  */
 class ilMStShowUserCoursesTableGUI extends ilTable2GUI
 {
@@ -28,6 +33,9 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
     protected array $filter = array();
     protected ilMyStaffAccess $access;
     protected ?array $columnDefinition = null;
+    protected ?array $orgu_names = null;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     /**
      * @param ilMStShowUserCoursesGUI $parent_obj
@@ -38,6 +46,8 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         global $DIC;
 
         $this->access = ilMyStaffAccess::getInstance();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $this->usr_id = $DIC->http()->request()->getQueryParams()['usr_id'];
 
@@ -47,7 +57,8 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
 
         parent::__construct($parent_obj, $parent_cmd, '');
         $this->setRowTemplate('tpl.list_user_courses_row.html', "Services/MyStaff");
-        $this->setFormAction($DIC->ctrl()->getFormAction($parent_obj));;
+        $this->setFormAction($DIC->ctrl()->getFormAction($parent_obj));
+        ;
         $this->setDefaultOrderDirection('desc');
 
         $this->setShowRowsSelector(true);
@@ -65,7 +76,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-    protected function parseData() : void
+    protected function parseData(): void
     {
         global $DIC;
 
@@ -76,14 +87,19 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $this->determineLimit();
         $this->determineOffsetAndOrder();
 
-        $arr_usr_id = $this->access->getUsersForUserOperationAndContext($DIC->user()
-                                                                            ->getId(),
-            ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, ilMyStaffAccess::DEFAULT_CONTEXT);
+        $arr_usr_id = $this->access->getUsersForUserOperationAndContext(
+            $DIC->user()->getId(),
+            ilMyStaffAccess::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
+            ilMyStaffAccess::COURSE_CONTEXT
+        );
 
         $this->filter['usr_id'] = $this->usr_id;
         $options = array(
             'filters' => $this->filter,
-            'limit' => array(),
+            'limit' => array(
+                'start' => $this->getOffset(),
+                'end' => $this->getLimit(),
+            ),
             'count' => true,
             'sort' => array(
                 'field' => $this->getOrderField(),
@@ -91,20 +107,19 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
             ),
         );
 
-        $user_courses_fetcher = new ilMStShowUserCourses($DIC);
-        $count = $user_courses_fetcher->getData($arr_usr_id, $options);
-        $options['limit'] = array(
-            'start' => intval($this->getOffset()),
-            'end' => intval($this->getLimit()),
-        );
-        $options['count'] = false;
-        $data = $user_courses_fetcher->getData($arr_usr_id, $options);
+        $user_courses_fetcher = new \ILIAS\MyStaff\Courses\ShowUser\ilMStShowUserCourses($DIC);
+        $result = $user_courses_fetcher->getData($arr_usr_id, $options);
+        $this->setMaxCount($result->getTotalDatasetCount());
+        $data = $result->getDataset();
 
-        $this->setMaxCount($count);
+        // Workaround because the fillRow Method only accepts arrays
+        $data = array_map(function (ilMStListCourse $it): array {
+            return [$it];
+        }, $data);
         $this->setData($data);
     }
 
-    final public function initFilter() : void
+    final public function initFilter(): void
     {
         global $DIC;
 
@@ -117,10 +132,10 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $item = new ilRepositorySelectorInputGUI($DIC->language()->txt("usr_filter_coursemember"), "course");
         $item->setSelectText($DIC->language()->txt("mst_select_course"));
         $item->setHeaderMessage($DIC->language()->txt("mst_please_select_course"));
-        $item->setClickableTypes(array(ilMyStaffAccess::DEFAULT_CONTEXT));
+        $item->setClickableTypes(array(ilMyStaffAccess::COURSE_CONTEXT));
         $this->addFilterItem($item);
         $item->readFromSession();
-        $item->setParent($this->getParentObject());
+        //$item->setParent($this->getParentObject());
         $this->filter["course"] = $item->getValue();
 
         //membership status
@@ -149,13 +164,11 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
             $this->addFilterItem($item);
             $item->readFromSession();
             $this->filter["lp_status"] = $item->getValue();
-            if ($this->filter["lp_status"]) {
-                $this->filter["lp_status"] = $this->filter["lp_status"] - 1;
-            }
+            $this->filter["lp_status"] = (int) $this->filter["lp_status"] - 1;
         }
     }
 
-    final public function getSelectableColumns() : array
+    final public function getSelectableColumns(): array
     {
         global $DIC;
 
@@ -187,22 +200,18 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         }
 
         $this->columnDefinition = $cols;
-        
+
         return $this->columnDefinition;
     }
 
-    private function addColumns() : void
+    private function addColumns(): void
     {
         global $DIC;
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if (isset($v['sort_field'])) {
-                    $sort = $v['sort_field'];
-                } else {
-                    $sort = null;
-                }
-                $this->addColumn($v['txt'], $sort, $v['width']);
+                $sort = $v['sort_field'] ?? "";
+                $this->addColumn($v['txt'], $sort);
             }
         }
         //Actions
@@ -211,34 +220,51 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         }
     }
 
-    public function fillRow(array $a_set) : void
+    protected function getTextRepresentationOfOrgUnits(): array
+    {
+        if (isset($this->orgu_names)) {
+            return $this->orgu_names;
+        }
+
+        return $this->orgu_names = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+    }
+
+    public function fillRow(array $a_set): void
     {
         global $DIC;
 
+        $set = array_pop($a_set);
+
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
-        }, $a_set, $a_set);
+            return $this->$prop ?? null;
+        }, $set, $set);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
                 switch ($k) {
                     case 'usr_reg_status':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE',
-                            $this->getSpaceOrValue(ilMStListCourse::getMembershipStatusText($a_set->getUsrRegStatus())));
+                        $this->tpl->setVariable(
+                            'VALUE',
+                            $this->getSpaceOrValue(ilMStListCourse::getMembershipStatusText($set->getUsrRegStatus()))
+                        );
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'usr_lp_status':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE',
-                            $this->getSpaceOrValue(ilMyStaffGUI::getUserLpStatusAsHtml($a_set)));
+                        $this->tpl->setVariable(
+                            'VALUE',
+                            $this->getSpaceOrValue(ilMyStaffGUI::getUserLpStatusAsHtml($set))
+                        );
                         $this->tpl->parseCurrentBlock();
                         break;
                     default:
                         if ($propGetter($k) !== null) {
                             $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE',
-                                (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
+                            $this->tpl->setVariable(
+                                'VALUE',
+                                (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k))
+                            );
                             $this->tpl->parseCurrentBlock();
                         } else {
                             $this->tpl->setCurrentBlock('td');
@@ -250,42 +276,68 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
             }
         }
 
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setListTitle($DIC->language()->txt("actions"));
-        $actions->setAsynch(true);
-        $actions->setId($a_set->getUsrId() . "-" . $a_set->getCrsRefId());
+        $mst_lco_usr_id = $set->getUsrId();
+        $mst_lco_crs_ref_id = $set->getCrsRefId();
 
-        $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_usr_id', $a_set->getUsrId());
-        $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_crs_ref_id', $a_set->getCrsRefId());
+        $actions = [];
 
-        $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
-                                                             ->getLinkTarget($this->parent_obj,
-                                                                 ilMStShowUserCoursesGUI::CMD_GET_ACTIONS, "", true)));
-        $this->tpl->setVariable('ACTIONS', $actions->getHTML());
+        if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
+            $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::COURSE_CONTEXT);
+            $actions[] = $this->ui_fac->link()->standard(
+                ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)),
+                $link
+            );
+        };
+
+        foreach (array_unique(ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($mst_lco_usr_id)) as $orgu_id) {
+            if ($DIC->access()->checkAccess("read", "", $orgu_id) && !ilObject::_isInTrash($orgu_id)) {
+                $org_units = $this->getTextRepresentationOfOrgUnits();
+                $link = ilLink::_getStaticLink($orgu_id, 'orgu');
+                $actions[] = $this->ui_fac->link()->standard($org_units[$orgu_id], $link);
+            }
+        }
+
+        $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_usr_id', $set->getUsrId());
+        $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_crs_ref_id', $set->getCrsRefId());
+
+        $actions[] = \ilMyStaffGUI::extendActionMenuWithUserActions(
+            $mst_lco_usr_id,
+            rawurlencode($this->ctrl->getLinkTargetByClass(
+                "ilMStShowUserCoursesGUI",
+                ilMStShowUserCoursesGUI::CMD_INDEX
+            ))
+        );
+
+        $dropdown = $this->ui_fac->dropdown()->standard($actions)->withLabel($this->lng->txt("actions"));
+        $this->tpl->setVariable("ACTIONS", $this->ui_ren->render($dropdown));
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
     {
+        $set = array_pop($a_set);
+
         $col = 0;
-        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
             $a_excel->setCell($a_row, $col, $v);
             $col++;
         }
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
-        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
+        $set = array_pop($a_set);
+
+        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();
     }
 
-    protected function getFieldValuesForExport(ilMStListCourse $my_staff_course) : array
+    protected function getFieldValuesForExport(ilMStListCourse $my_staff_course): array
     {
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+            return $this->$prop ?? null;
         }, $my_staff_course, $my_staff_course);
 
         $field_values = array();
@@ -299,7 +351,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
                     $field_values[$k] = ilMyStaffGUI::getUserLpStatusAsText($my_staff_course);
                     break;
                 default:
-                    $field_values[$k] = strip_tags($propGetter($k));
+                    $field_values[$k] = strip_tags($propGetter($k) ?? "");
                     break;
             }
         }
@@ -307,7 +359,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         return $field_values;
     }
 
-    protected function getSpaceOrValue(string $string) : string
+    protected function getSpaceOrValue(string $string): string
     {
         if (!$this->getExportMode()) {
             if (empty($string)) {

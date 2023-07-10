@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -58,7 +60,7 @@ class ilMathJaxSettingsGUI
      * This should be overridden in the child classes
      * note: permissions are already checked in the object gui
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->lng->loadLanguageModule('mathjax');
 
@@ -77,7 +79,7 @@ class ilMathJaxSettingsGUI
     /**
      * Edit the MathJax settings
      */
-    protected function editSettings() : void
+    protected function editSettings(): void
     {
         $testcode = 'f(x)=\int_{-\infty}^x e^{-t^2}dt';
 
@@ -244,7 +246,7 @@ class ilMathJaxSettingsGUI
     /**
      * Clear the directory with cached LaTeX graphics
      */
-    protected function clearCache() : void
+    protected function clearCache(): void
     {
         ilMathJax::getInstance()->clearCache();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('mathjax_server_cache_cleared'), true);
@@ -254,7 +256,7 @@ class ilMathJaxSettingsGUI
     /**
      * Render an html link
      */
-    protected function renderLink(string $langvar, string $url, bool $new_tab = true) : string
+    protected function renderLink(string $langvar, string $url, bool $new_tab = true): string
     {
         $link = $this->dic->ui()->factory()->link()->standard(
             $this->lng->txt($langvar),

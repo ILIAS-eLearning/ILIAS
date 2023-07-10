@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,14 +17,14 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Storage for ilLSPostConditions
  */
 class ilLSPostConditionDB
 {
-    const TABLE_NAME = 'post_conditions';
-    const STD_ALWAYS_OPERATOR = 'always';
+    public const TABLE_NAME = 'post_conditions';
+    public const STD_ALWAYS_OPERATOR = 'always';
 
     protected ilDBInterface $db;
 
@@ -34,7 +36,7 @@ class ilLSPostConditionDB
     /**
      * @return ilLSPostCondition[]
      */
-    public function select(array $ref_ids) : array
+    public function select(array $ref_ids): array
     {
         if ($ref_ids === []) {
             return [];
@@ -50,7 +52,7 @@ class ilLSPostConditionDB
         $result = $this->db->query($query);
 
         while ($row = $this->db->fetchAssoc($result)) {
-            $data[$row['ref_id']] = [$row['condition_operator'], (int) $row['value']];
+            $data[$row['ref_id']] = [$row['condition_operator'], $row['value']];
         }
 
         $conditions = [];
@@ -68,7 +70,7 @@ class ilLSPostConditionDB
         return $conditions;
     }
 
-    public function delete(array $ref_ids, ilDBInterface $db = null) : void
+    public function delete(array $ref_ids, ilDBInterface $db = null): void
     {
         if ($ref_ids === []) {
             return;
@@ -86,12 +88,13 @@ class ilLSPostConditionDB
         $db->manipulate($query);
     }
 
-    protected function insert(array $ls_post_conditions, ilDBInterface $db) : void
+    protected function insert(array $ls_post_conditions, ilDBInterface $db): void
     {
         foreach ($ls_post_conditions as $condition) {
             $values = [
                 "ref_id" => ["integer", $condition->getRefId()],
-                "condition_operator" => ["text", $condition->getConditionOperator()]
+                "condition_operator" => ["text", $condition->getConditionOperator()],
+                "value" => ["text", $condition->getValue()]
             ];
             $db->insert(static::TABLE_NAME, $values);
         }
@@ -100,21 +103,21 @@ class ilLSPostConditionDB
     /**
      * @param ilLSPostCondition[]
      */
-    public function upsert(array $ls_post_conditions) : void
+    public function upsert(array $ls_post_conditions): void
     {
         if ($ls_post_conditions === []) {
             return;
         }
 
         $ref_ids = array_map(
-            fn(ilLSPostCondition $condition) => $condition->getRefId(),
+            fn (ilLSPostCondition $condition) => $condition->getRefId(),
             $ls_post_conditions
         );
 
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(static::TABLE_NAME);
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $db) use ($ref_ids, $ls_post_conditions) : void {
+            function (ilDBInterface $db) use ($ref_ids, $ls_post_conditions): void {
                 $this->delete($ref_ids, $db);
                 $this->insert($ls_post_conditions, $db);
             }

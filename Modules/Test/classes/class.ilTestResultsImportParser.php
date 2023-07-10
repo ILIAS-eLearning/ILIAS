@@ -1,17 +1,20 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilTestResultsImportParser extends ilSaxParser
 {
     private $tst_obj;
@@ -21,13 +24,8 @@ class ilTestResultsImportParser extends ilSaxParser
     private $user_criteria_field;
     private $user_criteria_type;
     private bool $user_criteria_checked = false;
-    /**
-     * @var false
-     */
-    private bool $sametag;
-    private string $characterbuffer;
+
     private $depth;
-    private $qti_element;
 
     protected $src_pool_def_id_mapping;
 
@@ -48,7 +46,7 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
      * @return array
      */
-    public function getQuestionIdMapping() : array
+    public function getQuestionIdMapping(): array
     {
         return $this->question_id_mapping;
     }
@@ -56,7 +54,7 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
      * @param array $question_id_mapping
      */
-    public function setQuestionIdMapping(array $question_id_mapping) : void
+    public function setQuestionIdMapping(array $question_id_mapping): void
     {
         $this->question_id_mapping = $question_id_mapping;
     }
@@ -64,7 +62,7 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
      * @return array
      */
-    public function getSrcPoolDefIdMapping() : array
+    public function getSrcPoolDefIdMapping(): array
     {
         return $this->src_pool_def_id_mapping;
     }
@@ -72,7 +70,7 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
      * @param array $src_pool_def_id_mapping
      */
-    public function setSrcPoolDefIdMapping(array $src_pool_def_id_mapping) : void
+    public function setSrcPoolDefIdMapping(array $src_pool_def_id_mapping): void
     {
         $this->src_pool_def_id_mapping = $src_pool_def_id_mapping;
     }
@@ -82,7 +80,7 @@ class ilTestResultsImportParser extends ilSaxParser
     * should be overwritten by inherited class
     * @access	private
     */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -92,16 +90,10 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
     * handler for begin of element parser
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-
-        $this->sametag = false;
-        $this->characterbuffer = "";
-        $this->depth[$a_xml_parser]++;
-        $this->path[$this->depth[$a_xml_parser]] = strtolower($a_name);
-        $this->qti_element = $a_name;
 
         switch (strtolower($a_name)) {
             case "results":
@@ -266,7 +258,7 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
     * handler for end of element
     */
-    public function handlerEndTag($a_xml_parser, $a_name) : void
+    public function handlerEndTag($a_xml_parser, $a_name): void
     {
         switch (strtolower($a_name)) {
             case "tst_active":
@@ -285,7 +277,7 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
       * handler for character data
       */
-    public function handlerParseCharacterData($a_xml_parser, $a_data) : void
+    public function handlerParseCharacterData($a_xml_parser, $a_data): void
     {
         // do nothing
     }
@@ -299,10 +291,10 @@ class ilTestResultsImportParser extends ilSaxParser
         return null;
     }
 
-    private function fetchLastFinishedPass($attribs) : ?int
+    private function fetchLastFinishedPass($attribs): ?int
     {
         if (isset($attribs['last_finished_pass'])) {
-            return $attribs['last_finished_pass'];
+            return (int) $attribs['last_finished_pass'];
         }
 
         if ($attribs['tries'] > 0) {
@@ -312,7 +304,7 @@ class ilTestResultsImportParser extends ilSaxParser
         return null;
     }
 
-    private function fetchLastStartedPass($attribs) : ?int
+    private function fetchLastStartedPass($attribs): ?int
     {
         if (isset($attribs['last_started_pass'])) {
             return $attribs['last_started_pass'];

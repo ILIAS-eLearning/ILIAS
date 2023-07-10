@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Refinery\Random\Seed;
 
 interface Seed
@@ -24,5 +26,5 @@ interface Seed
      * Seeds a random number generator.
      * @return void
      */
-    public function seedRandomGenerator() : void;
+    public function seedRandomGenerator(): void;
 }

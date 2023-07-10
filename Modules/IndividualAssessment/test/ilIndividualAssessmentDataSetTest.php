@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -10,12 +26,12 @@ class ilIndividualAssessmentDataSetWrapper extends ilIndividualAssessmentDataSet
     {
     }
 
-    public function getTypesWrapper(string $entity, string $version) : array
+    public function getTypesWrapper(string $entity, string $version): array
     {
         return $this->getTypes($entity, $version);
     }
 
-    public function getXmlNamespaceWrapper(string $a_entity, string $a_schema_version) : string
+    public function getXmlNamespaceWrapper(string $a_entity, string $a_schema_version): string
     {
         return $this->getXmlNamespace($a_entity, $a_schema_version);
     }
@@ -23,13 +39,13 @@ class ilIndividualAssessmentDataSetWrapper extends ilIndividualAssessmentDataSet
 
 class ilIndividualAssessmentDataSetTest extends TestCase
 {
-    public function test_crateObject() : void
+    public function test_crateObject(): void
     {
         $obj = new ilIndividualAssessmentDataSetWrapper();
         $this->assertInstanceOf(ilIndividualAssessmentDataSet::class, $obj);
     }
 
-    public function test_getSupportedVersions() : void
+    public function test_getSupportedVersions(): void
     {
         $expected = ['5.2.0', '5.3.0'];
 
@@ -40,7 +56,7 @@ class ilIndividualAssessmentDataSetTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function test_getXmlNamespaceWrapper() : void
+    public function test_getXmlNamespaceWrapper(): void
     {
         $expected = 'http://www.ilias.de/xml/Modules/IndividualAssessment/entity_string';
 
@@ -50,7 +66,7 @@ class ilIndividualAssessmentDataSetTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function test_getTypes_default() : void
+    public function test_getTypes_default(): void
     {
         $obj = new ilIndividualAssessmentDataSetWrapper();
         $result = $obj->getTypesWrapper("no_entity", "");
@@ -59,7 +75,7 @@ class ilIndividualAssessmentDataSetTest extends TestCase
         $this->assertEmpty($result);
     }
 
-    public function test_getTypes_iass() : void
+    public function test_getTypes_iass(): void
     {
         $expected = [
             "id" => "integer",

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Refinery\Container;
 
@@ -49,7 +51,7 @@ class AddLabels implements Transformation
      * @inheritDoc
      * @return array<int|string, mixed>
      */
-    public function transform($from) : array
+    public function transform($from): array
     {
         if (!is_array($from)) {
             throw new InvalidArgumentException(__METHOD__ . " argument is not an array.");
@@ -65,7 +67,7 @@ class AddLabels implements Transformation
     /**
      * @inheritDoc
      */
-    public function applyTo(Result $result) : Result
+    public function applyTo(Result $result): Result
     {
         $dataValue = $result->value();
         if (false === is_array($dataValue)) {

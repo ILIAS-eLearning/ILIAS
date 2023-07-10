@@ -1,23 +1,30 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\MediaObjects;
 
 use ILIAS\DI\Container;
 use ILIAS\MediaObjects\ImageMap\ImageMapManager;
 use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\MediaObjects\MediaType\MediaTypeManager;
+use ILIAS\MediaObjects\Tracking\TrackingManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -50,10 +57,22 @@ class InternalDomainService
         );
     }*/
 
-    public function imageMap() : ImageMapManager
+    public function imageMap(): ImageMapManager
     {
         return new ImageMapManager(
             $this->repo_service->imageMap()
+        );
+    }
+
+    public function mediaType(): MediaTypeManager
+    {
+        return new MediaTypeManager();
+    }
+
+    public function tracking(): TrackingManager
+    {
+        return new TrackingManager(
+            $this
         );
     }
 }

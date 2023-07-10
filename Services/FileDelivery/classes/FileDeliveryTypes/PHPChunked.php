@@ -1,25 +1,30 @@
 <?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 use ILIAS\FileDelivery\ilFileDeliveryType;
+use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\HTTP\Services;
 use ILIAS\HTTP\Response\ResponseHeader;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class PHPChunked
  *
@@ -30,6 +35,10 @@ use ILIAS\HTTP\Response\ResponseHeader;
 final class PHPChunked implements ilFileDeliveryType
 {
     private \ILIAS\HTTP\Services $httpService;
+    /**
+     * @var resource|null
+     */
+    private $file;
 
 
     /**
@@ -46,7 +55,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists(string $path_to_file) : bool
+    public function doesFileExists(string $path_to_file): bool
     {
         return is_readable($path_to_file);
     }
@@ -55,9 +64,15 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function prepare(string $path_to_file) : bool
+    public function prepare(string $path_to_file, ?FileStream $possible_stream): bool
     {
-        // nothing to do here
+        set_time_limit(0);
+        if ($possible_stream !== null) {
+            $this->file = $possible_stream->detach();
+        } else {
+            $resource = fopen($path_to_file, 'rb');
+            $this->file = $resource === false ? null : $resource;
+        }
         return true;
     }
 
@@ -65,10 +80,17 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function deliver(string $path_to_file, bool $file_marked_to_delete) : void
+    public function deliver(string $path_to_file, bool $file_marked_to_delete): void
     {
         $file = $path_to_file;
-        $fp = @fopen($file, 'rb');
+        $fp = $this->file;
+
+        // see https://mantis.ilias.de/view.php?id=36970
+        if ($fp === null) {
+            $response = $this->httpService->response()->withStatus(404);
+            $this->httpService->saveResponse($response);
+            $this->close();
+        }
 
         $size = filesize($file); // File size
         $length = $size;           // Content length
@@ -138,7 +160,7 @@ final class PHPChunked implements ilFileDeliveryType
             $start = $c_start;
             $end = $c_end;
             $length = $end - $start + 1; // Calculate new content length
-            fseek($fp, $start);
+            fseek($fp, (int) $start);
 
             $response = $this->httpService->response()->withStatus(206);
 
@@ -174,7 +196,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsInlineDelivery() : bool
+    public function supportsInlineDelivery(): bool
     {
         return true;
     }
@@ -183,7 +205,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsAttachmentDelivery() : bool
+    public function supportsAttachmentDelivery(): bool
     {
         return true;
     }
@@ -192,13 +214,13 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsStreaming() : bool
+    public function supportsStreaming(): bool
     {
         return true;
     }
 
 
-    private function close() : void
+    private function close(): void
     {
         //render response
         $this->httpService->sendResponse();
@@ -209,7 +231,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function handleFileDeletion(string $path_to_file) : bool
+    public function handleFileDeletion(string $path_to_file): bool
     {
         return unlink($path_to_file);
     }

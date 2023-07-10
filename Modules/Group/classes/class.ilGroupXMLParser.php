@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
-/******************************************************************************
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Group Import Parser
  *
@@ -89,16 +94,16 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         $this->pushParentId($a_parent_id);
     }
 
-    public function pushParentId(int $a_id) : void
+    public function pushParentId(int $a_id): void
     {
         $this->parent[] = $a_id;
     }
-    public function popParentId() : void
+    public function popParentId(): void
     {
         array_pop($this->parent);
     }
 
-    public function getParentId() : int
+    public function getParentId(): int
     {
         return $this->parent[count($this->parent) - 1];
     }
@@ -107,7 +112,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * @inheritDoc
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         $this->sax_controller->setHandlers($a_xml_parser);
         $this->sax_controller->setDefaultElementHandler($this);
@@ -127,7 +132,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * @inheritDoc
      */
-    public function startParsing() : void
+    public function startParsing(): void
     {
         parent::startParsing();
 
@@ -149,7 +154,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
      * @inheritDoc
      * @param mixed|null $a_attribs
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         global $DIC;
 
@@ -167,7 +172,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
 
-            // GROUP DATA
+                // GROUP DATA
             case "group":
                 $this->group_data["admin"] = array();
                 $this->group_data["member"] = array();
@@ -257,7 +262,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         }
     }
 
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         if ($this->lom_parsing_active) {
             parent::handlerEndTag($a_xml_parser, $a_name);
@@ -363,7 +368,6 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             case 'ViewMode':
                 $this->group_data['view_mode'] = (int) $this->cdata;
                 break;
-
         }
         $this->cdata = '';
     }
@@ -372,7 +376,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * @inheritDoc
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($this->lom_parsing_active) {
             parent::handlerCharacterData($a_xml_parser, $a_data);
@@ -386,22 +390,20 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         }
     }
 
-    public function save() : bool
+    public function save(): bool
     {
         if ($this->group_imported) {
             return true;
         }
 
-        $this->group_obj->setImportId($this->group_data["id"]);
-        $this->group_obj->setTitle($this->group_data["title"]);
-        $this->group_obj->setDescription($this->group_data["description"]);
+        $this->group_obj->setImportId($this->group_data["id"] ?? '');
+        $this->group_obj->setTitle($this->group_data["title"] ?? '');
+        $this->group_obj->setDescription($this->group_data["description"] ?? '');
         $this->group_obj->setInformation((string) $this->group_data['information']);
 
-        if (
-            $this->group_data['period_start'] &&
-            $this->group_data['period_end']) {
+        if (isset($this->group_data['period_start']) && isset($this->group_data['period_end'])) {
             try {
-                if ($this->group_data['period_with_time']) {
+                if ($this->group_data['period_with_time'] ?? false) {
                     $this->group_obj->setPeriod(
                         new \ilDateTime($this->group_data['period_start'], IL_CAL_UNIX),
                         new \ilDateTime($this->group_data['period_end'], IL_CAL_UNIX)
@@ -423,7 +425,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         if (isset($this->group_data["owner"])) {
             $owner = $this->group_data["owner"];
             if (!is_numeric($owner)) {
-                $owner = ilUtil::__extractId($owner, IL_INST_ID);
+                $owner = ilUtil::__extractId($owner, (int) IL_INST_ID);
             }
             if (is_numeric($owner) && $owner > 0) {
                 $this->group_obj->setOwner($owner);
@@ -464,7 +466,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             }
         }
         // SET GROUP SPECIFIC DATA
-        switch ($this->group_data['registration_type']) {
+        switch ($this->group_data['registration_type'] ?? '') {
             case 'direct':
             case 'enabled':
                 $flag = ilGroupConstants::GRP_REGISTRATION_DIRECT;
@@ -489,12 +491,12 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
 
         $registration_end = null;
-        if ($this->group_data['expiration_end']) {
+        if ($this->group_data['expiration_end'] ?? false) {
             $registration_end = new ilDateTime($this->group_data['expiration_end'], IL_CAL_UNIX);
         }
 
         $registration_start = null;
-        if ($this->group_data['expiration_start']) {
+        if ($this->group_data['expiration_start'] ?? false) {
             $registration_start = new ilDateTime($this->group_data['expiration_start'], IL_CAL_UNIX);
         }
         if (
@@ -507,17 +509,17 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         } else {
             $this->group_obj->enableUnlimitedRegistration(true);
         }
-        $this->group_obj->setPassword($this->group_data['password']);
-        $this->group_obj->enableMembershipLimitation($this->group_data['max_members_enabled']);
-        $this->group_obj->setMaxMembers($this->group_data['max_members'] ?: 0);
-        $this->group_obj->enableWaitingList($this->group_data['waiting_list_enabled']);
+        $this->group_obj->setPassword($this->group_data['password'] ?? '');
+        $this->group_obj->enableMembershipLimitation((bool) ($this->group_data['max_members_enabled'] ?? false));
+        $this->group_obj->setMaxMembers((int) ($this->group_data['max_members'] ?? 0));
+        $this->group_obj->enableWaitingList((bool) ($this->group_data['waiting_list_enabled'] ?? false));
 
-        $this->group_obj->setWaitingListAutoFill($this->group_data['auto_wait']);
-        $this->group_obj->setCancellationEnd($this->group_data['cancel_end']);
-        $this->group_obj->setMinMembers($this->group_data['min_members']);
-        $this->group_obj->setShowMembers($this->group_data['show_members'] ?: 0);
-        $this->group_obj->setAutoNotification($this->group_data['auto_notification'] ? true : false);
-        $this->group_obj->setMailToMembersType((int) $this->group_data['mail_members_type']);
+        $this->group_obj->setWaitingListAutoFill((bool) ($this->group_data['auto_wait'] ?? false));
+        $this->group_obj->setCancellationEnd($this->group_data['cancel_end'] ?? null);
+        $this->group_obj->setMinMembers((int) ($this->group_data['min_members'] ?? 0));
+        $this->group_obj->setShowMembers((bool) ($this->group_data['show_members'] ?? false));
+        $this->group_obj->setAutoNotification((bool) (($this->group_data['auto_notification'] ?? false)));
+        $this->group_obj->setMailToMembersType((int) ($this->group_data['mail_members_type'] ?? 0));
         if (isset($this->group_data['view_mode'])) {
             $this->group_obj->setViewMode((int) $this->group_data['view_mode']);
         }
@@ -546,7 +548,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         return true;
     }
 
-    public function assignMembers() : void
+    public function assignMembers(): void
     {
         $this->participants = new ilGroupParticipants($this->group_obj->getId());
         $this->participants->add($this->user->getId(), ilParticipants::IL_GRP_ADMIN);
@@ -601,7 +603,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         }
     }
 
-    public function parseId(string $a_id) : array
+    public function parseId(string $a_id): array
     {
         $fields = explode('_', $a_id);
 
@@ -629,12 +631,12 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     }
 
 
-    public function setMode(int $mode) : void
+    public function setMode(int $mode): void
     {
         $this->mode = $mode;
     }
 
-    public function initContainerSorting(array $a_attribs, int $a_group_id) : void
+    public function initContainerSorting(array $a_attribs, int $a_group_id): void
     {
         ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $a_group_id);
     }

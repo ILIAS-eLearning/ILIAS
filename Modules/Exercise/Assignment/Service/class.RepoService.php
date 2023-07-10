@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,7 +17,7 @@ declare(strict_types = 1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Exercise\Assignment;
 
 use ILIAS\Exercise\InternalDataService;
@@ -38,7 +39,7 @@ class RepoService
         $this->data = $data;
     }
 
-    public function randomAssignments() : Mandatory\RandomAssignmentsDBRepository
+    public function randomAssignments(): Mandatory\RandomAssignmentsDBRepository
     {
         return new Mandatory\RandomAssignmentsDBRepository(
             $this->data,

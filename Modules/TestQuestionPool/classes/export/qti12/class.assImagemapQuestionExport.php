@@ -1,7 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class for imagemap question exports
@@ -16,20 +28,17 @@ class assImagemapQuestionExport extends assQuestionExport
 {
     /**
     * Returns a QTI xml representation of the question
-    *
     * Returns a QTI xml representation of the question and sets the internal
     * domxml variable with the DOM XML representation of the QTI xml representation
-    *
     * @return string The QTI xml representation of the question
     * @access public
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
-        
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
-        $a_xml_writer = new ilXmlWriter;
+
+        $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();
         $a_xml_writer->xmlStartTag("questestinterop");
@@ -41,11 +50,6 @@ class assImagemapQuestionExport extends assQuestionExport
         $a_xml_writer->xmlStartTag("item", $attrs);
         // add question description
         $a_xml_writer->xmlElement("qticomment", null, $this->object->getComment());
-        // add estimated working time
-        $workingtime = $this->object->getEstimatedWorkingTime();
-        $duration = sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]);
-        $a_xml_writer->xmlElement("duration", null, $duration);
-        // add ILIAS specific metadata
         $a_xml_writer->xmlStartTag("itemmetadata");
         $a_xml_writer->xmlStartTag("qtimetadata");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -58,20 +62,20 @@ class assImagemapQuestionExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "IS_MULTIPLE_CHOICE");
-        $a_xml_writer->xmlElement("fieldentry", null, ($this->object->getIsMultipleChoice())? "1": "0");
+        $a_xml_writer->xmlElement("fieldentry", null, ($this->object->getIsMultipleChoice()) ? "1" : "0");
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getAuthor());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-        
+
         // additional content editing information
         $this->addAdditionalContentEditingModeInformation($a_xml_writer);
         $this->addGeneralMetadata($a_xml_writer);
-        
+
         $a_xml_writer->xmlEndTag("qtimetadata");
         $a_xml_writer->xmlEndTag("itemmetadata");
-        
+
         // PART I: qti presentation
         $attrs = array(
             "label" => $this->object->getTitle()
@@ -88,7 +92,7 @@ class assImagemapQuestionExport extends assQuestionExport
         );
         $a_xml_writer->xmlStartTag("response_xy", $attrs);
         $solution = $this->object->getSuggestedSolution(0);
-        if (count($solution)) {
+        if ($solution !== null && count($solution)) {
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
                 $a_xml_writer->xmlStartTag("material");
                 $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
@@ -312,7 +316,7 @@ class assImagemapQuestionExport extends assQuestionExport
             $a_xml_writer->xmlElement("displayfeedback", $attrs);
             $a_xml_writer->xmlEndTag("respcondition");
         }
-        
+
         $feedback_onenotcorrect = $this->object->feedbackOBJ->getGenericFeedbackExportPresentation(
             $this->object->getId(),
             false
@@ -404,7 +408,6 @@ class assImagemapQuestionExport extends assQuestionExport
 
         // PART III: qti itemfeedback
         foreach ($this->object->getAnswers() as $index => $answer) {
-            $linkrefid = "";
             $linkrefid = "response_$index";
             $attrs = array(
                 "ident" => $linkrefid,
@@ -446,7 +449,9 @@ class assImagemapQuestionExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-        
+
+        $a_xml_writer = $this->addSolutionHints($a_xml_writer);
+
         $a_xml_writer->xmlEndTag("item");
         $a_xml_writer->xmlEndTag("questestinterop");
 

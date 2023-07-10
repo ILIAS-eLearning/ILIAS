@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * SCORM to lp connector
  *
@@ -24,10 +29,9 @@ class ilScormLP extends ilObjectLP
     protected ?bool $precondition_cache = null;
 
     /**
-     * @param bool $a_lp_active
      * @return int[]
      */
-    public static function getDefaultModes(bool $a_lp_active) : array
+    public static function getDefaultModes(bool $a_lp_active): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -35,18 +39,12 @@ class ilScormLP extends ilObjectLP
         );
     }
 
-    /**
-     * @return int
-     */
-    public function getDefaultMode() : int
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
-    /**
-     * @return array
-     */
-    public function getValidModes() : array
+    public function getValidModes(): array
     {
         $subtype = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);
         if ($subtype !== 'scorm2004') {
@@ -91,18 +89,15 @@ class ilScormLP extends ilObjectLP
      * AK, 14Sep2018: This looks strange, the mode is auto-activated if this object is used
      * as a precondition trigger? This is not implemented for any other object type.
      */
-    public function getCurrentMode() : int
+    public function getCurrentMode(): int
     {
-//        if ($this->checkSCORMPreconditions()) {
-//            return ilLPObjSettings::LP_MODE_SCORM;
-//        }
+        //        if ($this->checkSCORMPreconditions()) {
+        //            return ilLPObjSettings::LP_MODE_SCORM;
+        //        }
         return parent::getCurrentMode();
     }
 
-    /**
-     * @return bool
-     */
-    protected function checkSCORMPreconditions() : bool
+    protected function checkSCORMPreconditions(): bool
     {
         if (is_bool($this->precondition_cache)) {
             return $this->precondition_cache;
@@ -116,13 +111,7 @@ class ilScormLP extends ilObjectLP
         return $this->precondition_cache;
     }
 
-    /**
-     * @param array $a_res
-     * @param int   $a_usr_id
-     * @param array $a_obj_ids
-     * @return bool
-     */
-    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids) : bool
+    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids): bool
     {
         global $DIC;
 
@@ -144,7 +133,6 @@ class ilScormLP extends ilObjectLP
                 " WHERE " . $ilDB->in("obj_id", $types["scorm2004"], false, "integer") .
                 " AND user_id = " . $ilDB->quote($a_usr_id, "integer"));
             while ($row = $ilDB->fetchAssoc($set)) {
-//                $a_res[$row["obj_id"]] = true;
                 return true;
             }
         }
@@ -157,17 +145,13 @@ class ilScormLP extends ilObjectLP
                 " AND user_id = " . $ilDB->quote($a_usr_id, "integer") .
                 " AND lvalue = " . $ilDB->quote("cmi.core.lesson_status", "text"));
             while ($row = $ilDB->fetchAssoc($set)) {
-//                $a_res[$row["obj_id"]] = true;
                 return true;
             }
         }
         return false;
     }
 
-    /**
-     * @return string
-     */
-    public function getMailTemplateId() : string
+    public function getMailTemplateId(): string
     {
         return ilScormMailTemplateLPContext::ID;
     }

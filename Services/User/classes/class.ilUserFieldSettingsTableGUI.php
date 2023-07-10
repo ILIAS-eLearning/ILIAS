@@ -3,15 +3,22 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\User\UserGUIRequest;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -19,7 +26,7 @@
 class ilUserFieldSettingsTableGUI extends ilTable2GUI
 {
     private bool $confirm_change = false;
-    protected \ILIAS\User\StandardGUIRequest $user_request;
+    protected UserGUIRequest $user_request;
 
     protected ilUserSettingsConfig $user_settings_config;
 
@@ -61,7 +68,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         $this->setData($fds);
         $this->addCommandButton("saveGlobalUserSettings", $lng->txt("save"));
 
-        $this->user_request = new \ILIAS\User\StandardGUIRequest(
+        $this->user_request = new UserGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
@@ -71,7 +78,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
      * @param array<string,mixed> $a_set
      * @throws ilTemplateException
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -130,7 +137,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 
 
                 if ($this->confirm_change == 1) {	// confirm value
-                    $checked = $req_checked[$prop . "_" . $field];
+                    $checked = $req_checked[$prop . "_" . $field] ?? false;
                 }
                 if (isset($a_set[$prop . "_fix_value"])) {	// fix values overwrite everything
                     $checked = $a_set[$prop . "_fix_value"];
@@ -205,7 +212,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_FIELD", $lng->txt($lv));
     }
 
-    public function setConfirmChange() : void
+    public function setConfirmChange(): void
     {
         $this->confirm_change = true;
     }

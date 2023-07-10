@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,13 +17,13 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\KioskMode\ControlBuilder;
 
 class LSTOCBuilderTest extends TestCase
 {
-    public function testConstruction() : void
+    public function testConstruction(): void
     {
         $cb = $this->createMock(LSControlBuilder::class);
         $tb = new LSTOCBuilder($cb, '');
@@ -31,7 +33,7 @@ class LSTOCBuilderTest extends TestCase
         );
     }
 
-    public function testRecursion() : void
+    public function testRecursion(): void
     {
         $cb = $this->createMock(LSControlBuilder::class);
         $tb = new LSTOCBuilder($cb, '');
@@ -69,7 +71,7 @@ class LSTOCBuilderTest extends TestCase
         );
     }
 
-    public function testToCEnd() : void
+    public function testToCEnd(): void
     {
         $cb = $this->createMock(LSControlBuilder::class);
         $tb = new LSTOCBuilder($cb, '');

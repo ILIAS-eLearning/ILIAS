@@ -1,5 +1,8 @@
 <?php
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Class ilCronEcsTaskScheduler
@@ -27,42 +30,42 @@ class ilCronEcsTaskScheduler extends \ilCronJob
         $this->result = new \ilCronJobResult();
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('ecs_cron_task_scheduler');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt('ecs_cron_task_scheduler_info');
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_IN_HOURS;
+        return CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return self::DEFAULT_SCHEDULE_VALUE;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $this->logger->debug('Starting ecs task scheduler...');
 

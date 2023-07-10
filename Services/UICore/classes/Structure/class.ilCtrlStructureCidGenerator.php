@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -30,7 +32,7 @@ class ilCtrlStructureCidGenerator
      * @param string $cid
      * @return int
      */
-    public function getIndexByCid(string $cid) : int
+    public function getIndexByCid(string $cid): int
     {
         if (strpos($cid, '-') === 0) {
             $inverted_cid = str_replace('-', '', $cid);
@@ -48,7 +50,7 @@ class ilCtrlStructureCidGenerator
      * @param int $index
      * @return string
      */
-    public function getCidByIndex(int $index) : string
+    public function getCidByIndex(int $index): string
     {
         if (0 > $index) {
             return '-' . base_convert((string) $this->invertIndex($index), 10, 36);
@@ -62,7 +64,7 @@ class ilCtrlStructureCidGenerator
      *
      * @return string
      */
-    public function getCid() : string
+    public function getCid(): string
     {
         return $this->getCidByIndex($this->index++);
     }
@@ -73,7 +75,7 @@ class ilCtrlStructureCidGenerator
      * @param int $index
      * @return int
      */
-    private function invertIndex(int $index) : int
+    private function invertIndex(int $index): int
     {
         return (-1 * $index);
     }

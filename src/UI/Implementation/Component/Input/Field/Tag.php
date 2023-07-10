@@ -1,4 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -50,7 +67,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         $this->addAdditionalTransformations();
     }
 
-    protected function addAdditionalTransformations() : void
+    protected function addAdditionalTransformations(): void
     {
         $this->setAdditionalTransformation($this->refinery->string()->splitString(','));
         $this->setAdditionalTransformation($this->refinery->custom()->transformation(function (array $v) {
@@ -61,10 +78,10 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         }));
     }
 
-    public function getConfiguration() : stdClass
+    public function getConfiguration(): stdClass
     {
         $options = array_map(
-            fn($tag) => [
+            fn ($tag) => [
                 'value' => urlencode(trim($tag)),
                 'display' => $tag,
                 'searchBy' => $tag
@@ -97,8 +114,12 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
+        if ($this->requirement_constraint !== null) {
+            return $this->requirement_constraint;
+        }
+
         return $this->refinery->logical()->sequential([
             $this->refinery->logical()->not($this->refinery->null()),
             $this->refinery->string()->hasMinLength(1)
@@ -110,12 +131,12 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         if ($this->getMaxTags() > 0) {
             $max_tags = $this->getMaxTags();
             $max_tags_ok = $this->refinery->custom()->constraint(
-                fn($value) => is_array($value) && count($value) <= $max_tags,
+                fn ($value) => is_array($value) && count($value) <= $max_tags,
                 'Too many Tags'
             );
             if (!$max_tags_ok->accepts($value)) {
@@ -158,7 +179,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function getTags() : array
+    public function getTags(): array
     {
         return $this->tags;
     }
@@ -167,7 +188,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function withUserCreatedTagsAllowed(bool $extendable) : C\Input\Field\Tag
+    public function withUserCreatedTagsAllowed(bool $extendable): C\Input\Field\Tag
     {
         $clone = clone $this;
         $clone->extendable = $extendable;
@@ -177,7 +198,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function areUserCreatedTagsAllowed() : bool
+    public function areUserCreatedTagsAllowed(): bool
     {
         return $this->extendable;
     }
@@ -185,7 +206,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function withSuggestionsStartAfter(int $characters) : C\Input\Field\Tag
+    public function withSuggestionsStartAfter(int $characters): C\Input\Field\Tag
     {
         if ($characters < 1) {
             throw new InvalidArgumentException("The amount of characters must be at least 1, $characters given.");
@@ -199,7 +220,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function getSuggestionsStartAfter() : int
+    public function getSuggestionsStartAfter(): int
     {
         return $this->suggestion_starts_with;
     }
@@ -207,7 +228,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function withTagMaxLength(int $max_length) : C\Input\Field\Tag
+    public function withTagMaxLength(int $max_length): C\Input\Field\Tag
     {
         $clone = clone $this;
         $clone->tag_max_length = $max_length;
@@ -218,7 +239,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function getTagMaxLength() : int
+    public function getTagMaxLength(): int
     {
         return $this->tag_max_length;
     }
@@ -226,7 +247,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function withMaxTags(int $max_tags) : C\Input\Field\Tag
+    public function withMaxTags(int $max_tags): C\Input\Field\Tag
     {
         $clone = clone $this;
         $clone->max_tags = $max_tags;
@@ -237,7 +258,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function getMaxTags() : int
+    public function getMaxTags(): int
     {
         return $this->max_tags;
     }
@@ -245,7 +266,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function withInput(InputData $input) : C\Input\Field\Input
+    public function withInput(InputData $input): C\Input\Field\Input
     {
         // ATTENTION: This is a slightly modified copy of parent::withInput, which
         // fixes #27909 but makes the Tag Input unusable in Filter Containers.
@@ -269,12 +290,12 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     }
 
     // Events
-    public function withAdditionalOnTagAdded(Signal $signal) : C\Input\Field\Tag
+    public function withAdditionalOnTagAdded(Signal $signal): C\Input\Field\Tag
     {
         return $this->appendTriggeredSignal($signal, self::EVENT_ITEM_ADDED);
     }
 
-    public function withAdditionalOnTagRemoved(Signal $signal) : C\Input\Field\Tag
+    public function withAdditionalOnTagRemoved(Signal $signal): C\Input\Field\Tag
     {
         return $this->appendTriggeredSignal($signal, self::EVENT_ITEM_REMOVED);
     }
@@ -282,9 +303,9 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
-        return fn($id) => "$('#$id').on('add', function(event) {
+        return fn ($id) => "$('#$id').on('add', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			$('#$id').on('remove', function(event) {

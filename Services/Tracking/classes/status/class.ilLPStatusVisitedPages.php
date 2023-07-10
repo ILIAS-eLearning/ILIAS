@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -9,16 +11,17 @@
  */
 class ilLPStatusVisitedPages extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         $users = array_diff(
-            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+            $users,
+            ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
         return $users;
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $users = array();
 
@@ -38,7 +41,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch (ilObject::_lookupType($a_obj_id)) {
             case 'lm':
@@ -59,7 +62,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         ?object $a_obj = null
-    ) : int {
+    ): int {
         $all_page_ids = sizeof(self::getLMPages($a_obj_id));
         if (!$all_page_ids) {
             return 0;
@@ -71,7 +74,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
     protected static function hasVisitedAllPages(
         int $a_obj_id,
         int $a_user_id
-    ) : bool {
+    ): bool {
         $all_page_ids = self::getLMPages($a_obj_id);
         if (!sizeof($all_page_ids)) {
             return false;
@@ -80,7 +83,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
         return !(bool) array_diff($all_page_ids, $user_page_ids);
     }
 
-    protected static function getLMPages(int $a_obj_id) : array
+    protected static function getLMPages(int $a_obj_id): array
     {
         global $DIC;
 
@@ -107,7 +110,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
     protected static function getVisitedPages(
         int $a_obj_id,
         ?int $a_user_id = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -133,7 +136,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
         }
 
         if ($a_user_id) {
-            $res = (array) $res[$a_user_id];
+            $res = $res[$a_user_id] ?? [];
         }
 
         return $res;

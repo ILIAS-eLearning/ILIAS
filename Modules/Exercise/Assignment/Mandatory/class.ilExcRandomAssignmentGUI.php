@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\DI\UIServices;
 use ILIAS\Exercise\Assignment\Mandatory;
 
@@ -48,7 +48,7 @@ class ilExcRandomAssignmentGUI
         $this->lng = $lng;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -69,7 +69,7 @@ class ilExcRandomAssignmentGUI
      * @throws ilDateTimeException
      * @throws ilObjectNotFoundException
      */
-    public function renderStartPage() : void
+    public function renderStartPage(): void
     {
         $toolbar = $this->toolbar;
         $lng = $this->lng;
@@ -96,8 +96,8 @@ class ilExcRandomAssignmentGUI
         );
         $this->main_tpl->setContent($info_gui->getHTML());
     }
-    
-    protected function startExercise() : void
+
+    protected function startExercise(): void
     {
         $this->random_manager->startExercise();
         $this->ctrl->redirectByClass("ilObjExerciseGUI", "showOverview");

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -41,7 +43,7 @@ class ilICalProperty extends ilICalItem
     /**
      * @inheritDoc
      */
-    public function getItemsByName(string $a_name, bool $a_recursive = true) : array
+    public function getItemsByName(string $a_name, bool $a_recursive = true): array
     {
         $found = [];
         foreach ($this->getItems() as $item) {

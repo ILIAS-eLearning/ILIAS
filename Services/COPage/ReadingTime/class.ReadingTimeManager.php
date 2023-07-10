@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\ReadingTime;
 
@@ -39,7 +42,7 @@ class ReadingTimeManager
         $this->repo = new ReadingTimeDBRepo();
     }
 
-    public function saveTime(\ilPageObject $page) : void
+    public function saveTime(\ilPageObject $page): void
     {
         $minutes = 0;
 
@@ -58,7 +61,7 @@ class ReadingTimeManager
         );
     }
 
-    public function getTime(\ilPageObject $page) : int
+    public function getTime(\ilPageObject $page): int
     {
         return $this->repo->getTime(
             $page->getId(),
@@ -71,7 +74,7 @@ class ReadingTimeManager
         string $parent_type,
         int $page_id,
         string $lang = "-"
-    ) : int {
+    ): int {
         return $this->repo->getTime(
             $page_id,
             $parent_type,
@@ -79,7 +82,7 @@ class ReadingTimeManager
         );
     }
 
-    public function setMissingReadingTimes(string $parent_type, int $parent_id) : void
+    public function setMissingReadingTimes(string $parent_type, int $parent_id): void
     {
         $pages = $this->repo->getPagesWithMissingReadingTime($parent_type, $parent_id);
         foreach ($pages as $p) {
@@ -96,7 +99,7 @@ class ReadingTimeManager
     public function getParentReadingTime(
         string $a_parent_type,
         int $a_parent_id
-    ) : int {
+    ): int {
         return $this->repo->getParentReadingTime($a_parent_type, $a_parent_id);
     }
 }

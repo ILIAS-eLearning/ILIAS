@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
-/* Copyright (c) 2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcessor
 {
@@ -10,32 +26,32 @@ class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcess
     protected ?string $component;
     protected ?string $type;
 
-    public function getData() : array
+    public function getData(): array
     {
         return $this->data;
     }
 
-    public function purge() : void
+    public function purge(): void
     {
         $this->data = [];
         $this->slots = [];
     }
 
-    public function beginComponent(string $component, string $type) : void
+    public function beginComponent(string $component, string $type): void
     {
         $this->component_id = null;
         $this->component = $component;
         $this->type = $type;
     }
 
-    public function endComponent(string $component, string $type) : void
+    public function endComponent(string $component, string $type): void
     {
         $this->component_id = null;
         $this->component = null;
         $this->type = null;
     }
 
-    public function beginTag(string $name, array $attributes) : void
+    public function beginTag(string $name, array $attributes): void
     {
         if ($name === "module") {
             $type = "Modules";
@@ -83,7 +99,7 @@ class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcess
         }
     }
 
-    public function endTag(string $name) : void
+    public function endTag(string $name): void
     {
     }
 }

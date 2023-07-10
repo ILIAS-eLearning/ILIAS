@@ -13,13 +13,13 @@ class ilTrackingCollectionTest extends TestCase
 {
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->initDependencies();
     }
 
-    public function testCollectionInstance() : void
+    public function testCollectionInstance(): void
     {
         $objectives = ilLPCollection::getInstanceByMode(
             0,
@@ -31,7 +31,7 @@ class ilTrackingCollectionTest extends TestCase
         );
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -42,7 +42,7 @@ class ilTrackingCollectionTest extends TestCase
         };
     }
 
-    protected function initDependencies() : void
+    protected function initDependencies(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;

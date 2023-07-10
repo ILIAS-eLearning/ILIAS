@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -19,11 +21,11 @@
  */
 class ilFolderExporter extends ilXmlExporter
 {
-    public function init() : void
+    public function init(): void
     {
     }
-    
-    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         // always trigger container because of co-page(s)
         return [
@@ -34,8 +36,8 @@ class ilFolderExporter extends ilXmlExporter
             ]
         ];
     }
-    
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         try {
             $writer = null;
@@ -48,8 +50,8 @@ class ilFolderExporter extends ilXmlExporter
             return '';
         }
     }
-    
-    public function getValidSchemaVersions(string $a_entity) : array
+
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return [
             "4.1.0" => [

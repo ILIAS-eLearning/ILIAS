@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Style\Content;
 
@@ -44,17 +49,17 @@ class Service
     /**
      * Internal service, do not use in other components
      */
-    public function internal() : InternalService
+    public function internal(): InternalService
     {
         return $this->internal;
     }
 
-    public function gui() : GUIService
+    public function gui(): GUIService
     {
         return $this->gui;
     }
 
-    public function domain() : DomainService
+    public function domain(): DomainService
     {
         return $this->domain;
     }

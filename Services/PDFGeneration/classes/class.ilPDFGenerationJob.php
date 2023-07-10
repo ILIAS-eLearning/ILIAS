@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+/**
+ * @deprecated
+ */
 class ilPDFGenerationJob
 {
     /** @var string[] */
@@ -23,13 +28,13 @@ class ilPDFGenerationJob
     private ?string $filename;
     private ?string $output_mode;
 
-    public function setFilename(string $filename) : self
+    public function setFilename(string $filename): self
     {
         $this->filename = $filename;
         return $this;
     }
 
-    public function getFilename() : ?string
+    public function getFilename(): ?string
     {
         return $this->filename;
     }
@@ -38,7 +43,7 @@ class ilPDFGenerationJob
      * @param string[] $pages
      * @return $this
      */
-    public function setPages(array $pages) : self
+    public function setPages(array $pages): self
     {
         $this->pages = $pages;
         return $this;
@@ -47,30 +52,30 @@ class ilPDFGenerationJob
     /**
      * @return string[]
      */
-    public function getPages() : array
+    public function getPages(): array
     {
         return $this->pages;
     }
 
-    public function addPage(string $page) : self
+    public function addPage(string $page): self
     {
         $this->pages[] = $page;
         return $this;
     }
 
-    public function flushPages() : self
+    public function flushPages(): self
     {
         $this->pages = [];
         return $this;
     }
 
-    public function setOutputMode(string $output_mode) : self
+    public function setOutputMode(string $output_mode): self
     {
         $this->output_mode = $output_mode;
         return $this;
     }
 
-    public function getOutputMode() : ?string
+    public function getOutputMode(): ?string
     {
         return $this->output_mode;
     }

@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Blog\StandardGUIRequest;
 
@@ -31,7 +36,7 @@ class ilBlogExerciseGUI
     protected string $file;
     protected \ILIAS\DI\UIServices $ui;
     private \ilGlobalTemplateInterface $main_tpl;
-    
+
     public function __construct(int $a_node_id)
     {
         global $DIC;
@@ -50,28 +55,28 @@ class ilBlogExerciseGUI
         $this->file = $this->blog_request->getAssFile();
         $this->ui = $DIC->ui();
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         if (!$this->ass_id) {
             $this->ctrl->returnToParent($this);
         }
-        
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
-    
+
         switch ($next_class) {
             default:
                 $this->$cmd();
                 break;
         }
     }
-    
+
     public static function checkExercise(
         int $a_node_id
-    ) : string {
+    ): string {
         $be = new ilBlogExercise($a_node_id);
 
         $info = [];
@@ -90,7 +95,7 @@ class ilBlogExerciseGUI
 
     protected static function getExerciseInfo(
         int $a_assignment_id
-    ) : string {
+    ): string {
         global $DIC;
 
         $ui = $DIC->ui();
@@ -103,16 +108,16 @@ class ilBlogExerciseGUI
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $ilUser = $DIC->user();
-                    
+
         $ass = new ilExAssignment($a_assignment_id);
         $exercise_id = $ass->getExerciseId();
         if (!$exercise_id) {
             return "";
         }
-        
+
         // is the assignment still open?
         $times_up = $ass->afterDeadlineStrict();
-        
+
         // exercise goto
         $exc_ref_id = current(ilObject::_getAllReferences($exercise_id));
         $exc_link = ilLink::_getStaticLink($exc_ref_id, "exc");
@@ -123,7 +128,7 @@ class ilBlogExerciseGUI
             ilObject::_lookupTitle($exercise_id)
         );
         $links[] = $ui->factory()->link()->standard(ilObject::_lookupTitle($exercise_id), $exc_link);
-        
+
         // submit button
         if (!$times_up) {
             $ilCtrl->setParameterByClass("ilblogexercisegui", "ass", $a_assignment_id);
@@ -132,17 +137,17 @@ class ilBlogExerciseGUI
 
             $buttons[] = $ui->factory()->button()->primary($lng->txt("blog_finalize_blog"), $submit_link);
         }
-        
+
         // submitted files
         $submission = new ilExSubmission($ass, $ilUser->getId());
         if ($submission->hasSubmitted()) {
             // #16888
             $submitted = $submission->getSelectedObject();
-            
+
             $ilCtrl->setParameterByClass("ilblogexercisegui", "ass", $a_assignment_id);
             $dl_link = $ilCtrl->getLinkTargetByClass("ilblogexercisegui", "downloadExcSubFile");
             $ilCtrl->setParameterByClass("ilblogexercisegui", "ass", "");
-            
+
             $rel = ilDatePresentation::useRelativeDates();
             ilDatePresentation::setUseRelativeDates(false);
 
@@ -151,14 +156,14 @@ class ilBlogExerciseGUI
                 ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
                 ""
             );
-            
+
             ilDatePresentation::setUseRelativeDates($rel);
             $buttons[] = $ui->factory()->button()->standard($lng->txt("blog_download_submission"), $dl_link);
         }
-        
-        
+
+
         // work instructions incl. files
-        
+
         $tooltip = "";
 
         $inst = $ass->getInstruction();
@@ -169,7 +174,7 @@ class ilBlogExerciseGUI
         $ass_files = $ass->getFiles();
         if (count($ass_files) > 0) {
             $tooltip .= "<br /><br />";
-            
+
             foreach ($ass_files as $file) {
                 $ilCtrl->setParameterByClass("ilblogexercisegui", "ass", $a_assignment_id);
                 $ilCtrl->setParameterByClass("ilblogexercisegui", "file", urlencode($file["name"]));
@@ -182,10 +187,10 @@ class ilBlogExerciseGUI
             $list = $ui->factory()->listing()->unordered($items);
             $tooltip .= $ui->renderer()->render($list);
         }
-        
+
         if ($tooltip) {
             $modal = $ui->factory()->modal()->roundtrip($lng->txt("exc_instruction"), $ui->factory()->legacy($tooltip))
-                ->withCancelButtonLabel("close");
+                ->withCancelButtonLabel($lng->txt("close"));
             $elements[] = $modal;
             $buttons[] = $ui->factory()->button()->standard($lng->txt("exc_instruction"), '#')
                 ->withOnClick($modal->getShowSignal());
@@ -197,8 +202,8 @@ class ilBlogExerciseGUI
 
         return $ui->renderer()->render($elements);
     }
-    
-    protected function downloadExcAssFile() : void
+
+    protected function downloadExcAssFile(): void
     {
         if ($this->file) {
             $ass = new ilExAssignment($this->ass_id);
@@ -212,11 +217,11 @@ class ilBlogExerciseGUI
             }
         }
     }
-    
-    protected function downloadExcSubFile() : void
+
+    protected function downloadExcSubFile(): void
     {
         $ilUser = $this->user;
-                
+
         $ass = new ilExAssignment($this->ass_id);
         $submission = new ilExSubmission($ass, $ilUser->getId());
         $submitted = $submission->getFiles();
@@ -233,12 +238,12 @@ class ilBlogExerciseGUI
             ilFileDelivery::deliverFileLegacy($submitted["filename"], $title);
         }
     }
-        
-    protected function finalize() : void
+
+    protected function finalize(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $exc_gui = ilExSubmissionObjectGUI::initGUIForSubmit($this->ass_id);
         $exc_gui->submitBlog($this->node_id);
 
@@ -252,7 +257,7 @@ class ilBlogExerciseGUI
      */
     public function getSubmitButton(
         int $ass_id
-    ) : ?\ILIAS\UI\Component\Button\Primary {
+    ): ?\ILIAS\UI\Component\Button\Primary {
         $ilCtrl = $this->ctrl;
         $ui = $this->ui;
         $lng = $this->lng;
@@ -274,7 +279,7 @@ class ilBlogExerciseGUI
      */
     public function getDownloadSubmissionButton(
         int $ass_id
-    ) : ?\ILIAS\UI\Component\Button\Standard {
+    ): ?\ILIAS\UI\Component\Button\Standard {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ui = $this->ui;
@@ -295,7 +300,7 @@ class ilBlogExerciseGUI
     }
 
 
-    public function getActionButtons() : array
+    public function getActionButtons(): array
     {
         $be = new ilBlogExercise($this->node_id);
 

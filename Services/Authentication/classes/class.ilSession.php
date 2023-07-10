@@ -1,18 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * @author Alex Killing <alex.killing@gmx.de>
@@ -29,7 +33,7 @@ class ilSession
      *
      */
     public const SESSION_HANDLING_FIXED = 0;
-    
+
     /**
      *
      * Constant for load dependend session handling
@@ -38,7 +42,7 @@ class ilSession
      *
      */
     public const SESSION_HANDLING_LOAD_DEPENDENT = 1;
-    
+
     /**
      * Constant for reason of session destroy
      *
@@ -69,7 +73,7 @@ class ilSession
      * @param	string		session id
      * @return	string		session data
      */
-    public static function _getData(string $a_session_id) : string
+    public static function _getData(string $a_session_id): string
     {
         if (!$a_session_id) {
             // fix for php #70520
@@ -78,7 +82,7 @@ class ilSession
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $q = "SELECT data FROM usr_session WHERE session_id = " .
             $ilDB->quote($a_session_id, "text");
         $set = $ilDB->query($q);
@@ -86,22 +90,22 @@ class ilSession
         if (!is_array($rec)) {
             return '';
         }
-    
+
         // fix for php #70520
         return (string) $rec["data"];
     }
-    
+
     /**
      * Lookup expire time for a specific session
      * @param string $a_session_id
      * @return int expired unix timestamp
      */
-    public static function lookupExpireTime(string $a_session_id) : int
+    public static function lookupExpireTime(string $a_session_id): int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'SELECT expires FROM usr_session WHERE session_id = ' .
             $ilDB->quote($a_session_id, 'text');
         $res = $ilDB->query($query);
@@ -118,13 +122,13 @@ class ilSession
     * @param	string		session id
     * @param	string		session data
     */
-    public static function _writeData(string $a_session_id, string $a_data) : bool
+    public static function _writeData(string $a_session_id, string $a_data): bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         $ilClientIniFile = $DIC['ilClientIniFile'];
-        
+
         if (self::isWebAccessWithoutSessionEnabled()) {
             // Prevent session data written for web access checker
             // when no cookie was sent (e.g. for pdf files linking others).
@@ -140,11 +144,11 @@ class ilSession
 
         // prepare session data
         $fields = array(
-            "user_id" => array("integer", (int) ($_SESSION['_authsession_user_id'] ?? 0)),
+            "user_id" => array("integer", (int) (self::get('_authsession_user_id') ?? 0)),
             "expires" => array("integer", self::getExpireValue()),
             "data" => array("clob", $a_data),
             "ctime" => array("integer", $now),
-            "type" => array("integer", (int) ($_SESSION["SessionType"] ?? 0))
+            "type" => array("integer", (int) (self::get("SessionType") ?? 0))
             );
         if ($ilClientIniFile->readVariable("session", "save_ip")) {
             $fields["remote_addr"] = array("text", $_SERVER["REMOTE_ADDR"]);
@@ -156,7 +160,6 @@ class ilSession
             if (class_exists("ilContext") && ilContext::isSessionMainContext()) {
                 $fields["context"] = array("text", ilContext::getType());
             }
-
             $ilDB->update(
                 "usr_session",
                 $fields,
@@ -173,7 +176,7 @@ class ilSession
             }
 
             $ilDB->insert("usr_session", $fields);
-        
+
             // check type against session control
             $type = (int) $fields["type"][1];
             if (in_array($type, ilSessionControl::$session_types_controlled, true)) {
@@ -185,15 +188,17 @@ class ilSession
                 );
             }
         }
-        
-        // finally delete deprecated sessions
-        $random = new \ilRandom();
-        if ($random->int(0, 50) === 2) {
-            // get time _before_ destroying expired sessions
-            self::_destroyExpiredSessions();
-            ilSessionStatistics::aggretateRaw($now);
+
+        if (!$DIC->cron()->manager()->isJobActive('auth_destroy_expired_sessions')) {
+            // finally delete deprecated sessions
+            $random = new ilRandom();
+            if ($random->int(0, 50) === 2) {
+                // get time _before_ destroying expired sessions
+                self::_destroyExpiredSessions();
+                ilSessionStatistics::aggretateRaw($now);
+            }
         }
-        
+
         return true;
     }
 
@@ -205,7 +210,7 @@ class ilSession
     * @param	string		session id
     * @return	boolean		true, if session id exists
     */
-    public static function _exists(string $a_session_id) : bool
+    public static function _exists(string $a_session_id): bool
     {
         if (!$a_session_id) {
             return false;
@@ -227,12 +232,12 @@ class ilSession
     * @param	int					closing context
     * @param	int|bool			expired at timestamp
     */
-    public static function _destroy($a_session_id, ?int $a_closing_context = null, $a_expired_at = null) : bool
+    public static function _destroy($a_session_id, ?int $a_closing_context = null, $a_expired_at = null): bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (!$a_closing_context) {
             $a_closing_context = self::$closing_context;
         }
@@ -254,7 +259,7 @@ class ilSession
         ilSessionIStorage::destroySession($a_session_id);
 
         $ilDB->manipulate($q);
-        
+
         return true;
     }
 
@@ -263,7 +268,7 @@ class ilSession
     *
     * @param	int 		user id
     */
-    public static function _destroyByUserId(int $a_user_id) : bool
+    public static function _destroyByUserId(int $a_user_id): bool
     {
         global $DIC;
 
@@ -272,7 +277,7 @@ class ilSession
         $q = "DELETE FROM usr_session WHERE user_id = " .
             $ilDB->quote($a_user_id, "integer");
         $ilDB->manipulate($q);
-        
+
         return true;
     }
 
@@ -280,38 +285,37 @@ class ilSession
      * Destroy expired sessions
      * @return int The number of deleted sessions on success
      */
-    public static function _destroyExpiredSessions() : int
+    public static function _destroyExpiredSessions(): int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-                
-        $q = "SELECT session_id,expires FROM usr_session WHERE expires < " .
-            $ilDB->quote(time(), "integer");
+
+        $q = 'SELECT session_id, expires FROM usr_session WHERE expires < ' . $ilDB->quote(time(), ilDBConstants::T_INTEGER);
         $res = $ilDB->query($q);
         $ids = [];
         while ($row = $ilDB->fetchAssoc($res)) {
-            $ids[$row["session_id"]] = $row["expires"];
+            $ids[$row['session_id']] = (int) $row['expires'];
         }
         if ($ids !== []) {
             self::_destroy($ids, self::SESSION_CLOSE_EXPIRE, true);
         }
-        
+
         return count($ids);
     }
-    
+
     /**
     * Duplicate session
     *
     * @param	string		session id
     * @return	string		new session id
     */
-    public static function _duplicate(string $a_session_id) : string
+    public static function _duplicate(string $a_session_id): string
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-    
+
         // Create new session id
         $new_session = $a_session_id;
         do {
@@ -320,7 +324,7 @@ class ilSession
                 "session_id = " . $ilDB->quote($new_session, "text");
             $res = $ilDB->query($q);
         } while ($ilDB->fetchAssoc($res));
-        
+
         $query = "SELECT * FROM usr_session " .
             "WHERE session_id = " . $ilDB->quote($a_session_id, "text");
         $res = $ilDB->query($query);
@@ -332,7 +336,7 @@ class ilSession
         //TODO check if throwing an excpetion might be a better choice
         return "";
     }
-    
+
     /**
      *
      * Returns the expiration timestamp in seconds
@@ -342,7 +346,7 @@ class ilSession
      * @static
      *
      */
-    public static function getExpireValue(bool $fixedMode = false) : int
+    public static function getExpireValue(bool $fixedMode = false): int
     {
         global $DIC;
 
@@ -372,7 +376,7 @@ class ilSession
      * @param	boolean	If passed, the value for fixed session is returned
      * @return	integer	The idle time in seconds
      */
-    public static function getIdleValue(bool $fixedMode = false) : int
+    public static function getIdleValue(bool $fixedMode = false): int
     {
         global $DIC;
 
@@ -386,11 +390,11 @@ class ilSession
 
         if ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
             // load dependent session settings
-            return (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
+            return (int) ($ilSetting->get('session_max_idle', (string) (ilSessionControl::DEFAULT_MAX_IDLE * 60)));
         }
         return ilSessionControl::DEFAULT_MAX_IDLE * 60;
     }
-    
+
     /**
      *
      * Returns the session expiration value
@@ -398,39 +402,15 @@ class ilSession
      * @return integer	The expiration value in seconds
      *
      */
-    public static function getSessionExpireValue() : int
+    public static function getSessionExpireValue(): int
     {
         return self::getIdleValue(true);
     }
-    
-    /**
-     * Get the active users with a specific remote ip address
-     *
-     * @param	string	ip address
-     * @return 	array	list of active user id
-     */
-    public static function _getUsersWithIp(string $a_ip) : array
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $query = "SELECT DISTINCT user_id FROM usr_session"
-                . " WHERE remote_addr = " . $ilDB->quote($a_ip, "text")
-                . " AND user_id > 0";
-        $result = $ilDB->query($query);
-        
-        $users = array();
-        while ($row = $ilDB->fetchObject($result)) {
-            $users[] = $row->user_id;
-        }
-        return $users;
-    }
-    
     /**
      * Set a value
      */
-    public static function set(string $a_var, $a_val) : void
+    public static function set(string $a_var, $a_val): void
     {
         $_SESSION[$a_var] = $a_val;
     }
@@ -443,7 +423,7 @@ class ilSession
         return $_SESSION[$a_var] ?? null;
     }
 
-    public static function has($a_var) : bool
+    public static function has($a_var): bool
     {
         return isset($_SESSION[$a_var]);
     }
@@ -451,35 +431,40 @@ class ilSession
     /**
      * @param string $a_var
      */
-    public static function clear(string $a_var) : void
+    public static function clear(string $a_var): void
     {
         if (isset($_SESSION[$a_var])) {
             unset($_SESSION[$a_var]);
         }
     }
-    
+
+    public static function dumpToString(): string
+    {
+        return print_r($_SESSION, true);
+    }
+
     /**
      * set closing context (for statistics)
      */
-    public static function setClosingContext(int $a_context) : void
+    public static function setClosingContext(int $a_context): void
     {
         self::$closing_context = $a_context;
     }
-    
+
     /**
      * get closing context (for statistics)
      */
-    public static function getClosingContext() : int
+    public static function getClosingContext(): int
     {
         return self::$closing_context;
     }
-    
-    
-        
+
+
+
     /**
      * @return boolean
      */
-    public static function isWebAccessWithoutSessionEnabled() : bool
+    public static function isWebAccessWithoutSessionEnabled(): bool
     {
         return self::$enable_web_access_without_session;
     }
@@ -487,7 +472,7 @@ class ilSession
     /**
      * @param boolean $enable_web_access_without_session
      */
-    public static function enableWebAccessWithoutSession(bool $enable_web_access_without_session) : void
+    public static function enableWebAccessWithoutSession(bool $enable_web_access_without_session): void
     {
         self::$enable_web_access_without_session = $enable_web_access_without_session;
     }

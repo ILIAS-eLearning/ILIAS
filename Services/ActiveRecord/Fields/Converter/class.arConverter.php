@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class arConverter
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -23,32 +26,29 @@
  */
 class arConverter
 {
-    public const REGEX = "/([a-z]*)\\(([0-9]*)\\)/u";
-    protected static array $field_map = array(
+    public const REGEX = "/([a-z]*)\\((\\d*)\\)/u";
+    protected static array $field_map = [
         'varchar' => arField::FIELD_TYPE_TEXT,
         'char' => arField::FIELD_TYPE_TEXT,
         'int' => arField::FIELD_TYPE_INTEGER,
         'tinyint' => arField::FIELD_TYPE_INTEGER,
         'smallint' => arField::FIELD_TYPE_INTEGER,
         'mediumint' => arField::FIELD_TYPE_INTEGER,
-        'bigint' => arField::FIELD_TYPE_INTEGER,
-    );
-    protected static array $length_map = array(
+        'bigint' => arField::FIELD_TYPE_INTEGER
+    ];
+    protected static array $length_map = [
         arField::FIELD_TYPE_TEXT => false,
         arField::FIELD_TYPE_DATE => false,
         arField::FIELD_TYPE_TIME => false,
         arField::FIELD_TYPE_TIMESTAMP => false,
         arField::FIELD_TYPE_CLOB => false,
         arField::FIELD_TYPE_FLOAT => false,
-        arField::FIELD_TYPE_INTEGER => array(
-            11 => 4,
-            4 => 1,
-        )
-    );
+        arField::FIELD_TYPE_INTEGER => [11 => 4, 4 => 1]
+    ];
     protected string $table_name = '';
     protected string $class_name = '';
-    protected array $structure = array();
-    protected array $ids = array();
+    protected array $structure = [];
+    protected array $ids = [];
 
     public function __construct(string $table_name, string $class_name)
     {
@@ -57,16 +57,16 @@ class arConverter
         $this->readStructure();
     }
 
-    public function readStructure() : void
+    public function readStructure(): void
     {
         $sql = 'DESCRIBE ' . $this->getTableName();
-        $res = self::getDB()->query($sql);
-        while ($data = self::getDB()->fetchObject($res)) {
+        $ilDBStatement = self::getDB()->query($sql);
+        while ($data = self::getDB()->fetchObject($ilDBStatement)) {
             $this->addStructure($data);
         }
     }
 
-    public function downloadClassFile() : void
+    public function downloadClassFile(): void
     {
         $header = "<?php
 require_once('./Services/ActiveRecord/class.ActiveRecord.php');
@@ -131,11 +131,11 @@ class {CLASS_NAME} extends ActiveRecord {
     }
 
     /**
-     * @return array<string, string>
+     * @return array{has_field: string, fieldtype: string, length: mixed, is_notnull?: string, is_primary?: string}
      */
-    protected function returnAttributesForField(stdClass $field) : array
+    protected function returnAttributesForField(stdClass $field): array
     {
-        $attributes = array();
+        $attributes = [];
         $attributes[arFieldList::HAS_FIELD] = 'true';
         $attributes[arFieldList::FIELDTYPE] = self::lookupFieldType($field->Type);
         $attributes[arFieldList::LENGTH] = self::lookupFieldLength($field->Type);
@@ -151,7 +151,7 @@ class {CLASS_NAME} extends ActiveRecord {
         return $attributes;
     }
 
-    protected static function lookupFieldType(string $field_name) : string
+    protected static function lookupFieldType(string $field_name): string
     {
         preg_match(self::REGEX, $field_name, $matches);
 
@@ -174,19 +174,19 @@ class {CLASS_NAME} extends ActiveRecord {
         return $matches[2];
     }
 
-    public static function getDB() : ilDBInterface
+    public static function getDB(): ilDBInterface
     {
         global $DIC;
 
         return $DIC['ilDB'];
     }
 
-    public function setTableName(string $table_name) : void
+    public function setTableName(string $table_name): void
     {
         $this->table_name = $table_name;
     }
 
-    public function getTableName() : string
+    public function getTableName(): string
     {
         return $this->table_name;
     }
@@ -194,7 +194,7 @@ class {CLASS_NAME} extends ActiveRecord {
     /**
      * @param mixed[] $structure
      */
-    public function setStructure(array $structure) : void
+    public function setStructure(array $structure): void
     {
         $this->structure = $structure;
     }
@@ -202,12 +202,12 @@ class {CLASS_NAME} extends ActiveRecord {
     /**
      * @return mixed[]
      */
-    public function getStructure() : array
+    public function getStructure(): array
     {
         return $this->structure;
     }
 
-    public function addStructure(stdClass $structure) : void
+    public function addStructure(stdClass $structure): void
     {
         if (!in_array($structure->Field, $this->ids)) {
             $this->structure[] = $structure;
@@ -215,12 +215,12 @@ class {CLASS_NAME} extends ActiveRecord {
         }
     }
 
-    public function setClassName(string $class_name) : void
+    public function setClassName(string $class_name): void
     {
         $this->class_name = $class_name;
     }
 
-    public function getClassName() : string
+    public function getClassName(): string
     {
         return $this->class_name;
     }

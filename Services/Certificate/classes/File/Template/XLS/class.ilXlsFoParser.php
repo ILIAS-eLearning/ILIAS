@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,31 +16,25 @@
  *
  *********************************************************************/
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
+declare(strict_types=1);
+
 class ilXlsFoParser
 {
-    private ilSetting $settings;
-    private ilPageFormats $pageFormats;
-    private ilXMLChecker $xmlChecker;
-    private ilCertificateUtilHelper $utilHelper;
-    private ilCertificateXlstProcess $xlstProcess;
-    private ilLanguage $language;
-    private ilCertificateXlsFileLoader $certificateXlsFileLoader;
+    private readonly ilXMLChecker $xmlChecker;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateXlstProcess $xlstProcess;
+    private readonly ilLanguage $language;
+    private readonly ilCertificateXlsFileLoader $certificateXlsFileLoader;
 
     public function __construct(
-        ilSetting $settings,
-        ilPageFormats $pageFormats,
+        private readonly ilSetting $settings,
+        private readonly ilPageFormats $pageFormats,
         ?ilXMLChecker $xmlChecker = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilCertificateXlstProcess $xlstProcess = null,
         ?ilLanguage $language = null,
         ?ilCertificateXlsFileLoader $certificateXlsFileLoader = null
     ) {
-        $this->settings = $settings;
-        $this->pageFormats = $pageFormats;
-
         if (null === $xmlChecker) {
             $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
         }
@@ -69,16 +63,15 @@ class ilXlsFoParser
     }
 
     /**
-     * @param array $formData
-     * @return string
-     * @throws Exception
+     * @param array{"certificate_text": string, "pageformat": string, "pagewidth"?: string, "pageheight"?: string, "margin_body": array{"top": string, "right": string, "bottom": string, "left": string}} $formData
      */
-    public function parse(array $formData) : string
+    public function parse(array $formData): string
     {
         $content = "<html><body>" . $formData['certificate_text'] . "</body></html>";
         $content = preg_replace("/<p>(&nbsp;){1,}<\\/p>/", "<p></p>", $content);
         $content = preg_replace("/<p>(\\s)*?<\\/p>/", "<p></p>", $content);
-        $content = str_replace(["<p></p>", "&nbsp;"], ["<p class=\"emptyrow\"></p>", "&#160;"], $content);
+        $content = str_replace("<p></p>", "<p class=\"emptyrow\"></p>", $content);
+        $content = str_replace("&nbsp;", "&#160;", $content);
         $content = preg_replace("//", "", $content);
 
         $this->xmlChecker->parse($content);
@@ -127,7 +120,7 @@ class ilXlsFoParser
         return $this->xlstProcess->process($args, $params);
     }
 
-    private function formatNumberString(string $a_number) : string
+    private function formatNumberString(string $a_number): string
     {
         return str_replace(',', '.', $a_number);
     }

@@ -16,30 +16,30 @@ class ilAsqQuestionResourcesCollector
      * @var array
      */
     protected $mobs = array();
-    
+
     /**
      * @var array
      */
     protected $mediaFiles = array();
-    
+
     /**
      * @var array
      */
     protected $jsFiles = array();
-    
+
     /**
      * @var array
      */
     protected $cssFiles = array();
-    
+
     /**
      * @return array
      */
-    public function getMobs() : array
+    public function getMobs(): array
     {
         return $this->mobs;
     }
-    
+
     /**
      * @param string $mob
      */
@@ -47,15 +47,15 @@ class ilAsqQuestionResourcesCollector
     {
         $this->mobs[] = $mob;
     }
-    
+
     /**
      * @return array
      */
-    public function getMediaFiles() : array
+    public function getMediaFiles(): array
     {
         return $this->mediaFiles;
     }
-    
+
     /**
      * @param string $mediaFile
      */
@@ -63,15 +63,15 @@ class ilAsqQuestionResourcesCollector
     {
         $this->mediaFiles[] = $mediaFile;
     }
-    
+
     /**
      * @return array
      */
-    public function getJsFiles() : array
+    public function getJsFiles(): array
     {
         return $this->jsFiles;
     }
-    
+
     /**
      * @param string $jsFiles
      */
@@ -79,15 +79,15 @@ class ilAsqQuestionResourcesCollector
     {
         $this->jsFiles[] = $jsFile;
     }
-    
+
     /**
      * @return array
      */
-    public function getCssFiles() : array
+    public function getCssFiles(): array
     {
         return $this->cssFiles;
     }
-    
+
     /**
      * @param string $cssFiles
      */

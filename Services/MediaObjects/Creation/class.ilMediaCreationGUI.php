@@ -19,10 +19,16 @@
 use ILIAS\MediaObjects\Creation\CreationGUIRequest;
 
 use ILIAS\FileUpload\Location;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\MediaObjects\InternalGUIService;
+use ILIAS\FileUpload\Handler\BasicHandlerResult;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\Repository\Form\FormAdapterGUI;
+use ILIAS\FileUpload\Handler\HandlerResult;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilMediaCreationGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ilMediaCreationGUI: ilPropertyFormGUI, ilRepoStandardUploadHandlerGUI
  */
 class ilMediaCreationGUI
 {
@@ -33,8 +39,11 @@ class ilMediaCreationGUI
     public const TYPE_ALL = 5;
     public const POOL_VIEW_FOLDER = "fold";
     public const POOL_VIEW_ALL = "all";
+    protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $type_manager;
+    protected InternalGUIService $gui;
+    protected ?FormAdapterGUI $bulk_upload_form = null;
     protected CreationGUIRequest $request;
-    
+
     protected array $accept_types = [1,2,3,4];
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
@@ -86,6 +95,10 @@ class ilMediaCreationGUI
         $this->after_pool_insert = $after_pool_insert;
         $this->finish_single_upload = $finish_single_upload;
         $this->on_mob_update = $on_mob_update;
+        $this->type_manager = $DIC->mediaObjects()
+            ->internal()
+            ->domain()
+            ->mediaType();
 
         $this->ctrl->saveParameter($this, ["mep", "pool_view"]);
 
@@ -96,34 +109,36 @@ class ilMediaCreationGUI
             ->request();
 
         $this->requested_mep = $this->request->getMediaPoolId();
+        $this->ctrl->setParameter($this, "mep", $this->requested_mep);
 
         $pv = $this->request->getPoolView();
         $this->pool_view = (in_array($pv, [self::POOL_VIEW_FOLDER, self::POOL_VIEW_ALL]))
             ? $pv
             : self::POOL_VIEW_FOLDER;
+        $this->gui = $DIC->mediaObjects()->internal()->gui();
     }
 
     public function setAllSuffixes(
         array $a_val
-    ) : void {
+    ): void {
         $this->all_suffixes = $a_val;
     }
-    
-    public function getAllSuffixes() : array
+
+    public function getAllSuffixes(): array
     {
         return $this->all_suffixes;
     }
 
     public function setAllMimeTypes(
         array $a_val
-    ) : void {
+    ): void {
         $this->all_mime_types = $a_val;
     }
 
     /**
      * @return string[]
      */
-    public function getAllMimeTypes() : array
+    public function getAllMimeTypes(): array
     {
         return $this->all_mime_types;
     }
@@ -131,23 +146,20 @@ class ilMediaCreationGUI
     /**
      * @return string[]
      */
-    protected function getSuffixes() : array
+    protected function getSuffixes(): array
     {
         $suffixes = [];
-        if (in_array(self::TYPE_ALL, $this->accept_types)) {
+        if (in_array(self::TYPE_ALL, $this->accept_types, true)) {
             $suffixes = $this->getAllSuffixes();
         }
-        if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
-            $suffixes[] = "mp4";
+        if (in_array(self::TYPE_VIDEO, $this->accept_types, true)) {
+            $suffixes = array_merge($suffixes, $this->type_manager->getVideoSuffixes());
         }
-        if (in_array(self::TYPE_AUDIO, $this->accept_types)) {
-            $suffixes[] = "mp3";
+        if (in_array(self::TYPE_AUDIO, $this->accept_types, true)) {
+            $suffixes = array_merge($suffixes, $this->type_manager->getAudioMimeTypes());
         }
         if (in_array(self::TYPE_IMAGE, $this->accept_types)) {
-            $suffixes[] = "jpeg";
-            $suffixes[] = "jpg";
-            $suffixes[] = "png";
-            $suffixes[] = "gif";
+            $suffixes = array_merge($suffixes, $this->type_manager->getImageSuffixes());
         }
         return $suffixes;
     }
@@ -155,15 +167,18 @@ class ilMediaCreationGUI
     /**
      * @return string[]
      */
-    protected function getMimeTypes() : array
+    protected function getMimeTypes($local_only = false): array
     {
         $mimes = [];
         if (in_array(self::TYPE_ALL, $this->accept_types)) {
             $mimes = $this->getAllMimeTypes();
         }
         if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
-            $mimes[] = "video/vimeo";
             $mimes[] = "video/mp4";
+            if (!$local_only) {
+                $mimes[] = "video/vimeo";
+                $mimes[] = "video/youtube";
+            }
         }
         if (in_array(self::TYPE_AUDIO, $this->accept_types)) {
             $mimes[] = "audio/mpeg";
@@ -176,7 +191,7 @@ class ilMediaCreationGUI
         return $mimes;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -184,14 +199,19 @@ class ilMediaCreationGUI
         $cmd = $ctrl->getCmd("creationSelection");
 
         switch ($next_class) {
-
             case "ilpropertyformgui":
                 $form = $this->initPoolSelection();
                 $ctrl->forwardCommand($form);
                 break;
 
+            case strtolower(ilRepoStandardUploadHandlerGUI::class):
+                $form = $this->getUploadForm();
+                $gui = $form->getRepoStandardUploadHandlerGUI("media_files");
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             default:
-                if (in_array($cmd, ["creationSelection", "uploadFile", "saveUrl", "cancel", "listPoolItems",
+                if (in_array($cmd, ["creationSelection", "uploadFile", "saveUrl", "cancel", "cancelCreate", "listPoolItems",
                     "insertFromPool", "poolSelection", "selectPool", "applyFilter", "resetFilter", "performBulkUpload",
                     "editTitlesAndDescriptions", "saveTitlesAndDescriptions"])) {
                     $this->$cmd();
@@ -199,7 +219,7 @@ class ilMediaCreationGUI
         }
     }
 
-    protected function creationSelection() : void
+    protected function creationSelection(): void
     {
         $main_tpl = $this->main_tpl;
 
@@ -207,7 +227,7 @@ class ilMediaCreationGUI
         $acc->setBehaviour(\ilAccordionGUI::FIRST_OPEN);
         $cnt = 1;
         $forms = [
-            $this->initUploadForm(),
+            $this->getUploadForm(),
             $this->initUrlForm(),
             $this->initPoolSelection()
         ];
@@ -226,54 +246,45 @@ class ilMediaCreationGUI
             // move title from form to accordion
             $htpl->setVariable("TITLE", $this->lng->txt("option") . " " . $cnt . ": " .
                 $form_title);
-            $cf->setTitle("");
-            $cf->setTitleIcon("");
-            $cf->setTableWidth("100%");
+            if (!($cf instanceof FormAdapterGUI)) {
+                $cf->setTitle("");
+                $cf->setTitleIcon("");
+                $cf->setTableWidth("100%");
 
-            $acc->addItem($htpl->get(), $cf->getHTML());
+                $acc->addItem($htpl->get(), $cf->getHTML());
+            } else {
+                $acc->addItem($htpl->get(), $cf->render());
+            }
 
             $cnt++;
         }
         $main_tpl->setContent($acc->getHTML());
     }
 
-    public function initUploadForm() : ilPropertyFormGUI
+    public function getUploadForm(): FormAdapterGUI
     {
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
-
-        /*
-        $form = new \ilPropertyFormGUI();
-
-        $fi = new \ilFileInputGUI($lng->txt("file"), "file");
-        $fi->setSuffixes($this->getSuffixes());
-        $fi->setRequired(true);
-        $form->addItem($fi);
-
-        $form->addCommandButton("uploadFile", $lng->txt("upload"));
-        $form->addCommandButton("cancel", $lng->txt("cancel"));
-
-        $form->setTitle($lng->txt("mob_upload_file"));
-        $form->setFormAction($ctrl->getFormAction($this));*/
-
-        $form = new ilPropertyFormGUI();
-
-        $form->setFormAction($ctrl->getFormAction($this));
-        $form->setPreventDoubleSubmission(false);
-
-        $item = new ilFileStandardDropzoneInputGUI("cancel", $lng->txt("files"), 'media_files');
-        $item->setUploadUrl($ctrl->getLinkTarget($this, "performBulkUpload", "", true, true));
-        $item->setSuffixes($this->getSuffixes());
-        $item->setRequired(true);
-        $item->setMaxFiles(20);
-        $form->addItem($item);
-        $form->addCommandButton("performBulkUpload", $lng->txt("upload"));
-        $form->setTitle($lng->txt("mob_upload_file"));
-
-        return $form;
+        // $item->setSuffixes($this->getSuffixes());
+        if (is_null($this->bulk_upload_form)) {
+            $mep_hash = uniqid();
+            $this->ctrl->setParameter($this, "mep_hash", $mep_hash);
+            $this->bulk_upload_form = $this->gui
+                ->form(self::class, 'performBulkUpload')
+                ->section("props", $this->lng->txt('mob_upload_file'))
+                ->file(
+                    "media_files",
+                    $this->lng->txt("files"),
+                    \Closure::fromCallable([$this, 'handleUploadResult']),
+                    "mep_id",
+                    "",
+                    20,
+                    $this->getMimeTypes(true)
+                );
+            // ->meta()->text()->meta()->textarea()
+        }
+        return $this->bulk_upload_form;
     }
 
-    public function initUrlForm() : ilPropertyFormGUI
+    public function initUrlForm(): ilPropertyFormGUI
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -282,7 +293,11 @@ class ilMediaCreationGUI
 
         //
         $ti = new \ilTextInputGUI($lng->txt("mob_url"), "url");
-        $ti->setInfo($lng->txt("mob_url_info"));
+        $info = $lng->txt("mob_url_info1") . " " . implode(", ", $this->getSuffixes()) . ".";
+        if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
+            $info.= " " . $lng->txt("mob_url_info_video");
+        }
+        $ti->setInfo($info);
         $ti->setRequired(true);
         $form->addItem($ti);
 
@@ -295,7 +310,7 @@ class ilMediaCreationGUI
         return $form;
     }
 
-    public function initPoolSelection() : ilPropertyFormGUI
+    public function initPoolSelection(): ilPropertyFormGUI
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -323,6 +338,7 @@ class ilMediaCreationGUI
         return $form;
     }
 
+    /*
     protected function uploadFile() : void
     {
         $form = $this->initUploadForm();
@@ -382,107 +398,77 @@ class ilMediaCreationGUI
 
             ($this->after_upload)($mob->getId());
         }
+    }*/
+
+    protected function handleUploadResult(
+        FileUpload $upload,
+        UploadResult $result
+    ): BasicHandlerResult {
+        $title = $result->getName();
+
+        $mob = new ilObjMediaObject();
+        $mob->setTitle($title);
+        $mob->setDescription("");
+        $mob->create();
+
+        $mob->createDirectory();
+        $media_item = new ilMediaItem();
+        $mob->addMediaItem($media_item);
+        $media_item->setPurpose("Standard");
+
+        $mob_dir = ilObjMediaObject::_getRelativeDirectory($mob->getId());
+        $file_name = ilObjMediaObject::fixFilename($title);
+        $file = $mob_dir . "/" . $file_name;
+
+        $upload->moveOneFileTo(
+            $result,
+            $mob_dir,
+            Location::WEB,
+            $file_name,
+            true
+        );
+
+        // get mime type
+        $format = ilObjMediaObject::getMimeType($file);
+        $location = $file_name;
+
+        // set real meta and object data
+        $media_item->setFormat($format);
+        $media_item->setLocation($location);
+        $media_item->setLocationType("LocalFile");
+        $media_item->setUploadHash($this->request->getUploadHash());
+        $mob->update();
+        $item_ids[] = $mob->getId();
+
+        $mob = new ilObjMediaObject($mob->getId());
+        $mob->generatePreviewPic(320, 240);
+
+        // duration
+        $med_item = $mob->getMediaItem("Standard");
+        $med_item->determineDuration();
+        $med_item->update();
+
+        ($this->after_upload)([$mob->getId()]);
+
+        return new BasicHandlerResult(
+            "mep_id",
+            HandlerResult::STATUS_OK,
+            $med_item->getId(),
+            ''
+        );
     }
 
-    public function performBulkUpload() : void
+    /**
+     * Save bulk upload form
+     */
+    public function performBulkUpload(): void
     {
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
-        $main_tpl = $this->main_tpl;
-        $upload = $this->upload;
-        $log = $this->mob_log;
-
-        $form = $this->initUploadForm();
-        if ($form->checkInput()) {
-            $item_ids = [];
-            // Check if this is a request to upload a file
-            $log->debug("checking for uploads...");
-            if ($upload->hasUploads()) {
-                $log->debug("has upload...");
-                try {
-                    $upload->process();
-                    $log->debug("nr of results: " . count($upload->getResults()));
-                    foreach ($upload->getResults() as $result) {
-                        $title = $result->getName();
-
-                        $mob = new ilObjMediaObject();
-                        $mob->setTitle($title);
-                        $mob->setDescription("");
-                        $mob->create();
-
-                        $mob->createDirectory();
-                        $media_item = new ilMediaItem();
-                        $mob->addMediaItem($media_item);
-                        $media_item->setPurpose("Standard");
-
-                        $mob_dir = ilObjMediaObject::_getRelativeDirectory($mob->getId());
-                        $file_name = ilObjMediaObject::fixFilename($title);
-                        $file = $mob_dir . "/" . $file_name;
-
-                        $upload->moveOneFileTo(
-                            $result,
-                            $mob_dir,
-                            Location::WEB,
-                            $file_name,
-                            true
-                        );
-
-                        /* this neds to go to a callback
-                        $mep_item = new ilMediaPoolItem();
-                        $mep_item->setTitle($title);
-                        $mep_item->setType("mob");
-                        $mep_item->setForeignId($mob->getId());
-                        $mep_item->create();
-
-                        $tree = $this->object->getTree();
-                        $parent = ($_GET["mepitem_id"] == "")
-                            ? $tree->getRootId()
-                            : $_GET["mepitem_id"];
-                        $tree->insertNode($mep_item->getId(), $parent);
-                        */
-
-                        // get mime type
-                        $format = ilObjMediaObject::getMimeType($file);
-                        $location = $file_name;
-
-                        // set real meta and object data
-                        $media_item->setFormat($format);
-                        $media_item->setLocation($location);
-                        $media_item->setLocationType("LocalFile");
-                        $media_item->setUploadHash($this->request->getUploadHash());
-                        $mob->update();
-                        $item_ids[] = $mob->getId();
-
-                        $mob = new ilObjMediaObject($mob->getId());
-                        $mob->generatePreviewPic(320, 240);
-
-                        // duration
-                        $med_item = $mob->getMediaItem("Standard");
-                        $med_item->determineDuration();
-                        $med_item->update();
-                    }
-                } catch (Exception $e) {
-                    $log->debug("Got exception: " . $e->getMessage());
-                    echo json_encode(array( 'success' => false, 'message' => $e->getMessage()));
-                }
-                $log->debug("end of 'has_uploads'");
-            }
-            $log->debug("has no upload...");
-
-            $log->debug("calling redirect... (" . $this->request->getUploadHash() . ")");
-
-            ($this->after_upload)($item_ids);
-
-            $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-            $ctrl->setParameter($this, "mep_hash", $this->request->getUploadHash());
-            $ctrl->redirect($this, "editTitlesAndDescriptions");
-        }
-
-        $form->setValuesByPost();
-        $main_tpl->setContent($form->getHtml());
+        $this->ctrl->setParameter($this, "mep_hash", $this->request->getUploadHash());
+        $this->ctrl->redirect($this, "editTitlesAndDescriptions");
     }
 
-    protected function editTitlesAndDescriptions() : void
+
+    protected function editTitlesAndDescriptions(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -527,7 +513,7 @@ class ilMediaCreationGUI
         $main_tpl->setContent($html);
     }
 
-    public function initMediaBulkForm(string $a_id, string $a_title) : ilPropertyFormGUI
+    public function initMediaBulkForm(string $a_id, string $a_title): ilPropertyFormGUI
     {
         $lng = $this->lng;
 
@@ -547,7 +533,7 @@ class ilMediaCreationGUI
         return $form;
     }
 
-    protected function saveTitlesAndDescriptions() : void
+    protected function saveTitlesAndDescriptions(): void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -571,13 +557,19 @@ class ilMediaCreationGUI
         $ctrl->returnToParent($this);
     }
 
-    protected function cancel() : void
+    protected function cancel(): void
     {
         $ctrl = $this->ctrl;
         $ctrl->returnToParent($this);
     }
 
-    protected function saveUrl() : void
+    protected function cancelCreate(): void
+    {
+        $ctrl = $this->ctrl;
+        $ctrl->returnToParent($this);
+    }
+
+    protected function saveUrl(): void
     {
         $form = $this->initUrlForm();
 
@@ -605,6 +597,15 @@ class ilMediaCreationGUI
 
             // get mime type, if not already set!
             $format = ilObjMediaObject::getMimeType($url, true);
+            if (!in_array($format, $this->getMimeTypes())) {
+                $this->main_tpl->setOnScreenMessage(
+                    "failure",
+                    $this->lng->txt("mob_type_not_supported") . " " . $format
+                );
+                $form->setValuesByPost();
+                $this->main_tpl->setContent($form->getHTML());
+                return;
+            }
             // set real meta and object data
             $mediaItem->setFormat($format);
             $mediaItem->setLocation($url);
@@ -642,13 +643,21 @@ class ilMediaCreationGUI
     /**
      * Insert media object from pool
      */
-    public function listPoolItems() : void
+    public function listPoolItems(): void
     {
         $ctrl = $this->ctrl;
         $access = $this->access;
         $lng = $this->lng;
         $ui = $this->ui;
         $main_tpl = $this->main_tpl;
+
+        $form = $this->initPoolSelection();
+        if ($this->requested_mep === 0) {
+            $this->main_tpl->setOnScreenMessage("failure", $this->lng->txt("mob_please_select_pool"));
+            $form->setValuesByPost();
+            $this->main_tpl->setContent($form->getHTML());
+            return;
+        }
 
         if ($this->requested_mep > 0 &&
             $access->checkAccess("write", "", $this->requested_mep)
@@ -685,7 +694,7 @@ class ilMediaCreationGUI
         }
     }
 
-    protected function applyFilter() : void
+    protected function applyFilter(): void
     {
         $mpool_table = $this->getPoolTable();
         $mpool_table->resetOffset();
@@ -693,7 +702,7 @@ class ilMediaCreationGUI
         $this->ctrl->redirect($this, "listPoolItems");
     }
 
-    protected function resetFilter() : void
+    protected function resetFilter(): void
     {
         $mpool_table = $this->getPoolTable();
         $mpool_table->resetOffset();
@@ -701,7 +710,7 @@ class ilMediaCreationGUI
         $this->ctrl->redirect($this, "listPoolItems");
     }
 
-    protected function getPoolTable() : ilMediaPoolTableGUI
+    protected function getPoolTable(): ilMediaPoolTableGUI
     {
         $pool = new ilObjMediaPool($this->requested_mep);
         $mpool_table = new ilMediaPoolTableGUI(
@@ -721,7 +730,7 @@ class ilMediaCreationGUI
     /**
      * Select concrete pool
      */
-    public function selectPool() : void
+    public function selectPool(): void
     {
         $ctrl = $this->ctrl;
 
@@ -729,7 +738,7 @@ class ilMediaCreationGUI
         $ctrl->redirect($this, "listPoolItems");
     }
 
-    public function poolSelection() : void
+    public function poolSelection(): void
     {
         $main_tpl = $this->main_tpl;
         $exp = new ilPoolSelectorGUI(
@@ -750,7 +759,7 @@ class ilMediaCreationGUI
     /**
      * Insert media from pool
      */
-    protected function insertFromPool() : void
+    protected function insertFromPool(): void
     {
         $ids = $this->request->getIds();
         if (count($ids) == 0) {

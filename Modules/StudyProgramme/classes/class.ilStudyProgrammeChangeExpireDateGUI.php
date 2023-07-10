@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Input\Factory;
@@ -9,9 +25,9 @@ use ILIAS\UI\Renderer;
 
 class ilStudyProgrammeChangeExpireDateGUI
 {
-    const CMD_SHOW_EXPIRE_DATE_CONFIG = "showExpireDateConfig";
-    const CMD_CHANGE_EXPIRE_DATE = "changeExpireDate";
-    const PROP_VALIDITY_OF_QUALIFICATION = "validity_qualification";
+    private const CMD_SHOW_EXPIRE_DATE_CONFIG = "showExpireDateConfig";
+    private const CMD_CHANGE_EXPIRE_DATE = "changeExpireDate";
+    private const PROP_VALIDITY_OF_QUALIFICATION = "validity_qualification";
 
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
@@ -56,7 +72,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         $this->messages = $messages;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -75,7 +91,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         }
     }
 
-    protected function showExpireDateConfig() : void
+    protected function showExpireDateConfig(): void
     {
         $this->tpl->loadStandardTemplate();
         $this->ctrl->setParameter($this, 'prgrs_ids', implode(',', $this->getProgressIds()));
@@ -90,7 +106,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         $this->tpl->setContent($this->renderer->render($form));
     }
 
-    protected function buildForm(ilObjStudyProgramme $prg, string $submit_action) : Standard
+    protected function buildForm(ilObjStudyProgramme $prg, string $submit_action): Standard
     {
         $ff = $this->input_factory->field();
         $txt = function ($id) {
@@ -107,7 +123,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         );
     }
 
-    protected function getValidityOfQualificationSubForm(ilObjStudyProgramme $prg) : Input
+    protected function getValidityOfQualificationSubForm(ilObjStudyProgramme $prg): Input
     {
         $ff = $this->input_factory->field();
         $txt = function ($id) {
@@ -141,7 +157,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         ILIAS\UI\Component\Input\Field\Factory $ff,
         Closure $txt,
         ilObjStudyProgramme $prg
-    ) : array {
+    ): array {
         return [
             $ff->section(
                 [
@@ -153,7 +169,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         ];
     }
 
-    protected function changeExpireDate() : void
+    protected function changeExpireDate(): void
     {
         $form = $this
             ->buildForm($this->getObject(), $this->ctrl->getFormAction($this, "changeExpireDate"))
@@ -172,54 +188,57 @@ class ilStudyProgrammeChangeExpireDateGUI
             $vq_type = $vq_data[0];
             $validity = null;
             if ($vq_type === ilObjStudyProgrammeSettingsGUI::OPT_VALIDITY_OF_QUALIFICATION_DATE) {
-                $validity = DateTimeImmutable::createFromFormat('d.m.Y', array_shift($vq_data[1]));
+                $validity = array_shift($vq_data[1]);
                 if (!$validity) {
                     $this->tpl->setOnScreenMessage("failure", $this->lng->txt('error_updating_expire_date'), true);
+                    $this->ctrl->setParameter($this, 'prgrs_ids', implode(',', $this->getProgressIds()));
                     $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_EXPIRE_DATE_CONFIG);
                 }
             }
             foreach ($this->getProgressIds() as $progress_id) {
-                $programme->changeProgressValidityDate($progress_id, $acting_usr_id, $msg_collection, $validity);
+                $assignment_id = $progress_id->getAssignmentId();
+                $programme->changeProgressValidityDate($assignment_id, $acting_usr_id, $msg_collection, $validity, );
             }
 
             $this->messages->showMessages($msg_collection);
             $this->ctrl->redirectByClass('ilObjStudyProgrammeMembersGUI', 'view');
         }
         $this->tpl->setOnScreenMessage("failure", $this->lng->txt('error_updating_expire_date'), true);
+        $this->ctrl->setParameter($this, 'prgrs_ids', implode(',', $this->getProgressIds()));
         $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_EXPIRE_DATE_CONFIG);
     }
 
-    protected function getBackTarget() : ?string
+    protected function getBackTarget(): ?string
     {
         return $this->back_target;
     }
 
-    public function setBackTarget(string $target) : void
+    public function setBackTarget(string $target): void
     {
         $this->back_target = $target;
     }
 
-    protected function getProgressIds() : array
+    protected function getProgressIds(): array
     {
         return $this->progress_ids;
     }
 
-    public function setProgressIds(array $progress_ids) : void
+    public function setProgressIds(array $progress_ids): void
     {
-        $this->progress_ids = array_map('intval', $progress_ids);
+        $this->progress_ids = $progress_ids;
     }
 
-    protected function getRefId() : ?int
+    protected function getRefId(): ?int
     {
         return $this->ref_id;
     }
 
-    public function setRefId(int $ref_id) : void
+    public function setRefId(int $ref_id): void
     {
         $this->ref_id = $ref_id;
     }
 
-    protected function getObject() : ilObjStudyProgramme
+    protected function getObject(): ilObjStudyProgramme
     {
         $ref_id = $this->getRefId();
         if (is_null($ref_id)) {
@@ -232,7 +251,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         return $this->object;
     }
 
-    protected function redirectToParent() : void
+    protected function redirectToParent(): void
     {
         $back_target = $this->getBackTarget();
         if (is_null($back_target)) {

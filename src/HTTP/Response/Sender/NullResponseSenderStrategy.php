@@ -27,13 +27,12 @@ use Psr\Http\Message\ResponseInterface;
  */
 class NullResponseSenderStrategy implements ResponseSenderStrategy
 {
-
     /**
      * Noop.
      *
      * @param ResponseInterface $response Ignored.
      */
-    public function sendResponse(ResponseInterface $response) : void
+    public function sendResponse(ResponseInterface $response): void
     {
         /** @noRector */
         // nothing to do here

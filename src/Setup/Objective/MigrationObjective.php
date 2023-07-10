@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 namespace ILIAS\Setup\Objective;
 
 use ILIAS\Setup;
@@ -38,7 +40,7 @@ class MigrationObjective implements Setup\Objective
      * Uses hashed Path.
      * @inheritdocs
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class . '' . get_class($this->migration));
     }
@@ -46,7 +48,7 @@ class MigrationObjective implements Setup\Objective
     /**
      * @inheritdocs
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->migration->getLabel();
     }
@@ -55,7 +57,7 @@ class MigrationObjective implements Setup\Objective
      * Defaults to 'true'.
      * @inheritdocs
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
@@ -63,7 +65,7 @@ class MigrationObjective implements Setup\Objective
     /**
      * @inheritdocs
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return $this->migration->getPreconditions($environment);
     }
@@ -71,7 +73,7 @@ class MigrationObjective implements Setup\Objective
     /**
      * @inheritdocs
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         /**
          * @var $io Setup\CLI\IOWrapper
@@ -93,11 +95,9 @@ class MigrationObjective implements Setup\Objective
         $io->inform("Preparing Migration: done.");
 
         $steps = $this->steps;
-        if ($steps === Setup\Migration::INFINITE) {
-            $steps = $this->migration->getRemainingAmountOfSteps();
-        }
-        if ($this->migration->getRemainingAmountOfSteps() < $steps) {
-            $steps = $this->migration->getRemainingAmountOfSteps();
+        $remaining = $this->migration->getRemainingAmountOfSteps();
+        if ($steps === Setup\Migration::INFINITE || $remaining < $steps) {
+            $steps = $remaining;
         }
         $io->inform("Trigger {$steps} step(s) in {$this->getLabel()}");
         $step = 0;
@@ -109,16 +109,21 @@ class MigrationObjective implements Setup\Objective
             $step++;
         }
         $io->stopProgress();
-        $remaining = $this->migration->getRemainingAmountOfSteps() - $steps;
-        $io->inform("{$remaining} step(s) remaining. Run again to proceed.");
-
+        $remaining = $this->migration->getRemainingAmountOfSteps();
+        if ($remaining == 0) {
+            $io->inform("Migration '{$key}' has no remaining steps left.");
+        }
+        else {
+            $io->inform("{$remaining} step(s) remaining. Run again to proceed.");
+        }
+        
         return $environment;
     }
 
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         $this->migration->prepare($environment);
 

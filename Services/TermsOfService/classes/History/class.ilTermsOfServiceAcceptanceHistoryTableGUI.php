@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,32 +16,28 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
 /**
  * Class ilTermsOfServiceAcceptanceHistoryTableGUI
  * @author Michael Jansen <mjansen@databay.de>
+ * @extends ilTermsOfServiceTableGUI<array{tosv_id: numeric-string, criteria: string, ts: numeric-string, usr_id: numeric-string, login: string, lastname: null|string, firstname: null|string, title: string, text: string}>
  */
 class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 {
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
     protected int $numRenderedCriteria = 0;
-    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
     public function __construct(
         ilTermsOfServiceControllerEnabled $controller,
         string $command,
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        Factory $uiFactory,
-        Renderer $uiRenderer,
+        protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+        protected Factory $uiFactory,
+        protected Renderer $uiRenderer,
         ilGlobalTemplateInterface $globalTemplate
     ) {
-        $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->uiFactory = $uiFactory;
-        $this->uiRenderer = $uiRenderer;
-
         $this->setId('tos_acceptance_history');
         $this->setFormName('tos_acceptance_history');
 
@@ -69,57 +65,65 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         $this->setResetCommand('resetAcceptanceHistoryFilter');
     }
 
-    protected function getColumnDefinition() : array
+    protected function getColumnDefinition(): array
     {
-        $i = 0;
+        $columns = [];
 
-        return [
-            ++$i => [
-                'field' => 'ts',
-                'txt' => $this->lng->txt('tos_tbl_hist_head_acceptance_date'),
-                'default' => true,
-                'optional' => false,
-                'sortable' => true
-            ],
-            ++$i => [
-                'field' => 'login',
-                'txt' => $this->lng->txt('tos_tbl_hist_head_login'),
-                'default' => true,
-                'optional' => false,
-                'sortable' => true
-            ],
-            ++$i => [
-                'field' => 'firstname',
-                'txt' => $this->lng->txt('tos_tbl_hist_head_firstname'),
-                'default' => false,
-                'optional' => true,
-                'sortable' => true
-            ],
-            ++$i => [
-                'field' => 'lastname',
-                'txt' => $this->lng->txt('tos_tbl_hist_head_lastname'),
-                'default' => false,
-                'optional' => true,
-                'sortable' => true
-            ],
-            ++$i => [
-                'field' => 'title',
-                'txt' => $this->lng->txt('tos_tbl_hist_head_document'),
-                'default' => true,
-                'optional' => false,
-                'sortable' => true
-            ],
-            ++$i => [
-                'field' => 'criteria',
-                'txt' => $this->lng->txt('tos_tbl_hist_head_criteria'),
-                'default' => false,
-                'optional' => true,
-                'sortable' => false
-            ],
+        $columns[] = [
+            'field' => 'ts',
+            'txt' => $this->lng->txt('tos_tbl_hist_head_acceptance_date'),
+            'default' => true,
+            'optional' => false,
+            'sortable' => true
         ];
+
+        $columns[] = [
+            'field' => 'login',
+            'txt' => $this->lng->txt('tos_tbl_hist_head_login'),
+            'default' => true,
+            'optional' => false,
+            'sortable' => true
+        ];
+
+        $columns[] = [
+            'field' => 'firstname',
+            'txt' => $this->lng->txt('tos_tbl_hist_head_firstname'),
+            'default' => false,
+            'optional' => true,
+            'sortable' => true
+        ];
+
+        $columns[] = [
+            'field' => 'lastname',
+            'txt' => $this->lng->txt('tos_tbl_hist_head_lastname'),
+            'default' => false,
+            'optional' => true,
+            'sortable' => true
+        ];
+
+        $columns[] = [
+            'field' => 'title',
+            'txt' => $this->lng->txt('tos_tbl_hist_head_document'),
+            'default' => true,
+            'optional' => false,
+            'sortable' => true
+        ];
+
+        $columns[] = [
+            'field' => 'criteria',
+            'txt' => $this->lng->txt('tos_tbl_hist_head_criteria'),
+            'default' => false,
+            'optional' => true,
+            'sortable' => false
+        ];
+
+        return $columns;
     }
 
-    protected function formatCellValue(string $column, array $row) : string
+    /**
+     * @param array{tosv_id: numeric-string, criteria: string, ts: numeric-string, usr_id: numeric-string, login: string, lastname: null|string, firstname: null|string, title: string, text: string} $row
+     */
+    protected function formatCellValue(string $column, array $row): string
     {
         if ('ts' === $column) {
             return ilDatePresentation::formatDate(new ilDateTime($row[$column], IL_CAL_UNIX));
@@ -132,12 +136,15 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         return parent::formatCellValue($column, $row);
     }
 
-    protected function getUniqueCriterionListingAttribute() : string
+    protected function getUniqueCriterionListingAttribute(): string
     {
         return '<span class="ilNoDisplay">' . ($this->numRenderedCriteria++) . '</span>';
     }
 
-    protected function formatCriterionAssignments(string $column, array $row) : string
+    /**
+     * @param array{tosv_id: numeric-string, criteria: string, ts: numeric-string, usr_id: numeric-string, login: string, lastname: null|string, firstname: null|string, title: string, text: string} $row
+     */
+    protected function formatCriterionAssignments(string $column, array $row): string
     {
         $items = [];
 
@@ -167,7 +174,10 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         ]);
     }
 
-    protected function formatTitle(string $column, array $row) : string
+    /**
+     * @param array{tosv_id: numeric-string, criteria: string, ts: numeric-string, usr_id: numeric-string, login: string, lastname: null|string, firstname: null|string, title: string, text: string} $row
+     */
+    protected function formatTitle(string $column, array $row): string
     {
         $modal = $this->uiFactory
             ->modal()
@@ -181,12 +191,12 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$titleLink, $modal]);
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         return 'ts' === $a_field;
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $ul = new ilTextInputGUI(
             $this->lng->txt('login') . '/' . $this->lng->txt('email') . '/' . $this->lng->txt('name'),

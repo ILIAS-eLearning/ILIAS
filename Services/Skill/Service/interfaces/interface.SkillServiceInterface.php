@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,5 +30,5 @@ interface SkillServiceInterface
     /**
      * Internal service, do not use in other components
      */
-    public function internal() : SkillInternalService;
+    public function internal(): SkillInternalService;
 }

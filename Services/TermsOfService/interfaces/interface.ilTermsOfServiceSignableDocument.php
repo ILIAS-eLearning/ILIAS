@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,20 +16,22 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Interface ilTermsOfServiceSignableDocument
  * @author Michael Jansen <mjansen@databay.de>
  */
 interface ilTermsOfServiceSignableDocument
 {
-    public function content() : string;
+    public function content(): string;
 
-    public function title() : string;
+    public function title(): string;
 
-    public function id() : int;
+    public function id(): int;
 
     /**
      * @return ilTermsOfServiceEvaluableCriterion[]
      */
-    public function criteria() : array;
+    public function criteria(): array;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -9,11 +11,11 @@ use PHPUnit\Framework\TestCase;
  */
 class CatStandardGUIRequestTest extends TestCase
 {
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\Category\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\Category\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -30,7 +32,7 @@ class CatStandardGUIRequestTest extends TestCase
     /**
      * Test ref id
      */
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -48,7 +50,7 @@ class CatStandardGUIRequestTest extends TestCase
     /**
      * Test no ref id
      */
-    public function testNoRefId() : void
+    public function testNoRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -65,7 +67,7 @@ class CatStandardGUIRequestTest extends TestCase
     /**
      * Test base class
      */
-    public function testBaseClass() : void
+    public function testBaseClass(): void
     {
         $request = $this->getRequest(
             [
@@ -83,7 +85,7 @@ class CatStandardGUIRequestTest extends TestCase
     /**
      * Test cmd class
      */
-    public function testCmdClass() : void
+    public function testCmdClass(): void
     {
         $request = $this->getRequest(
             [
@@ -101,7 +103,7 @@ class CatStandardGUIRequestTest extends TestCase
     /**
      * Test term
      */
-    public function testTerm() : void
+    public function testTerm(): void
     {
         $request = $this->getRequest(
             [
@@ -119,7 +121,7 @@ class CatStandardGUIRequestTest extends TestCase
     /**
      * Test term by post
      */
-    public function testTermByPost() : void
+    public function testTermByPost(): void
     {
         $request = $this->getRequest(
             [
@@ -138,7 +140,7 @@ class CatStandardGUIRequestTest extends TestCase
     /**
      * Test that post values overwrite get values
      */
-    public function testPostBeatsGet() : void
+    public function testPostBeatsGet(): void
     {
         $request = $this->getRequest(
             [
@@ -158,7 +160,7 @@ class CatStandardGUIRequestTest extends TestCase
     /**
      * Test fetch all
      */
-    public function testFetchAll() : void
+    public function testFetchAll(): void
     {
         $request = $this->getRequest(
             [
@@ -176,7 +178,7 @@ class CatStandardGUIRequestTest extends TestCase
     /**
      * Test role ids
      */
-    public function testRoleIds() : void
+    public function testRoleIds(): void
     {
         $request = $this->getRequest(
             [
@@ -197,7 +199,7 @@ class CatStandardGUIRequestTest extends TestCase
     /**
      * Test user ids
      */
-    public function testUserIds() : void
+    public function testUserIds(): void
     {
         $request = $this->getRequest(
             [
@@ -218,7 +220,7 @@ class CatStandardGUIRequestTest extends TestCase
     /**
      * Test obj id
      */
-    public function testObjId() : void
+    public function testObjId(): void
     {
         $request = $this->getRequest(
             [

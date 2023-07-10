@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class gives all kind of DB information using the database manager
@@ -50,7 +66,7 @@ class ilDBAnalyzer
      *
      * @return array field information array
      */
-    public function getFieldInformation(string $a_table, bool $a_remove_not_allowed_attributes = false) : array
+    public function getFieldInformation(string $a_table, bool $a_remove_not_allowed_attributes = false): array
     {
         $fields = $this->manager->listTableFields($a_table);
         $inf = array();
@@ -155,7 +171,7 @@ class ilDBAnalyzer
      *
      * @return array primary key information array
      */
-    public function getPrimaryKeyInformation(string $a_table) : array
+    public function getPrimaryKeyInformation(string $a_table): array
     {
         $constraints = $this->manager->listTableConstraints($a_table);
 
@@ -185,7 +201,7 @@ class ilDBAnalyzer
      *
      * @return array indices information array
      */
-    public function getIndicesInformation(string $a_table, bool $a_abstract_table = false) : array
+    public function getIndicesInformation(string $a_table, bool $a_abstract_table = false): array
     {
         //$constraints = $this->manager->listTableConstraints($a_table);
         $indexes = $this->manager->listTableIndexes($a_table);
@@ -240,7 +256,7 @@ class ilDBAnalyzer
      *
      * @return array indices information array
      */
-    public function getConstraintsInformation(string $a_table, bool $a_abstract_table = false) : array
+    public function getConstraintsInformation(string $a_table, bool $a_abstract_table = false): array
     {
         $constraints = $this->manager->listTableConstraints($a_table);
 
@@ -248,7 +264,7 @@ class ilDBAnalyzer
         foreach ($constraints as $c) {
             $info = $this->reverse->getTableConstraintDefinition($a_table, $c);
             $i = array();
-            if ($info["unique"]) {
+            if ($info["unique"] ?? null) {
                 $i["name"] = $c;
                 $i["type"] = "unique";
                 foreach ($info["fields"] as $k => $f) {

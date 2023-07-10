@@ -1,9 +1,0 @@
-#tst_output #tst_left {
-	float: left;
-	width: 19%;
-}
-
-#tst_output #tst_right {
-	float: right;
-	width: 80%;
-}

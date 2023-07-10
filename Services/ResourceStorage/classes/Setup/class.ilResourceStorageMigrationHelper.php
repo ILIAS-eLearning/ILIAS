@@ -1,87 +1,110 @@
 <?php
 
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
-use ILIAS\FileUpload\Location;
-use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
-use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
-use ILIAS\Setup\Environment;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
-use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\DI\Container;
+use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
+use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ResourceStorage\Collection\CollectionBuilder;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
+use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
+use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\Setup\Environment;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Manager\Manager;
+use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
+use ILIAS\ResourceStorage\Repositories;
+
 /**
  * Class ilResourceStorageMigrationHelper
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class ilResourceStorageMigrationHelper
 {
-    protected ResourceStakeholder $stakeholder;
     protected string $client_data_dir;
     protected ilDBInterface $database;
     protected ResourceBuilder $resource_builder;
+    protected CollectionBuilder $collection_builder;
+    protected ResourceStakeholder $stakeholder;
+    protected Repositories $repositories;
+    protected Manager $manager;
 
     /**
      * ilResourceStorageMigrationHelper constructor.
-     * @param string              $client_data_dir
-     * @param ilDBInterface       $database
+     * @param string $client_data_dir
+     * @param ilDBInterface $database
      */
     public function __construct(
         ResourceStakeholder $stakeholder,
         Environment $environment
     ) {
+        $this->stakeholder = $stakeholder;
         /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
         $ilias_ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
         $client_id = $environment->getResource(Environment::RESOURCE_CLIENT_ID);
         $data_dir = $ilias_ini->readVariable('clients', 'datadir');
         $client_data_dir = "{$data_dir}/{$client_id}";
-
-        $this->stakeholder = $stakeholder;
+        if (!defined("CLIENT_WEB_DIR")) {
+            define("CLIENT_WEB_DIR", dirname(__DIR__, 4) . "/data/" . $client_id);
+        }
+        if (!defined("ILIAS_WEB_DIR")) {
+            define("ILIAS_WEB_DIR", dirname(__DIR__, 4));
+        }
+        if (!defined("CLIENT_ID")) {
+            define("CLIENT_ID", $client_id);
+        }
+        if (!defined("ILIAS_DATA_DIR")) {
+            define("ILIAS_DATA_DIR", $data_dir);
+        }
         $this->client_data_dir = $client_data_dir;
         $this->database = $db;
-        $file_system_factory = new FlySystemFilesystemFactory();
-        $this->resource_builder = new ResourceBuilder(
-            new StorageHandlerFactory([
-                new MaxNestingFileSystemStorageHandler(
-                    $file_system_factory->getLocal(
-                    new LocalConfig($this->client_data_dir)
-                ),
-                    Location::STORAGE
-                )
-            ]),
-            new RevisionDBRepository($db),
-            new ResourceDBRepository($db),
-            new InformationDBRepository($db),
-            new StakeholderDBRepository($db),
-            new LockHandlerilDB($this->database)
+
+        // Build Container
+        $init = new InitResourceStorage();
+        $container = new Container();
+        $container['ilDB'] = $db;
+        $storageConfiguration = new LocalConfig($client_data_dir);
+        $f = new FlySystemFilesystemFactory();
+        $container['filesystem.storage'] = $f->getLocal($storageConfiguration);
+
+        $this->resource_builder = $init->getResourceBuilder($container);
+        $this->collection_builder = new CollectionBuilder(
+            new CollectionDBRepository($db)
+        );
+
+        $this->repositories = $container[InitResourceStorage::D_REPOSITORIES];
+
+        $this->manager = new Manager(
+            $this->resource_builder,
+            $this->collection_builder,
+            $container[InitResourceStorage::D_REPOSITORY_PRELOADER]
         );
     }
 
     /**
      * @return \ilDatabaseInitializedObjective[]|\ilDatabaseUpdatedObjective[]|\ilIniFilesLoadedObjective[]
      */
-    public static function getPreconditions() : array
+    public static function getPreconditions(): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -90,37 +113,183 @@ class ilResourceStorageMigrationHelper
         ];
     }
 
-    public function getClientDataDir() : string
+    public function getClientDataDir(): string
     {
         return $this->client_data_dir;
     }
 
-    public function getDatabase() : ilDBInterface
+    public function getDatabase(): ilDBInterface
     {
         return $this->database;
     }
 
-    public function getStakeholder() : ResourceStakeholder
+    public function getStakeholder(): ResourceStakeholder
     {
         return $this->stakeholder;
     }
 
-    public function getResourceBuilder() : ResourceBuilder
+    public function getResourceBuilder(): ResourceBuilder
     {
         return $this->resource_builder;
     }
 
-    public function movePathToStorage(string $absolute_path, int $owner_user_id) : ResourceIdentification
+    public function getCollectionBuilder(): CollectionBuilder
     {
-        $stream = Streams::ofResource(fopen($absolute_path, 'rb'));
+        return $this->collection_builder;
+    }
+
+    public function getManager(): Manager
+    {
+        return $this->manager;
+    }
+
+    public function moveResourceToNewStakeholderAndOwner(
+        ResourceIdentification $resource_identification,
+        ResourceStakeholder $old_stakeholder,
+        ResourceStakeholder $new_stakeholder,
+        ?int $new_owner_id = null
+    ): void {
+        $resource = $this->manager->getResource($resource_identification);
+        $resource->removeStakeholder($old_stakeholder);
+        $this->repositories->getStakeholderRepository()->deregister($resource_identification, $old_stakeholder);
+        $resource->addStakeholder($new_stakeholder);
+        $this->repositories->getStakeholderRepository()->register($resource_identification, $new_stakeholder);
+
+        if ($new_owner_id !== null) {
+            foreach ($resource->getAllRevisions() as $revision) {
+                $revision->setOwnerId($new_owner_id);
+            }
+        }
+
+        $this->resource_builder->store($resource);
+    }
+
+
+    public function moveFilesOfPathToCollection(
+        string $absolute_path,
+        int $resource_owner_id,
+        int $collection_owner_user_id = ResourceCollection::NO_SPECIFIC_OWNER,
+        ?Closure $file_name_callback = null,
+        ?Closure $revision_name_callback = null
+    ): ?ResourceCollectionIdentification {
+        $collection = $this->getCollectionBuilder()->new($collection_owner_user_id);
+        /** @var SplFileInfo $file_info */
+        foreach (new DirectoryIterator($absolute_path) as $file_info) {
+            if (!$file_info->isFile()) {
+                continue;
+            }
+            $resource_id = $this->movePathToStorage(
+                $file_info->getRealPath(),
+                $resource_owner_id,
+                $file_name_callback,
+                $revision_name_callback
+            );
+            if ($resource_id !== null) {
+                $collection->add($resource_id);
+            }
+        }
+        if ($collection->count() === 0) {
+            return null;
+        }
+
+        if ($this->getCollectionBuilder()->store($collection)) {
+            return $collection->getIdentification();
+        }
+        return null;
+    }
+
+    public function moveFilesOfPatternToCollection(
+        string $absolute_base_path,
+        string $pattern,
+        int $resource_owner_id,
+        int $collection_owner_user_id = ResourceCollection::NO_SPECIFIC_OWNER,
+        ?Closure $file_name_callback = null,
+        ?Closure $revision_name_callback = null
+    ): ?ResourceCollectionIdentification {
+        $collection = $this->getCollectionBuilder()->new($collection_owner_user_id);
+
+        $regex_iterator = $this->buildRecursivePatternIterator($absolute_base_path, $pattern);
+
+        foreach ($regex_iterator as $file_info) {
+            if (!$file_info->isFile()) {
+                continue;
+            }
+            $resource_id = $this->movePathToStorage(
+                $file_info->getRealPath(),
+                $resource_owner_id,
+                $file_name_callback,
+                $revision_name_callback
+            );
+            if ($resource_id !== null) {
+                $collection->add($resource_id);
+            }
+        }
+        if ($collection->count() === 0) {
+            return null;
+        }
+
+        if ($this->getCollectionBuilder()->store($collection)) {
+            return $collection->getIdentification();
+        }
+        return null;
+    }
+
+    public function moveFirstFileOfPatternToStorage(
+        string $absolute_base_path,
+        string $pattern,
+        int $resource_owner_id,
+        ?Closure $file_name_callback = null,
+        ?Closure $revision_name_callback = null
+    ): ?ResourceIdentification {
+        $regex_iterator = $this->buildRecursivePatternIterator($absolute_base_path, $pattern);
+
+        foreach ($regex_iterator as $file_info) {
+            if (!$file_info->isFile()) {
+                continue;
+            }
+            $resource_id = $this->movePathToStorage(
+                $file_info->getRealPath(),
+                $resource_owner_id,
+                $file_name_callback,
+                $revision_name_callback
+            );
+            if ($resource_id !== null) {
+                return $resource_id; // stop after first file
+            }
+        }
+
+        return null;
+    }
+
+    public function movePathToStorage(
+        string $absolute_path,
+        int $owner_user_id,
+        ?Closure $file_name_callback = null,
+        ?Closure $revision_name_callback = null
+    ): ?ResourceIdentification {
+        $open_path = fopen($absolute_path, 'rb');
+        if ($open_path === false) {
+            return null;
+        }
+        $stream = Streams::ofResource($open_path);
+
         // create new resource from legacy files stream
+        $revision_title = $revision_name_callback !== null
+            ? $revision_name_callback(basename($absolute_path))
+            : basename($absolute_path);
+
+        $file_name = $file_name_callback !== null
+            ? $file_name_callback(basename($absolute_path))
+            : null;
+
         $resource = $this->resource_builder->newFromStream(
             $stream,
             new StreamInfoResolver(
                 $stream,
                 1,
                 $owner_user_id,
-                basename($absolute_path)
+                $revision_title,
+                $file_name
             ),
             false
         );
@@ -130,5 +299,16 @@ class ilResourceStorageMigrationHelper
         $this->resource_builder->store($resource);
 
         return $resource->getIdentification();
+    }
+
+    protected function buildRecursivePatternIterator(
+        string $absolute_base_path,
+        string $pattern = '.*'
+    ): RecursiveRegexIterator {
+        return new RecursiveRegexIterator(
+            new RecursiveDirectoryIterator($absolute_base_path),
+            $pattern,
+            RecursiveRegexIterator::MATCH
+        );
     }
 }

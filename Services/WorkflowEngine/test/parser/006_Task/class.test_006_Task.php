@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
@@ -15,24 +16,24 @@ class test_006_Task extends ilWorkflowEngineBaseTest
     public string $base_path = './Services/WorkflowEngine/test/parser/';
     public string $suite_path = '006_Task/';
 
-    public function getTestInputFilename($test_name) : string
+    public function getTestInputFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '.bpmn2';
     }
 
-    public function getTestOutputFilename($test_name) : string
+    public function getTestOutputFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '_output.php';
     }
 
-    public function getTestGoldsampleFilename($test_name) : string
+    public function getTestGoldsampleFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }
 
-    public function setUp() : void
+    protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         chdir('../../../../../');
 
         parent::setUp();
@@ -40,23 +41,23 @@ class test_006_Task extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
     }
 
-    public function test_WorkflowWithSimpleTaskShouldOutputAccordingly()
+    public function test_WorkflowWithSimpleTaskShouldOutputAccordingly(): void
     {
         $test_name = 'Task_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
         $parser = new ilBPMN2Parser();
         $parse_result = $parser->parseBPMN2XML($xml);
-        
+
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         require_once $this->getTestOutputFilename($test_name);
-        $process = new $test_name;
+        $process = new $test_name();
         $this->assertFalse($process->isActive());
 
         $process->startWorkflow();
@@ -80,7 +81,7 @@ class test_006_Task extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public function test_WorkflowWithSimpleCallActivityShouldOutputAccordingly()
+    public function test_WorkflowWithSimpleCallActivityShouldOutputAccordingly(): void
     {
         $test_name = 'Task_CallActivity_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -90,13 +91,13 @@ class test_006_Task extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         require_once $this->getTestOutputFilename($test_name);
-        $process = new $test_name;
+        $process = new $test_name();
         self::$wasTriggered = false;
         $process->startWorkflow();
         $all_triggered = true;
@@ -123,11 +124,12 @@ class test_006_Task extends ilWorkflowEngineBaseTest
     public static bool $wasTriggered; // See test above.
 
     public static function triggerMe($context = "", $params = "") // See test above.
+    : void
     {
         self::$wasTriggered = true;
     }
 
-    public function test_WorkflowWithManualTaskShouldOutputAccordingly()
+    public function test_WorkflowWithManualTaskShouldOutputAccordingly(): void
     {
         $test_name = 'Task_ManualTask_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -137,13 +139,13 @@ class test_006_Task extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         require_once $this->getTestOutputFilename($test_name);
-        $process = new $test_name;
+        $process = new $test_name();
         $process->startWorkflow();
         $all_triggered = true;
         foreach ($process->getNodes() as $node) {
@@ -166,7 +168,7 @@ class test_006_Task extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public function test_WorkflowWithScriptTaskShouldOutputAccordingly()
+    public function test_WorkflowWithScriptTaskShouldOutputAccordingly(): void
     {
         $test_name = 'Task_ScriptTask_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -176,14 +178,14 @@ class test_006_Task extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         require_once $this->getTestOutputFilename($test_name);
         self::$wasTriggered = false;
-        $process = new $test_name;
+        $process = new $test_name();
         $process->startWorkflow();
         $all_triggered = true;
         foreach ($process->getNodes() as $node) {
@@ -208,17 +210,17 @@ class test_006_Task extends ilWorkflowEngineBaseTest
     }
 
     public static bool $wasListRequestTriggered;
-    public static $callParams;
+    //public static $callParams;
     public static array $retval = array(1, 2, 3, 4, 5);
 
-    public static function requestList($context, $params) : array
+    public static function requestList($context, $params): array
     {
         self::$wasListRequestTriggered = true;
-        self::$callParams = $params;
+        //self::$callParams = $params;
         return array('DataObjectReference_1' => self::$retval);
     }
 
-    public function test_ReadLearnersFromCourseShouldOutputAccordingly()
+    public function test_ReadLearnersFromCourseShouldOutputAccordingly(): void
     {
         $test_name = 'Task_ReadLearnersFromCourse';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -228,14 +230,14 @@ class test_006_Task extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         require_once $this->getTestOutputFilename($test_name);
         self::$wasListRequestTriggered = false;
-        $process = new $test_name;
+        $process = new $test_name();
 
         $process->setInstanceVarById('DataInput_1', 123456789);
         $this->assertEquals(123456789, $process->getInstanceVarById('DataInput_1'));

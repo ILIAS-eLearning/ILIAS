@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,18 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilMailMimeTransportFactory
 {
-    protected ilSetting $settings;
-    private ilAppEventHandler $eventHandler;
-
-    public function __construct(ilSetting $settings, ilAppEventHandler $eventHandler)
+    public function __construct(protected ilSetting $settings, private readonly ilAppEventHandler $eventHandler)
     {
-        $this->settings = $settings;
-        $this->eventHandler = $eventHandler;
     }
 
-    public function getTransport() : ilMailMimeTransport
+    public function getTransport(): ilMailMimeTransport
     {
         if (!$this->settings->get('mail_allow_external', '0')) {
             return new ilMailMimeTransportNull();

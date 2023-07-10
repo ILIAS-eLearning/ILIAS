@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -17,7 +19,7 @@ class UuidTest extends TestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function test_init() : Factory
+    public function test_init(): Factory
     {
         return new Factory();
     }
@@ -25,7 +27,7 @@ class UuidTest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_uuid4() : void
+    public function test_uuid4(): void
     {
         $factory = new Factory();
         $uuid = $factory->uuid4();
@@ -36,7 +38,7 @@ class UuidTest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_uuid4_string() : void
+    public function test_uuid4_string(): void
     {
         $factory = new Factory();
         $uuid = $factory->uuid4AsString();
@@ -48,7 +50,7 @@ class UuidTest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_from_string() : void
+    public function test_from_string(): void
     {
         $factory = new Factory();
         $uuid = $factory->fromString(self::UUID4);
@@ -60,7 +62,7 @@ class UuidTest extends TestCase
     /**
      * @depends test_init
      */
-    public function test_from_illegal_string() : void
+    public function test_from_illegal_string(): void
     {
         $this->expectException(InvalidUuidStringException::class);
 

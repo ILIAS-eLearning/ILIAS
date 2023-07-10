@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Get list item properties for booking info
@@ -23,10 +22,10 @@
  */
 class ilBookingInfoListItemPropertiesAdapter
 {
-    protected ilBookingReservationDBRepository $repo;
+    protected \ILIAS\BookingManager\Reservations\ReservationDBRepository $repo;
 
     public function __construct(
-        ilBookingReservationDBRepository $repo = null
+        \ILIAS\BookingManager\Reservations\ReservationDBRepository $repo = null
     ) {
         $this->repo = $repo;
     }
@@ -34,13 +33,13 @@ class ilBookingInfoListItemPropertiesAdapter
     public function appendProperties(
         int $obj_id,
         array $props
-    ) : array {
+    ): array {
         $repo = $this->repo;
         $info = [];
         foreach ($repo->getCachedContextObjBookingInfo($obj_id) as $item) {
             $info[$item["pool_id"]]["title"] = ilObject::_lookupTitle($item["pool_id"]);
-            $info[$item["pool_id"]]["object"][$item["obj_id"]]["title"] = $item["title"];
-            $info[$item["pool_id"]]["object"][$item["obj_id"]]["bookings"][] =
+            $info[$item["pool_id"]]["object"][$item["object_id"]]["title"] = $item["title"];
+            $info[$item["pool_id"]]["object"][$item["object_id"]]["bookings"][] =
                 ilDatePresentation::formatDate(new ilDate($item["date"], IL_CAL_DATE)) . ", " . $item["slot"] . " (" . $item["counter"] . ")";
         }
         foreach ($info as $pool) {

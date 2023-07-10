@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\OnScreenChat\Provider\OnScreenChatProvider;
 use ILIAS\OnScreenChat\Repository\Conversation;
@@ -32,10 +34,10 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
 {
     protected static bool $frontend_initialized = false;
 
-    private ILIAS\DI\Container $dic;
-    private ILIAS\HTTP\Services $http;
-    private ilCtrlInterface $ctrl;
-    private ilObjUser $actor;
+    private readonly ILIAS\DI\Container $dic;
+    private readonly ILIAS\HTTP\Services $http;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilObjUser $actor;
 
     public function __construct()
     {
@@ -47,12 +49,12 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         $this->actor = $DIC->user();
     }
 
-    private function getResponseWithText(string $body) : ResponseInterface
+    private function getResponseWithText(string $body): ResponseInterface
     {
         return $this->dic->http()->response()->withBody(Streams::ofString($body));
     }
 
-    protected static function isOnScreenChatAccessible(ilSetting $chatSettings) : bool
+    protected static function isOnScreenChatAccessible(ilSetting $chatSettings): bool
     {
         global $DIC;
 
@@ -63,43 +65,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         );
     }
 
-    /**
-     * @param ilChatroomServerSettings $chatSettings
-     * @return array<string, string>
-     */
-    protected static function getEmoticons(ilChatroomServerSettings $chatSettings) : array
-    {
-        $smileys = [];
-
-        if ($chatSettings->getSmiliesEnabled()) {
-            $smileys_array = ilChatroomSmilies::_getSmilies();
-            foreach ($smileys_array as $smiley_array) {
-                $new_keys = array();
-                $new_val = '';
-                foreach ($smiley_array as $key => $value) {
-                    if ($key === 'smiley_keywords') {
-                        $new_keys = explode("\n", $value);
-                    }
-
-                    if ($key === 'smiley_fullpath') {
-                        $new_val = $value;
-                    }
-                }
-
-                if (!$new_keys || !$new_val) {
-                    continue;
-                }
-
-                foreach ($new_keys as $new_key) {
-                    $smileys[$new_key] = $new_val;
-                }
-            }
-        }
-
-        return $smileys;
-    }
-
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
@@ -141,7 +107,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    private function verifyLogin() : ResponseInterface
+    private function verifyLogin(): ResponseInterface
     {
         ilSession::enableWebAccessWithoutSession(true);
 
@@ -150,7 +116,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         ], JSON_THROW_ON_ERROR));
     }
 
-    private function getUserList() : ResponseInterface
+    private function getUserList(): ResponseInterface
     {
         if (!$this->actor->getId() || $this->actor->isAnonymous()) {
             return $this->getResponseWithText(json_encode([], JSON_THROW_ON_ERROR));
@@ -170,7 +136,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         return $this->getResponseWithText($auto->getList($this->http->request()->getQueryParams()['term'] ?? ''));
     }
 
-    private function getUserProfileData() : ResponseInterface
+    private function getUserProfileData(): ResponseInterface
     {
         if (!$this->actor->getId() || $this->actor->isAnonymous()) {
             return $this->getResponseWithText(json_encode([], JSON_THROW_ON_ERROR));
@@ -190,7 +156,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         return $this->getResponseWithText(json_encode($data, JSON_THROW_ON_ERROR));
     }
 
-    public static function initializeFrontend(ilGlobalTemplateInterface $page) : void
+    public static function initializeFrontend(ilGlobalTemplateInterface $page): void
     {
         global $DIC;
 
@@ -220,11 +186,11 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             $chatWindowTemplate->setVariable('MINIMIZE_ACTION', $renderer->render(
                 $factory->button()->minimize()
             ));
-            $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('outlined/icon_pcht.svg')));
+            $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('icon_pcht.svg')));
 
             $subscriberRepo = new Subscriber($DIC->database(), $DIC->user());
 
-            $guiConfig = array(
+            $guiConfig = [
                 'chatWindowTemplate' => $chatWindowTemplate->get(),
                 'messageTemplate' => (new ilTemplate(
                     'tpl.chat-message.html',
@@ -269,7 +235,6 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                     false
                 ),
                 'loaderImg' => ilUtil::getImagePath('loader.svg'),
-                'emoticons' => self::getEmoticons($settings),
                 'locale' => $DIC->language()->getLangKey(),
                 'initialUserData' => $subscriberRepo->getInitialUserProfileData(),
                 'enabledBrowserNotifications' => (
@@ -280,7 +245,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                     ilUtil::yn2tf((string) $DIC->user()->getPref('chat_broadcast_typing'))
                 ),
                 'notificationIconPath' => ilUtil::getImagePath('icon_chta.png'),
-            );
+            ];
 
             $chatConfig = [
                 'url' => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
@@ -291,10 +256,9 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
 
             $DIC->language()->toJS([
                 'chat_osc_no_usr_found',
-                'chat_osc_emoticons',
                 'chat_osc_write_a_msg',
                 'autocomplete_more',
-                'close',
+                'chat_osc_minimize',
                 'chat_osc_invite_to_conversation',
                 'chat_osc_user',
                 'chat_osc_add_user',
@@ -327,7 +291,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             $page->addJavaScript('./node_modules/jquery-outside-events/jquery.ba-outside-events.js');
             $page->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
             $page->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
-            $page->addJavascript('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
+            $page->addJavascript('./node_modules/moment/min/moment-with-locales.min.js');
             $page->addJavascript('./Services/Notifications/js/browser_notifications.js');
             $page->addJavascript('./Services/OnScreenChat/js/onscreenchat-notifications.js');
             $page->addJavascript('./Services/OnScreenChat/js/moment.js');

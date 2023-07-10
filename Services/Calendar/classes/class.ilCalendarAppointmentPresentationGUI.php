@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\Refinery\Factory as RefineryFactory;
@@ -13,8 +31,6 @@ class ilCalendarAppointmentPresentationGUI
 {
     protected const MODE_MODAL = "modal";
     protected const MODE_LIST_ITEM = "list_item";
-
-    protected static ?self $instance = null;
 
     protected ilDate $seed;
     protected ilCalendarSettings $settings;
@@ -61,7 +77,7 @@ class ilCalendarAppointmentPresentationGUI
         $this->mode = self::MODE_LIST_ITEM;
     }
 
-    public function getListItem() : Item
+    public function getListItem(): Item
     {
         return $this->list_item;
     }
@@ -69,15 +85,12 @@ class ilCalendarAppointmentPresentationGUI
     /**
      * get singleton instance
      */
-    public static function _getInstance(ilDate $seed, array $a_app) : self
+    public static function _getInstance(ilDate $seed, array $a_app): self
     {
-        if (!self::$instance instanceof self) {
-            self::$instance = new self($seed, $a_app);
-        }
-        return self::$instance;
+        return new static($seed, $a_app);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("getHTML");
@@ -115,12 +128,12 @@ class ilCalendarAppointmentPresentationGUI
     /**
      * Get seed date
      */
-    public function getSeed() : ilDate
+    public function getSeed(): ilDate
     {
         return $this->seed;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         if ($this->mode == self::MODE_MODAL) {
             return $this->getModalHTML();
@@ -131,7 +144,7 @@ class ilCalendarAppointmentPresentationGUI
         return "";
     }
 
-    public function getModalHTML() : string
+    public function getModalHTML(): string
     {
         $tpl = new ilTemplate('tpl.appointment_presentation.html', true, true, 'Services/Calendar');
 
@@ -140,7 +153,7 @@ class ilCalendarAppointmentPresentationGUI
 
         #21529 create new toolbar with unique id using the entry id for this purpose
         $toolbar = new ilToolbarGUI();
-        $toolbar->setId($this->appointment['event']->getEntryId());
+        $toolbar->setId((string) $this->appointment['event']->getEntryId());
 
         $f = ilAppointmentPresentationFactory::getInstance($this->appointment, $info_screen, $toolbar, null);
 
@@ -166,7 +179,7 @@ class ilCalendarAppointmentPresentationGUI
     /**
      * Modify List item
      */
-    public function modifyListItem() : string
+    public function modifyListItem(): string
     {
         $li = $this->getListItem();
         $f = ilAppointmentPresentationFactory::getInstance($this->appointment, null, null, $li);
@@ -175,7 +188,7 @@ class ilCalendarAppointmentPresentationGUI
         return '';
     }
 
-    protected function getActivePlugins() : Iterator
+    protected function getActivePlugins(): Iterator
     {
         global $DIC;
 
@@ -183,7 +196,7 @@ class ilCalendarAppointmentPresentationGUI
         return $component_factory->getActivePluginsInSlot("capm");
     }
 
-    protected function getContentByPlugins($a_content, $a_toolbar) : array
+    protected function getContentByPlugins($a_content, $a_toolbar): array
     {
         $content = $a_content;
         $toolbar = $a_toolbar;
@@ -208,7 +221,7 @@ class ilCalendarAppointmentPresentationGUI
             }
 
             if ($new_toolbar = $plugin->toolbarReplaceContent()) {
-                $new_toolbar->setId($a_toolbar->getId());
+                $new_toolbar->setId((string) $a_toolbar->getId());
                 $toolbar = $new_toolbar;
             }
         }

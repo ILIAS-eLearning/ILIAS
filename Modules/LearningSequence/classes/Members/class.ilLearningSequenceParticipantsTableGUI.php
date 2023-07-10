@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,10 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+declare(strict_types=1);
+
+declare(strict_types=1);
+
 class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 {
     protected ilLearningSequenceMembershipGUI $parent_gui;
@@ -64,7 +67,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->initForm();
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         $this->setFormName('participants');
         $this->setDefaultOrderField('roles');
@@ -108,14 +111,14 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
         $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
 
         if (
-            !$this->access->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) &&
+            !$this->access->checkAccessOfUser((int) $a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) &&
             is_array($info = $this->access->getInfo())
         ) {
             $this->tpl->setCurrentBlock('access_warning');
@@ -123,7 +126,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if (!ilObjUser::_lookupActive($a_set['usr_id'])) {
+        if (!ilObjUser::_lookupActive((int) $a_set['usr_id'])) {
             $this->tpl->setCurrentBlock('access_warning');
             $this->tpl->setVariable('PARENT_ACCESS', $this->lng->txt('usr_account_inactive'));
             $this->tpl->parseCurrentBlock();
@@ -133,7 +136,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             switch ($field) {
                 case 'prtf':
                     $tmp = array();
-                    if (is_array($a_set['prtf'])) {
+                    if (array_key_exists('prtf', $a_set) && is_array($a_set['prtf'])) {
                         foreach ($a_set['prtf'] as $prtf_url => $prtf_txt) {
                             $tmp[] = '<a href="' . $prtf_url . '">' . $prtf_txt . '</a>';
                         }
@@ -149,7 +152,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
                     break;
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable('VAL_CUST', ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $a_set['usr_id']));
                     $this->tpl->parseCurrentBlock();
                     break;
                 default:
@@ -174,8 +177,8 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->tpl->setVariable('COMPLETED_STEPS', $this->getCompletedSteps((int) $a_set['usr_id']));
         $this->tpl->setVariable('LAST_VISITED_STEP', $this->getLastVisitedStep((int) $a_set['usr_id']));
 
-        if ($this->getParticipants()->isAdmin($a_set['usr_id'])) {
-            $this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
+        if ($this->getParticipants()->isAdmin((int) $a_set['usr_id'])) {
+            $this->tpl->setVariable('VAL_NOTIFICATION_ID', (int) $a_set['usr_id']);
             $this->tpl->setVariable(
                 'VAL_NOTIFICATION_CHECKED',
                 $a_set['notification'] ? 'checked="checked"' : ''
@@ -186,7 +189,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
     }
 
-    protected function getFirstAccess(int $user_id) : string
+    protected function getFirstAccess(int $user_id): string
     {
         $data = $this->getRepositoryObject()->getStateDB()->getFirstAccessFor(
             $this->getRepositoryObject()->getRefId(),
@@ -200,7 +203,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         return $data[$user_id];
     }
 
-    protected function getLastAccess(int $user_id) : string
+    protected function getLastAccess(int $user_id): string
     {
         $data = $this->getRepositoryObject()->getStateDB()->getLastAccessFor(
             $this->getRepositoryObject()->getRefId(),
@@ -214,7 +217,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         return $data[$user_id];
     }
 
-    protected function getCompletedSteps(int $user_id) : string
+    protected function getCompletedSteps(int $user_id): string
     {
         $passed = 0;
 
@@ -238,7 +241,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
      * the object instead of its actually number in the ls items list.
      * The ls item list could change and the number isn't very revealing.
      */
-    protected function getLastVisitedStep(int $user_id) : string
+    protected function getLastVisitedStep(int $user_id): string
     {
         $data = $this->getRepositoryObject()->getStateDB()->getCurrentItemsFor(
             $this->getRepositoryObject()->getRefId(),
@@ -252,12 +255,12 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         return $this->getTitleFor((int) $data[$user_id]);
     }
 
-    protected function getTitleFor(int $ref_id) : string
+    protected function getTitleFor(int $ref_id): string
     {
         return ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $this->determineOffsetAndOrder(true);
 
@@ -330,10 +333,12 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
                 }
             }
 
-            if ($this->current_filter['org_units']) {
+            if (array_key_exists('org_units', $this->current_filter)
+                && $this->current_filter['org_units'] !== ''
+            ) {
                 $org_unit = $this->current_filter['org_units'];
                 $title = ilObjectFactory::getInstanceByRefId($org_unit)->getTitle();
-                $user_units = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+                $user_units = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $user_id);
                 if (strpos($user_units, $title) === false) {
                     continue;
                 }
@@ -344,14 +349,14 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 
             $roles = array();
             foreach ($local_roles as $role_id => $role_name) {
-                if ($this->rbac_review->isAssigned($user_id, $role_id)) {
+                if ($this->rbac_review->isAssigned((int) $user_id, $role_id)) {
                     $roles[] = $role_name;
                 }
             }
 
             $user_data[$user_id]['name'] = $user_data[$user_id]['lastname'] . ', ' . $user_data[$user_id]['firstname'];
             $user_data[$user_id]['roles_label'] = implode('<br />', $roles);
-            $user_data[$user_id]['roles'] = $this->participants->setRoleOrderPosition($user_id);
+            $user_data[$user_id]['roles'] = $this->participants->setRoleOrderPosition((int) $user_id);
         }
 
         // Custom user data fields
@@ -377,7 +382,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->setData($user_data);
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         $ef = $this->getExportFieldsInfo();
         $columns = $ef->getSelectableFieldsInfo(
@@ -408,7 +413,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         );
     }
 
-    protected function getExportFieldsInfo() : ilExportFieldsInfo
+    protected function getExportFieldsInfo(): ilExportFieldsInfo
     {
         return ilExportFieldsInfo::_getInstanceByType(
             $this->getRepositoryObject()->getType()

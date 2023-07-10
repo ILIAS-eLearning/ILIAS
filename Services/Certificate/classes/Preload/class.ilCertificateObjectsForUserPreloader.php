@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -23,18 +25,15 @@ class ilCertificateObjectsForUserPreloader
 {
     /** @var array<int, int[]> */
     private static array $certificates = [];
-    private ilUserCertificateRepository $userCertificateRepository;
 
-    public function __construct(ilUserCertificateRepository $userCertificateRepository)
+    public function __construct(private readonly ilUserCertificateRepository $userCertificateRepository)
     {
-        $this->userCertificateRepository = $userCertificateRepository;
     }
 
     /**
-     * @param int   $userId
      * @param int[] $objIds
      */
-    public function preLoad(int $userId, array $objIds) : void
+    public function preLoad(int $userId, array $objIds): void
     {
         if (!array_key_exists($userId, self::$certificates)) {
             self::$certificates[$userId] = [];
@@ -51,16 +50,12 @@ class ilCertificateObjectsForUserPreloader
         ));
     }
 
-    public function isPreloaded(int $userId, int $objId) : bool
+    public function isPreloaded(int $userId, int $objId): bool
     {
-        if (false === array_key_exists($userId, self::$certificates)) {
+        if (!array_key_exists($userId, self::$certificates)) {
             return false;
         }
 
-        if (true === in_array($objId, self::$certificates[$userId], true)) {
-            return true;
-        }
-
-        return false;
+        return in_array($objId, self::$certificates[$userId], true);
     }
 }

@@ -32,6 +32,9 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapObjectAdministration extends ilSoapAdministration
 {
+    /**
+     * @return int|soap_fault|SoapFault|string|null
+     */
     public function getObjIdByImportId(string $sid, string $import_id)
     {
         $this->initAuth($sid);
@@ -55,6 +58,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return $obj_id ?: "0";
     }
 
+    /**
+     * @return array|soap_fault|SoapFault|null
+     */
     public function getRefIdsByImportId(string $sid, string $import_id)
     {
         $this->initAuth($sid);
@@ -85,6 +91,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return $new_refs;
     }
 
+    /**
+     * @return array|soap_fault|SoapFault|null
+     */
     public function getRefIdsByObjId(string $sid, int $obj_id)
     {
         $this->initAuth($sid);
@@ -109,10 +118,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
     }
 
     /**
-     *    Returns a array of object ids which match the references id, given by a comma seperated string.
-     * @param string $sid Session ID
-     * @param array of int $ref ids as comma separated list
-     * @return    array|SoapFault of ref ids, same order as object ids there for there might by duplicates
+     * @return array|soap_fault|SoapFault|null
      */
     public function getObjIdsByRefIds(string $sid, array $ref_ids)
     {
@@ -150,6 +156,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return $obj_ids;
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function getObjectByReference(string $sid, int $a_ref_id, int $user_id)
     {
         $this->initAuth($sid);
@@ -180,6 +189,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return $this->raiseError('Cannot create object xml !', 'Server');
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function getObjectsByTitle(string $sid, string $a_title, int $user_id)
     {
         $this->initAuth($sid);
@@ -250,6 +262,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return $this->raiseError('Cannot create object xml !', 'Server');
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function searchObjects(string $sid, array $types, string $key, string $combination, int $user_id)
     {
         $this->initAuth($sid);
@@ -371,6 +386,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return $this->raiseError('Cannot create object xml !', 'Server');
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function getTreeChilds(string $sid, int $ref_id, array $types, int $user_id)
     {
         $this->initAuth($sid);
@@ -428,6 +446,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return $this->raiseError('Cannot create object xml !', 'Server');
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function getXMLTree(string $sid, int $ref_id, array $types, int $user_id)
     {
         $this->initAuth($sid);
@@ -440,6 +461,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         global $DIC;
 
         $tree = $DIC['tree'];
+        $access = $DIC['ilAccess'];
 
         $nodedata = $tree->getNodeData($ref_id);
         $nodearray = $tree->getSubTree($nodedata);
@@ -455,6 +477,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 !$objDefinition->isAdministrationObject($node['type']) &&
                 !$objDefinition->isSystemObject($node['type']) &&
                 !in_array($node['type'], $filter, true) &&
+                $access->checkAccess("read", "", (int) $node['ref_id']) &&
                 ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'], false))) {
                 $nodes[] = $tmp;
             }
@@ -477,6 +500,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return $this->raiseError('Cannot create object xml !', 'Server');
     }
 
+    /**
+     * @return bool|int|soap_fault|SoapFault|string|null
+     */
     public function addObject(string $sid, int $a_target_id, string $a_xml)
     {
         $this->initAuth($sid);
@@ -640,6 +666,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return $ref_id ?: "0";
     }
 
+    /**
+     * @return int|soap_fault|SoapFault|string|null
+     */
     public function addReference(string $sid, int $a_source_id, int $a_target_id)
     {
         $this->initAuth($sid);
@@ -756,6 +785,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return $new_ref_id ?: 0;
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function deleteObject(string $sid, int $reference_id)
     {
         $this->initAuth($sid);
@@ -803,6 +835,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function removeFromSystemByImportId(string $sid, string $import_id)
     {
         $this->initAuth($sid);
@@ -869,6 +904,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function updateObjects(string $sid, string $a_xml)
     {
         $this->initAuth($sid);
@@ -998,6 +1036,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return false;
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function moveObject(string $sid, int $ref_id, int $target_id)
     {
         $this->initAuth($sid);
@@ -1059,15 +1100,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $tree->moveTree($ref_id, $target_id);
         $rbacadmin->adjustMovedObjectPermissions($ref_id, $old_parent);
 
-        include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
         ilConditionHandler::_adjustMovedObjectConditions($ref_id);
         return true;
     }
 
     /**
-     * copy object in repository
-     * $sid    session id
-     * $settings_xml contains copy wizard settings following ilias_copy_wizard_settings.dtd
+     * @return bool|int|mixed|soap_fault|SoapFault|null
      */
     public function copyObject(string $sid, string $copy_settings_xml)
     {
@@ -1160,6 +1198,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return is_object($newObject) ? $newObject->getRefId() : -1;
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function getPathForRefId(string $sid, int $ref_id)
     {
         $this->initAuth($sid);
@@ -1316,7 +1357,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         return true;
     }
 
-    private function updateReferences(array $a_object_data) : void
+    private function updateReferences(array $a_object_data): void
     {
         global $DIC;
 
@@ -1362,7 +1403,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         }
     }
 
-    private function addReferences(ilObject $source, array $a_object_data) : void
+    private function addReferences(ilObject $source, array $a_object_data): void
     {
         global $DIC;
 

@@ -1,18 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -21,8 +25,9 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 {
     public function __construct(?object $a_parent_obj, string $a_parent_cmd = "")
     {
+        $this->setId('login_copage_tbl');
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->lng->loadLanguageModule('meta');
 
         $this->initTable();
@@ -31,7 +36,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
     /**
      * Parse input data
      */
-    public function parse() : void
+    public function parse(): void
     {
         $installed = $this->lng->getInstalledLanguages();
 
@@ -53,7 +58,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
      * Fill table row template
      * @param array $a_set
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('LANGID', $a_set['key']);
         $this->tpl->setVariable('LANGKEY_CHECKED', $a_set['status'] ? 'checked="checked' : '');
@@ -80,7 +85,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    protected function initTable() : void
+    protected function initTable(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setRowTemplate('tpl.auth_login_page_editor_table_row.html', 'Services/Authentication');
@@ -93,7 +98,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('actions'), '', '10%');
 
         $this->addMultiCommand('activate', $this->lng->txt('login_page_activate'));
-        
+
         $this->setDefaultOrderField('language');
         $this->enable('sort');
         $this->enable('header');

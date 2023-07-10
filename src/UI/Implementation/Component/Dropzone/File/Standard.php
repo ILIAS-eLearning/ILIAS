@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,47 +14,63 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-use ILIAS\UI\Component\Dropzone\File\Standard as StandardInterface;
-use ILIAS\UI\Component\Input\Factory as InputFactory;
-use ILIAS\UI\Component\Input\Field\UploadHandler;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Component\Input\Field\File as FileInput;
+use ILIAS\UI\Component\Dropzone\File\Standard as StandardDropzone;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Button\Button;
-use ilLanguage;
+use ILIAS\UI\Component\Input\Field\Input;
 
 /**
- * @author  nmaerchy <nm@studer-raimann.ch>
  * @author  Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class Standard extends File implements StandardInterface
+class Standard extends File implements StandardDropzone
 {
-    protected string $message = "";
     protected ?Button $upload_button = null;
+    protected string $message;
 
-    public function withMessage(string $message) : self
-    {
-        $clone = clone $this;
-        $clone->message = $message;
-        return $clone;
+    public function __construct(
+        SignalGeneratorInterface $signal_generator,
+        FieldFactory $field_factory,
+        NameSource $name_source,
+        string $title,
+        string $message,
+        string $post_url,
+        FileInput $file_input,
+        ?Input $additional_input
+    ) {
+        parent::__construct(
+            $signal_generator,
+            $field_factory,
+            $name_source,
+            $title,
+            $post_url,
+            $file_input,
+            $additional_input,
+        );
+        $this->message = $message;
     }
 
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function withUploadButton(Button $button) : self
+    public function withUploadButton(Button $button): self
     {
         $clone = clone $this;
         $clone->upload_button = $button;
         return $clone;
     }
 
-    public function getUploadButton() : ?Button
+    public function getUploadButton(): ?Button
     {
         return $this->upload_button;
     }

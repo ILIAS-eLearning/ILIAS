@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -26,10 +28,10 @@ interface ilCertificatePlaceholderDescription
      * the the description as array value.
      * @return array<string, string> A [PLACEHOLDER] => 'description' map
      */
-    public function getPlaceholderDescriptions() : array;
+    public function getPlaceholderDescriptions(): array;
 
     /**
      * @return string - HTML that can used to be displayed in the GUI
      */
-    public function createPlaceholderHtmlDescription() : string;
+    public function createPlaceholderHtmlDescription(): string;
 }

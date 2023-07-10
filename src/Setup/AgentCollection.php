@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 use ILIAS\Refinery\Factory as Refinery;
@@ -42,19 +44,19 @@ class AgentCollection implements Agent
         $this->agents = $agents;
     }
 
-    public function getAgent(string $key) : ?Agent
+    public function getAgent(string $key): ?Agent
     {
         return $this->agents[$key] ?? null;
     }
 
-    public function withRemovedAgent(string $key) : AgentCollection
+    public function withRemovedAgent(string $key): AgentCollection
     {
         $clone = clone $this;
         unset($clone->agents[$key]);
         return $clone;
     }
 
-    public function withAdditionalAgent(string $key, Agent $agent) : AgentCollection
+    public function withAdditionalAgent(string $key, Agent $agent): AgentCollection
     {
         if (isset($this->agents[$key])) {
             throw new \LogicException("An agent with the name '$key' already exists.");
@@ -67,7 +69,7 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         foreach ($this->agents as $c) {
             if ($c->hasConfig()) {
@@ -80,10 +82,10 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getArrayToConfigTransformation() : Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         return $this->refinery->in()->series([
-            $this->refinery->custom()->transformation(function ($in) : array {
+            $this->refinery->custom()->transformation(function ($in): array {
                 $out = [];
                 foreach ($this->agents as $key => $agent) {
                     if (!$agent->hasConfig()) {
@@ -95,7 +97,7 @@ class AgentCollection implements Agent
                 }
                 return $out;
             }),
-            $this->refinery->custom()->transformation(fn ($v) : array => [$v]),
+            $this->refinery->custom()->transformation(fn ($v): array => [$v]),
             $this->refinery->to()->toNew(ConfigCollection::class)
         ]);
     }
@@ -103,7 +105,7 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getInstallObjective(Config $config = null) : Objective
+    public function getInstallObjective(Config $config = null): Objective
     {
         if (!is_null($config)) {
             $this->checkConfig($config);
@@ -129,7 +131,7 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getUpdateObjective(Config $config = null) : Objective
+    public function getUpdateObjective(Config $config = null): Objective
     {
         if ($config !== null) {
             $this->checkConfig($config);
@@ -139,7 +141,7 @@ class AgentCollection implements Agent
             "Collected Update Objectives",
             false,
             ...array_values(array_map(
-                function (string $k, Agent $v) use ($config) : \ILIAS\Setup\Objective {
+                function (string $k, Agent $v) use ($config): \ILIAS\Setup\Objective {
                     if ($config !== null) {
                         return $v->getUpdateObjective($config->maybeGetConfig($k));
                     }
@@ -154,13 +156,13 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getBuildArtifactObjective() : Objective
+    public function getBuildArtifactObjective(): Objective
     {
         return new ObjectiveCollection(
             "Collected Build Artifact Objectives",
             false,
             ...array_values(array_map(
-                fn (Agent $v) : \ILIAS\Setup\Objective => $v->getBuildArtifactObjective(),
+                fn (Agent $v): \ILIAS\Setup\Objective => $v->getBuildArtifactObjective(),
                 $this->agents
             ))
         );
@@ -169,13 +171,13 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getStatusObjective(Metrics\Storage $storage) : Objective
+    public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new ObjectiveCollection(
             "Collected Status Objectives",
             false,
             ...array_values(array_map(
-                fn (string $k, Agent $v) : \ILIAS\Setup\Objective => $v->getStatusObjective(
+                fn (string $k, Agent $v): \ILIAS\Setup\Objective => $v->getStatusObjective(
                     new Metrics\StorageOnPathWrapper($k, $storage)
                 ),
                 array_keys($this->agents),
@@ -187,7 +189,7 @@ class AgentCollection implements Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         $migrations = [];
         foreach ($this->agents as $agent_key => $agent) {
@@ -203,13 +205,13 @@ class AgentCollection implements Agent
         return $migrations;
     }
 
-    protected function getKey(Migration $migration) : string
+    protected function getKey(Migration $migration): string
     {
         $names = explode("\\", get_class($migration));
         return array_pop($names);
     }
 
-    protected function checkConfig(Config $config) : void
+    protected function checkConfig(Config $config): void
     {
         if (!($config instanceof ConfigCollection)) {
             throw new \InvalidArgumentException(
@@ -221,13 +223,13 @@ class AgentCollection implements Agent
     /**
      * @return Agent[]
      */
-    public function getAgents() : array
+    public function getAgents(): array
     {
         return $this->agents;
     }
 
     /** @inheritDoc */
-    public function getNamedObjectives(?Config $config = null) : array
+    public function getNamedObjectives(?Config $config = null): array
     {
         if (!is_null($config)) {
             $this->checkConfig($config);

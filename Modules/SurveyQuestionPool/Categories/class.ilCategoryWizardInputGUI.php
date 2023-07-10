@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a survey question category wizard property
@@ -20,6 +23,7 @@
  */
 class ilCategoryWizardInputGUI extends ilTextInputGUI
 {
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected ilGlobalTemplateInterface $tpl;
     protected ?SurveyCategories $values = null;
     protected bool $allowMove = false;
@@ -30,7 +34,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
     protected bool $show_neutral_category = false;
     protected string $neutral_category_title;
     protected bool $use_other_answer;
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -49,27 +53,28 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         $this->use_other_answer = false;
 
         $this->setMaxLength(1000); // #6218
+        $this->gui = $DIC->survey()->internal()->gui();
     }
-    
-    public function getUseOtherAnswer() : bool
+
+    public function getUseOtherAnswer(): bool
     {
         return $this->use_other_answer;
     }
-    
-    public function setUseOtherAnswer(bool $a_value) : void
+
+    public function setUseOtherAnswer(bool $a_value): void
     {
         $this->use_other_answer = $a_value;
     }
-    
-    public function getCategoryCount() : int
+
+    public function getCategoryCount(): int
     {
         if (!is_object($this->values)) {
             return 0;
         }
         return $this->values->getCategoryCount();
     }
-    
-    protected function calcNeutralCategoryScale() : int
+
+    protected function calcNeutralCategoryScale(): int
     {
         if (is_object($this->values)) {
             $scale = 0;
@@ -84,23 +89,23 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 
         return 99;
     }
-    
-    public function setShowNeutralCategory(bool $a_value) : void
+
+    public function setShowNeutralCategory(bool $a_value): void
     {
         $this->show_neutral_category = $a_value;
     }
-    
-    public function getShowNeutralCategory() : bool
+
+    public function getShowNeutralCategory(): bool
     {
         return $this->show_neutral_category;
     }
-    
-    public function setNeutralCategoryTitle(string $a_title) : void
+
+    public function setNeutralCategoryTitle(string $a_title): void
     {
         $this->neutral_category_title = $a_title;
     }
-    
-    public function getNeutralCategoryTitle() : string
+
+    public function getNeutralCategoryTitle(): string
     {
         return $this->neutral_category_title;
     }
@@ -108,13 +113,13 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
     /**
      * @param array|string $a_value
      */
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         $this->values = new SurveyCategories();
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    $this->values->addCategory($value, $a_value['other'][$index], null, null, $a_value['scale'][$index]);
+                    $this->values->addCategory($value, $a_value['other'][$index] ?? 0, 0, null, $a_value['scale'][$index] ?? null);
                 }
             }
         }
@@ -133,67 +138,67 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         }
     }
 
-    public function setValues(SurveyCategories $a_values) : void
+    public function setValues(SurveyCategories $a_values): void
     {
         $this->values = $a_values;
     }
 
-    public function getValues() : SurveyCategories
+    public function getValues(): SurveyCategories
     {
         return $this->values;
     }
 
-    public function setAllowMove(bool $a_allow_move) : void
+    public function setAllowMove(bool $a_allow_move): void
     {
         $this->allowMove = $a_allow_move;
     }
 
-    public function getAllowMove() : bool
+    public function getAllowMove(): bool
     {
         return $this->allowMove;
     }
-    
-    public function setShowWizard(bool $a_value) : void
+
+    public function setShowWizard(bool $a_value): void
     {
         $this->show_wizard = $a_value;
     }
-    
-    public function getShowWizard() : bool
+
+    public function getShowWizard(): bool
     {
         return $this->show_wizard;
     }
-    
-    public function setCategoryText(string $a_text) : void
+
+    public function setCategoryText(string $a_text): void
     {
         $this->categorytext = $a_text;
     }
-    
-    public function getCategoryText() : string
+
+    public function getCategoryText(): string
     {
         return $this->categorytext;
     }
-    
-    public function setShowSavePhrase(bool $a_value) : void
+
+    public function setShowSavePhrase(bool $a_value): void
     {
         $this->show_save_phrase = $a_value;
     }
-    
-    public function getShowSavePhrase() : bool
+
+    public function getShowSavePhrase(): bool
     {
         return $this->show_save_phrase;
     }
-    
-    public function getDisabledScale() : bool
+
+    public function getDisabledScale(): bool
     {
         return $this->disabled_scale;
     }
-    
-    public function setDisabledScale(bool $a_value) : void
+
+    public function setDisabledScale(bool $a_value): void
     {
         $this->disabled_scale = $a_value;
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
         $foundvalues = $this->getInput();
@@ -204,21 +209,22 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $idx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && ($this->getRequired() && (!$foundvalues['other'][$idx]))) {
+                    if (((strlen($answervalue)) == 0) && ($this->getRequired() && (!isset($foundvalues['other'][$idx])))) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
                 }
             }
             // check neutral column
-            if (array_key_exists('neutral', $foundvalues)) {
-                if ((strlen($neutral) == 0) && ($this->getRequired())) {
-                    $this->setAlert($lng->txt("msg_input_is_required"));
-                    return false;
-                }
-            }
+            /*            see #33267
+                           if (array_key_exists('neutral', $foundvalues)) {
+                            if ((strlen($neutral) == 0) && ($this->getRequired())) {
+                                $this->setAlert($lng->txt("msg_input_is_required"));
+                                return false;
+                            }
+                        }*/
             // check scales
-            if (is_array($foundvalues['scale'])) {
+            if (isset($foundvalues['scale'])) {
                 foreach ($foundvalues['scale'] as $scale) {
                     //scales required
                     if ((strlen($scale)) == 0) {
@@ -254,19 +260,19 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         return $this->checkSubItemsInput();
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         $val = $this->arrayArray($this->getPostVar());
         $val = ilArrayUtil::stripSlashesRecursive($val);
         return $val;
     }
 
-    public function getNeutralScaleInput() : string
+    public function getNeutralScaleInput(): string
     {
         return $this->str($this->getPostVar() . '_neutral_scale');
     }
 
-    public function getNeutralInput() : string
+    public function getNeutralInput(): string
     {
         $val = $this->strArray($this->getPostVar());
         return $val["neutral"];
@@ -274,9 +280,9 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 
     public function insert(
         ilTemplate $a_tpl
-    ) : void {
+    ): void {
         $lng = $this->lng;
-        
+
         $neutral_category = null;
         $tpl = new ilTemplate("tpl.prop_categorywizardinput.html", true, true, "Modules/SurveyQuestionPool");
         if (is_object($this->values)) {
@@ -309,11 +315,11 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                         $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
                         $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                         $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-                        $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
-                        $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                        $tpl->setVariable("UP_BUTTON", $this->gui->symbol()->glyph("up")->render());
+                        $tpl->setVariable("DOWN_BUTTON", $this->gui->symbol()->glyph("down")->render());
                         $tpl->parseCurrentBlock();
                     }
-                    
+
                     $tpl->setCurrentBlock("row");
                     $tpl->setVariable("POST_VAR", $this->getPostVar());
                     $tpl->setVariable("ROW_NUMBER", $i);
@@ -331,8 +337,8 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 
                     $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
                     $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
-                    $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-                    $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+                    $tpl->setVariable("ADD_BUTTON", $this->gui->symbol()->glyph("add")->render());
+                    $tpl->setVariable("REMOVE_BUTTON", $this->gui->symbol()->glyph("remove")->render());
                     $tpl->parseCurrentBlock();
                 } else {
                     $neutral_category = $cat;
@@ -347,14 +353,14 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             $tpl->setVariable("WIZARD_TEXT", $lng->txt('add_phrase'));
             $tpl->parseCurrentBlock();
         }
-        
+
         if ($this->getShowSavePhrase()) {
             $tpl->setCurrentBlock('savephrase');
             $tpl->setVariable("POST_VAR", $this->getPostVar());
             $tpl->setVariable("VALUE_SAVE_PHRASE", $lng->txt('save_phrase'));
             $tpl->parseCurrentBlock();
         }
-        
+
         if ($this->getShowNeutralCategory()) {
             if (is_object($neutral_category) && strlen($neutral_category->title)) {
                 $tpl->setCurrentBlock("prop_text_neutral_propval");
@@ -407,11 +413,11 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         $tpl->setVariable("ANSWER_TEXT", $this->getCategoryText());
         $tpl->setVariable("SCALE_TEXT", $lng->txt('scale'));
         $tpl->setVariable("ACTIONS_TEXT", $lng->txt('actions'));
-        
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
-        
+
         $tpl = $this->tpl;
         $tpl->addJavaScript("./Services/Form/js/ServiceFormWizardInput.js");
         $tpl->addJavaScript("./Modules/SurveyQuestionPool/Categories/js/categorywizard.js");

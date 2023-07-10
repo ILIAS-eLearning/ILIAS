@@ -15,29 +15,29 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblLibraryPresentationGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBiblLibraryPresentationGUI
 {
-    protected \ilBiblLibraryInterface $library;
-    protected \ilBiblFactoryFacade $facade;
-    
     /**
      * ilBiblLibraryPresentationGUI constructor.
      */
-    public function __construct(\ilBiblLibraryInterface $library, \ilBiblFactoryFacade $facade)
-    {
-        $this->library = $library;
-        $this->facade = $facade;
+    public function __construct(
+        protected \ilBiblLibraryInterface $library,
+        protected \ilBiblFactoryFacade $facade,
+        protected \ilCtrlInterface $ctrl,
+        protected \ilLanguage $lng,
+        protected \ILIAS\DI\UIServices $ui
+    ) {
     }
-    
+
     /**
      * @deprecated REFACTOR Mit Attribute Objekten arbeiten statt mit Array. Evtl. URL Erstellung vereinfachen
      */
-    public function generateLibraryLink(ilBiblEntry $entry, string $type) : string
+    public function generateLibraryLink(ilBiblEntry $entry, string $type): string
     {
         $attributes = $this->facade->entryFactory()->loadParsedAttributesByEntryId($entry->getId());
         $type = $this->facade->typeFactory()->getInstanceForString($type);
@@ -69,7 +69,7 @@ class ilBiblLibraryPresentationGUI
                 }
                 break;
         }
-        
+
         $url_params = "?";
         if (count($attr) === 1) {
             if (($attr[0] === "doi") || ($attr[0] === "pmid")) {
@@ -93,36 +93,37 @@ class ilBiblLibraryPresentationGUI
                 }
             }
         }
-        
+
         return $this->library->getUrl() . $url_params;
     }
-    
+
     /**
      * @return string|void
      */
     public function getButton(ilBiblFactoryFacadeInterface $bibl_factory_facade, ilBiblEntry $entry)
     {
-        if ($this->library->getImg()) {
-            $button = ilImageLinkButton::getInstance();
-            $button->setUrl($this->generateLibraryLink($entry, $bibl_factory_facade->type()->getStringRepresentation()));
-            $button->setImage($this->library->getImg(), false);
-            $button->setTarget('_blank');
-            
-            return $button->render();
+        $action = $this->generateLibraryLink($entry, $bibl_factory_facade->type()->getStringRepresentation());
+        if (null !== ($img_path = $this->library->getImg())) {
+            $icon = $this->ui->factory()->symbol()->icon()->custom($img_path, "");
+            $btn_online_link = $this->ui->factory()->button()->bulky(
+                $icon,
+                $this->lng->txt('bibl_link_online'),
+                $action
+            );
         } else {
-            $button = ilLinkButton::getInstance();
-            $button->setUrl($this->generateLibraryLink($entry, $bibl_factory_facade->type()->getStringRepresentation()));
-            $button->setTarget('_blank');
-            $button->setCaption('bibl_link_online');
-            
-            return $button->render();
+            $btn_online_link = $this->ui->factory()->button()->standard(
+                $this->lng->txt('bibl_link_online'),
+                $action
+            );
         }
+
+        return $this->ui->renderer()->render($btn_online_link);
     }
-    
+
     /**
      * @deprecated REFACTOR type via type factory verwenden
      */
-    public function formatAttribute(string $a, ilBiblTypeInterface $type, array $attributes, string $prefix) : string
+    public function formatAttribute(string $a, ilBiblTypeInterface $type, array $attributes, string $prefix): string
     {
         if ($type->getStringRepresentation() === 'ris') {
             switch ($a) {
@@ -160,7 +161,7 @@ class ilBiblLibraryPresentationGUI
                     break;
             }
         }
-        
+
         return $a;
     }
 }

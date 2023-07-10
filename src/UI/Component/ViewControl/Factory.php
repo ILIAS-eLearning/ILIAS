@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\ViewControl;
 
@@ -37,7 +53,7 @@ interface Factory
      * @param string $aria_label Defines the functionality.
      * @return \ILIAS\UI\Component\ViewControl\Mode
      */
-    public function mode(array $labelled_actions, string $aria_label) : Mode;
+    public function mode(array $labelled_actions, string $aria_label): Mode;
 
     /**
      * ---
@@ -58,7 +74,7 @@ interface Factory
      * @param   \ILIAS\UI\Component\Button\Button $next_action Button to be placed in the right.
      * @return \ILIAS\UI\Component\ViewControl\Section
      */
-    public function section(Button $previous_action, Component $button, Button $next_action) : Section;
+    public function section(Button $previous_action, Component $button, Button $next_action): Section;
 
     /**
      * ---
@@ -86,7 +102,7 @@ interface Factory
      * @param array<string,string>  $options 	a dictionary with value=>title
      * @return \ILIAS\UI\Component\ViewControl\Sortation
      */
-    public function sortation(array $options) : Sortation;
+    public function sortation(array $options): Sortation;
 
     /**
      * ---
@@ -127,5 +143,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\ViewControl\Pagination
      */
-    public function pagination() : Pagination;
+    public function pagination(): Pagination;
 }

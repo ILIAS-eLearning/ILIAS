@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,10 +16,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 interface ilCertificateDeleteAction
 {
-    public function delete(int $templateId, int $objectId) : void;
+    public function delete(int $templateId, int $objectId): void;
 }

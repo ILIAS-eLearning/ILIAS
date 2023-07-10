@@ -1,25 +1,22 @@
-<?php declare(strict_types=1);
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\Refinery\Factory as RefineryFactory;
@@ -105,7 +102,7 @@ class ilCalendarCategoryGUI
         $this->actions = ilCalendarActions::getInstance();
     }
 
-    protected function initCategoryIdFromQuery() : int
+    protected function initCategoryIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('category_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -119,7 +116,7 @@ class ilCalendarCategoryGUI
     /**
      * @return int[]
      */
-    protected function initSelectedCategoryIdsFromPost() : array
+    protected function initSelectedCategoryIdsFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('selected_cat_ids')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -132,7 +129,7 @@ class ilCalendarCategoryGUI
         return [];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $this->ctrl->saveParameter($this, 'category_id');
@@ -165,7 +162,7 @@ class ilCalendarCategoryGUI
         }
     }
 
-    protected function cancel() : void
+    protected function cancel(): void
     {
         if ($this->http->wrapper()->query()->has('backvm')) {
             $this->ctrl->redirect($this, 'manage');
@@ -173,7 +170,7 @@ class ilCalendarCategoryGUI
         $this->ctrl->returnToParent($this);
     }
 
-    protected function add(ilPropertyFormGUI $form = null) : void
+    protected function add(ilPropertyFormGUI $form = null): void
     {
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget($this->lng->txt("cal_back_to_list"), $this->ctrl->getLinkTarget($this, 'cancel'));
@@ -187,14 +184,14 @@ class ilCalendarCategoryGUI
         $this->tpl->setContent($ed_tpl->get());
     }
 
-    protected function save() : void
+    protected function save(): void
     {
         $form = $this->initFormCategory('create');
         if ($form->checkInput()) {
             $category = new ilCalendarCategory(0);
             $category->setTitle($form->getInput('title'));
             $category->setColor('#' . $form->getInput('color'));
-            $category->setLocationType($form->getInput('type_rl'));
+            $category->setLocationType((int) $form->getInput('type_rl'));
             $category->setRemoteUrl($form->getInput('remote_url'));
             $category->setRemoteUser($form->getInput('remote_user'));
             $category->setRemotePass($form->getInput('remote_pass'));
@@ -224,6 +221,9 @@ class ilCalendarCategoryGUI
             $this->tpl->setOnScreenMessage('failure', $e->getMessage());
             $form->setValuesByPost();
             $this->add($form);
+            if (!$e instanceof ilCurlConnectionException) {
+                throw $e;
+            }
             return;
         }
 
@@ -231,7 +231,7 @@ class ilCalendarCategoryGUI
         $this->ctrl->redirect($this, 'manage');
     }
 
-    protected function edit(ilPropertyFormGUI $form = null) : void
+    protected function edit(ilPropertyFormGUI $form = null): void
     {
         $this->tabs->activateTab("edit");
         $this->readPermissions();
@@ -252,7 +252,7 @@ class ilCalendarCategoryGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function details() : void
+    protected function details(): void
     {
         if (!$this->category_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
@@ -271,15 +271,13 @@ class ilCalendarCategoryGUI
         $this->tpl->setContent($info->getHTML() . $this->showAssignedAppointments());
     }
 
-    protected function synchroniseCalendar() : void
+    protected function synchroniseCalendar(): void
     {
         if (!$this->category_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
-
         $category = new ilCalendarCategory($this->category_id);
-
         try {
             $this->doSynchronisation($category);
         } catch (Exception $e) {
@@ -290,7 +288,7 @@ class ilCalendarCategoryGUI
         $this->ctrl->redirect($this, 'manage');
     }
 
-    protected function doSynchronisation(ilCalendarCategory $category) : void
+    protected function doSynchronisation(ilCalendarCategory $category): void
     {
         $remote = new ilCalendarRemoteReader($category->getRemoteUrl());
         $remote->setUser($category->getRemoteUser());
@@ -299,7 +297,7 @@ class ilCalendarCategoryGUI
         $remote->import($category);
     }
 
-    protected function update() : void
+    protected function update(): void
     {
         if (!$this->category_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
@@ -333,7 +331,7 @@ class ilCalendarCategoryGUI
         }
     }
 
-    protected function confirmDelete() : void
+    protected function confirmDelete(): void
     {
         $cat_ids = $this->initSelectedCategoryIdsFromPost();
         if (
@@ -359,10 +357,10 @@ class ilCalendarCategoryGUI
         $this->tpl->setContent($confirmation_gui->getHTML());
     }
 
-    protected function delete() : void
+    protected function delete(): void
     {
         $category_ids = [];
-        if (!$this->http->wrapper()->post()->has('category_id')) {
+        if ($this->http->wrapper()->post()->has('category_id')) {
             $category_ids = $this->http->wrapper()->post()->retrieve(
                 'category_id',
                 $this->refinery->kindlyTo()->dictOf(
@@ -373,7 +371,7 @@ class ilCalendarCategoryGUI
 
         if (!count($category_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $this->manage();
+            $this->ctrl->redirect($this, 'manage');
         }
 
         foreach ($category_ids as $cat_id) {
@@ -385,7 +383,7 @@ class ilCalendarCategoryGUI
         $this->ctrl->redirect($this, 'manage');
     }
 
-    public function saveSelection() : void
+    public function saveSelection(): void
     {
         $selected_cat_ids = $this->initSelectedCategoryIdsFromPost();
         $shown_cat_ids = [];
@@ -407,8 +405,7 @@ class ilCalendarCategoryGUI
             $old_selection = $cat_visibility->getHidden();
         }
 
-        $new_selection = array();
-
+        $new_selection = [];
         // put all entries from the old selection into the new one
         // that are not presented on the screen
         foreach ($old_selection as $cat_id) {
@@ -416,7 +413,6 @@ class ilCalendarCategoryGUI
                 $new_selection[] = $cat_id;
             }
         }
-
         foreach ($shown_cat_ids as $shown_cat_id) {
             $shown_cat_id = (int) $shown_cat_id;
             if ($this->obj_id > 0) {
@@ -435,14 +431,13 @@ class ilCalendarCategoryGUI
         } else {
             $cat_visibility->hideSelected($new_selection);
         }
-
         $cat_visibility->save();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->returnToParent($this);
     }
 
-    public function shareSearch() : void
+    public function shareSearch(): void
     {
         $this->tabs->activateTab("share");
 
@@ -469,7 +464,7 @@ class ilCalendarCategoryGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function sharePerformSearch() : void
+    public function sharePerformSearch(): void
     {
         $this->tabs->activateTab("share");
         $this->lng->loadLanguageModule('search');
@@ -483,7 +478,7 @@ class ilCalendarCategoryGUI
         $query = '';
         $type = '';
         if ($this->http->wrapper()->post()->has('query')) {
-            $query = $this->http->wrapper()->query()->retrieve(
+            $query = $this->http->wrapper()->post()->retrieve(
                 'query',
                 $this->refinery->kindlyTo()->string()
             );
@@ -563,19 +558,19 @@ class ilCalendarCategoryGUI
     /**
      * Share with write access
      */
-    public function shareAssignEditable() : void
+    public function shareAssignEditable(): void
     {
         $this->shareAssign(true);
     }
 
-    public function shareAssign($a_editable = false) : void
+    public function shareAssign($a_editable = false): void
     {
         if (!$this->category_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
         $user_ids = [];
-        if (!$this->http->wrapper()->post()->has('user_ids')) {
+        if ($this->http->wrapper()->post()->has('user_ids')) {
             $user_ids = $this->http->wrapper()->post()->retrieve(
                 'user_ids',
                 $this->refinery->kindlyTo()->dictOf(
@@ -607,12 +602,12 @@ class ilCalendarCategoryGUI
         $this->shareSearch();
     }
 
-    protected function shareAssignRolesEditable() : void
+    protected function shareAssignRolesEditable(): void
     {
         $this->shareAssignRoles(true);
     }
 
-    public function shareAssignRoles(bool $a_editable = false) : void
+    public function shareAssignRoles(bool $a_editable = false): void
     {
         if (!$this->category_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
@@ -620,7 +615,7 @@ class ilCalendarCategoryGUI
         }
 
         $role_ids = [];
-        if (!$this->http->wrapper()->post()->has('role_ids')) {
+        if ($this->http->wrapper()->post()->has('role_ids')) {
             $role_ids = $this->http->wrapper()->post()->retrieve(
                 'role_ids',
                 $this->refinery->kindlyTo()->dictOf(
@@ -651,7 +646,7 @@ class ilCalendarCategoryGUI
         $this->shareSearch();
     }
 
-    public function shareDeassign() : void
+    public function shareDeassign(): void
     {
         if (!$this->category_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
@@ -689,7 +684,7 @@ class ilCalendarCategoryGUI
         $this->shareSearch();
     }
 
-    protected function showUserList(array $a_ids = array()) : void
+    protected function showUserList(array $a_ids = array()): void
     {
         $table = new ilCalendarSharedUserListTableGUI($this, 'sharePerformSearch');
         $table->setTitle($this->lng->txt('cal_share_search_usr_header'));
@@ -699,7 +694,7 @@ class ilCalendarCategoryGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function showRoleList(array $a_ids = array()) : void
+    protected function showRoleList(array $a_ids = array()): void
     {
         $table = new ilCalendarSharedRoleListTableGUI($this, 'sharePerformSearch');
         $table->setTitle($this->lng->txt('cal_share_search_role_header'));
@@ -710,14 +705,14 @@ class ilCalendarCategoryGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function getSearchToolbar() : void
+    public function getSearchToolbar(): void
     {
         $this->lng->loadLanguageModule('search');
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
 
         $query = '';
         if ($this->http->wrapper()->post()->has('query')) {
-            $query = $this->http->wrapper()->query()->retrieve(
+            $query = $this->http->wrapper()->post()->retrieve(
                 'query',
                 $this->refinery->kindlyTo()->string()
             );
@@ -750,7 +745,7 @@ class ilCalendarCategoryGUI
         $this->toolbar->addFormButton($this->lng->txt('search'), "sharePerformSearch");
     }
 
-    protected function initFormCategory(string $a_mode) : ilPropertyFormGUI
+    protected function initFormCategory(string $a_mode): ilPropertyFormGUI
     {
         $this->help->setScreenIdComponent("cal");
         $this->help->setScreenId("cal");
@@ -890,7 +885,7 @@ class ilCalendarCategoryGUI
         return $this->form;
     }
 
-    protected function unshare() : void
+    protected function unshare(): void
     {
         if (!$this->category_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
@@ -913,7 +908,7 @@ class ilCalendarCategoryGUI
         $this->ctrl->redirect($this, 'manage');
     }
 
-    protected function showAssignedAppointments() : string
+    protected function showAssignedAppointments(): string
     {
         $table_gui = new ilCalendarAppointmentsTableGUI($this, 'details', $this->category_id);
         $table_gui->setTitle($this->lng->txt('cal_assigned_appointments'));
@@ -925,7 +920,7 @@ class ilCalendarCategoryGUI
         return $table_gui->getHTML();
     }
 
-    protected function askDeleteAppointments() : void
+    protected function askDeleteAppointments(): void
     {
         $appointments = [];
         if ($this->http->wrapper()->post()->has('appointments')) {
@@ -956,7 +951,7 @@ class ilCalendarCategoryGUI
         $this->tpl->setContent($confirmation_gui->getHTML());
     }
 
-    protected function deleteAppointments() : void
+    protected function deleteAppointments(): void
     {
         $appointments = [];
         if ($this->http->wrapper()->post()->has('appointments')) {
@@ -981,13 +976,13 @@ class ilCalendarCategoryGUI
         $this->details();
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $block_gui = new ilCalendarSelectionBlockGUI($this->seed, $this->ref_id);
         return $this->ctrl->getHTML($block_gui);
     }
 
-    protected function appendCalendarSelection() : string
+    protected function appendCalendarSelection(): string
     {
         $this->lng->loadLanguageModule('pd');
 
@@ -1018,12 +1013,11 @@ class ilCalendarCategoryGUI
                 $tpl->setVariable('HTEXT', $this->lng->txt('dash_favourites'));
                 $tpl->touchBlock('head_item');
                 break;
-
         }
         return $tpl->get();
     }
 
-    protected function switchCalendarMode() : void
+    protected function switchCalendarMode(): void
     {
         $mode = 0;
         if ($this->http->wrapper()->query()->has('calendar_mode')) {
@@ -1038,7 +1032,7 @@ class ilCalendarCategoryGUI
         $this->ctrl->returnToParent($this);
     }
 
-    private function readPermissions() : void
+    private function readPermissions(): void
     {
         $this->editable = false;
         $this->visible = false;
@@ -1093,7 +1087,7 @@ class ilCalendarCategoryGUI
         }
     }
 
-    protected function checkVisible() : void
+    protected function checkVisible(): void
     {
         global $DIC;
 
@@ -1103,17 +1097,17 @@ class ilCalendarCategoryGUI
         }
     }
 
-    private function isEditable() : bool
+    private function isEditable(): bool
     {
         return $this->editable;
     }
 
-    protected function isImportable() : bool
+    protected function isImportable(): bool
     {
         return $this->importable;
     }
 
-    protected function addReferenceLinks($a_obj_id) : string
+    protected function addReferenceLinks($a_obj_id): string
     {
         $tpl = new ilTemplate('tpl.cal_reference_links.html', true, true, 'Services/Calendar');
 
@@ -1136,7 +1130,7 @@ class ilCalendarCategoryGUI
         return $tpl->get();
     }
 
-    protected function manage($a_reset_offsets = false) : void
+    protected function manage($a_reset_offsets = false): void
     {
         $this->addSubTabs("manage");
 
@@ -1155,7 +1149,7 @@ class ilCalendarCategoryGUI
         $this->tpl->setContent($toolbar->getHTML() . $table_gui->getHTML());
     }
 
-    protected function importAppointments(ilPropertyFormGUI $form = null) : void
+    protected function importAppointments(ilPropertyFormGUI $form = null): void
     {
         if (!$this->category_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
@@ -1181,7 +1175,7 @@ class ilCalendarCategoryGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function initImportForm() : ilPropertyFormGUI
+    protected function initImportForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('cal_import_tbl'));
@@ -1189,14 +1183,14 @@ class ilCalendarCategoryGUI
         $form->addCommandButton('uploadAppointments', $this->lng->txt('import'));
 
         $ics = new ilFileInputGUI($this->lng->txt('cal_import_file'), 'file');
-        $ics->setALlowDeletion(false);
+        $ics->setAllowDeletion(false);
         $ics->setSuffixes(array('ics'));
         $ics->setInfo($this->lng->txt('cal_import_file_info'));
         $form->addItem($ics);
         return $form;
     }
 
-    protected function uploadAppointments() : void
+    protected function uploadAppointments(): void
     {
         $form = $this->initImportForm();
         if ($form->checkInput()) {
@@ -1212,7 +1206,7 @@ class ilCalendarCategoryGUI
         $this->ctrl->returnToParent($this);
     }
 
-    protected function doImportFile($file, $category_id) : int
+    protected function doImportFile($file, $category_id): int
     {
         $assigned_before = ilCalendarCategoryAssignments::lookupNumberOfAssignedAppointments(array($category_id));
         $parser = new ilICalParser($file, ilICalParser::INPUT_FILE);
@@ -1222,7 +1216,7 @@ class ilCalendarCategoryGUI
         return $assigned_after - $assigned_before;
     }
 
-    public function addSubTabs(string $a_active) : void
+    public function addSubTabs(string $a_active): void
     {
         $this->tabs->addSubTab(
             "manage",
@@ -1242,7 +1236,7 @@ class ilCalendarCategoryGUI
         $this->tabs->activateSubTab($a_active);
     }
 
-    public function invitations() : void
+    public function invitations(): void
     {
         $this->addSubTabs("invitations");
         $table = new ilCalendarInboxSharedTableGUI($this, 'inbox');
@@ -1250,7 +1244,7 @@ class ilCalendarCategoryGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function acceptShared() : void
+    protected function acceptShared(): void
     {
         $cal_ids = [];
         if ($this->http->wrapper()->post()->has('cal_ids')) {
@@ -1285,7 +1279,7 @@ class ilCalendarCategoryGUI
      * @access protected
      * @return
      */
-    protected function declineShared() : void
+    protected function declineShared(): void
     {
         $cal_ids = [];
         if ($this->http->wrapper()->post()->has('cal_ids')) {

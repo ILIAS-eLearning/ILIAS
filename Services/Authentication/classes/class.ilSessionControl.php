@@ -1,18 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * @author Bjoern Heyser <bheyser@databay.de>
@@ -53,6 +57,7 @@ class ilSessionControl
     private const SESSION_TYPE_USER = 3;
     private const SESSION_TYPE_ANONYM = 4;
 
+    private const SESSION_TYPE_KEY = "SessionType";
     /**
      * all session types that will be involved when count of sessions
      * will be determined or when idleing sessions will be destroyed
@@ -77,99 +82,16 @@ class ilSessionControl
     );
 
     /**
-     * checks for possibly expired session
-     * should be called from ilAuthUtils::__initAuth()
-     * so it's called before session_start() is called
-     *
-     * @global ilSetting $ilSetting
-     * @global ilLanguage $lng
-     * @global ilAppEventHandler $ilAppEventHandler
-     */
-    public static function checkExpiredSession() : void
-    {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        
-        // do not check session in fixed duration mode
-        if ((int) $ilSetting->get('session_handling_type', '0') !== 1) {
-            return;
-        }
-
-        // check for expired sessions makes sense
-        // only when public section is not enabled
-        // because it is not possible to determine
-        // wether the sid cookie relates to a session of an
-        // authenticated user or a anonymous user
-        // when the session dataset has allready been deleted
-
-        if (!$ilSetting->get("pub_section")) {
-            global $DIC;
-
-            $sid = null;
-
-            if (!isset($_COOKIE[session_name()]) || $_COOKIE[session_name()] === '') {
-                self::debug('Browser did not send a sid cookie');
-            } else {
-                $sid = $_COOKIE[session_name()];
-
-                self::debug('Browser sent sid cookie with value (' . $sid . ')');
-
-                if (!self::isValidSession($sid)) {
-                    self::debug('remove session cookie for (' . $sid . ') and trigger event');
-
-                    // raw data will be updated (later) with garbage collection [destroyExpired()]
-                    
-                    self::removeSessionCookie();
-
-                    // Trigger expiredSessionDetected  Event
-                    $ilAppEventHandler = $DIC['ilAppEventHandler'];
-                    $ilAppEventHandler->raise(
-                        'Services/Authentication',
-                        'expiredSessionDetected',
-                        array()
-                    );
-
-                    ilUtil::redirect('login.php?expired=true' . '&target=' . $_GET['target']);
-                }
-            }
-        }
-    }
-
-    /**
-     * mark session with type regarding to the context.
-     * should be called from ilAuthBase::initAuth()
-     */
-    public static function initSession() : void
-    {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        
-        // do not init session type in fixed duration mode
-        if ((int) $ilSetting->get('session_handling_type', '0') !== 1) {
-            return;
-        }
-        
-        if (!isset($_SESSION['SessionType'])) {
-            $_SESSION['SessionType'] = self::SESSION_TYPE_UNKNOWN;
-            self::debug(__METHOD__ . " --> init session with type (" . $_SESSION['SessionType'] . ")");
-        } else {
-            self::debug(__METHOD__ . " --> keep sessions type on (" . $_SESSION['SessionType'] . ")");
-        }
-    }
-
-    /**
      * when current session is allowed to be created it marks it with
      * type regarding to the sessions user context.
      * when session is not allowed to be created it will be destroyed.
      */
-    public static function handleLoginEvent(string $a_login, ilAuthSession $auth_session) : bool
+    public static function handleLoginEvent(string $a_login, ilAuthSession $auth_session): bool
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        
+
         $user_id = ilObjUser::_lookupId($a_login);
 
         // we need the session type for the session statistics
@@ -191,41 +113,40 @@ class ilSessionControl
                 $type = self::SESSION_TYPE_USER;
                 break;
         }
-        
-        $_SESSION['SessionType'] = $type;
+
+        ilSession::set(self::SESSION_TYPE_KEY, $type);
         self::debug(__METHOD__ . " --> update sessions type to (" . $type . ")");
-                
+
         // do not handle login event in fixed duration mode
-        if ((int) $ilSetting->get('session_handling_type', "0") !== 1) {
+        if ((int) $ilSetting->get('session_handling_type', (string) ilSession::SESSION_HANDLING_FIXED) !== ilSession::SESSION_HANDLING_LOAD_DEPENDENT) {
             return true;
         }
-                
+
         if (in_array($type, self::$session_types_controlled, true)) {
             //TODO rework this, as it did return value of a void method call
             self::checkCurrentSessionIsAllowed($auth_session, $user_id);
             return true;
         }
-        //TODO make sure false does not break things
         return false;
     }
 
     /**
      * reset sessions type to unknown
      */
-    public static function handleLogoutEvent() : void
+    public static function handleLogoutEvent(): void
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        
+
         // do not handle logout event in fixed duration mode
         if ((int) $ilSetting->get('session_handling_type', '0') !== 1) {
             return;
         }
-        
-        $_SESSION['SessionType'] = self::SESSION_TYPE_UNKNOWN;
-        self::debug(__METHOD__ . " --> reset sessions type to (" . $_SESSION['SessionType'] . ")");
-        
+
+        ilSession::set('SessionType', self::SESSION_TYPE_UNKNOWN);
+        self::debug(__METHOD__ . " --> reset sessions type to (" . ilSession::get('SessionType') . ")");
+
         // session_destroy() is called in auth, so raw data will be updated
 
         self::removeSessionCookie();
@@ -236,17 +157,14 @@ class ilSessionControl
      * when limit is reached it deletes "firstRequestAbidencer" and checks again
      * when limit is still reached it deletes "oneMinIdleSession" and checks again
      * when limit is still reached the current session will be logged out
-     *
-     * @global ilSetting $ilSetting
-     * @global ilAppEventHandler $ilAppEventHandler
      */
-    private static function checkCurrentSessionIsAllowed(ilAuthSession $auth, int $a_user_id) : void
+    private static function checkCurrentSessionIsAllowed(ilAuthSession $auth, int $a_user_id): void
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        
-        $max_sessions = (int) $ilSetting->get('session_max_count', self::DEFAULT_MAX_COUNT);
+
+        $max_sessions = (int) $ilSetting->get('session_max_count', (string) self::DEFAULT_MAX_COUNT);
 
         if ($max_sessions > 0) {
             // get total number of sessions
@@ -274,12 +192,12 @@ class ilSessionControl
                         self::debug(__METHOD__ . ' --> limit for session pool still reached so logout session (' . session_id() . ') and trigger event');
 
                         ilSession::setClosingContext(ilSession::SESSION_CLOSE_LIMIT);
-                        
+
                         // as the session is opened and closed in one request, there
                         // is no proper session yet and we have to do this ourselves
                         ilSessionStatistics::createRawEntry(
                             session_id(),
-                            $_SESSION['SessionType'],
+                            ilSession::get(self::SESSION_TYPE_KEY),
                             time(),
                             $a_user_id
                         );
@@ -316,7 +234,7 @@ class ilSessionControl
     /**
      * returns number of valid sessions relating to given session types
      */
-    public static function getExistingSessionCount(array $a_types) : int
+    public static function getExistingSessionCount(array $a_types): int
     {
         global $DIC;
 
@@ -327,7 +245,7 @@ class ilSessionControl
         $query = "SELECT count(session_id) AS num_sessions FROM usr_session " .
                     "WHERE expires > %s " .
                     "AND " . $ilDB->in('type', $a_types, false, 'integer');
-    
+
         $res = $ilDB->queryF($query, array('integer'), array($ts));
         return (int) $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)->num_sessions;
     }
@@ -336,10 +254,8 @@ class ilSessionControl
      * if sessions exist that relates to given session types
      * and idled longer than min idle parameter, this method
      * deletes one of these sessions
-     *
-     * @return boolean deletionSuccess
      */
-    private static function kickOneMinIdleSession(array $a_types) : void
+    private static function kickOneMinIdleSession(array $a_types): void
     {
         global $DIC;
 
@@ -359,7 +275,7 @@ class ilSessionControl
             array('integer', 'integer', 'integer', 'integer'),
             array($ts, $ts, $max_idle, $min_idle)
         );
-        
+
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             ilSession::_destroy($row->session_id, ilSession::SESSION_CLOSE_IDLE, $row->expires);
 
@@ -374,7 +290,7 @@ class ilSessionControl
      * kicks sessions of users that abidence after login
      * so people could not login and go for coffe break ;-)
      */
-    private static function kickFirstRequestAbidencer(array $a_types) : void
+    private static function kickFirstRequestAbidencer(array $a_types): void
     {
         global $DIC;
 
@@ -397,7 +313,7 @@ class ilSessionControl
             array('integer', 'integer', 'integer'),
             array($max_idle_after_first_request, time(), $max_idle_after_first_request)
         );
-        
+
         $session_ids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $session_ids[$row->session_id] = $row->expires;
@@ -413,7 +329,7 @@ class ilSessionControl
      *
      * @return	boolean		session_valid
      */
-    private static function isValidSession(string $a_sid) : bool
+    private static function isValidSession(string $a_sid): bool
     {
         global $DIC;
 
@@ -455,7 +371,7 @@ class ilSessionControl
     /**
      * removes a session cookie, so it is not sent by browser anymore
      */
-    private static function removeSessionCookie() : void
+    private static function removeSessionCookie(): void
     {
         ilUtil::setCookie(session_name(), 'deleted', true, true);
         self::debug('Session cookie has been removed');
@@ -468,7 +384,7 @@ class ilSessionControl
      * @global ilRbacSystem $rbacsystem
      * @return boolean access
      */
-    private static function checkAdministrationPermission(int $a_user_id) : bool
+    private static function checkAdministrationPermission(int $a_user_id): bool
     {
         if (!$a_user_id) {
             return false;
@@ -492,7 +408,7 @@ class ilSessionControl
      *
      * @param	string	$a_debug_log_message
      */
-    private static function debug(string $a_debug_log_message) : void
+    private static function debug(string $a_debug_log_message): void
     {
         global $DIC;
 
@@ -506,7 +422,7 @@ class ilSessionControl
      *
      * @return array setting_fields
      */
-    public static function getSettingFields() : array
+    public static function getSettingFields(): array
     {
         return self::$setting_fields;
     }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Object class for plugins. This one wraps around ilObject
@@ -20,7 +23,7 @@
  */
 abstract class ilObjectPlugin extends ilObject2
 {
-    protected ilPlugin $plugin;
+    protected ?ilPlugin $plugin = null;
     protected ilComponentFactory $component_factory;
 
     public function __construct(int $a_ref_id = 0)
@@ -37,7 +40,7 @@ abstract class ilObjectPlugin extends ilObject2
      * Return either a repoObject plugin or a orgunit extension plugin or null if the type is not a plugin.
      * @return null | ilRepositoryObjectPlugin | ilOrgUnitExtensionPlugin
      */
-    public static function getPluginObjectByType(string $type) : ?ilPlugin
+    public static function getPluginObjectByType(string $type): ?ilPlugin
     {
         global $DIC;
         $component_factory = $DIC["component.factory"];
@@ -52,7 +55,7 @@ abstract class ilObjectPlugin extends ilObject2
     public static function lookupTxtById(
         string $plugin_id,
         string $lang_var
-    ) : string {
+    ): string {
         $pl = self::getPluginObjectByType($plugin_id);
         return $pl->txt($lang_var);
     }
@@ -61,15 +64,15 @@ abstract class ilObjectPlugin extends ilObject2
      * Get plugin object
      * @throws ilPluginException
      */
-    protected function getPlugin() : ilPlugin
+    protected function getPlugin(): ilPlugin
     {
         if (!$this->plugin) {
-            $this->plugin = $this->component_factory->getPluginById($this->getType());
+            $this->plugin = $this->component_factory->getPlugin($this->getType());
         }
         return $this->plugin;
     }
 
-    final public function txt(string $a_var) : string
+    final public function txt(string $a_var): string
     {
         return $this->getPlugin()->txt($a_var);
     }
@@ -78,7 +81,7 @@ abstract class ilObjectPlugin extends ilObject2
      * returns a list of all repository object types which can be a parent of this type.
      * @return string[]
      */
-    public function getParentTypes() : array
+    public function getParentTypes(): array
     {
         return $this->plugin->getParentTypes();
     }
@@ -91,7 +94,7 @@ abstract class ilObjectPlugin extends ilObject2
      *
      * @return bool
      */
-    public static function langExitsById(string $pluginId, string $langVar) : bool
+    public static function langExitsById(string $pluginId, string $langVar): bool
     {
         global $DIC;
         $lng = $DIC->language();
@@ -100,5 +103,10 @@ abstract class ilObjectPlugin extends ilObject2
         $pl->loadLanguageModule();
 
         return $lng->exists($pl->getPrefix() . "_" . $langVar);
+    }
+
+    public function getPrefix(): string
+    {
+        return $this->getPlugin()->getPrefix();
     }
 }

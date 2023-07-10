@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitExtensionPlugin
@@ -6,50 +22,33 @@
  */
 abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
 {
-    /**
-     * @return array
-     */
-    public function getParentTypes() : array
+    public function getParentTypes(): array
     {
-        $par_types = array("orgu");
-
-        return $par_types;
+        return ['orgu'];
     }
 
-    /**
-     * @param $a_type
-     * @param $a_size
-     * @return string
-     */
-    public static function _getIcon(string $a_type) : string
+    public static function _getIcon(string $a_type): string
     {
         global $DIC;
-        $component_repository = $DIC["component.repository"];
+        $componentRepositoryObject = $DIC["component.repository"];
+
         return ilRepositoryObjectPlugin::_getImagePath(
             ilComponentInfo::TYPE_MODULES,
             "OrgUnit",
             "orguext",
-            $component_repository->getPluginById($a_type)->getName(),
+            $componentRepositoryObject->getPluginById($a_type)->getName(),
             "icon_" . $a_type . ".svg"
         );
     }
 
-    /**
-     * @param $a_id
-     * @return string
-     */
-    public static function _getName($a_id) : string
+    public static function _getName(string $a_id): string
     {
         global $DIC;
         $component_repository = $DIC["component.repository"];
         return $component_repository->getPluginById($a_id)->getName();
     }
 
-    /**
-     * return true iff this item should be displayed in the tree.
-     * @return bool
-     */
-    public function showInTree()
+    public function showInTree(): bool
     {
         return false;
     }

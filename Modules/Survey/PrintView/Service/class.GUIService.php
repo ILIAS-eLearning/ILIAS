@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\PrintView;
 
@@ -26,12 +31,12 @@ use ILIAS\Export\PrintProcessGUI;
 class GUIService
 {
     protected InternalGUIService $ui_service;
-    protected \ilObjectServiceInterface $object_service;
+    protected \ilObjectService $object_service;
     protected InternalDomainService $domain_service;
 
     public function __construct(
         InternalGUIService $ui_service,
-        \ilObjectServiceInterface $object_service,
+        \ilObjectService $object_service,
         InternalDomainService $domain_service
     ) {
         $this->ui_service = $ui_service;
@@ -39,7 +44,7 @@ class GUIService
         $this->domain_service = $domain_service;
     }
 
-    public function page(int $ref_id) : PrintProcessGUI
+    public function page(int $ref_id): PrintProcessGUI
     {
         $provider = new PagePrintViewProviderGUI(
             $this->domain_service->lng(),
@@ -49,8 +54,18 @@ class GUIService
         return $this->getPrintProcessGUI($provider);
     }
 
+    public function list(int $ref_id): PrintProcessGUI
+    {
+        $provider = new ListPrintViewProviderGUI(
+            $this->domain_service->lng(),
+            $this->ui_service->ctrl(),
+            $ref_id
+        );
+        return $this->getPrintProcessGUI($provider);
+    }
 
-    public function resultsOverview(int $ref_id) : PrintProcessGUI
+
+    public function resultsOverview(int $ref_id): PrintProcessGUI
     {
         $provider = new ResultsOverviewPrintViewProviderGUI(
             $this->domain_service->lng(),
@@ -60,7 +75,7 @@ class GUIService
         return $this->getPrintProcessGUI($provider);
     }
 
-    public function resultsDetails(int $ref_id) : PrintProcessGUI
+    public function resultsDetails(int $ref_id): PrintProcessGUI
     {
         $provider = new ResultsDetailsPrintViewProviderGUI(
             $this->domain_service->lng(),
@@ -70,7 +85,7 @@ class GUIService
         return $this->getPrintProcessGUI($provider);
     }
 
-    public function resultsPerUser(int $ref_id) : PrintProcessGUI
+    public function resultsPerUser(int $ref_id): PrintProcessGUI
     {
         $provider = new ResultsPerUserPrintViewProviderGUI(
             $this->domain_service->lng(),
@@ -80,7 +95,7 @@ class GUIService
         return $this->getPrintProcessGUI($provider);
     }
 
-    protected function getPrintProcessGUI(PrintViewProvider $provider) : PrintProcessGUI
+    protected function getPrintProcessGUI(PrintViewProvider $provider): PrintProcessGUI
     {
         return new PrintProcessGUI(
             $provider,

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
@@ -32,13 +32,13 @@ use ILIAS\BackgroundTasks\Value;
 class ilSubmissionsZipJob extends AbstractJob
 {
     protected ilLogger $logger;
-    
+
     public function __construct()
     {
         $this->logger = $GLOBALS['DIC']->logger()->exc();
     }
-    
-    public function getInputTypes() : array
+
+    public function getInputTypes(): array
     {
         return
         [
@@ -46,12 +46,12 @@ class ilSubmissionsZipJob extends AbstractJob
         ];
     }
 
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
 
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
@@ -63,11 +63,11 @@ class ilSubmissionsZipJob extends AbstractJob
     public function run(
         array $input,
         Observer $observer
-    ) : Value {
+    ): Value {
         $tmpdir = $input[0]->getValue();
 
         ilFileUtils::zip($tmpdir, $tmpdir . '.zip');
-        
+
         // delete temp directory
         ilFileUtils::delDir($tmpdir);
 
@@ -76,7 +76,7 @@ class ilSubmissionsZipJob extends AbstractJob
         return $zip_file_name;
     }
 
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

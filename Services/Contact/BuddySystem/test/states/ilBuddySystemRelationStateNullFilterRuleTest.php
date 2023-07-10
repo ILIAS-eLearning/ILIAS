@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,9 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilBuddySystemRelationStateNullFilterRuleTest extends ilBuddySystemBaseTest
 {
-    public function testConstruct() : ilBuddySystemRelationStateNullFilterRule
+    public function testConstruct(): ilBuddySystemRelationStateNullFilterRule
     {
         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $instance = new ilBuddySystemRelationStateNullFilterRule($relation);
@@ -33,7 +35,7 @@ class ilBuddySystemRelationStateNullFilterRuleTest extends ilBuddySystemBaseTest
     /**
      * @depends testConstruct
      */
-    public function testMatches(ilBuddySystemRelationStateNullFilterRule $instance) : void
+    public function testMatches(ilBuddySystemRelationStateNullFilterRule $instance): void
     {
         $this->assertTrue($instance->matches());
     }
@@ -41,12 +43,12 @@ class ilBuddySystemRelationStateNullFilterRuleTest extends ilBuddySystemBaseTest
     /**
      * @depends testConstruct
      */
-    public function testInvoke(ilBuddySystemRelationStateNullFilterRule $instance) : void
+    public function testInvoke(ilBuddySystemRelationStateNullFilterRule $instance): void
     {
         $this->assertTrue($instance($this->getMockBuilder(ilBuddySystemRelationState::class)->disableOriginalConstructor()->getMock()));
     }
 
-    public function testGetStates() : void
+    public function testGetStates(): void
     {
         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
 

@@ -1,19 +1,24 @@
-<?php declare(strict_types = 1);
+<?php
 
-namespace ILIAS\Survey\Participants;
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+namespace ILIAS\Survey\Participants;
 
 use ILIAS\Survey\InternalDataService;
 
@@ -42,7 +47,7 @@ class InvitationsDBRepository
      * @param int $survey_id Survey ID not object ID!
      * @param int $user_id
      */
-    public function remove(int $survey_id, int $user_id) : void
+    public function remove(int $survey_id, int $user_id): void
     {
         $db = $this->db;
 
@@ -53,15 +58,15 @@ class InvitationsDBRepository
             [$survey_id, $user_id]
         );
     }
-    
-    
+
+
     /**
      * Add invitation
      *
      * @param int $survey_id Survey ID not object ID!
      * @param int $user_id
      */
-    public function add(int $survey_id, int $user_id) : void
+    public function add(int $survey_id, int $user_id): void
     {
         $db = $this->db;
 
@@ -81,7 +86,7 @@ class InvitationsDBRepository
      * @param int $survey_id Survey ID not object ID!
      * @return int[]
      */
-    public function getAllForSurvey(int $survey_id) : array
+    public function getAllForSurvey(int $survey_id): array
     {
         $db = $this->db;
 
@@ -104,7 +109,7 @@ class InvitationsDBRepository
      * @param int $user_id user id
      * @return int[] survey IDs
      */
-    public function getAllForUser(int $user_id) : array
+    public function getAllForUser(int $user_id): array
     {
         $db = $this->db;
 

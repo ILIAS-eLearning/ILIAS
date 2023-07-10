@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Exporter class for user data
@@ -24,14 +27,14 @@ class ilUserExporter extends ilXmlExporter
 {
     private ilUserDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilUserDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
     }
 
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array // Missing array type.
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array // Missing array type.
     {
         if ($a_entity == "personal_data") {
             $cal_ids = array();
@@ -40,7 +43,7 @@ class ilUserExporter extends ilXmlExporter
                     $cal_ids[] = $ct["cat_id"];
                 }
             }
-            
+
             return array(
                 array(
                     "component" => "Services/User",
@@ -64,17 +67,17 @@ class ilUserExporter extends ilXmlExporter
                     "ids" => $cal_ids)
                 );
         }
-        
+
         return parent::getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids);
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array // Missing array type.
+    public function getValidSchemaVersions(string $a_entity): array // Missing array type.
     {
         return array(
             "4.3.0" => array(

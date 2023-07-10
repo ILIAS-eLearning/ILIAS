@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,16 +17,16 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Storage of images in settings.
  */
 class ilLearningSequenceFilesystem extends ilFileSystemAbstractionStorage
 {
-    const IMG_ABSTRACT = 'abstract';
-    const IMG_EXTRO = 'extro';
-    const PATH_PRE = 'LSO';
-    const PATH_POST = 'Images';
+    public const IMG_ABSTRACT = 'abstract';
+    public const IMG_EXTRO = 'extro';
+    public const PATH_PRE = 'LSO';
+    public const PATH_POST = 'Images';
 
     public function __construct()
     {
@@ -38,7 +40,7 @@ class ilLearningSequenceFilesystem extends ilFileSystemAbstractionStorage
         string $which,
         array $file_info,
         ilLearningSequenceSettings $settings
-    ) : ilLearningSequenceSettings {
+    ): ilLearningSequenceSettings {
         $target = $this->getStoragePathFor(
             $which,
             $settings->getObjId(),
@@ -56,7 +58,7 @@ class ilLearningSequenceFilesystem extends ilFileSystemAbstractionStorage
     }
 
 
-    public function delete_image(string $which, ilLearningSequenceSettings $settings) : ilLearningSequenceSettings
+    public function delete_image(string $which, ilLearningSequenceSettings $settings): ilLearningSequenceSettings
     {
         $delete = '';
         if ($which === self::IMG_ABSTRACT) {
@@ -71,7 +73,7 @@ class ilLearningSequenceFilesystem extends ilFileSystemAbstractionStorage
         return $settings;
     }
 
-    public function getStoragePathFor(string $which, int $obj_id, string $suffix) : string
+    public function getStoragePathFor(string $which, int $obj_id, string $suffix): string
     {
         return $this->getStoragePath()
             . $which
@@ -81,12 +83,12 @@ class ilLearningSequenceFilesystem extends ilFileSystemAbstractionStorage
             . $suffix;
     }
 
-    public function getSuffix(string $file_name) : string
+    public function getSuffix(string $file_name): string
     {
         return pathinfo($file_name, PATHINFO_EXTENSION);
     }
 
-    protected function getStoragePath() : string
+    protected function getStoragePath(): string
     {
         return  $this->getAbsolutePath() . '/';
     }
@@ -94,7 +96,7 @@ class ilLearningSequenceFilesystem extends ilFileSystemAbstractionStorage
     /**
      * @inheritdoc
      */
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return self::PATH_PRE;
     }
@@ -102,7 +104,7 @@ class ilLearningSequenceFilesystem extends ilFileSystemAbstractionStorage
     /**
      * @inheritdoc
      */
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return self::PATH_POST;
     }

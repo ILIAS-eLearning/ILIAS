@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\Services;
 
@@ -36,7 +38,7 @@ class ilBuddySystemGUI
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected Services $http;
-    private ilGlobalTemplateInterface $main_tpl;
+    private readonly ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
@@ -54,7 +56,7 @@ class ilBuddySystemGUI
         $this->lng->loadLanguageModule('buddysystem');
     }
 
-    public static function initializeFrontend(ilGlobalTemplateInterface $page) : void
+    public static function initializeFrontend(ilGlobalTemplateInterface $page): void
     {
         global $DIC;
 
@@ -88,29 +90,16 @@ class ilBuddySystemGUI
     /**
      * @throws RuntimeException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if ($this->user->isAnonymous()) {
             throw new RuntimeException('This controller only accepts requests of logged in users');
         }
 
-        $nextClass = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
-
-        switch ($nextClass) {
-            default:
-                $cmd .= 'Command';
-                $this->$cmd();
-                break;
-        }
+        $this->{$this->ctrl->getCmd() . 'Command'}();
     }
 
-    /**
-     * @param string $key
-     * @param int $type
-     * @return bool
-     */
-    protected function isRequestParameterGiven(string $key, int $type) : bool
+    protected function isRequestParameterGiven(string $key, int $type): bool
     {
         switch ($type) {
             case self::BS_REQUEST_HTTP_POST:
@@ -124,15 +113,15 @@ class ilBuddySystemGUI
         }
     }
 
-    private function requestCommand() : void
+    private function requestCommand(): void
     {
         $this->transitionCommand(
             'request',
             'buddy_relation_requested',
-            static function (ilBuddySystemRelation $relation) : void {
+            static function (ilBuddySystemRelation $relation): void {
                 if (
                     $relation->isUnlinked() &&
-                    !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))
+                    !ilUtil::yn2tf((string) ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))
                 ) {
                     throw new ilException('The requested user does not want to get contact requests');
                 }
@@ -140,12 +129,12 @@ class ilBuddySystemGUI
         );
     }
 
-    private function ignoreCommand() : void
+    private function ignoreCommand(): void
     {
         $this->transitionCommand('ignore', 'buddy_request_ignored');
     }
 
-    private function linkCommand() : void
+    private function linkCommand(): void
     {
         $this->transitionCommand('link', 'buddy_request_approved');
     }
@@ -154,13 +143,13 @@ class ilBuddySystemGUI
         string $cmd,
         string $positiveFeedbackLanguageId,
         callable $onBeforeExecute = null
-    ) : void {
+    ): void {
         if (!$this->isRequestParameterGiven('user_id', self::BS_REQUEST_HTTP_GET)) {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('buddy_bs_action_not_possible'), true);
             $this->ctrl->returnToParent($this);
         }
 
-        $usrId = (int) $this->http->request()->getParsedBody()['user_id'];
+        $usrId = (int) $this->http->request()->getQueryParams()['user_id'];
         try {
             $relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($usrId);
 
@@ -175,7 +164,7 @@ class ilBuddySystemGUI
                 $this->lng->txt($e->getMessage()),
                 ilObjUser::_lookupLogin($usrId)
             ), true);
-        } catch (ilException $e) {
+        } catch (Exception) {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('buddy_bs_action_not_possible'), true);
         }
 
@@ -185,7 +174,7 @@ class ilBuddySystemGUI
     /**
      * Performs a state transition based on the request action
      */
-    private function transitionAsyncCommand() : void
+    private function transitionAsyncCommand(): void
     {
         if (!$this->ctrl->isAsynch()) {
             throw new RuntimeException('This action only supports AJAX http requests');
@@ -226,7 +215,7 @@ class ilBuddySystemGUI
             // The ILIAS JF decided to add a new personal setting
             if (
                 $relation->isUnlinked() &&
-                !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))
+                !ilUtil::yn2tf((string) ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))
             ) {
                 throw new ilException('The requested user does not want to get contact requests');
             }
@@ -234,18 +223,18 @@ class ilBuddySystemGUI
             try {
                 $this->buddyList->{$action}($relation);
                 $response->success = true;
-            } catch (ilBuddySystemRelationStateAlreadyGivenException | ilBuddySystemRelationStateTransitionException $e) {
+            } catch (ilBuddySystemRelationStateAlreadyGivenException|ilBuddySystemRelationStateTransitionException $e) {
                 $response->message = sprintf($this->lng->txt($e->getMessage()), $login);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $response->message = $this->lng->txt('buddy_bs_action_not_possible');
             }
 
-            $response->state = get_class($relation->getState());
+            $response->state = $relation->getState()::class;
             $response->state_html = $this->stateFactory->getStateButtonRendererByOwnerAndRelation(
                 $this->buddyList->getOwnerId(),
                 $relation
             )->getHtml();
-        } catch (Exception $e) {
+        } catch (Exception) {
             $response->message = $this->lng->txt('buddy_bs_action_not_possible');
         }
 
@@ -258,7 +247,7 @@ class ilBuddySystemGUI
         $this->http->close();
     }
 
-    private function redirectToReferer() : void
+    private function redirectToReferer(): void
     {
         if (isset($this->http->request()->getServerParams()['HTTP_REFERER'])) {
             $redirectUrl = $this->http->request()->getServerParams()['HTTP_REFERER'];

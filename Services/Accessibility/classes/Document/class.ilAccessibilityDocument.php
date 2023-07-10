@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilAccessibilityDocument
@@ -97,34 +100,34 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
 
     private bool $criteriaFetched = false;
 
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
 
-    public function content() : string
+    public function content(): string
     {
         return $this->text;
     }
 
-    public function title() : string
+    public function title(): string
     {
         return $this->title;
     }
 
-    public function id() : int
+    public function id(): int
     {
         return (int) $this->id;
     }
 
-    public function read() : void
+    public function read(): void
     {
         parent::read();
 
         $this->fetchAllCriterionAssignments();
     }
 
-    public function buildFromArray(array $array) : \ActiveRecord
+    public function buildFromArray(array $array): static
     {
         $document = parent::buildFromArray($array);
 
@@ -133,7 +136,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
         return $document;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->setCreationTs(time());
 
@@ -148,7 +151,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
         $this->initialPersistedCriteria = $this->criteria;
     }
 
-    public function update()
+    public function update(): void
     {
         $this->setModificationTs(time());
 
@@ -177,7 +180,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
         parent::update();
     }
 
-    public function delete()
+    public function delete(): void
     {
         foreach ($this->initialPersistedCriteria as $criterionAssignment) {
             /** @var $criterionAssignment ilAccessibilityDocumentCriterionAssignment */
@@ -189,7 +192,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
         parent::delete();
     }
 
-    public function criteria() : array
+    public function criteria(): array
     {
         return $this->criteria;
     }
@@ -197,7 +200,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
     /**
      * @throws ilAccessibilityDuplicateCriterionAssignmentException
      */
-    public function attachCriterion(ilAccessibilityDocumentCriterionAssignment $criterionAssignment) : void
+    public function attachCriterion(ilAccessibilityDocumentCriterionAssignment $criterionAssignment): void
     {
         foreach ($this->criteria as $currentAssignment) {
             /** @var $criterionAssignment ilAccessibilityDocumentCriterionAssignment */
@@ -216,7 +219,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
     /**
      * @throws OutOfBoundsException
      */
-    public function detachCriterion(ilAccessibilityDocumentCriterionAssignment $criterionAssignment) : void
+    public function detachCriterion(ilAccessibilityDocumentCriterionAssignment $criterionAssignment): void
     {
         $numCriteriaBeforeRemoval = count($this->criteria);
 
@@ -241,7 +244,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
     /**
      * Reads all criterion assignments from database
      */
-    public function fetchAllCriterionAssignments() : void
+    public function fetchAllCriterionAssignments(): void
     {
         if (!$this->criteriaFetched) {
             $this->criteriaFetched = true;

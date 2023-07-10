@@ -7,7 +7,7 @@ main commands to manage ILIAS installations:
 * `update` will [update an installation](#update-ilias)
 * `status` will [report status of an installation](#report-status-of-ilias)
 * `build-artifacts` [recreates static assets](#build-ilias-artifacts) of an installation
-* `achieve` [a name objective](#achieve-method) of an agent 
+* `achieve` [a named objective](#achieve-a-named-objective) of an agent 
 * `migrate` will run [needed migrations](#migrations)
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
@@ -34,6 +34,9 @@ the path to the `setup.php` when the command is called from somewhere else.
 You most probably want to execute the setup with the user that also executes your
 webserver to avoid problems with filesystem permissions. The installation creates
 directories and files that the webserver will need to read and sometimes even modify.
+If you need to run setup as another user, please make sure that the user that executes
+the webserver has the necessary filesystem permissions (e.g. by using chown), to
+avoid some errors which may be difficult to troubleshoot.
 
 The setup will ask you to confirm some assumptions during the setup process, where
 you will have to type `yes` (or `no`, of course). These checks can be overwritten
@@ -114,12 +117,13 @@ via options.
 
 Some components of ILIAS will publish named objectives to the setup via their
 agent. The most notorious example for this is the component `UICore` which provides
-the objective `reloadCtrlStructure` that will generate routing information for the
+the objective `buildIlCtrlArtifacts` that will generate routing information for the
 GUI. To achieve a single objective from an agent, e.g. for control structure reload,
 run `php setup/setup.php achieve $AGENT_NAME.$OBJECTIVE_NAME`, e.g. 
-`php setup/setup.php achieve uicore.reloadCtrlStructure` to reload the
-control structure. The agent might need to a config file to work, which may be added
-as last parameter: `php setup/setup.php achieve uicore.reloadCtrlStructure config.json`
+`php setup/setup.php achieve uicore.buildIlCtrlArtifacts` to generate the necessary
+artifacts for the control structure. The agent might need to a config file to work,
+which may be added as last parameter: 
+`php setup/setup.php achieve uicore.buildIlCtrlArtifacts config.json`
 
 ## List available objectives
 Calling `php setup/setup.php achieve` without any arguments and options  
@@ -197,14 +201,14 @@ are printed bold**, all other fields might be omitted. A minimal example is
     "database" : {
         "type" : "innodb",
         "host" : "192.168.47.11",
-        "port" : "3306",
+        "port" : 3306,
         "database" : "db_test7",
         "user" : "test7_homer",
         "password" : "homers-secret",
         "create_database" : true
     },
     ```
-  * *type* (type: string) of the database, one of `innodb`, `mysql`, `postgres`, `galera`, defaults
+  * *type* (type: string) of the database, `innodb`, defaults
     to `innodb`
   * *host* (type: string) the database server runs on, defaults to `localhost`
   * *port* (type: string or number) the database server uses, defaults to `3306`
@@ -250,21 +254,21 @@ are printed bold**, all other fields might be omitted. A minimal example is
         "components" : "all",
         "memcached_nodes" : [
             {
-                "active" : "1",
+                "active" : true,
                 "host" : "example1.com",
-                "port" : "4711",
-                "weight" : "10"
+                "port" : 4711,
+                "weight" : 10
             },
             {
-                "active" : "0",
+                "active" : false,
                 "host" : "example2.com",
-                "port" : "4712",
-                "weight" : "20"
+                "port" : 4712,
+                "weight" : 90
             }
         ]
     },
     ```
-  * *service* (type: string) to be used for caching. Either `none`, `static`, `xcache`, `memcached`
+  * *service* (type: string) to be used for caching. Either `none`, `static`, `memcached`
     or `apc`, defaults to  `static`.
   * *components* (type: string or object) that should use caching. Can be `all` or any list of components that
     support caching,  (must be set too, if *service* is set)
@@ -279,7 +283,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
 		},
 		"proxy" : {
 			"host" : "webproxy.ilias.de",
-			"port" : 8088
+			"port" : "8088"
 		}
     },
     ```
@@ -291,23 +295,6 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *proxy* (type: object) for outgoing http connections
     * *host* (type: string) the proxy runs on
     * *port* (type: string or number) the proxy listens on
-* **language** (type: object) configuration, e.g.:
-    ```
-	"language" : {
-		"default_language" : "de",
-		"install_languages" : [
-			"de",
-			"en"
-		],
-		"install_local_languages" : [
-			"de"
-		]
-	},
-    ```
-  * *default_language* (type: string) language to be used for users, defaults to `en`
-  * *install_languages* (type: array of strings) defines all languages that should be available in a list,
-    defaults to `en`
-  * *install_local_languages* (type: array of strings) defines all languages with a local language file, default: no local file(s)
 * *logging* (type: object) configuration if logging should be used
     ```
 	"logging" : {
@@ -320,11 +307,15 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *path_to_logfile* (type: string) to be used for logging
   * *errorlog_dir* (type: string) to put error logs in
 * *mathjax* (type: object) contains settings for Services/MathJax
+    
+    The MathJax settings can also be done manually in the ILIAS adminstration.  
+    Settings included here will overwrite those at the next update.
+    MathJax 3 is supported, but MathJax 2 is recommended.
     ```
 	"mathjax": {
 		"client_enabled": true,
-		"client_polyfill_url": "https://polyfill.io/v3/polyfill.min.js?features=es6",
-		"client_script_url": "https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js",
+		"client_polyfill_url": "",
+		"client_script_url": "https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe",
 		"client_limiter": 0,
 		"server_enabled": true,
 		"server_address": "http://your.mathjax.server:8003",
@@ -347,13 +338,6 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *server_for_browser* (type: boolean) use the server for rendering in the browser
   * *server_for_export* (type: boolean) use the server for HTML exports
   * *server_for_pdf* (type: boolean) use the server for PDF generation
-* *pdfgeneration* (type: object) contains settings for Services/PDFGeneration
-    ```
-	"pdfgeneration" : {
-		"path_to_phantom_js" : "/usr/bin/phantomjs"
-	},
-    ```
-  * *path_to_phantom_js* (type: string) executable
 * *preview* (type: object) contains settings for Services/Preview
     ```
 	"preview" : {
@@ -455,10 +439,14 @@ are printed bold**, all other fields might be omitted. A minimal example is
 * *privacysecurity* (type: object)
     ```
 	"privacysecurity" : {
-		"https_enabled" : true
+		"https_enabled" : true,
+		"auth_duration" : 3000,
+		"account_assistance_duration" : 3000
 	},
     ```
   * *https_enabled* (type: boolean) forces https on login page, defaults to `false`
+  * *auth_duration* (type: integer) stretches the auth-duration on logins to the given amount in ms, defaults to `null`
+  * *account_assistance_duration* (type: integer) stretches the password- and username-assistance duration to the given amount in ms, defaults to `null`
 * *webservices* (type: object)
     ```
 	"webservices" : {

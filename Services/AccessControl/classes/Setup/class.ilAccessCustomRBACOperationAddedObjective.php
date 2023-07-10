@@ -1,6 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
@@ -23,30 +40,30 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
         $this->types = $types;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
-        return hash("sha256", self::class);
+        return hash("sha256", self::class . "::" . $this->id);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         $types = implode(",", $this->types);
         return "Add custom rbac operation (id=$this->id;title=$this->title;class=$this->class;pos=$this->pos;types=($types))";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
 
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilDatabaseInitializedObjective()
         ];
     }
 
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Environment $environment): Environment
     {
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
 
@@ -56,7 +73,7 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
             $this->pos = 9999;
         }
 
-        $ops_id = ilRbacReview::_getCustomRBACOperationId($this->id);
+        $ops_id = ilRbacReview::_getCustomRBACOperationId($this->id, $db);
         if (is_null($ops_id)) {
             $ops_id = $db->nextId("rbac_operations");
 
@@ -72,7 +89,7 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
         }
 
         foreach ($this->types as $type) {
-            $type_id = ilObject::_getObjectTypeIdByTitle($type);
+            $type_id = ilObject::_getObjectTypeIdByTitle($type, $db);
             if (!$type_id) {
                 $type_id = $db->nextId('object_data');
 
@@ -112,19 +129,19 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
         return $environment;
     }
 
-    public function isApplicable(Environment $environment) : bool
+    public function isApplicable(Environment $environment): bool
     {
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
 
         $dic = $this->initEnvironment($environment);
 
-        $ops_id = ilRbacReview::_getCustomRBACOperationId($this->id);
+        $ops_id = ilRbacReview::_getCustomRBACOperationId($this->id, $db);
         if (!$ops_id) {
             return true;
         }
 
         foreach ($this->types as $key => $type) {
-            $type_id = ilObject::_getObjectTypeIdByTitle($type);
+            $type_id = ilObject::_getObjectTypeIdByTitle($type, $db);
             if (is_null($type_id)) {
                 return true;
             }

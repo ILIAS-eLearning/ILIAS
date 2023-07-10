@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilCmiXapiLrsType
  *
@@ -24,34 +29,34 @@
  */
 class ilCmiXapiLrsType
 {
-    const DB_TABLE_NAME = 'cmix_lrs_types';
-    public static function getDbTableName() : string
+    public const DB_TABLE_NAME = 'cmix_lrs_types';
+    public static function getDbTableName(): string
     {
         return self::DB_TABLE_NAME;
     }
-    
-    const AVAILABILITY_NONE = 0;  // Type is not longer available (error message)
-    const AVAILABILITY_EXISTING = 1; // Existing objects of the can be used, but no new created
-    const AVAILABILITY_CREATE = 2;  // New objects of this type can be created
-    
-    const LAUNCH_TYPE_PAGE = "page";
-    const LAUNCH_TYPE_LINK = "link";
-    const LAUNCH_TYPE_EMBED = "embed";
-    
-    const PRIVACY_IDENT_IL_UUID_USER_ID = 0;
-    const PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT = 1;
-    const PRIVACY_IDENT_IL_UUID_LOGIN = 2;
-    const PRIVACY_IDENT_REAL_EMAIL = 3;
-    const PRIVACY_IDENT_IL_UUID_RANDOM = 4;
-    
-    const PRIVACY_NAME_NONE = 0;
-    const PRIVACY_NAME_FIRSTNAME = 1;
-    const PRIVACY_NAME_LASTNAME = 2;
-    const PRIVACY_NAME_FULLNAME = 3;
-    
-    const ENDPOINT_STATEMENTS_SUFFIX = 'statements';
-    const ENDPOINT_AGGREGATE_SUFFIX = 'statements/aggregate';
-    
+
+    public const AVAILABILITY_NONE = 0;  // Type is not longer available (error message)
+    public const AVAILABILITY_EXISTING = 1; // Existing objects of the can be used, but no new created
+    public const AVAILABILITY_CREATE = 2;  // New objects of this type can be created
+
+    public const LAUNCH_TYPE_PAGE = "page";
+    public const LAUNCH_TYPE_LINK = "link";
+    public const LAUNCH_TYPE_EMBED = "embed";
+
+    public const PRIVACY_IDENT_IL_UUID_USER_ID = 0;
+    public const PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT = 1;
+    public const PRIVACY_IDENT_IL_UUID_LOGIN = 2;
+    public const PRIVACY_IDENT_REAL_EMAIL = 3;
+    public const PRIVACY_IDENT_IL_UUID_RANDOM = 4;
+
+    public const PRIVACY_NAME_NONE = 0;
+    public const PRIVACY_NAME_FIRSTNAME = 1;
+    public const PRIVACY_NAME_LASTNAME = 2;
+    public const PRIVACY_NAME_FULLNAME = 3;
+
+    public const ENDPOINT_STATEMENTS_SUFFIX = 'statements';
+    public const ENDPOINT_AGGREGATE_SUFFIX = 'statements/aggregate';
+
     protected int $type_id = 0;
 
     protected string $title = "";
@@ -65,519 +70,371 @@ class ilCmiXapiLrsType
     protected bool $force_privacy_settings = false;
     protected string $privacy_comment_default = "";
     protected bool $external_lrs = false;
-    
+
     protected ?int $time_to_delete = null;
     protected string $launch_type = self::LAUNCH_TYPE_LINK;
-    
+
     protected string $remarks = "";
-    
-    /**
-     * @var bool
-     */
+
     protected bool $bypassProxyEnabled = false;
 
-    /** @var bool $only_moveon */
     protected bool $only_moveon = false;
 
-    /** @var bool $achieved */
     protected bool $achieved = true;
 
-    /** @var bool $answered */
     protected bool $answered = true;
 
-    /** @var bool $completed */
     protected bool $completed = true;
 
-    /** @var bool $failed */
     protected bool $failed = true;
 
-    /** @var bool $initialized */
     protected bool $initialized = true;
 
-    /** @var bool $passed */
     protected bool $passed = true;
 
-    /** @var bool $progressed */
     protected bool $progressed = true;
 
-    /** @var bool $satisfied */
     protected bool $satisfied = true;
 
-    /** @var bool $terminated */
     protected bool $terminated = true;
 
-    /** @var bool $hide_data */
     protected bool $hide_data = false;
 
-    /** @var bool $timestamp */
     protected bool $timestamp = false;
 
-    /** @var bool $duration */
     protected bool $duration = true;
 
-    /** @var bool $no_substatements */
     protected bool $no_substatements = false;
+
+    private ilDBInterface $database;
 
     /**
      * Constructor
      */
-    public function __construct($a_type_id = 0)
+    public function __construct(int $a_type_id = 0)
     {
+        global $DIC;
+        $this->database = $DIC->database();
         if ($a_type_id) {
             $this->type_id = $a_type_id;
             $this->read();
         }
     }
-    
-    /**
-     * @param int id
-     */
-    public function setTypeId(int $a_type_id) : void
+
+    public function setTypeId(int $a_type_id): void
     {
         $this->type_id = $a_type_id;
     }
-    
-    /**
-     * @return int id
-     */
-    public function getTypeId() : int
+
+    public function getTypeId(): int
     {
         return $this->type_id;
     }
-    
-    /**
-     * @param string title
-     */
-    public function setTitle(string $a_title) : void
+
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
-    
-    /**
-     * @return string title
-     */
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    /**
-     * @param string description
-     */
-    public function setDescription(string $a_description) : void
+
+    public function setDescription(string $a_description): void
     {
         $this->description = $a_description;
     }
-    
-    /**
-     * @return string description
-     */
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         return $this->description;
     }
-    
-    /**
-     * @param integer availability
-     */
-    public function setAvailability(int $a_availability) : void
+
+    public function setAvailability(int $a_availability): void
     {
         $this->availability = $a_availability;
     }
-    
-    /**
-     * @return integer availability
-     */
-    public function getAvailability() : int
+
+    public function getAvailability(): int
     {
         return $this->availability;
     }
-    
-    public function isAvailable() : bool
+
+    public function isAvailable(): bool
     {
         if ($this->getAvailability() == self::AVAILABILITY_CREATE) {
             return true;
         }
-        
+
         if ($this->getAvailability() == self::AVAILABILITY_EXISTING) {
             return true;
         }
-        
+
         return false;
     }
 
-    /**
-     * @param int|null $a_time_to_delete
-     * @return void
-     */
-    public function setTimeToDelete(?int $a_time_to_delete) : void
+    public function setTimeToDelete(?int $a_time_to_delete): void
     {
         $this->time_to_delete = $a_time_to_delete;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getTimeToDelete() : ?int
+    public function getTimeToDelete(): ?int
     {
         return $this->time_to_delete;
     }
-    
-    public function setLrsEndpoint(string $a_endpoint) : void
+
+    public function setLrsEndpoint(string $a_endpoint): void
     {
         $this->lrs_endpoint = $a_endpoint;
     }
-    
-    public function getLrsEndpoint() : string
+
+    public function getLrsEndpoint(): string
     {
         return $this->lrs_endpoint;
     }
-    
-    public function setLrsKey(string $a_lrs_key) : void
+
+    public function setLrsKey(string $a_lrs_key): void
     {
         $this->lrs_key = $a_lrs_key;
     }
-    
-    public function getLrsKey() : string
+
+    public function getLrsKey(): string
     {
         return $this->lrs_key;
     }
-    
-    public function setLrsSecret(string $a_lrs_secret) : void
+
+    public function setLrsSecret(string $a_lrs_secret): void
     {
         $this->lrs_secret = $a_lrs_secret;
     }
-    
-    public function getLrsSecret() : string
+
+    public function getLrsSecret(): string
     {
         return $this->lrs_secret;
     }
-    
-    public function setPrivacyIdent(int $a_option) : void
+
+    public function setPrivacyIdent(int $a_option): void
     {
         $this->privacy_ident = $a_option;
     }
-    
-    public function getPrivacyIdent() : int
+
+    public function getPrivacyIdent(): int
     {
         return $this->privacy_ident;
     }
-    
-    public function setPrivacyName(int $a_option) : void
+
+    public function setPrivacyName(int $a_option): void
     {
         $this->privacy_name = $a_option;
     }
-    
-    public function getPrivacyName() : int
+
+    public function getPrivacyName(): int
     {
         return $this->privacy_name;
     }
 
-    /**
-     * @return bool
-     */
-    public function getOnlyMoveon() : bool
+    public function getOnlyMoveon(): bool
     {
         return $this->only_moveon;
     }
 
-    /**
-     * @param bool $only_moveon
-     */
-    public function setOnlyMoveon(bool $only_moveon) : void
+    public function setOnlyMoveon(bool $only_moveon): void
     {
         $this->only_moveon = $only_moveon;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAchieved() : bool
+    public function getAchieved(): bool
     {
         return $this->achieved;
     }
 
-    /**
-     * @param bool $achieved
-     */
-    public function setAchieved(bool $achieved) : void
+    public function setAchieved(bool $achieved): void
     {
         $this->achieved = $achieved;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAnswered() : bool
+    public function getAnswered(): bool
     {
         return $this->answered;
     }
 
-    /**
-     * @param bool $answered
-     */
-    public function setAnswered(bool $answered) : void
+    public function setAnswered(bool $answered): void
     {
         $this->answered = $answered;
     }
 
-    /**
-     * @return bool
-     */
-    public function getCompleted() : bool
+    public function getCompleted(): bool
     {
         return $this->completed;
     }
 
-    /**
-     * @param bool $completed
-     */
-    public function setCompleted(bool $completed) : void
+    public function setCompleted(bool $completed): void
     {
         $this->completed = $completed;
     }
 
-    /**
-     * @return bool
-     */
-    public function getFailed() : bool
+    public function getFailed(): bool
     {
         return $this->failed;
     }
 
-    /**
-     * @param bool $failed
-     */
-    public function setFailed(bool $failed) : void
+    public function setFailed(bool $failed): void
     {
         $this->failed = $failed;
     }
 
-    /**
-     * @return bool
-     */
-    public function getInitialized() : bool
+    public function getInitialized(): bool
     {
         return $this->initialized;
     }
 
-    /**
-     * @param bool $initialized
-     */
-    public function setInitialized(bool $initialized) : void
+    public function setInitialized(bool $initialized): void
     {
         $this->initialized = $initialized;
     }
 
-    /**
-     * @return bool
-     */
-    public function getPassed() : bool
+    public function getPassed(): bool
     {
         return $this->passed;
     }
 
-    /**
-     * @param bool $passed
-     */
-    public function setPassed(bool $passed) : void
+    public function setPassed(bool $passed): void
     {
         $this->passed = $passed;
     }
 
-    /**
-     * @return bool
-     */
-    public function getProgressed() : bool
+    public function getProgressed(): bool
     {
         return $this->progressed;
     }
 
-    /**
-     * @param bool $progressed
-     */
-    public function setProgressed(bool $progressed) : void
+    public function setProgressed(bool $progressed): void
     {
         $this->progressed = $progressed;
     }
 
-    /**
-     * @return bool
-     */
-    public function getSatisfied() : bool
+    public function getSatisfied(): bool
     {
         return $this->satisfied;
     }
 
-    /**
-     * @param bool $satisfied
-     */
-    public function setSatisfied(bool $satisfied) : void
+    public function setSatisfied(bool $satisfied): void
     {
         $this->satisfied = $satisfied;
     }
 
-    /**
-     * @return bool
-     */
-    public function getTerminated() : bool
+    public function getTerminated(): bool
     {
         return $this->terminated;
     }
 
-    /**
-     * @param bool $terminated
-     */
-    public function setTerminated(bool $terminated) : void
+    public function setTerminated(bool $terminated): void
     {
         $this->terminated = $terminated;
     }
 
-    /**
-     * @return bool
-     */
-    public function getHideData() : bool
+    public function getHideData(): bool
     {
         return $this->hide_data;
     }
 
-    /**
-     * @param bool $hide_data
-     */
-    public function setHideData(bool $hide_data) : void
+    public function setHideData(bool $hide_data): void
     {
         $this->hide_data = $hide_data;
     }
 
-    /**
-     * @return bool
-     */
-    public function getTimestamp() : bool
+    public function getTimestamp(): bool
     {
         return $this->timestamp;
     }
 
-    /**
-     * @param bool $timestamp
-     */
-    public function setTimestamp(bool $timestamp) : void
+    public function setTimestamp(bool $timestamp): void
     {
         $this->timestamp = $timestamp;
     }
 
-    /**
-     * @return bool
-     */
-    public function getDuration() : bool
+    public function getDuration(): bool
     {
         return $this->duration;
     }
 
-    /**
-     * @param bool $duration
-     */
-    public function setDuration(bool $duration) : void
+    public function setDuration(bool $duration): void
     {
         $this->duration = $duration;
     }
 
-    /**
-     * @return bool
-     */
-    public function getNoSubstatements() : bool
+    public function getNoSubstatements(): bool
     {
         return $this->no_substatements;
     }
 
-    /**
-     * @param bool $no_substatements
-     */
-    public function setNoSubstatements(bool $no_substatements) : void
+    public function setNoSubstatements(bool $no_substatements): void
     {
         $this->no_substatements = $no_substatements;
     }
 
-    public function getForcePrivacySettings() : bool
+    public function getForcePrivacySettings(): bool
     {
         return $this->force_privacy_settings;
     }
-    
-    public function setForcePrivacySettings(bool $force_privacy_settings) : void
+
+    public function setForcePrivacySettings(bool $force_privacy_settings): void
     {
         $this->force_privacy_settings = $force_privacy_settings;
     }
-    
-    public function setPrivacyCommentDefault(string $a_option) : void
+
+    public function setPrivacyCommentDefault(string $a_option): void
     {
         $this->privacy_comment_default = $a_option;
     }
-    
-    public function getPrivacyCommentDefault() : string
+
+    public function getPrivacyCommentDefault(): string
     {
         return $this->privacy_comment_default;
     }
-    
-    public function setExternalLrs(bool $a_option) : void
+
+    public function setExternalLrs(bool $a_option): void
     {
         $this->external_lrs = $a_option;
     }
-    
-    public function getExternalLrs() : bool
+
+    public function getExternalLrs(): bool
     {
         return $this->external_lrs;
     }
-    
-    /**
-     * @return string launch_type
-     */
-    public function getLaunchType() : string
+
+    public function getLaunchType(): string
     {
         return $this->launch_type;
     }
-    
-    /**
-     * @param string remarks
-     */
-    public function setRemarks(string $a_remarks) : void
+
+    public function setRemarks(string $a_remarks): void
     {
         $this->remarks = $a_remarks;
     }
-    
-    /**
-     * @return string remarks
-     */
-    public function getRemarks() : string
+
+    public function getRemarks(): string
     {
         return $this->remarks;
     }
-    
-    /**
-     * @return bool
-     */
-    public function isBypassProxyEnabled() : bool
+
+    public function isBypassProxyEnabled(): bool
     {
         return $this->bypassProxyEnabled;
     }
-    
-    /**
-     * @param bool $bypassProxyEnabled
-     */
-    public function setBypassProxyEnabled(bool $bypassProxyEnabled) : void
+
+    public function setBypassProxyEnabled(bool $bypassProxyEnabled): void
     {
         $this->bypassProxyEnabled = $bypassProxyEnabled;
     }
 
-    /**
-     * @access public
-     */
-    public function read() : bool
+    protected function read(): bool
     {
-        global $ilDB, $ilErr;
-        
         $query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE type_id = %s";
-        
-        $res = $ilDB->queryF($query, ['integer'], [$this->getTypeId()]);
-        $row = $ilDB->fetchObject($res);
+
+        $res = $this->database->queryF($query, ['integer'], [$this->getTypeId()]);
+        $row = $this->database->fetchObject($res);
         if ($row) {
             $this->setTypeId((int) $row->type_id);
             $this->setTitle($row->title);
@@ -611,11 +468,11 @@ class ilCmiXapiLrsType
 
             return true;
         }
-        
+
         return false;
     }
-    
-    public function save() : void
+
+    public function save(): void
     {
         if ($this->getTypeId() != 0) {
             $this->update();
@@ -623,25 +480,17 @@ class ilCmiXapiLrsType
             $this->create();
         }
     }
-    
-    /**
-     * @access public
-     */
-    public function create() : void
+
+
+    protected function create(): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $this->setTypeId($DIC->database()->nextId(self::DB_TABLE_NAME));
+        $this->setTypeId($this->database->nextId(self::DB_TABLE_NAME));
         $this->update();
     }
 
-    /**
-     * @access public
-     */
-    public function update() : bool
+    protected function update(): bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $DIC->database()->replace(
+        $this->database->replace(
             self::DB_TABLE_NAME,
             array(
                 'type_id' => array('integer', $this->getTypeId())
@@ -677,49 +526,44 @@ class ilCmiXapiLrsType
                 'no_substatements' => array('integer', (int) $this->getNoSubstatements())
             )
         );
-        
+
         return true;
     }
 
-    /**
-     * @access public
-     */
-    public function delete() : bool
+    protected function delete(): bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
         $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE type_id = %s";
-        $DIC->database()->manipulateF($query, ['integer'], [$this->getTypeId()]);
-        
+        $this->database->manipulateF($query, ['integer'], [$this->getTypeId()]);
+
         return true;
     }
-    
-    public function getLrsEndpointStatementsLink() : string
+
+    public function getLrsEndpointStatementsLink(): string
     {
         return $this->getLrsEndpoint() . '/' . self::ENDPOINT_STATEMENTS_SUFFIX;
     }
-    
-    public function getLrsEndpointStatementsAggregationLink() : string
+
+    public function getLrsEndpointStatementsAggregationLink(): string
     {
         return dirname($this->getLrsEndpoint()) . '/api/' . self::ENDPOINT_AGGREGATE_SUFFIX;
     }
-    
-    public function getBasicAuth() : string
+
+    public function getBasicAuth(): string
     {
         return self::buildBasicAuth($this->getLrsKey(), $this->getLrsSecret());
     }
-    
-    public static function buildBasicAuth($lrsKey, $lrsSecret) : string
+
+    public static function buildBasicAuth($lrsKey, $lrsSecret): string
     {
         return 'Basic ' . base64_encode("{$lrsKey}:{$lrsSecret}");
     }
 
-    public function getBasicAuthWithoutBasic() : string
+    public function getBasicAuthWithoutBasic(): string
     {
         return self::buildBasicAuthWithoutBasic($this->getLrsKey(), $this->getLrsSecret());
     }
-    
-    public static function buildBasicAuthWithoutBasic($lrsKey, $lrsSecret) : string
+
+    public static function buildBasicAuthWithoutBasic($lrsKey, $lrsSecret): string
     {
         return base64_encode("{$lrsKey}:{$lrsSecret}");
     }

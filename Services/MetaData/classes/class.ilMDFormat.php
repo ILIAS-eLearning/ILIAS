@@ -1,25 +1,22 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Meta Data class (element format)
@@ -29,24 +26,22 @@
  */
 class ilMDFormat extends ilMDBase
 {
-
     private string $format = '';
 
     // SET/_GET
-    public function setFormat(string $a_format) : void
+    public function setFormat(string $a_format): void
     {
         $this->format = $a_format;
     }
 
-    public function getFormat() : string
+    public function getFormat(): string
     {
         return $this->format;
     }
 
-    public function save() : int
+    public function save(): int
     {
-
-        $fields                   = $this->__getFields();
+        $fields = $this->__getFields();
         $fields['meta_format_id'] = array('integer', $next_id = $this->db->nextId('il_meta_format'));
 
         if ($this->db->insert('il_meta_format', $fields)) {
@@ -56,28 +51,21 @@ class ilMDFormat extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
-
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_format',
-                $this->__getFields(),
-                array("meta_format_id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_format',
+            $this->__getFields(),
+            array("meta_format_id" => array('integer', $this->getMetaId()))
+        );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
-
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_format " .
                 "WHERE meta_format_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res   = $this->db->manipulate($query);
+            $res = $this->db->manipulate($query);
 
             return true;
         }
@@ -87,20 +75,18 @@ class ilMDFormat extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
-            'rbac_id'  => array('integer', $this->getRBACId()),
-            'obj_id'   => array('integer', $this->getObjId()),
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
             'obj_type' => array('text', $this->getObjType()),
-            'format'   => array('text', $this->getFormat())
+            'format' => array('text', $this->getFormat())
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
-
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_format " .
                 "WHERE meta_format_id = " . $this->db->quote($this->getMetaId(), 'integer');
@@ -110,26 +96,25 @@ class ilMDFormat extends ilMDBase
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
-                $this->setFormat($row->format);
+                $this->setFormat($row->format ?? '');
             }
         }
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         if ($this->getFormat()) {
             $writer->xmlElement('Format', null, $this->getFormat());
         }
     }
 
-
     // STATIC
 
     /**
      * @return int[]
      */
-    public static function _getIds(int $a_rbac_id, int $a_obj_id) : array
+    public static function _getIds(int $a_rbac_id, int $a_obj_id): array
     {
         global $DIC;
 

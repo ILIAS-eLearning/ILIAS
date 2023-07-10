@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php
 
-/******************************************************************************
- *
+declare(strict_types=1);
+
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,14 +13,18 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 namespace ILIAS\BookingManager;
 
 use ILIAS\BookingManager\Reservation\ReservationTableSessionRepository;
+use ILIAS\BookingManager\Objects\ObjectsDBRepository;
+use ILIAS\BookingManager\Reservations\ReservationDBRepository;
+use ILIAS\BookingManager\BookingProcess\SelectedObjectsDBRepository;
+use ILIAS\BookingManager\Schedule\SchedulesDBRepository;
 
 /**
  * Repository internal repo service
@@ -45,7 +50,7 @@ class InternalRepoService
         );
     }*/
 
-    public function preferences() : \ilBookingPreferencesDBRepository
+    public function preferences(): \ilBookingPreferencesDBRepository
     {
         return new \ilBookingPreferencesDBRepository(
             $this->data,
@@ -53,15 +58,50 @@ class InternalRepoService
         );
     }
 
-    public function preferenceBasedBooking() : \ilBookingPrefBasedBookGatewayRepository
+    public function preferenceBasedBooking(): \ilBookingPrefBasedBookGatewayRepository
     {
         return new \ilBookingPrefBasedBookGatewayRepository(
             $this->db
         );
     }
 
-    public function reservationTable() : ReservationTableSessionRepository
+    public function reservationTable(): ReservationTableSessionRepository
     {
         return new ReservationTableSessionRepository();
     }
+
+    public function objects() : ObjectsDBRepository
+    {
+        return new ObjectsDBRepository(
+            $this->db
+        );
+    }
+
+    public function schedules() : SchedulesDBRepository
+    {
+        return new SchedulesDBRepository(
+            $this->db
+        );
+    }
+
+    public function reservation() : ReservationDBRepository
+    {
+        return new ReservationDBRepository($this->db);
+    }
+
+    /**
+     * Get repo with reservation information preloaded for context obj ids
+     * @param int[] $context_obj_ids
+     */
+    public function reservationWithContextObjCache(
+        array $context_obj_ids
+    ) : ReservationDBRepository {
+        return new ReservationDBRepository($this->db, $context_obj_ids);
+    }
+
+    public function objectSelection() : SelectedObjectsDBRepository
+    {
+        return new SelectedObjectsDBRepository($this->db);
+    }
+
 }

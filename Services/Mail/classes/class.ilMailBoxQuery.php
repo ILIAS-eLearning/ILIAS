@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Mail query class.
@@ -38,7 +40,7 @@ class ilMailBoxQuery
      * @return array{set: array[], cnt: int, cnt_unread: int}
      * @throws Exception
      */
-    public static function _getMailBoxListData() : array
+    public static function _getMailBoxListData(): array
     {
         global $DIC;
 
@@ -71,7 +73,7 @@ class ilMailBoxQuery
         }
 
         $filter_qry = '';
-        if ($filter_parts) {
+        if ($filter_parts !== []) {
             $filter_qry = 'AND (' . implode(' OR ', $filter_parts) . ')';
         }
 
@@ -84,6 +86,7 @@ class ilMailBoxQuery
             self::$filter['mail_filter_only_with_attachments']
         ) {
             $filter_qry .= ' AND attachments != ' . $DIC->database()->quote(serialize(null), 'text') . ' ';
+            $filter_qry .= ' AND attachments != ' . $DIC->database()->quote(serialize([]), 'text') . ' ';
         }
 
         if (isset(self::$filter['mail_filter_only_user_mails']) && self::$filter['mail_filter_only_user_mails']) {

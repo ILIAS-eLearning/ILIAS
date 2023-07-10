@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilChatroomKickGUI
  * @author  Jan Posselt <jposselt@databay.de>
@@ -25,7 +27,7 @@
  */
 class ilChatroomClearGUI extends ilChatroomGUIHandler
 {
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->redirectIfNoPermission('moderate');
 
@@ -33,12 +35,11 @@ class ilChatroomClearGUI extends ilChatroomGUIHandler
         $this->exitIfNoRoomExists($room);
 
         $chat_user = new ilChatroomUser($this->ilUser, $room);
-        $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
 
-        $room->clearMessages($subRoomId);
+        $room->clearMessages();
 
         $connector = $this->gui->getConnector();
-        $response = $connector->sendClearMessages($room->getRoomId(), $subRoomId, $chat_user->getUserId());
+        $response = $connector->sendClearMessages($room->getRoomId(), $chat_user->getUserId());
 
         $this->sendResponse($response);
     }

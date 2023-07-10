@@ -33,11 +33,10 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class RequestFactoryImpl implements RequestFactory
 {
-
     /**
      * @inheritdoc
      */
-    public function create() : ServerRequestInterface
+    public function create(): ServerRequestInterface
     {
         return ServerRequest::fromGlobals();
     }

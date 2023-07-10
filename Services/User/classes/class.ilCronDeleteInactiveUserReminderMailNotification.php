@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilCronDeleteInactiveUserReminderMailNotification
@@ -24,13 +27,14 @@ class ilCronDeleteInactiveUserReminderMailNotification extends ilMimeMailNotific
         parent::__construct();
     }
 
-    protected function initLanguageByIso2Code(string $a_code = '') : void
+
+    protected function initLanguage(int $a_usr_id): void
     {
-        parent::initLanguageByIso2Code($a_code);
+        parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('user');
     }
 
-    public function send() : void
+    public function send(): void
     {
         global $DIC;
 
@@ -49,7 +53,6 @@ class ilCronDeleteInactiveUserReminderMailNotification extends ilMimeMailNotific
             }
 
             $this->initMimeMail();
-            $this->initLanguageByIso2Code();
 
             ilDatePresentation::setLanguage($this->getLanguage());
             $date_for_deletion = ilDatePresentation::formatDate(new ilDate($additional_information["date"], IL_CAL_UNIX));

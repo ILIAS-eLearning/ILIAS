@@ -1,25 +1,22 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Utility class to form select boxed for fixed meta data attributes
@@ -35,10 +32,12 @@ class ilMDUtilSelect
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getLanguageSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
-
+    public static function _getLanguageSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -62,7 +61,6 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
 
     /**
@@ -71,9 +69,12 @@ class ilMDUtilSelect
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getStructureSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getStructureSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -96,17 +97,20 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
+
     /**
      * Prepare a meta lifecycle status selector
      * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getStatusSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getStatusSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -129,17 +133,20 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
+
     /**
      * Prepare a meta lifecycle status selector
      * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getRoleSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getRoleSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -180,17 +187,20 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
+
     /**
      * Prepare a meta technical os selector
      * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getOperatingSystemSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getOperatingSystemSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -213,17 +223,20 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
+
     /**
      * Prepare a meta technical browser selector
      * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getBrowserSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getBrowserSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -246,7 +259,6 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
     /**
      * Prepare a meta technical format selector
@@ -255,12 +267,15 @@ class ilMDUtilSelect
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getFormatSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getFormatSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
-        $lng  = $DIC['lng'];
+        $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
 
         foreach ($prepend as $value => $translation) {
@@ -270,15 +285,15 @@ class ilMDUtilSelect
         $ilDB->setLimit(200, 0);
         // In case an index is defined on field il_meta_format, this group by
         // statement takes advantage of it to improve the performance of the query.
-        $query = "SELECT format as forma from il_meta_format GROUP BY format";
-        $res   = $ilDB->query($query);
+        $query = "SELECT format AS forma from il_meta_format GROUP BY format";
+        $res = $ilDB->query($query);
         if (!$res->numRows()) {
             return '';
         }
         $options = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (strlen($row->format)) {
-                $options[$row->format] = substr($row->format, 0, 48);
+            if (is_string($row->forma) && $row->forma !== '') {
+                $options[$row->forma] = substr($row->forma, 0, 48);
             }
         }
 
@@ -291,7 +306,6 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
 
     /**
@@ -299,7 +313,7 @@ class ilMDUtilSelect
      * All possible entries in meta_format are shown
      * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      */
-    public static function _getDurationSelect(string $a_selected, string $a_name, array $prepend = array()) : string
+    public static function _getDurationSelect(string $a_selected, string $a_name, array $prepend = array()): string
     {
         global $DIC;
 
@@ -310,11 +324,11 @@ class ilMDUtilSelect
         }
 
         $items = array(
-            15  => '15 ' . $lng->txt('minutes'),
-            30  => '30 ' . $lng->txt('minutes'),
-            45  => '45 ' . $lng->txt('minutes'),
-            60  => '1 ' . $lng->txt('hour'),
-            90  => '1 ' . $lng->txt('hour') . ' 30 ' . $lng->txt('minutes'),
+            15 => '15 ' . $lng->txt('minutes'),
+            30 => '30 ' . $lng->txt('minutes'),
+            45 => '45 ' . $lng->txt('minutes'),
+            60 => '1 ' . $lng->txt('hour'),
+            90 => '1 ' . $lng->txt('hour') . ' 30 ' . $lng->txt('minutes'),
             120 => '2 ' . $lng->txt('hours'),
             180 => '3 ' . $lng->txt('hours'),
             240 => '4 ' . $lng->txt('hours')
@@ -325,6 +339,7 @@ class ilMDUtilSelect
         }
         return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
+
     /**
      * Prepare a meta educational interactivity type
      * All possible entries in meta_format are shown
@@ -332,9 +347,12 @@ class ilMDUtilSelect
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getInteractivityTypeSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getInteractivityTypeSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -357,8 +375,8 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
+
     /**
      * Prepare a meta educational learning resource type
      * All possible entries in meta_format are shown
@@ -366,9 +384,12 @@ class ilMDUtilSelect
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getLearningResourceTypeSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getLearningResourceTypeSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -407,17 +428,23 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
 
     /**
      * Prepare a meta educational interactivity level
      * All possible entries in meta_format are shown
-     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     * @return string|array Complete html select
+     * @param mixed      $a_selected
+     * @param string $a_name
+     * @param array  $prepend
+     * @param bool   $a_options_only
+     * @return array|string
      */
-    public static function _getInteractivityLevelSelect(int $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-    {
+    public static function _getInteractivityLevelSelect(
+        $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) {
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -440,18 +467,23 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
+
     /**
      * Prepare a meta educational semantic density
      * All possible entries in meta_format are shown
-     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     * @return string|array $prepend Complete html select
+     * @param mixed    $a_selected
+     * @param string $a_name
+     * @param array  $prepend
+     * @param bool   $a_options_only
+     * @return array|string
      */
-    // BEGIN PATCH Lucene search
-    public static function _getSemanticDensitySelect(int $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getSemanticDensitySelect(
+        $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -474,8 +506,8 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
+
     /**
      * Prepare a meta educational intended end user role
      * All possible entries in meta_format are shown
@@ -483,9 +515,12 @@ class ilMDUtilSelect
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getIntendedEndUserRoleSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getIntendedEndUserRoleSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -508,17 +543,20 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
+
     /**
      * Prepare a meta context
      * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getContextSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getContextSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -541,14 +579,13 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
 
     /**
      * Prepare a meta location type
      * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      */
-    public static function _getLocationTypeSelect(string $a_selected, string $a_name, array $prepend = array()) : string
+    public static function _getLocationTypeSelect(string $a_selected, string $a_name, array $prepend = array()): string
     {
         global $DIC;
 
@@ -565,16 +602,22 @@ class ilMDUtilSelect
         }
         return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
+
     /**
      * Prepare a meta educational difficulty
      * All possible entries in meta_format are shown
-     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     * @return string|array Complete html select
+     * @param mixed    $a_selected
+     * @param string $a_name
+     * @param array  $prepend
+     * @param bool   $a_options_only
+     * @return array|string
      */
-    // BEGIN PATCH Lucene search
-    public static function _getDifficultySelect(int $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getDifficultySelect(
+        $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -597,7 +640,6 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
 
     /**
@@ -605,8 +647,11 @@ class ilMDUtilSelect
      * All possible entries in meta_format are shown
      * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      */
-    public static function _getTypicalAgeRangeSelect(string $a_selected, string $a_name, array $prepend = array()) : string
-    {
+    public static function _getTypicalAgeRangeSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array()
+    ): string {
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -630,8 +675,11 @@ class ilMDUtilSelect
      * All possible entries in meta_format are shown
      * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      */
-    public static function _getTypicalLearningTimeSelect(string $a_selected, string $a_name, array $prepend = array()) : string
-    {
+    public static function _getTypicalLearningTimeSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array()
+    ): string {
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -640,11 +688,11 @@ class ilMDUtilSelect
             $options[$value] = $translation;
         }
         $items = array(
-            15  => '15 ' . $lng->txt('minutes'),
-            30  => '30 ' . $lng->txt('minutes'),
-            45  => '45 ' . $lng->txt('minutes'),
-            60  => '1 ' . $lng->txt('hour'),
-            90  => '1 ' . $lng->txt('hour') . ' 30 ' . $lng->txt('minutes'),
+            15 => '15 ' . $lng->txt('minutes'),
+            30 => '30 ' . $lng->txt('minutes'),
+            45 => '45 ' . $lng->txt('minutes'),
+            60 => '1 ' . $lng->txt('hour'),
+            90 => '1 ' . $lng->txt('hour') . ' 30 ' . $lng->txt('minutes'),
             120 => '2 ' . $lng->txt('hours'),
             180 => '3 ' . $lng->txt('hours'),
             240 => '4 ' . $lng->txt('hours')
@@ -655,6 +703,7 @@ class ilMDUtilSelect
         }
         return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
+
     /**
      * Prepare a meta rights costs
      * All possible entries in meta_format are shown
@@ -662,9 +711,12 @@ class ilMDUtilSelect
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getCostsSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getCostsSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -687,8 +739,8 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
+
     /**
      * Prepare a meta rights copyright and other restrictions
      * All possible entries in meta_format are shown
@@ -696,9 +748,12 @@ class ilMDUtilSelect
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getCopyrightAndOtherRestrictionsSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getCopyrightAndOtherRestrictionsSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -721,8 +776,8 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
+
     /**
      * Prepare a meta rights copyright and other restrictions
      * All possible entries in meta_format are shown
@@ -730,9 +785,12 @@ class ilMDUtilSelect
      * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getPurposeSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
-        // END PATCH Lucene Search
-    {
+    public static function _getPurposeSelect(
+        string $a_selected,
+        string $a_name,
+        array $prepend = array(),
+        bool $a_options_only = false
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -765,6 +823,5 @@ class ilMDUtilSelect
             true
         );
         // END PATCH Lucene Search
-        return ilLegacyFormElementsUtil::formSelect($a_selected, $a_name, $options, false, true);
     }
 }

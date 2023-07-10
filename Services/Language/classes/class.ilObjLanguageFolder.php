@@ -1,6 +1,23 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * Class ilObjLanguageFolder
@@ -80,7 +97,7 @@ class ilObjLanguageFolder extends ilObject
     *
     * Returns   $languages    status information about available languages
     */
-    public function getLanguages() : array
+    public function getLanguages(): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -166,7 +183,7 @@ class ilObjLanguageFolder extends ilObject
     * This functions checks in $languages for languages with the attribute 'new'
     * and insert these languages in db-table 'languages'
     */
-    public function addNewLanguages(array $a_languages) : array
+    public function addNewLanguages(array $a_languages): array
     {
         if (count($a_languages) > 0) {
             foreach ($a_languages as $lang_key => $lang_data) {
@@ -204,7 +221,7 @@ class ilObjLanguageFolder extends ilObject
     *
     * Return   $languages    updated status information about available languages
     */
-    public function removeLanguages(array $a_languages) : array
+    public function removeLanguages(array $a_languages): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -233,7 +250,7 @@ class ilObjLanguageFolder extends ilObject
     *
     * Return system message
     */
-    public function checkAllLanguages() : string
+    public function checkAllLanguages(): string
     {
         global $DIC;
         // TODO: lng object should not be used in this class

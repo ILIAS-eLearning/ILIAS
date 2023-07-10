@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 
 use ILIAS\BackgroundTasks\Task\Job;
@@ -27,11 +27,10 @@ use ILIAS\BackgroundTasks\Task\Job;
  */
 abstract class AbstractJob extends AbstractTask implements Job
 {
-    
     /**
      * @inheritdoc
      */
-    public function getInput() : array
+    public function getInput(): array
     {
         return $this->input;
     }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCProfileGUI
@@ -38,7 +41,7 @@ class ilPCProfileGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -56,7 +59,7 @@ class ilPCProfileGUI extends ilPageContentGUI
     /**
      * Insert new personal data form.
      */
-    public function insert(ilPropertyFormGUI $a_form = null) : void
+    public function insert(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -71,7 +74,7 @@ class ilPCProfileGUI extends ilPageContentGUI
     /**
      * Edit personal data form.
      */
-    public function edit(ilPropertyFormGUI $a_form = null) : void
+    public function edit(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -86,20 +89,20 @@ class ilPCProfileGUI extends ilPageContentGUI
     /**
      * Init profile form
      */
-    protected function initForm(bool $a_insert = false) : ilPropertyFormGUI
+    protected function initForm(bool $a_insert = false): ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $ilToolbar = $this->toolbar;
-                
+
         $is_template = ($this->getPageConfig()->getEnablePCType("PlaceHolder"));
-                
+
         if (!$is_template) {
             $ilToolbar->addButton(
                 $this->lng->txt("cont_edit_personal_data"),
                 $ilCtrl->getLinkTargetByClass("ildashboardgui", "jumptoprofile"),
                 "profile"
             );
-            
+
             $lng_suffix = "";
         } else {
             $lng_suffix = "_template";
@@ -156,7 +159,7 @@ class ilPCProfileGUI extends ilPageContentGUI
     /**
      * Gather field values
      */
-    protected function getFieldsValues() : array
+    protected function getFieldsValues(): array
     {
         $fields = array();
         foreach ($this->http->request()->getParsedBody() as $name => $value) {
@@ -172,7 +175,7 @@ class ilPCProfileGUI extends ilPageContentGUI
     /**
      * Create new personal data.
      */
-    public function create() : void
+    public function create(): void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {
@@ -194,7 +197,7 @@ class ilPCProfileGUI extends ilPageContentGUI
     /**
      * Update personal data.
      */
-    public function update() : void
+    public function update(): void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {

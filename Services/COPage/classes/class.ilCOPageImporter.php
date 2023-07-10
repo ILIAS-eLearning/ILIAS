@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Importer class for pages
@@ -25,7 +28,7 @@ class ilCOPageImporter extends ilXmlImporter
     // Names of active plugins with own importers for additional data
     protected array $importer_plugins = array();
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
         /** @var ilComponentRepository $component_repository */
@@ -48,13 +51,13 @@ class ilCOPageImporter extends ilXmlImporter
             }
         }
     }
-    
+
     public function importXmlRepresentation(
         string $a_entity,
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $this->log->debug("entity: " . $a_entity . ", id: " . $a_id);
 
         if ($a_entity == "pgtp") {
@@ -105,6 +108,7 @@ class ilCOPageImporter extends ilXmlImporter
                             if ($lstr != "" && $lstr != "-") {
                                 $new_page->setLanguage($lstr);
                             }
+                            $this->log->debug(">>> CREATE PAGE " . $id[0] . ":" . $id[1]);
                             $new_page->setXMLContent($next_xml);
                             $new_page->setActive(true);
                             // array_key_exists does NOT work on simplexml!
@@ -132,7 +136,7 @@ class ilCOPageImporter extends ilXmlImporter
 
     public function finalProcessing(
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $this->log->debug("start");
         $pages = $a_mapping->getMappingsOfEntity("Services/COPage", "pgl");
         $media_objects = $a_mapping->getMappingsOfEntity("Services/MediaObjects", "mob");
@@ -151,14 +155,14 @@ class ilCOPageImporter extends ilXmlImporter
                     $new_page->buildDom();
                     $med = $new_page->resolveMediaAliases($media_objects, $this->config->getReuseOriginallyExportedMedia());
                     $fil = $new_page->resolveFileItems($file_objects);
-                    $new_page->resolveResources($ref_mapping);
+                    $res = $new_page->resolveResources($ref_mapping);
                     $il = false;
                     if (!$this->config->getSkipInternalLinkResolve()) {
                         $il = $new_page->resolveIntLinks();
                         $this->log->debug("resolve internal link for page " . $id[0] . "-" . $id[1] . "-" . $id[2]);
                     }
                     $plug = $this->replacePluginProperties($new_page);
-                    if ($med || $fil || $il || $plug) {
+                    if ($med || $fil || $il || $plug || $res) {
                         $new_page->update(false, true);
                     }
                 }
@@ -177,7 +181,7 @@ class ilCOPageImporter extends ilXmlImporter
      */
     protected function extractPluginProperties(
         ilPageObject $a_page
-    ) : void {
+    ): void {
         if (empty($this->importer_plugins)) {
             return;
         }
@@ -226,7 +230,7 @@ class ilCOPageImporter extends ilXmlImporter
      */
     public function replacePluginProperties(
         ilPageObject $a_page
-    ) : bool {
+    ): bool {
         if (empty($this->importer_plugins)) {
             return false;
         }

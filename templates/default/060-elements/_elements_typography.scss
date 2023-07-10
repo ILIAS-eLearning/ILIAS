@@ -1,0 +1,227 @@
+@use "../010-settings/" as *;
+@use "../030-tools/tool_focus-outline" as t-focus;
+
+@use "sass:math";
+//
+// Typography
+// --------------------------------------------------
+
+// most colors and sizes are set on settings layer
+$headings-small-color: $il-headings-color !default;
+
+// Headings
+// -------------------------
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: $il-headings-font-family;
+  font-weight: $il-headings-font-weight;
+  line-height: $il-headings-line-height;
+  color: $il-headings-color;
+
+  small,
+  .small {
+    font-weight: 400;
+    line-height: 1;
+    color: $headings-small-color;
+  }
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3 {
+  margin-top: $il-line-height-computed;
+  margin-bottom: math.div($il-line-height-computed, 2);
+
+  small,
+  .small {
+    font-size: 65%;
+  }
+}
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  margin-top: math.div($il-line-height-computed, 2);
+  margin-bottom: math.div($il-line-height-computed, 2);
+
+  small,
+  .small {
+    font-size: 75%;
+  }
+}
+
+h1, .h1 { font-size: $il-font-size-h1; }
+h2, .h2 { font-size: $il-font-size-xxlarge; }
+h3, .h3 { font-size: $il-font-size-xlarge; }
+h4, .h4 { font-size: $il-font-size-large; }
+h5, .h5 { font-size: $il-font-size-base; }
+h6, .h6 { font-size: $il-font-size-small; }
+
+
+// Body text
+// -------------------------
+
+p {
+  margin: 0 0 math.div($il-line-height-computed, 2);
+}
+
+// Links
+
+a {
+  color: $il-link-color;
+  text-decoration: none;
+  cursor: pointer;
+  /* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer.
+	 * All skins which want to support mounting of Webfolders using Internet Explorer
+	 * must explicitly enable AnchorClick behavior.
+	 */
+	behavior: url(#default#AnchorClick);
+	/* END WebDAV: Enable links with AnchorClick behavior for Internet Explorer. */
+  &:hover,
+  &:focus {
+    color: $il-link-hover-color;
+    text-decoration: $il-link-hover-decoration;
+  }
+
+  &:focus {
+    @include t-focus.tab-focus;
+  }
+}
+
+// Emphasis & misc
+// -------------------------
+
+// Ex: math.div(12px small font, 14px base font) * 100% = about 85%
+small,
+.small, sub, sup {
+	
+  font-size: $il-font-size-xsmall;
+}
+
+// Alignment
+.text-left           { text-align: left; }
+.text-right          { text-align: right; }
+.text-center         { text-align: center; }
+.text-justify        { text-align: justify; }
+.text-nowrap         { white-space: nowrap; }
+
+// Transformation
+.text-lowercase      { text-transform: lowercase; }
+.text-uppercase      { text-transform: uppercase; }
+.text-capitalize     { text-transform: capitalize; }
+
+// Contextual colors
+.text-muted {
+  color: $il-text-muted;
+}
+
+// Lists
+// -------------------------
+
+// Unordered and Ordered lists
+ul,
+ol {
+  ul,
+  ol {
+    margin-bottom: 0;
+  }
+}
+
+// List options
+
+// [converter] extracted from `.list-unstyled` for libsass compatibility
+@mixin list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+// [converter] extracted as `@mixin list-unstyled` for libsass compatibility
+.list-unstyled {
+  @include list-unstyled;
+}
+
+// Description Lists
+dl {
+  margin-top: 0; // Remove browser default
+  margin-bottom: $il-line-height-computed;
+}
+dt,
+dd {
+  line-height: $il-line-height-base;
+}
+dt {
+  font-weight: 700;
+}
+dd {
+  margin-left: 0; // Undo browser default
+}
+
+// Misc
+// -------------------------
+
+// Blockquotes
+blockquote {
+  padding: math.div($il-line-height-computed, 2) $il-line-height-computed;
+  margin: 0 0 $il-line-height-computed;
+  font-size: $il-font-size-base;
+  border-left: 5px solid $il-main-border-color;
+
+  p,
+  ul,
+  ol {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Addresses
+address {
+  margin-bottom: $il-line-height-computed;
+  font-style: normal;
+  line-height: $il-line-height-base;
+}
+
+em, i {
+	font-style: italic;
+}
+
+u {
+	text-decoration: underline;
+}
+
+sub {
+	vertical-align: sub;
+}
+
+sup {
+	vertical-align: super;
+}
+
+/* see bug #15971 */
+sub, sup {
+	position: static;
+}
+
+strong, b {
+	font-weight: $il-font-weight-bold;
+}
+
+code {
+	font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
+	font-size: $il-font-size-small;
+	color: $il-text-light-color;
+}
+
+::selection {
+	background: lighten($il-main-color, 50%);
+}
+
+::-moz-selection {
+	background: lighten($il-main-color, 50%);
+}
+
+@media print {
+	h1, h2, h3, h4, h5, h6 {
+		page-break-after: avoid;
+	}
+}

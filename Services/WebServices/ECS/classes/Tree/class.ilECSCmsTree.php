@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -28,7 +31,7 @@ class ilECSCmsTree extends ilTree
         $this->useCache(false);
     }
 
-    public function insertRootNode(int $tree, int $a_child) : bool
+    public function insertRootNode(int $tree, int $a_child): bool
     {
         $query = 'INSERT INTO ecs_cms_tree ' .
             '(tree,child,parent,lft,rgt,depth) ' .
@@ -44,11 +47,11 @@ class ilECSCmsTree extends ilTree
 
         return true;
     }
-    
+
     /**
      * Delete tree by tree_id
      */
-    public static function deleteByTreeId(int $a_tree_id) : bool
+    public static function deleteByTreeId(int $a_tree_id): bool
     {
         global $DIC;
 
@@ -64,7 +67,7 @@ class ilECSCmsTree extends ilTree
     /**
      * Check if tree exists
      */
-    public function treeExists(int $a_tree_id) : bool
+    public function treeExists(int $a_tree_id): bool
     {
         $query = 'SELECT COUNT(*) num FROM ecs_cms_tree WHERE tree = ' . $this->db->quote($a_tree_id, 'integer');
         $res = $this->db->query($query);
@@ -78,7 +81,7 @@ class ilECSCmsTree extends ilTree
     /**
      * lookup root id
      */
-    public static function lookupRootId($a_tree_id) : int
+    public static function lookupRootId($a_tree_id): int
     {
         global $DIC;
 

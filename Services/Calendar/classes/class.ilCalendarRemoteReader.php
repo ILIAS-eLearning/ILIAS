@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Reader for remote ical calendars
@@ -30,27 +47,27 @@ class ilCalendarRemoteReader
         $this->url = $a_url;
     }
 
-    public function setUser(string $a_user) : void
+    public function setUser(string $a_user): void
     {
         $this->user = $a_user;
     }
 
-    public function setPass(string $a_pass) : void
+    public function setPass(string $a_pass): void
     {
         $this->pass = $a_pass;
     }
 
-    public function getType() : int
+    public function getType(): int
     {
         return $this->type;
     }
 
-    public function getUrl() : string
+    public function getUrl(): string
     {
         return $this->url;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $this->initCurl();
 
@@ -61,7 +78,7 @@ class ilCalendarRemoteReader
         }
     }
 
-    public function import(ilCalendarCategory $cat) : void
+    public function import(ilCalendarCategory $cat): void
     {
         switch ($this->getType()) {
             case self::TYPE_ICAL:
@@ -70,13 +87,13 @@ class ilCalendarRemoteReader
         }
     }
 
-    protected function readIcal() : void
+    protected function readIcal(): void
     {
         $this->ical = $this->call();
         $this->logger->debug($this->ical);
     }
 
-    protected function importIcal(ilCalendarCategory $cat) : void
+    protected function importIcal(ilCalendarCategory $cat): void
     {
         // Delete old appointments
         foreach (ilCalendarCategoryAssignments::_getAssignedAppointments(array($cat->getCategoryID())) as $app_id) {
@@ -90,7 +107,10 @@ class ilCalendarRemoteReader
         $parser->parse();
     }
 
-    protected function initCurl() : void
+    /**
+     * @throws ilCurlConnectionException
+     */
+    protected function initCurl(): void
     {
         try {
             $this->replaceWebCalProtocol();
@@ -114,7 +134,7 @@ class ilCalendarRemoteReader
         }
     }
 
-    protected function replaceWebCalProtocol()
+    protected function replaceWebCalProtocol(): void
     {
         if (substr($this->getUrl(), 0, 6) == 'webcal') {
             $purged = preg_replace('/webcal/', 'http', $this->getUrl(), 1);
@@ -122,7 +142,10 @@ class ilCalendarRemoteReader
         }
     }
 
-    private function call() : string
+    /**
+     * @throws ilCurlConnectionException
+     */
+    private function call(): string
     {
         try {
             return $this->curl->exec();

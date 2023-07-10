@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
 * Class ilSAHSPresentationGUI
 *
@@ -33,7 +38,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     protected ilGlobalPageTemplate $tpl;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
-    protected $slm_gui;
+    protected ilObjSCORMLearningModuleGUI $slm_gui;
     protected int $refId;
 
     /**
@@ -50,10 +55,9 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -65,7 +69,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 
         $lng->loadLanguageModule("content");
         $obj_id = ilObject::_lookupObjectId($this->refId);
-        
+
         // add entry to navigation history
         if ($ilAccess->checkAccess("read", "", $this->refId)) {
             $ilNavigationHistory->addItem(
@@ -77,27 +81,27 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
         $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
-        if ($cmd == "downloadCertificate") {
+        if ($cmd === "downloadCertificate") {
             $scorm_gui = new ilSCORMPresentationGUI();
             $ret = $this->ctrl->forwardCommand($scorm_gui);
         }
-        
+
         $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
 
-        if ($next_class != "ilinfoscreengui" &&
-            $cmd != "infoScreen" &&
-            $next_class != "ilobjscorm2004learningmodulegui" &&
-            $next_class != "ilobjscormlearningmodulegui" &&
-            $next_class != "illearningprogressgui") {
+        if ($next_class !== "ilinfoscreengui" &&
+            $cmd !== "infoScreen" &&
+            $next_class !== "ilobjscorm2004learningmodulegui" &&
+            $next_class !== "ilobjscormlearningmodulegui" &&
+            $next_class !== "illearningprogressgui") {
             switch ($type) {
                 case "scorm2004":
                     $this->ctrl->setCmdClass("ilscorm13playergui");
                     $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
                     break;
-                        
+
                 case "scorm":
                     $this->ctrl->setCmdClass("ilscormpresentationgui");
                     $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
@@ -115,7 +119,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
                 $scorm_gui = new ilSCORM13PlayerGUI();
                 $ret = $this->ctrl->forwardCommand($scorm_gui);
                 break;
-                
+
             case "ilscormpresentationgui":
                 $scorm_gui = new ilSCORMPresentationGUI();
                 $ret = $this->ctrl->forwardCommand($scorm_gui);
@@ -142,67 +146,13 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
                 $this->tpl->printToStdout();
                 break;
 
-                default:
+            default:
                 $this->$cmd();
         }
     }
 
 
-
-//    /**
-//    * output table of content
-//    */
-//    public function explorer(string $a_target = "sahs_content") : void
-//    {
-//        global $DIC;
-//        $ilBench = $DIC['ilBench'];
-//
-//        $ilBench->start("SAHSExplorer", "initExplorer");
-//
-//        $this->tpl = new ilGlobalTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
-//        $exp = new ilSCORMExplorer("ilias.php?baseClass=ilSAHSPresentationGUI&cmd=view&ref_id=" . $this->slm->getRefId(), $this->slm);
-//        $exp->setTargetGet("obj_id");
-//        $exp->setFrameTarget($a_target);
-//
-//        //$exp->setFiltered(true);
-//
-//        if ($_GET["scexpand"] == "") {
-//            $mtree = new ilSCORMTree($this->slm->getId());
-//            $expanded = $mtree->readRootId();
-//        } else {
-//            $expanded = $_GET["scexpand"];
-//        }
-//        $exp->setExpand($expanded);
-//
-//        $exp->forceExpandAll(true, false);
-//
-//        // build html-output
-//        $ilBench->stop("SAHSExplorer", "initExplorer");
-//
-//        // set output
-//        $ilBench->start("SAHSExplorer", "setOutput");
-//        $exp->setOutput(0);
-//        $ilBench->stop("SAHSExplorer", "setOutput");
-//
-//        $ilBench->start("SAHSExplorer", "getOutput");
-//        $output = $exp->getOutput();
-//        $ilBench->stop("SAHSExplorer", "getOutput");
-//
-//        $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-//        $this->tpl->addBlockFile("CONTENT", "content", "tpl.sahs_explorer.html", "Modules/ScormAicc");
-//        //$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
-//        $this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
-//        $this->tpl->setVariable("EXPLORER", $output);
-//        $this->tpl->setVariable("ACTION", "ilias.php?baseClass=ilSAHSPresentationGUI&cmd=" . $_GET["cmd"] . "&frame=" . $_GET["frame"] .
-//            "&ref_id=" . $this->slm->getRefId() . "&scexpand=" . $_GET["scexpand"]);
-//        $this->tpl->parseCurrentBlock();
-//        $this->tpl->printToStdout();
-//    }
-
-    /**
-     * @return void
-     */
-    public function view() : void
+    public function view(): void
     {
         $sc_gui_object = ilSCORMObjectGUI::getInstance($this->refId);
 
@@ -218,10 +168,9 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
      * this one is called from the info button in the repository
      * not very nice to set cmdClass/Cmd manually, if everything
      * works through ilCtrl in the future this may be changed
-     * @return void
      * @throws ilCtrlException
      */
-    public function infoScreen() : void
+    public function infoScreen(): void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -229,11 +178,9 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     }
 
     /**
-     * @param string $a_active
-     * @return void
      * @throws ilCtrlException
      */
-    public function setInfoTabs(string $a_active) : void
+    public function setInfoTabs(string $a_active): void
     {
         global $DIC;
 
@@ -263,13 +210,13 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
             if ($privacy->enabledSahsProtocolData()) {
                 $obj_id = ilObject::_lookupObjectId($refId);
                 $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
-                if ($type == "scorm2004") {
+                if ($type === "scorm2004") {
                     $DIC->tabs()->addTab(
                         "cont_tracking_data",
                         $this->lng->txt("cont_tracking_data"),
                         $this->ctrl->getLinkTargetByClass('ilobjscorm2004learningmodulegui', 'showTrackingItems')
                     );
-                } elseif ($type == "scorm") {
+                } elseif ($type === "scorm") {
                     $DIC->tabs()->addTab(
                         "cont_tracking_data",
                         $this->lng->txt("cont_tracking_data"),
@@ -280,11 +227,11 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         }
         $DIC->tabs()->activateTab($a_active);
         $this->tpl->loadStandardTemplate();
-        $this->tpl->setTitle($this->slm_gui->object->getTitle());
+        $this->tpl->setTitle($this->slm_gui->getObject()->getTitle());
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
         $DIC['ilLocator']->addRepositoryItems();
         $DIC['ilLocator']->addItem(
-            $this->slm_gui->object->getTitle(),
+            $this->slm_gui->getObject()->getTitle(),
             $this->ctrl->getLinkTarget($this, "infoScreen"),
             "",
             $refId
@@ -294,10 +241,9 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 
     /**
      * info screen
-     * @return void
      * @throws ilCtrlException
      */
-    public function outputInfoScreen() : void
+    public function outputInfoScreen(): void
     {
         global $DIC;
         $ilAccess = $DIC->access();
@@ -306,7 +252,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         //$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
 
         // set style sheets
-//        $this->tpl->setStyleSheetLocation(ilUtil::getStyleSheetLocation());
+        //        $this->tpl->setStyleSheetLocation(ilUtil::getStyleSheetLocation());
 
         $this->setInfoTabs("info_short");
 
@@ -329,14 +275,14 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         // add read / back button
         if ($ilAccess->checkAccess("read", "", $refId)) {
             $ilToolbar = $GLOBALS['DIC']->toolbar();
-            $ilToolbar->addButtonInstance($this->slm_gui->object->getViewButton());
+            $ilToolbar->addButtonInstance($this->slm_gui->getObject()->getViewButton());
         }
 
         // show standard meta data section
         $info->addMetaDataSections(
-            $this->slm_gui->object->getId(),
+            $this->slm_gui->getObject()->getId(),
             0,
-            $this->slm_gui->object->getType()
+            $this->slm_gui->getObject()->getType()
         );
 
         // forward the command

@@ -1,25 +1,21 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Meta Data class (element annotation)
@@ -36,7 +32,7 @@ class ilMDLifecycle extends ilMDBase
     /**
      * @return array<string, string>
      */
-    public function getPossibleSubelements() : array
+    public function getPossibleSubelements(): array
     {
         $subs['Contribute'] = 'meta_contribute';
 
@@ -46,12 +42,12 @@ class ilMDLifecycle extends ilMDBase
     /**
      * @return int[]
      */
-    public function getContributeIds() : array
+    public function getContributeIds(): array
     {
         return ilMDContribute::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_lifecycle');
     }
 
-    public function getContribute(int $a_contribute_id) : ?ilMDContribute
+    public function getContribute(int $a_contribute_id): ?ilMDContribute
     {
         if (!$a_contribute_id) {
             return null;
@@ -62,7 +58,7 @@ class ilMDLifecycle extends ilMDBase
         return $con;
     }
 
-    public function addContribute() : ilMDContribute
+    public function addContribute(): ilMDContribute
     {
         $con = new ilMDContribute($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $con->setParentId($this->getMetaId());
@@ -72,7 +68,7 @@ class ilMDLifecycle extends ilMDBase
     }
 
     // SET/GET
-    public function setStatus(string $a_status) : void
+    public function setStatus(string $a_status): void
     {
         switch ($a_status) {
             case 'Draft':
@@ -84,39 +80,37 @@ class ilMDLifecycle extends ilMDBase
         }
     }
 
-    public function getStatus() : string
+    public function getStatus(): string
     {
         return $this->status;
     }
 
-    public function setVersion(string $a_version) : void
+    public function setVersion(string $a_version): void
     {
         $this->version = $a_version;
     }
 
-    public function getVersion() : string
+    public function getVersion(): string
     {
         return $this->version;
     }
 
-    public function setVersionLanguage(ilMDLanguageItem $lng_obj) : void
+    public function setVersionLanguage(ilMDLanguageItem $lng_obj): void
     {
-        if (is_object($lng_obj)) {
-            $this->version_language = $lng_obj;
-        }
+        $this->version_language = $lng_obj;
     }
 
-    public function getVersionLanguage() : ilMDLanguageItem
+    public function getVersionLanguage(): ilMDLanguageItem
     {
         return $this->version_language;
     }
 
-    public function getVersionLanguageCode() : string
+    public function getVersionLanguageCode(): string
     {
         return is_object($this->version_language) ? $this->version_language->getLanguageCode() : '';
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_lifecycle_id'] = array('integer', $next_id = $this->db->nextId('il_meta_lifecycle'));
@@ -128,23 +122,17 @@ class ilMDLifecycle extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_lifecycle',
-                $this->__getFields(),
-                array("meta_lifecycle_id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_lifecycle',
+            $this->__getFields(),
+            array("meta_lifecycle_id" => array('integer', $this->getMetaId()))
+        );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
-
         // Delete 'contribute'
         foreach ($this->getContributeIds() as $id) {
             $con = $this->getContribute($id);
@@ -163,7 +151,7 @@ class ilMDLifecycle extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -175,7 +163,7 @@ class ilMDLifecycle extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_lifecycle " .
@@ -188,25 +176,21 @@ class ilMDLifecycle extends ilMDBase
                 $this->setObjType($row->obj_type);
                 $this->setStatus((string) $row->lifecycle_status);
                 $this->setVersion((string) $row->meta_version);
-                $this->setVersionLanguage(new ilMDLanguageItem($row->version_language));
+                $this->setVersionLanguage(new ilMDLanguageItem((string) $row->version_language));
             }
         }
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag('Lifecycle', array(
-            'Status' => $this->getStatus()
-                ? $this->getStatus()
-                : 'Draft'
+            'Status' => $this->getStatus() ?: 'Draft'
         ));
         $writer->xmlElement(
             'Version',
             array(
-                'Language' => $this->getVersionLanguageCode()
-                    ? $this->getVersionLanguageCode()
-                    : 'en'
+                'Language' => $this->getVersionLanguageCode() ?: 'en'
             ),
             $this->getVersion()
         );
@@ -225,7 +209,7 @@ class ilMDLifecycle extends ilMDBase
     }
 
     // STATIC
-    public static function _getId(int $a_rbac_id, int $a_obj_id) : int
+    public static function _getId(int $a_rbac_id, int $a_obj_id): int
     {
         global $DIC;
 

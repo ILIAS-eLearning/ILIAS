@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\News\StandardGUIRequest;
 
@@ -21,6 +24,7 @@ use ILIAS\News\StandardGUIRequest;
  */
 class ilPDNewsTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\News\InternalGUIService $gui;
     protected string $selected_context;
     /**
      * @var array<string,string>
@@ -41,13 +45,13 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $ilCtrl = $DIC->ctrl();
-        $this->std_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $this->std_request = $DIC->news()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->contexts = $a_contexts;
         $this->selected_context = $a_selected_context;
         $this->addColumn("");
@@ -62,13 +66,14 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $this->setEnableHeader(false);
         $this->setIsDataTable(false);
         $this->initFilter();
+        $this->gui = $DIC->news()->internal()->gui();
     }
-    
-    public function initFilter() : void
+
+    public function initFilter(): void
     {
         $lng = $this->lng;
         $ilUser = $this->user;
-        
+
         // period
         $per = (ilSession::get("news_pd_news_per") != "")
             ? ilSession::get("news_pd_news_per")
@@ -90,7 +95,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
             180 => sprintf($lng->txt("news_period_x_months"), 6),
             366 => $lng->txt("news_period_1_year")
         ];
-            
+
         $unset = [];
         foreach ($options as $k => $opt) {
             if (!$allow_shorter_periods && ($k < $default_per)) {
@@ -108,19 +113,19 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $si->setOptions($options);
         $si->setValue((string) $per);
         $this->addFilterItem($si);
-        
+
         // related to...
         $si = new ilSelectInputGUI($this->lng->txt("context"), "news_ref_id");
         $si->setOptions($this->contexts);
         $si->setValue($this->selected_context);
         $this->addFilterItem($si);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $news_set = new ilSetting("news");
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
@@ -128,7 +133,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $obj_id = ilObject::_lookupObjId((int) $a_set["ref_id"]);
         $obj_type = ilObject::_lookupType($obj_id);
         $obj_title = ilObject::_lookupTitle($obj_id);
-            
+
         // user
         if ($a_set["user_id"] > 0) {
             $this->tpl->setCurrentBlock("user_info");
@@ -155,23 +160,14 @@ class ilPDNewsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         // media player
         if ($a_set["content_type"] === NEWS_AUDIO &&
             $a_set["mob_id"] > 0 && ilObject::_exists((int) $a_set["mob_id"])) {
             $mob = new ilObjMediaObject((int) $a_set["mob_id"]);
             $med = $mob->getMediaItem("Standard");
-            $mpl = new ilMediaPlayerGUI();
-            $mpl->setFile(ilObjMediaObject::_getDirectory((int) $a_set["mob_id"]) . "/" .
-                $med->getLocation());
-            $this->tpl->setCurrentBlock("player");
-            $this->tpl->setVariable(
-                "PLAYER",
-                $mpl->getMp3PlayerHtml()
-            );
-            $this->tpl->parseCurrentBlock();
         }
-        
+
         // access
         if ($enable_internal_rss) {
             $this->tpl->setCurrentBlock("access");
@@ -238,9 +234,10 @@ class ilPDNewsTableGUI extends ilTable2GUI
             $url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile");
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->std_request->getRefId());
 
-            $button = ilLinkButton::getInstance();
-            $button->setUrl($url);
-            $button->setCaption("download");
+            $button = $this->gui->button(
+                $this->lng->txt("download"),
+                $url
+            );
 
             $this->tpl->setCurrentBlock("download");
             $this->tpl->setVariable("BUTTON_DOWNLOAD", $button->render());
@@ -289,7 +286,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setVariable("HREF_TITLE", $url_target);
-        
+
         // title
         $this->tpl->setVariable(
             "VAL_TITLE",
@@ -306,7 +303,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
     }
 
-    public function makeClickable(string $a_str) : string
+    public function makeClickable(string $a_str): string
     {
         // this fixes bug 8744. We assume that strings that contain < and >
         // already contain html, we do not handle these

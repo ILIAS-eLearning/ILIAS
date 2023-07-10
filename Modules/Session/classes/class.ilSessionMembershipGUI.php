@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -132,7 +134,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         }
     }
 
-    protected function getMailMemberRoles() : ?ilAbstractMailMemberRoles
+    protected function getMailMemberRoles(): ?ilAbstractMailMemberRoles
     {
         return new ilMailMemberSessionRoles();
     }
@@ -141,7 +143,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
      * No support for positions in sessions
      * Check if rbac or position access is granted.
      */
-    protected function checkRbacOrPositionAccessBool(string $a_rbac_perm, string $a_pos_perm, int $a_ref_id = 0) : bool
+    protected function checkRbacOrPositionAccessBool(string $a_rbac_perm, string $a_pos_perm, int $a_ref_id = 0): bool
     {
         if (!$a_ref_id) {
             $a_ref_id = $this->getParentObject()->getRefId();
@@ -149,18 +151,18 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         return $this->checkPermissionBool($a_rbac_perm, "", "", $a_ref_id);
     }
 
-    protected function initParticipantTemplate() : void
+    protected function initParticipantTemplate(): void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.sess_edit_members.html', 'Modules/Session');
     }
 
-    protected function initWaitingList() : ilSessionWaitingList
+    protected function initWaitingList(): ilSessionWaitingList
     {
         $wait = new ilSessionWaitingList($this->getParentObject()->getId());
         return $wait;
     }
 
-    public function getParentObject() : ilObjSession
+    public function getParentObject(): ilObjSession
     {
         /**
          * @var ilObjSession $parent_object
@@ -169,7 +171,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         return $parent_object;
     }
 
-    protected function initParticipantTableGUI() : ilSessionParticipantsTableGUI
+    protected function initParticipantTableGUI(): ilSessionParticipantsTableGUI
     {
         $table = new ilSessionParticipantsTableGUI(
             $this,
@@ -180,17 +182,17 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         return $table;
     }
 
-    protected function initSubscriberTable() : ilSubscriberTableGUI
+    protected function initSubscriberTable(): ilSubscriberTableGUI
     {
         $subscriber = new ilSubscriberTableGUI($this, $this->getParentObject(), true, false);
         $subscriber->setTitle($this->lng->txt('group_new_registrations'));
         return $subscriber;
     }
 
-    protected function updateMembers() : void
+    protected function updateMembers(): void
     {
         $this->checkPermission('manage_members');
-        
+
         $part = ilParticipants::getInstance($this->getParentObject()->getRefId());
 
 
@@ -203,40 +205,39 @@ class ilSessionMembershipGUI extends ilMembershipGUI
                 continue;
             }
 
-            $participated = (bool) $this->requested_participated[$part_id];
-            $registered = (bool) $this->requested_registered[$part_id];
-            $contact = (bool) $this->requested_contact[$part_id];
-            $excused = (bool) $this->requested_excused[$part_id];
-            
-            if ($part->isAssigned($part_id)) {
-                if (!$participated && !$registered && !$contact) {
-                    $part->delete($part_id);
-                }
-            } else {
-                if ($participated || $registered || $contact) {
-                    $part->add($part_id, ilParticipants::IL_SESS_MEMBER);
-                }
+            $participated = (bool) ($this->requested_participated[$part_id] ?? false);
+            $registered = (bool) ($this->requested_registered[$part_id] ?? false);
+            $contact = (bool) ($this->requested_contact[$part_id] ?? false);
+            $excused = (bool) ($this->requested_excused[$part_id] ?? false);
+
+            $part_id = (int) $part_id;
+
+            if ($part->isAssigned($part_id) && !$participated && !$registered) {
+                $part->delete($part_id);
+            }
+            if (!$part->isAssigned($part_id) && ($participated || $registered)) {
+                $part->add($part_id, ilParticipants::IL_SESS_MEMBER);
             }
             $event_part = new ilEventParticipants($this->getParentObject()->getId());
             $event_part->setUserId($part_id);
             $event_part->setMark(ilUtil::stripSlashes($this->requested_mark[$part_id]));
             $event_part->setComment(ilUtil::stripSlashes($this->requested_comment[$part_id]));
-            $event_part->setNotificationEnabled((bool) $this->requested_notification[$part_id]);
+            $event_part->setNotificationEnabled((bool) ($this->requested_notification[$part_id] ?? false));
             $event_part->setParticipated($participated);
             $event_part->setRegistered($registered);
             $event_part->setContact($contact);
             $event_part->setExcused($excused);
             $event_part->updateUser();
         }
-        
+
         $this->tpl->setOnScreenMessage('success', $this->getLanguage()->txt('settings_saved'), true);
         $this->getCtrl()->redirect($this, 'participants');
     }
 
-    protected function confirmDeleteParticipants() : void
+    protected function confirmDeleteParticipants(): void
     {
         $participants = $this->requested_participants;
-        
+
         if (!count($participants)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
@@ -247,7 +248,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         $confirm->setHeaderText($this->lng->txt($this->getParentObject()->getType() . '_header_delete_members'));
         $confirm->setConfirm($this->lng->txt('confirm'), 'deleteParticipants');
         $confirm->setCancel($this->lng->txt('cancel'), 'participants');
-        
+
         foreach ($participants as $usr_id) {
             $name = ilObjUser::_lookupName($usr_id);
 
@@ -258,21 +259,21 @@ class ilSessionMembershipGUI extends ilMembershipGUI
                 ilUtil::getImagePath('icon_usr.svg')
             );
         }
-        
+
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    protected function deleteParticipants() : void
+    protected function deleteParticipants(): void
     {
         $this->checkPermission('manage_members');
-                
+
         $participants = $this->requested_participants;
-        
+
         if (!is_array($participants) || !count($participants)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'participants');
         }
-        
+
         foreach ($participants as $part_id) {
             // delete role assignment
             $this->getMembersObject()->delete($part_id);
@@ -285,12 +286,12 @@ class ilSessionMembershipGUI extends ilMembershipGUI
             $event_part->setComment('');
             $event_part->updateUser();
         }
-        
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
         $this->ctrl->redirect($this, "participants");
     }
 
-    public function getPrintMemberData(array $a_members) : array
+    public function getPrintMemberData(array $a_members): array
     {
         return $a_members;
     }
@@ -298,35 +299,38 @@ class ilSessionMembershipGUI extends ilMembershipGUI
     /**
      * @inheritdoc
      */
-    protected function canAddOrSearchUsers() : bool
+    protected function canAddOrSearchUsers(): bool
     {
         return false;
     }
 
-    public function getAttendanceListUserData(int $user_id, array $filters = []) : array
+    public function getAttendanceListUserData(int $user_id, array $filters = []): array
     {
         $data = $this->getMembersObject()->getEventParticipants()->getUser($user_id);
-        
+        $data['registered'] = (bool) ($data['registered'] ?? false);
+        $data['participated'] = (bool) ($data['participated'] ?? false);
+
         if ($filters && $filters["registered"] && !$data["registered"]) {
             return [];
         }
-        
+
+
         $data['registered'] = $data['registered'] ?
             $this->lng->txt('yes') :
             $this->lng->txt('no');
         $data['participated'] = $data['participated'] ?
             $this->lng->txt('yes') :
             $this->lng->txt('no');
-        
+
         return $data;
     }
 
-    protected function getMemberTabName() : string
+    protected function getMemberTabName(): string
     {
         return $this->lng->txt($this->getParentObject()->getType() . '_members');
     }
 
-    protected function getMailContextOptions() : array
+    protected function getMailContextOptions(): array
     {
         $context_options = [
             ilMailFormCall::CONTEXT_KEY => ilSessionMailTemplateParticipantContext::ID,

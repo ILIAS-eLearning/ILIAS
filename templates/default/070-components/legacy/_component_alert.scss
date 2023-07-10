@@ -1,0 +1,123 @@
+@use "../../010-settings/" as *;
+@use "../../050-layout/basics/" as l;
+
+$alert-padding: l.$il-padding-xlarge-vertical l.$il-padding-xlarge-horizontal;
+$alert-border-radius: $il-border-radius-large;
+
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+
+//
+// Alerts
+// --------------------------------------------------
+
+// Base styles
+// -------------------------
+
+.alert {
+	padding: $alert-padding;
+	margin-bottom: $il-line-height-computed;
+	border: 1px solid transparent;
+	border-radius: $alert-border-radius;
+  
+	// Headings for larger alerts
+	h4 {
+	  margin-top: 0;
+	  color: inherit; // Specified for the h4 to prevent conflicts of changing $headings-color
+	}
+  
+	// Provide class for links that match alerts
+	.alert-link {
+	  font-weight: $il-font-weight-base;
+	}
+  
+	// Improve alignment and spacing of inner content
+	> p,
+	> ul {
+	  margin-bottom: 0;
+	}
+  
+	> p + p {
+	  margin-top: 5px;
+	}
+  }
+  
+  // Dismissible alerts
+  //
+  // Expand the right padding and account for the close button's positioning.
+  
+  // The misspelled .alert-dismissable was deprecated in 3.2.0.
+  .alert-dismissable,
+  .alert-dismissible {
+	padding-right: ($alert-padding + 20);
+  
+	// Adjust close link position
+	.close {
+	  position: relative;
+	  top: -2px;
+	  right: -21px;
+	  color: inherit;
+	}
+  }
+  
+  // Alternate styles
+  //
+  // Generate contextual modifier classes for colorizing the alert.
+
+  @mixin alert-variant($background, $border, $text-color) {
+	color: $text-color;
+	background-color: $background;
+	border-color: $border;
+  
+	hr {
+	  border-top-color: darken($border, 5%);
+	}
+  
+	.alert-link {
+	  color: darken($text-color, 10%);
+	}
+  }
+  
+  .alert-success {
+	@include alert-variant($il-alert-success-bg, $il-alert-success-border, $il-alert-success-text);
+  }
+  
+  .alert-info {
+	@include alert-variant($il-alert-info-bg, $il-alert-info-border, $il-alert-info-text);
+  }
+  
+  .alert-warning {
+	@include alert-variant($il-alert-warning-bg, $il-alert-warning-border, $il-alert-warning-text);
+  }
+  
+  .alert-danger {
+	@include alert-variant($il-alert-danger-bg, $il-alert-danger-border, $il-alert-danger-text);
+  }
+  
+
+// end of section based on bootstrap 3
+
+// warning inline text
+span.ilAlert {
+	color: $il-warning-color;
+}
+
+span.il_ItemAlertProperty {
+	color: $il-warning-color;
+}
+
+div.ilHeaderAlert {
+	font-size: $il-font-size-small;
+	padding: 0;
+	color: $il-warning-color;
+}
+
+.alert {
+	> a {
+		text-decoration: underline;
+	}
+}
+.alert {
+	> a.btn {
+		text-decoration: none;
+	}
+}

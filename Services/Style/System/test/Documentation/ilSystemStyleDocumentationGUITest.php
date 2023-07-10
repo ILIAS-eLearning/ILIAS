@@ -29,7 +29,7 @@ class ilSystemStyleDocumentationGUITest extends TestCase
     protected ilSystemStyleDocumentationGUI $documentation_gui;
     protected ilGlobalPageTemplate $tpl_observer;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $ui_helper = new UITestHelper();
         $this->tpl_observer = $this->getMockBuilder(ilGlobalPageTemplate::class)->disableOriginalConstructor()->getMock();
@@ -43,12 +43,12 @@ class ilSystemStyleDocumentationGUITest extends TestCase
         );
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilSystemStyleDocumentationGUI::class, $this->documentation_gui);
     }
 
-    public function testShow() : void
+    public function testShow(): void
     {
         $entries_data = include './tests/UI/Crawler/Fixture/EntriesFixture.php';
         $entries = new Entries();

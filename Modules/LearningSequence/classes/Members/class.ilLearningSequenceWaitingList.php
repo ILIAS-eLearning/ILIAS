@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,20 +17,20 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilLearningSequenceWaitingList extends ilWaitingList
 {
-    public function addToList(int $a_usr_id) : bool
+    public function addToList(int $a_usr_id): bool
     {
         global $DIC;
 
         $app_event_handler = $DIC->event();
         $log = $DIC->logger();
-        
+
         if (!parent::addToList($a_usr_id)) {
             return false;
         }
-    
+
         /** @noinspection PhpUndefinedMethodInspection */
         $log->lso()->info('Raise new event: Modules/LearningSerquence addToList.');
         $app_event_handler->raise(

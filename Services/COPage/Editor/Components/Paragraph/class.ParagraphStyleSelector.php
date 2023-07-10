@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\Paragraph;
 
@@ -48,7 +51,7 @@ class ParagraphStyleSelector
         string $type = "par-action",
         string $action = "par.class",
         string $attr = "class"
-    ) : Dropdown {
+    ): Dropdown {
         $a_chars = \ilPCParagraphGUI::_getCharacteristics($this->style_id);
         $ui_wrapper = $this->ui_wrapper;
         $ui = $this->ui;
@@ -57,9 +60,15 @@ class ParagraphStyleSelector
             $t = "text_block";
             $tag = "div";
             switch ($char) {
-                case "Headline1": $t = "heading1"; $tag = "h1"; break;
-                case "Headline2": $t = "heading2"; $tag = "h2"; break;
-                case "Headline3": $t = "heading3"; $tag = "h3"; break;
+                case "Headline1": $t = "heading1";
+                    $tag = "h1";
+                    break;
+                case "Headline2": $t = "heading2";
+                    $tag = "h2";
+                    break;
+                case "Headline3": $t = "heading3";
+                    $tag = "h3";
+                    break;
             }
             $html = '<div class="ilCOPgEditStyleSelectionItem"><' . $tag . ' class="ilc_' . $t . '_' . $char . '" style="' . self::$style_selector_reset . '">' . $char_lang . "</" . $tag . "></div>";
             $buttons[] = $ui_wrapper->getButton($html, $type, $action, [$attr => $char]);

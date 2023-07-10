@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,19 +29,19 @@ class TagRelevanceTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test if each rater has $num_assignments peers
      */
-    public function testTagRelevance() : void
+    public function testTagRelevance(): void
     {
         $this->assertEquals(
             "ilTagRelVeryLow",

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,12 +29,12 @@ class ilFSStoragePoll extends ilFileSystemAbstractionStorage
         parent::__construct(self::STORAGE_SECURED, true, $a_container_id);
     }
 
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return 'poll';
     }
 
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return 'ilPoll';
     }

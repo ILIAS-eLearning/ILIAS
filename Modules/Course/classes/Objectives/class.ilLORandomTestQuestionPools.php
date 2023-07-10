@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilLOEditorGUI
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -35,6 +37,8 @@ class ilLORandomTestQuestionPools
     {
         global $DIC;
 
+        $this->db = $DIC->database();
+
         $this->container_id = $a_container_id;
         $this->objective_id = $a_objective_id;
         $this->test_type = $a_test_type;
@@ -43,7 +47,7 @@ class ilLORandomTestQuestionPools
         $this->read();
     }
 
-    public static function lookupLimit(int $a_container_id, int $a_objective_id, int $a_test_type) : int
+    public static function lookupLimit(int $a_container_id, int $a_objective_id, int $a_test_type): int
     {
         global $DIC;
 
@@ -59,7 +63,7 @@ class ilLORandomTestQuestionPools
         return 0;
     }
 
-    public static function lookupSequences(int $a_container_id, int $a_objective_id, int $a_test_id) : array
+    public static function lookupSequences(int $a_container_id, int $a_objective_id, int $a_test_id): array
     {
         global $DIC;
 
@@ -82,7 +86,7 @@ class ilLORandomTestQuestionPools
         int $a_objective_id,
         int $a_test_id,
         int $a_test_type
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -95,12 +99,12 @@ class ilLORandomTestQuestionPools
         $res = $ilDB->query($query);
         $sequences = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $sequences[] = $row->qp_seq;
+            $sequences[] = (int) $row->qp_seq;
         }
         return $sequences;
     }
 
-    public static function lookupObjectiveIdsBySequence(int $a_container_id, int $a_seq_id) : array
+    public static function lookupObjectiveIdsBySequence(int $a_container_id, int $a_seq_id): array
     {
         global $DIC;
 
@@ -116,67 +120,67 @@ class ilLORandomTestQuestionPools
         return $objectiveIds;
     }
 
-    public function setContainerId(int $a_id) : void
+    public function setContainerId(int $a_id): void
     {
         $this->container_id = $a_id;
     }
 
-    public function getContainerId() : int
+    public function getContainerId(): int
     {
         return $this->container_id;
     }
 
-    public function setObjectiveId(int $a_id) : void
+    public function setObjectiveId(int $a_id): void
     {
         $this->objective_id = $a_id;
     }
 
-    public function getObjectiveId() : int
+    public function getObjectiveId(): int
     {
         return $this->objective_id;
     }
 
-    public function setTestType(int $a_type) : void
+    public function setTestType(int $a_type): void
     {
         $this->test_type = $a_type;
     }
 
-    public function getTestType() : int
+    public function getTestType(): int
     {
         return $this->test_type;
     }
 
-    public function setTestId(int $a_id) : void
+    public function setTestId(int $a_id): void
     {
         $this->test_id = $a_id;
     }
 
-    public function getTestId() : int
+    public function getTestId(): int
     {
         return $this->test_id;
     }
 
-    public function setQplSequence(int $a_id) : void
+    public function setQplSequence(int $a_id): void
     {
         $this->qpl_seq = $a_id;
     }
 
-    public function getQplSequence() : int
+    public function getQplSequence(): int
     {
         return $this->qpl_seq;
     }
 
-    public function setLimit(int $a_id) : void
+    public function setLimit(int $a_id): void
     {
         $this->limit = $a_id;
     }
 
-    public function getLimit() : int
+    public function getLimit(): int
     {
         return $this->limit;
     }
 
-    public function copy(int $a_copy_id, int $a_new_course_id, int $a_new_objective_id) : void
+    public function copy(int $a_copy_id, int $a_new_course_id, int $a_new_objective_id): void
     {
         $options = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $options->getMappings();
@@ -225,7 +229,7 @@ class ilLORandomTestQuestionPools
         }
     }
 
-    public function read() : void
+    public function read(): void
     {
         $query = 'SELECT * FROM loc_rnd_qpl ' .
             'WHERE container_id = ' . $this->db->quote($this->getContainerId(), 'integer') . ' ' .
@@ -240,7 +244,7 @@ class ilLORandomTestQuestionPools
         }
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM loc_rnd_qpl ' .
             'WHERE container_id = ' . $this->db->quote($this->getContainerId(), 'integer') . ' ' .
@@ -250,7 +254,7 @@ class ilLORandomTestQuestionPools
         $this->db->manipulate($query);
     }
 
-    public static function deleteForObjectiveAndTestType(int $a_course_id, int $a_objective_id, int $a_tst_type) : void
+    public static function deleteForObjectiveAndTestType(int $a_course_id, int $a_objective_id, int $a_tst_type): void
     {
         $db = $GLOBALS['DIC']->database();
 
@@ -261,7 +265,7 @@ class ilLORandomTestQuestionPools
         $db->manipulate($query);
     }
 
-    public function create() : void
+    public function create(): void
     {
         $query = 'INSERT INTO loc_rnd_qpl ' .
             '(container_id, objective_id, tst_type, tst_id, qp_seq, percentage) ' .
@@ -276,7 +280,7 @@ class ilLORandomTestQuestionPools
         $this->db->manipulate($query);
     }
 
-    public static function toXml(ilXmlWriter $writer, int $a_objective_id) : void
+    public static function toXml(ilXmlWriter $writer, int $a_objective_id): void
     {
         global $DIC;
 

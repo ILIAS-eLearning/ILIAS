@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,62 +16,40 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilUserCertificate
 {
-    private int $patternCertificateId;
-    private int $objId;
-    private string $objType;
-    private int $userId;
-    private string $userName;
-    private int $acquiredTimestamp;
-    private string $certificateContent;
-    private string $templateValues;
-    private int $validUntil;
-    private int $version;
-    private string $iliasVersion;
-    private bool $currentlyActive;
-    private ?int $id;
-    private ?string $backgroundImagePath;
-    private ?string $thumbnailImagePath;
+    private readonly int $validUntil;
+    private readonly ?string $backgroundImagePath;
+    private readonly ?string $thumbnailImagePath;
 
     public function __construct(
-        int $patternCertificateId,
-        int $objId,
-        string $objType,
-        int $userId,
-        string $userName,
-        int $acquiredTimestamp,
-        string $certificateContent,
-        string $templateValues,
+        private readonly int $patternCertificateId,
+        private readonly int $objId,
+        private readonly string $objType,
+        private readonly int $userId,
+        private readonly string $userName,
+        private readonly int $acquiredTimestamp,
+        private readonly string $certificateContent,
+        private readonly string $templateValues,
         ?int $validUntil,
-        int $version,
-        string $iliasVersion,
-        bool $currentlyActive,
+        private int $version,
+        private readonly string $iliasVersion,
+        private readonly bool $currentlyActive,
         ?string $backgroundImagePath = null,
         ?string $thumbnailImagePath = null,
-        ?int $id = null
+        private ?int $id = null
     ) {
-        $this->patternCertificateId = $patternCertificateId;
-        $this->objId = $objId;
-        $this->objType = $objType;
-        $this->userId = $userId;
-        $this->userName = $userName;
-        $this->acquiredTimestamp = $acquiredTimestamp;
-        $this->certificateContent = $certificateContent;
-        $this->templateValues = $templateValues;
         $this->validUntil = (int) $validUntil;
-        $this->version = $version;
-        $this->iliasVersion = $iliasVersion;
-        $this->currentlyActive = $currentlyActive;
         $this->backgroundImagePath = (string) $backgroundImagePath;
         $this->thumbnailImagePath = (string) $thumbnailImagePath;
-        $this->id = $id;
     }
 
-    public function withId(int $id) : self
+    public function withId(int $id): self
     {
         $clone = clone $this;
         $clone->id = $id;
@@ -79,7 +57,7 @@ class ilUserCertificate
         return $clone;
     }
 
-    public function withVersion(int $version) : self
+    public function withVersion(int $version): self
     {
         $clone = clone $this;
         $clone->version = $version;
@@ -87,77 +65,77 @@ class ilUserCertificate
         return $clone;
     }
 
-    public function getPatternCertificateId() : int
+    public function getPatternCertificateId(): int
     {
         return $this->patternCertificateId;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->objId;
     }
 
-    public function getObjType() : string
+    public function getObjType(): string
     {
         return $this->objType;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    public function getUserName() : string
+    public function getUserName(): string
     {
         return $this->userName;
     }
 
-    public function getAcquiredTimestamp() : int
+    public function getAcquiredTimestamp(): int
     {
         return $this->acquiredTimestamp;
     }
 
-    public function getCertificateContent() : string
+    public function getCertificateContent(): string
     {
         return $this->certificateContent;
     }
 
-    public function getTemplateValues() : string
+    public function getTemplateValues(): string
     {
         return $this->templateValues;
     }
 
-    public function getValidUntil() : int
+    public function getValidUntil(): int
     {
         return $this->validUntil;
     }
 
-    public function getVersion() : int
+    public function getVersion(): int
     {
         return $this->version;
     }
 
-    public function getIliasVersion() : string
+    public function getIliasVersion(): string
     {
         return $this->iliasVersion;
     }
 
-    public function isCurrentlyActive() : bool
+    public function isCurrentlyActive(): bool
     {
         return $this->currentlyActive;
     }
 
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getBackgroundImagePath() : ?string
+    public function getBackgroundImagePath(): ?string
     {
         return $this->backgroundImagePath;
     }
 
-    public function getThumbnailImagePath() : string
+    public function getThumbnailImagePath(): string
     {
         return $this->thumbnailImagePath;
     }

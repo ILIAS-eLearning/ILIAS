@@ -93,7 +93,7 @@ class ilSkinStyle
     /**
      * @throws ilSystemStyleException
      */
-    public static function parseFromXMLElement(SimpleXMLElement $xml_element) : ilSkinStyle
+    public static function parseFromXMLElement(SimpleXMLElement $xml_element): ilSkinStyle
     {
         return new self(
             (string) $xml_element->attributes()['id'],
@@ -105,7 +105,7 @@ class ilSkinStyle
         );
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
@@ -113,7 +113,7 @@ class ilSkinStyle
     /**
      * @throws ilSystemStyleException
      */
-    public function setId(string $id) : void
+    public function setId(string $id): void
     {
         if (strpos($id, ' ') !== false) {
             throw new ilSystemStyleException(ilSystemStyleException::INVALID_CHARACTERS_IN_ID, $id);
@@ -121,52 +121,52 @@ class ilSkinStyle
         $this->id = str_replace(' ', '_', $id);
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(string $name) : void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    public function getSoundDirectory() : string
+    public function getSoundDirectory(): string
     {
         return $this->sound_directory;
     }
 
-    public function setSoundDirectory(string $sound_directory) : void
+    public function setSoundDirectory(string $sound_directory): void
     {
         $this->sound_directory = $sound_directory;
     }
 
-    public function getImageDirectory() : string
+    public function getImageDirectory(): string
     {
         return $this->image_directory;
     }
 
-    public function setImageDirectory(string $image_directory) : void
+    public function setImageDirectory(string $image_directory): void
     {
         $this->image_directory = $image_directory;
     }
 
-    public function getCssFile() : string
+    public function getCssFile(): string
     {
         return $this->css_file;
     }
 
-    public function setCssFile(string $css_file) : void
+    public function setCssFile(string $css_file): void
     {
         $this->css_file = $css_file;
     }
 
-    public function getFontDirectory() : string
+    public function getFontDirectory(): string
     {
         return $this->font_directory;
     }
 
-    public function setFontDirectory(string $font_directory) : void
+    public function setFontDirectory(string $font_directory): void
     {
         $this->font_directory = $font_directory;
     }
@@ -174,7 +174,7 @@ class ilSkinStyle
     /**
      * Returns the parent style of this style if set
      */
-    public function getSubstyleOf() : string
+    public function getSubstyleOf(): string
     {
         return $this->substyle_of;
     }
@@ -182,7 +182,7 @@ class ilSkinStyle
     /**
      * Sets style as sub style of another
      */
-    public function setSubstyleOf(string $substyle_of) : void
+    public function setSubstyleOf(string $substyle_of): void
     {
         $this->substyle_of = $substyle_of;
     }
@@ -190,7 +190,7 @@ class ilSkinStyle
     /**
      * Return wheter this style is a substyle of another
      */
-    public function isSubstyle() : bool
+    public function isSubstyle(): bool
     {
         return $this->getSubstyleOf() != '';
     }
@@ -198,7 +198,7 @@ class ilSkinStyle
     /**
      * Checks if a resource (folder) relative to the style is referenced by this style. Used to decide if folder can be deleted.
      */
-    public function referencesResource(string $resource) : bool
+    public function referencesResource(string $resource): bool
     {
         return $this->getCssFile() == $resource
             || $this->getImageDirectory() == $resource

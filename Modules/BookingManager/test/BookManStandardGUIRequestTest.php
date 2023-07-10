@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -26,11 +25,11 @@ class BookManStandardGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\BookingManager\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\BookingManager\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -44,7 +43,7 @@ class BookManStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -59,7 +58,7 @@ class BookManStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testPoolRefId() : void
+    public function testPoolRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -74,7 +73,7 @@ class BookManStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testReservationIds() : void
+    public function testReservationIds(): void
     {
         $request = $this->getRequest(
             [

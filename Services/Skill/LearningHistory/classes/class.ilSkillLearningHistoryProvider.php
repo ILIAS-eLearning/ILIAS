@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +21,8 @@
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use ILIAS\Skill\Profile\SkillProfileCompletionManager;
+use ILIAS\Skill\Profile\SkillProfileManager;
 
 /**
  * Learning history provider: Skills
@@ -31,6 +35,8 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
     protected ilCtrl $ctrl;
     protected Factory $ui_fac;
     protected Renderer $ui_ren;
+    protected SkillProfileManager $profile_manager;
+    protected SkillProfileCompletionManager $profile_completion_manager;
 
     public function __construct(
         int $user_id,
@@ -44,12 +50,14 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         $this->ctrl = $DIC->ctrl();
         $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
+        $this->profile_manager = $DIC->skills()->internal()->manager()->getProfileManager();
+        $this->profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
     }
 
     /**
      * @inheritdoc
      */
-    public function isActive() : bool
+    public function isActive(): bool
     {
         $skmg_set = new ilSetting("skmg");
         if ($skmg_set->get("enable_skmg")) {
@@ -61,7 +69,7 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
     /**
      * @inheritdoc
      */
-    public function getEntries(int $ts_start, int $ts_end) : array
+    public function getEntries(int $ts_start, int $ts_end): array
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("skll");
@@ -72,7 +80,7 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         $completions = ilBasicSkill::getNewAchievementsPerUser($from->get(IL_CAL_DATETIME), $to->get(IL_CAL_DATETIME), $this->getUserId());
 
         $entries = [];
-        if (is_array($completions[$this->getUserId()])) {
+        if (isset($completions[$this->getUserId()])) {
             foreach ($completions[$this->getUserId()] as $c) {
                 $ts = new ilDateTime($c["status_date"], IL_CAL_DATETIME);
                 $text = str_replace("$3$", $this->getEmphasizedTitle(ilBasicSkill::_lookupTitle($c["skill_id"], $c["tref_id"])), $lng->txt("skll_lhist_skill_achieved"));
@@ -90,7 +98,7 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         // self evaluations
         $completions = ilBasicSkill::getNewAchievementsPerUser($from->get(IL_CAL_DATETIME), $to->get(IL_CAL_DATETIME), $this->getUserId(), 1);
 
-        if (is_array($completions[$this->getUserId()])) {
+        if (isset($completions[$this->getUserId()])) {
             foreach ($completions[$this->getUserId()] as $c) {
                 $txt = ($c["trigger_obj_id"] > 0)
                     ? $lng->txt("skll_lhist_skill_self_eval_in")
@@ -109,15 +117,15 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         }
 
         // profiles
-        $completions = ilSkillProfileCompletionRepository::getFulfilledEntriesForUser($this->getUserId());
+        $completions = $this->profile_completion_manager->getFulfilledEntriesForUser($this->getUserId());
 
         foreach ($completions as $c) {
-            $this->ctrl->setParameterByClass("ilpersonalskillsgui", "profile_id", $c["profile_id"]);
+            $this->ctrl->setParameterByClass("ilpersonalskillsgui", "profile_id", $c->getProfileId());
             $p_link = $this->ui_fac->link()->standard(
-                ilSkillProfile::lookupTitle($c["profile_id"]),
+                $this->profile_manager->lookupTitle($c->getProfileId()),
                 $this->ctrl->getLinkTargetByClass("ilpersonalskillsgui", "listassignedprofile")
             );
-            $ts = new ilDateTime($c["date"], IL_CAL_DATETIME);
+            $ts = new ilDateTime($c->getDate(), IL_CAL_DATETIME);
             $text = str_replace(
                 "$3$",
                 $this->getEmphasizedTitle($this->ui_ren->render($p_link)),
@@ -131,7 +139,7 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
     /**
      * @inheritdoc
      */
-    public function getName() : string
+    public function getName(): string
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("skmg");

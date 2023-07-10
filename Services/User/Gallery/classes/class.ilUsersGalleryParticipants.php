@@ -1,37 +1,40 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilUsersGalleryParticipants
  */
 class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvider
 {
-    protected ilParticipants $participants;
     /** @var array<int, bool> */
     protected array $users = [];
 
-    public function __construct(ilParticipants $participants)
+    public function __construct(protected ilParticipants $participants)
     {
-        $this->participants = $participants;
     }
 
     /**
      * @param int[] $usr_ids
      * @return array<int, ilObjUser>
      */
-    protected function getUsers(array $usr_ids) : array
+    protected function getUsers(array $usr_ids): array
     {
         $users = [];
 
@@ -40,8 +43,7 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
                 continue;
             }
 
-            /** @var $user ilObjUser */
-            if (!($user = ilObjectFactory::getInstanceByObjId($usr_id, false))) {
+            if (!($user = ilObjectFactory::getInstanceByObjId($usr_id, false)) || !($user instanceof ilObjUser)) {
                 continue;
             }
 
@@ -56,11 +58,9 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
         return $users;
     }
 
-    public function getGroupedCollections() : array // Missing array type.
+    public function getGroupedCollections(): array
     {
-        /**
-         * @var $DIC ILIAS\DI\Container
-         */
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $groups = [];

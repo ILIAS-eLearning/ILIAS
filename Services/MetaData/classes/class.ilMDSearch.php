@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -40,22 +42,22 @@ class ilMDSearch
     {
         global $DIC;
 
-        $this->query_parser  = $qp_obj;
-        $this->db            = $DIC->database();
+        $this->query_parser = $qp_obj;
+        $this->db = $DIC->database();
         $this->search_result = new ilSearchResult();
     }
 
-    public function setMode(string $a_mode) : void
+    public function setMode(string $a_mode): void
     {
         $this->mode = $a_mode;
     }
 
-    public function getMode() : string
+    public function getMode(): string
     {
         return $this->mode;
     }
 
-    public function performSearch() : ?ilSearchResult
+    public function performSearch(): ?ilSearchResult
     {
         switch ($this->getMode()) {
             case 'all':
@@ -71,17 +73,17 @@ class ilMDSearch
         return null;
     }
 
-    public function __searchKeywordsOnly() : ilSearchResult
+    public function __searchKeywordsOnly(): ilSearchResult
     {
-        $where   = " WHERE ";
-        $field   = " keyword ";
+        $where = " WHERE ";
+        $field = " keyword ";
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {
             if ($counter++) {
                 $where .= strtoupper($this->query_parser->getCombination());
             }
             $where .= $field;
-            $where .= ("LIKE (" . $this->db->quote("%" . $word . "%" , ilDBConstants::T_TEXT) . ")");
+            $where .= ("LIKE (" . $this->db->quote("%" . $word . "%", ilDBConstants::T_TEXT) . ")");
         }
 
         $query = "SELECT * FROM il_meta_keyword" .

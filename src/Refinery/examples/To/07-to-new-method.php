@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,11 +16,13 @@
  *
  *********************************************************************/
 
-function toList() : bool
+declare(strict_types=1);
+
+function toList(): bool
 {
     class SomeClass
     {
-        public function say(string $firstWord, string $secondWord) : string
+        public function say(string $firstWord, string $secondWord): string
         {
             return $firstWord . $secondWord;
         }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,28 +16,21 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilUserCertificateZip
 {
-    private int $objectId;
-    private string $webDirectory;
-    private string $certificatePath;
-    private string $typeInFileName;
-    private string $installionId;
+    private readonly string $typeInFileName;
 
     public function __construct(
-        int $objectId,
-        string $certificatePath,
-        string $webDirectory = CLIENT_WEB_DIR,
-        string $installationId = IL_INST_ID
+        private readonly int $objectId,
+        private readonly string $certificatePath,
+        private readonly string $webDirectory = CLIENT_WEB_DIR,
+        private readonly string $installionId = IL_INST_ID
     ) {
-        $this->objectId = $objectId;
-        $this->certificatePath = $certificatePath;
-        $this->webDirectory = $webDirectory;
-        $this->installionId = $installationId;
-
         // The mapping to types is made to reflect the old behaviour of
         // the adapters
         $iliasType = ilObject::_lookupType($this->objectId);
@@ -56,7 +49,7 @@ class ilUserCertificateZip
         $this->typeInFileName = $typeInFileName;
     }
 
-    public function createArchiveDirectory() : string
+    public function createArchiveDirectory(): string
     {
         $type = ilObject::_lookupType($this->objectId);
         $certificateId = $this->objectId;
@@ -73,14 +66,14 @@ class ilUserCertificateZip
      * @param string $dir      Directory to contain the PDF data
      * @param string $filename The filename to save the PDF data
      */
-    public function addPDFtoArchiveDirectory(string $pdfdata, string $dir, string $filename) : void
+    public function addPDFtoArchiveDirectory(string $pdfdata, string $dir, string $filename): void
     {
         $fh = fopen($dir . $filename, 'wb');
         fwrite($fh, $pdfdata);
         fclose($fh);
     }
 
-    public function zipCertificatesInArchiveDirectory(string $dir, bool $deliver = true) : string
+    public function zipCertificatesInArchiveDirectory(string $dir, bool $deliver = true): string
     {
         $zipFile = time() . '__' . $this->installionId . '__' . $this->typeInFileName . '__' . $this->objectId . '__certificates.zip';
         $zipFilePath = $this->webDirectory . $this->certificatePath . $zipFile;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,8 +35,8 @@ class ilSessionMembershipRegistrationSettingsGUI extends ilMembershipRegistratio
         parent::__construct($gui_object, $object, $a_options);
         $this->lng->loadLanguageModule('sess');
     }
-    
-    public function setFormValues(ilPropertyFormGUI $form) : void
+
+    public function setFormValues(ilPropertyFormGUI $form): void
     {
         $form->getItemByPostVar('registration_type')->setValue((string) $this->getCurrentObject()->getRegistrationType());
 
@@ -53,7 +55,7 @@ class ilSessionMembershipRegistrationSettingsGUI extends ilMembershipRegistratio
             $this->getCurrentObject()->getRegistrationMaxUsers() > 0 ?
                 (string) $this->getCurrentObject()->getRegistrationMaxUsers() : ""
         );
-        
+
         $wait = 0;
         if ($this->getCurrentObject()->hasWaitingListAutoFill()) {
             $wait = 2;

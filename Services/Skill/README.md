@@ -1,10 +1,84 @@
 # Skill aka Competence Service
 
-This README is work in progress.
-
 # API
 
-WIP
+The Skill Service can be used by the public interface through `$DIC->skills()`. Currently, the following Services are offered:
+
+## Personal Service
+
+The Personal Service offers methods to work with things that are under the control of a user. Currently, these are personally selected competences and personally assigned materials from the personal resources.
+
+```
+$personal_service = $DIC->skills()->personal();
+
+$skills = $personal_service->getSelectedUserSkills($user_id);
+$personal_service->addPersonalSkill($user_id, $skill_node_id);
+
+$materials = $personal_service->getAssignedMaterials($user_id, $tref_id, $level_id);
+```
+
+## Profile Service
+
+The Profile Service offers methods to work with the competence profiles, profile assignments and profile completions.
+
+```
+$profile_service = $DIC->skills()->profile();
+
+$profiles = $profile_service->getAllGlobalProfiles();
+$profile = $profile_service->getProfile($profile_id);
+$title = $profile_service->lookupProfileTitle($profile_id);
+$ref_id = $profile_service->lookupProfileRefId($profile_id);
+$profile_service->deleteProfile($profile_id)
+$profile_service->updateProfileRefIdAfterImport($profile_id, $new_ref_id);
+
+$profile_levels = $profile_service->getSkillLevels($profile_id);
+
+$user_profiles = $profile_service->getProfilesOfUser($user_id);
+$profile_service->addRoleToProfile($profile_id, $role_id);
+
+$profile_service->writeCompletionEntryForAllProfiles($user_id);
+```
+
+## Tree Service
+
+The Tree Service offers methods to work with the (global) competence trees or the (global) virtual competence trees.
+
+```
+$tree_service = $DIC->skills()->tree();
+
+$global_tree = $tree_service->getGlobalSkillTree();
+$tree = $tree_service->getSkillTreeById($tree_id);
+$tree = $tree_service->getSkillTreeForNodeId($node_id);
+
+$global_virtual_tree = $tree_service->getGlobalVirtualSkillTree();
+$virtual_tree = $tree_service->getVirtualSkillTreeById($tree_id);
+$virtual_tree = $tree_service->getVirtualSkillTreeForNodeId($node_id);
+
+$path = $tree_service->getSkillTreePath($base_skill_id, $tref_id);
+
+$tree_object = $tree_service->getObjSkillTreeById($tree_id);
+$tree_objects = $tree_service->getObjSkillTrees();
+```
+
+## UI Service
+
+Not implemented yet!
+
+```
+$ui_service = $DIC->skills()->ui();
+```
+
+## User Service
+
+Not implemented yet!
+
+```
+$user_service = $DIC->skills()->user();
+```
+
+## Internal Service
+
+Please note that the Internal Service (```$DIC->skills()->internal()```) is, as its name implies, for internal usage within the Skill Service only. Please do not use it in other components!
 
 # General Documentation
 
@@ -235,12 +309,37 @@ Root
 
 ## Views
 
-* Personal View (User sees his own competences in "Achievements > Competences > Competence Records")
-* Competence Profile View (User sees competences in a Competence Profile he is assigned to in "Achievements > Competences > Assigned Profiles")  
+* Personal View (in global context or object context)
+* Competence Profile View (in global context or container object context)
+* Result view (in object context, e.g. Test, Survey)
 * Publishing Personal Competence Data (Blog, Portfolio, prospectively possibly Staff)
-* Personal View in object context (e.g. Course, Group, Test, Survey)
-* Administrative View in object context (Tutor or Administrator in objects)
 * Global administrative View (Competence Management)
+* Administrative View in object context (Tutor or Administrator in objects)
+
+### Personal View
+
+* In global context: The user sees his own competences in "Achievements > Competences > Competence Records". All competence
+  entries for a competence are shown in chronological order. The self evaluation is not optically separated.
+  All self-assigned materials and the resources for all competence levels are shown. The "Actions"-dropdown is available.
+* In object context: The user sees competences and competence entries coming from the object and potential subobjects.
+  The self evaluation is not optically separated. Materials and resources are not shown. The "Actions"-dropdown is not available.
+
+### Competence Profile View
+
+* In global context: The user sees competences of a competence profile she is assigned to in
+  "Achievements > Competences > Assigned Profiles > {Profile}". All competence entries for a competence are shown in
+  chronological order. The self evaluation is optically separated. All self-assigned materials and the resources for
+  the target level of the profile are shown. The "Actions"-dropdown is available.
+* In object context (only container objects): The user sees competences and competence entries coming from the object.
+  The self evaluation is optically separated. Materials are not shown. Resources for the target level are shown, but
+  resources can only be subobjects of the related object or the object itself because of the local context here.
+  The "Actions"-dropdown is not available.
+
+### Result view
+
+* In object context (no container objects): The user sees competences coming from the object. Only the latest
+  competence entry from the object is shown. The self evaluation is optically separated. Materials and resources are
+  not shown. The "Actions"-dropdown is not available.
 
 ## Competence Status
 
@@ -361,6 +460,16 @@ There are three different types of user skill levels:
       * Test A (1. January): Level 3
       * Test A (2. January): Level 2
     * -> The maximum of "all last achieved levels" is 3, but the last run of Test A is level 2 so the profile level is "not fulfilled".
+* When examining competence profiles within a container object (course/group), the competence entries of the container object,
+  as well as the competence entries of all subobjects of the container object are taken into account for the achievement of the 
+  profile's competence target.
+  * Example
+    * Skill Level: 1,2,3,4
+    * Profile Level: 3
+    * Achieved levels for objects:
+      * Course A: Level 2
+      * Test B (located in Course A): Level 3
+    * -> The profile level in Course A is "fulfilled".
 
 ## Local Profiles
 

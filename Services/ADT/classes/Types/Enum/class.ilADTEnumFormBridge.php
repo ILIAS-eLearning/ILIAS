@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTEnumFormBridge extends ilADTFormBridge
 {
@@ -6,7 +8,7 @@ class ilADTEnumFormBridge extends ilADTFormBridge
     protected array $option_infos = [];
     protected bool $auto_sort = true;
 
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTEnum);
     }
@@ -24,7 +26,7 @@ class ilADTEnumFormBridge extends ilADTFormBridge
         }
     }
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         $def = $this->getADT()->getCopyOfDefinition();
         $selection = $this->getADT()->getSelection();
@@ -64,7 +66,7 @@ class ilADTEnumFormBridge extends ilADTFormBridge
         $this->addToParentElement($select);
     }
 
-    public function importFromPost() : void
+    public function importFromPost(): void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $this->getADT()->setSelection($this->getForm()->getInput($this->getElementId()));
@@ -73,7 +75,7 @@ class ilADTEnumFormBridge extends ilADTFormBridge
         $field->setValue($this->getADT()->getSelection());
     }
 
-    protected function isActiveForSubItems($a_parent_option = null) : bool
+    protected function isActiveForSubItems($a_parent_option = null): bool
     {
         return ($this->getADT()->getSelection() == $a_parent_option);
     }

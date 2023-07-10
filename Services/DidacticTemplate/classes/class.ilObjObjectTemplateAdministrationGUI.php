@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,11 +12,7 @@
  */
 class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
 {
-    /**
-     * Contructor
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($a_data, $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         $this->type = "otpl";
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -22,16 +20,11 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("didactic");
     }
 
-    /**
-     * Execute command
-     * @access public
-     */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $this->prepareOutput();
         switch ($next_class) {
-
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
@@ -51,7 +44,7 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->checkPermissionBool('write')) {
             $this->lng->loadLanguageModule('didactic');
@@ -65,7 +58,7 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
-                array(),
+                [],
                 'ilpermissiongui'
             );
         }

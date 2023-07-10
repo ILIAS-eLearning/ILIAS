@@ -31,8 +31,8 @@ abstract class ilSystemStyleBaseFSTest extends TestCase
     protected ?ILIAS\DI\Container $save_dic = null;
     protected ilLanguage $lng;
     protected ilSystemStyleMessageStack $message_stack;
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         global $DIC;
         $DIC['tpl'] = $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock();
@@ -42,6 +42,9 @@ abstract class ilSystemStyleBaseFSTest extends TestCase
         if (!file_exists($this->system_style_config->test_skin_temp_path)) {
             mkdir($this->system_style_config->test_skin_temp_path);
         }
+
+        /** @noRector */
+        include_once('./tests/UI/Base.php');
         $this->lng = new ilLanguageMock();
 
         $this->file_system = new ilFileSystemHelper($this->lng, $this->message_stack);
@@ -55,7 +58,7 @@ abstract class ilSystemStyleBaseFSTest extends TestCase
         $this->style = $this->container->getSkin()->getStyle('style1');
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         $this->file_system->recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
     }

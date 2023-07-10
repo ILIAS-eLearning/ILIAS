@@ -1,5 +1,6 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
 
 namespace ILIAS\Services\User;
 
@@ -24,12 +25,12 @@ abstract class UserFieldAttributesChangeListener
      * @param string $attribute
      * @return string|null
      */
-    abstract public function getDescriptionForField(string $fieldName, string $attribute) : ?string;
+    abstract public function getDescriptionForField(string $fieldName, string $attribute): ?string;
 
     /**
      * Should return the component name like it would be used to raise an event
      * @return string
      * @example "Services/Mail"
      */
-    abstract public function getComponentName() : string;
+    abstract public function getComponentName(): string;
 }

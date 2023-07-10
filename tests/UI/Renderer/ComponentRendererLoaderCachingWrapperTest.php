@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Render\Loader;
@@ -12,7 +28,7 @@ use ILIAS\UI\Implementation\Render\ComponentRenderer;
 
 class ComponentRendererLoaderCachingWrapperTest extends TestCase
 {
-    public function test_forwards_from_underlying() : void
+    public function test_forwards_from_underlying(): void
     {
         $underlying = $this->getMockBuilder(Loader::class)
             ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
@@ -33,7 +49,7 @@ class ComponentRendererLoaderCachingWrapperTest extends TestCase
         $this->assertSame($renderer, $r);
     }
 
-    public function test_caches() : void
+    public function test_caches(): void
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
             ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
@@ -55,7 +71,7 @@ class ComponentRendererLoaderCachingWrapperTest extends TestCase
         $this->assertSame($renderer, $r2);
     }
 
-    public function test_caching_respects_contexts() : void
+    public function test_caching_respects_contexts(): void
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
             ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
@@ -83,7 +99,7 @@ class ComponentRendererLoaderCachingWrapperTest extends TestCase
         $this->assertSame($renderer1, $r4);
     }
 
-    public function test_passthrough_getRendererFactory() : void
+    public function test_passthrough_getRendererFactory(): void
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
             ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])

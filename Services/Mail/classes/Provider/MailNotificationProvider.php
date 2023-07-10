@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Mail\Provider;
 
@@ -34,11 +36,11 @@ use ILIAS\UI\Component\Item\Notification;
  */
 class MailNotificationProvider extends AbstractNotificationProvider
 {
-    public const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
+    final public const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
 
-    public function getNotifications() : array
+    public function getNotifications(): array
     {
-        $id = function (string $id) : IdentificationInterface {
+        $id = function (string $id): IdentificationInterface {
             return $this->if->identifier($id);
         };
 
@@ -89,8 +91,7 @@ class MailNotificationProvider extends AbstractNotificationProvider
             )
         );
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::MAIL, 'mail')
-                          ->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::MAIL, 'mail');
         $title = $this->dic->ui()->factory()->link()->standard(
             $this->dic->language()->txt('nc_mail_noti_item_title'),
             $mailUrl
@@ -109,7 +110,7 @@ class MailNotificationProvider extends AbstractNotificationProvider
                     new ilDateTime($dateTime->getTimestamp(), IL_CAL_UNIX)
                 ),
             ]);
-        } catch (Throwable $e) {
+        } catch (Throwable) {
         }
 
         $group = $factory->standardGroup($id('mail_bucket_group'))
@@ -118,7 +119,7 @@ class MailNotificationProvider extends AbstractNotificationProvider
                 $factory->standard($id('mail_bucket'))
                     ->withNotificationItem($notificationItem)
                     ->withClosedCallable(
-                        function () : void {
+                        function (): void {
                             $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, (string) time());
                         }
                     )

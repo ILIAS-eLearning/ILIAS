@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Validates if an active certificate is stored
  * in the database and can be downloaded by the
@@ -24,8 +26,8 @@
  */
 class ilCertificateDownloadValidator
 {
-    private ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator;
-    private ilCertificateActiveValidator $activeValidator;
+    private readonly ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator;
+    private readonly ilCertificateActiveValidator $activeValidator;
 
     public function __construct(
         ?ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator = null,
@@ -42,9 +44,9 @@ class ilCertificateDownloadValidator
         $this->activeValidator = $activeValidator;
     }
 
-    public function isCertificateDownloadable(int $userId, int $objId) : bool
+    public function isCertificateDownloadable(int $userId, int $objId): bool
     {
-        if (false === $this->activeValidator->validate()) {
+        if (!$this->activeValidator->validate()) {
             return false;
         }
 

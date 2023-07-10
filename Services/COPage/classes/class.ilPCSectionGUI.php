@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * User Interface for Section Editing
@@ -32,11 +35,11 @@ class ilPCSectionGUI extends ilPageContentGUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
-        
+
         $this->setCharacteristics(ilPCSectionGUI::_getStandardCharacteristics());
     }
 
-    public function getHTML(array $params) : string
+    public function getHTML(array $params): string
     {
         $this->getCharacteristicsOfCurrentStyle(["section"]);
 
@@ -45,20 +48,31 @@ class ilPCSectionGUI extends ilPageContentGUI
             $form = $this->initForm($insert);
             $form->setShowTopButtons(false);
 
+            $onload_code = [];
+            $char = $form->getItemByPostVar("characteristic");
+            $onload_code = array_merge($onload_code, $char->getOnloadCode());
+
             $from = $form->getItemByPostVar("active_from");
             $from->setSideBySide(false);
-            $on_load_code1 = $from->getOnloadCode();
+            $onload_code = array_merge($onload_code, $from->getOnloadCode());
+
             $to = $form->getItemByPostVar("active_to");
             $to->setSideBySide(false);
-            $on_load_code2 = $to->getOnloadCode();
+            $onload_code = array_merge($onload_code, $to->getOnloadCode());
+
+            $link = $form->getItemByPostVar("link");
+            $onload_code = array_merge($onload_code, $link->getOnloadCode());
 
             $rep_sel = $form->getItemByPostVar("permission_ref_id");
             $on_load_code3 = "";
+            $on_load_code4 = [];
             if ($rep_sel) {
                 $exp = $rep_sel->getExplorerGUI();
                 $this->ctrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "permission_ref_id");
-                $on_load_code3 = $exp->getOnloadCode();
+                $onload_code = array_merge($onload_code, [$exp->getOnloadCode()]);
+
                 $this->ctrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "");
+                $onload_code = array_merge($onload_code, $rep_sel->getOnloadCode());
             }
 
             $html = $params["ui_wrapper"]->getRenderedForm(
@@ -67,8 +81,7 @@ class ilPCSectionGUI extends ilPageContentGUI
             );
 
             $html .= "<script>" .
-                implode("\n", array_merge($on_load_code1, $on_load_code2)) .
-                "\n" . $on_load_code3 .
+                implode("\n", $onload_code) .
                 "</script>";
 
             return $html;
@@ -76,12 +89,12 @@ class ilPCSectionGUI extends ilPageContentGUI
         return "";
     }
 
-    public static function _getStandardCharacteristics() : array
+    public static function _getStandardCharacteristics(): array
     {
         global $DIC;
 
         $lng = $DIC->language();
-        
+
         return array("Block" => $lng->txt("cont_Block"),
             "Mnemonic" => $lng->txt("cont_Mnemonic"),
             "Remark" => $lng->txt("cont_Remark"),
@@ -103,8 +116,8 @@ class ilPCSectionGUI extends ilPageContentGUI
             "Excursus" => $lng->txt("cont_Excursus"),
             "AdvancedKnowledge" => $lng->txt("cont_AdvancedKnowledge"));
     }
-    
-    public static function _getCharacteristics(string $a_style_id) : array
+
+    public static function _getCharacteristics(string $a_style_id): array
     {
         $std_chars = ilPCSectionGUI::_getStandardCharacteristics();
         $chars = $std_chars;
@@ -156,7 +169,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         return $ret;
     }
 
-    public function insert(ilPropertyFormGUI $a_form = null) : void
+    public function insert(ilPropertyFormGUI $a_form = null): void
     {
         $this->edit(true, $a_form);
     }
@@ -164,9 +177,9 @@ class ilPCSectionGUI extends ilPageContentGUI
     public function edit(
         bool $a_insert = false,
         ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         $tpl = $this->tpl;
-        
+
         $this->displayValidationError();
 
         if (!$a_form) {
@@ -178,7 +191,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 
     public function initForm(
         bool $a_insert = false
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $a_seleted_value = "";
@@ -191,7 +204,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         } else {
             $form->setTitle($this->lng->txt("cont_update_section"));
         }
-        
+
         // characteristic selection
         $char_prop = new ilAdvSelectInputGUI(
             $this->lng->txt("cont_characteristic"),
@@ -199,7 +212,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         );
         $chars = $this->getCharacteristics();
         if (is_object($this->content_obj)) {
-            if ($chars[$a_seleted_value] == "" && ($this->content_obj->getCharacteristic() != "")) {
+            if (($chars[$a_seleted_value] ?? "") == "" && ($this->content_obj->getCharacteristic() != "")) {
                 $chars = array_merge(
                     array($this->content_obj->getCharacteristic() => $this->content_obj->getCharacteristic()),
                     $chars
@@ -210,7 +223,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         $selected = ($a_insert)
             ? "Block"
             : $this->content_obj->getCharacteristic();
-            
+
         foreach ($chars as $k => $char) {
             $html = '<div class="ilCOPgEditStyleSelectionItem"><div class="ilc_section_' . $k . '" style="' . self::$style_selector_reset . '">' .
                 $char . '</div></div>';
@@ -222,7 +235,11 @@ class ilPCSectionGUI extends ilPageContentGUI
 
         // link input
         $ac = new ilLinkInputGUI($this->lng->txt('cont_link'), 'link');
-        $ac->setAllowedLinkTypes(ilLinkInputGUI::BOTH);
+        if ($this->getPageConfig()->getEnableInternalLinks()) {
+            $ac->setAllowedLinkTypes(ilLinkInputGUI::BOTH);
+        } else {
+            $ac->setAllowedLinkTypes(ilLinkInputGUI::EXT);
+        }
         $ac->setRequired(false);
         $ac->setInfo($this->lng->txt("copg_sec_link_info"));
         $ac->setInternalLinkDefault(
@@ -313,7 +330,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         return $form;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {
@@ -327,11 +344,11 @@ class ilPCSectionGUI extends ilPageContentGUI
                 $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
             }
         }
-        
+
         $this->insert($form);
     }
 
-    public function update() : void
+    public function update(): void
     {
         $form = $this->initForm(false);
         if ($form->checkInput()) {
@@ -342,12 +359,12 @@ class ilPCSectionGUI extends ilPageContentGUI
                 $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
             }
         }
-        
+
         $this->pg_obj->addHierIDs();
         $this->edit(false, $form);
     }
 
-    public function setValuesFromForm(ilPropertyFormGUI $form) : void
+    public function setValuesFromForm(ilPropertyFormGUI $form): void
     {
         $this->content_obj->setCharacteristic($form->getInput("characteristic"));
 
@@ -366,7 +383,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         }
 
         if ($this->getPageConfig()->getEnablePermissionChecks()) {
-            $this->content_obj->setPermissionRefId($form->getInput("permission_ref_id"));
+            $this->content_obj->setPermissionRefId((int) $form->getInput("permission_ref_id"));
             $this->content_obj->setPermission($form->getInput("permission"));
         }
 
@@ -374,7 +391,7 @@ class ilPCSectionGUI extends ilPageContentGUI
             $this->content_obj->setExtLink($form->getInput("link"));
         } elseif ($form->getInput("link_mode") == "int" && $form->getInput("link") != "") {
             $la = $form->getItemByPostVar("link")->getIntLinkAttributes();
-            if ($la["Type"] != "") {
+            if (($la["Type"] ?? "") != "") {
                 $this->content_obj->setIntLink($la["Type"], $la["Target"], $la["TargetFrame"]);
             }
         } else {

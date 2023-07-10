@@ -1,13 +1,15 @@
-<?php declare(strict_types=1);
+<?php
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+declare(strict_types=1);
+
 use ILIAS\CI\Rector\RemoveRequiresAndIncludesRector;
 use ILIAS\CI\Rector\ChangeLicenseHeader;
+use Rector\Config\RectorConfig;
 
-return static function (ContainerConfigurator $containerConfigurator) : void {
-    $services = $containerConfigurator->services();
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->disableParallel();
     // We start with a single and sinle (own) rule. remove requires and include.
-    $services->set(RemoveRequiresAndIncludesRector::class);
+    $rectorConfig->rule(RemoveRequiresAndIncludesRector::class);
     // The second rule will add (or replace) e license-header for every class-file
-    $services->set(ChangeLicenseHeader::class);
+    $rectorConfig->rule(ChangeLicenseHeader::class);
 };

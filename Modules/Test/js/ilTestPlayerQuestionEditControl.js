@@ -149,13 +149,13 @@ il.TestPlayerQuestionEditControl = new function() {
         // the final action is done by a submit button in the modal
         $('#tst_discard_solution_action').click(showDiscardSolutionModal);
         $('#tst_cancel_discard_button').click(hideDiscardSolutionModal);
-        
+
         if( config.nextQuestionLocks )
         {
             // handle the buttons in next locks current answer confirmation modal
             $('#tst_nav_next_changed_answer_button').click(saveWithNavigation);
             $('#tst_cancel_next_changed_answer_button').click(hideFollowupQuestionLocksCurrentAnswerModal);
-            
+
             // handle the buttons in next locks empty answer confirmation modal
             $('#tst_nav_next_empty_answer_button').click(saveWithNavigationEmptyAnswer);
             $('#tst_cancel_next_empty_answer_button').click(hideFollowupQuestionLocksEmptyAnswerModal);
@@ -225,17 +225,17 @@ il.TestPlayerQuestionEditControl = new function() {
 
         // Start the periodic detection of form changes
         if (config.withFormChangeDetection) {
-            formDetector = setInterval(detectFormChange, FORM_DETECTOR_PERIOD);
+            formDetector = window.setInterval(detectFormChange, FORM_DETECTOR_PERIOD);
         }
 
         // Start the periodic detection of form changes
         if (config.withBackgroundChangeDetection) {
-            backgroundDetector = setInterval(detectBackgroundChanges, BACKGROUND_DETECTOR_PERIOD);
+            backgroundDetector = window.setInterval(detectBackgroundChanges, BACKGROUND_DETECTOR_PERIOD);
         }
 
         // activate the autosave function if required
         if (config.autosaveUrl != '' && config.autosaveInterval > 0) {
-            autoSaver = setInterval(autoSave, config.autosaveInterval);
+            autoSaver = window.setInterval(autoSave, config.autosaveInterval);
         }
 
         // activate the handler for the save button in rich text areas
@@ -393,8 +393,13 @@ il.TestPlayerQuestionEditControl = new function() {
 
         // keep default behavior for links that open in another window
         // (fullscreen view of media objects)
-        if (target && target != '_self' && target != '_parent' && target != '_top')
+        if (target && target !== '_self' && target !== '_parent' && target !== '_top')
         {
+           return true;
+        }
+
+        // ignore JavaScript links
+        if (href.indexOf("javascript:") === 0) {
            return true;
         }
 
@@ -411,7 +416,7 @@ il.TestPlayerQuestionEditControl = new function() {
         {
             // remember the url for saveWithNavigation()
             navUrl = href;
-            
+
             if( !answerChanged && !answered )
             {
                 showFollowupQuestionLocksEmptyAnswerModal();
@@ -427,7 +432,7 @@ il.TestPlayerQuestionEditControl = new function() {
 
             return false; // prevent the default event handler
         }
-        
+
         if (answerChanged                               // answer has been changed
             && href                                     // link is not an anchor
             && href.charAt(0) != '#'                    // link is not a fragment
@@ -486,23 +491,23 @@ il.TestPlayerQuestionEditControl = new function() {
     function hideDiscardSolutionModal() {
         $('#tst_discard_solution_modal').modal('hide');
     }
-    
+
     function showFollowupQuestionLocksCurrentAnswerModal()
     {
         $('#tst_next_locks_changed_modal').modal('show');
         $('#followup_qst_locks_prevent_confirmation').attr('checked',false);
     }
-    
+
     function hideFollowupQuestionLocksCurrentAnswerModal()
     {
         $('#tst_next_locks_changed_modal').modal('hide');
     }
-    
+
     function showFollowupQuestionLocksEmptyAnswerModal()
     {
         $('#tst_next_locks_unchanged_modal').modal('show');
     }
-    
+
     function hideFollowupQuestionLocksEmptyAnswerModal()
     {
         $('#tst_next_locks_unchanged_modal').modal('hide');
@@ -625,7 +630,7 @@ il.TestPlayerQuestionEditControl = new function() {
      */
     function handleFormSubmit() {
         //var submitBtn = $(this).find("input[type=submit]:focus"); // perhaps neccessary anytime
-        
+
         // add the 'answer changed' parameter to the url
         // this keeps the answering status for mark and feedback functions
         if (answerChanged) {
@@ -710,3 +715,19 @@ il.TestPlayerQuestionEditControl = new function() {
         autoSavedData = '';
     }
 };
+
+/**
+ * Right now we need this in the global space as the corresponding function
+ * in TinyMCE expects it there.
+ */
+function saveTextarea(editor)
+{
+    let form = document.forms['taForm'];
+    let input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'cmd[submitSolution]';
+    input.value = 'save';
+
+    form.appendChild(input);
+    form.submit();
+}

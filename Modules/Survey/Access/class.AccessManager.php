@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Access;
 
@@ -39,12 +44,12 @@ class AccessManager
         $this->ref_id = $ref_id;
     }
 
-    protected function getSurvey() : \ilObjSurvey
+    protected function getSurvey(): \ilObjSurvey
     {
         return new \ilObjSurvey($this->ref_id);
     }
 
-    public function canRead() : bool
+    public function canRead(): bool
     {
         return $this->access->checkAccessOfUser(
             $this->user_id,
@@ -54,21 +59,27 @@ class AccessManager
         );
     }
 
-    public function canManageCodes() : bool
+    public function canManageCodes(): bool
     {
         return $this->access->checkAccessOfUser(
             $this->user_id,
             "write",
             "",
             $this->ref_id
-        );
+        ) ||
+            $this->access->checkAccessOfUser(       // see #35369
+                $this->user_id,
+                "delete",
+                "",
+                $this->ref_id
+            );
     }
 
     /**
      * Can access info screen:
      * This is possible for external raters, or users with read or visible permission
      */
-    public function canAccessInfoScreen() : bool
+    public function canAccessInfoScreen(): bool
     {
         $participant_status = $this->domain_service
             ->participants()
@@ -86,7 +97,7 @@ class AccessManager
      * This is possible for external raters, or users with read or visible permission
      * Note: This is true before entering the code, the code is not checked yet
      */
-    public function canStartSurvey() : bool
+    public function canStartSurvey(): bool
     {
         $survey = $this->getSurvey();
         $participant_status = $this->domain_service
@@ -103,7 +114,7 @@ class AccessManager
         return false;
     }
 
-    public function canEditSettings() : bool
+    public function canEditSettings(): bool
     {
         return $this->access->checkAccessOfUser($this->user_id, "write", "", $this->ref_id);
     }
@@ -111,20 +122,33 @@ class AccessManager
     /**
      * Can access evaluation
      */
-    public function canAccessEvaluation() : bool
+    public function canAccessEvaluation(): bool
     {
         $survey = $this->getSurvey();
         if ($this->access->checkAccessOfUser($this->user_id, "write", "", $this->ref_id) ||
+            $this->checkRbacOrPositionPermission('read_results', 'access_results') ||
             \ilObjSurveyAccess::_hasEvaluationAccess($survey->getId(), $this->user_id)) {
             return true;
         }
         return false;
     }
 
+    protected function checkRbacOrPositionPermission(
+        string $a_rbac_permission,
+        string $a_position_permission
+    ): bool {
+        $access = $this->access;
+        return $access->checkRbacOrPositionPermissionAccess(
+            $a_rbac_permission,
+            $a_position_permission,
+            $this->ref_id
+        );
+    }
+
     /**
      * Is it possible to take the survey by providing an access code?
      */
-    public function isCodeInputAllowed() : bool
+    public function isCodeInputAllowed(): bool
     {
         $survey = $this->getSurvey();
         $participant_status = $this->domain_service
@@ -143,11 +167,13 @@ class AccessManager
      */
     public function canReadResultOfParticipants(
         ?array $a_finished_ids = null
-    ) : array {
+    ): array {
         $all_participants = $this->getSurvey()->getSurveyParticipants($a_finished_ids);
         $participant_ids = [];
         foreach ($all_participants as $participant) {
-            $participant_ids[] = $participant['usr_id'];
+            if (isset($participant['usr_id'])) {
+                $participant_ids[] = $participant['usr_id'];
+            }
         }
 
         $filtered_participant_ids = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
@@ -158,10 +184,10 @@ class AccessManager
         );
         $participants = [];
         foreach ($all_participants as $username => $user_data) {
-            if (!$user_data['usr_id']) {
+            if (!isset($user_data['usr_id'])) {
                 $participants[$username] = $user_data;
             }
-            if (in_array($user_data['usr_id'], $filtered_participant_ids)) {
+            if (in_array(($user_data['usr_id'] ?? null), $filtered_participant_ids)) {
                 $participants[$username] = $user_data;
             }
         }

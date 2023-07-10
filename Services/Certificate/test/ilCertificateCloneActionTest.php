@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,14 +16,16 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
 {
-    public function testCloneCertificate() : void
+    public function testCloneCertificate(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database
             ->expects($this->once())
@@ -31,8 +33,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
 
         $database
             ->expects($this->once())
-            ->method('numRows')
-            ->willReturn(1);
+            ->method('fetchAssoc')
+            ->willReturn(['1' => '1']);
 
         $database
             ->expects($this->once())
@@ -53,7 +55,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         '[]',
                         3,
                         'v5.3.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/some/where/background.jpg',
                         '/some/where/card_thumb.jpg',
@@ -67,7 +69,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         '[]',
                         3,
                         'v5.3.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/some/where/background.jpg',
                         '/some/where/card_thumb.jpg',
@@ -81,7 +83,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         '[]',
                         3,
                         'v5.3.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/certificates/default/background.jpg',
                         '/some/where/card_thumb.jpg',
@@ -104,10 +106,6 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             ->expects($this->exactly(7))
             ->method('copy');
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
@@ -118,10 +116,9 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             $database,
             new ilCertificatePathFactory(),
             $templateRepository,
-            $fileSystem,
-            $logger,
-            $objectHelper,
             'some/web/directory',
+            $fileSystem,
+            $objectHelper,
             '/certificates/default/background.jpg'
         );
 

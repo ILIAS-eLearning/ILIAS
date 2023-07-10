@@ -1,11 +1,31 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Link;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\HasContentLanguage;
+use ILIAS\UI\Implementation\Component\HasHelpTopics;
+use ILIAS\Data\LanguageTag;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * This implements commonalities between Links
@@ -13,9 +33,13 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 abstract class Link implements C\Link\Link
 {
     use ComponentHelper;
+    use HasContentLanguage;
+    use HasHelpTopics;
+    use JavaScriptBindable;
 
     protected string $action;
     protected ?bool $open_in_new_viewport = null;
+    protected ?LanguageTag $action_content_language = null;
 
     public function __construct(string $action)
     {
@@ -25,7 +49,7 @@ abstract class Link implements C\Link\Link
     /**
      * @inheritdoc
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->action;
     }
@@ -33,7 +57,7 @@ abstract class Link implements C\Link\Link
     /**
      * @inheritdoc
      */
-    public function withOpenInNewViewport(bool $open_in_new_viewport) : C\Link\Link
+    public function withOpenInNewViewport(bool $open_in_new_viewport): C\Link\Link
     {
         $clone = clone $this;
         $clone->open_in_new_viewport = $open_in_new_viewport;
@@ -43,8 +67,20 @@ abstract class Link implements C\Link\Link
     /**
      * @inheritdoc
      */
-    public function getOpenInNewViewport() : ?bool
+    public function getOpenInNewViewport(): ?bool
     {
         return $this->open_in_new_viewport;
+    }
+
+    public function withLanguageOfReferencedContent(LanguageTag $language): C\Link\Link
+    {
+        $clone = clone $this;
+        $clone->action_content_language = $language;
+        return $clone;
+    }
+
+    public function getLanguageOfReferencedResource(): ?LanguageTag
+    {
+        return $this->action_content_language;
     }
 }

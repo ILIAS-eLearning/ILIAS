@@ -7,12 +7,11 @@ var InviteAction = require('../Model/Messages/InviteAction');
 module.exports = function(req, res) {
 	var namespaceId = req.params.namespace;
 	var roomId = req.params.roomId;
-	var subRoomId = req.params.subRoomId;
 	var inviteeId = parseInt(req.params.invitedId, 10);
 	var hostId = req.params.id;
 
 	var namespace = Container.getNamespace(namespaceId);
-	var serverRoomId = Container.createServerRoomId(roomId, subRoomId);
+	var serverRoomId = Container.createServerRoomId(roomId);
 	var room = namespace.getRoom(serverRoomId);
 	var subscriber = namespace.getSubscriber(inviteeId);
 
@@ -45,13 +44,13 @@ module.exports = function(req, res) {
 
 		var emitNoticeToHost = createNoticeEmitterForHost(
 			namespace,
-			Notice.create('user_invited', roomId, subRoomId)
+			Notice.create('user_invited', roomId)
 		);
 		host.getSocketIds().forEach(emitNoticeToHost);
 
 		var emitNoticeToInvitee = createNoticeEmitterForInvitee(
 			namespace,
-			InviteAction.create(roomId, subRoomId, room.getTitle(), room.getOwnerId()),
+			InviteAction.create(roomId, room.getTitle(), room.getOwnerId()),
 			Notice.create('user_invited_self', roomId, -1, {user: host.getName(), room: room.getTitle()})
 		);
 
@@ -60,6 +59,5 @@ module.exports = function(req, res) {
 
 	res.send({
 		success: true,
-		subRoomId: subRoomId
 	});
 };

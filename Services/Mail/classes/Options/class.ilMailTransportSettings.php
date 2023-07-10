@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,19 +16,18 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Niels Theen <ntheen@databay.de>
  */
 class ilMailTransportSettings
 {
-    private ilMailOptions $mailOptions;
-
-    public function __construct(ilMailOptions $mailOptions)
+    public function __construct(private readonly ilMailOptions $mailOptions)
     {
-        $this->mailOptions = $mailOptions;
     }
 
-    public function adjust(string $firstMail, string $secondMail) : void
+    public function adjust(string $firstMail, string $secondMail, bool $persist = true): void
     {
         if ($this->mailOptions->getIncomingType() === ilMailOptions::INCOMING_LOCAL) {
             return;
@@ -39,20 +38,25 @@ class ilMailTransportSettings
 
         if (!$hasFirstEmail && !$hasSecondEmail) {
             $this->mailOptions->setIncomingType(ilMailOptions::INCOMING_LOCAL);
-            $this->mailOptions->updateOptions();
+            if ($persist) {
+                $this->mailOptions->updateOptions();
+            }
             return;
         }
 
         if (!$hasFirstEmail && $this->mailOptions->getEmailAddressMode() !== ilMailOptions::SECOND_EMAIL) {
             $this->mailOptions->setEmailAddressMode(ilMailOptions::SECOND_EMAIL);
-            $this->mailOptions->updateOptions();
+            if ($persist) {
+                $this->mailOptions->updateOptions();
+            }
             return;
         }
 
         if (!$hasSecondEmail && $this->mailOptions->getEmailAddressMode() !== ilMailOptions::FIRST_EMAIL) {
             $this->mailOptions->setEmailAddressMode(ilMailOptions::FIRST_EMAIL);
-            $this->mailOptions->updateOptions();
-            return;
+            if ($persist) {
+                $this->mailOptions->updateOptions();
+            }
         }
     }
 }

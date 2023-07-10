@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  *
  * @author Jesús López Reyes <lopez@leifos.de>
@@ -7,7 +9,7 @@
  */
 interface ilCalendarAppointmentPresentation
 {
-    public function getToolbar() : ?ilToolbarGUI;
+    public function getToolbar(): ?ilToolbarGUI;
 
-    public function getInfoScreen() : ?ilInfoScreenGUI;
+    public function getInfoScreen(): ?ilInfoScreenGUI;
 }

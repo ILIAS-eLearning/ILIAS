@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilChatroomUser
  * @author  Andreas Kordosz <akordosz@databay.de>
@@ -24,17 +26,13 @@
  */
 class ilChatroomUser
 {
-    private ilObjUser $user;
-    private ilChatroom $room;
     private string $username = '';
 
-    public function __construct(ilObjUser $user, ilChatroom $chatroom)
+    public function __construct(private readonly ilObjUser $user, private readonly ilChatroom $room)
     {
-        $this->user = $user;
-        $this->room = $chatroom;
     }
-    
-    public function enabledBroadcastTyping() : bool
+
+    public function enabledBroadcastTyping(): bool
     {
         return ilUtil::yn2tf((string) $this->user->getPref('chat_broadcast_typing'));
     }
@@ -42,9 +40,8 @@ class ilChatroomUser
     /**
      * Returns Ilias User ID. If user is anonymous, a random negative User ID
      * is created, stored in SESSION, and returned.
-     * @return int
      */
-    public function getUserId() : int
+    public function getUserId(): int
     {
         $user_id = $this->user->getId();
 
@@ -66,9 +63,8 @@ class ilChatroomUser
     /**
      * Returns username from Object or SESSION. If no Username is set, the login name
      * will be returned.
-     * @return string
      */
-    public function getUsername() : string
+    public function getUsername(): string
     {
         if ($this->username) {
             return $this->username;
@@ -88,9 +84,8 @@ class ilChatroomUser
 
     /**
      * Sets and stores given username in SESSION
-     * @param string $username
      */
-    public function setUsername(string $username) : void
+    public function setUsername(string $username): void
     {
         $this->username = htmlspecialchars($username);
 
@@ -101,9 +96,9 @@ class ilChatroomUser
 
     /**
      * Returns an array of chat-name suggestions
-     * @return array<string, mixed>
+     * @return array<string, string>
      */
-    public function getChatNameSuggestions() : array
+    public function getChatNameSuggestions(): array
     {
         $options = [];
 
@@ -118,7 +113,7 @@ class ilChatroomUser
         return $options;
     }
 
-    public function buildAnonymousName() : string
+    public function buildAnonymousName(): string
     {
         return str_replace(
             '#',
@@ -127,7 +122,7 @@ class ilChatroomUser
         );
     }
 
-    public function buildFullname() : string
+    public function buildFullname(): string
     {
         $tmp = $this->user->getPref('public_profile');
         $this->user->setPref('public_profile', 'y');
@@ -139,21 +134,20 @@ class ilChatroomUser
 
     /**
      * Returns first letter of users firstname, followed by dot lastname
-     * @return string
      */
-    public function buildShortname() : string
+    public function buildShortname(): string
     {
         $firstname = $this->user->getFirstname();
 
         return $firstname[0] . '. ' . $this->user->getLastname();
     }
 
-    public function buildLogin() : string
+    public function buildLogin(): string
     {
         return $this->user->getLogin();
     }
 
-    public function buildUniqueUsername(string $username) : string
+    public function buildUniqueUsername(string $username): string
     {
         global $DIC;
 
@@ -183,10 +177,8 @@ class ilChatroomUser
 
     /**
      * @param int[] $usrIds
-     * @param int|null $roomId
-     * @return array
      */
-    public static function getUserInformation(array $usrIds, ?int $roomId = null) : array
+    public static function getUserInformation(array $usrIds, ?int $roomId = null): array
     {
         global $DIC;
 

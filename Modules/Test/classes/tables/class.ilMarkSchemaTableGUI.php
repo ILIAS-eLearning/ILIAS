@@ -1,9 +1,20 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Services/Form/classes/class.ilTextInputGUI.php';
-require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMarkSchemaGUI
@@ -14,15 +25,8 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 {
     private ?ilMarkSchemaAware $object;
 
-    /**
-     * @var bool
-     */
-    protected $is_editable = true;
+    protected bool $is_editable = true;
 
-    /**
-     * @param        $parent
-     * @param string $cmd
-     */
     public function __construct($parent, $cmd, $template_context = '', ilMarkSchemaAware $object = null)
     {
         /**
@@ -33,7 +37,6 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
         $this->object = $object;
         $this->ctrl = $ilCtrl;
-        
         $this->is_editable = $this->object->canEditMarks();
 
         $this->setId('mark_schema_gui_' . $this->object->getMarkSchemaForeignId());
@@ -59,12 +62,11 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
         $this->initColumns();
         $this->initData();
+
+        $this->initJS($DIC->ui()->mainTemplate());
     }
 
-    /**
-     *
-     */
-    protected function initColumns()
+    protected function initColumns(): void
     {
         $this->addColumn('', '', '1', true);
         $this->addColumn($this->lng->txt('tst_mark_short_form'), '');
@@ -73,42 +75,57 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('tst_mark_passed'), '', '1');
     }
 
-    /**
-     *
-     */
-    protected function initData()
+    protected function initData(): void
     {
         $this->object->getMarkSchema()->sort();
 
-        $data = array();
+        $data = [];
 
         $marks = $this->object->getMarkSchema()->getMarkSteps();
         foreach ($marks as $key => $value) {
-            $data[] = array(
+            $data[] = [
                 'mark_id' => $key,
                 'mark_short' => $value->getShortName(),
                 'mark_official' => $value->getOfficialName(),
                 'mark_percentage' => $value->getMinimumLevel(),
-                'mark_passed' => $value->getPassed() ? 1 : 0
-            );
+                'mark_passed' => $value->getPassed()
+            ];
         }
 
         $this->setData($data);
     }
 
+    private function initJS(ilGlobalTemplateInterface $tpl)
+    {
+        $tpl->addOnloadCode("
+            let form = document.querySelector('form[name=\"{$this->getFormName()}\"]');
+            let button = form.querySelector('input[name=\"cmd[saveMarks]\"]');
+            if (form && button) {
+                form.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        form.requestSubmit(button);
+                    }
+                })
+            }
+        ");
+    }
+
     /**
-     * @param array $a_set
+     * @param array $row
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $short_name = new ilTextInputGUI('', 'mark_short_' . $a_set['mark_id']);
         $short_name->setValue($a_set['mark_short']);
         $short_name->setDisabled(!$this->is_editable);
+        $short_name->setMaxLength(15);
         $short_name->setSize(10);
 
         $official_name = new ilTextInputGUI('', 'mark_official_' . $a_set['mark_id']);
         $official_name->setSize(20);
         $official_name->setDisabled(!$this->object->canEditMarks());
+        $official_name->setMaxLength(50);
         $official_name->setValue($a_set['mark_official']);
 
         $percentage = new ilNumberInputGUI('', 'mark_percentage_' . $a_set['mark_id']);

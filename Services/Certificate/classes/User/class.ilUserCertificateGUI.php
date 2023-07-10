@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\Filesystem\Filesystem;
@@ -28,18 +30,18 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilUserCertificateGUI
 {
-    private ilGlobalTemplateInterface $template;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $language;
-    private ilUserCertificateRepository $userCertificateRepository;
-    private ilObjUser $user;
-    private ServerRequestInterface $request;
-    private ilLogger $certificateLogger;
+    private readonly ilGlobalTemplateInterface $template;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $language;
+    private readonly ilUserCertificateRepository $userCertificateRepository;
+    private readonly ilObjUser $user;
+    private readonly ServerRequestInterface $request;
+    private readonly ilLogger $certificateLogger;
     protected ilSetting $certificateSettings;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
     protected ilAccessHandler $access;
-    public const SORTATION_SESSION_KEY = 'my_certificates_sorting';
+    final public const SORTATION_SESSION_KEY = 'my_certificates_sorting';
     protected array $sortationOptions = [
         'title_ASC' => 'cert_sortable_by_title_asc',
         'title_DESC' => 'cert_sortable_by_title_desc',
@@ -47,7 +49,7 @@ class ilUserCertificateGUI
         'date_DESC' => 'cert_sortable_by_issue_date_desc',
     ];
     protected string $defaultSorting = 'date_DESC';
-    private Filesystem $filesystem;
+    private readonly Filesystem $filesystem;
 
     public function __construct(
         ?ilGlobalTemplateInterface $template = null,
@@ -64,8 +66,6 @@ class ilUserCertificateGUI
         ?Filesystem $filesystem = null
     ) {
         global $DIC;
-
-        $logger = $DIC->logger()->cert();
 
         if ($template === null) {
             $template = $DIC->ui()->mainTemplate();
@@ -131,14 +131,13 @@ class ilUserCertificateGUI
         $this->language->loadLanguageModule('cert');
     }
 
-    private function getDefaultCommand() : string
+    private function getDefaultCommand(): string
     {
         return 'listCertificates';
     }
 
-    public function executeCommand() : bool
+    public function executeCommand(): bool
     {
-        $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         if (!$this->certificateSettings->get('active', '0')) {
@@ -146,14 +145,10 @@ class ilUserCertificateGUI
         }
 
         $this->template->setTitle($this->language->txt('obj_cert'));
-
-        switch ($nextClass) {
-            default:
-                if (!method_exists($this, $cmd)) {
-                    $cmd = $this->getDefaultCommand();
-                }
-                $this->{$cmd}();
+        if (!method_exists($this, $cmd)) {
+            $cmd = $this->getDefaultCommand();
         }
+        $this->{$cmd}();
 
         return true;
     }
@@ -162,7 +157,7 @@ class ilUserCertificateGUI
      * @throws ilDateTimeException
      * @throws ilWACException
      */
-    public function listCertificates() : void
+    public function listCertificates(): void
     {
         global $DIC;
 
@@ -189,7 +184,7 @@ class ilUserCertificateGUI
 
         $uiComponents = [];
 
-        if (count($data['items']) > 0) {
+        if ($data['items'] !== []) {
             $sortationOptions = [];
             $cards = [];
 
@@ -243,14 +238,12 @@ class ilUserCertificateGUI
 
                 $objectTitle = $certificateData['title'];
                 $refIds = ilObject::_getAllReferences((int) $certificateData['obj_id']);
-                if (count($refIds) > 0) {
-                    foreach ($refIds as $refId) {
-                        if ($this->access->checkAccess('read', '', $refId)) {
-                            $objectTitle = $this->uiRenderer->render(
-                                $this->uiFactory->link()->standard($objectTitle, ilLink::_getLink($refId))
-                            );
-                            break;
-                        }
+                foreach ($refIds as $refId) {
+                    if ($this->access->checkAccess('read', '', $refId)) {
+                        $objectTitle = $this->uiRenderer->render(
+                            $this->uiFactory->link()->standard($objectTitle, ilLink::_getLink($refId))
+                        );
+                        break;
                     }
                 }
 
@@ -288,7 +281,7 @@ class ilUserCertificateGUI
         $this->template->setContent($this->uiRenderer->render($uiComponents));
     }
 
-    protected function getCurrentSortation() : string
+    protected function getCurrentSortation(): string
     {
         $sorting = ilSession::get(self::SORTATION_SESSION_KEY);
         if (!array_key_exists($sorting, $this->sortationOptions)) {
@@ -302,7 +295,7 @@ class ilUserCertificateGUI
      * @throws ilWACException
      * @throws ilDateTimeException
      */
-    protected function applySortation() : void
+    protected function applySortation(): void
     {
         $sorting = $this->request->getQueryParams()['sort_by'] ?? $this->defaultSorting;
         if (!array_key_exists($sorting, $this->sortationOptions)) {
@@ -316,14 +309,14 @@ class ilUserCertificateGUI
     /**
      * @throws ilException
      */
-    public function download() : void
+    public function download(): void
     {
         global $DIC;
 
-        $user = $DIC->user();
+        $user = $this->user;
         $language = $DIC->language();
 
-        $pdfGenerator = new ilPdfGenerator($this->userCertificateRepository, $this->certificateLogger);
+        $pdfGenerator = new ilPdfGenerator($this->userCertificateRepository);
 
         $userCertificateId = (int) $this->request->getQueryParams()['certificate_id'];
 
@@ -344,7 +337,6 @@ class ilUserCertificateGUI
         }
 
         $pdfAction = new ilCertificatePdfAction(
-            $this->certificateLogger,
             $pdfGenerator,
             new ilCertificateUtilHelper(),
             $this->language->txt('error_creating_certificate_pdf')

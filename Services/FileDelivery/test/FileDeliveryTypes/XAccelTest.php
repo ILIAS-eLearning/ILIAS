@@ -1,4 +1,21 @@
 <?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 /**
  * Class XAccelTest
@@ -13,20 +30,6 @@ use ILIAS\HTTP\Response\ResponseHeader;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
-
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 
 /**
  * Class XSendfile
@@ -48,7 +51,7 @@ class XAccelTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->httpServiceMock = $this->getMockBuilder(Services::class)
                                       ->disableOriginalConstructor()
@@ -58,7 +61,7 @@ class XAccelTest extends TestCase
     /**
      * @Test
      */
-    public function testPrepareWhichShouldSucceed() : void
+    public function testPrepareWhichShouldSucceed(): void
     {
         $expectedContentValue = '';
 
@@ -83,15 +86,15 @@ class XAccelTest extends TestCase
                               ->method('sendResponse');
 
         $xAccel = new XAccel($this->httpServiceMock);
-        $result = $xAccel->prepare("this path is never used in this method");
+        $xAccel->prepare("this path is never used in this method", null);
 
-        $this->assertTrue($result);
+        $this->assertTrue(true);
     }
 
     /**
      * @Test
      */
-    public function testDeliverWithNormalPathWhichShouldSucceed() : void
+    public function testDeliverWithNormalPathWhichShouldSucceed(): void
     {
         $expectedHeader = 'X-Accel-Redirect';
         $path = './normal/path';
@@ -124,7 +127,7 @@ class XAccelTest extends TestCase
     /**
      * @Test
      */
-    public function testDeliverWithDataPathWhichShouldSucceed() : void
+    public function testDeliverWithDataPathWhichShouldSucceed(): void
     {
         $expectedHeader = 'X-Accel-Redirect';
         $path = './data/path/to/what/ever';

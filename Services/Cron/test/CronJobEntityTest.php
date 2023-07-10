@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,7 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Class CronJobEntityTest
@@ -26,18 +29,18 @@ class CronJobEntityTest extends TestCase
 {
     /**
      * @param ilCronJob|null $job_instance
-     * @param int $schedule_type
-     * @param int $schedule_value
-     * @param bool $is_plugin
-     * @return ilCronJobEntity
      */
     private function getEntity(
         ilCronJob $job_instance = null,
-        int $schedule_type = ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
+        int $schedule_type = null,
         int $schedule_value = 5,
         bool $is_plugin = false
-    ) : ilCronJobEntity {
+    ): ilCronJobEntity {
         $job_instance ??= $this->createMock(ilCronJob::class);
+
+        if ($schedule_type === null) {
+            $schedule_type = CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES->value;
+        }
 
         return new ilCronJobEntity($job_instance, [
             'job_id' => 'phpunit',
@@ -62,7 +65,7 @@ class CronJobEntityTest extends TestCase
         ], $is_plugin);
     }
 
-    public function testEntityCollectionCanBeCreatedWithItems() : ilCronJobEntities
+    public function testEntityCollectionCanBeCreatedWithItems(): ilCronJobEntities
     {
         $entities = new ilCronJobEntities($this->getEntity(), $this->getEntity());
 
@@ -72,11 +75,9 @@ class CronJobEntityTest extends TestCase
     }
 
     /**
-     * @param ilCronJobEntities $entities
-     * @return ilCronJobEntities
      * @depends testEntityCollectionCanBeCreatedWithItems
      */
-    public function testCollectionCanBeChanged(ilCronJobEntities $entities) : ilCronJobEntities
+    public function testCollectionCanBeChanged(ilCronJobEntities $entities): ilCronJobEntities
     {
         $entities->add($this->getEntity());
 
@@ -86,43 +87,42 @@ class CronJobEntityTest extends TestCase
     }
 
     /**
-     * @param ilCronJobEntities $entities
      * @depends testCollectionCanBeChanged
      */
-    public function testCollectionCanBeFilteredAndSliced(ilCronJobEntities $entities) : void
+    public function testCollectionCanBeFilteredAndSliced(ilCronJobEntities $entities): void
     {
-        $this->assertCount(0, $entities->filter(static function (ilCronJobEntity $entity) : bool {
+        $this->assertCount(0, $entities->filter(static function (ilCronJobEntity $entity): bool {
             return $entity->getJobId() !== 'phpunit';
         }));
 
         $this->assertCount(1, $entities->slice(1, 1));
     }
 
-    public function testEffectiveScheduleCanBeDetermined() : void
+    public function testEffectiveScheduleCanBeDetermined(): void
     {
         $job_instance = $this->createMock(ilCronJob::class);
         $job_instance->method('hasFlexibleSchedule')->willReturn(true);
 
         $entity = $this->getEntity($job_instance);
-        $this->assertSame(ilCronJob::SCHEDULE_TYPE_IN_MINUTES, $entity->getEffectiveScheduleType());
+        $this->assertSame(CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES, $entity->getEffectiveScheduleType());
         $this->assertSame(5, $entity->getEffectiveScheduleValue());
 
         $another_job_instance = $this->createMock(ilCronJob::class);
         $another_job_instance->method('hasFlexibleSchedule')->willReturn(false);
-        $another_job_instance->method('getDefaultScheduleType')->willReturn(ilCronJob::SCHEDULE_TYPE_IN_HOURS);
+        $another_job_instance->method('getDefaultScheduleType')->willReturn(CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS);
         $another_job_instance->method('getDefaultScheduleValue')->willReturn(5);
 
-        $another_entity = $this->getEntity($another_job_instance, ilCronJob::SCHEDULE_TYPE_DAILY);
-        $this->assertSame(ilCronJob::SCHEDULE_TYPE_IN_HOURS, $another_entity->getEffectiveScheduleType());
+        $another_entity = $this->getEntity($another_job_instance, CronJobScheduleType::SCHEDULE_TYPE_DAILY->value);
+        $this->assertSame(CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS, $another_entity->getEffectiveScheduleType());
         $this->assertSame(5, $another_entity->getEffectiveScheduleValue());
 
         $yet_another_job_instance = $this->createMock(ilCronJob::class);
         $yet_another_job_instance->method('hasFlexibleSchedule')->willReturn(true);
-        $yet_another_job_instance->method('getDefaultScheduleType')->willReturn(ilCronJob::SCHEDULE_TYPE_IN_HOURS);
+        $yet_another_job_instance->method('getDefaultScheduleType')->willReturn(CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS);
         $yet_another_job_instance->method('getDefaultScheduleValue')->willReturn(5);
 
         $yet_another_entity = $this->getEntity($yet_another_job_instance, 0);
-        $this->assertSame(ilCronJob::SCHEDULE_TYPE_IN_HOURS, $yet_another_entity->getEffectiveScheduleType());
+        $this->assertSame(CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS, $yet_another_entity->getEffectiveScheduleType());
         $this->assertSame(5, $yet_another_entity->getEffectiveScheduleValue());
     }
 }

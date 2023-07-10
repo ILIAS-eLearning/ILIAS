@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 *
@@ -26,7 +29,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 {
     private ilTree $tree;
     private ilObjectDataCache $objDataCache;
-    
+
     public function __construct(?object $a_parent_obj, string $a_parent_cmd = '')
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -47,7 +50,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
             $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         }
     }
-    
+
     /**
      * Fill row
      *
@@ -55,7 +58,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
      * @param array row data
      *
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         #$this->tpl->setVariable('VAL_LINK',ilLink::_getLink($a_set['ref_id'],'rcrs'));
@@ -69,7 +72,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
             'VAL_LAST_UPDATE',
             ilDatePresentation::formatDate(new ilDateTime($a_set['last_update'], IL_CAL_DATETIME))
         );
-        
+
         // Links
         foreach (ilObject::_getAllReferences($a_set['obj_id']) as $ref_id) {
             $parent = $this->tree->getParentId($ref_id);
@@ -82,7 +85,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
             $this->tpl->setVariable('LINK_LINK', ilLink::_getLink($parent, $p_type));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable('TXT_TERM', $this->lng->txt('ecs_field_term'));
         $this->tpl->setVariable('TXT_CRS_TYPE', $this->lng->txt('ecs_field_courseType'));
         $this->tpl->setVariable('TXT_CRS_ID', $this->lng->txt('ecs_field_courseID'));
@@ -95,9 +98,9 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TXT_LECTURER', $this->lng->txt('ecs_field_lecturer'));
 
         $settings = ilECSDataMappingSettings::getInstanceByServerId((int) $a_set['sid']);
-        
+
         $values = ilECSUtils::getAdvancedMDValuesForObjId($a_set['obj_id']);
-        
+
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'lecturer')) {
             $this->tpl->setVariable('VAL_LECTURER', $values[$field] ?? '--');
         }
@@ -129,7 +132,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_END', isset($values[$field]) ? ilDatePresentation::formatDate(new ilDateTime($values[$field], IL_CAL_UNIX)) : '--');
         }
     }
-    
+
     /**
      * Parse
      *
@@ -137,11 +140,11 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
      * @param array array of remote course ids
      *
      */
-    public function parse($a_rcrs) : void
+    public function parse($a_rcrs): void
     {
         // Preload object data
         $this->objDataCache->preloadReferenceCache($a_rcrs);
-        
+
         // Read participants
 
         // read obj_ids
@@ -158,7 +161,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
             $tmp_arr['title'] = $rcourse->getTitle();
             $tmp_arr['desc'] = $rcourse->getDescription();
             $tmp_arr['md'] = '';
-            
+
             $mid = $rcourse->getMID();
 
             if ($tmp_arr['sid']) {
@@ -176,11 +179,11 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
                 $tmp_arr['from'] = $this->lng->txt("ecs_server_deleted");
                 $tmp_arr['from_info'] = "";
             }
-            
+
             $tmp_arr['last_update'] = $this->objDataCache->lookupLastUpdate((int) $obj_id);
             $content[] = $tmp_arr;
         }
-        
+
         $this->setData($content);
     }
 }

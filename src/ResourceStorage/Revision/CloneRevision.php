@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Revision;
 
@@ -6,24 +24,11 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Information\FileInformation;
 use ILIAS\ResourceStorage\Information\Information;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class CloneRevision
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-class CloneRevision implements Revision
+class CloneRevision extends BaseRevision implements Revision
 {
     protected bool $available = true;
     protected \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
@@ -31,31 +36,24 @@ class CloneRevision implements Revision
     protected ?\ILIAS\ResourceStorage\Information\Information $information = null;
     protected int $owner_id = 0;
     protected string $title = '';
-    protected \ILIAS\ResourceStorage\Revision\FileRevision $revision_to_clone;
+    protected FileRevision $revision_to_clone;
 
     /**
      * Revision constructor.
      */
     public function __construct(ResourceIdentification $identification, FileRevision $revision_to_clone)
     {
-        $this->identification = $identification;
         $this->revision_to_clone = $revision_to_clone;
+        parent::__construct($identification);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIdentification() : ResourceIdentification
-    {
-        return $this->identification;
-    }
 
-    public function setVersionNumber(int $version_number) : void
+    public function setVersionNumber(int $version_number): void
     {
         $this->version_number = $version_number;
     }
 
-    public function getVersionNumber() : int
+    public function getVersionNumber(): int
     {
         return $this->version_number;
     }
@@ -63,12 +61,12 @@ class CloneRevision implements Revision
     /**
      * @inheritDoc
      */
-    public function getInformation() : Information
+    public function getInformation(): Information
     {
         return $this->information ?? new FileInformation();
     }
 
-    public function setInformation(Information $information) : void
+    public function setInformation(Information $information): void
     {
         $this->information = $information;
     }
@@ -76,7 +74,7 @@ class CloneRevision implements Revision
     /**
      * @inheritDoc
      */
-    public function setUnavailable() : void
+    public function setUnavailable(): void
     {
         $this->available = false;
     }
@@ -84,17 +82,17 @@ class CloneRevision implements Revision
     /**
      * @inheritDoc
      */
-    public function isAvailable() : bool
+    public function isAvailable(): bool
     {
         return $this->available;
     }
 
-    public function getOwnerId() : int
+    public function getOwnerId(): int
     {
         return $this->owner_id;
     }
 
-    public function setOwnerId(int $owner_id) : self
+    public function setOwnerId(int $owner_id): self
     {
         $this->owner_id = $owner_id;
         return $this;
@@ -103,18 +101,18 @@ class CloneRevision implements Revision
     /**
      * @return $this|Revision
      */
-    public function setTitle(string $title) : Revision
+    public function setTitle(string $title): Revision
     {
         $this->title = $title;
         return $this;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getRevisionToClone() : FileRevision
+    public function getRevisionToClone(): FileRevision
     {
         return $this->revision_to_clone;
     }

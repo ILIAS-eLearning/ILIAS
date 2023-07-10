@@ -1,9 +1,23 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @author  Maximilian Becker <mbecker@databay.de>
@@ -52,7 +66,7 @@ class ilTestToplistGUI
     /**
      *
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->object->getHighscoreEnabled()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -69,7 +83,7 @@ class ilTestToplistGUI
         }
     }
 
-    protected function showResultsToplistsCmd() : void
+    protected function showResultsToplistsCmd(): void
     {
         $this->tpl->setContent(implode('', [
             $this->renderMedianMarkPanel(),
@@ -81,7 +95,7 @@ class ilTestToplistGUI
     /**
      * @return string
      */
-    protected function renderMedianMarkPanel() : string
+    protected function renderMedianMarkPanel(): string
     {
         $title = $this->lng->txt('tst_median_mark_panel');
 
@@ -104,7 +118,7 @@ class ilTestToplistGUI
     /**
      * @return string
      */
-    protected function renderResultsToplistByScore() : string
+    protected function renderResultsToplistByScore(): string
     {
         $title = $this->lng->txt('toplist_by_score');
         $html = '';
@@ -143,7 +157,7 @@ class ilTestToplistGUI
     /**
      * @return string
      */
-    protected function renderResultsToplistByTime() : string
+    protected function renderResultsToplistByTime(): string
     {
         $title = $this->lng->txt('toplist_by_time');
         $html = '';
@@ -183,7 +197,7 @@ class ilTestToplistGUI
     /**
      * @return ilTestTopListTableGUI
      */
-    protected function buildTableGUI() : ilTestTopListTableGUI
+    protected function buildTableGUI(): ilTestTopListTableGUI
     {
         $table = new ilTestTopListTableGUI($this, $this->object);
 
@@ -193,32 +207,16 @@ class ilTestToplistGUI
     /**
      * @return bool
      */
-    protected function isTopTenRankingTableRequired() : bool
+    protected function isTopTenRankingTableRequired(): bool
     {
-        if ($this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_TOP_TABLE) {
-            return true;
-        }
-
-        if ($this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_ALL_TABLES) {
-            return true;
-        }
-
-        return false;
+        return $this->object->getHighscoreTopTable();
     }
 
     /**
      * @return bool
      */
-    protected function isOwnRankingTableRequired() : bool
+    protected function isOwnRankingTableRequired(): bool
     {
-        if ($this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_OWN_TABLE) {
-            return true;
-        }
-
-        if ($this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_ALL_TABLES) {
-            return true;
-        }
-
-        return false;
+        return $this->object->getHighscoreOwnTable();
     }
 }

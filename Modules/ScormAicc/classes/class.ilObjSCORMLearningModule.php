@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
 * Class ilObjSCORMLearningModule
 *
@@ -25,7 +30,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 {
     /**
     * Constructor
-    * @access	public
     * @param	integer	reference_id or object_id
     * @param	boolean	treat the id as reference_id (true) or object_id (false)
     */
@@ -35,21 +39,15 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    /**
-     * @return array
-     */
-    public function getTrackingItems() : array
+    public function getTrackingItems(): array
     {
         return ilObjSCORMLearningModule::_getTrackingItems($this->getId());
     }
 
     /**
      * get all tracking items of scorm object
-     * @access static
-     * @param int $a_obj_id
-     * @return array
      */
-    public static function _getTrackingItems(int $a_obj_id) : array
+    public static function _getTrackingItems(int $a_obj_id): array
     {
         $tree = new ilSCORMTree($a_obj_id);
         $root_id = $tree->readRootId();
@@ -58,10 +56,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         $childs = $tree->getSubTree($tree->getNodeData($root_id));
 
         foreach ($childs as $child) {
-            if ($child["c_type"] == "sit") {
-                $sc_item = new ilSCORMItem($child["obj_id"]);
+            if ($child["c_type"] === "sit") {
+                $sc_item = new ilSCORMItem((int) $child["obj_id"]);
                 if ($sc_item->getIdentifierRef() != "") {
-                    $items[count($items)] = $sc_item;
+                    $items[] = $sc_item;
                 }
             }
         }
@@ -71,15 +69,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * read manifest file
-     * @access    public
-     * @return string
      * @throws ilSaxParserException
      */
-    public function readObject() : string
+    public function readObject(): string
     {
         global $DIC;
         $ilErr = $DIC['ilErr'];
-        
+
         $needs_convert = false;
 
         // convert imsmanifest.xml file in iso to utf8 if needed
@@ -107,7 +103,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
             // to copy the file we need some extraspace, counted in bytes *2 ... we need 2 copies....
             $estimated_manifest_filesize = filesize($manifest_file) * 2;
-            
+
             // i deactivated this, because it seems to fail on some windows systems (see bug #1795)
             //$check_disc_free = disk_free_space($this->getDataDirectory()) - $estimated_manifest_filesize;
             $check_disc_free = 2;
@@ -117,7 +113,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         if ($needs_convert) {
             // if file exists and enough space left on device
             if ($check_for_manifest_file && ($check_disc_free > 1)) {
-
                 // create backup from original
                 if (!copy($manifest_file, $manifest_file . ".old")) {
                     echo "Failed to copy $manifest_file...<br>\n";
@@ -130,7 +125,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 while (!feof($f_read_handler)) {
                     $zeile = fgets($f_read_handler);
                     //echo mb_detect_encoding($zeile);
-                    fputs($f_write_handler, utf8_encode($zeile));
+                    fwrite($f_write_handler, utf8_encode($zeile));
                 }
                 fclose($f_read_handler);
                 fclose($f_write_handler);
@@ -155,11 +150,11 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             // check whether file starts with BOM (that confuses some sax parsers, see bug #1795)
             $hmani = fopen($manifest_file, "r");
             $start = fread($hmani, 3);
-            if (strtolower(bin2hex($start)) == "efbbbf") {
+            if (strtolower(bin2hex($start)) === "efbbbf") {
                 $f_write_handler = fopen($manifest_file . ".new", "w");
                 while (!feof($hmani)) {
                     $n = fread($hmani, 900);
-                    fputs($f_write_handler, $n);
+                    fwrite($f_write_handler, $n);
                 }
                 fclose($f_write_handler);
                 fclose($hmani);
@@ -176,14 +171,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         // todo determine imsmanifest.xml path here...
         $slmParser = new ilSCORMPackageParser($this, $manifest_file);
         $slmParser->startParsing();
-        return $slmParser->getPackageTitle();
+        return (string) $slmParser->getPackageTitle();
     }
 
     /**
      * set settings for learning progress determination per default at upload
-     * @return void
      */
-    public function setLearningProgressSettingsAtUpload() : void
+    public function setLearningProgressSettingsAtUpload(): void
     {
         global $DIC;
         $ilSetting = $DIC->settings();
@@ -208,14 +202,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * get all tracked items of current user
-     * @return array
      */
-    public function getTrackedItems() : array
+    public function getTrackedItems(): array
     {
         global $DIC;
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
-        
+
         $sco_set = $ilDB->queryF(
             '
 		SELECT DISTINCT sco_id FROM scorm_tracking WHERE obj_id = %s',
@@ -227,46 +220,42 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         while ($sco_rec = $ilDB->fetchAssoc($sco_set)) {
             $sc_item = new ilSCORMItem((int) $sco_rec["sco_id"]);
             if ($sc_item->getIdentifierRef() != "") {
-                $items[count($items)] = $sc_item;
+                $items[] = $sc_item;
             }
         }
 
         return $items;
     }
-    
-//    /**
-//    * Return the last access timestamp for a given user
-//    *
-//    * @param	int		$a_obj_id		object id
-//    * @param	int		$user_id		user id
-//    * @return timestamp
-//    */
-//    public static function _lookupLastAccess(int $a_obj_id, $a_usr_id)
-//    {
-//        global $DIC;
-//        $ilDB = $DIC->database();
-//
-//        $result = $ilDB->queryF(
-//            '
+
+    //    /**
+    //    * Return the last access timestamp for a given user
+    //    *
+    //    * @param	int		$a_obj_id		object id
+    //    * @param	int		$user_id		user id
+    //    * @return timestamp
+    //    */
+    //    public static function _lookupLastAccess(int $a_obj_id, $a_usr_id)
+    //    {
+    //        global $DIC;
+    //        $ilDB = $DIC->database();
+    //
+    //        $result = $ilDB->queryF(
+    //            '
     //		SELECT last_access FROM sahs_user
     //		WHERE  obj_id = %s
     //		AND user_id = %s',
-//            array('integer','integer'),
-//            array($a_obj_id,$a_usr_id)
-//        );
-//
-//        if ($ilDB->numRows($result)) {
-//            $row = $ilDB->fetchAssoc($result);
-//            return $row["last_access"];
-//        }
-//        return "";
-//    }
+    //            array('integer','integer'),
+    //            array($a_obj_id,$a_usr_id)
+    //        );
+    //
+    //        if ($ilDB->numRows($result)) {
+    //            $row = $ilDB->fetchAssoc($result);
+    //            return $row["last_access"];
+    //        }
+    //        return "";
+    //    }
 
-    /**
-     * @param string $a_search
-     * @return array
-     */
-    public function getTrackedUsers(string $a_search) : array
+    public function getTrackedUsers(string $a_search): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -293,9 +282,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     //toDo
     /**
      * Get attempts for all users
-     * @return array
+     *
+     * @return int[]
      */
-    public function getAttemptsForUsers()
+    public function getAttemptsForUsers(): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -313,10 +303,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * get number of attempts for a certain user and package
-     * @param int $a_user_id
-     * @return int
      */
-    public function getAttemptsForUser(int $a_user_id) : int
+    public function getAttemptsForUser(int $a_user_id): int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -327,7 +315,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         );
 
         $val_rec = $ilDB->fetchAssoc($val_set);
-        
+
         if ($val_rec["package_attempts"] == null) {
             $val_rec["package_attempts"] = 0;
         }
@@ -336,9 +324,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Get module version for users.
-     * @return array
      */
-    public function getModuleVersionForUsers() : array
+    public function getModuleVersionForUsers(): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -354,10 +341,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * get module version that tracking data for a user was recorded on
-     * @param int $a_user_id
-     * @return mixed|string
      */
-    public function getModuleVersionForUser(int $a_user_id) : string
+    public function getModuleVersionForUser(int $a_user_id): string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -368,7 +353,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         );
 
         $val_rec = $ilDB->fetchAssoc($val_set);
-        
+
         if ($val_rec["module_version"] == null) {
             $val_rec["module_version"] = "";
         }
@@ -377,11 +362,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Get tracking data per user
-     * @param int $a_sco_id
-     * @param int $a_user_id
-     * @return array
      */
-    public function getTrackingDataPerUser(int $a_sco_id, int $a_user_id) : array
+    public function getTrackingDataPerUser(int $a_sco_id, int $a_user_id): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -396,7 +378,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             array('integer','integer','integer'),
             array($a_user_id,$a_sco_id,$this->getId())
         );
-            
+
         $data = array();
         while ($data_rec = $ilDB->fetchAssoc($data_set)) {
             $data[] = $data_rec;
@@ -405,11 +387,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return $data;
     }
 
-    /**
-     * @param int $a_user_id
-     * @return array
-     */
-    public function getTrackingDataAgg(int $a_user_id) : array
+    public function getTrackingDataAgg(int $a_user_id): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -446,9 +424,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 "cmi.core.total_time",
                 "cmi.core.score.raw")
             );
-            
+
             $score = $time = $status = "";
-            
+
             while ($data_rec = $ilDB->fetchAssoc($data_set)) {
                 switch ($data_rec["lvalue"]) {
                     case "cmi.core.lesson_status":
@@ -464,18 +442,14 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                         break;
                 }
             }
-            $sc_item = new ilSCORMItem($sco_rec["sco_id"]);
-            $data[] = array("sco_id" => $sco_rec["sco_id"], "title" => $sc_item->getTitle(),
+            $sc_item = new ilSCORMItem((int) $sco_rec["sco_id"]);
+            $data[] = array("sco_id" => (int) $sco_rec["sco_id"], "title" => $sc_item->getTitle(),
             "score" => $score, "time" => $time, "status" => $status);
         }
         return (array) $data;
     }
 
-    /**
-     * @param int $a_sco_id
-     * @return array
-     */
-    public function getTrackingDataAggSco(int $a_sco_id) : array
+    public function getTrackingDataAggSco(int $a_sco_id): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -509,23 +483,23 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                     "cmi.core.total_time",
                     "cmi.core.score.raw")
             );
-                
+
             $score = $time = $status = "";
-                  
+
             while ($data_rec = $ilDB->fetchAssoc($data_set)) {
                 switch ($data_rec["lvalue"]) {
-                        case "cmi.core.lesson_status":
-                            $status = $data_rec["rvalue"];
-                            break;
+                    case "cmi.core.lesson_status":
+                        $status = $data_rec["rvalue"];
+                        break;
 
-                        case "cmi.core.total_time":
-                            $time = $data_rec["rvalue"];
-                            break;
+                    case "cmi.core.total_time":
+                        $time = $data_rec["rvalue"];
+                        break;
 
-                        case "cmi.core.score.raw":
-                            $score = $data_rec["rvalue"];
-                            break;
-                    }
+                    case "cmi.core.score.raw":
+                        $score = $data_rec["rvalue"];
+                        break;
+                }
             }
 
             $data[] = array("user_id" => $user_rec["user_id"],
@@ -537,11 +511,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Export selected user tracking data
-     * @param bool       $a_all
-     * @param mixed[]    $a_users
      * @global ilObjUser $ilUser
      */
-    public function exportSelected(bool $a_all, array $a_users = array()) : void
+    public function exportSelected(bool $a_all, array $a_users = array()): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -579,28 +551,24 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         $this->sendExportFile($header, $csv);
     }
 
-    /**
-     * @param string $a_file
-     * @return bool
-     */
-    public function importTrackingData(string $a_file) : bool
+    public function importTrackingData(string $a_file): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
-        
+
         $success = false;
         //echo file_get_contents($a_file);
         $method = null;
-        
+
         //lets import
         $fhandle = fopen($a_file, "r");
-        
+
         //the top line is the field names
-        $fields = fgetcsv($fhandle, pow(2, 16), ';');
+        $fields = fgetcsv($fhandle, 2 ** 16, ';');
         //lets check the import method
         fclose($fhandle);
-       
+
         switch ($fields[0]) {
             case "Scoid":
             case "SCO-Identifier":
@@ -616,11 +584,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return $success;
     }
 
-    /**
-     * @param string $a_file
-     * @return bool
-     */
-    public function importSuccess(string $a_file) : bool
+    public function importSuccess(string $a_file): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -631,40 +595,41 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         if ($collection) {
             $scos = $collection->getItems();
         }
-        
+
         $fhandle = fopen($a_file, "r");
 
         $obj_id = $this->getID();
-        $fields = fgetcsv($fhandle, pow(2, 16), ';');
+        $fields = fgetcsv($fhandle, 2 ** 16, ';');
         $users = array();
         $usersToDelete = array();
-        while (($csv_rows = fgetcsv($fhandle, pow(2, 16), ";")) !== false) {
+        while (($csv_rows = fgetcsv($fhandle, 2 ** 16, ";")) !== false) {
+            $user_id = 0;
             $data = array_combine($fields, $csv_rows);
             //no check the format - sufficient to import users
-            if ($data["Login"]) {
+            if (isset($data["Login"])) {
                 $user_id = $this->get_user_id($data["Login"]);
             }
-            if ($data["login"]) {
+            if (isset($data["login"])) {
                 $user_id = $this->get_user_id($data["login"]);
             }
             //add mail in future
-            if ($data["user"] && is_numeric($data["user"])) {
+            if (isset($data["user"]) && is_numeric($data["user"])) {
                 $user_id = (int) $data["user"];
             }
 
             if ($user_id > 0) {
                 $last_access = ilUtil::now();
-                if ($data['Date']) {
+                if (isset($data['Date'])) {
                     $date_ex = explode('.', $data['Date']);
                     $last_access = implode('-', array($date_ex[2], $date_ex[1], $date_ex[0]));
                 }
-                if ($data['LastAccess']) {
+                if (isset($data['LastAccess'])) {
                     $last_access = $data['LastAccess'];
                 }
-                
+
                 $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
-                
-                if ($data["Status"]) {
+
+                if (isset($data["Status"])) {
                     if (is_int($data["Status"])) {
                         $status = $data["Status"];
                     } elseif ($data["Status"] == "0" || $data["Status"] == "1" || $data["Status"] == "2" || $data["Status"] == "3") {
@@ -679,30 +644,30 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 }
 
                 $attempts = null;
-                if ($data["Attempts"]) {
-                    $attempts = $data["Attempts"];
+                if (isset($data["Attempts"])) {
+                    $attempts = (int) $data["Attempts"];
                 }
-                
+
                 $percentage_completed = 0;
                 if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                     $percentage_completed = 100;
                 }
-                if ($data['percentageCompletedSCOs']) {
-                    $percentage_completed = $data['percentageCompletedSCOs'];
+                if (isset($data['percentageCompletedSCOs'])) {
+                    $percentage_completed = (int) $data['percentageCompletedSCOs'];
                 }
 
                 $sco_total_time_sec = null;
-                if ($data['SumTotal_timeSeconds']) {
-                    $sco_total_time_sec = $data['SumTotal_timeSeconds'];
+                if (isset($data['SumTotal_timeSeconds'])) {
+                    $sco_total_time_sec = (int) $data['SumTotal_timeSeconds'];
                 }
-                
-                if ($status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED) {
+
+                if ($status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM) {
                     $usersToDelete[] = $user_id;
                 } else {
                     $this->importSuccessForSahsUser($user_id, $last_access, $status, $attempts, $percentage_completed, $sco_total_time_sec);
                     $users[] = $user_id;
                 }
-                
+
                 if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                     foreach ($scos as $sco_id) {
                         $statement = $ilDB->queryF(
@@ -745,6 +710,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 //echo "Warning! User $csv_rows[0] does not exist in ILIAS. Data for this user was skipped.\n";
             }
         }
+
         if (count($usersToDelete) > 0) {
             // include_once("./Services/Tracking/classes/class.ilLPMarks.php");
             // ilLPMarks::_deleteForUsers($this->getId(), $usersToDelete);
@@ -754,23 +720,14 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return true;
     }
 
-    /**
-     * @param int    $user_id
-     * @param string $last_access
-     * @param int    $status
-     * @param        $attempts
-     * @param        $percentage_completed
-     * @param        $sco_total_time_sec
-     * @return void
-     */
     public function importSuccessForSahsUser(
         int $user_id,
         string $last_access,
         int $status,
-        $attempts = null,
-        $percentage_completed = null,
-        $sco_total_time_sec = null
-    ) {
+        ?int $attempts = null,
+        ?int $percentage_completed = null,
+        ?int $sco_total_time_sec = null
+    ): void {
         global $DIC;
         $ilDB = $DIC->database();
         $statement = $ilDB->queryF(
@@ -804,15 +761,18 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 'sco_total_time_sec' => array('integer', $sco_total_time_sec)
             ));
         }
+        //        since 8 necessary because attempts can be null
+        if (ilChangeEvent::_lookupReadEvents($this->getID(), $user_id) == []) {
+            ilChangeEvent::_recordReadEvent("sahs", $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int()), $this->getID(), $user_id, false);
+        }
+
         ilChangeEvent::_recordReadEvent("sahs", $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int()), $this->getID(), $user_id, false, $attempts, $sco_total_time_sec);
     }
 
     /**
      * Parse il_usr_123_6 id
-     * @param string $il_id
-     * @return int
      */
-    private function parseUserId(string $il_id) : int
+    private function parseUserId(string $il_id): int
     {
         global $DIC;
         $ilSetting = $DIC->settings();
@@ -833,10 +793,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Import raw data
-     * @param string $a_file
-     * @return bool
      */
-    private function importRaw(string $a_file) : bool
+    private function importRaw(string $a_file): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -846,13 +804,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
         $fhandle = fopen($a_file, "r");
 
-        $fields = fgetcsv($fhandle, pow(2, 16), ';');
+        $fields = fgetcsv($fhandle, 2 ** 16, ';');
         $users = array();
         $a_last_access = array();
         $a_time = array();
         $a_package_attempts = array();
         $a_module_version = array();
-        while (($csv_rows = fgetcsv($fhandle, pow(2, 16), ";")) !== false) {
+        while (($csv_rows = fgetcsv($fhandle, 2 ** 16, ";")) !== false) {
             $data = array_combine($fields, $csv_rows);
             if ($data['Userid']) {
                 $user_id = $this->parseUserId($data['Userid']);
@@ -897,7 +855,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                     $a_last_access[$user_id] = $c_timestamp;
                 }
             }
-            
+
             if (!$data['Key']) {
                 continue;
             }
@@ -905,7 +863,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 $data['Value'] = "";
             }
 
-            if ($data['Key'] == "cmi.core.total_time" && $data['Value'] != "") {
+            if ($data['Key'] === "cmi.core.total_time" && $data['Value'] != "") {
                 $tarr = explode(":", $data['Value']);
                 $sec = (int) $tarr[2] + (int) $tarr[1] * 60 +
                     (int) substr($tarr[0], strlen($tarr[0]) - 3) * 60 * 60;
@@ -954,7 +912,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             }
             // $package_attempts = 1;
             if ($il_sco_id == 0) {
-                if ($data['Key'] == "package_attempts") {
+                if ($data['Key'] === "package_attempts") {
                     $a_package_attempts[$user_id] = $data['Value'];
                 }
                 // if ($data['Key'] == "module_version") $a_module_version[$user_id] = $data['Value'];
@@ -992,44 +950,38 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     }
 
 
-    
+
     //helper function
 
-    /**
-     * @param string $a_login
-     * @return int|null
-     */
-    public function get_user_id(string $a_login) : ?int
+    public function get_user_id(string $a_login): ?int
     {
         global $DIC;
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
-        
+
         $val_set = $ilDB->queryF(
             'SELECT * FROM usr_data WHERE(login=%s)',
             array('text'),
             array($a_login)
         );
         $val_rec = $ilDB->fetchAssoc($val_set);
-        
+
         if (count($val_rec) > 0) {
             return (int) $val_rec['usr_id'];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
      * resolves manifest SCOID to internal ILIAS SCO ID
-     * @param string $a_referrer
-     * @return int
      */
-    private function lookupSCOId(string $a_referrer) : int
+    private function lookupSCOId(string $a_referrer): int
     {
         global $DIC;
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
-        
+
         //non specific SCO entries
         if ($a_referrer == "0") {
             return 0;
@@ -1045,39 +997,35 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             array($a_referrer,$this->getID())
         );
         $val_rec = $ilDB->fetchAssoc($val_set);
-        
+
         return (int) $val_rec["obj_id"];
     }
 
     /**
      * assumes that only one account exists for a mailadress
-     * @param string $a_mail
-     * @return int
      */
-    public function getUserIdEmail(string $a_mail) : int
+    public function getUserIdEmail(string $a_mail): int
     {
         global $DIC;
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
-        
+
         $val_set = $ilDB->queryF(
             'SELECT usr_id FROM usr_data WHERE(email=%s)',
             array('text'),
             array($a_mail)
         );
         $val_rec = $ilDB->fetchAssoc($val_set);
-                
-        
+
+
         return (int) $val_rec["usr_id"];
     }
 
     //todo
     /**
      * send export file to browser
-     * @param $a_header
-     * @param $a_content
      */
-    public function sendExportFile($a_header, $a_content)
+    public function sendExportFile(string $a_header, string $a_content): void
     {
         $timestamp = time();
         $refid = $this->getRefId();
@@ -1085,17 +1033,17 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         ilUtil::deliverData($a_header . $a_content, $filename);
         exit;
     }
-    
+
     /**
     * Get an array of id's for all Sco's in the module
     * @param int $a_id Object id
     * @return array Sco id's
     */
-    public static function _getAllScoIds(int $a_id) : array
+    public static function _getAllScoIds(int $a_id): array
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $scos = array();
 
         $val_set = $ilDB->queryF(
@@ -1120,11 +1068,11 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         );
 
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            array_push($scos, $val_rec['scoid']);
+            $scos[] = $val_rec['scoid'];
         }
         return $scos;
     }
-    
+
     /**
     * Get the status of a SCORM module for a given user
     * @param int $a_id Object id
@@ -1133,12 +1081,12 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     * @param boolean $a_numerical Text (false) or boolean result (true)
     * @return bool Status result
     */
-    public static function _getStatusForUser(int $a_id, int $a_user, array $a_allScoIds, bool $a_numerical = false) : bool
+    public static function _getStatusForUser(int $a_id, int $a_user, array $a_allScoIds, bool $a_numerical = false): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
         $lng = $DIC->language();
-        
+
         $scos = $a_allScoIds;
         //check if all SCO's are completed
         $scos_c = implode(',', $scos);
@@ -1161,10 +1109,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         $completion = false;
         //check for completion
         if (count($scos) == 0) {
-            $completion = ($a_numerical === true)  ? true: $lng->txt("cont_complete");
+            $completion = ($a_numerical === true) ? true : $lng->txt("cont_complete");
         }
         if (count($scos) > 0) {
-            $completion = ($a_numerical === true)  ? false: $lng->txt("cont_incomplete");
+            $completion = ($a_numerical === true) ? false : $lng->txt("cont_incomplete");
         }
         return $completion;
     }
@@ -1175,7 +1123,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     * @param int $a_user User id
     * @return string Completion status
     */
-    public static function _getCourseCompletionForUser(int $a_id, int $a_user) : bool
+    public static function _getCourseCompletionForUser(int $a_id, int $a_user): bool
     {
         return ilObjSCORMLearningModule::_getStatusForUser($a_id, $a_user, ilObjSCORMLearningModule::_getAllScoIds($a_id), true);
     }
@@ -1183,11 +1131,11 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     /**
      * @return array
      */
-    public function getAllScoIds() : array
+    public function getAllScoIds(): array
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $scos = array();
         //get all SCO's of this object
         $val_set = $ilDB->queryF(
@@ -1212,18 +1160,12 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         );
 
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            array_push($scos, $val_rec['scoid']);
+            $scos[] = $val_rec['scoid'];
         }
         return $scos;
     }
 
-    /**
-     * @param int   $a_user
-     * @param array $a_allScoIds
-     * @param bool  $a_numerical
-     * @return bool
-     */
-    public function getStatusForUser(int $a_user, array $a_allScoIds, bool $a_numerical = false) : bool
+    public function getStatusForUser(int $a_user, array $a_allScoIds, bool $a_numerical = false): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1248,29 +1190,23 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         }
         //check for completion
         if (count($scos) == 0) {
-            $completion = ($a_numerical === true)  ? true: $this->lng->txt("cont_complete");
+            $completion = ($a_numerical === true) ? true : $this->lng->txt("cont_complete");
         }
         if (count($scos) > 0) {
-            $completion = ($a_numerical === true)  ? false: $this->lng->txt("cont_incomplete");
+            $completion = ($a_numerical === true) ? false : $this->lng->txt("cont_incomplete");
         }
         return $completion;
     }
 
-    /**
-     * @param int $a_user
-     * @return bool
-     */
-    public function getCourseCompletionForUser(int $a_user) : bool
+    public function getCourseCompletionForUser(int $a_user): bool
     {
         return $this->getStatusForUser($a_user, $this->getAllScoIds(), true);
     }
-    
+
     /**
      * to be called from IlObjUser
-     * @param int $user_id
-     * @return void
      */
-    public static function _removeTrackingDataForUser(int $user_id) : void
+    public static function _removeTrackingDataForUser(int $user_id): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1287,12 +1223,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         );
     }
 
-    /**
-     * @param int $a_item_id
-     * @param int $a_user_id
-     * @return null[]
-     */
-    public static function _getScoresForUser(int $a_item_id, int $a_user_id) : array
+    public static function _getScoresForUser(int $a_item_id, int $a_user_id): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1308,10 +1239,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             array($a_item_id, $a_user_id)
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            if ($val_rec['lvalue'] == "cmi.core.score.raw") {
+            if ($val_rec['lvalue'] === "cmi.core.score.raw") {
                 $retAr["raw"] = $val_rec["rvalue"];
             }
-            if ($val_rec['lvalue'] == "cmi.core.score.max") {
+            if ($val_rec['lvalue'] === "cmi.core.score.max") {
                 $retAr["max"] = $val_rec["rvalue"];
             }
         }
@@ -1322,11 +1253,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return $retAr;
     }
 
-    /**
-     * @param int $user_id
-     * @return string
-     */
-    public function getLastVisited(int $user_id) : string
+    public function getLastVisited(int $user_id): string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1343,11 +1270,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return '0';
     }
 
-    /**
-     * @param array $a_users
-     * @return void
-     */
-    public function deleteTrackingDataOfUsers(array $a_users) : void
+    public function deleteTrackingDataOfUsers(array $a_users): void
     {
         global $DIC;
         $ilDB = $DIC->database();

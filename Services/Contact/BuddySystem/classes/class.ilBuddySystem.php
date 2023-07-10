@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilBuddySystem
@@ -36,7 +38,7 @@ class ilBuddySystem
         $this->user = $DIC['ilUser'];
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         if (!(self::$instance instanceof self)) {
             self::$instance = new self();
@@ -45,26 +47,17 @@ class ilBuddySystem
         return self::$instance;
     }
 
-    /**
-     * @param string $keyword
-     * @param string $value
-     */
-    public function setSetting(string $keyword, string $value) : void
+    public function setSetting(string $keyword, string $value): void
     {
         $this->settings->set($keyword, $value);
     }
 
-    /**
-     * @param string $keyword
-     * @param string|null $default
-     * @return string|null
-     */
-    public function getSetting(string $keyword, ?string $default = null) : ?string
+    public function getSetting(string $keyword, ?string $default = null): ?string
     {
         return $this->settings->get($keyword, $default);
     }
 
-    public function isEnabled() : bool
+    public function isEnabled(): bool
     {
         if (self::$isEnabled !== null) {
             return self::$isEnabled;

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Setup;
 
 class ilBackgroundTasksMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
@@ -23,14 +23,14 @@ class ilBackgroundTasksMetricsCollectedObjective extends Setup\Metrics\Collected
     /**
      * @return \ilIniFilesLoadedObjective[]
      */
-    public function getTentativePreconditions(Setup\Environment $environment) : array
+    public function getTentativePreconditions(Setup\Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage): void
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         if (!$ini) {

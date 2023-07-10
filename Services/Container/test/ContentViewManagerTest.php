@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -11,21 +13,21 @@ class ContentViewManagerTest extends TestCase
 {
     protected \ILIAS\Container\Content\ViewManager $manager;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $view_repo = new \ILIAS\Container\Content\ViewSessionRepository();
         $this->manager = new \ILIAS\Container\Content\ViewManager($view_repo);
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test admin view
      */
-    public function testAdminView() : void
+    public function testAdminView(): void
     {
         $manager = $this->manager;
 
@@ -44,7 +46,7 @@ class ContentViewManagerTest extends TestCase
     /**
      * Test content view
      */
-    public function testContentView() : void
+    public function testContentView(): void
     {
         $manager = $this->manager;
 

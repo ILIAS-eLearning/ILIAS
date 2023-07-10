@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Refinery\In;
 
@@ -55,7 +57,7 @@ class Parallel implements Transformation
     /**
      * @inheritDoc
      */
-    public function transform($from) : array
+    public function transform($from): array
     {
         $results = [];
         foreach ($this->transformationStrategies as $strategy) {

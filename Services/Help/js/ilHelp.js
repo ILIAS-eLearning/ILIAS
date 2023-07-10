@@ -1,5 +1,19 @@
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 il.Help = {
 	tt_activated: true,
@@ -17,6 +31,21 @@ il.Help = {
 		this.initPanel(e, true);
 	},
 
+	sendAjaxGetRequestToUrl: function (url, par = {}, args= {}) {
+		let k;
+		args.url = url;
+		for (k in par) {
+			url = url + "&" + k + "=" + par[k];
+		}
+		il.repository.core.fetchHtml(url).then((html) => {
+			this.handleAjaxSuccess({
+				argument: args,
+				responseText: html
+			});
+		});
+	},
+
+
 	// init help panel
 	initPanel: function (e, sh) {
 		var n, b, obj;
@@ -27,15 +56,15 @@ il.Help = {
 		}
 		il.Help.insertPanelHTML("");
 		if (sh) {
-			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
-				{cmd: "showHelp"}, {}, this.handleAjaxSuccess);
+			this.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+				{cmd: "showHelp"});
 		}
 	},
 
 	// show single help page
 	showPage: function (id) {
-		il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
-			{cmd: "showPage", help_page: id}, {}, this.handleAjaxSuccess);
+		this.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+			{cmd: "showPage", help_page: id});
 		return false;
 	},
 
@@ -43,8 +72,8 @@ il.Help = {
 	showCurrentPage: function (id) {
 		if (this.ajax_url != '') {
 			this.initPanel(null, false);
-			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
-				{cmd: "showPage", help_page: id}, {}, this.handleAjaxSuccess);
+			this.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+				{cmd: "showPage", help_page: id});
 		}
 		return false;
 	},
@@ -131,26 +160,10 @@ il.Help = {
 	},
 
   resetCurrentPage: function () {
-    il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
-      {cmd: "resetCurrentPage"}, {mode: "resetCurrentPage"}, this.handleAjaxSuccess);
+    this.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+      {cmd: "resetCurrentPage"}, {mode: "resetCurrentPage"});
   },
 
-	// (de-)activate tooltips
-	switchTooltips: function (e) {
-return;
-		var t = il.Help;
-		if (t.tt_activated) {
-			t.tt_activated = false;
-			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
-				{cmd: "deactivateTooltips"}, {mode: "tooltipHandling"}, this.handleAjaxSuccess);
-		} else {
-			t.tt_activated = true;
-			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
-				{cmd: "activateTooltips"}, {mode: "tooltipHandling"}, this.handleAjaxSuccess);
-		}
-		il.Help.updateTooltips();
-		return false;
-	},
 
 	updateTooltips: function () {
 		var tips = $('#ilSubTab li, #ilTab li, .il_adv_sel, .dropdown-menu li a');
@@ -169,10 +182,8 @@ return;
 		var s, pageid, href = e.currentTarget.href;
 		s = href.split("#");
 		page_id = s[1].substr(3);
-		console.log(e.currentTarget.href);
-		console.log(page_id);
-		il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
-			{cmd: "showPage", help_page: page_id}, {}, this.handleAjaxSuccess);
+		this.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+			{cmd: "showPage", help_page: page_id});
 		return false;
 	},
 
@@ -188,8 +199,8 @@ return;
 	// perform search
 	search: function (term) {
 		var t = il.Help;
-		il.Util.sendAjaxGetRequestToUrl(t.getAjaxUrl(),
-			{cmd: "search", term: term}, {}, t.handleAjaxSuccess);
+		this.sendAjaxGetRequestToUrl(t.getAjaxUrl(),
+			{cmd: "search", term: term});
 	}
 
 

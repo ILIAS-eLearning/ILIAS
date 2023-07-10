@@ -1,0 +1,52 @@
+@use "../../../../010-settings/" as *;
+@use "../../../../050-layout/basics" as *;
+
+/* Services/UIComponent/Tabs */
+
+#ilTab {
+	padding: 0;
+	margin:  $il-padding-base-vertical 0;
+	border: 0 none;
+	border-bottom: 2px solid $il-neutral-color;
+}
+
+#ilTab a:focus-visible {
+	z-index: 3;
+}
+
+
+/* Sub Tabs */
+#ilSubTab {
+	padding: $il-padding-large-vertical 0;
+	margin: 0;
+
+	> li:first-child > a {
+		margin-left: $il-padding-xs-horizontal;
+	}
+
+	> li {
+		> a {
+			border-radius: 0;
+			padding: $il-padding-base-vertical $il-padding-large-horizontal;
+			font-size: ($il-font-size-small);
+
+			&:hover {
+				text-decoration: underline;
+				background-color: transparent;
+			}
+		}
+		&.active > a {
+			&,
+			&:hover,
+			&:focus {
+				color: $il-link-color;
+				background-color: transparent;
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+.il_after_tabs_spacing {
+	margin-bottom: $il-margin-xxlarge-vertical;
+}

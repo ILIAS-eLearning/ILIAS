@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilSCORM2004TrackingItemsPerUserFilterGUI
  *
@@ -27,10 +32,7 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
 
     public ilPropertyFormGUI $form;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(ilObjSCORM2004LearningModuleGUI $a_parent_obj, string $a_parent_cmd)
     {
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
@@ -38,13 +40,9 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
     }
 
     /**
-     * @param string $userSelected
-     * @param string $report
-     * @param array  $reports
-     * @return void
      * @throws ilCtrlException
      */
-    public function parse(string $userSelected, string $report, array $reports) : void
+    public function parse(string $userSelected, string $report, array $reports): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -60,9 +58,9 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
 
         if ($users && count($users) > 0) {
             foreach ($users as $user) {
-                if (ilObject::_exists((integer) $user) && ilObject::_lookUpType((integer) $user) == 'usr') {
+                if (ilObject::_exists((int) $user) && ilObject::_lookUpType((int) $user) === 'usr') {
                     if ($allowExportPrivacy == true) {
-                        $e_user = new ilObjUser((integer) $user);
+                        $e_user = new ilObjUser((int) $user);
                         $options[$user] = $e_user->getLastname() . ", " . $e_user->getFirstname();
                     } else {
                         $options[$user] = 'User Id: ' . $user;
@@ -79,8 +77,8 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         $this->form->addItem($si);
 
         $options = array("choose" => $lng->txt("please_choose"));
-        for ($i = 0;$i < count($reports);$i++) {
-            $options[$reports[$i]] = $lng->txt(strtolower($reports[$i]));
+        foreach ($reports as $value) {
+            $options[$value] = $lng->txt(strtolower($value));
         }
         $si = new ilSelectInputGUI($lng->txt("report"), "report");
         $si->setOptions($options);

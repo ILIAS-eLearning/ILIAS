@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\Section;
 
@@ -41,7 +44,7 @@ class SectionCommandActionHandler implements Server\CommandActionHandler
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
 
-    public function handle(array $query, array $body) : Server\Response
+    public function handle(array $query, array $body): Server\Response
     {
         switch ($body["action"]) {
             case "insert":
@@ -55,7 +58,7 @@ class SectionCommandActionHandler implements Server\CommandActionHandler
         }
     }
 
-    protected function insertCommand(array $body) : Server\Response
+    protected function insertCommand(array $body): Server\Response
     {
         $page = $this->page_gui->getPageObject();
 
@@ -85,7 +88,7 @@ class SectionCommandActionHandler implements Server\CommandActionHandler
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 
-    protected function updateCommand(array $body) : Server\Response
+    protected function updateCommand(array $body): Server\Response
     {
         $page = $this->page_gui->getPageObject();
         $page->addHierIDs();

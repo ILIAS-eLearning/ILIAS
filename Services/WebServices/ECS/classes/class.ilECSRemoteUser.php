@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
  * Storage of ecs remote user
@@ -25,8 +28,8 @@ class ilECSRemoteUser
     private int $mid;
     private int $usr_id;
     private string $remote_usr_id;
-    
-    
+
+
     /**
      * Constructor
      */
@@ -43,48 +46,48 @@ class ilECSRemoteUser
         $this->usr_id = $usr_id;
         $this->remote_usr_id = $remote_usr_id;
     }
-    
-    public function getId() : int
+
+    public function getId(): int
     {
         return $this->eru_id;
     }
-    
-    public function setServerId(int $a_sid) : void
+
+    public function setServerId(int $a_sid): void
     {
         $this->sid = $a_sid;
     }
-    
-    public function getServerId() : int
+
+    public function getServerId(): int
     {
         return $this->sid;
     }
-    
-    public function setMid(int $a_mid) : void
+
+    public function setMid(int $a_mid): void
     {
         $this->mid = $a_mid;
     }
-    
-    public function getMid() : int
+
+    public function getMid(): int
     {
         return $this->mid;
     }
-    
-    public function setUserId(int $a_usr_id) : void
+
+    public function setUserId(int $a_usr_id): void
     {
         $this->usr_id = $a_usr_id;
     }
-    
-    public function getUserId() : int
+
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
-    
-    public function setRemoteUserId(string $a_remote_id) : void
+
+    public function setRemoteUserId(string $a_remote_id): void
     {
         $this->remote_usr_id = $a_remote_id;
     }
-    
-    public function getRemoteUserId() : string
+
+    public function getRemoteUserId(): string
     {
         return $this->remote_usr_id;
     }

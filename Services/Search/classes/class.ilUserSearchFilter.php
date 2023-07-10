@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -75,53 +77,53 @@ class ilUserSearchFilter
         $this->result_obj = new ilSearchResult();
     }
 
-    public function enableField(string $key) : void
+    public function enableField(string $key): void
     {
         $this->search_fields[$key] = true;
     }
-    public function disableField(string $key) : void
+    public function disableField(string $key): void
     {
         $this->search_fields[$key] = true;
     }
-    public function enableMemberFilter(bool $a_status) : void
+    public function enableMemberFilter(bool $a_status): void
     {
         $this->enabled_member_filter = $a_status;
     }
 
-    public function setPossibleUsers(array $a_users) : void
+    public function setPossibleUsers(array $a_users): void
     {
         $this->possible_users = $a_users ?: array();
     }
 
 
-    public function getLimit() : int
+    public function getLimit(): int
     {
         return $this->limit;
     }
 
-    public function limitReached() : bool
+    public function limitReached(): bool
     {
         return $this->limit_reached;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
-    
-    public function storeQueryStrings(array $a_strings) : void
+
+    public function storeQueryStrings(array $a_strings): void
     {
         ilSession::set('search_usr_filter', $a_strings);
     }
 
-    public function getQueryString(string $a_field) : string
+    public function getQueryString(string $a_field): string
     {
         $session_usr_filter = ilSession::get('search_usr_filter') ?? [];
         return $session_usr_filter[$a_field] ?? '';
     }
 
 
-    public function getUsers() : array
+    public function getUsers(): array
     {
         // Check if a query string is given
         foreach ($this->search_fields as $field => $enabled) {
@@ -139,7 +141,7 @@ class ilUserSearchFilter
     }
 
 
-    public function __searchObjects() : array
+    public function __searchObjects(): array
     {
         foreach ($this->search_fields as $field => $enabled) {
             // Disabled ?
@@ -158,7 +160,7 @@ class ilUserSearchFilter
             }
             $user_search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
             $user_search->setFields(array($field));
-            
+
             // store entries
             $result_obj = $user_search->performSearch();
             $this->__storeEntries($result_obj);
@@ -195,7 +197,7 @@ class ilUserSearchFilter
     }
 
 
-    public function __storeEntries(ilSearchResult $new_res) : bool
+    public function __storeEntries(ilSearchResult $new_res): bool
     {
         if ($this->stored == false) {
             $this->result_obj->mergeEntries($new_res);
@@ -207,7 +209,7 @@ class ilUserSearchFilter
         }
     }
 
-    public function __toArray(array $entries) : array
+    public function __toArray(array $entries): array
     {
         $users = [];
         foreach ($entries as $entry) {
@@ -217,7 +219,7 @@ class ilUserSearchFilter
     }
 
 
-    public function memberFilter(int $a_usr_id, array $entry_data) : bool
+    public function memberFilter(int $a_usr_id, array $entry_data): bool
     {
         return in_array($a_usr_id, $this->possible_users);
     }

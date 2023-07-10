@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Tree;
 
@@ -39,7 +55,7 @@ abstract class Tree implements ITree\Tree
     /**
      * @inheritDoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -47,7 +63,7 @@ abstract class Tree implements ITree\Tree
     /**
      * @inheritdoc
      */
-    public function withEnvironment($environment) : ITree\Tree
+    public function withEnvironment($environment): ITree\Tree
     {
         $clone = clone $this;
         $clone->environment = $environment;
@@ -57,7 +73,7 @@ abstract class Tree implements ITree\Tree
     /**
      * @inheritdoc
      */
-    public function withData($data) : ITree\Tree
+    public function withData($data): ITree\Tree
     {
         $clone = clone $this;
         $clone->data = $data;
@@ -83,7 +99,7 @@ abstract class Tree implements ITree\Tree
     /**
      * @inheritdoc
      */
-    public function getRecursion() : ITree\TreeRecursion
+    public function getRecursion(): ITree\TreeRecursion
     {
         return $this->recursion;
     }
@@ -91,7 +107,7 @@ abstract class Tree implements ITree\Tree
     /**
      * @inheritdoc
      */
-    public function withHighlightOnNodeClick(bool $highlight_nodes_on_click) : ITree\Tree
+    public function withHighlightOnNodeClick(bool $highlight_nodes_on_click): ITree\Tree
     {
         $clone = clone $this;
         $clone->highlight_nodes_on_click = $highlight_nodes_on_click;
@@ -101,7 +117,7 @@ abstract class Tree implements ITree\Tree
     /**
      * @inheritdoc
      */
-    public function getHighlightOnNodeClick() : bool
+    public function getHighlightOnNodeClick(): bool
     {
         return $this->highlight_nodes_on_click;
     }
@@ -109,7 +125,7 @@ abstract class Tree implements ITree\Tree
     /**
      * @inheritdoc
      */
-    public function isSubTree() : bool
+    public function isSubTree(): bool
     {
         return $this->is_sub;
     }
@@ -117,7 +133,7 @@ abstract class Tree implements ITree\Tree
     /**
      * @inheritdoc
      */
-    public function withIsSubTree(bool $is_sub) : ITree\Tree
+    public function withIsSubTree(bool $is_sub): ITree\Tree
     {
         $clone = clone $this;
         $clone->is_sub = $is_sub;

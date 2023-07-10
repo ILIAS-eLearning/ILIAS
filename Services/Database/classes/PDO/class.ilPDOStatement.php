@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilPDOStatement is a Wrapper Class for PDOStatement
@@ -50,31 +68,31 @@ class ilPDOStatement implements ilDBStatement
     /**
      * Pdo allows for a manual closing of the cursor.
      */
-    public function closeCursor() : void
+    public function closeCursor(): void
     {
         $this->pdo_statement->closeCursor();
     }
 
 
-    public function rowCount() : int
+    public function rowCount(): int
     {
         return $this->pdo_statement->rowCount();
     }
 
 
-    public function fetchObject() : ?stdClass
+    public function fetchObject(): ?stdClass
     {
         return $this->fetch(ilDBConstants::FETCHMODE_OBJECT) ?: null;
     }
 
 
-    public function fetchAssoc() : ?array
+    public function fetchAssoc(): ?array
     {
         return $this->fetch(ilDBConstants::FETCHMODE_ASSOC);
     }
 
 
-    public function numRows() : int
+    public function numRows(): int
     {
         return $this->pdo_statement->rowCount();
     }
@@ -83,19 +101,19 @@ class ilPDOStatement implements ilDBStatement
     /**
      * @inheritdoc
      */
-    public function execute(array $a_data = null) : ilDBStatement
+    public function execute(array $a_data = null): ilDBStatement
     {
         $this->pdo_statement->execute($a_data);
 
         return $this;
     }
 
-    public function errorCode() : string
+    public function errorCode(): string
     {
         return $this->pdo_statement->errorCode();
     }
 
-    public function errorInfo() : array
+    public function errorInfo(): array
     {
         return $this->pdo_statement->errorInfo();
     }

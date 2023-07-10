@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * XML writer class
  * Class to simplify manual writing of xml documents.
@@ -30,7 +30,7 @@ class ilExerciseXMLWriter extends ilXmlWriter
     public static int $CONTENT_ATTACH_ENCODED = 1;
     public static int $CONTENT_ATTACH_ZLIB_ENCODED = 2;
     public static int $CONTENT_ATTACH_GZIP_ENCODED = 3;
-    
+
     public static string $STATUS_NOT_GRADED = "NOT_GRADED";
     public static string $STATUS_PASSED = "PASSED";
     public static string $STATUS_FAILED = "FAILED";
@@ -38,7 +38,7 @@ class ilExerciseXMLWriter extends ilXmlWriter
     public bool $attachFileContents; // if true, file contents will be attached as base64
     public bool $attachMembers; // if true, members will be attach to xml
     public ilObjExercise $exercise;
-    
+
     public function __construct()
     {
         // @todo: needs to be revised for multiple assignments per exercise
@@ -46,17 +46,17 @@ class ilExerciseXMLWriter extends ilXmlWriter
         parent::__construct();
         $this->attachFileContents = ilExerciseXMLWriter::$CONTENT_ATTACH_NO;
     }
-    
-    public function setExercise(ilObjExercise $exercise) : void
+
+    public function setExercise(ilObjExercise $exercise): void
     {
         $this->exercise = $exercise;
     }
-    
+
     /**
      * set attachment content mode
      * @throws  ilExerciseException if mode is not supported
      */
-    public function setAttachFileContents(int $attachFileContents) : void
+    public function setAttachFileContents(int $attachFileContents): void
     {
         if ($attachFileContents == ilExerciseXMLWriter::$CONTENT_ATTACH_GZIP_ENCODED && !function_exists("gzencode")) {
             throw new ilExerciseException("Inflating with gzip is not supported", ilExerciseException::$ID_DEFLATE_METHOD_MISMATCH);
@@ -64,38 +64,38 @@ class ilExerciseXMLWriter extends ilXmlWriter
         if ($attachFileContents == ilExerciseXMLWriter::$CONTENT_ATTACH_ZLIB_ENCODED && !function_exists("gzcompress")) {
             throw new ilExerciseException("Inflating with zlib (compress/uncompress) is not supported", ilExerciseException::$ID_DEFLATE_METHOD_MISMATCH);
         }
-        
+
         $this->attachFileContents = $attachFileContents;
     }
-    
-    public function start() : bool
+
+    public function start(): bool
     {
         $this->__buildHeader();
-        
+
         $attribs = array("obj_id" => "il_" . IL_INST_ID . "_exc_" . $this->exercise->getId() );
-        
+
         if ($this->exercise->getOwner() !== 0) {
             $attribs ["owner"] = "il_" . IL_INST_ID . "_usr_" . $this->exercise->getOwner();
         }
-        
+
         $this->xmlStartTag("Exercise", $attribs);
-        
+
         //todo: create new dtd for new assignment structure
         $this->xmlElement("Title", null, $this->exercise->getTitle());
         $this->xmlElement("Description", null, $this->exercise->getDescription());
         //$this->xmlElement("Instruction",  null,$this->exercise->getInstruction());
         //$this->xmlElement("DueDate",  null,$this->exercise->getTimestamp());
-        
+
 
         //todo: as a workaround use first assignment for compatibility with old exercise dtd
         $assignments = ilExAssignment::getAssignmentDataOfExercise($this->exercise->getId());
-        
+
         if (count($assignments) > 0) {
             foreach ($assignments as $assignment) {
                 $this->xmlStartTag("Assignment");
                 $this->xmlElement("Instruction", null, $assignment ["instruction"]);
                 $this->xmlElement("DueDate", null, $assignment ["deadline"]);
-                
+
                 $this->handleAssignmentFiles($this->exercise->getId(), $assignment ["id"]);
                 if ($this->attachMembers) {
                     $this->handleAssignmentMembers($this->exercise->getId(), $assignment ["id"]);
@@ -103,55 +103,55 @@ class ilExerciseXMLWriter extends ilXmlWriter
                 $this->xmlEndTag("Assignment");
             }
         }
-        
+
 
         $this->xmlEndTag("Exercise");
         $this->__buildFooter();
-        
+
         return true;
     }
-    
-    public function getXML() : string
+
+    public function getXML(): string
     {
         return $this->xmlDumpMem(false);
     }
-    
-    public function __buildHeader() : bool
+
+    public function __buildHeader(): bool
     {
         $this->xmlSetDtdDef("<!DOCTYPE Exercise PUBLIC \"-//ILIAS//DTD ExerciseAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_exercise_4_4.dtd\">");
         $this->xmlSetGenCmt("Exercise Object");
         $this->xmlHeader();
-        
+
         return true;
     }
-    
-    public function __buildFooter() : void
+
+    public function __buildFooter(): void
     {
     }
-    
+
     /**
      * write access to property attchMarkings
      */
-    public function setAttachMembers(bool $value) : void
+    public function setAttachMembers(bool $value): void
     {
         $this->attachMembers = $value;
     }
-    
+
     /**
      * attach marking tag to member for given assignment
      */
     private function attachMarking(
         int $user_id,
         int $assignment_id
-    ) : void {
+    ): void {
         $ass = new ilExAssignment($assignment_id);
 
         $amark = $ass->getMemberStatus($user_id)->getMark();
         $astatus = $ass->getMemberStatus($user_id)->getStatus();
         $acomment = $ass->getMemberStatus($user_id)->getComment();
         $anotice = $ass->getMemberStatus($user_id)->getNotice();
-        
-        
+
+
         if ($astatus == "notgraded") {
             $status = ilExerciseXMLWriter::$STATUS_NOT_GRADED;
         } elseif ($astatus == "failed") {
@@ -159,22 +159,22 @@ class ilExerciseXMLWriter extends ilXmlWriter
         } else {
             $status = ilExerciseXMLWriter::$STATUS_PASSED;
         }
-        
+
         $this->xmlStartTag("Marking", array("status" => $status ));
         $this->xmlElement("Mark", null, $amark);
         $this->xmlElement("Notice", null, $anotice);
         $this->xmlElement("Comment", null, $acomment);
         $this->xmlEndTag("Marking");
     }
-    
+
     private function handleAssignmentFiles(
         int $ex_id,
         int $as_id
-    ) : void {
+    ): void {
         $this->xmlStartTag("Files");
         $storage = new ilFSStorageExercise($ex_id, $as_id);
         $files = $storage->getFiles();
-        
+
         if (count($files)) {
             foreach ($files as $file) {
                 $this->xmlStartTag("File", array("size" => $file ["size"] ));
@@ -200,22 +200,22 @@ class ilExerciseXMLWriter extends ilXmlWriter
         }
         $this->xmlEndTag("Files");
     }
-    
+
     /**
      * create xml for files per assignment
      */
     private function handleAssignmentMembers(
         int $ex_id,
         int $assignment_id
-    ) : void {
+    ): void {
         $this->xmlStartTag("Members");
         $members = ilExerciseMembers::_getMembers($ex_id);
         if (count($members)) {
             foreach ($members as $member_id) {
                 $this->xmlStartTag("Member", array("usr_id" => "il_" . IL_INST_ID . "_usr_" . $member_id  ));
-                
+
                 $name = ilObjUser::_lookupName($member_id);
-                
+
                 $this->xmlElement("Firstname", array(), $name['firstname']);
                 $this->xmlElement("Lastname", array(), $name['lastname']);
                 $this->xmlElement("Login", array(), $name['login']);

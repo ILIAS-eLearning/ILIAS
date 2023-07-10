@@ -108,7 +108,7 @@ Everytime you add, modify or delete these declarations, you need to add a specia
 ```
 <#STEP-ID>
 <?php
-	$ilCtrlStructureReader->getStructure();
+    $ilCtrlStructureReader->getStructure();
 ?>
 ```
 
@@ -333,3 +333,16 @@ All cases discussed so far assume that a target GUI class performs the current c
 There are cases where a GUI class wants to merge a number of HTML snippets from sub GUI classes, without these classes performing a command (in the current request). E.g. the ILIAS 6 dashboard needs to collect parts from other GUI classes in its main "show" command.
 
 Similar to `$ilCtrl->forwardCommand($childGUI) > $childGUI->executeCommand()` a child class may be called by `$ilCtrl->getHTML($childGUI); -> $childGUI->getHTML();`. In the second case the child GUI class does not perform the current command, it just returns a HTML snippet to the parent. However since `ilCtrl` is aware of the child performing its `getHTML` method, the child may use `ilCtrl` within this method in the usual way. `ilCtrl` will update the current control flow path adding the child GUI class when the method is called and reset the path to the parents GUI class, once the child `getHTML()` method is finished.
+
+## Listen to ilCtrl Events
+Components can be notified about events in ilCtrl, this is done according to the observer pattern. ilCtrl acts as a subject and informs about the following events (see enum `ilCtrlEvent`):
+
+- ilCtrlEvent::COMMAND_CLASS_FORWARD: ilCtrl forwards the request to the next command class (including base class). The class name of the class is passed as parameter `$data`.
+- ilCtrlEvent::COMMAND_DETERMINATION: ilCtrl is requested via `getCmd()` for the current command and issues the determined command. The event is broadcast with the determined command as parameter `$data`.
+
+As `ilCtrlObserver` one can react to these events or use this information. Use cases are e.g.
+
+- Generating a screen ID for the online help
+- Output call stack in DEV mode, e.g. in the footer
+
+> In a observer, the request MUST NOT be changed under any circumstances (e.g. by redirecting or by aborting the request), no exceptions MUST BE thrown and nothing MUST be done that changes the control flow.

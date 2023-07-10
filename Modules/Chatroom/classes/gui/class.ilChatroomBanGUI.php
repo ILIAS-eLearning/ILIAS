@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilChatroomBanGUI
  * @author  Jan Posselt <jposselt@databay.de>
@@ -24,9 +26,9 @@
  */
 class ilChatroomBanGUI extends ilChatroomGUIHandler
 {
-    private ilCtrlInterface $controller;
-    private ilLanguage $language;
-    private ilObjUser $user;
+    private readonly ilCtrlInterface $controller;
+    private readonly ilLanguage $language;
+    private readonly ilObjUser $user;
 
     public function __construct(
         ilChatroomObjectGUI $gui,
@@ -55,12 +57,12 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         parent::__construct($gui);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $userTrafo = $this->refinery->kindlyTo()->listOf(
             $this->refinery->kindlyTo()->int()
         );
-        
+
         $users = $this->getRequestValue('banned_user_id', $userTrafo, []);
         if ($users === []) {
             $this->mainTpl->setOnScreenMessage('info', $this->ilLng->txt('no_checkbox'), true);
@@ -75,7 +77,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         $this->ilCtrl->redirect($this->gui, 'ban-show');
     }
 
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->show();
     }
@@ -83,7 +85,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
     /**
      * Displays banned users task.
      */
-    public function show() : void
+    public function show(): void
     {
         $this->redirectIfNoPermission('read');
 
@@ -96,14 +98,14 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         $table->setFormAction($this->controller->getFormAction($this->gui, 'ban-show'));
 
         $data = $room->getBannedUsers();
-        $actorId = array_filter(array_map(static function (array $row) : int {
+        $actorId = array_filter(array_map(static function (array $row): int {
             return (int) $row['actor_id'];
         }, $data));
 
         $sortable_names = ilUserUtil::getNamePresentation($actorId);
         $names = ilUserUtil::getNamePresentation($actorId, false, false, '', false, false, false);
 
-        array_walk($data, function (&$row) use ($names, $sortable_names) : void {
+        array_walk($data, function (&$row) use ($names, $sortable_names): void {
             if ($row['actor_id'] > 0 && isset($names[$row['actor_id']])) {
                 $row['actor_display'] = $names[$row['actor_id']];
                 $row['actor'] = $sortable_names[$row['actor_id']];
@@ -118,7 +120,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         $this->mainTpl->setVariable('ADM_CONTENT', $table->getHTML());
     }
 
-    public function active() : void
+    public function active(): void
     {
         $this->redirectIfNoPermission(['read', 'moderate']);
 
@@ -126,10 +128,9 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         $this->exitIfNoRoomExists($room);
 
         $userToBan = $this->getRequestValue('user', $this->refinery->kindlyTo()->int());
-        $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
 
         $connector = $this->gui->getConnector();
-        $response = $connector->sendBan($room->getRoomId(), $subRoomId, $userToBan);
+        $response = $connector->sendBan($room->getRoomId(), $userToBan);
 
         if ($this->isSuccessful($response)) {
             $room->banUser($userToBan, $this->user->getId());

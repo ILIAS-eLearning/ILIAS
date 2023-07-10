@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -19,34 +21,48 @@
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class PlayerAudioTest extends ILIAS_UI_TestBase
 {
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function modal() : C\Modal\Factory
-            {
-                return new I\Component\Modal\Factory(new I\Component\SignalGenerator());
+        return new class (
+            $this->createMock(C\Modal\InterruptiveItem\Factory::class),
+            $this->createMock(FieldFactory::class),
+        ) extends NoUIFactory {
+            public function __construct(
+                protected C\Modal\InterruptiveItem\Factory $item_factory,
+                protected FieldFactory $field_factory,
+            ) {
             }
-            public function button() : C\Button\Factory
+
+            public function modal(): C\Modal\Factory
+            {
+                return new I\Component\Modal\Factory(
+                    new I\Component\SignalGenerator(),
+                    $this->item_factory,
+                    $this->field_factory,
+                );
+            }
+            public function button(): C\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
         };
     }
 
-    public function getFactory() : C\Player\Factory
+    public function getFactory(): C\Player\Factory
     {
         return new I\Component\Player\Factory();
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getFactory();
 
@@ -55,7 +71,7 @@ class PlayerAudioTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Player\\Audio", $audio);
     }
 
-    public function test_get_title_get_source() : void
+    public function test_get_title_get_source(): void
     {
         $f = $this->getFactory();
 
@@ -64,7 +80,7 @@ class PlayerAudioTest extends ILIAS_UI_TestBase
         $this->assertEquals("/foo", $audio->getSource());
     }
 
-    public function test_get_title_get_transcript() : void
+    public function test_get_title_get_transcript(): void
     {
         $f = $this->getFactory();
 
@@ -73,7 +89,7 @@ class PlayerAudioTest extends ILIAS_UI_TestBase
         $this->assertEquals("bar", $audio->getTranscription());
     }
 
-    public function test_render_audio() : void
+    public function test_render_audio(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -84,7 +100,7 @@ class PlayerAudioTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 <div class="il-audio-container">
-    <audio class="il-audio-player" id="id_1" src="/foo" preload="meta"></audio>
+    <audio class="il-audio-player" id="id_1" src="/foo" preload="metadata"></audio>
 </div>
 EOT;
         $this->assertHTMLEquals(
@@ -93,7 +109,7 @@ EOT;
         );
     }
 
-    public function test_render_with_transcript() : void
+    public function test_render_with_transcript(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

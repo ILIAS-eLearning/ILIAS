@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjSCORM2004LearningModule
@@ -9,31 +25,24 @@
  */
 class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 {
-    /**
-     * @var ilObjUser
-     */
     protected ilObjUser $user;
 
-    /**
-     * @var ilTabsGUI
-     */
     protected ilTabsGUI $tabs;
 
     protected bool $import_sequencing = false;
 
     protected string $imsmanifestFile;
 
-    const CONVERT_XSL = './Modules/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
-    const WRAPPER_HTML = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
-    const WRAPPER_JS = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
+    public const CONVERT_XSL = './Modules/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
+    public const WRAPPER_HTML = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
+    public const WRAPPER_JS = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
 
     /**
     * Constructor
-    * @access	public
     * @param	integer	reference_id or object_id
     * @param	boolean	treat the id as reference_id (true) or object_id (false)
     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
 
@@ -52,7 +61,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
      *
      * @param boolean $a_val import sequencing information
      */
-    public function setImportSequencing(bool $a_val)
+    public function setImportSequencing(bool $a_val): void
     {
         $this->import_sequencing = $a_val;
     }
@@ -62,16 +71,15 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
      *
      * @return boolean import sequencing information
      */
-    public function getImportSequencing() : bool
+    public function getImportSequencing(): bool
     {
         return $this->import_sequencing;
     }
 
     /**
     * read manifest file
-    * @access	public
     */
-    public function readObject() : string
+    public function readObject(): string
     {
         global $DIC;
         $lng = $this->lng;
@@ -126,7 +134,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         if ($needs_convert) {
             // if file exists and enough space left on device
             if ($check_for_manifest_file && ($check_disc_free > 1)) {
-
                 // create backup from original
                 if (!copy($manifest_file, $manifest_file . ".old")) {
                     echo "Failed to copy $manifest_file...<br>\n";
@@ -139,7 +146,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                 while (!feof($f_read_handler)) {
                     $zeile = fgets($f_read_handler);
                     //echo mb_detect_encoding($zeile);
-                    fputs($f_write_handler, utf8_encode($zeile));
+                    fwrite($f_write_handler, utf8_encode($zeile));
                 }
                 fclose($f_read_handler);
                 fclose($f_write_handler);
@@ -164,11 +171,11 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             // check whether file starts with BOM (that confuses some sax parsers, see bug #1795)
             $hmani = fopen($manifest_file, "r");
             $start = fread($hmani, 3);
-            if (strtolower(bin2hex($start)) == "efbbbf") {
+            if (strtolower(bin2hex($start)) === "efbbbf") {
                 $f_write_handler = fopen($manifest_file . ".new", "w");
                 while (!feof($hmani)) {
                     $n = fread($hmani, 900);
-                    fputs($f_write_handler, $n);
+                    fwrite($f_write_handler, $n);
                 }
                 fclose($f_write_handler);
                 fclose($hmani);
@@ -186,20 +193,19 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $this->convert_1_2_to_2004($manifest_file);
 
         // start SCORM 2004 package parser/importer
-        $newPack = new ilSCORM13Package();
-//        if ($this->getEditable()) {
+        //        if ($this->getEditable()) {
 //            return $newPack->il_importLM(
 //                $this,
 //                $this->getDataDirectory(),
 //                $this->getImportSequencing()
 //            );
 //        } else {
-        return $newPack->il_import($this->getDataDirectory(), $this->getId());
+        return (new ilSCORM13Package())->il_import($this->getDataDirectory(), $this->getId());
 //        }
     }
 
 
-    public function fixReload() : void
+    public function fixReload(): void
     {
         $out = file_get_contents($this->imsmanifestFile);
         $check = '/xmlns="http:\/\/www.imsglobal.org\/xsd\/imscp_v1p1"/';
@@ -209,7 +215,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     }
 
 
-    public function convert_1_2_to_2004(string $manifest) : void
+    public function convert_1_2_to_2004(string $manifest): void
     {
         $ilDB = $this->db;
         $ilLog = $this->log;
@@ -227,64 +233,66 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $doc->load($this->imsmanifestFile);
         $elements = $doc->getElementsByTagName("schemaversion");
         $schema = $elements->item(0)->nodeValue;
-        if (strtolower(trim($schema)) == "cam 1.3" || strtolower(trim($schema)) == "2004 3rd edition" || strtolower(trim($schema)) == "2004 4th edition") {
+        if (strtolower(trim($schema)) === "cam 1.3" || strtolower(trim($schema)) === "2004 3rd edition" || strtolower(trim($schema)) === "2004 4th edition") {
             //no conversion
             $this->converted = false;
             return;
-        } else {
-            $this->converted = true;
-            //convert to SCORM 2004
+        }
 
-            //check for broken SCORM 1.2 manifest file (missing organization default-common error in a lot of manifest files)
-            $organizations = $doc->getElementsByTagName("organizations");
-            //first check if organizations is in manifest
-            if ($organizations->item(0) == null) {
-                die("organizations missing in manifest");
-            }
-            $default = $organizations->item(0)->getAttribute("default");
-            if ($default == "" || $default == null) {
-                //lookup identifier
-                $organization = $doc->getElementsByTagName("organization");
-                $ident = $organization->item(0)->getAttribute("identifier");
+        $this->converted = true;
+        //convert to SCORM 2004
+
+        //check for broken SCORM 1.2 manifest file (missing organization default-common error in a lot of manifest files)
+        $organizations = $doc->getElementsByTagName("organizations");
+        //first check if organizations is in manifest
+        if ($organizations->item(0) == null) {
+            die("organizations missing in manifest");
+        }
+        $default = $organizations->item(0)->getAttribute("default");
+        if ($default == "" || $default == null) {
+            //lookup identifier
+            $organization = $doc->getElementsByTagName("organization");
+            $item = $organization->item(0);
+            if ($item !== null) {
+                $ident = $item->getAttribute("identifier");
                 $organizations->item(0)->setAttribute("default", $ident);
             }
-
-            //validate the fixed mainfest. If it's still not valid, don't transform an throw error
-
-
-            //first copy wrappers
-            $wrapperdir = $this->packageFolder . "/GenericRunTimeWrapper1.0_aadlc";
-            mkdir($wrapperdir);
-            copy(self::WRAPPER_HTML, $wrapperdir . "/GenericRunTimeWrapper.htm");
-            copy(self::WRAPPER_JS, $wrapperdir . "/SCOPlayerWrapper.js");
-
-            //backup manifestfile
-            $this->backupManifest = $this->packageFolder . "/imsmanifest.xml.back";
-            $ret = copy($this->imsmanifestFile, $this->backupManifest);
-
-            //transform manifest file
-            $this->totransform = $doc;
-            $ilLog->write("SCORM: about to transform to SCORM 2004");
-
-            $xsl = new DOMDocument;
-            $xsl->async = false;
-            $xsl->load(self::CONVERT_XSL);
-            $prc = new XSLTProcessor;
-            $r = @$prc->importStyleSheet($xsl);
-
-            file_put_contents($this->imsmanifestFile, $prc->transformToXML($this->totransform));
-
-            $ilLog->write("SCORM: Transformation completed");
         }
+
+        //validate the fixed mainfest. If it's still not valid, don't transform an throw error
+
+
+        //first copy wrappers
+        $wrapperdir = $this->packageFolder . "/GenericRunTimeWrapper1.0_aadlc";
+        if (!mkdir($wrapperdir) && !is_dir($wrapperdir)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $wrapperdir));
+        }
+        copy(self::WRAPPER_HTML, $wrapperdir . "/GenericRunTimeWrapper.htm");
+        copy(self::WRAPPER_JS, $wrapperdir . "/SCOPlayerWrapper.js");
+
+        //backup manifestfile
+        $this->backupManifest = $this->packageFolder . "/imsmanifest.xml.back";
+        $ret = copy($this->imsmanifestFile, $this->backupManifest);
+
+        //transform manifest file
+        $this->totransform = $doc;
+        $ilLog->write("SCORM: about to transform to SCORM 2004");
+
+        $xsl = new DOMDocument();
+        $xsl->async = false;
+        $xsl->load(self::CONVERT_XSL);
+        $prc = new XSLTProcessor();
+        $r = @$prc->importStyleSheet($xsl);
+
+        file_put_contents($this->imsmanifestFile, $prc->transformToXML($this->totransform));
+
+        $ilLog->write("SCORM: Transformation completed");
     }
 
     /**
      * Return the last access timestamp for a given user
-     * @param int $a_obj_id object id
-     * @param int $a_usr_id
-     * @return string|null
      */
-    public static function _lookupLastAccess(int $a_obj_id, int $a_usr_id) : ?string
+    public static function _lookupLastAccess(int $a_obj_id, int $a_usr_id): ?string
     {
         global $DIC;
 
@@ -309,16 +317,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         return null;
     }
 
-    /**
-     * @param array $a_users
-     * @return void
-     */
-    public function deleteTrackingDataOfUsers(array $a_users) : void
+    public function deleteTrackingDataOfUsers(array $a_users): void
     {
         $ilDB = $this->db;
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-        include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
         ilChangeEvent::_deleteReadEventsForUsers($this->getId(), $a_users);
 
         foreach ($a_users as $user) {
@@ -329,9 +330,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 
     /**
-    * get all tracked items of current user
-    */
-    public function getTrackedItems() : array
+     * get all tracked items of current user
+     * @return array<int, array<string, mixed>>
+     */
+    public function getTrackedItems(): array
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -353,18 +355,16 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         while ($sco_rec = $ilDB->fetchAssoc($sco_set)) {
             $item['id'] = $sco_rec["id"];
             $item['title'] = self::_lookupItemTitle($sco_rec["id"]);
-            $items[count($items)] = $item;
+            $items[] = $item;
         }
         return $items;
     }
 
     /**
-     * @param int       $a_user_id
-     * @param bool|null $raw
-     * @return array
      * @throws ilDateTimeException
+     * @return array<int|string, mixed[]>
      */
-    public function getTrackingDataAgg(int $a_user_id, ?bool $raw = false) : array
+    public function getTrackingDataAgg(int $a_user_id, ?bool $raw = false): array
     {
         $ilDB = $this->db;
 
@@ -380,7 +380,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             array('item',$this->getId())
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            array_push($scos, $val_rec['cp_node_id']);
+            $scos[] = $val_rec['cp_node_id'];
         }
 
         foreach ($scos as $sco) {
@@ -396,7 +396,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             );
 
             while ($data_rec = $ilDB->fetchAssoc($data_set)) {
-                if ($data_rec["success_status"] != "" && $data_rec["success_status"] != "unknown") {
+                if ($data_rec["success_status"] != "" && $data_rec["success_status"] !== "unknown") {
                     $status = $data_rec["success_status"];
                 } else {
                     if ($data_rec["completion_status"] == "") {
@@ -433,10 +433,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
     /**
      * get number of atttempts for a certain user and package
-     * @param int $a_user_id
-     * @return int
      */
-    public function getAttemptsForUser(int $a_user_id) : int
+    public function getAttemptsForUser(int $a_user_id): int
     {
         $ilDB = $this->db;
         $val_set = $ilDB->queryF(
@@ -456,10 +454,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
     /**
      * get module version that tracking data for a user was recorded on
-     * @param int $a_user_id
-     * @return string
      */
-    public function getModuleVersionForUser(int $a_user_id) : string
+    public function getModuleVersionForUser(int $a_user_id): string
     {
         $ilDB = $this->db;
         $val_set = $ilDB->queryF(
@@ -476,25 +472,18 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         return $val_rec["module_version"];
     }
 
-    /**
-     * @param string $a_file
-     * @return bool
-     */
-    public function importSuccess(string $a_file) : bool
+    public function importSuccess(string $a_file): bool
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
-        include_once("./Services/Tracking/classes/class.ilLPStatus.php");
         $scos = array();
-        //get all SCO's of this object ONLY RELEVANT!
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($this->getId());
         $collection = $olp->getCollectionInstance();
         if ($collection) {
             $scos = $collection->getItems();
         }
 
-        $fhandle = fopen($a_file, "r");
+        $fhandle = fopen($a_file, "rb");//changed from r to rb
 
         $obj_id = $this->getID();
         $users = array();
@@ -581,7 +570,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                         } else {
                             $doUpdate = false;
                             while ($row = $ilDB->fetchAssoc($res)) {
-                                if (($row["completion_status"] == "completed" && $row["success_status"] != "failed") || $row["success_status"] == "passed") {
+                                if (($row["completion_status"] === "completed" && $row["success_status"] !== "failed") || $row["success_status"] === "passed") {
                                     if ($doUpdate != true) {
                                         $doUpdate = false;
                                     } //note for issue if there are 2 entries for same sco_id
@@ -617,7 +606,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             // ilLPMarks::_deleteForUsers($this->getId(), $usersToDelete);
             $this->deleteTrackingDataOfUsers($usersToDelete);
         }
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_refreshStatus($this->getId(), $users);
 
         return true;
@@ -625,10 +613,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
     /**
      * convert ISO 8601 Timeperiods to centiseconds
-     * @param string $str
-     * @return float
      */
-    public static function _ISODurationToCentisec(string $str) : float
+    public static function _ISODurationToCentisec(string $str): float
     {
         $aV = array(0, 0, 0, 0, 0, 0);
         $bErr = false;
@@ -641,7 +627,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             $p = 0;
             $i = 0;
             $str = substr($str, 1);
-            for ($i = 0; $i < count($aT); $i++) {
+            for ($i = 0, $max = count($aT); $i < $max; $i++) {
                 if (strpos($str, "T") === 0) {
                     $str = substr($str, 1);
                     $i = max($i, 3);
@@ -653,7 +639,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                     if ($i == 1 && strpos($str, "T") > -1 && strpos($str, "T") < $p) {
                         continue;
                     }
-                    if ($aT[$i] == "S") {
+                    if ($aT[$i] === "S") {
                         $aV[$i] = substr($str, 0, $p);
                     } else {
                         $aV[$i] = intval(substr($str, 0, $p));
@@ -661,7 +647,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                     if (!is_numeric($aV[$i])) {
                         $bErr = true;
                         break;
-                    } elseif ($i > 2 && !$bTFound) {
+                    }
+
+                    if ($i > 2 && !$bTFound) {
                         $bErr = true;
                         break;
                     }
@@ -676,14 +664,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         if ($bErr) {
             return 0;
         }
-        return $aV[0] * 3155760000 + $aV[1] * 262980000 + $aV[2] * 8640000 + $aV[3] * 360000 + $aV[4] * 6000 + round($aV[5] * 100);
+        return $aV[0] * 3_155_760_000 + $aV[1] * 262_980_000 + $aV[2] * 8_640_000 + $aV[3] * 360000 + $aV[4] * 6000 + round($aV[5] * 100);
     }
 
-    /**
-     * @param int $a_slm_id
-     * @return int
-     */
-    public static function getQuantityOfSCOs(int $a_slm_id) : int
+    public static function getQuantityOfSCOs(int $a_slm_id): int
     {
         global $DIC;
         $val_set = $DIC->database()->queryF(
@@ -702,11 +686,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
     /**
     * Get the completion of a SCORM module for a given user
-    * @param int $a_id Object id
-    * @param int $a_user User id
     * @return boolean Completion status
     */
-    public static function _getCourseCompletionForUser(int $a_id, int $a_user) : bool
+    public static function _getCourseCompletionForUser(int $a_id, int $a_user): bool
     {
         global $DIC;
 
@@ -727,13 +709,13 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             array('sco' ,'item',$a_id)
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            array_push($scos, $val_rec['cp_node_id']);
+            $scos[] = $val_rec['cp_node_id'];
         }
 
         $scos_c = $scos;
         //copy SCO_array
         //check if all SCO's are completed
-        for ($i = 0;$i < count($scos);$i++) {
+        foreach ($scos as $i => $value) {
             $val_set = $ilDB->queryF(
                 '
 				SELECT * FROM cmi_node 
@@ -741,12 +723,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				AND cp_node_id= %s
 				AND (completion_status = %s OR success_status = %s))',
                 array('integer','integer','text','text'),
-                array($a_user,$scos[$i],'completed','passed')
+                array($a_user, $value,'completed','passed')
             );
 
             if ($ilDB->numRows($val_set) > 0) {
                 //delete from array
-                $key = array_search($scos[$i], $scos_c);
+                $key = array_search($value, $scos_c);
                 unset($scos_c[$key]);
             }
         }
@@ -762,11 +744,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     /**
     * Get the Unique Scaled Score of a course
     * Conditions: Only one SCO may set cmi.score.scaled
-    * @param int $a_id Object id
-    * @param int $a_user User id
     * @return float scaled score, -1 if not unique
     */
-    public static function _getUniqueScaledScoreForUser(int $a_id, int $a_user)
+    public static function _getUniqueScaledScoreForUser(int $a_id, int $a_user): float
     {
         global $DIC;
 
@@ -781,11 +761,11 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             array($a_id)
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            array_push($scos, $val_rec['cp_node_id']);
+            $scos[] = $val_rec['cp_node_id'];
         }
         $set = 0;   //numbers of SCO that set cmi.score.scaled
         $scaled = null;
-        for ($i = 0;$i < count($scos);$i++) {
+        foreach ($scos as $i => $iValue) {
             $val_set = $ilDB->queryF(
                 "SELECT scaled FROM cmi_node WHERE (user_id = %s AND cp_node_id = %s)",
                 array('integer', 'integer'),
@@ -799,17 +779,15 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                 }
             }
         }
-        $retVal = ($set == 1) ? $scaled : null ;
-        return $retVal;
+        return ($set == 1) ? $scaled : -1;
     }
 
     /**
      * get all tracking items of scorm object
      * currently a for learning progress only
-     * @param int $a_obj_id
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
-    public static function _getTrackingItems(int $a_obj_id) : array
+    public static function _getTrackingItems(int $a_obj_id): array
     {
         global $DIC;
 
@@ -839,7 +817,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 
             if ($res = $ilDB->fetchAssoc($s2)) {
-                if ($res["scormtype"] == "sco") {
+                if ($res["scormtype"] === "sco") {
                     $items[] = array("id" => $item_rec["cp_node_id"],
                         "title" => $item_rec["title"]);
                 }
@@ -850,8 +828,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     }
 
     /**
-     * @param int $a_obj_id
-     * @param int $a_user_id
      * @return string|bool
      */
     public static function _getStatus(int $a_obj_id, int $a_user_id)
@@ -878,8 +854,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     }
 
     /**
-     * @param int $a_obj_id
-     * @param int $a_user_id
      * @return string|bool
      */
     public static function _getSatisfied(int $a_obj_id, int $a_user_id)
@@ -907,8 +881,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     }
 
     /**
-     * @param int $a_obj_id
-     * @param int $a_user_id
      * @return float|bool
      */
     public static function _getMeasure(int $a_obj_id, int $a_user_id)
@@ -934,11 +906,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         return false;
     }
 
-    /**
-     * @param int $a_node_id
-     * @return string
-     */
-    public static function _lookupItemTitle(int $a_node_id) : string
+    public static function _lookupItemTitle(int $a_node_id): string
     {
         global $DIC;
 
@@ -959,16 +927,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     }
 
     /**
-     *
      * Returns score.max for the learning module, refered to the last sco where score.max is set.
-     *
-     * @param	integer $a_id
-     * @param	integer $a_user
-     * @static
-     * @return	float|null
-     *
      */
-    public static function _getMaxScoreForUser(int $a_id, int $a_user) : ?float
+    public static function _getMaxScoreForUser(int $a_id, int $a_user): ?float
     {
         global $DIC;
 
@@ -988,16 +949,16 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         );
 
         while ($row = $ilDB->fetchAssoc($result)) {
-            array_push($scos, $row['cp_node_id']);
+            $scos[] = $row['cp_node_id'];
         }
 
         $set = 0; //numbers of SCO that set cmi.score.scaled
         $max = null;
-        for ($i = 0; $i < count($scos); $i++) {
+        foreach ($scos as $i => $value) {
             $res = $ilDB->queryF(
                 'SELECT c_max FROM cmi_node WHERE (user_id = %s AND cp_node_id = %s)',
                 array('integer', 'integer'),
-                array($a_user, $scos[$i])
+                array($a_user, $value)
             );
 
             if ($ilDB->numRows($res) > 0) {
@@ -1008,17 +969,13 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                 }
             }
         }
-        $retVal = ($set == 1) ? $max : null;
-
-        return $retVal;
+        return ($set == 1) ? $max : null;
     }
 
     /**
-     * @param int $a_cp_node_id
-     * @param int $a_user
-     * @return null[]
+     * @return array<string, mixed>
      */
-    public static function _getScores2004ForUser(int $a_cp_node_id, int $a_user) : array
+    public static function _getScores2004ForUser(int $a_cp_node_id, int $a_user): array
     {
         global $DIC;
 

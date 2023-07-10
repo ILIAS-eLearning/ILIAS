@@ -1,4 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -30,47 +47,47 @@ class ilSystemCheckTrash
         $this->limit_age = new ilDate(0, IL_CAL_UNIX);
     }
 
-    public function setNumberLimit(int $a_limit) : void
+    public function setNumberLimit(int $a_limit): void
     {
         $this->limit_number = $a_limit;
     }
 
-    public function getNumberLimit() : int
+    public function getNumberLimit(): int
     {
         return $this->limit_number;
     }
 
-    public function setAgeLimit(ilDateTime $dt) : void
+    public function setAgeLimit(ilDateTime $dt): void
     {
         $this->limit_age = $dt;
     }
 
-    public function getAgeLimit() : ilDateTime
+    public function getAgeLimit(): ilDateTime
     {
         return $this->limit_age;
     }
 
-    public function setTypesLimit(array $a_types) : void
+    public function setTypesLimit(array $a_types): void
     {
         $this->limit_types = $a_types;
     }
 
-    public function getTypesLimit() : array
+    public function getTypesLimit(): array
     {
         return $this->limit_types;
     }
 
-    public function setMode(int $a_mode) : void
+    public function setMode(int $a_mode): void
     {
         $this->mode = $a_mode;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    public function start() : bool
+    public function start(): bool
     {
         $this->logger->info('Handling delete');
         switch ($this->getMode()) {
@@ -92,7 +109,7 @@ class ilSystemCheckTrash
         return false;
     }
 
-    protected function restore() : void
+    protected function restore(): void
     {
         $deleted = $this->readDeleted();
 
@@ -118,7 +135,7 @@ class ilSystemCheckTrash
         }
     }
 
-    protected function removeSelectedFromSystem() : void
+    protected function removeSelectedFromSystem(): void
     {
         $deleted = $this->readSelectedDeleted();
         foreach ($deleted as $del_num => $deleted_info) {
@@ -136,7 +153,7 @@ class ilSystemCheckTrash
         }
     }
 
-    protected function readSelectedDeleted() : array
+    protected function readSelectedDeleted(): array
     {
         $and_types = '';
         $this->logger->dump($this->getTypesLimit());
@@ -156,7 +173,8 @@ class ilSystemCheckTrash
         if ($age_limit > 0) {
             $and_age = 'AND r.deleted < ' . $this->db->quote(
                 $this->getAgeLimit()->get(IL_CAL_DATETIME),
-                ilDBConstants::T_TEXT) . ' ';
+                ilDBConstants::T_TEXT
+            ) . ' ';
         }
         $limit = '';
         if ($this->getNumberLimit()) {
@@ -186,7 +204,7 @@ class ilSystemCheckTrash
         return $deleted;
     }
 
-    protected function readDeleted(?int $tree_id = null) : array
+    protected function readDeleted(?int $tree_id = null): array
     {
         $query = 'SELECT child,tree FROM tree t JOIN object_reference r ON child = r.ref_id ' .
             'JOIN object_data o on r.obj_id = o.obj_id ';

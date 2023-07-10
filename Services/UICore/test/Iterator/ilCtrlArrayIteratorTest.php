@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -11,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilCtrlArrayIteratorTest extends TestCase
 {
-    public function testArrayIteratorWithAssociativeStringArray() : void
+    public function testArrayIteratorWithAssociativeStringArray(): void
     {
         $iterator = new ilCtrlArrayIterator([
             'key0' => 'entry0',
@@ -39,7 +41,7 @@ class ilCtrlArrayIteratorTest extends TestCase
         $this->assertFalse($iterator->valid());
     }
 
-    public function testArrayIteratorWithCommonStringArray() : void
+    public function testArrayIteratorWithCommonStringArray(): void
     {
         $iterator = new ilCtrlArrayIterator([
             'entry0',
@@ -52,7 +54,7 @@ class ilCtrlArrayIteratorTest extends TestCase
         $this->assertNull($iterator->key());
     }
 
-    public function testArrayIteratorWithMixedArray() : void
+    public function testArrayIteratorWithMixedArray(): void
     {
         $iterator = new ilCtrlArrayIterator([
             'key0' => 0,
@@ -76,7 +78,7 @@ class ilCtrlArrayIteratorTest extends TestCase
         $this->assertFalse($iterator->valid());
     }
 
-    public function testArrayIteratorWithEmptyArray() : void
+    public function testArrayIteratorWithEmptyArray(): void
     {
         $iterator = new ilCtrlArrayIterator([]);
 

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,26 +16,44 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilBuddySystemBaseTest extends TestCase
 {
-    /**
-     * @param string $name
-     * @param mixed $value
-     */
-    protected function setGlobalVariable(string $name, $value) : void
+    private ?Container $dic = null;
+
+    protected function setUp(): void
     {
         global $DIC;
 
-        if (!$DIC) {
-            $DIC = new Container();
-        }
+        parent::setUp();
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
+    }
+
+    protected function tearDown(): void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
+    }
+
+    /**
+     * @param mixed $value
+     */
+    protected function setGlobalVariable(string $name, $value): void
+    {
+        global $DIC;
 
         $GLOBALS[$name] = $value;
 

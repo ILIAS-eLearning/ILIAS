@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Provides adapters to read member-ids from a specific source.
@@ -17,7 +35,7 @@ class ilStudyProgrammeMembershipSourceReaderFactory
      *
      * @throws InvalidArgumentException if $src_type is not one of the constant types in ilStudyProgrammeAutoMembershipSource.
      */
-    public function getReaderFor(string $src_type, int $src_id) : ilStudyProgrammeMembershipSourceReader
+    public function getReaderFor(string $src_type, int $src_id): ilStudyProgrammeMembershipSourceReader
     {
         switch ($src_type) {
             case ilStudyProgrammeAutoMembershipSource::TYPE_ROLE:
@@ -33,7 +51,6 @@ class ilStudyProgrammeMembershipSourceReaderFactory
             case ilStudyProgrammeAutoMembershipSource::TYPE_ORGU:
                 return new ilStudyProgrammeMembershipSourceReaderOrgu(
                     ilObjOrgUnitTree::_getInstance(),
-                    new ilOrgUnitUserAssignment(),
                     $src_id
                 );
 

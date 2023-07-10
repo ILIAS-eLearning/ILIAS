@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -18,7 +20,7 @@ class ilRepositoryObjectDetailSearchResult
     public function __construct()
     {
     }
-    
+
     /**
      * Get results
      * Db search : array(
@@ -33,12 +35,12 @@ class ilRepositoryObjectDetailSearchResult
      *	 'relevance' => '100%'
      *	 'content' => 'this is a <span class="ilSearchHighlight">hit</span>'
      */
-    public function getResults() : array
+    public function getResults(): array
     {
         return $this->results;
     }
 
-    public function addResultSet(array $result_set) : void
+    public function addResultSet(array $result_set): void
     {
         $this->results[] = $result_set;
     }

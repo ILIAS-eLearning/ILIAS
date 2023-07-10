@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * Manage the ECS exported contents.
@@ -36,7 +39,7 @@ class ilECSExportManager
     /**
      * Get the singelton instance of this ilECSExportManager
      */
-    public static function getInstance() : ilECSExportManager
+    public static function getInstance(): ilECSExportManager
     {
         if (!isset(self::$instance)) {
             self::$instance = new ilECSExportManager();
@@ -47,7 +50,7 @@ class ilECSExportManager
     /**
      * Check if object is exported
      */
-    public function _isExported(int $a_obj_id) : bool
+    public function _isExported(int $a_obj_id): bool
     {
         $query = 'SELECT * FROM ecs_export ' .
             'WHERE obj_id = ' . $this->db->quote($a_obj_id, 'integer');
@@ -62,7 +65,7 @@ class ilECSExportManager
     /**
      * get all exported econtent ids per server
      */
-    public function _getAllEContentIds(int $a_server_id) : array
+    public function _getAllEContentIds(int $a_server_id): array
     {
         $econtent_ids = array();
         $query = "SELECT econtent_id,obj_id FROM ecs_export " .
@@ -78,7 +81,7 @@ class ilECSExportManager
     /**
      * Get exported ids
      */
-    public function getExportedIds() : array
+    public function getExportedIds(): array
     {
         $query = "SELECT obj_id FROM ecs_export ";
         $res = $this->db->query($query);
@@ -92,7 +95,7 @@ class ilECSExportManager
     /**
      * Get exported ids by type
      */
-    public function getExportedIdsByType(string $a_type) : array
+    public function getExportedIdsByType(string $a_type): array
     {
         $obj_ids = array();
         $query = "SELECT e.obj_id FROM ecs_export e" .
@@ -108,7 +111,7 @@ class ilECSExportManager
     /**
      * lookup server ids of exported materials
      */
-    public function getExportServerIds(int $a_obj_id) : array
+    public function getExportServerIds(int $a_obj_id): array
     {
         $query = 'SELECT * FROM ecs_export ' .
             'WHERE obj_id = ' . $this->db->quote($a_obj_id, 'integer');
@@ -116,7 +119,7 @@ class ilECSExportManager
 
         $sids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $sids[] = $row->server_id;
+            $sids[] = (int) $row->server_id;
         }
         return $sids;
     }
@@ -124,7 +127,7 @@ class ilECSExportManager
     /**
      * get exported ids for server
      */
-    public function _getExportedIDsByServer(int $a_server_id) : array
+    public function _getExportedIDsByServer(int $a_server_id): array
     {
         $query = "SELECT obj_id FROM ecs_export " .
             'WHERE server_id = ' . $this->db->quote($a_server_id, 'integer');
@@ -139,7 +142,7 @@ class ilECSExportManager
     /**
      * Lookup server ids of exported objects
      */
-    public function lookupServerIds(int $a_obj_id) : array
+    public function lookupServerIds(int $a_obj_id): array
     {
         $query = 'SELECT * FROM ecs_export ' .
             'WHERE obj_id = ' . $this->db->quote($a_obj_id, 'integer') . ' ';
@@ -157,7 +160,7 @@ class ilECSExportManager
      * @param int $a_server_id id of the server
      * @param int[] $a_ids array of econtent ids
      */
-    public function _deleteEContentIds(int $a_server_id, array $a_ids) : bool
+    public function _deleteEContentIds(int $a_server_id, array $a_ids): bool
     {
         if (!is_array($a_ids) || !count($a_ids)) {
             return true;
@@ -171,7 +174,7 @@ class ilECSExportManager
     /**
      * Delete by server id
      */
-    public function deleteByServer(int $a_server_id) : void
+    public function deleteByServer(int $a_server_id): void
     {
         $query = 'DELETE FROM ecs_export ' .
             'WHERE server_id = ' . $this->db->quote($a_server_id, 'integer');
@@ -181,7 +184,7 @@ class ilECSExportManager
     /**
      * is remote object
      */
-    public function _isRemote(int $a_server_id, int $a_econtent_id) : bool
+    public function _isRemote(int $a_server_id, int $a_econtent_id): bool
     {
         $query = "SELECT obj_id FROM ecs_export " .
             "WHERE econtent_id = " . $this->db->quote($a_econtent_id, 'integer') . " " .

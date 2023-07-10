@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Refinery\DateTime;
 
@@ -47,12 +49,12 @@ class ChangeTimezone implements Transformation
     /**
      * @inheritDoc
      */
-    public function transform($from) : DateTimeImmutable
+    public function transform($from): DateTimeImmutable
     {
         if (!$from instanceof DateTimeImmutable) {
             throw new InvalidArgumentException("$from is not a DateTimeImmutable-object", 1);
         }
-        
+
         $ts = $from->format('Y-m-d H:i:s');
 
         return new DateTimeImmutable($ts, $this->timezone);

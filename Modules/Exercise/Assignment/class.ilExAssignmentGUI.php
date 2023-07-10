@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\DI\UIServices;
 use ILIAS\Exercise\InternalService;
 use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
@@ -27,6 +27,8 @@ use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
  */
 class ilExAssignmentGUI
 {
+    protected \ILIAS\Exercise\InternalGUIService $gui;
+    protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_type;
     protected ilLanguage $lng;
     protected ilObjUser $user;
     protected ilCtrl $ctrl;
@@ -59,32 +61,36 @@ class ilExAssignmentGUI
         $this->exc = $a_exc;
         $this->service = $service;
         $this->mandatory_manager = $service->domain()->assignment()->mandatoryAssignments($this->exc);
+        $this->media_type = $DIC->mediaObjects()->internal()->domain()->mediaType();
+        $this->gui = $DIC->exercise()
+            ->internal()
+            ->gui();
     }
-    
+
     /**
      * Get assignment header for overview
      * @throws ilDateTimeException
      */
-    public function getOverviewHeader(ilExAssignment $a_ass) : string
+    public function getOverviewHeader(ilExAssignment $a_ass): string
     {
         $lng = $this->lng;
         $ilUser = $this->user;
-        
+
         $lng->loadLanguageModule("exc");
 
         $state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
 
         $tpl = new ilTemplate("tpl.assignment_head.html", true, true, "Modules/Exercise");
-        
+
         // we are completely ignoring the extended deadline here
-        
+
         // :TODO: meaning of "ended on"
         if ($state->exceededOfficialDeadline()) {
             $tpl->setCurrentBlock("prop");
             $tpl->setVariable("PROP", $lng->txt("exc_ended_on"));
             $tpl->setVariable("PROP_VAL", $state->getCommonDeadlinePresentation());
             $tpl->parseCurrentBlock();
-            
+
             // #14077						// this currently shows the feedback deadline during grace period
             if ($state->getPeerReviewDeadline()) {
                 $tpl->setCurrentBlock("prop");
@@ -142,10 +148,13 @@ class ilExAssignmentGUI
         $tpl->setVariable("TITLE", $a_ass->getTitle() . $mand);
 
         // status icon
-        $stat = $a_ass->getMemberStatus()->getStatus();
-        $pic = $a_ass->getMemberStatus()->getStatusIcon();
-        $tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
-        $tpl->setVariable("ALT_STATUS", $lng->txt("exc_" . $stat));
+        $tpl->setVariable(
+            "ICON_STATUS",
+            $this->getIconForStatus(
+                $a_ass->getMemberStatus()->getStatus(),
+                ilLPStatusIcons::ICON_VARIANT_SHORT
+            )
+        );
 
         return $tpl->get();
     }
@@ -157,44 +166,42 @@ class ilExAssignmentGUI
      * @throws ilDatabaseException
      * @throws ilDateTimeException
      */
-    public function getOverviewBody(ilExAssignment $a_ass) : string
+    public function getOverviewBody(ilExAssignment $a_ass): string
     {
         global $DIC;
 
         $ilUser = $DIC->user();
 
         $this->current_ass_id = $a_ass->getId();
-        
+
         $tpl = new ilTemplate("tpl.assignment_body.html", true, true, "Modules/Exercise");
 
         $state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
 
         $info = new ilInfoScreenGUI(null);
         $info->setTableClass("");
-
         if ($state->areInstructionsVisible()) {
             $this->addInstructions($info, $a_ass);
             $this->addFiles($info, $a_ass);
         }
 
         $this->addSchedule($info, $a_ass);
-        
+
         if ($state->hasSubmissionStarted()) {
             $this->addSubmission($info, $a_ass);
         }
 
         $tpl->setVariable("CONTENT", $info->getHTML());
-        
+
         return $tpl->get();
     }
-    
-    
+
+
     protected function addInstructions(
         ilInfoScreenGUI $a_info,
         ilExAssignment $a_ass
-    ) : void {
+    ): void {
         $ilUser = $this->user;
-
         $info = new ilExAssignmentInfo($a_ass->getId(), $ilUser->getId());
         $inst = $info->getInstructionInfo();
         if (count($inst) > 0) {
@@ -209,7 +216,7 @@ class ilExAssignmentGUI
     protected function addSchedule(
         ilInfoScreenGUI $a_info,
         ilExAssignment $a_ass
-    ) : void {
+    ): void {
         $lng = $this->lng;
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
@@ -248,16 +255,16 @@ class ilExAssignmentGUI
         if ($state->getOfficialDeadline() > $state->getCommonDeadline()) {
             $a_info->addProperty($schedule["individual_deadline"]["txt"], $schedule["individual_deadline"]["value"]);
         }
-                
+
         if ($state->hasSubmissionStarted()) {
             $a_info->addProperty($schedule["time_to_send"]["txt"], $schedule["time_to_send"]["value"]);
         }
     }
-    
+
     protected function addPublicSubmissions(
         ilInfoScreenGUI $a_info,
         ilExAssignment $a_ass
-    ) : void {
+    ): void {
         $lng = $this->lng;
         $ilUser = $this->user;
 
@@ -265,11 +272,12 @@ class ilExAssignmentGUI
 
         // submissions are visible, even if other users may still have a larger individual deadline
         if ($state->hasSubmissionEnded()) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("exc_list_submission");
-            $button->setUrl($this->getSubmissionLink("listPublicSubmissions"));
-
-            $a_info->addProperty($lng->txt("exc_public_submission"), $button->render());
+            $b = $this->gui->link(
+                $lng->txt("exc_list_submission"),
+                $this->getSubmissionLink("listPublicSubmissions")
+            )->emphasised()
+                ->render();
+            $a_info->addProperty($lng->txt("exc_public_submission"), $b);
         } else {
             $a_info->addProperty(
                 $lng->txt("exc_public_submission"),
@@ -277,15 +285,14 @@ class ilExAssignmentGUI
             );
         }
     }
-    
+
     protected function addFiles(
         ilInfoScreenGUI $a_info,
         ilExAssignment $a_ass
-    ) : void {
+    ): void {
         $lng = $this->lng;
         $lng->loadLanguageModule("exc");
         $files = $a_ass->getFiles();
-
         if (count($files) > 0) {
             $a_info->addSection($lng->txt("exc_files"));
 
@@ -301,18 +308,20 @@ class ilExAssignmentGUI
                 $ui_factory = $DIC->ui()->factory();
                 $ui_renderer = $DIC->ui()->renderer();
 
-                if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png"))) {
+                $output_filename = htmlspecialchars($file['name']);
+
+                if ($this->media_type->isImage($mime)) {
                     $item_id = "il-ex-modal-img-" . $a_ass->getId() . "-" . $cnt;
 
 
-                    $image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'], $file['name']));
+                    $image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'], $output_filename));
                     $image_lens = ilUtil::getImagePath("enlarge.svg");
 
                     $modal = ilModalGUI::getInstance();
                     $modal->setId($item_id);
                     $modal->setType(ilModalGUI::TYPE_LARGE);
                     $modal->setBody($image);
-                    $modal->setHeading($file["name"]);
+                    $modal->setHeading($output_filename);
                     $modal = $modal->getHTML();
 
                     $img_tpl = new ilTemplate("tpl.image_file.html", true, true, "Modules/Exercise");
@@ -324,21 +333,25 @@ class ilExAssignmentGUI
                     $img_tpl->setvariable("ALT_LENS", $lng->txt("exc_fullscreen"));
                     $img_tpl->parseCurrentBlock();
 
-                    $a_info->addProperty($file["name"], $img_tpl->get());
-                } elseif (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"))) {
+                    $a_info->addProperty($output_filename, $img_tpl->get());
+                } elseif ($this->media_type->isAudio($mime) || $this->media_type->isVideo($mime)) {
                     $media_tpl = new ilTemplate("tpl.media_file.html", true, true, "Modules/Exercise");
-                    $mp = new ilMediaPlayerGUI();
-                    $mp->setFile($file['fullpath']);
-                    $media_tpl->setVariable("MEDIA", $mp->getMediaPlayerHtml());
+
+                    if ($this->media_type->isAudio($mime)) {
+                        $p = $ui_factory->player()->audio($file['fullpath']);
+                    } else {
+                        $p = $ui_factory->player()->video($file['fullpath']);
+                    }
+                    $media_tpl->setVariable("MEDIA", $ui_renderer->render($p));
 
                     $but = $ui_factory->button()->shy(
                         $lng->txt("download"),
                         $this->getSubmissionLink("downloadFile", array("file" => urlencode($file["name"])))
                     );
                     $media_tpl->setVariable("DOWNLOAD_BUTTON", $ui_renderer->render($but));
-                    $a_info->addProperty($file["name"], $media_tpl->get());
+                    $a_info->addProperty($output_filename, $media_tpl->get());
                 } else {
-                    $a_info->addProperty($file["name"], $lng->txt("download"), $this->getSubmissionLink("downloadFile", array("file" => urlencode($file["name"]))));
+                    $a_info->addProperty($output_filename, $lng->txt("download"), $this->getSubmissionLink("downloadFile", array("file" => urlencode($file["name"]))));
                 }
             }
         }
@@ -351,7 +364,7 @@ class ilExAssignmentGUI
     protected function addSubmission(
         ilInfoScreenGUI $a_info,
         ilExAssignment $a_ass
-    ) : void {
+    ): void {
         $lng = $this->lng;
         $ilUser = $this->user;
 
@@ -392,22 +405,22 @@ class ilExAssignmentGUI
         }
         $this->addSubmissionFeedback($a_info, $a_ass, $submission->getFeedbackId(), $show_global_feedback);
     }
-    
+
     protected function addSubmissionFeedback(
         ilInfoScreenGUI $a_info,
         ilExAssignment $a_ass,
         string $a_feedback_id,
         bool $a_show_global_feedback
-    ) : void {
+    ): void {
         $lng = $this->lng;
 
         $storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
         $cnt_files = $storage->countFeedbackFiles($a_feedback_id);
-        
+
         $lpcomment = $a_ass->getMemberStatus()->getComment();
         $mark = $a_ass->getMemberStatus()->getMark();
         $status = $a_ass->getMemberStatus()->getStatus();
-        
+
         if ($lpcomment != "" ||
             $mark != "" ||
             $status != "notgraded" ||
@@ -428,9 +441,7 @@ class ilExAssignmentGUI
             }
 
             if ($status != "" && $status != "notgraded") {
-                $img = '<img src="' . ilUtil::getImagePath("scorm/" . $status . ".svg") . '" ' .
-                    ' alt="' . $lng->txt("exc_" . $status) . '" title="' . $lng->txt("exc_" . $status) .
-                    '" />';
+                $img = $this->getIconForStatus($status);
                 $a_info->addProperty(
                     $lng->txt("status"),
                     $img . " " . $lng->txt("exc_" . $status)
@@ -465,19 +476,19 @@ class ilExAssignmentGUI
             }
         }
     }
-    
+
     /**
      * Get time string for deadline
      * @throws ilDateTimeException
      */
-    public function getTimeString(int $a_deadline) : string
+    public function getTimeString(int $a_deadline): string
     {
         $lng = $this->lng;
-        
+
         if ($a_deadline == 0) {
             return $lng->txt("exc_submit_convenience_no_deadline");
         }
-        
+
         if ($a_deadline - time() <= 0) {
             $time_str = $lng->txt("exc_time_over_short");
         } else {
@@ -486,29 +497,58 @@ class ilExAssignmentGUI
 
         return $time_str;
     }
-    
+
     protected function getSubmissionLink(
         string $a_cmd,
         array $a_params = null
-    ) : string {
+    ): string {
         $ilCtrl = $this->ctrl;
-        
+
         if (is_array($a_params)) {
             foreach ($a_params as $name => $value) {
                 $ilCtrl->setParameterByClass("ilexsubmissiongui", $name, $value);
             }
         }
-        
+
         $ilCtrl->setParameterByClass("ilexsubmissiongui", "ass_id", $this->current_ass_id);
         $url = $ilCtrl->getLinkTargetByClass("ilexsubmissiongui", $a_cmd);
         $ilCtrl->setParameterByClass("ilexsubmissiongui", "ass_id", "");
-        
+
         if (is_array($a_params)) {
             foreach ($a_params as $name => $value) {
                 $ilCtrl->setParameterByClass("ilexsubmissiongui", $name, "");
             }
         }
-        
+
         return $url;
+    }
+
+    /**
+     * Get the rendered icon for a status (failed, passed or not graded).
+     */
+    protected function getIconForStatus(string $status, int $variant = ilLPStatusIcons::ICON_VARIANT_LONG): string
+    {
+        $icons = ilLPStatusIcons::getInstance($variant);
+        $lng = $this->lng;
+
+        switch ($status) {
+            case "passed":
+                return $icons->renderIcon(
+                    $icons->getImagePathCompleted(),
+                    $lng->txt("exc_" . $status)
+                );
+
+            case "failed":
+                return $icons->renderIcon(
+                    $icons->getImagePathFailed(),
+                    $lng->txt("exc_" . $status)
+                );
+
+            default:
+                return $icons->renderIcon(
+                    $icons->getImagePathNotAttempted(),
+                    $lng->txt("exc_" . $status)
+                );
+        }
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup;
 
 use PHPUnit\Framework\TestCase;
@@ -33,7 +35,7 @@ class ObjectiveConstructorTest extends TestCase
     private ObjectiveCollection $objectiveCollection;
     private \Closure $closure;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objectiveCollection = new ObjectiveCollection(
@@ -42,7 +44,7 @@ class ObjectiveConstructorTest extends TestCase
             new NullObjective()
         );
 
-        $this->closure = function () : ObjectiveCollection {
+        $this->closure = function (): ObjectiveCollection {
             return $this->objectiveCollection;
         };
 
@@ -52,7 +54,7 @@ class ObjectiveConstructorTest extends TestCase
         );
     }
 
-    public function testGetDescription() : void
+    public function testGetDescription(): void
     {
         $this->assertEquals(
             "My description",
@@ -60,7 +62,7 @@ class ObjectiveConstructorTest extends TestCase
         );
     }
 
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $this->assertEquals($this->objectiveCollection, $this->testObj->create());
     }

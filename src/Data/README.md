@@ -24,6 +24,9 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [Clock](#clock)
 * [Dimension](#dimension)
 * [Dataset](#dataset)
+* [HTML Metadata](#htmlmetadata)
+* [OpenGraph Metadata](#opengraphmetadata)
+* [LanguageTag](#languagetag)
 
 Other examples for data types that could (and maybe should) be added here:
 
@@ -53,31 +56,31 @@ $f = new \ILIAS\Data\Factory;
 $pi = $f->ok(3.1416);
 
 // Value is ok and thus no error.
-assert($pi->isOK());
-assert(!$pi->isError());
+itIsTrueThat($pi->isOK());
+itIsTrueThat(!$pi->isError());
 
 // Do some transformation with the value.
 $r = 10;
 $A = $pi->map(function($value_of_pi) use ($r) { return 2 * $value_of_pi * $r; });
 
 // Still ok and no error.
-assert($A->isOk());
-assert(!$A->isError());
+itIsTrueThat($A->isOk());
+itIsTrueThat(!$A->isError());
 
 // Retrieve the contained value.
 $A_value = $A->value();
-assert($A_value == 2 * 3.1416 * 10);
+itIsTrueThat($A_value == 2 * 3.1416 * 10);
 
 // No error contained...
 $raised = false;
 try {
 	$A->error();
-	assert(false); // Won't happen, error raises.
+	itIsTrueThat(false); // Won't happen, error raises.
 }
 catch(\LogicException $e) {
 	$raised = true;
 }
-assert($raised);
+itIsTrueThat($raised);
 
 ?>
 ```
@@ -96,26 +99,26 @@ $pi = $f->ok(3.1416);
 $error = $f->error("There was some error...");
 
 // This is of course an error.
-assert(!$error->isOK());
-assert($error->isError());
+itIsTrueThat(!$error->isOK());
+itIsTrueThat($error->isError());
 
 // Transformations do nothing.
-$A = $error->map(function($v) { assert(false); });
+$A = $error->map(function($v) { itIsTrueThat(false); });
 
 // Attempts to retrieve the value will throw.
 $raised = false;
 try {
 	$A->value();
-	assert(false); // Won't happen.	
+	itIsTrueThat(false); // Won't happen.
 }
 catch (\ILIAS\Data\NotOKException $e) {
 	$raised = true;
 }
-assert($raised);
+itIsTrueThat($raised);
 
 // For retrieving a default could be supplied.
 $v = $error->valueOr("default");
-assert($v == "default");
+itIsTrueThat($v == "default");
 
 // Result also has an interface for chaining computations known as promise
 // interface (or monad interface for pros!).
@@ -135,11 +138,11 @@ $pi = $pi->then(function($_) use ($f) {
 
 // The error can be catched later on and be corrected:
 $pi = $pi->except(function($e) use ($f) {
-	assert($e === "Do not know value of Pi.");
+	itIsTrueThat($e === "Do not know value of Pi.");
 	return $f->ok(3); // for large threes
 });
 
-assert($pi->value() === 3);
+itIsTrueThat($pi->value() === 3);
 
 ?>
 ```
@@ -161,8 +164,8 @@ $rgb = $f->color(array(255,255,0));
 //construct color with hex-value:
 $hex = $f->color('#ffff00');
 
-assert($rgb->asHex() === '#ffff00');
-assert($hex->asRGBString() === 'rgb(255, 255, 0)');
+itIsTrueThat($rgb->asHex() === '#ffff00');
+itIsTrueThat($hex->asRGBString() === 'rgb(255, 255, 0)');
 ?>
 ```
 
@@ -180,16 +183,16 @@ $f = new \ILIAS\Data\Factory;
 // construct uri
 $uri = $f->uri('https://example.org:12345/test?search=test#frag');
 
-assert($uri->getBaseURI() === 'https://example.org:12345/test');
-assert($uri->getSchema() === 'https');
-assert($uri->getAuthority() === 'example.org:12345');
-assert($uri->getHost() === 'example.org');
-assert($uri->getPath() === 'test');
-assert($uri->getQuery() === 'search=test');
-assert($uri->getFragment() === 'frag');
-assert($uri->getPort() === 12345);
-assert($uri->getParameters() === ['search' => 'test']);
-assert($uri->getParameter('search') === 'test');
+itIsTrueThat($uri->getBaseURI() === 'https://example.org:12345/test');
+itIsTrueThat($uri->getSchema() === 'https');
+itIsTrueThat($uri->getAuthority() === 'example.org:12345');
+itIsTrueThat($uri->getHost() === 'example.org');
+itIsTrueThat($uri->getPath() === 'test');
+itIsTrueThat($uri->getQuery() === 'search=test');
+itIsTrueThat($uri->getFragment() === 'frag');
+itIsTrueThat($uri->getPort() === 12345);
+itIsTrueThat($uri->getParameters() === ['search' => 'test']);
+itIsTrueThat($uri->getParameter('search') === 'test');
 ?>
 ```
 
@@ -207,9 +210,9 @@ $f = new \ILIAS\Data\Factory;
 // construct data size
 $data_size = $f->dataSize(123, 'GB');
 
-assert($data_size->getSize() === 123.0);
-assert($data_size->getUnit() === 1000000000);
-assert($data_size->inBytes() === 123000000000.0);
+itIsTrueThat($data_size->getSize() === 123.0);
+itIsTrueThat($data_size->getUnit() === 1000000000);
+itIsTrueThat($data_size->inBytes() === 123000000000.0);
 ?>
 ```
 
@@ -227,7 +230,7 @@ $f = new \ILIAS\Data\Factory;
 // construct password
 $password = $f->Password('secret');
 
-assert($password->toString() === 'secret');
+itIsTrueThat($password->toString() === 'secret');
 ?>
 ```
 
@@ -245,7 +248,7 @@ $f = new \ILIAS\Data\Factory;
 // construct client id
 $client_id = $f->clientId('Client_Id-With.Special#Chars');
 
-assert($client_id->toString() === 'Client_Id-With.Special#Chars');
+itIsTrueThat($client_id->toString() === 'Client_Id-With.Special#Chars');
 ?>
 ```
 
@@ -263,7 +266,7 @@ $f = new \ILIAS\Data\Factory;
 // construct reference id
 $ref_id = $f->refId(9);
 
-assert($ref_id->toInt() === 9);
+itIsTrueThat($ref_id->toInt() === 9);
 ?>
 ```
 
@@ -281,7 +284,7 @@ $f = new \ILIAS\Data\Factory;
 // construct object id
 $ref_id = $f->objId(9);
 
-assert($ref_id->toInt() === 9);
+itIsTrueThat($ref_id->toInt() === 9);
 ?>
 ```
 
@@ -302,8 +305,8 @@ $numeric = $f->alphanumeric(963);
 // construct alphanumeric with mixed values as string
 $alphanumeric = $f->alphanumeric('23da33');
 
-assert($numeric->getValue() === 963);
-assert($alphanumeric->getValue() === '23da33');
+itIsTrueThat($numeric->getValue() === 963);
+itIsTrueThat($alphanumeric->getValue() === '23da33');
 ?>
 ```
 
@@ -321,7 +324,7 @@ $f = new \ILIAS\Data\Factory;
 // construct a positive integer
 $positive_integer = $f->positiveInteger(963);
 
-assert($positive_integer->getValue() === 963);
+itIsTrueThat($positive_integer->getValue() === 963);
 ?>
 ```
 
@@ -349,17 +352,17 @@ $german_long = $f->dateFormat()->germanLong();
 // construct custom date format
 $custom = $f->dateFormat()->custom()->twoDigitYear()->dash()->month()->dash()->day()->get();
 
-assert($standard->toString() === "Y-m-d");
-assert($standard->toArray() === ['Y', '-', 'm', '-', 'd']);
+itIsTrueThat($standard->toString() === "Y-m-d");
+itIsTrueThat($standard->toArray() === ['Y', '-', 'm', '-', 'd']);
 
-assert($german_short->toString() === "d.m.Y");
-assert($german_short->toArray() === ['d', '.', 'm', '.', 'Y']);
+itIsTrueThat($german_short->toString() === "d.m.Y");
+itIsTrueThat($german_short->toArray() === ['d', '.', 'm', '.', 'Y']);
 
-assert($german_long->toString() === "l, d.m.Y");
-assert($german_long->toArray() === ['l', ',', ' ', 'd', '.', 'm', '.', 'Y']);
+itIsTrueThat($german_long->toString() === "l, d.m.Y");
+itIsTrueThat($german_long->toArray() === ['l', ',', ' ', 'd', '.', 'm', '.', 'Y']);
 
-assert($custom->toString() === "y-m-d");
-assert($custom->toArray() === ['y', '-', 'm', '-', 'd']);
+itIsTrueThat($custom->toString() === "y-m-d");
+itIsTrueThat($custom->toArray() === ['y', '-', 'm', '-', 'd']);
 ?>
 ```
 
@@ -377,10 +380,10 @@ $f = new \ILIAS\Data\Factory;
 // construct a range
 $range = $f->range(10, 20);
 
-assert($range->unpack() === [10, 20]);
-assert($range->getStart() === 10);
-assert($range->getLength() === 20);
-assert($range->getEnd() === 30);
+itIsTrueThat($range->unpack() === [10, 20]);
+itIsTrueThat($range->getStart() === 10);
+itIsTrueThat($range->getLength() === 20);
+itIsTrueThat($range->getEnd() === 30);
 ?>
 ```
 
@@ -404,9 +407,9 @@ $order2 = $order1->append('subject2', 'DESC');
 // join the subjects to an order statement
 $join = $order2->join('sort', function($pre, $k, $v) { return "$pre $k $v,"; });
 
-assert($order1->get() === ['subject1' => 'ASC']);
-assert($order2->get() === ['subject1' => 'ASC', 'subject2' => 'DESC']);
-assert($join === 'sort subject1 ASC, subject2 DESC,');
+itIsTrueThat($order1->get() === ['subject1' => 'ASC']);
+itIsTrueThat($order2->get() === ['subject1' => 'ASC', 'subject2' => 'DESC']);
+itIsTrueThat($join === 'sort subject1 ASC, subject2 DESC,');
 ?>
 ```
 
@@ -476,7 +479,7 @@ $f = new \ILIAS\Data\Factory;
 // construct dimension
 $cardinal = $f->dimension()->cardinal(["low", "medium", "high"]);
 
-assert($cardinal->getLabels() === ["low", "medium", "high"]);
+itIsTrueThat($cardinal->getLabels() === ["low", "medium", "high"]);
 ?>
 ```
 
@@ -495,7 +498,7 @@ $f = new \ILIAS\Data\Factory;
 $cardinal = $f->dimension()->cardinal(["low", "medium", "high"]);
 $range = $f->dimension()->range($cardinal);
 
-assert($range->getLabels() === $cardinal->getLabels());
+itIsTrueThat($range->getLabels() === $cardinal->getLabels());
 ?>
 ```
 
@@ -543,7 +546,128 @@ $dataset = $dataset->withPoint(
     ]
 );
 
-assert($dataset->getMinValueForDimension("Measurement 1") === -1);
-assert($dataset->getMaxValueForDimension("Target") === 1.5);
+itIsTrueThat($dataset->getMinValueForDimension("Measurement 1") === -1.0);
+itIsTrueThat($dataset->getMaxValueForDimension("Target") === 1.5);
 ?>
 ```
+
+## HTMLMetadata
+
+When working with HTML metadata, you MUST always type-hint `\ILIAS\Data\Meta\Html\Tag`, except in rare cases where you
+have to work with a collection of tags explicitly (`\ILIAS\Data\Meta\Html\TagCollection`).
+
+Currently the factory can only provide `UserDefined` metadata which accepts key => value pairs mapped to a
+HTML-meta-tags name and content attribute.
+
+If you have to use something more speficic like e.g. the pragma directive feel free to implement it, derrived from the
+abstract class `\ILIAS\Data\Meta\Html\Tag`.
+
+### Example
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+
+$viewport_metadata = $f->htmlMetadata()->userDefined('viewport', 'widht=device-width');
+
+class ExpectsHtmlMetadata {
+    public function __construct(
+        protected \ILIAS\Data\Meta\Html\Tag $html_metadata,
+    ) {
+    }
+    
+    public function getMetadata(): \ILIAS\Data\Meta\Html\Tag
+    {
+        return $this->html_metadata;
+    }
+}
+
+$class = new ExpectsHtmlMetadata(
+    $f->htmlMetadata()->collection([
+        $f->htmlMetadata()->userDefined('description', 'Lorem ipsum dolor sit amet.'),
+        $viewport_metadata
+    ])
+);
+
+itIsTrueThat(is_string($viewport_metadata->toHtml()));
+itIsTrueThat(is_string($class->getMetadata()->toHtml()));
+?>
+```
+
+## OpenGraphMetadata
+
+OpenGraph metadata is HTML metadata as well, but it's more structured and follows the
+open-graph-protocol ([ogp.me](https://ogp.me)).
+
+The factory currently only provides the website-type (of all the possible object-types
+documented [here](https://ogp.me/#types)). If you ever need a more specific object-type for e.g. articles or books, feel
+free to implement it accordingly.
+
+The factory also provides resources (`\ILIAS\Data\Meta\Html\OpenGraph\Resource`), which MUST NOT be used in any other
+way than the factory itself. These resources are [structured properties](https://ogp.me/#structured) which cannot be
+used standalone and MUST belong to an object-type.
+
+### Example
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+
+$structured_image = $f->openGraphMetadata()->image($f->uri('https://picsum.photos/200/300'), 'image/jpeg');
+
+$minimal_website_graph = $basic_website_graph = $f->openGraphMetadata()->website(
+    $f->uri('https://docu.ilias.de/object/101'),
+    $structured_image,
+    'object title 101'
+);
+
+$full_website_graph = $f->openGraphMetadata()->website(
+    $f->uri('https://docu.ilias.de/object/101'),
+    $structured_image,
+    'object title 101',
+    'ILIAS',
+    'lorem ipsum dolor sit amet.',
+    'en_US',
+    ['de_DE', 'de_CH'],
+    [
+        $f->openGraphMetadata()->image($f->uri('https://picsum.photos/100/100'), 'image/jpeg'),
+    ]
+);
+
+itIsTrueThat(is_string($minimal_website_graph->toHtml()));
+itIsTrueThat(is_string($full_website_graph->toHtml()));
+?>
+```
+
+## Helper
+
+To make this run, we need a little helper:
+
+```php
+<?php
+
+function itIsTrueThat(bool $truth) {
+    if (!$truth) {
+        throw new \LogicException("Some code in the Data/README.md is wrong!");
+    }
+}
+
+?>
+```
+
+## LanguageTag
+
+This represents a RFC 5646 compliant language tag.
+To create a language tag:
+
+```php
+(new \ILIAS\Data\Factory())->languageTag('de');
+```
+
+If the given string is no valid tag an exception is thrown.
+
+The language tag can have several different forms, which are represented with the classes: `Standard`, `Irregular`, `Regular` and `Privateuse`.
+
+The specific meaning of the different language tags can be found in the [RFC](https://www.ietf.org/rfc/bcp/bcp47.txt).

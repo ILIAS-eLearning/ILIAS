@@ -1,21 +1,29 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
- * Class ilDclBooleanFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
+ * @deprecated use new type ilDCLFileFieldModel instead
  */
 class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
 {
-
-    /**
-     * Returns a query-object for building the record-loader-sql-query
-     * @param string  $direction
-     * @param boolean $sort_by_status The specific sort object is a status field
-     * @return null|ilDclRecordQueryObject
-     */
-    public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false)
-    {
+    public function getRecordQuerySortObject(
+        string $direction = "asc",
+        bool $sort_by_status = false
+    ): ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $join_str
@@ -35,11 +43,11 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     * @param string $filter_value
-     * @return null|ilDclRecordQueryObject
      */
-    public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
-    {
+    public function getRecordQueryFilterObject(
+        $filter_value = "",
+        ?ilDclBaseFieldModel $sort_field = null
+    ): ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -56,14 +64,10 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-    /**
-     * Returns supported file-extensions
-     * @return array|string
-     */
-    public function getSupportedExtensions()
+    public function getSupportedExtensions(): array
     {
         if (!$this->hasProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES)) {
-            return "*";
+            return [];
         }
 
         $file_types = $this->getProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
@@ -71,15 +75,11 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
         return $this->parseSupportedExtensions($file_types);
     }
 
-    /**
-     * @param $input_value
-     * @return array
-     */
-    protected function parseSupportedExtensions($input_value)
+    protected function parseSupportedExtensions(string $input_value): array
     {
         $supported_extensions = explode(",", $input_value);
 
-        $trim_function = function($value) {
+        $trim_function = function ($value) {
             return trim(trim(strtolower($value)), ".");
         };
 
@@ -87,12 +87,10 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
     }
 
     /**
-     * @param      $value
-     * @param null $record_id
-     * @return bool
-     * @throws ilDclInputException
+     * @param array|null $value
+     * @throws ilDclInputException$
      */
-    public function checkValidity($value, $record_id = null)
+    public function checkValidity($value, ?int $record_id = null): bool
     {
         //Don't check empty values
         if ($value == null || $value['size'] == 0) {
@@ -112,18 +110,12 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getValidFieldProperties()
+    public function getValidFieldProperties(): array
     {
-        return array(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
+        return [ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES];
     }
 
-    /**
-     * @return bool
-     */
-    public function allowFilterInListView()
+    public function allowFilterInListView(): bool
     {
         return false;
     }

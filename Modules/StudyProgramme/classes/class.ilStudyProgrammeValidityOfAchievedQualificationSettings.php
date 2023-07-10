@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Data\Factory;
 use ILIAS\UI\Component\Input\Field;
@@ -9,13 +25,15 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilStudyProgrammeValidityOfAchievedQualificationSettings
 {
     protected ?int $qualification_period;
-    protected ?DateTime $qualification_date;
+    protected ?DateTimeImmutable $qualification_date;
     protected ?int $restart_period;
+    protected $restart_recheck;
 
     public function __construct(
         ?int $qualification_period,
-        ?DateTime $qualification_date,
-        ?int $restart_period
+        ?DateTimeImmutable $qualification_date,
+        ?int $restart_period,
+        bool $restart_recheck
     ) {
         if (!is_null($qualification_period) && 0 > $qualification_period) {
             throw new InvalidArgumentException(
@@ -32,16 +50,17 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         $this->qualification_period = $qualification_period;
         $this->qualification_date = $qualification_date;
         $this->restart_period = $restart_period;
+        $this->restart_recheck = $restart_recheck;
     }
 
-    public function getQualificationPeriod() : ?int
+    public function getQualificationPeriod(): ?int
     {
         return $this->qualification_period;
     }
 
     public function withQualificationPeriod(
         ?int $qualification_period
-    ) : ilStudyProgrammeValidityOfAchievedQualificationSettings {
+    ): ilStudyProgrammeValidityOfAchievedQualificationSettings {
         if (!is_null($qualification_period) && 0 > $qualification_period) {
             throw new InvalidArgumentException(
                 'Numbers less than 0 are not allowed'
@@ -53,28 +72,28 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         return $clone;
     }
 
-    public function getQualificationDate() : ?DateTime
+    public function getQualificationDate(): ?DateTimeImmutable
     {
         return $this->qualification_date;
     }
 
     public function withQualificationDate(
-        ?DateTime $qualification_date
-    ) : ilStudyProgrammeValidityOfAchievedQualificationSettings {
+        ?DateTimeImmutable $qualification_date
+    ): ilStudyProgrammeValidityOfAchievedQualificationSettings {
         $clone = clone $this;
         $clone->qualification_date = $qualification_date;
 
         return $clone;
     }
 
-    public function getRestartPeriod() : ?int
+    public function getRestartPeriod(): ?int
     {
         return $this->restart_period;
     }
 
     public function withRestartPeriod(
         ?int $restart_period
-    ) : ilStudyProgrammeValidityOfAchievedQualificationSettings {
+    ): ilStudyProgrammeValidityOfAchievedQualificationSettings {
         if (!is_null($restart_period) && 0 > $restart_period) {
             throw new InvalidArgumentException(
                 'Numbers less than 0 are not allowed'
@@ -91,24 +110,24 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         ilLanguage $lng,
         Refinery $refinery,
         Factory $data_factory
-    ) : Field\Input {
+    ): Field\Input {
         $format = $data_factory->dateFormat()->germanShort();
         $grp1 = $input->group([], $lng->txt('prg_no_validity_qualification'));
         $grp2 = $input->group(
             [
                 'vq_period' => $input->numeric(
-                    '',
+                    $lng->txt('vq_period_label'),
                     $lng->txt('validity_qualification_period_desc')
                 )
                 ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(1))
-                ->withValue($this->getQualificationPeriod() !== null ? $this->getQualificationPeriod() : null)
+                ->withValue($this->getQualificationPeriod())
             ],
             $lng->txt('validity_qualification_period')
         );
         $grp3 = $input->group(
             [
                 'vq_date' => $input->dateTime(
-                    '',
+                    $lng->txt('vq_date_label'),
                     $lng->txt('validity_qualification_date_desc')
                 )
                 ->withFormat($format)
@@ -121,11 +140,12 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         $grp5 = $input->group(
             [
                 'vq_restart_period' => $input->numeric(
-                    '',
+                    $lng->txt('restart_period_label'),
                     $lng->txt('restart_period_desc')
                 )
-                ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(1))
+                ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
                 ->withValue($this->getRestartPeriod() !== null ? $this->getRestartPeriod() : null)
+                ->withRequired(true)
             ],
             $lng->txt('restart_period')
         );
@@ -137,7 +157,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
                 'opt_validity_qualification_date' => $grp3
             ],
             ''
-        );
+        )->withLabel($lng->txt('optgrp_label_validity'));
 
         $sg2 = $input->switchableGroup(
             [
@@ -145,7 +165,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
                 'opt_restart_period' => $grp5,
             ],
             ''
-        );
+        )->withLabel($lng->txt('optgrp_label_restart'));
 
         $validity_qualification = "opt_no_validity_qualification";
         if (!is_null($this->getQualificationPeriod()) && $this->getQualificationPeriod() > 0) {
@@ -172,13 +192,14 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
             $vq_period = null;
             $vq_date = null;
             $restart = null;
+            $restart_recheck = false;
 
             if (isset($vals['validity_qualification'][1]['vq_period'])) {
                 $vq_period = (int) $vals['validity_qualification'][1]['vq_period'];
             }
 
             if (isset($vals['validity_qualification'][1]['vq_date'])) {
-                $vq_date = new DateTime($vals['validity_qualification'][1]['vq_date']);
+                $vq_date = $vals['validity_qualification'][1]['vq_date'];
             }
 
             if (
@@ -191,8 +212,21 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
             return new ilStudyProgrammeValidityOfAchievedQualificationSettings(
                 $vq_period,
                 $vq_date,
-                $restart
+                $restart,
+                $restart_recheck
             );
         }));
+    }
+
+    public function getRestartRecheck(): bool
+    {
+        return $this->restart_recheck;
+    }
+
+    public function withRestartRecheck(bool $restart_recheck): ilStudyProgrammeValidityOfAchievedQualificationSettings
+    {
+        $clone = clone $this;
+        $clone->restart_recheck = $restart_recheck;
+        return $clone;
     }
 }

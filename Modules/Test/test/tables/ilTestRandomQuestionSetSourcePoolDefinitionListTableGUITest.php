@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest
@@ -11,7 +27,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
     private ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -30,7 +46,6 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
         $component_factory = $this->createMock(ilComponentFactory::class);
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->setGlobalVariable("component.factory", $component_factory);
-        $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin($this->createMock(ilComponentRepository::class)));
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
 
         $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
@@ -43,12 +58,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI::class, $this->tableGui);
     }
 
-    public function testDefinitionEditModeEnabled() : void
+    public function testDefinitionEditModeEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isDefinitionEditModeEnabled());
         $this->tableGui->setDefinitionEditModeEnabled(false);
@@ -57,7 +72,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
         $this->assertTrue($this->tableGui->isDefinitionEditModeEnabled());
     }
 
-    public function testQuestionAmountColumnEnabled() : void
+    public function testQuestionAmountColumnEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isQuestionAmountColumnEnabled());
         $this->tableGui->setQuestionAmountColumnEnabled(false);

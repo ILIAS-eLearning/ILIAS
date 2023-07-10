@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 *
@@ -34,26 +37,26 @@ class ilObjRemoteTestGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClas
         $this->lng->loadLanguageModule('rtst');
         $this->lng->loadLanguageModule('assessment');
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return 'rtst';
     }
 
-    protected function addCustomInfoFields(ilInfoScreenGUI $a_info) : void
+    protected function addCustomInfoFields(ilInfoScreenGUI $a_info): void
     {
         $a_info->addProperty($this->lng->txt('grp_visibility'), $this->availabilityToString());
     }
-    
+
     protected function availabilityToString()
     {
         switch ($this->object->getAvailabilityType()) {
             case ilObjRemoteTest::ACTIVATION_OFFLINE:
                 return $this->lng->txt('offline');
-            
+
             case ilObjRemoteTest::ACTIVATION_UNLIMITED:
                 return $this->lng->txt('grp_unlimited');
-            
+
             case ilObjRemoteTest::ACTIVATION_LIMITED:
                 return ilDatePresentation::formatPeriod(
                     new ilDateTime($this->object->getStartingTime(), IL_CAL_UNIX),
@@ -62,8 +65,8 @@ class ilObjRemoteTestGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClas
         }
         return '';
     }
-    
-    protected function addCustomEditForm(ilPropertyFormGUI $a_form) : void
+
+    protected function addCustomEditForm(ilPropertyFormGUI $a_form): void
     {
         $radio_grp = new ilRadioGroupInputGUI($this->lng->txt('grp_visibility'), 'activation_type');
         $radio_grp->setValue($this->object->getAvailabilityType());
@@ -77,7 +80,7 @@ class ilObjRemoteTestGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClas
 
         // :TODO: not supported in ECS yet
         $radio_opt = new ilRadioOption($this->lng->txt('grp_visibility_until'), ilObjRemoteTest::ACTIVATION_LIMITED);
-        
+
         $start = new ilDateTimeInputGUI($this->lng->txt('grp_start'), 'start');
         $start->setDate(new ilDateTime(time(), IL_CAL_UNIX));
         $start->setDisabled(true);
@@ -88,7 +91,7 @@ class ilObjRemoteTestGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClas
         $end->setDisabled(true);
         $end->setShowTime(true);
         $radio_opt->addSubItem($end);
-        
+
         $radio_grp->addOption($radio_opt);
         $a_form->addItem($radio_grp);
     }

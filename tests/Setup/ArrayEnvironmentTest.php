@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
@@ -25,7 +27,7 @@ class ArrayEnvironmentTest extends TestCase
 {
     protected Setup\ArrayEnvironment $environment;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->environment = new Setup\ArrayEnvironment([
             "foo" => "FOO",
@@ -33,14 +35,14 @@ class ArrayEnvironmentTest extends TestCase
         ]);
     }
 
-    public function testGetResource() : void
+    public function testGetResource(): void
     {
         $this->assertEquals("FOO", $this->environment->getResource("foo"));
         $this->assertEquals("BAR", $this->environment->getResource("bar"));
         $this->assertNull($this->environment->getResource("baz"));
     }
 
-    public function testWithResource() : void
+    public function testWithResource(): void
     {
         $env = $this->environment->withResource("baz", "BAZ");
 
@@ -49,7 +51,7 @@ class ArrayEnvironmentTest extends TestCase
         $this->assertEquals("BAZ", $env->getResource("baz"));
     }
 
-    public function testSetResourceRejectsDuplicates() : void
+    public function testSetResourceRejectsDuplicates(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -57,13 +59,13 @@ class ArrayEnvironmentTest extends TestCase
         $env->withResource("baz", "BAZ");
     }
 
-    public function testConfigFor() : void
+    public function testConfigFor(): void
     {
         $env = $this->environment->withConfigFor("foo", "BAR");
         $this->assertEquals("BAR", $env->getConfigFor("foo"));
     }
 
-    public function testDuplicateConfigFor() : void
+    public function testDuplicateConfigFor(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->environment
@@ -72,13 +74,13 @@ class ArrayEnvironmentTest extends TestCase
         ;
     }
 
-    public function testWrongConfigId() : void
+    public function testWrongConfigId(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->environment->getConfigFor("foofoo");
     }
 
-    public function testHasConfigFor() : void
+    public function testHasConfigFor(): void
     {
         $env = $this->environment->withConfigFor("foo", "BAR");
         $this->assertTrue($env->hasConfigFor("foo"));

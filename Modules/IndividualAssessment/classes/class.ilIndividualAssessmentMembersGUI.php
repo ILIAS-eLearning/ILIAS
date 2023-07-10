@@ -1,7 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Denis Klöpfer <denis.kloepfer@concepts-and-training.de>  Extended GPL, see ./LICENSE */
-/* Copyright (c) 2018 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see ./LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI;
 use ILIAS\UI\Component\ViewControl;
@@ -16,15 +31,15 @@ use ILIAS\UI\Component\ViewControl;
  */
 class ilIndividualAssessmentMembersGUI
 {
-    const F_STATUS = "status";
-    const F_SORT = "sortation";
+    public const F_STATUS = "status";
+    public const F_SORT = "sortation";
 
-    const S_NAME_ASC = "user_lastname:asc";
-    const S_NAME_DESC = "user_lastname:desc";
-    const S_EXAMINER_ASC = "examiner_login:asc";
-    const S_EXAMINER_DESC = "examiner_login:desc";
-    const S_CHANGETIME_ASC = "change_time:asc";
-    const S_CHANGETIME_DESC = "change_time:desc";
+    public const S_NAME_ASC = "user_login:asc";
+    public const S_NAME_DESC = "user_login:desc";
+    public const S_EXAMINER_ASC = "examiner_login:asc";
+    public const S_EXAMINER_DESC = "examiner_login:desc";
+    public const S_CHANGETIME_ASC = "change_time:asc";
+    public const S_CHANGETIME_DESC = "change_time:desc";
 
     protected ilCtrl $ctrl;
     protected ilObjIndividualAssessment $object;
@@ -42,6 +57,7 @@ class ilIndividualAssessmentMembersGUI
     protected ILIAS\Refinery\Factory $refinery;
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
     protected ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $post_wrapper;
+    protected ilIndividualAssessmentDateFormatter $date_formatter;
 
     public function __construct(
         ilObjIndividualAssessment $object,
@@ -57,7 +73,8 @@ class ilIndividualAssessmentMembersGUI
         ilErrorHandling $error_object,
         ilIndividualAssessmentMemberGUI $member_gui,
         ILIAS\Refinery\Factory $refinery,
-        ILIAS\HTTP\Wrapper\WrapperFactory $wrapper
+        ILIAS\HTTP\Wrapper\WrapperFactory $wrapper,
+        ilIndividualAssessmentDateFormatter $date_formatter
     ) {
         $this->object = $object;
         $this->ctrl = $ctrl;
@@ -74,22 +91,25 @@ class ilIndividualAssessmentMembersGUI
         $this->refinery = $refinery;
         $this->request_wrapper = $wrapper->query();
         $this->post_wrapper = $wrapper->post();
+        $this->date_formatter = $date_formatter;
 
         $this->ref_id = $object->getRefId();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->iass_access->mayEditMembers()
-            && !$this->iass_access->mayGradeUser()
-            && !$this->iass_access->mayViewUser()
-            && !$this->iass_access->mayAmendGradeUser()
+            && !$this->iass_access->mayGradeAnyUser()
+            && !$this->iass_access->mayViewAnyUser()
+            && !$this->iass_access->mayAmendAllUsers()
         ) {
             $this->handleAccessViolation();
         }
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->saveParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS);
+        $this->tpl->setPermanentLink("iass", $this->ref_id);
+
         switch ($next_class) {
             case "ilrepositorysearchgui":
                 $rep_search = new ilRepositorySearchGUI();
@@ -118,9 +138,10 @@ class ilIndividualAssessmentMembersGUI
         }
     }
 
-    protected function addedUsers() : void
+    protected function addedUsers(): void
     {
-        if ($this->request_wrapper->retrieve('failure', $this->refinery->kindlyTo()->bool())) {
+        $r = $this->refinery;
+        if ($this->request_wrapper->retrieve('failure', $r->byTrying([$r->kindlyTo()->bool(), $r->always(false)]))) {
             $this->tpl->setOnScreenMessage("failure", $this->txt('iass_add_user_failure'));
         } else {
             $this->tpl->setOnScreenMessage("success", $this->txt('iass_add_user_success'));
@@ -128,7 +149,7 @@ class ilIndividualAssessmentMembersGUI
         $this->view();
     }
 
-    protected function view() : void
+    protected function view(): void
     {
         if ($this->iass_access->mayEditMembers()) {
             $search_params = ['crs', 'grp'];
@@ -163,7 +184,8 @@ class ilIndividualAssessmentMembersGUI
             $this->iass_access,
             $this->factory,
             $this->renderer,
-            $this->user->getId()
+            $this->user,
+            $this->date_formatter
         );
 
         $filter = $this->getFilterValue();
@@ -184,7 +206,7 @@ class ilIndividualAssessmentMembersGUI
     /**
      * @param int[]
      */
-    public function addUsersFromSearch(array $user_ids) : void
+    public function addUsersFromSearch(array $user_ids): void
     {
         if (!empty($user_ids)) {
             $this->addUsers($user_ids);
@@ -199,7 +221,7 @@ class ilIndividualAssessmentMembersGUI
      *
      * @param	int|string[]	$user_ids
      */
-    public function addUsers(array $user_ids) : void
+    public function addUsers(array $user_ids): void
     {
         if (!$this->iass_access->mayEditMembers()) {
             $this->handleAccessViolation();
@@ -227,25 +249,31 @@ class ilIndividualAssessmentMembersGUI
     /**
      * Display confirmation form for user might be removed
      */
-    protected function removeUserConfirmation() : void
+    protected function removeUserConfirmation(): void
     {
         if (!$this->iass_access->mayEditMembers()) {
             $this->handleAccessViolation();
         }
         $usr_id = $this->request_wrapper->retrieve("usr_id", $this->refinery->kindlyTo()->int());
-        $confirm = new ilConfirmationGUI();
-        $confirm->addItem('usr_id', $usr_id, ilObjUser::_lookupFullname($usr_id));
-        $confirm->setHeaderText($this->txt('iass_remove_user_qst'));
-        $confirm->setFormAction($this->ctrl->getFormAction($this));
-        $confirm->setConfirm($this->txt('remove'), 'removeUser');
-        $confirm->setCancel($this->txt('cancel'), 'view');
-        $this->tpl->setContent($confirm->getHTML());
+        $message = $this->lng->txt('iass_remove_user_qst');
+
+        $this->ctrl->setParameterByClass(self::class, 'usr_id', $usr_id);
+        $remove = $this->ctrl->getFormAction($this, 'removeUser');
+        $cancel = $this->ctrl->getFormAction($this, 'view');
+        $this->ctrl->clearParameterByClass(self::class, 'usr_id');
+
+        $buttons = [
+            $this->factory->button()->standard($this->lng->txt('remove'), $remove),
+            $this->factory->button()->standard($this->lng->txt('cancel'), $cancel)
+        ];
+        $message_box = $this->factory->messageBox()->confirmation($message)->withButtons($buttons);
+        $this->tpl->setContent($this->renderer->render($message_box));
     }
 
     /**
      * Remove users from corresponding iass-object. To be used by repository search.
      */
-    public function removeUser() : void
+    public function removeUser(): void
     {
         if (!$this->iass_access->mayEditMembers()) {
             $this->handleAccessViolation();
@@ -263,7 +291,7 @@ class ilIndividualAssessmentMembersGUI
     /**
      * @return ILIAS\UI\Component\Component[]
      */
-    protected function getViewControls() : array
+    protected function getViewControls(): array
     {
         $ret = array();
 
@@ -276,39 +304,45 @@ class ilIndividualAssessmentMembersGUI
         return $ret;
     }
 
-    protected function getModeControl(ViewControl\Factory $vc_factory) : ViewControl\Mode
+    protected function getModeControl(ViewControl\Factory $vc_factory): ViewControl\Mode
     {
-        $active = $this->getActiveLabelForModeByFilter(
-            $this->request_wrapper->retrieve(self::F_STATUS, $this->refinery->kindlyTo()->string())
-        );
-
-        return $vc_factory->mode(
+        $vc = $vc_factory->mode(
             $this->getModeOptions(),
             ""
-        )
-        ->withActive($active);
+        );
+
+        if ($this->request_wrapper->has(self::F_STATUS)) {
+            $vc = $vc->withActive(
+                $this->request_wrapper->retrieve(
+                    self::F_STATUS,
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
+
+        return $vc;
     }
 
-    protected function getSortationControl(ViewControl\Factory $vc_factory) : ViewControl\Sortation
+    protected function getSortationControl(ViewControl\Factory $vc_factory): ViewControl\Sortation
     {
         $target = $this->ctrl->getLinkTargetByClass("ilIndividualAssessmentMembersGUI", "view");
         return $vc_factory->sortation(
             $this->getSortOptions()
         )
         ->withTargetURL($target, self::F_SORT)
-        ->withLabel($this->txt("iass_sort"));
+        ->withLabel($this->getSortOptions()[$this->getSortValue() ?? self::S_NAME_ASC]);
     }
 
     /**
      * @return string[]
      */
-    protected function getModeOptions() : array
+    protected function getModeOptions(): array
     {
         $ret = [];
 
         $ret[$this->txt("iass_filter_all")] = $this->getLinkForStatusFilter(null);
 
-        if ($this->maybeViewLearningProgress()) {
+        if ($this->iass_access->mayViewAnyUser()) {
             $ret[$this->txt("iass_filter_not_started")] =
                 $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED);
             $ret[$this->txt("iass_filter_not_finalized")] =
@@ -324,7 +358,7 @@ class ilIndividualAssessmentMembersGUI
     /**
      * @param int|string|null 	$filter
      */
-    protected function getActiveLabelForModeByFilter($filter) : string
+    protected function getActiveLabelForModeByFilter($filter): string
     {
         switch ($filter) {
             case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED:
@@ -343,16 +377,19 @@ class ilIndividualAssessmentMembersGUI
     /**
      * @param int|string|null 	$value
      */
-    protected function getLinkForStatusFilter($value) : string
+    protected function getLinkForStatusFilter($value): string
     {
+        $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_SORT, $this->getSortValue());
         $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS, $value);
         $link = $this->ctrl->getLinkTargetByClass("ilIndividualAssessmentMembersGUI", "view");
         $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS, null);
 
+        $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_SORT, null);
+
         return $link;
     }
 
-    protected function getFilterValue() : ?string
+    protected function getFilterValue(): ?string
     {
         if (
             $this->request_wrapper->has(self::F_STATUS) &&
@@ -373,7 +410,7 @@ class ilIndividualAssessmentMembersGUI
         return null;
     }
 
-    protected function getSortOptions() : array
+    protected function getSortOptions(): array
     {
         return [
             self::S_NAME_ASC => $this->txt("iass_sort_name_asc"),
@@ -385,7 +422,7 @@ class ilIndividualAssessmentMembersGUI
         ];
     }
 
-    protected function getSortValue() : ?string
+    protected function getSortValue(): ?string
     {
         if (
             $this->request_wrapper->has(self::F_SORT) &&
@@ -408,17 +445,12 @@ class ilIndividualAssessmentMembersGUI
         return null;
     }
 
-    public function handleAccessViolation() : void
+    public function handleAccessViolation(): void
     {
         $this->error_object->raiseError($this->txt("msg_no_perm_read"), $this->error_object->WARNING);
     }
 
-    protected function maybeViewLearningProgress() : bool
-    {
-        return $this->iass_access->mayViewUser();
-    }
-
-    protected function txt(string $code) : string
+    protected function txt(string $code): string
     {
         return $this->lng->txt($code);
     }

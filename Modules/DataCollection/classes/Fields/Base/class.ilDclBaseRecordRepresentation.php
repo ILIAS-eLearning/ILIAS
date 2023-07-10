@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBaseRecordRepresentation
@@ -8,34 +23,40 @@
  */
 class ilDclBaseRecordRepresentation
 {
-    protected $record_field;
-    protected $lng;
-    protected $access;
-    protected $ctrl;
+    protected ilDclBaseRecordFieldModel $record_field;
+    protected ilLanguage $lng;
+    protected ilAccess $access;
+    protected ilCtrl $ctrl;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\UI\Renderer $renderer;
+    protected ilObjUser $user;
 
     public function __construct(ilDclBaseRecordFieldModel $record_field)
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilCtrl = $DIC['ilCtrl'];
 
-        $this->lng = $lng;
-        $this->access = $ilAccess;
-        $this->ctrl = $ilCtrl;
+        $this->lng = $DIC->language();
+        $this->access = $DIC->access();
+        $this->ctrl = $DIC->ctrl();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->user = $DIC->user();
 
         $this->record_field = $record_field;
     }
 
-    public function getFormGUI(ilPropertyFormGUI $formGUI)
+    public function getFormGUI(ilPropertyFormGUI $formGUI): void
     {
         // Apply form-elements to record-entry-gui
     }
 
     /**
      * function parses stored value to the variable needed to fill into the form for editing.
-     * @param $value
-     * @return mixed
+     * @param string|int $value
+     * @return string|int
      */
     public function parseFormInput($value)
     {
@@ -44,20 +65,21 @@ class ilDclBaseRecordRepresentation
 
     /**
      * Fills the form with the value of a record
-     * @param $form
      */
-    public function fillFormInput($form)
+    public function fillFormInput(ilPropertyFormGUI $form): void
     {
         $input_field = $form->getItemByPostVar('field_' . $this->getRecordField()->getField()->getId());
         if ($input_field) {
             $value = $this->getFormInput();
-            $input_field->setValueByArray(array("field_" . $this->getRecordField()->getField()->getId() => $value));
+            if (!is_null($value)) {
+                $input_field->setValueByArray(array("field_" . $this->getRecordField()->getField()->getId() => $value));
+            }
         }
     }
 
     /**
      * Gets the value from from the record field
-     * @return mixed
+     * @return int|string
      */
     protected function getFormInput()
     {
@@ -66,22 +88,16 @@ class ilDclBaseRecordRepresentation
 
     /**
      * Outputs html of a certain field
-     * @param mixed     $value
-     * @param bool|true $link
-     * @return string
      */
-    public function getHTML($link = true)
+    public function getHTML(bool $link = true, array $options = []): string
     {
-        return $this->getRecordField()->getValue();
+        return (string)$this->getRecordField()->getValue();
     }
 
     /**
      * Returns data for single record view
-     * @param array|NULL $options
-     * @param bool       $link
-     * @return string
      */
-    public function getSingleHTML(array $options = null, $link = true)
+    public function getSingleHTML(?array $options = null, bool $link = true): string
     {
         return $this->getHTML($link);
     }
@@ -89,9 +105,8 @@ class ilDclBaseRecordRepresentation
     /**
      * Returns data for confirmation list
      * When returning false, attribute is ignored in list
-     * @return string
      */
-    public function getConfirmationHTML()
+    public function getConfirmationHTML(): string
     {
         return $this->getHTML();
     }
@@ -100,34 +115,57 @@ class ilDclBaseRecordRepresentation
      * Fills row with record data
      * @param ilTemplate $tpl
      */
-    public function fillRow(ilTemplate $tpl)
+    public function fillRow(ilTemplate $tpl): void
     {
     }
 
     /**
      * Get Record Field
-     * @return ilDclBaseRecordFieldModel
      */
-    public function getRecordField()
+    public function getRecordField(): ilDclBaseRecordFieldModel
     {
         return $this->record_field;
     }
 
     /**
      * Getter shortcut for field
-     * @return ilDclBaseFieldModel
      */
-    public function getField()
+    public function getField(): ilDclBaseFieldModel
     {
         return $this->record_field->getField();
     }
 
     /**
      * Getter shortcut for record
-     * @return ilDclBaseRecordModel
      */
-    public function getRecord()
+    public function getRecord(): ilDclBaseRecordModel
     {
         return $this->record_field->getRecord();
+    }
+
+    /**
+     * Note this should be properly injected from ilObjDataCollection GUI.
+     */
+    protected function getTableViewId(): int
+    {
+        $tableview_id = null;
+        if ($this->http->wrapper()->query()->has('tableview_id')) {
+            $tableview_id = $this->http->wrapper()->query()->retrieve(
+                'tableview_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($this->http->wrapper()->post()->has('tableview_id')) {
+            $tableview_id = $this->http->wrapper()->post()->retrieve(
+                'tableview_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if (!$tableview_id) {
+            $table_obj = ilDclCache::getTableCache($this->getRecordField()->getRecord()->getTableId());
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+            $tableview_id = $table_obj->getFirstTableViewId($ref_id);
+        }
+        return $tableview_id;
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 
 class RunTimeTest extends TestCase
 {
-    private function markTestSkippedWhenNoRunningOnPhp() : void
+    private function markTestSkippedWhenNoRunningOnPhp(): void
     {
         if (!defined('HHVM_VERSION')) {
             return;
@@ -29,21 +31,21 @@ class RunTimeTest extends TestCase
         $this->markTestSkipped('Cannot run on HHVM');
     }
 
-    public function testGetVersionReturnsPhpVersionWhenRunningPhp() : void
+    public function testGetVersionReturnsPhpVersionWhenRunningPhp(): void
     {
         $this->markTestSkippedWhenNoRunningOnPhp();
 
         $this->assertSame(PHP_VERSION, ilRuntime::getInstance()->getVersion());
     }
 
-    public function testGetNameReturnsPhpWhenRunningOnPhp() : void
+    public function testGetNameReturnsPhpWhenRunningOnPhp(): void
     {
         $this->markTestSkippedWhenNoRunningOnPhp();
 
         $this->assertSame('PHP', ilRuntime::getInstance()->getName());
     }
 
-    public function testBinaryCanBeRetrieved() : void
+    public function testBinaryCanBeRetrieved(): void
     {
         $this->assertNotEmpty(ilRuntime::getInstance()->getBinary());
     }

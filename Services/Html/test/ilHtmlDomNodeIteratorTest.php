@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,15 +16,17 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class ilHtmlDomNodeIteratorTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilHtmlDomNodeIteratorTest extends TestCase
+final class ilHtmlDomNodeIteratorTest extends TestCase
 {
-    public function testDomNodeIteratorIteratesOverXhtmlDocumentNodes() : void
+    public function testDomNodeIteratorIteratesOverXhtmlDocumentNodes(): void
     {
         $dom = new DOMDocument();
         $dom->loadHTML('<body><div><p><b>phpunit</b> <i>test</i></p></div></body>');

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailRfc822AddressParser
  * @author Michael Jansen <mjansen@databay.de>
@@ -30,7 +32,7 @@ class ilMailRfc822AddressParser extends ilBaseMailRfc822AddressParser
         $this->aggregatedParser = $addresses;
     }
 
-    protected function parseAddressString(string $addresses) : array
+    protected function parseAddressString(string $addresses): array
     {
         return $this->aggregatedParser->parse();
     }

@@ -1,6 +1,20 @@
 <?php
 
-include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Factory/ilAssLacAbstractManufacturer.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ExpressionManufacturer
@@ -11,7 +25,6 @@ include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Fa
  */
 class ilAssLacExpressionManufacturer extends ilAssLacAbstractManufacturer
 {
-
     /**
      * A Singleton Instance of the ExpressionManufacturer
      *
@@ -27,7 +40,7 @@ class ilAssLacExpressionManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return ilAssLacExpressionManufacturer
      */
-    public static function _getInstance() : ?ilAssLacExpressionManufacturer
+    public static function _getInstance(): ?ilAssLacExpressionManufacturer
     {
         if (self::$instance == null) {
             self::$instance = new ilAssLacExpressionManufacturer();
@@ -38,13 +51,11 @@ class ilAssLacExpressionManufacturer extends ilAssLacAbstractManufacturer
     /**
      * /**
      * Create a new specific Composite object which is representing the delivered Attribute
-     *
      * @param string $attribute
-     *
-     * @return ilAssLacAbstractComposite|ilAssLacAnswerOfQuestionExpression|ilAssLacAnswerOfCurrentQuestionExpression|ilAssLacNumberOfResultExpression|ilAssLacNumericResultExpression|ilAssLacPercentageResultExpression|ilAssLacResultOfAnswerOfQuestionExpression|ilAssLacResultOfAnswerOfCurrentQuestionExpression|ilAssLacStringResultExpression
+     * @return ilAssLacAbstractComposite
      * @throws ilAssLacUnsupportedExpression
      */
-    public function manufacture($attribute)
+    public function manufacture(string $attribute): ilAssLacAbstractComposite
     {
         $expression = null;
 
@@ -110,7 +121,7 @@ class ilAssLacExpressionManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return string
      */
-    public function getPattern() : string
+    public function getPattern(): string
     {
         return
             "/" .
@@ -127,26 +138,6 @@ class ilAssLacExpressionManufacturer extends ilAssLacAbstractManufacturer
             substr(ilAssLacExclusiveResultExpression::$pattern, 1, strlen(ilAssLacExclusiveResultExpression::$pattern) - 2) . "|" .
             substr(ilAssLacEmptyAnswerExpression::$pattern, 1, strlen(ilAssLacEmptyAnswerExpression::$pattern) - 2) .
             "/";
-    }
-
-    /**
-     * Private constructor to prevent creating of an object of ExpressionManufacturer
-     */
-    private function __construct()
-    {
-        require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacAnswerOfQuestionExpression.php";
-        require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacAnswerOfCurrentQuestionExpression.php";
-        require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacResultOfAnswerOfQuestionExpression.php";
-        require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacResultOfAnswerOfCurrentQuestionExpression.php";
-        require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacPercentageResultExpression.php";
-        require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacNumberOfResultExpression.php";
-        require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacNumericResultExpression.php";
-        require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacStringResultExpression.php";
-        require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacMatchingResultExpression.php";
-        require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacOrderingResultExpression.php";
-        require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacExclusiveResultExpression.php";
-        require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacEmptyAnswerExpression.php";
-        require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacUnsupportedExpression.php';
     }
 
     /**

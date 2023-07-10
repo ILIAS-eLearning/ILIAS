@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -37,10 +39,10 @@ class ilObjectSearch extends ilAbstractSearch
     public const CDATE_OPERATOR_BEFORE = 1;
     public const CDATE_OPERATOR_AFTER = 2;
     public const CDATE_OPERATOR_ON = 3;
-    
+
     private ?int $cdate_operator = null;
     private ?ilDate $cdate_date = null;
-    
+
 
     public function __construct(ilQueryParser $qp_obj)
     {
@@ -51,13 +53,13 @@ class ilObjectSearch extends ilAbstractSearch
 
 
 
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         $in = $this->__createInStatement();
         $where = $this->__createWhereCondition();
-        
-        
-        
+
+
+
         $cdate = '';
         if ($this->getCreationDateFilterDate() instanceof ilDate) {
             if ($this->getCreationDateFilterOperator()) {
@@ -65,11 +67,11 @@ class ilObjectSearch extends ilAbstractSearch
                     case self::CDATE_OPERATOR_AFTER:
                         $cdate = 'AND create_date >= ' . $this->db->quote($this->getCreationDateFilterDate()->get(IL_CAL_DATE), 'text') . ' ';
                         break;
-                    
+
                     case self::CDATE_OPERATOR_BEFORE:
                         $cdate = 'AND create_date <= ' . $this->db->quote($this->getCreationDateFilterDate()->get(IL_CAL_DATE), 'text') . ' ';
                         break;
-                    
+
                     case self::CDATE_OPERATOR_ON:
                         $cdate = 'AND ' . $this->db->like(
                             'create_date',
@@ -80,7 +82,7 @@ class ilObjectSearch extends ilAbstractSearch
                 }
             }
         }
-        
+
         $locate = $this->__createLocateString();
 
         $query = "SELECT obj_id,type " .
@@ -88,9 +90,9 @@ class ilObjectSearch extends ilAbstractSearch
             "FROM object_data " .
             $where . " " . $cdate . ' ' . $in . ' ' .
             "ORDER BY obj_id DESC";
-        
+
         ilLoggerFactory::getLogger('src')->debug('Object search query: ' . $query);
-        
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry((int) $row->obj_id, (string) $row->type, $this->__prepareFound($row));
@@ -100,7 +102,7 @@ class ilObjectSearch extends ilAbstractSearch
 
 
 
-    public function __createInStatement() : string
+    public function __createInStatement(): string
     {
         $in = ' AND ' . $this->db->in('type', (array) $this->object_types, false, 'text');
         if ($this->getIdFilter()) {
@@ -109,24 +111,24 @@ class ilObjectSearch extends ilAbstractSearch
         }
         return $in;
     }
-    
 
-    public function setCreationDateFilterDate(ilDate $day) : void
+
+    public function setCreationDateFilterDate(ilDate $day): void
     {
         $this->cdate_date = $day;
     }
-    
-    public function setCreationDateFilterOperator(int $a_operator) : void
+
+    public function setCreationDateFilterOperator(int $a_operator): void
     {
         $this->cdate_operator = $a_operator;
     }
-    
-    public function getCreationDateFilterDate() : ?ilDate
+
+    public function getCreationDateFilterDate(): ?ilDate
     {
         return $this->cdate_date;
     }
-    
-    public function getCreationDateFilterOperator() : ?int
+
+    public function getCreationDateFilterOperator(): ?int
     {
         return $this->cdate_operator;
     }

@@ -24,8 +24,8 @@ interface ilMathAdapter
 {
     /**
      * Adds two numbers
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return mixed
      */
@@ -33,8 +33,8 @@ interface ilMathAdapter
 
     /**
      * Subtracts two numbers
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return mixed
      */
@@ -42,8 +42,8 @@ interface ilMathAdapter
 
     /**
      * Multiplies two numbers
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return mixed
      */
@@ -51,8 +51,8 @@ interface ilMathAdapter
 
     /**
      * Divides two numbers
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return mixed
      * @throws ilMathDivisionByZeroException
@@ -61,8 +61,8 @@ interface ilMathAdapter
 
     /**
      * Gets modulus of two numbers
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @return mixed
      * @throws ilMathDivisionByZeroException
      */
@@ -70,8 +70,8 @@ interface ilMathAdapter
 
     /**
      * Raises a number to another
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return mixed
      */
@@ -88,8 +88,8 @@ interface ilMathAdapter
 
     /**
      * Compares two numbers
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return mixed
      */
@@ -97,12 +97,12 @@ interface ilMathAdapter
 
     /**
      * Checks whether or not two numbers are identical
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return bool
      */
-    public function equals($left_operand, $right_operand, int $scale = null) : bool;
+    public function equals($left_operand, $right_operand, int $scale = null): bool;
 
     /**
      * This method adapts the behaviour of bcscale()
@@ -115,5 +115,5 @@ interface ilMathAdapter
     /**
      * @param mixed $value
      */
-    public function round($value, int $precision = 0) : string;
+    public function round($value, int $precision = 0): string;
 }

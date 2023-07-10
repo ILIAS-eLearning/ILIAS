@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\LearningModule\Editing\EditingGUIRequest;
 
@@ -98,13 +101,13 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
         $cs = $DIC->contentStyle();
         $this->content_style_gui = $cs->gui();
     }
-    
+
     /**
      * Check request parameters
      * @throws ilCtrlException
      * @throws ilException
      */
-    protected function checkRequestParameters() : void
+    protected function checkRequestParameters(): void
     {
         $forwards_to_role = $this->ctrl->checkCurrentPathForClass("ilobjrolegui");
 
@@ -115,13 +118,13 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
             throw new ilException("Active node does not match learning module.");
         }
     }
-    
+
 
     /**
      * @throws ilCtrlException
      * @throws ilException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -137,14 +140,14 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
             $this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $this->obj_id);
             $this->ctrl->redirectByClass(array("ilobjlearningmodulegui", "illmpageobjectgui"), "edit");
         }
-        
+
         $this->showTree();
 
         $next_class = $this->ctrl->getNextClass($this);
 
         // show footer
         $show_footer = ($cmd !== "explorer");
-            
+
         switch ($next_class) {
             case "ilobjlearningmodulegui":
                 $this->main_header();
@@ -168,7 +171,7 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
                 break;
 
             default:
-                $ret = $this->$cmd();
+                $this->ctrl->redirectByClass(array("ilobjlearningmodulegui"), "");
                 break;
         }
     }
@@ -176,7 +179,7 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
     /**
      * Show tree
      */
-    public function showTree() : void
+    public function showTree(): void
     {
         $tpl = $this->tpl;
 
@@ -187,11 +190,11 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
 //            $tpl->setLeftNavContent($exp->getHTML());
         }
     }
-    
+
     /**
      * output main header (title and locator)
      */
-    public function main_header() : void
+    public function main_header(): void
     {
         $this->tpl->loadStandardTemplate();
 
@@ -214,7 +217,7 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
     /**
      * Display locator
      */
-    public function displayLocator() : void
+    public function displayLocator(): void
     {
         $this->tpl->setLocator();
     }

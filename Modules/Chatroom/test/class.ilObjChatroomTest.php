@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjChatroomTest
  * @author Thomas Joußen <tjoussen@gmx.de>
@@ -24,7 +26,7 @@ class ilObjChatroomTest extends ilChatroomAbstractTest
 {
     protected ilObjChatroom $object;
 
-    public function testPersonalInformationCanBeRetrieved() : void
+    public function testPersonalInformationCanBeRetrieved(): void
     {
         $this->ilChatroomUserMock->expects($this->once())->method('getUserId')->willReturn(6);
         $this->ilChatroomUserMock->expects($this->once())->method('getUsername')->willReturn('username');
@@ -36,14 +38,7 @@ class ilObjChatroomTest extends ilChatroomAbstractTest
         $this->assertSame(6, $userInfo->id);
     }
 
-    public function testPublicRoomRefIdCanBeRetrieved() : void
-    {
-        $this->createGlobalIlDBMock();
-
-        $this->assertSame(0, $this->object::_getPublicRefId());
-    }
-
-    public function testPublicRoomObjIdCanBeRetrieved() : void
+    public function testPublicRoomObjIdCanBeRetrieved(): void
     {
         $db = $this->createGlobalIlDBMock();
 
@@ -52,7 +47,7 @@ class ilObjChatroomTest extends ilChatroomAbstractTest
         $this->assertSame(6, $this->object::_getPublicObjId());
     }
 
-    public function testPublicRoomObjIdDefaultValueCanBeRetrieved() : void
+    public function testPublicRoomObjIdDefaultValueCanBeRetrieved(): void
     {
         $db = $this->createGlobalIlDBMock();
 
@@ -61,7 +56,7 @@ class ilObjChatroomTest extends ilChatroomAbstractTest
         $this->assertSame(0, $this->object::_getPublicObjId());
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 

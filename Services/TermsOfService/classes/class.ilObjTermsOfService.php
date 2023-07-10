@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,16 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjTermsOfService
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilObjTermsOfService extends ilObject2
 {
+    private bool $reevaluateOnLogin;
+    private bool $status;
     protected ilSetting $settings;
 
     /**
@@ -33,16 +37,23 @@ class ilObjTermsOfService extends ilObject2
         global $DIC;
 
         parent::__construct($a_id, $a_reference);
-
         $this->settings = $DIC['ilSetting'];
+        $this->doRead();
     }
 
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = 'tos';
     }
 
-    public function resetAll() : void
+
+    protected function doRead(): void
+    {
+        $this->status = (bool) $this->settings->get('tos_status', '0');
+        $this->reevaluateOnLogin = (bool) $this->settings->get('tos_reevaluate_on_login', '0');
+    }
+
+    public function resetAll(): void
     {
         $in = $this->db->in('usr_id', [ANONYMOUS_USER_ID, SYSTEM_USER_ID], true, 'integer');
         $this->db->manipulate("UPDATE usr_data SET agree_date = NULL WHERE $in");
@@ -50,28 +61,46 @@ class ilObjTermsOfService extends ilObject2
         $this->settings->set('tos_last_reset', (string) time());
     }
 
-    public function getLastResetDate() : ilDateTime
+    public function getLastResetDate(): ilDateTime
     {
         return new ilDateTime((int) $this->settings->get('tos_last_reset', '0'), IL_CAL_UNIX);
     }
 
-    public function saveStatus(bool $status) : void
+    public function setStatus(bool $status): void
     {
-        $this->settings->set('tos_status', (string) ((int) $status));
+        $this->status = $status;
     }
 
-    public function getStatus() : bool
+    public function getStatus(): bool
     {
-        return (bool) $this->settings->get('tos_status', '0');
+        return $this->status;
     }
 
-    public function setReevaluateOnLogin(bool $status) : void
+    public function setReevaluateOnLogin(bool $status): void
     {
-        $this->settings->set('tos_reevaluate_on_login', (string) ((int) $status));
+        $this->reevaluateOnLogin = $status;
     }
-    
-    public function shouldReevaluateOnLogin() : bool
+
+    public function shouldReevaluateOnLogin(): bool
     {
-        return (bool) $this->settings->get('tos_reevaluate_on_login', '0');
+        return $this->reevaluateOnLogin;
+    }
+
+    public function bindFormInput(array $values): void
+    {
+        $status = (bool) ($values[ilObjTermsOfServiceGUI::F_TOS_STATUS] ?? false);
+        $reevaluate_on_login = (bool) ($values[ilObjTermsOfServiceGUI::F_TOS_STATUS][ilObjTermsOfServiceGUI::F_TOS_REEVALUATE_ON_LOGIN] ?? $this->shouldReevaluateOnLogin());
+        if (!$status) {
+            $this->setStatus($status);
+        } else {
+            $this->setStatus($status);
+            $this->setReevaluateOnLogin($reevaluate_on_login);
+        }
+    }
+
+    public function store(): void
+    {
+        $this->settings->set('tos_status', (string) ((int) $this->getStatus()));
+        $this->settings->set('tos_reevaluate_on_login', (string) ((int) $this->shouldReevaluateOnLogin()));
     }
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -44,12 +46,12 @@ class ilMailMemberSearchTableGUI extends ilTable2GUI
 
         $this->setSelectAllCheckbox('user_ids[]');
         $this->setShowRowsSelector(true);
-        
+
         $this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mail_members'));
         $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         foreach ($a_set as $key => $value) {
             $this->tpl->setVariable(strtoupper($key), $value);

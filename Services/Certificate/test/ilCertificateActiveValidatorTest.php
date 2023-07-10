@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testCertificatesAreActiveAndJavaServerIsActive() : void
+    public function testCertificatesAreActiveAndJavaServerIsActive(): void
     {
         $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
@@ -45,7 +47,7 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($result);
     }
 
-    public function testValidationReturnFalseBecauseGlobalCertificatesAreInactive() : void
+    public function testValidationReturnFalseBecauseGlobalCertificatesAreInactive(): void
     {
         $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
@@ -71,7 +73,7 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($result);
     }
 
-    public function testValidationReturnFalseBecauseJavaServerIsInactive() : void
+    public function testValidationReturnFalseBecauseJavaServerIsInactive(): void
     {
         $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()

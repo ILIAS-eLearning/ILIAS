@@ -1,26 +1,22 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * @classDescription GUI for simple Lucene search
@@ -67,29 +63,31 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Execute Command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-        $this->prepareOutput();
         switch ($next_class) {
             case "ilpropertyformgui":
                 /*$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_LUCENE);
                 $ilCtrl->setReturn($this, 'storeRoot');
                 $ilCtrl->forwardCommand($this->form);*/
                 $form = $this->getSearchAreaForm();
+                $this->prepareOutput();
                 $this->ctrl->setReturn($this, 'storeRoot');
                 $this->ctrl->forwardCommand($form);
                 break;
 
             case 'ilobjectcopygui':
+                $this->prepareOutput();
                 $this->ctrl->setReturn($this, '');
                 $cp = new ilObjectCopyGUI($this);
                 $this->ctrl->forwardCommand($cp);
                 break;
 
             default:
+                $this->prepareOutput();
                 $this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_LUCENE);
                 if (!$cmd) {
                     $cmd = "showSavedResults";
@@ -102,7 +100,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Add admin panel command
      */
-    public function prepareOutput() : void
+    public function prepareOutput(): void
     {
         parent::prepareOutput();
         $this->getTabs();
@@ -111,7 +109,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * @todo rename
      */
-    protected function getType() : int
+    protected function getType(): int
     {
         return self::SEARCH_DETAILS;
     }
@@ -120,7 +118,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      * Needed for base class search form
      * @todo rename
      */
-    protected function getDetails() : array
+    protected function getDetails(): array
     {
         return $this->search_cache->getItemFilter();
     }
@@ -129,7 +127,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      * Needed for base class search form
      * @todo rename
      */
-    protected function getMimeDetails() : array
+    protected function getMimeDetails(): array
     {
         return $this->search_cache->getMimeFilter();
     }
@@ -137,7 +135,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Search from main menu
      */
-    protected function remoteSearch() : void
+    protected function remoteSearch(): void
     {
         $queryString = '';
         if ($this->http->wrapper()->post()->has('queryString')) {
@@ -168,7 +166,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Show saved results
      */
-    protected function showSavedResults() : bool
+    protected function showSavedResults(): bool
     {
         if (!strlen($this->search_cache->getQuery())) {
             $this->showSearchForm();
@@ -207,7 +205,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      * Search (button pressed)
      * @return void
      */
-    protected function search() : void
+    protected function search(): void
     {
         if (!$this->form->checkInput()) {
             $this->search_cache->deleteCachedEntries();
@@ -227,7 +225,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Perform search
      */
-    protected function performSearch() : void
+    protected function performSearch(): void
     {
         ilSession::clear('vis_references');
         $filter_query = '';
@@ -307,7 +305,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Store new root node
      */
-    protected function storeRoot() : void
+    protected function storeRoot(): void
     {
         $form = $this->getSearchAreaForm();
 
@@ -324,7 +322,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * get tabs
      */
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         $this->help->setScreenIdComponent("src_luc");
 
@@ -347,7 +345,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      * @access private
      *
      */
-    protected function initUserSearchCache() : void
+    protected function initUserSearchCache(): void
     {
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::LUCENE_DEFAULT);
@@ -373,7 +371,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
             if ($item_filter_enabled) {
                 $filtered = array();
                 foreach (ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data) {
-                    if ($post_filter_type[$type]) {
+                    if ($post_filter_type[$type] ?? false) {
                         $filtered[$type] = 1;
                     }
                 }
@@ -382,7 +380,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
                 // Mime filter
                 $mime = array();
                 foreach (ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions() as $type => $data) {
-                    if ($post_filter_type[$type]) {
+                    if ($post_filter_type[$type] ?? false) {
                         $mime[$type] = 1;
                     }
                 }
@@ -406,7 +404,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     * - creation selector
     * - admin view on/off button
     */
-    protected function fillAdminPanel() : void
+    protected function fillAdminPanel(): void
     {
         $adm_view_cmp = $adm_cmds = $creation_selector = $adm_view = false;
 
@@ -481,7 +479,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
     * Add a command to the admin panel
     */
-    protected function addAdminPanelCommand(string $a_cmd, string $a_txt) : void
+    protected function addAdminPanelCommand(string $a_cmd, string $a_txt): void
     {
         $this->admin_panel_commands[] =
             array("cmd" => $a_cmd, "txt" => $a_txt);
@@ -490,13 +488,13 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
     * Show admin view button
     */
-    protected function setAdminViewButton(string $a_link, string $a_txt) : void
+    protected function setAdminViewButton(string $a_link, string $a_txt): void
     {
         $this->admin_view_button =
             array("link" => $a_link, "txt" => $a_txt);
     }
 
-    protected function setPageFormAction(string $a_action) : void
+    protected function setPageFormAction(string $a_action): void
     {
         $this->page_form_action = $a_action;
     }
@@ -505,7 +503,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      * Show search form
      * @return void
      */
-    protected function showSearchForm() : void
+    protected function showSearchForm(): void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_search.html', 'Services/Search');
 
@@ -536,7 +534,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         }
 
         // search area form
-        #$this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
+        $this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
         $this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
 
         if (ilSearchSettings::getInstance()->isDateFilterEnabled()) {
@@ -553,11 +551,11 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Parse creation date
      */
-    protected function parseCreationFilter() : string
+    protected function parseCreationFilter(): string
     {
         $options = $this->search_cache->getCreationFilter();
 
-        if (!$options['enabled']) {
+        if (!($options['enabled'] ?? false)) {
             return '';
         }
         $limit = new ilDate($options['date'], IL_CAL_UNIX);
@@ -576,7 +574,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
             case 3:
                 // on
                 return '+(cdate:' . $limit->get(IL_CAL_DATE) . '*) ';
-
         }
         return '';
     }

@@ -1,27 +1,23 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-require_once 'Services/QTI/interfaces/interface.ilQTIMaterialAware.php';
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * QTI flow_mat class
@@ -33,40 +29,33 @@ require_once 'Services/QTI/interfaces/interface.ilQTIMaterialAware.php';
 */
 class ilQTIFlowMat implements ilQTIMaterialAware
 {
-    public ?string $comment;
+    public ?string $comment = null;
     /** @var ilQTIFlowMat[] */
-    public array $flow_mat;
+    public array $flow_mat = [];
     /** @var ilQTIMaterial[] */
-    public array $material;
-    
-    public function __construct()
-    {
-        $this->comment = null;
-        $this->flow_mat = [];
-        $this->material = [];
-    }
+    public array $material = [];
 
-    public function setComment(string $a_comment) : void
+    public function setComment(string $a_comment): void
     {
         $this->comment = $a_comment;
     }
 
-    public function getComment() : ?string
+    public function getComment(): ?string
     {
         return $this->comment;
     }
 
-    public function addFlow_mat(ilQTIFlowMat $a_flow_mat) : void
+    public function addFlowMat(ilQTIFlowMat $a_flow_mat): void
     {
         $this->flow_mat[] = $a_flow_mat;
     }
 
-    public function addMaterial(ilQTIMaterial $a_material) : void
+    public function addMaterial(ilQTIMaterial $material): void
     {
-        $this->material[] = $a_material;
+        $this->material[] = $material;
     }
 
-    public function getMaterial(int $index) : ?ilQTIMaterial
+    public function getMaterial(int $index): ?ilQTIMaterial
     {
         return $this->material[$index] ?? null;
     }

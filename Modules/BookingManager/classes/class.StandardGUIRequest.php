@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 namespace ILIAS\BookingManager;
 
@@ -39,57 +38,62 @@ class StandardGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getPoolRefId() : int
+    public function getPoolRefId(): int
     {
         return $this->int("pool_ref_id");
     }
 
-    public function getObjectId() : int
+    public function getObjectId(): int
     {
         return $this->int("object_id");
     }
 
-    public function getUserId() : int
+    public function getMessage(): string
+    {
+        return $this->str("message");
+    }
+
+    public function getUserId(): int
     {
         return $this->int("user_id");
     }
 
-    public function getBookedUser() : int
+    public function getBookedUser(): int
     {
         return $this->int("bkusr");
     }
 
-    public function getScheduleId() : int
+    public function getScheduleId(): int
     {
         return $this->int("schedule_id");
     }
 
-    public function getStatus() : int
+    public function getStatus(): int
     {
         return $this->int("tstatus");
     }
 
-    public function getReservationIdsFromString() : array
+    public function getReservationIdsFromString(): array
     {
         return explode(";", $this->str("rsv_ids"));
     }
 
-    public function getReturnTo() : string
+    public function getReturnTo(): string
     {
         return $this->str("return_to");
     }
 
-    public function getReservationId() : string
+    public function getReservationId(): string
     {
         return $this->str("reservation_id");
     }
 
-    public function getReservationIds() : array
+    public function getReservationIds(): array
     {
         $ids = $this->strArray("mrsv");
         if (count($ids) === 0) {
@@ -101,22 +105,22 @@ class StandardGUIRequest
         return $ids;
     }
 
-    public function getSeed() : string
+    public function getSeed(): string
     {
         return $this->str("seed");
     }
 
-    public function getSSeed() : string
+    public function getSSeed(): string
     {
         return $this->str("sseed");
     }
 
-    public function getNotification() : int
+    public function getNotification(): int
     {
         return $this->int("ntf");
     }
 
-    public function getParticipants() : array
+    public function getParticipants(): array
     {
         $p = $this->intArray("mass");
         if (count($p) === 0) {
@@ -125,33 +129,97 @@ class StandardGUIRequest
         return $p;
     }
 
-    public function getDates() : array
+    public function getDates(): array
     {
-        return $this->strArray("dates");
+        $dates = $this->strArray("date");
+        if (count($dates) === 0 && $this->str("date") !== "") {
+            return [$this->str("date")];
+        }
+        return $dates;
     }
 
-    public function getRece() : string
+    public function getDate(): string
+    {
+        return $this->str("date");
+    }
+
+    public function getRece(): string
     {
         return $this->str("rece");
     }
 
-    public function getRecm() : string
+    public function getRecm(): string
     {
         return $this->str("recm");
     }
 
-    public function getUserLogin() : string
+    public function getUserLogin(): string
     {
         return $this->str("user_login");
     }
 
-    public function getGroupId() : int
+    public function getGroupId(): int
     {
         return $this->int("grp_id");
     }
 
-    public function getCancelNr($id) : int
+    public function getCancelNr($id): int
     {
         return $this->int("rsv_id_" . $id);
     }
+
+    public function getReplaceSignal() : string
+    {
+        return $this->str("replaceSignal");
+    }
+
+    public function getReturnCmd() : string
+    {
+        return $this->str("returnCmd");
+    }
+
+    public function getSlot() : string
+    {
+        return $this->str("slot");
+    }
+
+    public function getSlotFrom() : int
+    {
+        $slot = $this->getSlot();
+        $parts = explode("_", $slot);
+        return (int) $parts[0];
+    }
+
+    public function getSlotTo() : int
+    {
+        $slot = $this->getSlot();
+        $parts = explode("_", $slot);
+        return (int) ($parts[1] ?? 0);
+    }
+
+    public function getRecurrence() : string
+    {
+        return $this->str("recurrence");
+    }
+
+    public function getNr() : int
+    {
+        return $this->int("nr");
+    }
+
+    public function getUntil() : int
+    {
+        return $this->int("until");
+    }
+
+    public function getObjectIds() : array
+    {
+        return $this->intArray("object_id");
+    }
+
+    public function getBulkCreationData() : string
+    {
+        return $this->str("data");
+    }
+
 }

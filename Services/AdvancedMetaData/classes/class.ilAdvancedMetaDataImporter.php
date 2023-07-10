@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -23,7 +25,7 @@ class ilAdvancedMetaDataImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $parser = new ilAdvancedMDParser($a_id, $a_mapping);
         $parser->setXMLContent($a_xml);
         $parser->startParsing();

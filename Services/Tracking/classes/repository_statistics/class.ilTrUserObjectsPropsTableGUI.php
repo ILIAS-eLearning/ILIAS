@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Build table list for objects of given user
@@ -80,7 +94,8 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             $this->ctrl->getFormActionByClass(get_class($this))
         );
         $this->setRowTemplate(
-            "tpl.user_objects_props_row.html", "Services/Tracking"
+            "tpl.user_objects_props_row.html",
+            "Services/Tracking"
         );
         $this->setEnableTitle(true);
         $this->setDefaultOrderField("title");
@@ -91,7 +106,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         $this->getItems();
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         // default fields
         $cols = array();
@@ -163,7 +178,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             ilUtil::stripSlashes($this->getLimit()),
             $this->filter,
             $additional_fields,
-            $this->filter["view_mode"]
+            $this->filter["view_mode"] ?? false
         );
 
         if (count($tr_data["set"]) == 0 && $this->getOffset() > 0) {
@@ -178,19 +193,21 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                 ilUtil::stripSlashes($this->getLimit()),
                 $this->filter,
                 $additional_fields,
-                $this->filter["view_mode"]
+                $this->filter["view_mode"] ?? false
             );
         }
 
         // #13807
         foreach ($tr_data["set"] as $idx => $row) {
-            if ($row["ref_id"] &&
+            if (($row["ref_id"] ?? 0) &&
                 !ilLearningProgressAccess::checkPermission(
-                    'read_learning_progress', $row['ref_id']
+                    'read_learning_progress',
+                    $row['ref_id']
                 )) {
                 foreach (array_keys($row) as $col_id) {
                     if (!in_array(
-                        $col_id, array("type",
+                        $col_id,
+                        array("type",
                                        "obj_id",
                                        "ref_id",
                                        "title",
@@ -236,23 +253,24 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         // for scorm and objectives this filter does not make sense / is not implemented
         $olp = ilObjectLP::getInstance($this->obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection instanceof ilLPCollectionOfRepositoryObjects) {
-
             // show collection only/all
             $ti = new ilRadioGroupInputGUI(
-                $this->lng->txt("trac_view_mode"), "view_mode"
+                $this->lng->txt("trac_view_mode"),
+                "view_mode"
             );
             $ti->addOption(
                 new ilRadioOption($this->lng->txt("trac_view_mode_all"), "")
             );
             $ti->addOption(
                 new ilRadioOption(
-                    $this->lng->txt("trac_view_mode_collection"), "coll"
+                    $this->lng->txt("trac_view_mode_collection"),
+                    "coll"
                 )
             );
             $this->addFilterItem($ti);
@@ -261,21 +279,22 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
 
         if (!$this->isPercentageAvailable($a_set["obj_id"])) {
             $a_set["percentage"] = null;
         }
 
         foreach ($this->getSelectedColumns() as $c) {
-            if (!$a_set["privacy_conflict"]) {
-                $val = (trim($a_set[$c]) == "")
+            if (!(bool) ($a_set["privacy_conflict"] ?? null)) {
+                $val = (trim(($a_set[$c] ?? '')) == "")
                     ? " "
                     : $a_set[$c];
 
-                if ($a_set[$c] != "" || $c == "status") {
+                if (($a_set[$c] ?? '') != "" || $c == "status") {
                     switch ($c) {
                         case "first_access":
                             $val = ilDatePresentation::formatDate(
@@ -293,38 +312,34 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                             break;
 
                         case "status":
-                            $path = ilLearningProgressBaseGUI::_getImagePathForStatus(
-                                $a_set[$c]
-                            );
-                            $text = ilLearningProgressBaseGUI::_getStatusText(
-                                $a_set[$c]
-                            );
-                            $val = ilUtil::img($path, $text);
+                            $val = $icons->renderIconForStatus($a_set[$c] ?? ilLPStatusIcons::ICON_VARIANT_LONG);
 
-                            if ($a_set["ref_id"] &&
+                            if (($a_set["ref_id"] ?? 0) &&
                                 $a_set["type"] != "lobj" &&
                                 $a_set["type"] != "sco" &&
                                 $a_set["type"] != "st" &&
                                 $a_set["type"] != "mob") {
                                 $timing = $this->showTimingsWarning(
-                                    $a_set["ref_id"], $this->user_id
+                                    $a_set["ref_id"],
+                                    $this->user_id
                                 );
                                 if ($timing) {
                                     if ($timing !== true) {
                                         $timing = ": " . ilDatePresentation::formatDate(
-                                                new ilDate(
-                                                    $timing,
-                                                    IL_CAL_UNIX
-                                                )
-                                            );
+                                            new ilDate(
+                                                $timing,
+                                                IL_CAL_UNIX
+                                            )
+                                        );
                                     } else {
                                         $timing = "";
                                     }
                                     $this->tpl->setCurrentBlock('warning_img');
                                     $this->tpl->setVariable(
-                                        'WARNING_IMG', ilUtil::getImagePath(
-                                        'time_warn.svg'
-                                    )
+                                        'WARNING_IMG',
+                                        ilUtil::getImagePath(
+                                            'time_warn.svg'
+                                        )
                                     );
                                     $this->tpl->setVariable(
                                         'WARNING_ALT',
@@ -353,7 +368,6 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                         case "percentage":
                             $val = $a_set[$c] . "%";
                             break;
-
                     }
                 }
                 if ($c == "mark" &&
@@ -377,10 +391,11 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($a_set["privacy_conflict"]) {
+        if ($a_set["privacy_conflict"] ?? null) {
             $this->tpl->setCurrentBlock("permission_bl");
             $this->tpl->setVariable(
-                "TXT_NO_PERMISSION", $this->lng->txt("status_no_permission")
+                "TXT_NO_PERMISSION",
+                $this->lng->txt("status_no_permission")
             );
             $this->tpl->parseCurrentBlock();
         }
@@ -390,13 +405,15 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
 
         $this->tpl->setVariable(
-            "ICON", ilObject::_getIcon(0, "tiny", $a_set["type"])
+            "ICON",
+            ilObject::_getIcon(0, "tiny", $a_set["type"])
         );
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
 
         if (in_array(
-                $a_set['type'], array('fold', 'grp')
-            ) && $a_set['obj_id'] != $this->obj_id) {
+            $a_set['type'],
+            array('fold', 'grp')
+        ) && $a_set['obj_id'] != $this->obj_id) {
             if ($a_set['type'] == 'fold') {
                 $object_gui = 'ilobjfoldergui';
             } else {
@@ -417,29 +434,42 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                     'illplistofobjectsgui'
                 );
                 $this->ctrl->setParameterByClass(
-                    'illplistofobjectsgui', 'ref_id', $a_set["ref_id"]
+                    'illplistofobjectsgui',
+                    'ref_id',
+                    $a_set["ref_id"]
                 );
                 $this->ctrl->setParameterByClass(
-                    'illplistofobjectsgui', 'details_id', $a_set["ref_id"]
+                    'illplistofobjectsgui',
+                    'details_id',
+                    $a_set["ref_id"]
                 );
                 $this->ctrl->setParameterByClass(
-                    'illplistofobjectsgui', 'user_id', $this->user_id
+                    'illplistofobjectsgui',
+                    'user_id',
+                    $this->user_id
                 );
                 $url = $this->ctrl->getLinkTargetByClass(
                     array('ilrepositorygui',
                           $object_gui,
                           'illearningprogressgui',
                           'illplistofobjectsgui'
-                    ), 'userdetails'
+                    ),
+                    'userdetails'
                 );
                 $this->ctrl->setParameterByClass(
-                    'illplistofobjectsgui', 'ref_id', $old["ref_id"]
+                    'illplistofobjectsgui',
+                    'ref_id',
+                    $old["ref_id"] ?? null
                 );
                 $this->ctrl->setParameterByClass(
-                    'illplistofobjectsgui', 'details_id', $old["details_id"]
+                    'illplistofobjectsgui',
+                    'details_id',
+                    $old["details_id"]
                 );
                 $this->ctrl->setParameterByClass(
-                    'illplistofobjectsgui', 'user_id', $old["user_id"]
+                    'illplistofobjectsgui',
+                    'user_id',
+                    $old["user_id"]
                 );
             } else {
                 $url = "#";
@@ -455,44 +485,52 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
 
         // #16453 / #17163
-        if ($a_set['ref_id']) {
+        if (($a_set['ref_id'] ?? 0)) {
             $path = new ilPathGUI();
             $path = $path->getPath($this->ref_id, $a_set['ref_id']);
             if ($path) {
                 $this->tpl->setVariable(
-                    'COLL_PATH', $this->lng->txt('path') . ': ' . $path
+                    'COLL_PATH',
+                    $this->lng->txt('path') . ': ' . $path
                 );
             }
         }
 
         // #13807 / #17069
-        if ($a_set["ref_id"] &&
+        if (($a_set["ref_id"] ?? 0) &&
             ilLearningProgressAccess::checkPermission(
-                'edit_learning_progress', $a_set['ref_id']
+                'edit_learning_progress',
+                $a_set['ref_id']
             )) {
             if (!in_array(
-                    $a_set["type"], array("sco", "lobj")
-                ) && !$this->getPrintMode()) {
+                $a_set["type"],
+                array("sco", "lobj")
+            ) && !$this->getPrintMode()) {
                 $this->tpl->setCurrentBlock("item_command");
                 $this->ctrl->setParameterByClass(
-                    "illplistofobjectsgui", "userdetails_id", $a_set["ref_id"]
+                    "illplistofobjectsgui",
+                    "userdetails_id",
+                    $a_set["ref_id"]
                 );
                 $this->tpl->setVariable(
                     "HREF_COMMAND",
                     $this->ctrl->getLinkTargetByClass(
-                        "illplistofobjectsgui", 'edituser'
+                        "illplistofobjectsgui",
+                        'edituser'
                     )
                 );
                 $this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('edit'));
                 $this->ctrl->setParameterByClass(
-                    "illplistofobjectsgui", "userdetails_id", ""
+                    "illplistofobjectsgui",
+                    "userdetails_id",
+                    ""
                 );
                 $this->tpl->parseCurrentBlock();
             }
         }
     }
 
-    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt("type"));
         $a_excel->setCell($a_row, 1, $this->lng->txt("title"));
@@ -512,7 +550,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         ilExcel $a_excel,
         int &$a_row,
         array $a_set
-    ) : void {
+    ): void {
         $a_excel->setCell($a_row, 0, $this->lng->txt($a_set["type"]));
         $a_excel->setCell($a_row, 1, $a_set["title"]);
 
@@ -529,7 +567,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
+    protected function fillHeaderCSV(ilCSVWriter $a_csv): void
     {
         $a_csv->addColumn($this->lng->txt("type"));
         $a_csv->addColumn($this->lng->txt("title"));
@@ -542,7 +580,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         $a_csv->addColumn($this->lng->txt($a_set["type"]));
         $a_csv->addColumn($a_set["title"]);

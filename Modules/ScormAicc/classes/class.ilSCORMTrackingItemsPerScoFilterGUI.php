@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
-/******************************************************************************
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilSCORMTrackingItemsPerScoFilterGUI
  *
@@ -20,25 +25,21 @@
  */
 class ilSCORMTrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
 {
+    private object $parent_obj;
+    private string $parent_cmd;
+    public ilPropertyFormGUI $form;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        parent::__construct();
     }
 
     /**
-     * @param string $scoSelected
-     * @param string $report
-     * @param array  $reports
-     * @return void
      * @throws ilCtrlException
      */
-    public function parse(string $scoSelected, string $report, array $reports) : void
+    public function parse(string $scoSelected, string $report, array $reports): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -48,7 +49,7 @@ class ilSCORMTrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 
         $options = array("all" => $lng->txt("all"));
-        $scos = $this->parent_obj->object->getTrackedItems();
+        $scos = $this->parent_obj->getObject()->getTrackedItems();
 
         foreach ($scos as $row) {
             $options[$row->getId()] = $row->getTitle();
@@ -59,8 +60,8 @@ class ilSCORMTrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
         $this->form->addItem($si);
 
         $options = array("choose" => $lng->txt("please_choose"));
-        for ($i = 0;$i < count($reports);$i++) {
-            $options[$reports[$i]] = $lng->txt(strtolower($reports[$i]));
+        foreach ($reports as $value) {
+            $options[$value] = $lng->txt(strtolower($value));
         }
         $si = new ilSelectInputGUI($lng->txt("report"), "report");
         $si->setOptions($options);

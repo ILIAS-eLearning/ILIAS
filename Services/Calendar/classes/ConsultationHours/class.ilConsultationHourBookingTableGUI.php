@@ -1,6 +1,25 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -10,12 +29,18 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
     private int $user_id = 0;
 
     private ilDateTime $today;
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_user_id)
     {
         $this->user_id = $a_user_id;
         $this->setId('chboo_' . $this->user_id);
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        global $DIC;
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
 
         $this->initTable();
         $this->today = new ilDateTime(time(), IL_CAL_UNIX);
@@ -24,7 +49,7 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    protected function initTable() : void
+    protected function initTable(): void
     {
         $this->setRowTemplate('tpl.ch_booking_row.html', 'Services/Calendar');
 
@@ -52,7 +77,7 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('START', $a_set['start_str']);
         $this->tpl->setVariable('NAME', $a_set['name']);
@@ -60,33 +85,32 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TITLE', $a_set['title']);
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
 
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setId('act_chboo_' . $a_set['id']);
-        $list->setListTitle($this->lng->txt('actions'));
+        $dropDownItems = array();
 
         $this->ctrl->setParameter($this->getParentObject(), 'bookuser', $a_set['id']);
 
         $start = new ilDateTime($a_set['start'], IL_CAL_UNIX);
         if (ilDateTime::_after($start, $this->today, IL_CAL_DAY)) {
-            $list->addItem(
+            $dropDownItems[] = $this->uiFactory->button()->shy(
                 $this->lng->txt('cal_ch_reject_booking'),
-                '',
                 $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmRejectBooking')
             );
         }
-        $list->addItem(
+
+        $dropDownItems[] = $this->uiFactory->button()->shy(
             $this->lng->txt('cal_ch_delete_booking'),
-            '',
             $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteBooking')
         );
-        $this->tpl->setVariable('ACTIONS', $list->getHTML());
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withLabel($this->lng->txt('actions'));
+        $this->tpl->setVariable('ACTIONS', $this->renderer->render($dropDown));
     }
 
     /**
      * Parse Groups
      * @param int[]
      */
-    public function parse(array $appointments) : void
+    public function parse(array $appointments): void
     {
         $rows = array();
         $counter = 0;
@@ -104,6 +128,7 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
                 );
 
                 $message = ilBookingEntry::lookupBookingMessage($app, $user_id);
+                $rows[$counter]['comment'] = '';
                 if (strlen(trim($message))) {
                     $rows[$counter]['comment'] = ('"' . $message . '"');
                 }

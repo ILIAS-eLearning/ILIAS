@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author       Alexander Killing <killing@leifos.de>
@@ -56,7 +61,7 @@ class ilSurveyRaterGUI
             ->request();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -64,7 +69,6 @@ class ilSurveyRaterGUI
         $cmd = $ctrl->getCmd("add");
 
         switch ($next_class) {
-
             case 'ilrepositorysearchgui':
                 $rep_search = new ilRepositorySearchGUI();
 
@@ -96,14 +100,14 @@ class ilSurveyRaterGUI
         }
     }
 
-    protected function cancel() : void
+    protected function cancel(): void
     {
         $this->ctrl->redirect($this->parent, "editRaters");
     }
 
     protected function add(
         ilPropertyFormGUI $form = null
-    ) : void {
+    ): void {
         $form_html = (!is_null($form))
             ? $form->getHTML()
             : $this->initOptionSelectForm()->getHTML();
@@ -111,7 +115,7 @@ class ilSurveyRaterGUI
         $main_tpl->setContent($form_html);
     }
 
-    public function initOptionSelectForm() : ilPropertyFormGUI
+    public function initOptionSelectForm(): ilPropertyFormGUI
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -172,7 +176,7 @@ class ilSurveyRaterGUI
         return $form;
     }
 
-    public function doAutoComplete() : void
+    public function doAutoComplete(): void
     {
         $fields = array('login','firstname','lastname','email');
 
@@ -191,7 +195,7 @@ class ilSurveyRaterGUI
         exit();
     }
 
-    protected function continue() : void
+    protected function continue(): void
     {
         $form = $this->initOptionSelectForm();
         if ($form->checkInput()) {
@@ -207,7 +211,6 @@ class ilSurveyRaterGUI
                 case "search":
                     $this->ctrl->redirectByClass("ilrepositorysearchgui", "");
                     break;
-
             }
         } else {
             $form->setValuesByPost();
@@ -215,14 +218,13 @@ class ilSurveyRaterGUI
         }
     }
 
-    public function addRater(ilPropertyFormGUI $form) : void
+    public function addRater(ilPropertyFormGUI $form): void
     {
         // check access
         $ilAccess = $this->access;
         $ilUser = $this->user;
 
         $appr_id = $this->parent->handleRatersAccess();
-
         $user = $form->getInput("user");
         $user_id = ilObjUser::_lookupId($user);
         if ($user_id > 0) {
@@ -234,8 +236,15 @@ class ilSurveyRaterGUI
                     $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 } else {
                     $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("svy_appraisses_cannot_be_raters"), true);
+                    $user_id = 0;
                 }
             }
+        } else {
+            $this->main_tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt("svy_user_not_found") . " (" . $user . ")",
+                true
+            );
         }
 
         $this->ctrl->setParameter($this->parent, "appr_id", $appr_id);
@@ -247,7 +256,7 @@ class ilSurveyRaterGUI
     }
 
 
-    public function mailRaters(ilPropertyFormGUI $a_form = null) : void
+    public function mailRaters(ilPropertyFormGUI $a_form = null): void
     {
         $appr_id = $this->parent->handleRatersAccess();
         $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "appr_id", $appr_id);
@@ -258,7 +267,7 @@ class ilSurveyRaterGUI
     public function initMailRatersForm(
         int $appr_id,
         array $rec_ids
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "mailRatersAction"));
         $form->setTitle($this->lng->txt('compose'));
@@ -322,7 +331,7 @@ class ilSurveyRaterGUI
     }
 
 
-    public function mailRatersAction() : void
+    public function mailRatersAction(): void
     {
         $ilUser = $this->user;
 
@@ -396,7 +405,7 @@ class ilSurveyRaterGUI
 //        $this->mailRatersObject($form);
     }
 
-    public function addExternalRater(ilPropertyFormGUI $form) : void
+    public function addExternalRater(ilPropertyFormGUI $form): void
     {
         $appr_id = $this->edit_request->getAppraiseeId();
 
@@ -424,7 +433,7 @@ class ilSurveyRaterGUI
 
     public function addFromSearch(
         array $user_ids
-    ) : void {
+    ): void {
         // check access
         $ilAccess = $this->access;
         $ilUser = $this->user;
@@ -443,12 +452,13 @@ class ilSurveyRaterGUI
                         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                     } else {
                         $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("svy_appraisses_cannot_be_raters"), true);
+                        $user_id = 0;
                     }
                 }
             }
         }
 
-        $user_str = implode(";", array_map(static function ($u) : string {
+        $user_str = implode(";", array_map(static function ($u): string {
             return "u" . $u;
         }, $user_ids));
 

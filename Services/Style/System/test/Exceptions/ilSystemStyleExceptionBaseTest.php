@@ -24,9 +24,9 @@ use PHPUnit\Framework\TestCase;
 
 abstract class ilSystemStyleExceptionBaseTest extends TestCase
 {
-    abstract protected function getClassName() : string;
+    abstract protected function getClassName(): string;
 
-    public function codesProvider() : array
+    public function codesProvider(): array
     {
         $reflection = new ReflectionClass($this->getClassName());
 
@@ -39,7 +39,7 @@ abstract class ilSystemStyleExceptionBaseTest extends TestCase
     /**
      * @dataProvider codesProvider
      */
-    public function testConstruct(int $code) : void
+    public function testConstruct(int $code): void
     {
         $class_name = $this->getClassName();
         $this->assertInstanceOf($class_name, new $class_name($code, 'Additional Info'));
@@ -48,7 +48,7 @@ abstract class ilSystemStyleExceptionBaseTest extends TestCase
     /**
      * @dataProvider codesProvider
      */
-    public function testAssignMessageToCode(int $code) : void
+    public function testAssignMessageToCode(int $code): void
     {
         $class_name = $this->getClassName();
         $exception = new $class_name($code, 'Additional Info');
@@ -58,7 +58,7 @@ abstract class ilSystemStyleExceptionBaseTest extends TestCase
     /**
      * @dataProvider codesProvider
      */
-    public function testToString(int $code) : void
+    public function testToString(int $code): void
     {
         $class_name = $this->getClassName();
         $exception = new $class_name($code, 'Additional Info');

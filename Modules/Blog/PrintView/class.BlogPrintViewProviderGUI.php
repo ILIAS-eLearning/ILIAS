@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Blog;
 
@@ -51,7 +56,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         $this->selected_pages = $selected_pages;
     }
 
-    public function getTemplateInjectors() : array
+    public function getTemplateInjectors(): array
     {
         $resource_collector = new COPage\ResourcesCollector(
             \ilPageObjectGUI::OFFLINE,
@@ -66,7 +71,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         ];
     }
 
-    public function getPages() : array
+    public function getPages(): array
     {
         $print_pages = [];
 
@@ -93,12 +98,13 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         return $print_pages;
     }
 
-    public function getSelectionForm() : ?ilPropertyFormGUI
+    public function getSelectionForm(): ?ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $postings = \ilBlogPosting::getAllPostings($this->blog->getId());
-
+        $lng->loadLanguageModule("content");
+        $lng->loadLanguageModule("blog");
         $form = new \ilPropertyFormGUI();
 
         //var_dump($pages);

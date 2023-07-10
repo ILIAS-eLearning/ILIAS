@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,13 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceCriterionConfigTest
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTermsOfServiceCriterionConfigTest extends ilTermsOfServiceCriterionBaseTest
 {
-    public function testConfigCanBePassedAsArray() : void
+    public function testConfigCanBePassedAsArray(): void
     {
         $actualKey = 'phpunit';
         $actualValue = 'rulz';
@@ -38,7 +40,7 @@ class ilTermsOfServiceCriterionConfigTest extends ilTermsOfServiceCriterionBaseT
         $this->assertSame($actualValue, $config[$actualKey]);
     }
 
-    public function testConfigCanBePassedAsJson() : void
+    public function testConfigCanBePassedAsJson(): void
     {
         $actualKey = 'phpunit';
         $actualValue = 'rulz';
@@ -52,7 +54,7 @@ class ilTermsOfServiceCriterionConfigTest extends ilTermsOfServiceCriterionBaseT
         $this->assertSame($actualValue, $config[$actualKey]);
     }
 
-    public function testConfigCanBeImportedAsJson() : void
+    public function testConfigCanBeImportedAsJson(): void
     {
         $actualKey = 'phpunit';
         $actualValue = 'rulz';

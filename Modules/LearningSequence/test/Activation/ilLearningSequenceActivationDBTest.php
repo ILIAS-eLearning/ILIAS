@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 class ilLearningSequenceActivationDBTest extends TestCase
@@ -25,19 +27,19 @@ class ilLearningSequenceActivationDBTest extends TestCase
      */
     protected $db;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->db = $this->createMock(ilDBInterface::class);
     }
 
-    public function testCreateObjectMinimal() : void
+    public function testCreateObjectMinimal(): void
     {
         $obj = new ilLearningSequenceActivationDB($this->db);
 
         $this->assertInstanceOf(ilLearningSequenceActivationDB::class, $obj);
     }
 
-    public function testGetActivationForRefIdWithoutData() : void
+    public function testGetActivationForRefIdWithoutData(): void
     {
         $sql =
              'SELECT ref_id, online, effective_online, activation_start_ts, activation_end_ts' . PHP_EOL
@@ -88,7 +90,7 @@ class ilLearningSequenceActivationDBTest extends TestCase
         $this->assertNull($settings->getActivationEnd());
     }
 
-    public function testGetActivationForRefIdWithData() : void
+    public function testGetActivationForRefIdWithData(): void
     {
         $start_date = new DateTime('2021-07-21 08:19');
         $end_date = new DateTime('2021-07-21 08:20');
@@ -143,7 +145,7 @@ class ilLearningSequenceActivationDBTest extends TestCase
         $this->assertEquals($end_date, $settings->getActivationEnd());
     }
 
-    public function testDeleteForRefId() : void
+    public function testDeleteForRefId(): void
     {
         $sql =
              'DELETE FROM lso_activation' . PHP_EOL
@@ -166,7 +168,7 @@ class ilLearningSequenceActivationDBTest extends TestCase
         $obj->deleteForRefId(44);
     }
 
-    public function testStore() : void
+    public function testStore(): void
     {
         $start_date = new DateTime('2021-07-21 08:19');
         $end_date = new DateTime('2021-07-21 08:20');

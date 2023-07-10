@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form;
 
@@ -53,7 +52,7 @@ class ilBookingPreferencesGUI
         $this->access = $DIC->access();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -69,8 +68,8 @@ class ilBookingPreferencesGUI
                 }
         }
     }
-    
-    protected function show() : void
+
+    protected function show(): void
     {
         $preferences = $this->service->domain()->preferences($this->pool);
 
@@ -83,7 +82,7 @@ class ilBookingPreferencesGUI
 
     protected function listPreferenceOptions(
         Form\Standard $form = null
-    ) : void {
+    ): void {
         $ui = $this->ui;
         if (count(ilBookingObject::getList($this->pool->getId())) > 0) {
             if (is_null($form)) {
@@ -95,7 +94,7 @@ class ilBookingPreferencesGUI
         }
     }
 
-    public function initPreferenceForm() : Form\Standard
+    public function initPreferenceForm(): Form\Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -110,8 +109,8 @@ class ilBookingPreferencesGUI
 
         $fields = [];
         foreach (ilBookingObject::getList($this->pool->getId()) as $book_obj) {
-            $checked = is_array($preferences[$this->user->getId()]) &&
-                in_array($book_obj["booking_object_id"], $preferences[$this->user->getId()], true);
+            $checked = isset($preferences[$this->user->getId()]) &&
+                in_array((int) $book_obj["booking_object_id"], $preferences[$this->user->getId()], true);
 
             $fields["cb_" . $book_obj["booking_object_id"]] =
                 $f->input()->field()->checkbox($book_obj["title"], $book_obj["description"])->withValue($checked);
@@ -124,7 +123,7 @@ class ilBookingPreferencesGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    public function savePreferences() : void
+    public function savePreferences(): void
     {
         $preferences = $this->service->domain()->preferences($this->pool);
 
@@ -182,7 +181,7 @@ class ilBookingPreferencesGUI
 
 
 
-    protected function renderBookingInfo() : void
+    protected function renderBookingInfo(): void
     {
         $lng = $this->lng;
         $info = $lng->txt("book_preference_info");
@@ -195,7 +194,7 @@ class ilBookingPreferencesGUI
         $this->main_tpl->setOnScreenMessage('info', $info);
     }
 
-    protected function listBookingResults() : void
+    protected function listBookingResults(): void
     {
         $main_tpl = $this->main_tpl;
         $lng = $this->lng;
@@ -210,7 +209,7 @@ class ilBookingPreferencesGUI
         $preferences = $repo->getPreferencesOfUser($this->pool->getId(), $this->user->getId());
         $preferences = $preferences->getPreferences();
         $cnt = 1;
-        if (is_array($preferences[$this->user->getId()])) {
+        if (isset($preferences[$this->user->getId()])) {
             foreach ($preferences[$this->user->getId()] as $book_obj_id) {
                 $book_obj = new ilBookingObject($book_obj_id);
                 $info_gui->addProperty((string) $cnt++, $book_obj->getTitle());
@@ -236,7 +235,7 @@ class ilBookingPreferencesGUI
                     $ctrl->setParameterByClass("ilBookingObjectGUI", "object_id", $book_obj_id);
                     $b = $ui->factory()->button()->shy(
                         $lng->txt("book_post_booking_information"),
-                        $ctrl->getLinkTargetByClass(["ilBookingObjectGUI", "ilBookingProcessGUI"], "displayPostInfo")
+                        $ctrl->getLinkTargetByClass(["ilBookingObjectGUI", "ilBookingProcessWithoutScheduleGUI"], "displayPostInfo")
                     );
                     $post_info_button = "<br>" . $ui->renderer()->render($b);
                 }

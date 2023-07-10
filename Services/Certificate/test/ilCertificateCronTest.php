@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,16 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateCronTest extends ilCertificateBaseTestCase
 {
-    public function testGetTitle() : void
+    public function testGetTitle(): void
     {
         $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()
@@ -61,7 +65,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 
@@ -82,7 +86,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $this->assertSame('SomeTitle', $title);
     }
 
-    public function testGetDescription() : void
+    public function testGetDescription(): void
     {
         $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()
@@ -122,7 +126,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 
@@ -143,11 +147,9 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $this->assertSame('SomeDescription', $title);
     }
 
-    public function testGetId() : void
+    public function testGetId(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()
@@ -185,7 +187,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 
@@ -225,7 +227,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $this->assertSame('certificate', $id);
     }
 
-    public function testActivation() : void
+    public function testActivation(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -267,7 +269,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 
@@ -307,7 +309,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $this->assertTrue($activation);
     }
 
-    public function testFlexibleActivation() : void
+    public function testFlexibleActivation(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -349,7 +351,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 
@@ -389,7 +391,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $this->assertTrue($flexibleSchedule);
     }
 
-    public function testGetDefaultScheduleType() : void
+    public function testGetDefaultScheduleType(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -431,7 +433,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 
@@ -468,10 +470,10 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $flexibleSchedule = $cron->getDefaultScheduleType();
 
-        $this->assertSame(2, $flexibleSchedule);
+        $this->assertSame(CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES, $flexibleSchedule);
     }
 
-    public function testGetDefaultScheduleValue() : void
+    public function testGetDefaultScheduleValue(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -513,7 +515,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 

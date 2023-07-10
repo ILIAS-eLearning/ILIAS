@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -27,10 +29,10 @@ interface ilConditionObjectAdapterInterface
     /**
      * Get object id for reference id
      */
-    public function getObjIdForRefId(int $a_ref_id) : int;
+    public function getObjIdForRefId(int $a_ref_id): int;
 
     /**
      * Get object type for object id
      */
-    public function getTypeForObjId(int $a_obj_id) : string;
+    public function getTypeForObjId(int $a_obj_id): string;
 }

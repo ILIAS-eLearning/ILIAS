@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2022 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Input;
 
@@ -21,7 +37,7 @@ class DynamicInputDataIterator implements Iterator
         $this->parent_input_name = $parent_input_name;
     }
 
-    public function current() : ?InputData
+    public function current(): ?InputData
     {
         if ($this->valid()) {
             $entry = [];
@@ -39,12 +55,12 @@ class DynamicInputDataIterator implements Iterator
         return null;
     }
 
-    public function next() : void
+    public function next(): void
     {
         $this->index++;
     }
 
-    public function key() : ?int
+    public function key(): ?int
     {
         if ($this->valid()) {
             return $this->index;
@@ -53,7 +69,7 @@ class DynamicInputDataIterator implements Iterator
         return null;
     }
 
-    public function valid() : bool
+    public function valid(): bool
     {
         if (empty($this->post_data)) {
             return false;
@@ -68,7 +84,7 @@ class DynamicInputDataIterator implements Iterator
         return true;
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
         $this->index = 0;
     }

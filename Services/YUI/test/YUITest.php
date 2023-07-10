@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,18 +25,18 @@ use PHPUnit\Framework\TestCase;
  */
 class YUITest extends TestCase
 {
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test sort
      */
-    public function testPath() : void
+    public function testPath(): void
     {
         $path = ilYuiUtil::getLocalPath("test.js");
         $this->assertEquals(
-            "./libs/bower/bower_components/yui2/build/test.js",
+            "./node_modules/yui2/build/test.js",
             $path
         );
     }

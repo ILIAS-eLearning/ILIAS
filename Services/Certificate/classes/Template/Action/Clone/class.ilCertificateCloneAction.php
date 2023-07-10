@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
@@ -26,35 +28,19 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateCloneAction
 {
-    private ilLogger $logger;
-    private ilCertificatePathFactory $pathFactory;
-    private ilCertificateTemplateRepository $templateRepository;
-    private ilDBInterface $database;
-    private Filesystem $fileSystem;
-    private ilCertificateObjectHelper $objectHelper;
-    private string $webDirectory;
-    private string $global_certificate_path;
+    private readonly Filesystem $fileSystem;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly string $global_certificate_path;
 
     public function __construct(
-        ilDBInterface $database,
-        ilCertificatePathFactory $pathFactory,
-        ilCertificateTemplateRepository $templateRepository,
+        private readonly ilDBInterface $database,
+        private readonly ilCertificatePathFactory $pathFactory,
+        private readonly ilCertificateTemplateRepository $templateRepository,
+        private readonly string $webDirectory = CLIENT_WEB_DIR,
         ?Filesystem $fileSystem = null,
-        ?ilLogger $logger = null,
         ?ilCertificateObjectHelper $objectHelper = null,
-        string $webDirectory = CLIENT_WEB_DIR,
         string $global_certificate_path = null
     ) {
-        $this->database = $database;
-        $this->pathFactory = $pathFactory;
-        $this->templateRepository = $templateRepository;
-
-        if (null === $logger) {
-            global $DIC;
-            $logger = $DIC->logger()->cert();
-        }
-        $this->logger = $logger;
-
         if (null === $fileSystem) {
             global $DIC;
             $fileSystem = $DIC->filesystem()->web();
@@ -74,16 +60,9 @@ class ilCertificateCloneAction
             );
         }
         $this->global_certificate_path = $global_certificate_path;
-
-
-        $this->webDirectory = $webDirectory;
     }
 
     /**
-     * @param ilObject $oldObject
-     * @param ilObject $newObject
-     * @param string   $iliasVersion
-     * @param string   $webDir
      * @throws FileAlreadyExistsException
      * @throws FileNotFoundException
      * @throws IOException
@@ -95,7 +74,7 @@ class ilCertificateCloneAction
         ilObject $newObject,
         string $iliasVersion = ILIAS_VERSION_NUMERIC,
         string $webDir = CLIENT_WEB_DIR
-    ) : void {
+    ): void {
         $oldType = $oldObject->getType();
         $newType = $newObject->getType();
 
@@ -193,7 +172,7 @@ class ilCertificateCloneAction
         }
 
         // #10271
-        if ($this->readActive($oldObject->getId())) {
+        if ($this->isActive($oldObject->getId())) {
             $this->database->replace(
                 'il_certificate',
                 ['obj_id' => ['integer', $newObject->getId()]],
@@ -202,21 +181,19 @@ class ilCertificateCloneAction
         }
     }
 
-    private function readActive(int $objectId) : int
+    private function isActive(int $objectId): bool
     {
-        $sql = 'SELECT obj_id FROM il_certificate WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
+        $sql = 'SELECT 1 FROM il_certificate WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
 
-        $result = $this->database->query($sql);
-
-        return $this->database->numRows($result);
+        return (bool) $this->database->fetchAssoc($this->database->query($sql));
     }
 
-    private function getBackgroundImageName() : string
+    private function getBackgroundImageName(): string
     {
         return "background.jpg";
     }
 
-    private function getBackgroundImageThumbPath(string $certificatePath) : string
+    private function getBackgroundImageThumbPath(string $certificatePath): string
     {
         return $this->webDirectory . $certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";
     }

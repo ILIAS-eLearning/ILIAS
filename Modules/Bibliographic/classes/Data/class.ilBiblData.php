@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
@@ -26,16 +26,16 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class ilBiblData extends ActiveRecord implements ilBiblDataInterface
 {
-    const TABLE_NAME = 'il_bibl_data';
+    public const TABLE_NAME = 'il_bibl_data';
 
 
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
 
 
-    public function getConnectorContainerName() : string
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
@@ -82,48 +82,48 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      */
     protected ?string $rid = null;
 
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
 
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
 
-    public function getFilename() : ?string
+    public function getFilename(): ?string
     {
         return $this->filename;
     }
 
 
-    public function setFilename(string $filename) : void
+    public function setFilename(string $filename): void
     {
         $this->filename = $filename;
     }
-    
-    public function isOnline() : bool
+
+    public function isOnline(): bool
     {
         return (bool) $this->is_online;
     }
 
 
-    public function setIsOnline(int $is_online) : void
+    public function setIsOnline(int $is_online): void
     {
         $this->is_online = $is_online;
     }
 
 
-    public function getFileType() : int
+    public function getFileType(): int
     {
         return $this->file_type;
     }
 
 
-    public function setFileType(int $file_type) : void
+    public function setFileType(int $file_type): void
     {
         $this->file_type = $file_type;
     }
@@ -131,12 +131,12 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     /**
      * @return string
      */
-    public function getResourceId() : ?string
+    public function getResourceId(): ?string
     {
         return $this->rid;
     }
 
-    public function setResourceId(string $rid) : self
+    public function setResourceId(string $rid): self
     {
         $this->rid = $rid;
         return $this;

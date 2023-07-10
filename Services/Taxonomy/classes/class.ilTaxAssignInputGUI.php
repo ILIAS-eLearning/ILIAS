@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Input GUI class for taxonomy assignments
@@ -49,7 +63,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      * Set taxonomy id
      * @param int $a_val taxonomy id
      */
-    public function setTaxonomyId(int $a_val) : void
+    public function setTaxonomyId(int $a_val): void
     {
         $this->taxononmy_id = $a_val;
     }
@@ -58,7 +72,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      * Get taxonomy id
      * @return int taxonomy id
      */
-    public function getTaxonomyId() : int
+    public function getTaxonomyId(): int
     {
         return $this->taxononmy_id;
     }
@@ -67,7 +81,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      * Set Options.
      * @param array $a_options Options. Array ("value" => "option_text")
      */
-    public function setOptions($a_options) : void
+    public function setOptions($a_options): void
     {
         throw new ilTaxonomyException("setOptions: Not supported for ilTaxAssignInputGUI.");
     }
@@ -76,7 +90,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      * Get Options.
      * @return    array    Options. Array ("value" => "option_text")
      */
-    public function getOptions() : array
+    public function getOptions(): array
     {
         $lng = $this->lng;
 
@@ -106,7 +120,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
         int $a_obj_id,
         string $a_item_type,
         int $a_item_id
-    ) : void {
+    ): void {
         $tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_obj_id, $a_item_type, $this->getTaxonomyId());
 
         $body = $this->request->getParsedBody();
@@ -147,7 +161,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
         int $a_obj_id,
         string $a_item_type,
         int $a_item_id
-    ) : void {
+    ): void {
         $tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_obj_id, $a_item_type, $this->getTaxonomyId());
         $ass = $tax_node_ass->getAssignmentsOfItem($a_item_id);
 

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilBuddySystemRelationStateFactory
  * @author Michael Jansen <mjansen@databay.de>
@@ -25,16 +27,12 @@ class ilBuddySystemRelationStateFactory
     protected static ?self $instance = null;
     /** @var ilBuddySystemRelationState[]|null */
     protected static ?array $validStates = null;
-    /** @var array<string, string>[]|null */
-    protected static ?array $stateOptions = null;
-    protected ilLanguage $lng;
 
-    public function __construct(ilLanguage $lng)
+    public function __construct(protected ilLanguage $lng)
     {
-        $this->lng = $lng;
     }
 
-    public static function getInstance(?ilLanguage $lng = null) : self
+    public static function getInstance(?ilLanguage $lng = null): self
     {
         global $DIC;
 
@@ -47,7 +45,7 @@ class ilBuddySystemRelationStateFactory
         return self::$instance;
     }
 
-    public function reset() : void
+    public function reset(): void
     {
         self::$instance = null;
     }
@@ -56,7 +54,7 @@ class ilBuddySystemRelationStateFactory
      * Get all valid states
      * @return ilBuddySystemRelationState[]
      */
-    public function getValidStates() : array
+    public function getValidStates(): array
     {
         return self::$validStates ?? (self::$validStates = [
             new ilBuddySystemUnlinkedRelationState(),
@@ -67,10 +65,9 @@ class ilBuddySystemRelationStateFactory
     }
 
     /**
-     * @return ilBuddySystemRelationState
      * @throws ilBuddySystemException
      */
-    public function getInitialState() : ilBuddySystemRelationState
+    public function getInitialState(): ilBuddySystemRelationState
     {
         foreach ($this->getValidStates() as $state) {
             if ($state->isInitial()) {
@@ -81,9 +78,9 @@ class ilBuddySystemRelationStateFactory
         throw new ilBuddySystemException('Could not find an initial state class');
     }
 
-    public function getTableFilterStateMapper(ilBuddySystemRelationState $state) : ilBuddySystemRelationStateTableFilterMapper
+    public function getTableFilterStateMapper(ilBuddySystemRelationState $state): ilBuddySystemRelationStateTableFilterMapper
     {
-        $stateClass = get_class($state);
+        $stateClass = $state::class;
         $class = $stateClass . 'TableFilterMapper';
 
         return new $class($this->lng, $state);
@@ -92,8 +89,8 @@ class ilBuddySystemRelationStateFactory
     public function getStateButtonRendererByOwnerAndRelation(
         int $ownerId,
         ilBuddySystemRelation $relation
-    ) : ilBuddySystemRelationStateButtonRenderer {
-        $stateClass = get_class($relation->getState());
+    ): ilBuddySystemRelationStateButtonRenderer {
+        $stateClass = $relation->getState()::class;
         $class = $stateClass . 'ButtonRenderer';
 
         return new $class($ownerId, $relation);

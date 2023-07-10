@@ -29,11 +29,10 @@ use Dflydev\FigCookies\SetCookie;
  */
 class CookieFactoryImpl implements CookieFactory
 {
-
     /**
      * @inheritdoc
      */
-    public function create(string $name, string $value = null) : Cookie
+    public function create(string $name, string $value = null): Cookie
     {
         return new CookieWrapper(SetCookie::create($name, $value));
     }
@@ -42,7 +41,7 @@ class CookieFactoryImpl implements CookieFactory
     /**
      * @inheritdoc
      */
-    public function createRememberedForLongTime(string $name, string $value = null) : Cookie
+    public function createRememberedForLongTime(string $name, string $value = null): Cookie
     {
         return new CookieWrapper(SetCookie::createRememberedForever($name, $value));
     }
@@ -51,7 +50,7 @@ class CookieFactoryImpl implements CookieFactory
     /**
      * @inheritdoc
      */
-    public function createExpired(string $name) : Cookie
+    public function createExpired(string $name): Cookie
     {
         return new CookieWrapper(SetCookie::createExpired($name));
     }
@@ -60,7 +59,7 @@ class CookieFactoryImpl implements CookieFactory
     /**
      * @inheritdoc
      */
-    public function fromSetCookieString(string $string) : Cookie
+    public function fromSetCookieString(string $string): Cookie
     {
         return new CookieWrapper(SetCookie::fromSetCookieString($string));
     }

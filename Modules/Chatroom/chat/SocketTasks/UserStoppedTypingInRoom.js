@@ -1,8 +1,8 @@
 const Container = require('../AppContainer'),
     UserStoppedTyping = require('../Model/Messages/UserStoppedTyping');
 
-module.exports = function (roomId, subRoomId) {
-    const serverRoomId = Container.createServerRoomId(roomId, subRoomId),
+module.exports = function (roomId) {
+    const serverRoomId = Container.createServerRoomId(roomId),
         namespace = Container.getNamespace(this.nsp.name),
         room = namespace.getRoom(serverRoomId);
 
@@ -20,7 +20,7 @@ module.exports = function (roomId, subRoomId) {
     Container.getLogger().debug("Subscribed with id %s stopped typing", this.subscriber.getId());
 
     const subscriber = this.subscriber,
-        message = UserStoppedTyping.create(roomId, subRoomId, this.subscriber.toString());
+        message = UserStoppedTyping.create(roomId, this.subscriber.toString());
 
     room.forSubscribers(function(sub) {
         if (sub.getId() == subscriber.getId()) {

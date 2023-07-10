@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 
 /**
@@ -23,8 +25,8 @@ use ILIAS\DI\Container;
  */
 class ilObjPersistentCertificateVerificationGUI
 {
-    private ilPortfolioCertificateFileService $fileService;
-    private ilLanguage $language;
+    private readonly ilPortfolioCertificateFileService $fileService;
+    private readonly ilLanguage $language;
 
     public function __construct(
         ?Container $dic = null,
@@ -48,13 +50,10 @@ class ilObjPersistentCertificateVerificationGUI
     }
 
     /**
-     * @param ilPortfolioPage $a_page
-     * @param int             $objectId
-     * @param int             $userId
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page, int $objectId, int $userId) : void
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page, int $objectId, int $userId): void
     {
         if (ilPCVerification::isInPortfolioPage($a_page, 'crta', $objectId)) {
             $this->fileService->deliverCertificate($userId, $objectId);

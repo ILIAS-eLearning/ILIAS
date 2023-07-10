@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\State;
@@ -44,13 +47,14 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
     protected array $messages = [];
     protected ?int $current_page_id = 0;
     protected array $additional_content = [];
+    protected ?array $menu_entries = null;
 
-    protected function getObjectClass() : string
+    protected function getObjectClass(): string
     {
         return \ilObjLearningModule::class;
     }
 
-    protected function setObject(\ilObject $object) : void
+    protected function setObject(\ilObject $object): void
     {
         global $DIC;
 
@@ -69,7 +73,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         State $state,
         string $command,
         int $parameter = null
-    ) : State {
+    ): State {
         switch ($command) {
             case "layout":
                 if ($parameter > 0) {
@@ -82,13 +86,13 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
                 break;
         }
 
-        $this->initLMService($this->current_page_id);
+        //$this->initLMService($this->current_page_id);
 
         return $state;
     }
 
     // Init learning module presentation service
-    protected function initLMService(?int $current_page) : void
+    protected function initLMService(?int $current_page): void
     {
         if (is_object($this->lm_pres)) {
             return;
@@ -106,12 +110,12 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         $this->lm_pres_service = $this->lm_pres->getService();
     }
 
-    protected function hasPermissionToAccessKioskMode() : bool
+    protected function hasPermissionToAccessKioskMode(): bool
     {
         return $this->access->checkAccess('read', '', $this->lm->getRefId());
     }
 
-    public function buildInitialState(State $empty_state) : State
+    public function buildInitialState(State $empty_state): State
     {
         return $empty_state->withValueFor("current_page", "");
     }
@@ -119,7 +123,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
     public function buildControls(
         State $state,
         ControlBuilder $builder
-    ) : ControlBuilder {
+    ): ControlBuilder {
         global $DIC;
 
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -127,7 +131,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         // this may be necessary if updateGet has not been processed
 
         // THIS currently fails
-        $this->initLMService($state->getValueFor("current_page"));
+        $this->initLMService((int) $state->getValueFor("current_page"));
         $nav_stat = $this->lm_pres_service->getNavigationStatus();
 
         // next
@@ -150,16 +154,12 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         $builder = $this->maybeBuildLearningProgressToggleControl($builder);
 
         // menu
-        $menu = new \ILIAS\LearningModule\Menu\ilLMMenuGUI($this->lm_pres_service);
-        foreach ($menu->getEntries() as $entry) {
+        foreach ($this->getMenuEntries() as $entry) {
             if (is_object($entry["signal"])) {
                 $builder = $builder->genericWithSignal(
                     $entry["label"],
                     $entry["signal"]
                 );
-            }
-            if (is_object($entry["modal"])) {
-                $this->additional_content[] = $entry["modal"];
             }
             if ($entry["on_load"] != "") {
                 $main_tpl->addOnLoadCode($entry["on_load"]);
@@ -171,10 +171,18 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         return $builder;
     }
 
+    protected function getMenuEntries(): array
+    {
+        if (is_null($this->menu_entries)) {
+            $menu = new \ILIAS\LearningModule\Menu\ilLMMenuGUI($this->lm_pres_service);
+            $this->menu_entries = $menu->getEntries();
+        }
+        return $this->menu_entries;
+    }
 
     protected function maybeBuildLearningProgressToggleControl(
         ControlBuilder $builder
-    ) : ControlBuilder {
+    ): ControlBuilder {
         $learningProgress = \ilObjectLP::getInstance($this->lm->getId());
         if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
             $isCompleted = \ilLPMarks::_hasCompleted($this->user->getId(), $this->lm->getId());
@@ -195,7 +203,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
 
     protected function toggleLearningProgress(
         string $command
-    ) : void {
+    ): void {
         if (self::CMD_TOGGLE_LEARNING_PROGRESS === $command) {
             $learningProgress = \ilObjectLP::getInstance($this->lm->getId());
             if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
@@ -217,7 +225,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         State $state,
         string $command,
         array $post
-    ) : State {
+    ): State {
         return $state;
     }
 
@@ -226,12 +234,20 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         Factory $factory,
         URLBuilder $url_builder,
         array $post = null
-    ) : Component {
+    ): Component {
+        $this->initLMService((int) $state->getValueFor("current_page"));
+
+        $additional_content = [];
+        foreach ($this->getMenuEntries() as $entry) {
+            if (is_object($entry["modal"])) {
+                $additional_content[] = $entry["modal"];
+            }
+        }
+
         $this->ctrl->setParameterByClass("illmpresentationgui", 'ref_id', $this->lm->getRefId());
         $content = $this->uiRenderer->render($this->messages);
-        // @todo Check non-existence of third parameter (existed in ILIAS 7)
         $content .= $this->ctrl->getHTML($this->lm_pres, ["cmd" => "layout"], ["illmpresentationgui"]);
-        $content .= $this->uiRenderer->render($this->additional_content);
+        $content .= $this->uiRenderer->render($additional_content);
         return $factory->legacy($content);
     }
 }

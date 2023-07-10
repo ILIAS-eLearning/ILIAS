@@ -1,17 +1,19 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 abstract class ilADTMultiDBBridge extends ilADTDBBridge
 {
     /**
      * Build sub-table name
      */
-    protected function getSubTableName() : string
+    protected function getSubTableName(): string
     {
         // getElementId? => adv_md_values_enum_123
         return $this->getTable() . "_" . $this->getElementId();
     }
 
-    public function readRecord(array $a_row) : void
+    public function readRecord(array $a_row): void
     {
         $sql = "SELECT " . $this->getElementId() .
             " FROM " . $this->getSubTableName() .
@@ -24,19 +26,19 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
      * Import record-rows from sub-table
      * @param object $a_set
      */
-    abstract protected function readMultiRecord(ilDBStatement $a_set) : void;
+    abstract protected function readMultiRecord(ilDBStatement $a_set): void;
 
-    public function prepareInsert(array &$a_fields) : void
+    public function prepareInsert(array &$a_fields): void
     {
         // see afterUpdate()
     }
 
-    public function afterInsert() : void
+    public function afterInsert(): void
     {
         $this->afterUpdate();
     }
 
-    public function afterUpdate() : void
+    public function afterUpdate(): void
     {
         // :TODO: build diff, save difference
         // is this in use? Cannot
@@ -55,9 +57,9 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
     /**
      * Build insert-fields for each "value"
      */
-    abstract protected function prepareMultiInsert() : array;
+    abstract protected function prepareMultiInsert(): array;
 
-    public function afterDelete() : void
+    public function afterDelete(): void
     {
         // is this in use? Cannot
         /*

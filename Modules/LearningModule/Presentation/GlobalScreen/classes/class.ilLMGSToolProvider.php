@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -32,18 +35,18 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
     public const LM_QUERY_PARAMS = 'lm_query_params';
     public const LM_OFFLINE = 'lm_offline';
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->repository();
     }
 
     public function getToolsForContextStack(
         CalledContexts $called_contexts
-    ) : array {
+    ): array {
         global $DIC;
         $lng = $DIC->language();
         $access = $DIC->access();
-        
+
         $lng->loadLanguageModule("content");
 
         $tools = [];
@@ -61,23 +64,22 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
             if (!$access->checkAccess("read", "", $ref_id)) {
                 return $tools;
             }
-            
 
             $tools[] = $this->getTocTool($additional_data);
         }
 
         if ($additional_data->is(self::SHOW_LINK_SLATES, true)) {
             $title = $lng->txt("obj_glo");
-            $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_glo.svg"), $title);
+            $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_glo.svg"), $title);
             $identification = $iff("lm_glossary");
             $hashed = $this->hash($identification->serialize());
             $tools[] = $this->factory->tool($identification)
-                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed) : ILIAS\UI\Component\Component {
+                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed): ILIAS\UI\Component\Component {
                     if ($c instanceof LegacySlate) {
                         $signal_id = $c->getToggleSignal()->getId();
                         return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
                             return "
-                                                 $('body').on('il-lm-show-glossary-slate', function(){
+                                                 document.addEventListener('il-lm-show-glossary-slate', function(){
                                                      il.UI.maincontrols.mainbar.engageTool('$hashed');
                                                  });";
                         });
@@ -93,16 +95,16 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
                 ->withPosition(11);
 
             $title = $lng->txt("cont_tool_media");
-            $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_mdia.svg"), $title);
+            $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_mdia.svg"), $title);
             $identification = $iff("lm_media");
             $hashed = $this->hash($identification->serialize());
             $tools[] = $this->factory->tool($identification)
-                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed) : ILIAS\UI\Component\Component {
+                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed): ILIAS\UI\Component\Component {
                     if ($c instanceof LegacySlate) {
                         $signal_id = $c->getToggleSignal()->getId();
                         return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
                             return "
-                                                 $('body').on('il-lm-show-media-slate', function(){
+                                                 document.addEventListener('il-lm-show-media-slate', function(){
                                                      il.UI.maincontrols.mainbar.engageTool('$hashed');
                                                  });";
                         });
@@ -118,16 +120,16 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
                 ->withPosition(12);
 
             $title = $lng->txt("cont_tool_faq");
-            $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_faq.svg"), $title);
+            $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_faq.svg"), $title);
             $identification = $iff("lm_faq");
             $hashed = $this->hash($identification->serialize());
             $tools[] = $this->factory->tool($identification)
-                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed) : ILIAS\UI\Component\Component {
+                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed): ILIAS\UI\Component\Component {
                     if ($c instanceof LegacySlate) {
                         $signal_id = $c->getToggleSignal()->getId();
                         return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
                             return "
-                                                 $('body').on('il-lm-show-faq-slate', function(){
+                                                 document.addEventListener('il-lm-show-faq-slate', function(){
                                                      il.UI.maincontrols.mainbar.engageTool('$hashed');
                                                  });";
                         });
@@ -145,7 +147,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         return $tools;
     }
 
-    public function getOfflineToolIds() : array
+    public function getOfflineToolIds(): array
     {
         $iff = function ($id) {
             return $this->identification_provider->contextAwareIdentifier($id);
@@ -160,7 +162,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
 
     public function getTocTool(
         Collection $additional_data
-    ) : Tool {
+    ): Tool {
         global $DIC;
 
         $lng = $DIC->language();
@@ -173,7 +175,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         };
 
         $title = $lng->txt("cont_toc");
-        $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_chp.svg"), $title);
+        $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_chp.svg"), $title);
         return $this->factory->tool($iff("lm_pres_toc"))
             ->withTitle($title)
             ->withContentWrapper(function () use ($l, $additional_data) {
@@ -184,9 +186,10 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
     }
 
 
-    private function getToc(Collection $additional_data) : string
+    private function getToc(Collection $additional_data): string
     {
         global $DIC;
+
         // get params via additional_data, set query params
         $params = null;
         if ($additional_data->exists(self::LM_QUERY_PARAMS)) {
@@ -197,17 +200,17 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         if (!is_array($params)) {
             $params = null;
         }
-        try {
-            $service = new ilLMPresentationService($DIC->user(), $params, $offline);
-            $renderer = new ilLMSlateTocRendererGUI($service);
+        //try {
+        $service = new ilLMPresentationService($DIC->user(), $params, $offline);
+        $renderer = new ilLMSlateTocRendererGUI($service);
 
-            return $renderer->render();
-        } catch (Exception $e) {
-            return "";
-        }
+        return $renderer->render();
+        //} catch (Exception $e) {
+        //    return $e->getMessage();
+        //}
     }
 
-    protected function getLinkSlateContent(string $type) : string
+    protected function getLinkSlateContent(string $type): string
     {
         return "<div style='height:100%; overflow:hidden;' id='" . $type . "_area'><iframe style='border:0; padding:0; height:100%; width:100%'></iframe></div>";
     }

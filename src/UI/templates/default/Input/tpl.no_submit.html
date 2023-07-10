@@ -1,0 +1,13 @@
+<form id="{ID}" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" <!-- BEGIN action --> action="{URL}"<!-- END action --> method="post" novalidate="novalidate">
+	<!-- BEGIN error -->
+	<div class="help-block alert alert-danger" role="alert">
+		{ERROR}
+	</div>
+	<!-- END error -->
+	{INPUTS}
+	<!-- BEGIN required_text -->
+	<div class="il-standard-form-footer clearfix">
+		<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED}</span>
+	</div>
+	<!-- END required_text -->
+</form>

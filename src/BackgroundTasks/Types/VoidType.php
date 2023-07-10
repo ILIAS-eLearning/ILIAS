@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Types;
 
 /**
@@ -27,7 +27,7 @@ namespace ILIAS\BackgroundTasks\Types;
 class VoidType implements Type
 {
     protected static ?\ILIAS\BackgroundTasks\Types\VoidType $instance = null;
-    
+
     /**
      * Just to make it protected.
      * VoidValue constructor.
@@ -35,37 +35,37 @@ class VoidType implements Type
     protected function __construct()
     {
     }
-    
-    public static function instance() : ?\ILIAS\BackgroundTasks\Types\VoidType
+
+    public static function instance(): ?\ILIAS\BackgroundTasks\Types\VoidType
     {
         if (self::instance() === null) {
             self::$instance = new VoidType();
         }
-        
+
         return self::$instance;
     }
-    
+
     /**
      * @return string A string representation of the Type.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return "Void";
     }
-    
+
     /**
      * Is this type a subtype of $type. Not strict! x->isSubtype(x) == true.
      * @param $type Type
      */
-    public function isExtensionOf(Type $type) : bool
+    public function isExtensionOf(Type $type): bool
     {
         return $type instanceof VoidType;
     }
-    
+
     /**
      * returns true if the two types are equal.
      */
-    public function equals(Type $otherType) : bool
+    public function equals(Type $otherType): bool
     {
         return $otherType instanceof VoidType;
     }

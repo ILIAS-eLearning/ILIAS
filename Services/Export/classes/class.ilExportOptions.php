@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Export options
@@ -37,7 +51,7 @@ class ilExportOptions
         }
     }
 
-    public static function getInstance() : ?ilExportOptions
+    public static function getInstance(): ?ilExportOptions
     {
         if (self::$instance) {
             return self::$instance;
@@ -45,12 +59,12 @@ class ilExportOptions
         return null;
     }
 
-    public static function newInstance(int $a_export_id) : ilExportOptions
+    public static function newInstance(int $a_export_id): ilExportOptions
     {
         return self::$instance = new ilExportOptions($a_export_id);
     }
 
-    public static function allocateExportId() : int
+    public static function allocateExportId(): int
     {
         global $DIC;
 
@@ -79,7 +93,7 @@ class ilExportOptions
     /**
      * Get all subitems with mode <code>ilExportOptions::EXPORT_BUILD</code>
      */
-    public function getSubitemsForCreation(int $a_source_id) : array
+    public function getSubitemsForCreation(int $a_source_id): array
     {
         $refs = array();
         foreach ((array) $this->ref_options[self::KEY_ITEM_MODE] as $ref_id => $mode) {
@@ -105,7 +119,7 @@ class ilExportOptions
         return $refs;
     }
 
-    public function getExportId() : int
+    public function getExportId(): int
     {
         return $this->export_id;
     }
@@ -116,7 +130,7 @@ class ilExportOptions
      * @param int        $a_obj_id
      * @param string|int $a_value
      */
-    public function addOption(int $a_keyword, int $a_ref_id, int $a_obj_id, $a_value) : void
+    public function addOption(int $a_keyword, int $a_ref_id, int $a_obj_id, $a_value): void
     {
         $query = "SELECT MAX(pos) position FROM export_options";
         $res = $this->db->query($query);
@@ -170,14 +184,14 @@ class ilExportOptions
         return $this->ref_options[$a_keyword][$a_ref_id] ?? null;
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = "DELETE FROM export_options " .
             "WHERE export_id = " . $this->db->quote($this->getExportId(), 'integer');
         $this->db->manipulate($query);
     }
 
-    public function read() : void
+    public function read(): void
     {
         $this->options = array();
         $this->obj_options = array();

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilExcCriteriaCatalogueTableGUI
  *
@@ -39,32 +39,32 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->exc_id = $a_exc_id;
         $this->setId("exccritcat" . $this->exc_id);
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setLimit(9999); // because of manual order
-    
+
         $this->setTitle($lng->txt("exc_criteria_catalogues"));
-        
+
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("position"), "pos", "10%");
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("exc_criterias"));
         $this->addColumn($this->lng->txt("exc_assignments"));
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setDefaultOrderField("pos");
         $this->setDefaultOrderDirection("asc");
-    
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.exc_crit_cat_row.html", "Modules/Exercise");
         $this->setSelectAllCheckbox("id");
 
         $this->addMultiCommand("confirmDeletion", $lng->txt("delete"));
-        
+
         if ($this->getItems()) {
             $this->addCommandButton("saveOrder", $lng->txt("exc_save_order"));
         }
@@ -73,37 +73,37 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
-    protected function getItems() : bool
+    protected function getItems(): bool
     {
         $lng = $this->lng;
-        
+
         $data = array();
-        
+
         $protected = $assigned = array();
         foreach (ilExAssignment::getInstancesByExercise($this->exc_id) as $ass) {
             if ($ass->getPeerReviewCriteriaCatalogue()) {
                 $assigned[$ass->getPeerReviewCriteriaCatalogue()][$ass->getId()] = $ass->getTitle();
-                
+
                 $peer_review = new ilExPeerReview($ass);
                 if ($peer_review->hasPeerReviewGroups()) {
                     $protected[$ass->getPeerReviewCriteriaCatalogue()][] = $ass->getId();
                 }
             }
         }
-        
+
         if ($protected !== []) {
             $this->main_tpl->setOnScreenMessage('info', $lng->txt("exc_crit_cat_protected_assignment_info"));
         }
-        
+
         $pos = 0;
         foreach (ilExcCriteriaCatalogue::getInstancesByParentId($this->exc_id) as $item) {
             $pos += 10;
-            
+
             $crits = array();
             foreach (ilExcCriteria::getInstancesByParentId($item->getId()) as $crit) {
                 $crits[] = array($crit->getTranslatedType(), $crit->getTitle());
             }
-            
+
             $data[] = array(
                 "id" => $item->getId()
                 ,"pos" => $pos
@@ -117,18 +117,18 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
                     : null
             );
         }
-        
+
         $this->setData($data);
-        
+
         return (bool) count($data);
     }
-    
-    public function numericOrdering(string $a_field) : bool
+
+    public function numericOrdering(string $a_field): bool
     {
         return $a_field === "pos";
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -136,10 +136,10 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ID", $a_set["id"]);
         $this->tpl->setVariable("POS", $a_set["pos"]);
         $this->tpl->setVariable("TITLE", $a_set["title"]);
-        
+
         $ilCtrl->setParameter($this->getParentObject(), "cat_id", $a_set["id"]);
         $url = $ilCtrl->getLinkTarget($this->getParentObject(), "edit");
-        
+
         if (count($a_set["criterias"]) !== 0) {
             $this->tpl->setCurrentBlock("crit_bl");
             foreach ($a_set["criterias"] as $crit) {
@@ -148,12 +148,12 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
             }
         }
-                
+
         $this->tpl->setCurrentBlock("action_bl");
         $this->tpl->setVariable("ACTION_URL", $url);
         $this->tpl->setVariable("ACTION_TXT", $lng->txt("edit"));
         $this->tpl->parseCurrentBlock();
-        
+
         if (is_array($a_set["assigned"])) {
             foreach ($a_set["assigned"] as $ass_id => $ass_title) {
                 if (is_array($a_set["protected"]) &&
@@ -162,14 +162,14 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("ASS_PROTECTED", $lng->txt("exc_crit_cat_protected_assignment"));
                     $this->tpl->parseCurrentBlock();
                 }
-                
+
                 $this->tpl->setCurrentBlock("ass_bl");
                 $this->tpl->setVariable("ASS_TITLE", $ass_title);
                 $this->tpl->parseCurrentBlock();
             }
         }
-        
-                
+
+
         if (!is_array($a_set["protected"])) {
             $url = $ilCtrl->getLinkTargetByClass("ilExcCriteriaGUI", "");
 

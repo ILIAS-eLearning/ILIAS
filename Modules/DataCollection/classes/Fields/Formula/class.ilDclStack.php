@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclStack
@@ -7,14 +23,10 @@
  */
 class ilDclStack
 {
+    protected array $stack = array();
 
     /**
-     * @var array
-     */
-    protected $stack = array();
-
-    /**
-     * @param $elem
+     * @param float|int|string $elem
      */
     public function push($elem)
     {
@@ -22,7 +34,7 @@ class ilDclStack
     }
 
     /**
-     * @return null
+     * @return ?float|int|string
      */
     public function pop()
     {
@@ -39,7 +51,7 @@ class ilDclStack
     }
 
     /**
-     * @return null
+     * @return ?float|int|string
      */
     public function top()
     {
@@ -50,28 +62,22 @@ class ilDclStack
         return null;
     }
 
-    /**
-     * @return bool
-     */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return !(bool) count($this->stack);
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->stack = array();
     }
 
-    /**
-     * @return int
-     */
-    public function count()
+    public function count(): int
     {
         return count($this->stack);
     }
 
-    public function debug()
+    public function debug(): void
     {
         echo "<pre>" . print_r($this->stack, 1) . "</pre>";
     }

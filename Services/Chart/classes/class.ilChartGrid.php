@@ -29,27 +29,27 @@ class ilChartGrid extends ilChart
     protected function __construct(string $a_id)
     {
         parent::__construct($a_id);
-        
+
         $this->setXAxisToInteger(false);
         $this->setYAxisToInteger(false);
     }
-    
-    public function getDataInstance(int $a_type = null) : ilChartData
+
+    public function getDataInstance(int $a_type = null): ilChartData
     {
         switch ($a_type) {
             case self::DATA_BARS:
                 return new ilChartDataBars();
-                
+
             case self::DATA_POINTS:
                 return new ilChartDataPoints();
-            
+
             default:
             case self::DATA_LINES:
                 return new ilChartDataLines();
         }
     }
-    
-    protected function isValidDataType(ilChartData $a_series) : bool
+
+    protected function isValidDataType(ilChartData $a_series): bool
     {
         if ($a_series instanceof ilChartDataLines
             || $a_series instanceof ilChartDataBars
@@ -58,14 +58,14 @@ class ilChartGrid extends ilChart
         }
         return false;
     }
-        
+
     /**
      * Set ticks
      * @param int|array $a_x
      * @param int|array $a_y
      * @param bool $a_labeled
      */
-    public function setTicks($a_x, $a_y, bool $a_labeled = false) : void
+    public function setTicks($a_x, $a_y, bool $a_labeled = false): void
     {
         $this->ticks = array("x" => $a_x, "y" => $a_y, "labeled" => $a_labeled);
     }
@@ -74,28 +74,28 @@ class ilChartGrid extends ilChart
      * Get ticks
      * @return array (x, y)
      */
-    public function getTicks() : array
+    public function getTicks(): array
     {
         return $this->ticks;
     }
-    
+
     /**
      * Restrict y-axis to integer values
      */
-    public function setYAxisToInteger(bool $a_status) : void
+    public function setYAxisToInteger(bool $a_status): void
     {
         $this->integer_axis["y"] = $a_status;
     }
-    
+
     /**
      * Restrict x-axis to integer values
      */
-    public function setXAxisToInteger(bool $a_status) : void
+    public function setXAxisToInteger(bool $a_status): void
     {
         $this->integer_axis["x"] = $a_status;
     }
 
-    public function parseGlobalOptions(stdClass $a_options) : void
+    public function parseGlobalOptions(stdClass $a_options): void
     {
         // axis/ticks
         $tmp = array();
@@ -121,7 +121,7 @@ class ilChartGrid extends ilChart
                 }
             }
         }
-        
+
         // optional: remove decimals
         if ($this->integer_axis["x"] && !isset($a_options->xaxis)) {
             $a_options->{"xaxis"} = new stdClass();

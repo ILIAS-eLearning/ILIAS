@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\PersonalWorkspace\StandardGUIRequest;
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
@@ -44,7 +47,7 @@ class ilPersonalWorkspaceGUI
     protected int $node_id; // [int]
     protected ContextServices $tool_context;
     protected StandardGUIRequest $std_request;
-    
+
     public function __construct()
     {
         /** @var \ILIAS\DI\Container $DIC */
@@ -79,8 +82,8 @@ class ilPersonalWorkspaceGUI
         }
         $this->tool_context = $DIC->globalScreen()->tool()->context();
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $objDefinition = $this->obj_definition;
@@ -118,16 +121,16 @@ class ilPersonalWorkspaceGUI
             $next_class = "ilObj" . $objDefinition->getClassName($node["type"]) . "GUI";
             $ilCtrl->setCmdClass($next_class);
         }
-        
+
         //  if we do this here the object can still change the breadcrumb
         $this->renderLocator();
-        
+
         // current node
         $class_path = $ilCtrl->lookupClassPath($next_class);
         include_once($class_path);
         $class_name = $ilCtrl->getClassForClasspath($class_path);
         if ($this->std_request->getNewType()) {
-            $gui = new $class_name(null, ilObject2GUI::WORKSPACE_NODE_ID, $this->node_id);
+            $gui = new $class_name(0, ilObject2GUI::WORKSPACE_NODE_ID, $this->node_id);
             $gui->setCreationMode();
         } else {
             $gui = new $class_name($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID, false);
@@ -139,7 +142,7 @@ class ilPersonalWorkspaceGUI
         $tpl->setLocator();
     }
 
-    protected function initTree() : void
+    protected function initTree(): void
     {
         $ilUser = $this->user;
 
@@ -151,7 +154,7 @@ class ilPersonalWorkspaceGUI
         }
     }
 
-    protected function renderBack() : void
+    protected function renderBack(): void
     {
         $lng = $this->lng;
         $ilTabs = $this->tabs;
@@ -191,11 +194,11 @@ class ilPersonalWorkspaceGUI
             }
         }
     }
-    
+
     /**
      * Build locator for current node
      */
-    protected function renderLocator() : void
+    protected function renderLocator(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -203,7 +206,7 @@ class ilPersonalWorkspaceGUI
         $objDefinition = $this->obj_definition;
 
         $ilLocator->clearItems();
-        
+
         // we have no path if shared item
         $path = $this->tree->getPathFull($this->node_id);
         if ($path) {
@@ -214,7 +217,7 @@ class ilPersonalWorkspaceGUI
 
                 switch ($node["type"]) {
                     case "wsrt":
-                        $ilLocator->addItem($lng->txt("personal_resources"), $ilCtrl->getLinkTargetByClass($obj_class, "render"));
+                        $ilLocator->addItem($lng->txt("mm_personal_and_shared_r"), $ilCtrl->getLinkTargetByClass($obj_class, "render"));
                         break;
 
                     case "blog":

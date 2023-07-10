@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,185 +13,261 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- ********************************************************************
  */
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-use ILIAS\UI\Component\Input\Container\Form\Form;
-use ILIAS\UI\Implementation\Component\Input\Field\FileUploadHelper;
-use ILIAS\UI\Component\Dropzone\File\File as FileInterface;
-use ILIAS\UI\Component\Input\Factory as InputFactory;
-use ILIAS\UI\Component\Input\Field\UploadHandler;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\Modal\RoundTrip;
 use ILIAS\UI\Implementation\Component\Triggerer;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Dropzone\File\File as FileDropzone;
+use ILIAS\UI\Component\Input\Field\File as FileInput;
 use ILIAS\UI\Component\Signal;
-use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Transformation;
-use ilLanguage;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\Button;
+use ILIAS\UI\Component\ReplaceSignal;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\UI\Component\Closable;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Input\Field\UploadHandler;
+use ILIAS\UI\Component\Input\Field\Input;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-abstract class File implements FileInterface
+abstract class File implements FileDropzone
 {
-    public const FILE_INPUT_KEY = 'files';
-    protected const JAVASCRIPT_EVENT = 'drop';
-
-    use FileUploadHelper;
     use JavaScriptBindable;
     use ComponentHelper;
     use Triggerer;
 
-    /**
-     * @var Transformation[]
-     */
-    protected array $operations = [];
-
-    protected ?ServerRequestInterface $request = null;
-    protected InputFactory $input_factory;
-    protected ?Input $metadata_input;
-    protected ilLanguage $language;
-    protected ?string $error = null;
-    protected string $title = '';
-    protected string $post_url;
+    protected SignalGeneratorInterface $signal_generator;
+    protected Signal $clear_signal;
+    protected RoundTrip $modal;
 
     public function __construct(
-        InputFactory $input_factory,
-        ilLanguage $language,
-        UploadHandler $upload_handler,
+        SignalGeneratorInterface $signal_generator,
+        FieldFactory $field_factory,
+        NameSource $name_source,
+        string $title,
         string $post_url,
-        ?Input $metadata_input = null
+        FileInput $file_input,
+        ?Input $additional_input
     ) {
-        $this->input_factory = $input_factory;
-        $this->language = $language;
-        $this->upload_handler = $upload_handler;
-        $this->post_url = $post_url;
-        $this->metadata_input = $metadata_input;
-    }
+        $this->signal_generator = $signal_generator;
+        $this->clear_signal = $signal_generator->create();
 
-    // ==========================================
-    // BEGIN IMPLEMENTATION OF FileInterface
-    // ==========================================
-
-    public function withTitle(string $title) : self
-    {
-        $clone = clone $this;
-        $clone->title = $title;
-        return $clone;
-    }
-
-    public function getTitle() : string
-    {
-        return $this->title;
-    }
-
-    public function withOnDrop(Signal $signal) : self
-    {
-        return $this->withTriggeredSignal($signal, self::JAVASCRIPT_EVENT);
-    }
-
-    public function withAdditionalDrop(Signal $signal) : self
-    {
-        return $this->appendTriggeredSignal($signal, self::JAVASCRIPT_EVENT);
-    }
-
-    // ==========================================
-    // END IMPLEMENTATION OF FileInterface
-    // ==========================================
-
-    // ==========================================
-    // BEGIN IMPLEMENTATION OF Form
-    // ==========================================
-
-    public function getForm() : Form
-    {
-        $form = $this->input_factory
-            ->container()
-            ->form()
-            ->standard(
-                $this->post_url,
-                $this->getInputs()
-            );
-
-        foreach ($this->operations as $trafo) {
-            $form = $form->withAdditionalTransformation($trafo);
+        if (null !== $additional_input) {
+            $inputs = [$file_input, $additional_input];
+        } else {
+            $inputs = [$file_input];
         }
 
-        return $form;
+        $this->modal = new RoundTrip(
+            $signal_generator,
+            $field_factory,
+            $name_source,
+            $title,
+            null,
+            $inputs,
+            $post_url
+        );
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getInputs() : array
+    public function getModal(): RoundTrip
     {
-        return [
-            self::FILE_INPUT_KEY => $this->input_factory
-                ->field()->file(
-                    $this->upload_handler,
-                    '',
-                    null,
-                    $this->metadata_input
-                )->withMaxFiles($this->getMaxFiles())
-                 ->withMaxFileSize($this->getMaxFileSize())
-                 ->withAcceptedMimeTypes($this->getAcceptedMimeTypes())
-            ,
-        ];
+        return $this->modal;
     }
 
-    public function withRequest(ServerRequestInterface $request) : self
+    public function getClearSignal(): Signal
+    {
+        return $this->clear_signal;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->modal->getTitle();
+    }
+
+    public function withOnClose(Signal $signal): self
     {
         $clone = clone $this;
-        $clone->request = $request;
-
+        /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
+        $clone->modal = $clone->modal->withOnClose($signal);
         return $clone;
     }
 
-    public function withAdditionalTransformation(Transformation $trafo) : self
+    public function appendOnClose(Signal $signal): self
     {
         $clone = clone $this;
-        $clone->operations[] = $trafo;
-
+        /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
+        $clone->modal = $clone->modal->appendOnClose($signal);
         return $clone;
     }
 
-    /**
-     * @inheritDoc
-     */
+    public function getAsyncRenderUrl(): string
+    {
+        return $this->modal->getAsyncRenderUrl();
+    }
+
+    public function withAsyncRenderUrl(string $url)
+    {
+        $clone = clone $this;
+        $clone->modal = $clone->modal->withAsyncRenderUrl($url);
+        return $clone;
+    }
+
+    public function withCloseWithKeyboard(bool $state): self
+    {
+        $clone = clone $this;
+        $clone->modal = $clone->modal->withCloseWithKeyboard($state);
+        return $clone;
+    }
+
+    public function getCloseWithKeyboard(): bool
+    {
+        return $this->modal->getCloseWithKeyboard();
+    }
+
+    public function getShowSignal(): Signal
+    {
+        return $this->modal->getShowSignal();
+    }
+
+    public function getCloseSignal(): Signal
+    {
+        return $this->modal->getCloseSignal();
+    }
+
+    public function withOnLoad(Signal $signal)
+    {
+        $clone = clone $this;
+        $clone->modal = $clone->modal->withOnLoad($signal);
+        return $clone;
+    }
+
+    public function appendOnLoad(Signal $signal)
+    {
+        $clone = clone $this;
+        $clone->modal = $clone->modal->appendOnLoad($signal);
+        return $clone;
+    }
+
+    public function getContent(): array
+    {
+        return $this->modal->getContent();
+    }
+
+    public function getActionButtons(): array
+    {
+        return $this->modal->getActionButtons();
+    }
+
+    public function getCancelButtonLabel(): ?string
+    {
+        return $this->modal->getCancelButtonLabel();
+    }
+
+    public function withActionButtons(array $buttons): self
+    {
+        $clone = clone $this;
+        $clone->modal = $clone->modal->withActionButtons($buttons);
+        return $clone;
+    }
+
+    public function withCancelButtonLabel(string $label): self
+    {
+        $clone = clone $this;
+        $clone->modal = $clone->modal->withCancelButtonLabel($label);
+        return $clone;
+    }
+
+    public function getReplaceSignal(): ReplaceSignal
+    {
+        return $this->modal->getReplaceSignal();
+    }
+
+    public function getPostURL(): string
+    {
+        return $this->modal->getPostURL();
+    }
+
+    public function withSubmitCaption(string $caption): self
+    {
+        $clone = clone $this;
+        $clone->modal = $clone->modal->withSubmitCaption($caption);
+        return $clone;
+    }
+
+    public function getSubmitCaption(): ?string
+    {
+        return $this->modal->getSubmitCaption();
+    }
+
+    public function getInputs(): array
+    {
+        return $this->modal->getInputs();
+    }
+
+    public function withRequest(ServerRequestInterface $request): self
+    {
+        $clone = clone $this;
+        $clone->modal = $clone->modal->withRequest($request);
+        return $clone;
+    }
+
+    public function withAdditionalTransformation(Transformation $trafo): self
+    {
+        $clone = clone $this;
+        $clone->modal = $clone->modal->withAdditionalTransformation($trafo);
+        return $clone;
+    }
+
     public function getData()
     {
-        if (null === $this->request) {
-            throw new \LogicException("Cannot retrieve data without calling withRequest() first.");
-        }
-
-        $form = $this->getForm()->withRequest($this->request);
-        $data = $form->getData();
-
-        if (null !== $data) {
-            return $data[self::FILE_INPUT_KEY] ?? null;
-        }
-
-        return null;
+        return $this->modal->getData();
     }
 
-    public function getError() : ?string
+    public function getError(): ?string
     {
-        if (null === $this->request) {
-            return null;
-        }
-
-        // we need to call getData() in order to set the error on $form.
-        $form = $this->getForm()->withRequest($this->request);
-        $data = $form->getData();
-
-        return $form->getError();
+        return $this->modal->getError();
     }
 
-    // ==========================================
-    // END IMPLEMENTATION OF Form
-    // ==========================================
+    public function withOnDrop(Signal $signal): self
+    {
+        return $this->withTriggeredSignal($signal, 'drop');
+    }
+
+    public function withAdditionalDrop(Signal $signal): self
+    {
+        return $this->appendTriggeredSignal($signal, 'drop');
+    }
+
+    public function withResetSignals(): self
+    {
+        $clone = clone $this;
+        $clone->initSignals();
+        return $clone;
+    }
+
+    public function initSignals(): void
+    {
+        $this->clear_signal = $this->signal_generator->create();
+        $this->modal->initSignals();
+    }
+
+    /**
+     * No dedicated name can be set for this subform
+     */
+    public function withDedicatedName(string $dedicated_name): self
+    {
+        return $this;
+    }
 }

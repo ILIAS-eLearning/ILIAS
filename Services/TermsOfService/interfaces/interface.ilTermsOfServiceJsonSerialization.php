@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,11 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Interface ilTermsOfServiceJsonSerialization
  * @author Michael Jansen <mjansen@databay.de>
  */
 interface ilTermsOfServiceJsonSerialization
 {
-    public function toJson() : string;
+    public function toJson(): string;
 }

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblLibraryFactory
  *
@@ -23,11 +23,10 @@
  */
 class ilBiblLibraryFactory implements ilBiblLibraryFactoryInterface
 {
-
     /**
      * @inheritDoc
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         return ilBiblLibrary::get();
     }
@@ -36,7 +35,7 @@ class ilBiblLibraryFactory implements ilBiblLibraryFactoryInterface
     /**
      * @inheritDoc
      */
-    public function findById(int $id) : \ilBiblLibraryInterface
+    public function findById(int $id): \ilBiblLibraryInterface
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return ilBiblLibrary::findOrFail($id);
@@ -46,7 +45,7 @@ class ilBiblLibraryFactory implements ilBiblLibraryFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getEmptyInstance() : \ilBiblLibraryInterface
+    public function getEmptyInstance(): \ilBiblLibraryInterface
     {
         return new ilBiblLibrary();
     }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -21,7 +24,7 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
     protected \ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
     protected bool $raters_mode;
     protected string $fallback_url;
-    
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -35,15 +38,15 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        
+
         $this->raters_mode = $a_raters_mode;
         $this->fallback_url = trim($a_fallback_url);
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        
+
         $this->setFormName('apprform');
-        
+
         $this->addColumn('', '', '1%');
         $this->addColumn($this->lng->txt("name"), 'name', '');
         $this->addColumn($this->lng->txt("login"), 'login', '');
@@ -54,31 +57,31 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
             ->gui()
             ->editing()
             ->request();
-                        
+
         if (!$this->raters_mode) {
             $this->addColumn($this->lng->txt("survey_360_raters_finished"), "finished");
             $this->addColumn($this->lng->txt("survey_360_appraisee_close_table"), "closed");
             $this->addColumn($this->lng->txt("actions"));
-            
+
             $this->setTitle($this->lng->txt("survey_360_appraisees"));
         } else {
             $this->addColumn($this->lng->txt("survey_360_rater_finished"), "finished");
             $this->addColumn($this->lng->txt("survey_code_url"));
             $this->addColumn($this->lng->txt("survey_360_rater_mail_sent"), "sent");
-            
+
             $this->setTitle(
                 $this->lng->txt("survey_360_edit_raters") . " : " .
                     ilUserUtil::getNamePresentation($this->edit_request->getAppraiseeId())
             );
         }
-    
+
         $this->setRowTemplate("tpl.il_svy_svy_appraisees_row.html", "Modules/Survey");
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->setDefaultOrderField("last_name");
         $this->setDefaultOrderDirection("asc");
-    
+
         if (!$this->raters_mode) {
             $this->addMultiCommand('confirmAdminAppraiseesClose', $this->lng->txt('survey_360_appraisee_close_action'));
             $this->addMultiCommand('confirmDeleteAppraisees', $this->lng->txt('survey_360_remove_appraisees'));
@@ -94,10 +97,10 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
-                
+
         if (!$this->raters_mode) {
             if ($a_set['closed']) {
                 $this->tpl->setVariable("CLOSED", ilDatePresentation::formatDate(new ilDateTime($a_set['closed'], IL_CAL_UNIX)));
@@ -119,15 +122,15 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
             $this->tpl->setVariable('MODE', "rtr");
             $this->tpl->setVariable('ID', $a_set['user_id']);
             $this->tpl->setVariable("FINISHED", $a_set['finished'] ? $lng->txt("yes") : $lng->txt("no"));
-            
+
             $sent = "";
             if ($a_set["sent"]) {
                 $sent = ilDatePresentation::formatDate(new ilDateTime($a_set["sent"], IL_CAL_UNIX));
             }
             $this->tpl->setVariable("MAIL_SENT", $sent);
-            
-            if ($a_set["href"] || $this->fallback_url) {
-                if ($a_set["href"]) {
+
+            if (($a_set["href"] ?? false) || $this->fallback_url) {
+                if ($a_set["href"] ?? false) {
                     $this->tpl->setVariable("DIRECT_HREF", $a_set["href"]);
                 } else {
                     $this->tpl->setVariable("DIRECT_HREF", $this->fallback_url);

@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Item;
 
@@ -28,7 +46,7 @@ interface Factory
      * @param string|\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link\Link $title Title of the item
      * @return \ILIAS\UI\Component\Item\Standard
      */
-    public function standard($title) : Standard;
+    public function standard($title): Standard;
 
     /**
      * ---
@@ -50,7 +68,7 @@ interface Factory
      * @param string      $title
      * @return \ILIAS\UI\Component\Item\Shy
      */
-    public function shy(string $title) : Shy;
+    public function shy(string $title): Shy;
 
     /**
      * ---
@@ -65,7 +83,7 @@ interface Factory
      * @param \ILIAS\UI\Component\Item\Item[] $items items
      * @return \ILIAS\UI\Component\Item\Group
      */
-    public function group(string $title, array $items) : Group;
+    public function group(string $title, array $items): Group;
 
     /**
      * ---
@@ -119,5 +137,5 @@ interface Factory
      * @param \ILIAS\UI\Component\Symbol\Icon\Icon $lead
      * @return \ILIAS\UI\Component\Item\Notification
      */
-    public function notification($title, Icon $lead) : Notification;
+    public function notification($title, Icon $lead): Notification;
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,18 +16,20 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailGroupAddressType
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMailGroupAddressType extends ilBaseMailAddressType
 {
-    protected function isValid(int $senderId) : bool
+    protected function isValid(int $senderId): bool
     {
         return $this->typeHelper->doesGroupNameExists(substr($this->address->getMailbox(), 1));
     }
 
-    public function resolve() : array
+    public function resolve(): array
     {
         $usrIds = [];
 
@@ -41,9 +43,7 @@ class ilMailGroupAddressType extends ilBaseMailAddressType
         }
 
         if ($group instanceof ilObjGroup) {
-            foreach ($group->getGroupMemberIds() as $usr_id) {
-                $usrIds[] = $usr_id;
-            }
+            $usrIds = $group->getGroupMemberIds();
 
             $this->logger->debug(sprintf(
                 "Found the following group member user ids for address (object title) '%s' and obj_id %s: %s",

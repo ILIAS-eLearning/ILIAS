@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,19 +16,21 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Interface ilTermsOfServiceAcceptanceDataGateway
  * @author Michael Jansen <mjansen@databay.de>
  */
 interface ilTermsOfServiceAcceptanceDataGateway
 {
-    public function trackAcceptance(ilTermsOfServiceAcceptanceEntity $entity) : void;
+    public function trackAcceptance(ilTermsOfServiceAcceptanceEntity $entity): void;
 
     public function loadCurrentAcceptanceOfUser(
         ilTermsOfServiceAcceptanceEntity $entity
-    ) : ilTermsOfServiceAcceptanceEntity;
+    ): ilTermsOfServiceAcceptanceEntity;
 
-    public function loadById(ilTermsOfServiceAcceptanceEntity $entity) : ilTermsOfServiceAcceptanceEntity;
+    public function loadById(ilTermsOfServiceAcceptanceEntity $entity): ilTermsOfServiceAcceptanceEntity;
 
-    public function deleteAcceptanceHistoryByUser(ilTermsOfServiceAcceptanceEntity $entity) : void;
+    public function deleteAcceptanceHistoryByUser(ilTermsOfServiceAcceptanceEntity $entity): void;
 }

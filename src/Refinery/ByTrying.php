@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Refinery;
 
@@ -41,7 +43,7 @@ class ByTrying implements Transformation
     {
         $this->transformations = $transformations;
         $this->data_factory = $data_factory;
-        $this->error = static function () : void {
+        $this->error = static function (): void {
             throw new ConstraintViolationException(
                 'no valid constraints',
                 'no_valid_constraints'
@@ -52,7 +54,7 @@ class ByTrying implements Transformation
     /**
      * @inheritDoc
      */
-    protected function getError() : callable
+    protected function getError(): callable
     {
         return $this->error;
     }

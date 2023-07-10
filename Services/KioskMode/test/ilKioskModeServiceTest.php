@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -8,7 +10,7 @@ require_once "class.ilDummyKioskModeView.php";
 
 class ilKioskModeServiceTest extends TestCase
 {
-    public function test_createObject() : void
+    public function test_createObject(): void
     {
         $ctrl = $this->createMock(ilCtrl::class);
         $lng = $this->createMock(ilLanguage::class);
@@ -20,7 +22,7 @@ class ilKioskModeServiceTest extends TestCase
         $this->assertInstanceOf(ilKioskModeService::class, $obj);
     }
 
-    public function test_getViewFor_non_existing_type() : void
+    public function test_getViewFor_non_existing_type(): void
     {
         $ctrl = $this->createMock(ilCtrl::class);
         $lng = $this->createMock(ilLanguage::class);
@@ -46,7 +48,7 @@ class ilKioskModeServiceTest extends TestCase
         $this->assertNull($obj->getViewFor($ilObject));
     }
 
-    public function test_getViewFor() : void
+    public function test_getViewFor(): void
     {
         $ctrl = $this->createMock(ilCtrl::class);
         $lng = $this->createMock(ilLanguage::class);

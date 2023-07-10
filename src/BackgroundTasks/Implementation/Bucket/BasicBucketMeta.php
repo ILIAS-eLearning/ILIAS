@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Bucket;
 
 use ILIAS\BackgroundTasks\BucketMeta;
@@ -36,63 +36,63 @@ class BasicBucketMeta implements BucketMeta
     protected string $title = "";
     protected string $description = "";
     protected int $percentage = 0;
-    
-    public function getUserId() : int
+
+    public function getUserId(): int
     {
         return $this->user_id;
     }
-    
-    public function setUserId(int $user_id) : void
+
+    public function setUserId(int $user_id): void
     {
         $this->user_id = $user_id;
     }
-    
-    public function getState() : int
+
+    public function getState(): int
     {
         return $this->state;
     }
-    
-    public function setState(int $state) : void
+
+    public function setState(int $state): void
     {
         $this->state = $state;
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function setTitle(string $title) : void
+
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         return $this->description;
     }
-    
-    public function setDescription(string $description) : void
+
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
-    
-    public function getPercentage() : int
+
+    public function getPercentage(): int
     {
         return $this->percentage;
     }
-    
-    public function setPercentage(Task $task, int $percentage) : void
+
+    public function setPercentage(Task $task, int $percentage): void
     {
         throw new BucketNotFoundException("You cannot set the percentage on an empty bucket.");
     }
-    
-    public function getOverallPercentage() : int
+
+    public function getOverallPercentage(): int
     {
         return $this->percentage;
     }
-    
-    public function setOverallPercentage(int $percentage) : void
+
+    public function setOverallPercentage(int $percentage): void
     {
         $this->percentage = $percentage;
     }

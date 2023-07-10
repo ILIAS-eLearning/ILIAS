@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface ilBiblAdminLibraryFacade
  *
@@ -40,7 +40,7 @@ class ilBiblAdminLibraryFacade implements ilBiblAdminLibraryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function iliasObjId() : int
+    public function iliasObjId(): int
     {
         return $this->object_id;
     }
@@ -49,7 +49,7 @@ class ilBiblAdminLibraryFacade implements ilBiblAdminLibraryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function iliasRefId() : int
+    public function iliasRefId(): int
     {
         return $this->ref_id;
     }
@@ -58,7 +58,7 @@ class ilBiblAdminLibraryFacade implements ilBiblAdminLibraryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function libraryFactory() : \ilBiblLibraryFactoryInterface
+    public function libraryFactory(): \ilBiblLibraryFactoryInterface
     {
         return new ilBiblLibraryFactory();
     }

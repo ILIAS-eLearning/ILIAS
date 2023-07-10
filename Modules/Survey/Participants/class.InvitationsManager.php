@@ -1,19 +1,24 @@
-<?php declare(strict_types = 1);
+<?php
 
-namespace ILIAS\Survey\Participants;
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+namespace ILIAS\Survey\Participants;
 
 use ILIAS\Survey\Execution;
 use ILIAS\Survey\Settings;
@@ -46,11 +51,11 @@ class InvitationsManager
     public function remove(
         int $survey_id,
         int $user_id
-    ) : void {
+    ): void {
         $this->repo->remove($survey_id, $user_id);
     }
-    
-    
+
+
     /**
      * Add invitation
      *
@@ -60,7 +65,7 @@ class InvitationsManager
     public function add(
         int $survey_id,
         int $user_id
-    ) : void {
+    ): void {
         $this->repo->add($survey_id, $user_id);
     }
 
@@ -71,7 +76,7 @@ class InvitationsManager
      */
     public function getAllForSurvey(
         int $survey_id
-    ) : array {
+    ): array {
         return $this->repo->getAllForSurvey($survey_id);
     }
 
@@ -81,7 +86,7 @@ class InvitationsManager
      */
     public function getOpenInvitationsOfUser(
         int $user_id
-    ) : array {
+    ): array {
         // get all invitations
         $survey_ids = $this->repo->getAllForUser($user_id);
 
@@ -94,8 +99,8 @@ class InvitationsManager
 
         // filter all surveys that have ended
         $has_ended = $this->set_repo->hasEnded($open_surveys);
-        $open_surveys = array_filter($open_surveys, static function (int $i) use ($has_ended) : bool {
-            return !$has_ended[$i];
+        $open_surveys = array_filter($open_surveys, static function (int $i) use ($has_ended): bool {
+            return !($has_ended[$i] ?? false);
         });
 
         return $open_surveys;

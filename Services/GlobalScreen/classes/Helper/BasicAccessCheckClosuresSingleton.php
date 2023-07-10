@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Helper;
 
@@ -30,20 +32,20 @@ use ILIAS\DI\Container;
 class BasicAccessCheckClosuresSingleton
 {
     protected static ?BasicAccessCheckClosures $instance = null;
-    
+
     /**
      * BasicAccessCheckClosuresSingleton constructor.
      */
     private function __construct()
     {
     }
-    
-    public static function getInstance() : BasicAccessCheckClosures
+
+    public static function getInstance(): BasicAccessCheckClosures
     {
         if (!self::$instance instanceof BasicAccessCheckClosures) {
             self::$instance = new BasicAccessCheckClosures();
         }
-        
+
         return self::$instance;
     }
 }

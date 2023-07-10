@@ -1,0 +1,11 @@
+/*
+* Dependencies
+*/
+
+// MUST contain files pulled in from other projects and/or modifications of such files.
+// Dependencies and their modifications MUST only be added after careful consideration.
+
+@use "./modifications/datetimepicker/bootstrap-datetimepicker.scss";
+@use "./modifications/jquery-autocomplete";
+@use "./modifications/additions_tinymce";
+@use "./modifications/additions_yui2";

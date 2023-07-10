@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 *
@@ -37,7 +40,7 @@ class ilObjECSSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -53,13 +56,13 @@ class ilObjECSSettingsGUI extends ilObjectGUI
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
-            
+
             case 'ilecssettingsgui':
                 $this->tabs_gui->setTabActive('settings');
                 $settings = new ilECSSettingsGUI();
                 $this->ctrl->forwardCommand($settings);
                 break;
-            
+
             default:
                 $this->tabs_gui->setTabActive('settings');
                 $settings = new ilECSSettingsGUI();
@@ -68,7 +71,7 @@ class ilObjECSSettingsGUI extends ilObjectGUI
                 break;
         }
     }
-    
+
 
     /**
      * Get tabs
@@ -76,7 +79,7 @@ class ilObjECSSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->access->checkAccess("read", '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(

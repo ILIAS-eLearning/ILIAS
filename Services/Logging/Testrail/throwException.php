@@ -1,4 +1,5 @@
 <?php
+
 chdir("./../../../");
 $ini = new ilIniFile("ilias.ini.php");
 $ini->read();

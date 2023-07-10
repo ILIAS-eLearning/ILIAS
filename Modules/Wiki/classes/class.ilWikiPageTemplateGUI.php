@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Wiki\Editing\EditingGUIRequest;
 
@@ -57,7 +60,7 @@ class ilWikiPageTemplateGUI
             ->request();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $nc = $this->ctrl->getNextClass();
 
@@ -71,7 +74,7 @@ class ilWikiPageTemplateGUI
         }
     }
 
-    public function listTemplates() : void
+    public function listTemplates(): void
     {
         // list pages
         $pages = ilWikiPage::getAllWikiPages($this->wiki->getId());
@@ -107,7 +110,7 @@ class ilWikiPageTemplateGUI
         $this->tpl->setContent($tab->getHTML());
     }
 
-    public function add() : void
+    public function add(): void
     {
         $wpt = new ilWikiPageTemplate($this->wiki->getId());
         $wpt->save($this->request->getPageTemplateId());
@@ -115,7 +118,7 @@ class ilWikiPageTemplateGUI
         $this->ctrl->redirect($this, "listTemplates");
     }
 
-    public function remove() : void
+    public function remove(): void
     {
         $wpt = new ilWikiPageTemplate($this->wiki->getId());
 
@@ -130,14 +133,14 @@ class ilWikiPageTemplateGUI
         $this->ctrl->redirect($this, "listTemplates");
     }
 
-    public function saveTemplateSettings() : void
+    public function saveTemplateSettings(): void
     {
         $all_ids = $this->request->getAllIds();
         $new_pages = $this->request->getNewPages();
         $add_to_page = $this->request->getAddToPage();
         foreach ($all_ids as $id) {
             $wpt = new ilWikiPageTemplate($this->wiki->getId());
-            $wpt->save($id, $new_pages[$id], $add_to_page[$id]);
+            $wpt->save($id, $new_pages[$id] ?? 0, $add_to_page[$id] ?? 0);
         }
 
         $this->wiki->setEmptyPageTemplate($this->request->getEmptyPageTemplate());
@@ -146,13 +149,13 @@ class ilWikiPageTemplateGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "listTemplates");
     }
-    
-    
+
+
     //
     // PAGE ACTIONS
     //
-    
-    public function removePageTemplateFromPageAction() : void
+
+    public function removePageTemplateFromPageAction(): void
     {
         $page_id = $this->request->getWikiPageId();
         if ($page_id) {
@@ -160,11 +163,11 @@ class ilWikiPageTemplateGUI
             $wpt->remove($page_id);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("wiki_template_status_removed"), true);
         }
-        
+
         $this->ctrl->redirect($this, "listTemplates");
     }
-    
-    public function addPageTemplateFromPageAction() : void
+
+    public function addPageTemplateFromPageAction(): void
     {
         $page_id = $this->request->getWikiPageId();
         if ($page_id) {
@@ -172,7 +175,7 @@ class ilWikiPageTemplateGUI
             $wpt->save($page_id);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("wiki_template_added"), true);
         }
-        
+
         $this->ctrl->redirect($this, "listTemplates");
     }
 }

@@ -1,4 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Collector;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Layout\Collector;
 
 use ILIAS\GlobalScreen\Client\Client;
 use ILIAS\GlobalScreen\Client\ClientSettings;
@@ -22,16 +41,6 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\UI\Component\Layout\Page\Page;
 use LogicException;
 
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
-
 /**
  * Class MainLayoutCollector
  * @internal
@@ -44,7 +53,7 @@ class MainLayoutCollector extends AbstractBaseCollector
      * @var ModificationProvider[]
      */
     private array $providers;
-    
+
     /**
      * MainLayoutCollector constructor.
      * @param array $providers
@@ -54,19 +63,19 @@ class MainLayoutCollector extends AbstractBaseCollector
         $this->providers = $providers;
         $this->modification_handler = new ModificationHandler();
     }
-    
-    public function collectStructure() : void
+
+    public function collectStructure(): void
     {
         // Client
         $settings = new ClientSettings();
         $settings->setHashing(true);
         $settings->setLogging(false);
-        
+
         $client = new Client($settings);
         $client->init($this->getMetaContent());
-        
+
         $called_contexts = $this->getContextStack();
-        
+
         $final_content_modification = new NullModification();
         $final_logo_modification = new NullModification();
         $final_responsive_logo_modification = new NullModification();
@@ -78,13 +87,13 @@ class MainLayoutCollector extends AbstractBaseCollector
         $final_title_modification = new NullModification();
         $final_short_title_modification = new NullModification();
         $final_view_title_modification = new NullModification();
-        
+
         foreach ($this->providers as $provider) {
             $context_collection = $provider->isInterestedInContexts();
             if (!$context_collection->hasMatch($called_contexts)) {
                 continue;
             }
-            
+
             // CONTENT
             $content_modification = $provider->getContentModification($called_contexts);
             $this->replaceModification($final_content_modification, $content_modification, ContentModification::class);
@@ -128,10 +137,10 @@ class MainLayoutCollector extends AbstractBaseCollector
             // Pagetitle
             $title_modification = $provider->getTitleModification($called_contexts);
             $this->replaceModification($final_title_modification, $title_modification, TitleModification::class);
-            
+
             $short_title_modification = $provider->getShortTitleModification($called_contexts);
             $this->replaceModification($final_short_title_modification, $short_title_modification, ShortTitleModification::class);
-            
+
             $view_title_modification = $provider->getViewTitleModification($called_contexts);
             $this->replaceModification(
                 $final_view_title_modification,
@@ -139,7 +148,7 @@ class MainLayoutCollector extends AbstractBaseCollector
                 ViewTitleModification::class
             );
         }
-        
+
         if ($final_content_modification->hasValidModification()) {
             $this->modification_handler->modifyContentWithClosure($final_content_modification->getModification());
         }
@@ -174,49 +183,49 @@ class MainLayoutCollector extends AbstractBaseCollector
             $this->modification_handler->modifyViewTitleWithClosure($final_view_title_modification->getModification());
         }
     }
-    
-    public function filterItemsByVisibilty(bool $skip_async = false) : void
+
+    public function filterItemsByVisibilty(bool $skip_async = false): void
     {
         // TODO: Implement filterItemsByVisibilty() method.
     }
-    
-    public function prepareItemsForUIRepresentation() : void
+
+    public function prepareItemsForUIRepresentation(): void
     {
         // TODO: Implement prepareItemsForUIRepresentation() method.
     }
-    
-    public function cleanupItemsForUIRepresentation() : void
+
+    public function cleanupItemsForUIRepresentation(): void
     {
         // TODO: Implement cleanupItemsForUIRepresentation() method.
     }
-    
-    public function sortItemsForUIRepresentation() : void
+
+    public function sortItemsForUIRepresentation(): void
     {
         // TODO: Implement sortItemsForUIRepresentation() method.
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getItemsForUIRepresentation() : void
+    public function getItemsForUIRepresentation(): void
     {
         // TODO: Implement getItemsForUIRepresentation() method.
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function hasItems() : bool
+    public function hasItems(): bool
     {
         return true;
     }
-    
+
     /**
      * @param LayoutModification      $current_modification
      * @param LayoutModification|null $candicate
      * @param string                  $type
      */
-    private function replaceModification(LayoutModification &$current_modification, ?LayoutModification $candicate, string $type) : void
+    private function replaceModification(LayoutModification &$current_modification, ?LayoutModification $candicate, string $type): void
     {
         if (is_a($candicate, $type) && $candicate->hasValidModification()) {
             if ($candicate->getPriority() === $current_modification->getPriority()) {
@@ -226,35 +235,35 @@ class MainLayoutCollector extends AbstractBaseCollector
             }
         }
     }
-    
+
     /**
      * @return Page
      */
-    public function getFinalPage() : Page
+    public function getFinalPage(): Page
     {
         $this->collectOnce();
-        
+
         return $this->modification_handler->getPageWithPagePartProviders();
     }
-    
+
     /**
      * @return CalledContexts
      */
-    private function getContextStack() : CalledContexts
+    private function getContextStack(): CalledContexts
     {
         global $DIC;
         $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
-        
+
         return $called_contexts;
     }
-    
+
     /**
      * @return MetaContent
      */
-    private function getMetaContent() : MetaContent
+    private function getMetaContent(): MetaContent
     {
         global $DIC;
-        
+
         return $DIC->globalScreen()->layout()->meta();
     }
 }

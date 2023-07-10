@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -80,7 +82,7 @@ class ilMathJaxImage
     /**
      * Create the relative file path of the image
      */
-    protected function filepath() : string
+    protected function filepath(): string
     {
         $hash = md5($this->tex . $this->salt);
         return $this->basepath
@@ -92,7 +94,7 @@ class ilMathJaxImage
     /**
      * Get the absolute path of the image
      */
-    public function absolutePath() : string
+    public function absolutePath(): string
     {
         return CLIENT_WEB_DIR . $this->filepath();
     }
@@ -100,7 +102,7 @@ class ilMathJaxImage
     /**
      * Check if an image is cached
      */
-    public function exists() : bool
+    public function exists(): bool
     {
         return $this->fs->has($this->filepath());
     }
@@ -108,7 +110,7 @@ class ilMathJaxImage
     /**
      * Read the content of a cached image
      */
-    public function read() : string
+    public function read(): string
     {
         return $this->fs->read($this->filepath());
     }
@@ -117,7 +119,7 @@ class ilMathJaxImage
      * Save the content of a cached image
      * @param string $a_content image content
      */
-    public function write(string $a_content) : void
+    public function write(string $a_content): void
     {
         $this->fs->put($this->filepath(), $a_content);
     }
@@ -125,7 +127,7 @@ class ilMathJaxImage
     /**
      * Get the total size of the cache with an appropriate unit for display
      */
-    public function getCacheSize() : string
+    public function getCacheSize(): string
     {
         $size = 0;
         if ($this->fs->hasDir($this->basepath)) {
@@ -148,7 +150,7 @@ class ilMathJaxImage
     /**
      * Delete all files from the cache
      */
-    public function clearCache() : void
+    public function clearCache(): void
     {
         $this->fs->deleteDir($this->basepath);
     }

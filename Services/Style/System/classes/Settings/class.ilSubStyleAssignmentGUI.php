@@ -61,7 +61,7 @@ class ilSubStyleAssignmentGUI
      * Assign styles to categories
      * @throws ilSystemStyleException
      */
-    public function assignStyle(ilSkin $skin, ilSkinStyle $substyle) : void
+    public function assignStyle(ilSkin $skin, ilSkinStyle $substyle): void
     {
         $style = $skin->getStyle($substyle->getSubstyleOf());
 
@@ -84,7 +84,7 @@ class ilSubStyleAssignmentGUI
     /**
      * Add style category assignment
      */
-    public function addAssignment() : void
+    public function addAssignment(): void
     {
         include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
         $exp = new ilSearchRootSelector(
@@ -110,7 +110,7 @@ class ilSubStyleAssignmentGUI
     /**
      * Save style category assignment
      */
-    public function saveAssignment(ilSkin $skin, ilSkinStyle $substyle) : void
+    public function saveAssignment(ilSkin $skin, ilSkinStyle $substyle): void
     {
         $style = $skin->getStyle($substyle->getSubstyleOf());
         try {
@@ -136,7 +136,7 @@ class ilSubStyleAssignmentGUI
     /**
      * Delete system style to category assignments
      */
-    public function deleteAssignments(ilSkin $skin, ilSkinStyle $substyle) : void
+    public function deleteAssignments(ilSkin $skin, ilSkinStyle $substyle): void
     {
         $style = $skin->getStyle($substyle->getSubstyleOf());
 
@@ -162,12 +162,12 @@ class ilSubStyleAssignmentGUI
         $this->ctrl->redirect($this->getParentGui(), 'assignStyle');
     }
 
-    public function getParentGui() : ilSystemStyleSettingsGUI
+    public function getParentGui(): ilSystemStyleSettingsGUI
     {
         return $this->parent_gui;
     }
 
-    public function setParentGui(ilSystemStyleSettingsGUI $parent_gui) : void
+    public function setParentGui(ilSystemStyleSettingsGUI $parent_gui): void
     {
         $this->parent_gui = $parent_gui;
     }

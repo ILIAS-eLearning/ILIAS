@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -58,7 +60,7 @@ class ilVirtualSkillTree
     /**
      * @return array{id: string, cskill_id: string}
      */
-    public function getRootNode() : array
+    public function getRootNode(): array
     {
         $root_id = $this->tree->readRootId();
         $root_node = $this->tree->getNodeData($root_id);
@@ -69,34 +71,34 @@ class ilVirtualSkillTree
         return $root_node;
     }
 
-    public function setIncludeDrafts(bool $a_val) : void
+    public function setIncludeDrafts(bool $a_val): void
     {
         $this->include_drafts = $a_val;
     }
 
-    public function getIncludeDrafts() : bool
+    public function getIncludeDrafts(): bool
     {
         return $this->include_drafts;
     }
 
-    public function setIncludeOutdated(bool $a_val) : void
+    public function setIncludeOutdated(bool $a_val): void
     {
         $this->include_outdated = $a_val;
     }
 
-    public function getIncludeOutdated() : bool
+    public function getIncludeOutdated(): bool
     {
         return $this->include_outdated;
     }
 
-    public function getNode(string $a_vtree_id) : array
+    public function getNode(string $a_vtree_id): array
     {
         $id_parts = explode(":", $a_vtree_id);
-        $skl_tree_id = $id_parts[0];
-        $skl_template_tree_id = $id_parts[1];
-    
-        if ($skl_template_tree_id == 0 || (ilSkillTemplateReference::_lookupTemplateId($skl_tree_id)
-                    == $skl_template_tree_id)) {
+        $skl_tree_id = (int) $id_parts[0];
+        $skl_template_tree_id = isset($id_parts[1]) ? (int) $id_parts[1] : 0;
+
+        if ($skl_template_tree_id == 0
+            || (ilSkillTemplateReference::_lookupTemplateId($skl_tree_id) == $skl_template_tree_id)) {
             $node_data = $this->tree->getNodeData($skl_tree_id);
             if (isset($node_data["parent"])) {
                 $node_data["parent"] = $node_data["parent"] . ":0";
@@ -125,11 +127,11 @@ class ilVirtualSkillTree
     /**
      * @return array{cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string, type: string}[]
      */
-    public function getChildsOfNode(string $a_parent_id) : array
+    public function getChildsOfNode(string $a_parent_id): array
     {
         $a_parent_id_parts = explode(":", $a_parent_id);
-        $a_parent_skl_tree_id = $a_parent_id_parts[0];
-        $a_parent_skl_template_tree_id = $a_parent_id_parts[1];
+        $a_parent_skl_tree_id = (int) $a_parent_id_parts[0];
+        $a_parent_skl_template_tree_id = isset($a_parent_id_parts[1]) ? (int) $a_parent_id_parts[1] : 0;
 
         if ($a_parent_skl_template_tree_id == 0) {
             $childs = $this->tree->getChildsByTypeFilter($a_parent_skl_tree_id, array("scat", "skll", "sktr"), "order_nr");
@@ -148,7 +150,7 @@ class ilVirtualSkillTree
                 $child_id = $c["child"] . ":0";
             } else {
                 // get template id for references
-                $child_id = $c["child"] . ":" . ilSkillTemplateReference::_lookupTemplateId($c["child"]);
+                $child_id = $c["child"] . ":" . ilSkillTemplateReference::_lookupTemplateId((int) $c["child"]);
             }
             unset($childs[$k]["child"]);
             unset($childs[$k]["skl_tree_id"]);
@@ -162,14 +164,14 @@ class ilVirtualSkillTree
             $childs[$k]["tref_id"] = $cid_parts[1];
             $childs[$k]["cskill_id"] = $cid;
             $childs[$k]["parent"] = $a_parent_id;
-            
+
             // @todo: prepare this for tref id?
-            if (ilSkillTreeNode::_lookupStatus($c["child"]) == ilSkillTreeNode::STATUS_DRAFT ||
+            if (ilSkillTreeNode::_lookupStatus((int) $c["child"]) == ilSkillTreeNode::STATUS_DRAFT ||
                 in_array($a_parent_id, $this->drafts)) {
                 $this->drafts[] = $child_id;
                 $drafts[] = $k;
             }
-            if (ilSkillTreeNode::_lookupStatus($c["child"]) == ilSkillTreeNode::STATUS_OUTDATED ||
+            if (ilSkillTreeNode::_lookupStatus((int) $c["child"]) == ilSkillTreeNode::STATUS_OUTDATED ||
                 in_array($a_parent_id, $this->outdated)) {
                 $this->outdated[] = $child_id;
                 $outdated[] = $k;
@@ -189,10 +191,10 @@ class ilVirtualSkillTree
         return $childs;
     }
 
-    public function getChildsOfNodeForCSkillId(string $a_cskill_id) : array
+    public function getChildsOfNodeForCSkillId(string $a_cskill_id): array
     {
         $id_parts = explode(":", $a_cskill_id);
-        if ($id_parts[1] == 0) {
+        if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             $id = $id_parts[0] . ":0";
         } else {
             $id = $id_parts[1] . ":" . $id_parts[0];
@@ -200,10 +202,10 @@ class ilVirtualSkillTree
         return $this->getChildsOfNode($id);
     }
 
-    public function getCSkillIdForVTreeId(string $a_vtree_id) : string
+    public function getCSkillIdForVTreeId(string $a_vtree_id): string
     {
         $id_parts = explode(":", $a_vtree_id);
-        if ($id_parts[1] == 0) {
+        if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             // skill in main tree
             $skill_id = $id_parts[0];
             $tref_id = 0;
@@ -215,10 +217,10 @@ class ilVirtualSkillTree
         return $skill_id . ":" . $tref_id;
     }
 
-    public function getVTreeIdForCSkillId(string $a_cskill_id) : string
+    public function getVTreeIdForCSkillId(string $a_cskill_id): string
     {
         $id_parts = explode(":", $a_cskill_id);
-        if ($id_parts[1] == 0) {
+        if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             $id = $id_parts[0] . ":0";
         } else {
             $id = $id_parts[1] . ":" . $id_parts[0];
@@ -226,53 +228,53 @@ class ilVirtualSkillTree
         return $id;
     }
 
-    public function getNodeTitle(array $a_node) : string
+    public function getNodeTitle(array $a_node): string
     {
         $lng = $this->lng;
 
         $a_parent_id_parts = explode(":", $a_node["id"]);
-        $a_parent_skl_tree_id = $a_parent_id_parts[0];
-        $a_parent_skl_template_tree_id = $a_parent_id_parts[1];
-        
+        $a_parent_skl_tree_id = (int) $a_parent_id_parts[0];
+        $a_parent_skl_template_tree_id = isset($a_parent_id_parts[1]) ? (int) $a_parent_id_parts[1] : 0;
+
         // title
         $title = $a_node["title"];
-        
+
         // root?
         if ($a_node["type"] == "skrt") {
             $lng->txt("skmg_skills");
         } elseif ($a_node["type"] == "sktr") {
             //				$title.= " (".ilSkillTreeNode::_lookupTitle($a_parent_skl_template_tree_id).")";
         }
-        
+
         return $title;
     }
 
     /**
-     * @return {cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string, type: string}[]
+     * @return array{cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string, type: string}[]
      */
-    public function getSubTreeForCSkillId(string $a_cskill_id, bool $a_only_basic = false) : array
+    public function getSubTreeForCSkillId(string $a_cskill_id, bool $a_only_basic = false): array
     {
         $id_parts = explode(":", $a_cskill_id);
-        if ($id_parts[1] == 0) {
+        if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             $id = $id_parts[0] . ":0";
         } else {
             $id = $id_parts[1] . ":" . $id_parts[0];
         }
-        
+
         $result = [];
 
         $node = $this->getNode($id);
         if (!$a_only_basic || in_array($node["type"], array("skll", "sktp")) ||
-            ($node["type"] == "sktr" && ilSkillTreeNode::_lookupType($node["skill_id"]) == "sktp")) {
+            ($node["type"] == "sktr" && ilSkillTreeNode::_lookupType((int) $node["skill_id"]) == "sktp")) {
             $result[] = $node;
         }
         return array_merge($result, $this->__getSubTreeRec($id, $a_only_basic));
     }
 
     /**
-     * @return {cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string, type: string}[]
+     * @return array{cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string, type: string}[]
      */
-    protected function __getSubTreeRec(string $id, bool $a_only_basic) : array
+    protected function __getSubTreeRec(string $id, bool $a_only_basic): array
     {
         $result = [];
         $childs = $this->getChildsOfNode($id);
@@ -281,18 +283,18 @@ class ilVirtualSkillTree
                 ($c["type"] == "sktr" && ilSkillTreeNode::_lookupType($c["skill_id"]) == "sktp")) {
                 $result[] = $c;
             }
-            $result = array_merge($result, $this->__getSubTreeRec((int) $c["id"], $a_only_basic));
+            $result = array_merge($result, $this->__getSubTreeRec($c["id"], $a_only_basic));
         }
 
         return $result;
     }
 
-    public function isDraft(string $a_node_id) : bool
+    public function isDraft(string $a_node_id): bool
     {
         return in_array($a_node_id, $this->drafts);
     }
 
-    public function isOutdated(string $a_node_id) : bool
+    public function isOutdated(string $a_node_id): bool
     {
         return in_array($a_node_id, $this->outdated);
     }
@@ -305,7 +307,7 @@ class ilVirtualSkillTree
      * @param string $a_tref_id_key if first parameter is array[], this string identifies the key of the tref id
      * @return string[]|array[]
      */
-    public function getOrderedNodeset(array $c_skill_ids, string $a_skill_id_key = "", string $a_tref_id_key = "") : array
+    public function getOrderedNodeset(array $c_skill_ids, string $a_skill_id_key = "", string $a_tref_id_key = ""): array
     {
         global $DIC;
 
@@ -326,8 +328,7 @@ class ilVirtualSkillTree
             $node_data = self::$order_node_data;
         }
 
-        uasort($c_skill_ids, function ($a, $b) use ($node_data, $a_skill_id_key, $a_tref_id_key) : int {
-
+        uasort($c_skill_ids, function ($a, $b) use ($node_data, $a_skill_id_key, $a_tref_id_key): int {
             // normalize to cskill strings
             if (is_array($a)) {
                 $cskilla = $a[$a_skill_id_key] . ":" . $a[$a_tref_id_key];
@@ -342,33 +343,35 @@ class ilVirtualSkillTree
             $vidb = explode(":", $this->getVTreeIdForCSkillId($cskillb));
 
             $ua = $this->getFirstUncommonAncestors($vida[0], $vidb[0], $node_data);
-            if (is_array($ua)) {
+            if (is_array($ua) && isset($node_data[$ua[0]]) && isset($node_data[$ua[1]])) {
                 return ($node_data[$ua[0]]["order_nr"] - $node_data[$ua[1]]["order_nr"]);
             }
             // if we did not find a first uncommon ancestor, we are in the same node in the
             // main tree, here, if we have tref ids, we let the template tree decide
             if ($vida[1] > 0 && $vidb[1] > 0) {
                 $ua = $this->getFirstUncommonAncestors($vida[1], $vidb[1], $node_data);
-                if (is_array($ua)) {
+                if (is_array($ua) && isset($node_data[$ua[0]]) && isset($node_data[$ua[1]])) {
                     return ($node_data[$ua[0]]["order_nr"] - $node_data[$ua[1]]["order_nr"]);
                 }
             }
 
             return 0;
         });
-        
+
         return $c_skill_ids;
     }
 
     /**
      * get path in node data
      */
-    protected function getPath(string $a, array $node_data) : array
+    protected function getPath(string $a, array $node_data): array
     {
         $path[] = $a;
-        while ($node_data[$a]["parent"] != 0) {
-            $a = $node_data[$a]["parent"];
-            $path[] = $a;
+        if (isset($node_data[$a]) && isset($node_data[$a]["parent"])) {
+            while ($node_data[$a]["parent"] != 0) {
+                $a = $node_data[$a]["parent"];
+                $path[] = $a;
+            }
         }
         return array_reverse($path);
     }

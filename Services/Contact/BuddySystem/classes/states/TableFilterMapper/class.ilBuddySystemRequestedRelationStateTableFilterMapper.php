@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,18 +16,17 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilBuddySystemRequestedRelationStateTableFilterMapper extends ilAbstractBuddySystemRelationStateTableFilterMapper
 {
-    /**
-     * @inheritDoc
-     */
-    public function optionsForState() : array
+    public function optionsForState(): array
     {
         return [
-            get_class($this->state) . '_a' => $this->lng->txt(
+            $this->state::class . '_a' => $this->lng->txt(
                 'buddy_bs_state_' . strtolower($this->state->getName()) . '_filter_a'
             ),
-            get_class($this->state) . '_p' => $this->lng->txt(
+            $this->state::class . '_p' => $this->lng->txt(
                 'buddy_bs_state_' . strtolower($this->state->getName()) . '_filter_p'
             ),
         ];
@@ -36,11 +35,11 @@ class ilBuddySystemRequestedRelationStateTableFilterMapper extends ilAbstractBud
     /**
      * @inheritDoc
      */
-    public function filterMatchesRelation(string $filterKey, ilBuddySystemRelation $relation) : bool
+    public function filterMatchesRelation(string $filter_key, ilBuddySystemRelation $relation): bool
     {
         return (
-            (strtolower($filterKey) === strtolower(get_class($this->state) . '_a') && $relation->isOwnedByActor()) ||
-            (strtolower($filterKey) === strtolower(get_class($this->state) . '_p') && !$relation->isOwnedByActor())
+            (strtolower($filter_key) === strtolower($this->state::class . '_a') && $relation->isOwnedByActor()) ||
+            (strtolower($filter_key) === strtolower($this->state::class . '_p') && !$relation->isOwnedByActor())
         );
     }
 }

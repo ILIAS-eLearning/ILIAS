@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Config class for page editing
@@ -24,6 +27,7 @@ abstract class ilPageConfig
     public const SEC_PROTECT_NONE = 0;          // page does not support section protection
     public const SEC_PROTECT_EDITABLE = 1;      // current use can edit protected sections
     public const SEC_PROTECT_PROTECTED = 2;     // current use cannot edit protected sections
+    protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
 
     protected bool $int_link_def_id_is_ref = false;
     protected ilLanguage $lng;
@@ -69,38 +73,53 @@ abstract class ilPageConfig
     {
         global $DIC;
 
+        $this->pc_definition = $DIC
+            ->copage()
+            ->internal()
+            ->domain()
+            ->pc()
+            ->definition();
         $this->lng = $DIC->language();
+        $this->loadPCDefs();
+        $this->adve_set = new ilSetting("adve");
+        $this->loadParentKey();
+        $this->init();
+    }
+
+    protected function loadPCDefs(): void
+    {
         // load pc_defs
-        $this->pc_defs = ilCOPagePCDef::getPCDefinitions();
+        $this->pc_defs = $this->pc_definition->getPCDefinitions();
         foreach ($this->pc_defs as $def) {
             $this->setEnablePCType($def["name"], (bool) $def["def_enabled"]);
         }
+    }
 
-        $this->adve_set = new ilSetting("adve");
+    protected function loadParentKey(): void
+    {
         $def = new ilCOPageObjDef();
         foreach ($def->getDefinitions() as $key => $def) {
             if (strtolower(get_class($this)) == strtolower($def["class_name"] . "Config")) {
                 $this->page_obj_key = $key;
             }
         }
-        $this->init();
     }
-    
-    public function init() : void
+
+    public function init(): void
     {
     }
-    
-    public function setEnablePCType(string $a_pc_type, bool $a_val) : void
+
+    public function setEnablePCType(string $a_pc_type, bool $a_val): void
     {
         $this->pc_enabled[$a_pc_type] = $a_val;
     }
-    
-    public function getEnablePCType(string $a_pc_type) : bool
+
+    public function getEnablePCType(string $a_pc_type): bool
     {
         return $this->pc_enabled[$a_pc_type];
     }
 
-    public function getEnabledTopPCTypes() : array
+    public function getEnabledTopPCTypes(): array
     {
         $types = [];
         foreach ($this->pc_defs as $def) {
@@ -111,37 +130,37 @@ abstract class ilPageConfig
         return $types;
     }
 
-    public function setEnableKeywords(bool $a_val) : void
+    public function setEnableKeywords(bool $a_val): void
     {
         $this->enable_keywords = $a_val;
     }
-    
-    public function getEnableKeywords() : bool
+
+    public function getEnableKeywords(): bool
     {
         return $this->enable_keywords;
     }
 
-    public function setEnableAnchors(bool $a_val) : void
+    public function setEnableAnchors(bool $a_val): void
     {
         $this->enable_anchors = $a_val;
     }
 
-    public function getEnableAnchors() : bool
+    public function getEnableAnchors(): bool
     {
         return $this->enable_anchors;
     }
 
-    public function setEnableInternalLinks(bool $a_enabledinternallinks) : void
+    public function setEnableInternalLinks(bool $a_enabledinternallinks): void
     {
         $this->enabledinternallinks = $a_enabledinternallinks;
     }
 
-    public function getEnableInternalLinks() : bool
+    public function getEnableInternalLinks(): bool
     {
         return $this->enabledinternallinks;
     }
 
-    public function getEnableUserLinks() : bool
+    public function getEnableUserLinks(): bool
     {
         if (!$this->getEnableInternalLinks()) {
             return false;
@@ -155,13 +174,13 @@ abstract class ilPageConfig
 
         return false;
     }
-    
-    public function setEnableWikiLinks(bool $a_enablewikilinks) : void
+
+    public function setEnableWikiLinks(bool $a_enablewikilinks): void
     {
         $this->enablewikilinks = $a_enablewikilinks;
     }
 
-    public function getEnableWikiLinks() : bool
+    public function getEnableWikiLinks(): bool
     {
         return $this->enablewikilinks;
     }
@@ -170,15 +189,15 @@ abstract class ilPageConfig
      * Add internal links filter
      * @param	string	internal links filter
      */
-    public function addIntLinkFilter(string $a_val) : void
+    public function addIntLinkFilter(string $a_val): void
     {
         $lng = $this->lng;
-        
+
         $this->setLocalizationLanguage($lng->getLangKey());
         $this->int_link_filter[] = $a_val;
     }
-    
-    public function removeIntLinkFilter(string $a_val) : void
+
+    public function removeIntLinkFilter(string $a_val): void
     {
         foreach ($this->int_link_filter as $k => $v) {
             if ($v == $a_val) {
@@ -186,8 +205,8 @@ abstract class ilPageConfig
             }
         }
     }
-    
-    public function getIntLinkFilters() : array
+
+    public function getIntLinkFilters(): array
     {
         return $this->int_link_filter;
     }
@@ -195,7 +214,7 @@ abstract class ilPageConfig
     /**
      * Set internal links filter type list to white list
      */
-    public function setIntLinkFilterWhiteList(bool $a_white_list) : void
+    public function setIntLinkFilterWhiteList(bool $a_white_list): void
     {
         $this->link_filter_white_list = $a_white_list;
         if ($a_white_list) {
@@ -203,54 +222,54 @@ abstract class ilPageConfig
         }
     }
 
-    public function getIntLinkFilterWhiteList() : bool
+    public function getIntLinkFilterWhiteList(): bool
     {
         return $this->link_filter_white_list;
     }
 
-    public function setPreventRteUsage(bool $a_val) : void
+    public function setPreventRteUsage(bool $a_val): void
     {
         $this->prevent_rte_usage = $a_val;
     }
 
-    public function getPreventRteUsage() : bool
+    public function getPreventRteUsage(): bool
     {
         return $this->prevent_rte_usage;
     }
-    
+
     /**
      * @param string $a_val lang key
      */
-    public function setLocalizationLanguage(string $a_val) : void
+    public function setLocalizationLanguage(string $a_val): void
     {
         $this->localization_lang = $a_val;
     }
-    
-    public function getLocalizationLanguage() : string
+
+    public function getLocalizationLanguage(): string
     {
         return $this->localization_lang;
     }
-    
-    public function setUseAttachedContent(bool $a_val) : void
+
+    public function setUseAttachedContent(bool $a_val): void
     {
         $this->use_attached_content = $a_val;
     }
-    
-    public function getUseAttachedContent() : bool
+
+    public function getUseAttachedContent(): bool
     {
         return $this->use_attached_content;
     }
-    
-    public function setIntLinkHelpDefaultType(string $a_val) : void
+
+    public function setIntLinkHelpDefaultType(string $a_val): void
     {
         $this->int_link_def_type = $a_val;
     }
-    
-    public function getIntLinkHelpDefaultType() : string
+
+    public function getIntLinkHelpDefaultType(): string
     {
         return $this->int_link_def_type;
     }
-    
+
     /**
      * Set internal link default id
      * @param int $a_val default object id
@@ -258,17 +277,17 @@ abstract class ilPageConfig
     public function setIntLinkHelpDefaultId(
         int $a_val,
         bool $a_is_ref = true
-    ) : void {
+    ): void {
         $this->int_link_def_id = $a_val;
         $this->int_link_def_id_is_ref = $a_is_ref;
     }
-    
-    public function getIntLinkHelpDefaultId() : int
+
+    public function getIntLinkHelpDefaultId(): int
     {
         return $this->int_link_def_id;
     }
 
-    public function getIntLinkHelpDefaultIdIsRef() : bool
+    public function getIntLinkHelpDefaultIdIsRef(): bool
     {
         return $this->int_link_def_id_is_ref;
     }
@@ -276,43 +295,43 @@ abstract class ilPageConfig
     /**
      * Set enabled page activation
      */
-    public function setEnableActivation(bool $a_val) : void
+    public function setEnableActivation(bool $a_val): void
     {
         $this->activation = $a_val;
     }
-    
-    public function getEnableActivation() : bool
+
+    public function getEnableActivation(): bool
     {
         return $this->activation;
     }
-    
-    public function setEnableScheduledActivation(bool $a_val) : void
+
+    public function setEnableScheduledActivation(bool $a_val): void
     {
         $this->scheduled_activation = $a_val;
     }
-    
-    public function getEnableScheduledActivation() : bool
+
+    public function getEnableScheduledActivation(): bool
     {
         return $this->scheduled_activation;
     }
-    
-    public function setEnablePageToc(bool $a_val) : void
+
+    public function setEnablePageToc(bool $a_val): void
     {
         $this->page_toc = $a_val;
     }
-    
-    public function getEnablePageToc() : bool
+
+    public function getEnablePageToc(): bool
     {
         return $this->page_toc;
     }
-    
+
     public function setPreventHTMLUnmasking(
         bool $a_preventhtmlunmasking
-    ) : void {
+    ): void {
         $this->preventhtmlunmasking = $a_preventhtmlunmasking;
     }
 
-    public function getPreventHTMLUnmasking() : bool
+    public function getPreventHTMLUnmasking(): bool
     {
         return true;
     }
@@ -320,13 +339,13 @@ abstract class ilPageConfig
     public function setEnableSelfAssessment(
         bool $a_enabledselfassessment,
         bool $a_scorm = true
-    ) : void {
+    ): void {
         $this->setEnablePCType("Question", $a_enabledselfassessment);
         $this->enabledselfassessment = $a_enabledselfassessment;
         $this->enabledselfassessment_scorm = $a_scorm;
     }
 
-    public function getEnableSelfAssessment() : bool
+    public function getEnableSelfAssessment(): bool
     {
         return $this->enabledselfassessment;
     }
@@ -334,78 +353,78 @@ abstract class ilPageConfig
     /**
      * Is self assessment used in SCORM mode?
      */
-    public function getEnableSelfAssessmentScorm() : bool
+    public function getEnableSelfAssessmentScorm(): bool
     {
         return $this->enabledselfassessment_scorm;
     }
-    
+
     /**
      * Set disable default question feedback
      */
-    public function setDisableDefaultQuestionFeedback(bool $a_val) : void
+    public function setDisableDefaultQuestionFeedback(bool $a_val): void
     {
         $this->disable_default_qfeedback = $a_val;
     }
-    
-    public function getDisableDefaultQuestionFeedback() : bool
+
+    public function getDisableDefaultQuestionFeedback(): bool
     {
         return $this->disable_default_qfeedback;
     }
-    
-    public function setMultiLangSupport(bool $a_val) : void
+
+    public function setMultiLangSupport(bool $a_val): void
     {
         $this->multi_lang_support = $a_val;
     }
-    
-    public function getMultiLangSupport() : bool
+
+    public function getMultiLangSupport(): bool
     {
         return $this->multi_lang_support;
     }
-    
+
     /**
      * Set single page mode
      * @param bool $a_val single page mode (only one page per parent_id)
      */
-    public function setSinglePageMode(bool $a_val) : void
+    public function setSinglePageMode(bool $a_val): void
     {
         $this->single_page_mode = $a_val;
     }
-    
-    public function getSinglePageMode() : bool
+
+    public function getSinglePageMode(): bool
     {
         return $this->single_page_mode;
     }
 
-    public function setQuestionHTML(array $question_html) : void
+    public function setQuestionHTML(array $question_html): void
     {
         $this->question_html = $question_html;
     }
 
-    public function getQuestionHTML() : array
+    public function getQuestionHTML(): array
     {
         return $this->question_html;
     }
-    
+
     /**
      * Set use stored answers/tries
      * @param bool $a_val use stored number of tries and given (correct) answers
      */
-    public function setUseStoredQuestionTries(bool $a_val) : void
+    public function setUseStoredQuestionTries(bool $a_val): void
     {
         $this->use_stored_tries = $a_val;
     }
-    
-    public function getUseStoredQuestionTries() : bool
+
+    public function getUseStoredQuestionTries(): bool
     {
         return $this->use_stored_tries;
     }
 
-    public function setEnablePermissionChecks(bool $a_val) : void
+    public function setEnablePermissionChecks(bool $a_val): void
     {
         $this->enable_permission_checks = $a_val;
     }
 
-    public function getEnablePermissionChecks() : bool
+    public function getEnablePermissionChecks(): bool
     {
         return $this->enable_permission_checks;
     }
@@ -413,12 +432,12 @@ abstract class ilPageConfig
     /**
      * @param $a_val  bool set edit lock support for pages
      */
-    public function setEditLockSupport(bool $a_val) : void
+    public function setEditLockSupport(bool $a_val): void
     {
         $this->edit_lock_support = $a_val;
     }
 
-    public function getEditLockSupport() : bool
+    public function getEditLockSupport(): bool
     {
         return $this->edit_lock_support;
     }
@@ -426,32 +445,32 @@ abstract class ilPageConfig
     /**
      * Set if page container css class should be used
      */
-    public function setUsePageContainer(bool $a_val) : void
+    public function setUsePageContainer(bool $a_val): void
     {
         $this->use_page_container = $a_val;
     }
 
-    public function getUsePageContainer() : bool
+    public function getUsePageContainer(): bool
     {
         return $this->use_page_container;
     }
 
-    public function setSectionProtection(int $a_val) : void
+    public function setSectionProtection(int $a_val): void
     {
         $this->section_protection = $a_val;
     }
 
-    public function getSectionProtection() : int
+    public function getSectionProtection(): int
     {
         return $this->section_protection;
     }
 
-    public function setSectionProtectionInfo(string $a_val) : void
+    public function setSectionProtectionInfo(string $a_val): void
     {
         $this->section_protection_info = $a_val;
     }
 
-    public function getSectionProtectionInfo() : string
+    public function getSectionProtectionInfo(): string
     {
         return $this->section_protection_info;
     }

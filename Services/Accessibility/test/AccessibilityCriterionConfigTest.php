@@ -9,12 +9,12 @@ use PHPUnit\Framework\TestCase;
  */
 class AccessibilityCriterionConfigTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 

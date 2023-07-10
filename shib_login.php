@@ -37,4 +37,3 @@ if (
     $DIC->ctrl()->setCmd('doShibbolethAuthentication');
     $DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
 }
-

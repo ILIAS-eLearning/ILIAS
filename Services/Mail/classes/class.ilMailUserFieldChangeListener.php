@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Services\Mail;
 
@@ -33,7 +35,7 @@ class ilMailUserFieldChangeListener extends UserFieldAttributesChangeListener
         $this->lng->loadLanguageModule('mail');
     }
 
-    public function getDescriptionForField(string $fieldName, string $attribute) : ?string
+    public function getDescriptionForField(string $fieldName, string $attribute): ?string
     {
         if ($fieldName === 'second_email' && $attribute === 'visible_second_email') {
             return sprintf(
@@ -46,7 +48,7 @@ class ilMailUserFieldChangeListener extends UserFieldAttributesChangeListener
         return null;
     }
 
-    public function getComponentName() : string
+    public function getComponentName(): string
     {
         return 'Services/Mail';
     }

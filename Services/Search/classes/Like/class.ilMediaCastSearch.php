@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,10 +36,10 @@
 
 class ilMediaCastSearch extends ilAbstractSearch
 {
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         // Search in glossary term
-        
+
         $this->setFields(array('title','content'));
 
         $where = $this->__createWhereCondition();
@@ -50,7 +52,12 @@ class ilMediaCastSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->context_obj_id, 'mcst', $this->__prepareFound($row), $row->id);
+            $this->search_result->addEntry(
+                (int) $row->context_obj_id,
+                'mcst',
+                $this->__prepareFound($row),
+                (int) $row->id
+            );
         }
         return $this->search_result;
     }

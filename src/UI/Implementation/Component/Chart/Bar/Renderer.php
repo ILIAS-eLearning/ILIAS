@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,8 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Chart\Bar;
 
@@ -31,7 +32,7 @@ use LogicException;
 
 class Renderer extends AbstractComponentRenderer
 {
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         /**
          * @var Bar\Bar $component
@@ -56,7 +57,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderHorizontal(
         Bar\Horizontal $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl = $this->getTemplate("tpl.bar_horizontal.html", true, true);
 
         $this->renderBasics($component, $tpl);
@@ -90,7 +91,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderVertical(
         Bar\Vertical $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl = $this->getTemplate("tpl.bar_vertical.html", true, true);
 
         $this->renderBasics($component, $tpl);
@@ -121,7 +122,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderBasics(Bar\Bar $component, Template $tpl) : void
+    protected function renderBasics(Bar\Bar $component, Template $tpl): void
     {
         $tpl->setVariable("TITLE", $component->getTitle());
         $height = "";
@@ -133,12 +134,15 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("HEIGHT", $height);
     }
 
-    protected function determineHeightForHorizontal(Bar\Bar $component) : string
+    protected function determineHeightForHorizontal(Bar\Bar $component): string
     {
-        $min_height = 300;
+        $min_height = 150;
         $max_height = 900;
         $item_count = count($component->getDataset()->getPoints());
         $height = $min_height + ($item_count - 2) * 50;
+        if ($height < $min_height) {
+            $height = $min_height;
+        }
         if ($height > $max_height) {
             $height = $max_height;
         }
@@ -146,9 +150,9 @@ class Renderer extends AbstractComponentRenderer
         return $height . "px";
     }
 
-    protected function determineHeightForVertical(Bar\Bar $component) : string
+    protected function determineHeightForVertical(Bar\Bar $component): string
     {
-        $min_height = 300;
+        $min_height = 150;
         $max_height = 900;
         $data_max = $this->getHighestValueOfChart($component) - $this->getLowestValueOfChart($component);
         $height = $min_height + ($data_max / 10) * 50;
@@ -161,7 +165,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function getAccessibilityList(
         Bar\Bar $component
-    ) : Component\Listing\Descriptive {
+    ): Component\Listing\Descriptive {
         $ui_fac = $this->getUIFactory();
 
         $points_per_dimension = $component->getDataset()->getPointsPerDimension();
@@ -204,7 +208,7 @@ class Renderer extends AbstractComponentRenderer
         return $list;
     }
 
-    public function getLowestValueOfChart(Bar\Bar $component) : int
+    public function getLowestValueOfChart(Bar\Bar $component): int
     {
         $min = null;
         $new_min = 0;
@@ -224,7 +228,7 @@ class Renderer extends AbstractComponentRenderer
         return (int) $min;
     }
 
-    public function getHighestValueOfChart(Bar\Bar $component) : int
+    public function getHighestValueOfChart(Bar\Bar $component): int
     {
         $max = null;
         $new_max = 0;
@@ -244,7 +248,7 @@ class Renderer extends AbstractComponentRenderer
         return (int) $max;
     }
 
-    protected function reformatValueLabels(array $labels) : array
+    protected function reformatValueLabels(array $labels): array
     {
         $index = 0;
         $new_labels = [];
@@ -256,7 +260,7 @@ class Renderer extends AbstractComponentRenderer
         return $new_labels;
     }
 
-    protected function getParsedOptions(Bar\Bar $component) : stdClass
+    protected function getParsedOptions(Bar\Bar $component): stdClass
     {
         $options = new stdClass();
         $options->indexAxis = $component->getIndexAxis();
@@ -282,7 +286,7 @@ class Renderer extends AbstractComponentRenderer
         return $options;
     }
 
-    protected function getParsedOptionsForHorizontal(Bar\Bar $component) : stdClass
+    protected function getParsedOptionsForHorizontal(Bar\Bar $component): stdClass
     {
         $scales = new stdClass();
         $scales->y = new stdClass();
@@ -314,7 +318,7 @@ class Renderer extends AbstractComponentRenderer
         return $scales;
     }
 
-    protected function getParsedOptionsForVertical(Bar\Bar $component) : stdClass
+    protected function getParsedOptionsForVertical(Bar\Bar $component): stdClass
     {
         $scales = new stdClass();
         $scales->x = new stdClass();
@@ -346,7 +350,7 @@ class Renderer extends AbstractComponentRenderer
         return $scales;
     }
 
-    protected function getParsedData(Bar\Bar $component) : stdClass
+    protected function getParsedData(Bar\Bar $component): stdClass
     {
         $data = new stdClass();
         $data->datasets = new stdClass();
@@ -363,7 +367,7 @@ class Renderer extends AbstractComponentRenderer
         return $data;
     }
 
-    protected function getUserData(Bar\Bar $component) : array
+    protected function getUserData(Bar\Bar $component): array
     {
         $points_per_dimension = $component->getDataset()->getPointsPerDimension();
         $dimensions = $component->getDataset()->getDimensions();
@@ -409,14 +413,14 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./node_modules/chart.js/dist/chart.min.js');
         $registry->register('./src/UI/templates/js/Chart/Bar/dist/bar.js');
     }
 
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return [Bar\Bar::class];
     }

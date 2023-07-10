@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -20,14 +36,14 @@ class SortationTest extends ILIAS_UI_TestBase
         'date_asc' => 'Oldest',
     ];
 
-    private function getFactory() : I\Component\ViewControl\Factory
+    private function getFactory(): I\Component\ViewControl\Factory
     {
         return new I\Component\ViewControl\Factory(
             new SignalGenerator()
         );
     }
 
-    public function testConstruction() : void
+    public function testConstruction(): void
     {
         $f = $this->getFactory();
         $sortation = $f->sortation($this->options);
@@ -35,7 +51,7 @@ class SortationTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Signal", $sortation->getSelectSignal());
     }
 
-    public function testAttributes() : void
+    public function testAttributes(): void
     {
         $f = $this->getFactory();
         $s = $f->sortation($this->options);
@@ -54,17 +70,17 @@ class SortationTest extends ILIAS_UI_TestBase
         $this->assertEquals($signal, $s->withOnSort($signal)->getTriggeredSignals()[0]->getSignal());
     }
 
-    public function testRendering() : void
+    public function testRendering(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
         $s = $f->sortation($this->options);
 
-        $html = $this->normalizeHTML($r->render($s));
+        $html = $this->brutallyTrimHTML($r->render($s));
         $this->assertEquals($this->getSortationExpectedHTML(true), $html);
     }
 
-    public function testRenderingWithJsBinding() : void
+    public function testRenderingWithJsBinding(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -72,42 +88,46 @@ class SortationTest extends ILIAS_UI_TestBase
             return "";
         });
 
-        $html = $this->normalizeHTML($r->render($s));
+        $html = $this->brutallyTrimHTML($r->render($s));
         $this->assertEquals($this->getSortationExpectedHTML(true), $html);
     }
 
-    protected function getSortationExpectedHTML(bool $with_id = false) : string
+    protected function getSortationExpectedHTML(bool $with_id = false): string
     {
         $id = "";
         $button1_id = "id_1";
         $button2_id = "id_2";
         $button3_id = "id_3";
+        $dropdown_id = "id_4";
 
         if ($with_id) {
             $id = "id=\"id_1\"";
             $button1_id = "id_2";
             $button2_id = "id_3";
             $button3_id = "id_4";
+            $dropdown_id = "id_5";
         }
 
+        $dropdown_menu_id = $dropdown_id."_menu";
+
         $expected = <<<EOT
-<div class="il-viewcontrol-sortation" $id><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button><ul class="dropdown-menu">
+<div class="il-viewcontrol-sortation" $id><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="$dropdown_id" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="$dropdown_menu_id" > <span class="caret"></span></button><ul id="$dropdown_menu_id" class="dropdown-menu">
 	<li><button class="btn btn-link" data-action="?sortation=internal_rating" id="$button1_id">Best</button></li>
 	<li><button class="btn btn-link" data-action="?sortation=date_desc" id="$button2_id">Most Recent</button></li>
 	<li><button class="btn btn-link" data-action="?sortation=date_asc" id="$button3_id">Oldest</button></li></ul></div>
 </div>
 EOT;
-        return $this->normalizeHTML($expected);
+        return $this->brutallyTrimHTML($expected);
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function button() : C\Button\Factory
+        return new class () extends NoUIFactory {
+            public function button(): C\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
-            public function dropdown() : C\Dropdown\Factory
+            public function dropdown(): C\Dropdown\Factory
             {
                 return new I\Component\Dropdown\Factory();
             }

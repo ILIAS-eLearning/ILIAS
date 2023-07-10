@@ -26,7 +26,7 @@ class ReadingTimeDBRepo
         $this->db = $DIC->database();
     }
 
-    public function isActivated(int $lm_id) : bool
+    public function isActivated(int $lm_id): bool
     {
         $db = $this->db;
         $set = $db->queryF(
@@ -41,7 +41,7 @@ class ReadingTimeDBRepo
         return false;
     }
 
-    public function activate(int $lm_id, bool $activated) : void
+    public function activate(int $lm_id, bool $activated): void
     {
         $db = $this->db;
         $db->update(
@@ -55,7 +55,7 @@ class ReadingTimeDBRepo
         );
     }
 
-    public function saveReadingTime(int $lm_id, int $reading_time) : void
+    public function saveReadingTime(int $lm_id, int $reading_time): void
     {
         $db = $this->db;
         $db->update(
@@ -69,7 +69,7 @@ class ReadingTimeDBRepo
         );
     }
 
-    public function getReadingTime(int $lm_id) : ?int
+    public function getReadingTime(int $lm_id): ?int
     {
         if (!isset(self::$times[$lm_id])) {
             $this->loadData([$lm_id]);
@@ -77,7 +77,7 @@ class ReadingTimeDBRepo
         return self::$times[$lm_id];
     }
 
-    public function loadData(array $lm_ids) : void
+    public function loadData(array $lm_ids): void
     {
         $db = $this->db;
         $set = $db->queryF(

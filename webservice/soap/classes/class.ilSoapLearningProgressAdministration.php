@@ -12,7 +12,7 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 class ilSoapLearningProgressAdministration extends ilSoapAdministration
 {
     /** @var string[] */
-    protected static $DELETE_PROGRESS_FILTER_TYPES = ['sahs', 'tst'];
+    protected static array $DELETE_PROGRESS_FILTER_TYPES = ['sahs', 'tst'];
 
     public const PROGRESS_FILTER_ALL = 0;
     public const PROGRESS_FILTER_IN_PROGRESS = 1;
@@ -28,7 +28,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
     public const SOAP_LP_ERROR_LP_NOT_ENABLED = 60;
 
     /** @var int[] */
-    protected static $PROGRESS_INFO_TYPES = [
+    protected static array $PROGRESS_INFO_TYPES = [
         self::PROGRESS_FILTER_ALL,
         self::PROGRESS_FILTER_IN_PROGRESS,
         self::PROGRESS_FILTER_COMPLETED,
@@ -39,10 +39,9 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
     public const USER_FILTER_ALL = -1;
 
     /**
-     * Delete progress of users and objects
-     * Implemented for
+     * @return bool|soap_fault|SoapFault|null
      */
-    public function deleteProgress(string $sid, array $ref_ids, $usr_ids, $type_filter, array $progress_filter)
+    public function deleteProgress(string $sid, array $ref_ids, array $usr_ids, array $type_filter, array $progress_filter)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -58,7 +57,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        if (array_diff((array) $type_filter, self::$DELETE_PROGRESS_FILTER_TYPES)) {
+        if (array_diff($type_filter, self::$DELETE_PROGRESS_FILTER_TYPES)) {
             return $this->raiseError('Invalid filter type given', 'Client');
         }
 
@@ -118,7 +117,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
             }
 
             // filter users
-            $valid_users = $this->applyProgressFilter($obj->getId(), (array) $usr_ids, $progress_filter);
+            $valid_users = $this->applyProgressFilter($obj->getId(), $usr_ids, $progress_filter);
 
             switch ($obj->getType()) {
                 case 'sahs':
@@ -152,8 +151,6 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
     }
 
     /**
-     * @param string $sid
-     * @param int    $a_ref_id
      * @param int[]  $a_progress_filter
      * @return soap_fault|SoapFault|string
      */
@@ -384,7 +381,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         return $writer->xmlDumpMem();
     }
 
-    protected function addUserProgress(ilXmlWriter $writer, array $users, int $a_type) : void
+    protected function addUserProgress(ilXmlWriter $writer, array $users, int $a_type): void
     {
         foreach ($users as $user_id) {
             $writer->xmlStartTag(
@@ -410,7 +407,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
      * @param array $filter
      * @return array $filtered_users
      */
-    protected function applyProgressFilter(int $obj_id, array $usr_ids, array $filter) : array
+    protected function applyProgressFilter(int $obj_id, array $usr_ids, array $filter): array
     {
         include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 
@@ -453,7 +450,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
     /**
      * Delete SCORM Tracking
      */
-    protected function deleteScormTracking(int $a_obj_id, array $a_usr_ids) : bool
+    protected function deleteScormTracking(int $a_obj_id, array $a_usr_ids): bool
     {
         global $DIC;
 
@@ -469,7 +466,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
     /**
      * Delete scorm 2004 tracking
      */
-    protected function deleteScorm2004Tracking(int $a_obj_id, array $a_usr_ids) : void
+    protected function deleteScorm2004Tracking(int $a_obj_id, array $a_usr_ids): void
     {
         global $DIC;
 
@@ -492,9 +489,10 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
     }
 
     /**
-     * Get learning progress changes
+     * @param string[] $type_filter
+     * @return soap_fault|SoapFault|string|null
      */
-    public function getLearningProgressChanges(string $sid, string $timestamp, bool $include_ref_ids, $type_filter)
+    public function getLearningProgressChanges(string $sid, string $timestamp, bool $include_ref_ids, array $type_filter)
     {
         $this->initAuth($sid);
         $this->initIlias();

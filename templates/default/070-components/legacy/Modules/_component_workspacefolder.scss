@@ -1,0 +1,13 @@
+@use "../../../010-settings/" as *;
+
+/* Modules/WorkspaceFolder */
+
+#tbl_wfld.table-striped > tbody > tr > td {
+	background-color: transparent;
+}
+
+.ilWspContainerListFooter {
+	background-color: $il-main-dark-bg;
+	margin: 0px -15px -15px -15px;
+	padding: 5px 25px;
+}

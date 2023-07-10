@@ -33,7 +33,7 @@ require_once('./libs/composer/vendor/autoload.php');
 class IdentificationFactoryTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
-    const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
+    public const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
     /**
      * @var Mockery\MockInterface|ProviderFactory
      */
@@ -52,7 +52,7 @@ class IdentificationFactoryTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -70,7 +70,7 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testAvailableMethods() : void
+    public function testAvailableMethods(): void
     {
         $r = new ReflectionClass($this->identification);
 
@@ -92,14 +92,14 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testCore() : void
+    public function testCore(): void
     {
         $this->assertInstanceOf(IdentificationProviderInterface::class, $this->identification->core($this->provider_mock));
         $this->assertInstanceOf(IdentificationInterface::class, $this->identification->core($this->provider_mock)->identifier('dummy'));
     }
 
 
-    public function testPlugin() : void
+    public function testPlugin(): void
     {
         $this->plugin_mock->shouldReceive('getId')->once()->andReturn('xdemo');
         $identification_provider = $this->identification->plugin($this->plugin_mock->getId(), $this->provider_mock);
@@ -109,7 +109,7 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testSerializingCore() : void
+    public function testSerializingCore(): void
     {
         $identification = $this->identification->core($this->provider_mock)->identifier('dummy');
         $this->assertInstanceOf(Serializable::class, $identification);
@@ -117,7 +117,7 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testUnserializingCore() : void
+    public function testUnserializingCore(): void
     {
         $identification = $this->identification->core($this->provider_mock)->identifier('dummy');
         $serialized_identification = $identification->serialize();
@@ -127,7 +127,7 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testUnserializingPlugin() : void
+    public function testUnserializingPlugin(): void
     {
         $this->plugin_mock->shouldReceive('getId')->once()->andReturn('xdemo');
         $identification = $this->identification->plugin($this->plugin_mock->getId(), $this->provider_mock)->identifier('dummy');
@@ -138,7 +138,7 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testUnserializingFailsSinceNobpbyCanhandleTheString() : void
+    public function testUnserializingFailsSinceNobpbyCanhandleTheString(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("Nobody can handle serialized identification 'ThisStringWillNobodyHandle'.");
@@ -146,7 +146,7 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testFactoryMustReturnCorrectTypeCore() : void
+    public function testFactoryMustReturnCorrectTypeCore(): void
     {
         $class_name = self::MOCKED_PROVIDER_CLASSNAME;
         $internal_identifier = "internal_identifier";
@@ -160,7 +160,7 @@ class IdentificationFactoryTest extends TestCase
     }
 
 
-    public function testFactoryMustReturnCorrectTypePlugin() : void
+    public function testFactoryMustReturnCorrectTypePlugin(): void
     {
         $class_name = self::MOCKED_PROVIDER_CLASSNAME;
         $internal_identifier = "internal_identifier";

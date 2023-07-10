@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
@@ -12,11 +14,10 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  */
 class ilMMTypeHandlerSeparator implements TypeHandler
 {
-
     /**
      * @inheritDoc
      */
-    public function matchesForType() : string
+    public function matchesForType(): string
     {
         return Separator::class;
     }
@@ -25,7 +26,7 @@ class ilMMTypeHandlerSeparator implements TypeHandler
     /**
      * @inheritDoc
      */
-    public function enrichItem(isItem $item) : isItem
+    public function enrichItem(isItem $item): isItem
     {
         if ($item instanceof Separator && $item->getTitle() !== "") {
             $item = $item->withVisibleTitle(true);
@@ -38,7 +39,7 @@ class ilMMTypeHandlerSeparator implements TypeHandler
     /**
      * @inheritDoc
      */
-    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification) : array
+    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification): array
     {
         return array();
     }
@@ -47,7 +48,7 @@ class ilMMTypeHandlerSeparator implements TypeHandler
     /**
      * @inheritDoc
      */
-    public function saveFormFields(IdentificationInterface $identification, array $data) : bool
+    public function saveFormFields(IdentificationInterface $identification, array $data): bool
     {
         return true;
     }

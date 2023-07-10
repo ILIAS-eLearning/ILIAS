@@ -18,11 +18,11 @@
 <!-- BEGIN filter_section -->
 <div class="ilTableFilterSec" id = "tfil_{FIL_ID}" style="display:none;">
 <fieldset class="ilTableFilter">
-<legend class="ilTableFilter"><!--{TXT_FILTER}-->
-<!-- BEGIN filter_deactivation -->
-<a href="#" class="ilTableFilterDeactivator btn btn-link" id = "dtfil_{FILD_ID}" onclick="return ilHideTableFilter('tfil_{FILD_ID}', '{SAVE_URL}');">{TXT_HIDE}</a>
-<!-- END filter_deactivation -->
+<legend class="ilTableFilter sr-only">{TXT_FILTER}
 </legend>
+<!-- BEGIN filter_deactivation --><div class="ilFloatRight">
+<button href="#" class="ilTableFilterDeactivator btn btn-link" id = "dtfil_{FILD_ID}" onclick="return ilHideTableFilter('tfil_{FILD_ID}', '{SAVE_URL}');">{TXT_HIDE}</button></div>
+<!-- END filter_deactivation -->
 <!-- BEGIN filter_select -->
 <input type="submit" class="btn btn-default" name="cmd[{HIDDEN_CMD_APPLY}]" style="display:none;" />
 <div class="small" style="margin-bottom:5px;">{FILTER_SELECTOR}</div>
@@ -67,16 +67,9 @@
 	</td>
 	<td class="ilWhiteSpaceNowrap ilRight">
 	<!-- BEGIN filter_activation -->
-	<a class="btn btn-link ilTableFilterActivator" id = "atfil_{FILA_ID}" href="#" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</a>
+		<div class="btn-group"><button class="btn btn-link ilTableFilterActivator" id = "atfil_{FILA_ID}" href="#" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</button></div>
 	<!-- END filter_activation -->
-	<!-- BEGIN filter_hidden -->
-	<script>
-	ilTableHideFilter['atfil_{FI_ID}'] = true;
-	ilTableHideFilter['tfil_{FI_ID}'] = true;
-	ilTableHideFilter['dtfil_{FI_ID}'] = true;
-	</script>
-	<!-- END filter_hidden -->
-		
+
 	{COLUMN_SELECTOR} {ROW_SELECTOR} {TEMPLATE_SELECTOR} {EXPORT_SELECTOR}
 
 	<!-- BEGIN template_editor -->
@@ -99,7 +92,7 @@
 		</div>
 	</div>
     <!-- END template_editor_delete -->
-	
+
 	</td>
 	</tr></table>
 </div>
@@ -155,11 +148,15 @@
   <tr>
 	  <!-- BEGIN tbl_header_th -->
 	  <!-- BEGIN tbl_header_top_select_all -->
-	  <th>
-		  <input type="checkbox" name="{HEAD_CHECKBOXNAME}" id="{HEAD_CHECKBOXNAME}" value="1"
+	  <td>
+		  <input type="checkbox" name="{HEAD_CHECKBOXNAME}" id="{HEAD_CHECKBOXNAME}" value="1" title='{HEAD_SELECT_ALL_TXT_SELECT_ALL}'
 				 onClick="il.Util.setChecked('{HEAD_SELECT_ALL_FORM_NAME}', '{HEAD_SELECT_ALL_CHECKBOX_NAME}', document.forms['{HEAD_SELECT_ALL_FORM_NAME}'].elements['{HEAD_CHECKBOXNAME}'].checked);" />
-	  </th>
+	  </td>
 	  <!-- END tbl_header_top_select_all -->
+      <!-- BEGIN tbl_header_top_select_column -->
+	  <td {TBL_COLUMN_WIDTH}>
+	  </td>
+	  <!-- END tbl_header_top_select_column -->
 <!-- BEGIN tbl_header_no_link -->
 		<th {TBL_COLUMN_WIDTH_NO_LINK} {TBL_COLUMN_CLASS_NO_LINK}><span id="{HEAD_CELL_NL_ID}">{TBL_HEADER_CELL_NO_LINK}</span></th>
 <!-- END tbl_header_no_link -->
@@ -167,7 +164,7 @@
     <th {TBL_COLUMN_WIDTH} {TBL_COLUMN_CLASS}>
 	  <a class="tblheader" href="{TBL_ORDER_LINK}" title="{TBL_ORDER_ALT}"><span id="{HEAD_CELL_ID}">{TBL_HEADER_CELL}</span>
 <!-- BEGIN tbl_order_image -->
-	  <span class="{ORDER_CLASS}"></span>
+		  <span class="{ORDER_CLASS}"><span class="sr-only">{ORDER_TXT}</span></span>
 <!-- END tbl_order_image -->
 	  </a>
 	</th>
@@ -247,7 +244,7 @@
 <!-- BEGIN outer_end_2 --></div><!-- END outer_end_2 -->
 <!-- BEGIN tbl_footer -->
 <div class="ilTableNav{BLK_CLASS} hidden-print">
-	<div class="ilLeft" style="margin-top:5px;">
+	<div class="ilLeft ilValignMiddle">
 	<!-- BEGIN tbl_footer_numinfo -->
 	<span class="ilTableFootLight">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;
 	<!-- END tbl_footer_numinfo -->

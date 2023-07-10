@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+
 /**
  * Class ilMMTypeActionStorage
  *
@@ -20,7 +25,6 @@
  */
 class ilMMTypeActionStorage extends CachedActiveRecord
 {
-
     /**
      * @con_is_primary true
      * @con_is_unique  true
@@ -50,7 +54,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
     /**
      * @return string
      */
-    public function getIdentification() : string
+    public function getIdentification(): string
     {
         return $this->identification;
     }
@@ -61,7 +65,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
      *
      * @return ilMMTypeActionStorage
      */
-    public function setIdentification(string $identification) : ilMMTypeActionStorage
+    public function setIdentification(string $identification): ilMMTypeActionStorage
     {
         $this->identification = $identification;
 
@@ -72,7 +76,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
     /**
      * @return string
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->action;
     }
@@ -83,7 +87,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
      *
      * @return ilMMTypeActionStorage
      */
-    public function setAction(string $action) : ilMMTypeActionStorage
+    public function setAction(string $action): ilMMTypeActionStorage
     {
         $this->action = $action;
 
@@ -94,7 +98,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
     /**
      * @return bool
      */
-    public function isExternal() : bool
+    public function isExternal(): bool
     {
         return $this->external;
     }
@@ -105,7 +109,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
      *
      * @return ilMMTypeActionStorage
      */
-    public function setExternal(bool $external) : ilMMTypeActionStorage
+    public function setExternal(bool $external): ilMMTypeActionStorage
     {
         $this->external = $external;
 
@@ -113,19 +117,11 @@ class ilMMTypeActionStorage extends CachedActiveRecord
     }
 
 
-    /**
-     * @inheritDoc
-     */
-    public function getCache() : ilGlobalCache
-    {
-        return ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
-    }
-
 
     /**
      * @return ilMMTypeActionStorage
      */
-    public static function find($primary_key, array $add_constructor_args = array()) : ilMMTypeActionStorage
+    public static function find($primary_key, array $add_constructor_args = array()): ilMMTypeActionStorage
     {
         $parent = parent::find($primary_key, $add_constructor_args);
         if ($parent === null) {

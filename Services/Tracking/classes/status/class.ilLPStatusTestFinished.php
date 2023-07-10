@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -8,7 +10,7 @@
  */
 class ilLPStatusTestFinished extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         global $DIC;
 
@@ -35,7 +37,7 @@ class ilLPStatusTestFinished extends ilLPStatus
         return array_values($user_ids);
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         global $DIC;
 
@@ -61,7 +63,7 @@ class ilLPStatusTestFinished extends ilLPStatus
         return array_values($user_ids);
     }
 
-    public static function _getNotAttempted(int $a_obj_id) : array
+    public static function _getNotAttempted(int $a_obj_id): array
     {
         global $DIC;
 
@@ -112,7 +114,7 @@ class ilLPStatusTestFinished extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\CI\Rector;
 
 use PhpParser\Node;
@@ -27,8 +27,8 @@ use Rector\NodeTypeResolver\Node\AttributeKey as AttributeKeys;
 
 final class ChangeLicenseHeader extends AbstractRector
 {
-    const EXISTING_LICENSE_PATTERN = '(copyright|Copyright|GPL-3\.0|GPLv3|LICENSE)';
-    const IGNORE_SUBPATHS = '(lib|vendor|data|Customizing)';
+    public const EXISTING_LICENSE_PATTERN = '(copyright|Copyright|GPL-3\.0|GPLv3|LICENSE)';
+    public const IGNORE_SUBPATHS = '(lib|vendor|data|Customizing)';
     private string $license_header_default = "/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -44,25 +44,31 @@ final class ChangeLicenseHeader extends AbstractRector
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- ";
-    
+";
+
     private Comment $standard_comment;
     private array $previous_search = [
+        Node\Stmt\If_::class,
+        Node\Expr\Empty_::class,
+        Node\Stmt\Global_::class,
         Node\Expr\Include_::class,
         Node\Stmt\Use_::class,
-        Node\Expr\Include_::class,
-        Node\Stmt\Namespace_::class
+        Node\Stmt\Namespace_::class,
+        Node\Name::class,
+        Node\Stmt\Class_::class,
+        Node\Stmt\Expression::class,
+        Node\Stmt\Declare_::class,
     ];
-    
+
     public function __construct()
     {
         $this->standard_comment = new Comment($this->license_header_default);
     }
-    
+
     /**
      * @return class-string[]
      */
-    public function getNodeTypes() : array
+    public function getNodeTypes(): array
     {
         return [
             Node\Stmt\Class_::class,
@@ -70,38 +76,42 @@ final class ChangeLicenseHeader extends AbstractRector
             Node\Stmt\Trait_::class
         ];
     }
-    
+
     /**
      * @param Node\Stmt\Global_ $node
      */
-    public function refactor(Node $node) : ?Node
+    public function refactor(Node $node)
     {
-        if (preg_match(self::IGNORE_SUBPATHS, $this->file->getSmartFileInfo()->getPathname()) > 0) {
+        if (preg_match(self::IGNORE_SUBPATHS, $this->file->getFilePath()) > 0) {
             return $node;
         }
         $node->setAttribute('comments', $this->filterComments($node));
         $current = $node;
-        $previous = $node->getAttribute(AttributeKeys::PREVIOUS_STATEMENT);
-        while (is_object($previous) && in_array(get_class($previous), $this->previous_search)) {
+        $previous = $node->getAttribute(AttributeKeys::PREVIOUS_NODE);
+        while (is_object($previous) && in_array($previous::class, $this->previous_search)) {
+            if ($previous instanceof \PhpParser\Node\Name) {
+                $previous = $previous->getAttribute(AttributeKeys::PARENT_NODE);
+            }
+            if ($previous instanceof Node\Expr\Empty_) {
+                $this->removeNode($previous);
+            }
             $current = $previous;
             $current->setAttribute(
                 AttributeKeys::COMMENTS,
                 $this->filterComments($current)
             );
-            $previous = $current->getAttribute(AttributeKeys::PREVIOUS_STATEMENT);
+            $previous = $current->getAttribute(AttributeKeys::PREVIOUS_NODE);
         }
-        
+
         $current->setAttribute(AttributeKeys::COMMENTS, $this->filterComments($current, [$this->standard_comment]));
-        
-        
+
         return $node;
     }
-    
+
     /**
-     * @param Node $node
      * @return Comment[]
      */
-    private function filterComments(Node $node, array $default = []) : array
+    private function filterComments(Node $node, array $default = []): array
     {
         foreach ($node->getComments() as $comment) {
             if (preg_match(self::EXISTING_LICENSE_PATTERN, $comment->getText()) > 0) {
@@ -111,14 +121,14 @@ final class ChangeLicenseHeader extends AbstractRector
         }
         return $default;
     }
-    
-    public function getRuleDefinition() : RuleDefinition
+
+    public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
             'Adds or replaces a license-header in each class-file',
             [
                 new CodeSample(
-                // code before
+                    // code before
                     '',
                     // code after
                     ''

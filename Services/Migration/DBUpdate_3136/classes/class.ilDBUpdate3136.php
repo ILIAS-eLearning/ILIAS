@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,14 +38,14 @@ class ilDBUpdate3136
         string $type,
         string $tag,
         int $hide = 0
-    ) : void {
+    ): void {
         global $ilDB;
         $db = $ilDB;
 
         $sql =
             "SELECT obj_id" . PHP_EOL
-            ."FROM object_data" . PHP_EOL
-            ."WHERE type = 'sty'" . PHP_EOL
+            . "FROM object_data" . PHP_EOL
+            . "WHERE type = 'sty'" . PHP_EOL
         ;
         $set = $db->query($sql);
 
@@ -93,7 +95,7 @@ class ilDBUpdate3136
             }
         }
     }
-    
+
     /**
      * Add style class
      *
@@ -105,7 +107,7 @@ class ilDBUpdate3136
         string $tag,
         array $parameters = [],
         int $hide = 0
-    ) : void {
+    ): void {
         global $ilDB;
         $db = $ilDB;
 

@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Information\Repository;
 
@@ -6,35 +24,21 @@ use ILIAS\ResourceStorage\Information\FileInformation;
 use ILIAS\ResourceStorage\Information\Information;
 use ILIAS\ResourceStorage\Revision\Revision;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Interface InformationDBRepository
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 class InformationDBRepository implements InformationRepository
 {
-    const TABLE_NAME = 'il_resource_info';
-    const IDENTIFICATION = 'rid';
-
-    protected \ilDBInterface $db;
+    public const TABLE_NAME = 'il_resource_info';
+    public const IDENTIFICATION = 'rid';
 
     /**
      * @var mixed[]
      */
     protected array $cache = [];
+    protected \ilDBInterface $db;
 
     public function __construct(\ilDBInterface $db)
     {
@@ -44,7 +48,7 @@ class InformationDBRepository implements InformationRepository
     /**
      * @return string[]
      */
-    public function getNamesForLocking() : array
+    public function getNamesForLocking(): array
     {
         return [self::TABLE_NAME];
     }
@@ -52,7 +56,7 @@ class InformationDBRepository implements InformationRepository
     /**
      * @inheritDoc
      */
-    public function blank() : Information
+    public function blank(): Information
     {
         return new FileInformation();
     }
@@ -60,7 +64,7 @@ class InformationDBRepository implements InformationRepository
     /**
      * @inheritDoc
      */
-    public function store(Information $information, Revision $revision) : void
+    public function store(Information $information, Revision $revision): void
     {
         $rid = $revision->getIdentification()->serialize();
         $r = $this->db->queryF(
@@ -112,7 +116,7 @@ class InformationDBRepository implements InformationRepository
     /**
      * @inheritDoc
      */
-    public function get(Revision $revision) : Information
+    public function get(Revision $revision): Information
     {
         $rid = $revision->getIdentification()->serialize();
         if (isset($this->cache[$rid][$revision->getVersionNumber()])) {
@@ -138,7 +142,7 @@ class InformationDBRepository implements InformationRepository
         return $i;
     }
 
-    public function delete(Information $information, Revision $revision) : void
+    public function delete(Information $information, Revision $revision): void
     {
         $rid = $revision->getIdentification()->serialize();
         $this->db->manipulateF(
@@ -155,7 +159,7 @@ class InformationDBRepository implements InformationRepository
         unset($this->cache[$rid][$revision->getVersionNumber()]);
     }
 
-    public function preload(array $identification_strings) : void
+    public function preload(array $identification_strings): void
     {
         $r = $this->db->query(
             "SELECT * FROM " . self::TABLE_NAME . " WHERE " . $this->db->in(
@@ -171,19 +175,19 @@ class InformationDBRepository implements InformationRepository
         }
     }
 
-    public function populateFromArray(array $data) : void
+    public function populateFromArray(array $data): void
     {
         $this->cache[$data['rid']][$data['version_number']] = $this->getFileInfoFromArrayData($data);
     }
 
-    private function getFileInfoFromArrayData(array $data) : FileInformation
+    private function getFileInfoFromArrayData(array $data): FileInformation
     {
         $i = new FileInformation();
-        $i->setTitle((string) $data['title']);
-        $i->setSize((int) $data['size']);
-        $i->setMimeType((string) $data['mime_type']);
-        $i->setSuffix((string) $data['suffix']);
-        $i->setCreationDate((new \DateTimeImmutable())->setTimestamp((int) $data['creation_date'] ?? 0));
+        $i->setTitle((string)$data['title']);
+        $i->setSize((int)$data['size']);
+        $i->setMimeType((string)$data['mime_type']);
+        $i->setSuffix((string)$data['suffix']);
+        $i->setCreationDate((new \DateTimeImmutable())->setTimestamp((int)$data['creation_date'] ?? 0));
 
         return $i;
     }

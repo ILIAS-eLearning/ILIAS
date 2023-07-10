@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,26 +16,22 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificatePdfAction
 {
-    private ilLogger $logger;
-    private ilPdfGenerator $pdfGenerator;
-    private ilCertificateUtilHelper $ilUtilHelper;
-    private ilErrorHandling $errorHandler;
-    private string $translatedErrorText;
+    private readonly ilCertificateUtilHelper $ilUtilHelper;
+    private readonly ilErrorHandling $errorHandler;
 
     public function __construct(
-        ilLogger $logger,
-        ilPdfGenerator $pdfGenerator,
+        private readonly ilPdfGenerator $pdfGenerator,
         ?ilCertificateUtilHelper $ilUtilHelper = null,
-        string $translatedErrorText = '',
+        private readonly string $translatedErrorText = '',
         ?ilErrorHandling $errorHandler = null
     ) {
-        $this->logger = $logger;
-        $this->pdfGenerator = $pdfGenerator;
         if (null === $ilUtilHelper) {
             $ilUtilHelper = new ilCertificateUtilHelper();
         }
@@ -46,16 +42,14 @@ class ilCertificatePdfAction
             $errorHandler = $DIC['ilErr'];
         }
         $this->errorHandler = $errorHandler;
-
-        $this->translatedErrorText = $translatedErrorText;
     }
 
-    public function createPDF(int $userId, int $objectId) : string
+    public function createPDF(int $userId, int $objectId): string
     {
         return $this->pdfGenerator->generateCurrentActiveCertificate($userId, $objectId);
     }
 
-    public function downloadPdf(int $userId, int $objectId) : string
+    public function downloadPdf(int $userId, int $objectId): string
     {
         try {
             $pdfScalar = $this->createPDF($userId, $objectId);
@@ -67,7 +61,7 @@ class ilCertificatePdfAction
                 $fileName,
                 'application/pdf'
             );
-        } catch (ilException $clientException) {
+        } catch (ilException) {
             $this->errorHandler->raiseError($this->translatedErrorText, $this->errorHandler->MESSAGE);
             return '';
         }

@@ -1,24 +1,26 @@
 <?php
-// declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+// declare(strict_types=1);
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieWrapper;
 use ILIAS\HTTP\Services;
 use Psr\Http\Message\UriInterface;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ilWebAccessChecker
  *
@@ -63,7 +65,7 @@ class ilWebAccessChecker
     /**
      * @throws ilWACException
      */
-    public function check() : bool
+    public function check(): bool
     {
         if ($this->getPathObject() === null) {
             throw new ilWACException(ilWACException::CODE_NO_PATH);
@@ -98,6 +100,19 @@ class ilWebAccessChecker
         // Fallback, have to initiate ILIAS
         $this->initILIAS();
 
+        // Check if Path is within accepted paths
+        if ($this->getPathObject()->getModuleType() !== 'rs') {
+            $clean_path = $this->getPathObject()->getCleanURLdecodedPath();
+            $path = realpath($clean_path);
+            $data_dir = realpath(CLIENT_WEB_DIR);
+            if (strpos($path, $data_dir) !== 0) {
+                return false;
+            }
+            if (dirname($path) === $data_dir && is_file($path)) {
+                return false;
+            }
+        }
+
         if (ilWACSecurePath::hasCheckingInstanceRegistered($this->getPathObject())) {
             // Maybe the path has been registered, lets check
             $checkingInstance = ilWACSecurePath::getCheckingInstance($this->getPathObject());
@@ -119,14 +134,16 @@ class ilWebAccessChecker
         return !$this->getPathObject()->isInSecFolder();
     }
 
-    protected function sendHeader(string $message) : void
+    protected function sendHeader(string $message): void
     {
         $response = $this->http->response()->withHeader('X-ILIAS-WebAccessChecker', $message);
         $this->http->saveResponse($response);
     }
 
-    public function initILIAS() : void
+    public function initILIAS(): void
     {
+        global $DIC;
+
         if ($this->isInitialized()) {
             return;
         }
@@ -161,12 +178,19 @@ class ilWebAccessChecker
             }
         }
         $this->setInitialized(true);
+
+        // This workaround is needed because these issues:
+        // https://mantis.ilias.de/view.php?id=32284 and
+        // https://mantis.ilias.de/view.php?id=32063
+        if ($DIC->user()->getId() === 0) {
+            $DIC->user()->setId(ANONYMOUS_USER_ID);
+        }
     }
 
     /**
      * @throws ilWACException
      */
-    protected function checkPublicSection() : void
+    protected function checkPublicSection(): void
     {
         global $DIC;
         $on_login_page = !$this->isRequestNotFromLoginPage();
@@ -195,7 +219,7 @@ class ilWebAccessChecker
         }
     }
 
-    protected function checkUser() : void
+    protected function checkUser(): void
     {
         global $DIC;
 
@@ -207,82 +231,82 @@ class ilWebAccessChecker
         }
     }
 
-    public function isChecked() : bool
+    public function isChecked(): bool
     {
         return $this->checked;
     }
 
-    public function setChecked(bool $checked) : void
+    public function setChecked(bool $checked): void
     {
         $this->checked = $checked;
     }
 
-    public function getPathObject() : ?\ilWACPath
+    public function getPathObject(): ?\ilWACPath
     {
         return $this->path_object;
     }
 
-    public function setPathObject(ilWACPath $path_object) : void
+    public function setPathObject(ilWACPath $path_object): void
     {
         $this->path_object = $path_object;
     }
 
-    public function getDisposition() : string
+    public function getDisposition(): string
     {
         return $this->disposition;
     }
 
-    public function setDisposition(string $disposition) : void
+    public function setDisposition(string $disposition): void
     {
         $this->disposition = $disposition;
     }
 
-    public function getOverrideMimetype() : string
+    public function getOverrideMimetype(): string
     {
         return $this->override_mimetype;
     }
 
-    public function setOverrideMimetype(string $override_mimetype) : void
+    public function setOverrideMimetype(string $override_mimetype): void
     {
         $this->override_mimetype = $override_mimetype;
     }
 
-    public function isInitialized() : bool
+    public function isInitialized(): bool
     {
         return $this->initialized;
     }
 
-    public function setInitialized(bool $initialized) : void
+    public function setInitialized(bool $initialized): void
     {
         $this->initialized = $initialized;
     }
 
-    public function isSendStatusCode() : bool
+    public function isSendStatusCode(): bool
     {
         return $this->send_status_code;
     }
 
-    public function setSendStatusCode(bool $send_status_code) : void
+    public function setSendStatusCode(bool $send_status_code): void
     {
         $this->send_status_code = $send_status_code;
     }
 
-    public function isRevalidateFolderTokens() : bool
+    public function isRevalidateFolderTokens(): bool
     {
         return $this->revalidate_folder_tokens;
     }
 
-    public function setRevalidateFolderTokens(bool $revalidate_folder_tokens) : void
+    public function setRevalidateFolderTokens(bool $revalidate_folder_tokens): void
     {
         $this->revalidate_folder_tokens = $revalidate_folder_tokens;
     }
 
-    public static function isUseSeperateLogfile() : bool
+    public static function isUseSeperateLogfile(): bool
     {
         return self::$use_seperate_logfile;
     }
 
-    public static function setUseSeperateLogfile(bool $use_seperate_logfile) : void
+    public static function setUseSeperateLogfile(bool $use_seperate_logfile): void
     {
         self::$use_seperate_logfile = $use_seperate_logfile;
     }
@@ -290,7 +314,7 @@ class ilWebAccessChecker
     /**
      * @return int[]
      */
-    public function getAppliedCheckingMethods() : array
+    public function getAppliedCheckingMethods(): array
     {
         return $this->applied_checking_methods;
     }
@@ -298,17 +322,17 @@ class ilWebAccessChecker
     /**
      * @param int[] $applied_checking_methods
      */
-    public function setAppliedCheckingMethods(array $applied_checking_methods) : void
+    public function setAppliedCheckingMethods(array $applied_checking_methods): void
     {
         $this->applied_checking_methods = $applied_checking_methods;
     }
 
-    protected function addAppliedCheckingMethod(int $method) : void
+    protected function addAppliedCheckingMethod(int $method): void
     {
         $this->applied_checking_methods[] = $method;
     }
 
-    protected function initAnonymousSession() : void
+    protected function initAnonymousSession(): void
     {
         global $DIC;
         session_destroy();
@@ -325,7 +349,7 @@ class ilWebAccessChecker
         $DIC->user()->setId(ANONYMOUS_USER_ID);
     }
 
-    protected function isRequestNotFromLoginPage() : bool
+    protected function isRequestNotFromLoginPage(): bool
     {
         $referrer = $_SERVER['HTTP_REFERER'] ?? '';
         $not_on_login_page = (strpos($referrer, 'login.php') === false

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Glossary term reference
@@ -23,12 +26,14 @@ class ilGlossaryTermReferences
     /** @var int[] (term ids) */
     protected array $terms = array();
     protected ilDBInterface $db;
+    protected ilAppEventHandler $event_handler;
 
     public function __construct(int $a_glo_id = 0)
     {
         global $DIC;
 
         $this->db = $DIC->database();
+        $this->event_handler = $DIC->event();
 
         $this->setGlossaryId($a_glo_id);
         if ($a_glo_id > 0) {
@@ -36,12 +41,12 @@ class ilGlossaryTermReferences
         }
     }
 
-    public function setGlossaryId(int $a_val) : void
+    public function setGlossaryId(int $a_val): void
     {
         $this->glo_id = $a_val;
     }
 
-    public function getGlossaryId() : int
+    public function getGlossaryId(): int
     {
         return $this->glo_id;
     }
@@ -49,7 +54,7 @@ class ilGlossaryTermReferences
     /**
      * @param int[] $a_val term ids
      */
-    public function setTerms(array $a_val) : void
+    public function setTerms(array $a_val): void
     {
         $this->terms = $a_val;
     }
@@ -57,28 +62,31 @@ class ilGlossaryTermReferences
     /**
      * @return int[] term ids
      */
-    public function getTerms() : array
+    public function getTerms(): array
     {
         return $this->terms;
     }
 
-    public function addTerm(int $a_term_id) : void
+    public function addTerm(int $a_term_id): void
     {
         if (!in_array($a_term_id, $this->terms)) {
             $this->terms[] = $a_term_id;
         }
     }
 
-    public function deleteTerm(int $a_term_id) : void
+    public function deleteTerm(int $a_term_id): void
     {
         foreach ($this->terms as $k => $v) {
             if ($v == $a_term_id) {
                 unset($this->terms[$k]);
             }
         }
+
+        // delete flashcard entries
+        $this->event_handler->raise("Modules/Glossary", "deleteTerm", ["term_id" => $a_term_id]);
     }
 
-    public function read() : void
+    public function read(): void
     {
         $set = $this->db->query("SELECT term_id FROM glo_term_reference " .
             " WHERE glo_id = " . $this->db->quote($this->getGlossaryId(), "integer"));
@@ -87,7 +95,7 @@ class ilGlossaryTermReferences
         }
     }
 
-    public function update() : void
+    public function update(): void
     {
         $this->delete();
         foreach ($this->getTerms() as $t) {
@@ -105,7 +113,7 @@ class ilGlossaryTermReferences
     /**
      * Delete references (of glossary)
      */
-    public function delete() : void
+    public function delete(): void
     {
         $this->db->manipulate(
             "DELETE FROM glo_term_reference WHERE " .
@@ -116,7 +124,7 @@ class ilGlossaryTermReferences
     /**
      * Delete all references of a term
      */
-    public static function deleteReferencesOfTerm(int $a_term_id) : void
+    public static function deleteReferencesOfTerm(int $a_term_id): void
     {
         global $DIC;
 
@@ -131,7 +139,7 @@ class ilGlossaryTermReferences
     /**
      * Check if a glossary uses references
      */
-    public static function hasReferences(int $a_glossary_id) : bool
+    public static function hasReferences(int $a_glossary_id): bool
     {
         global $DIC;
 
@@ -155,7 +163,7 @@ class ilGlossaryTermReferences
     public static function isReferenced(
         array $a_glo_id,
         int $a_term_id
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $db = $DIC->database();
@@ -176,7 +184,7 @@ class ilGlossaryTermReferences
      */
     public static function lookupReferencesOfTerm(
         int $a_term_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $db = $DIC->database();

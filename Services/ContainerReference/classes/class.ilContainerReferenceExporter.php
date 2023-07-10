@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class for category export
@@ -20,7 +25,7 @@
  */
 abstract class ilContainerReferenceExporter extends ilXmlExporter
 {
-    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         global $DIC;
 
@@ -45,10 +50,10 @@ abstract class ilContainerReferenceExporter extends ilXmlExporter
         }
         return [];
     }
-    
-    abstract protected function initWriter(ilContainerReference $ref) : ilContainerReferenceXmlWriter;
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    abstract protected function initWriter(ilContainerReference $ref): ilContainerReferenceXmlWriter;
+
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         global $DIC;
 
@@ -71,7 +76,7 @@ abstract class ilContainerReferenceExporter extends ilXmlExporter
     /**
      * @return array[]
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return [
             "4.3.0" => [
@@ -84,7 +89,7 @@ abstract class ilContainerReferenceExporter extends ilXmlExporter
         ];
     }
 
-    public function init() : void
+    public function init(): void
     {
     }
 }

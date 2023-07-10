@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Interface ilTermsOfServiceEquatable
  * @author Michael Jansen <mjansen@databay.de>
@@ -24,7 +26,6 @@ interface ilTermsOfServiceEquatable
 {
     /**
      * @param mixed $other
-     * @return bool
      */
-    public function equals($other) : bool;
+    public function equals($other): bool;
 }

@@ -1,5 +1,21 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @classDescription Stores information of creation date and versions of export files
@@ -34,7 +50,7 @@ class ilExportFileInfo
     /**
      * Lookup last export
      */
-    public static function lookupLastExport(int $a_obj_id, string $a_type, string $a_version = '') : ?ilExportFileInfo
+    public static function lookupLastExport(int $a_obj_id, string $a_type, string $a_version = ''): ?ilExportFileInfo
     {
         global $DIC;
 
@@ -65,52 +81,52 @@ class ilExportFileInfo
         return true;
     }
 
-    public function setExportType(string $a_type) : void
+    public function setExportType(string $a_type): void
     {
         $this->export_type = $a_type;
     }
 
-    public function getExportType() : string
+    public function getExportType(): string
     {
         return $this->export_type;
     }
 
-    public function setFilename(string $a_name) : void
+    public function setFilename(string $a_name): void
     {
         $this->file_name = $a_name;
     }
 
-    public function getFilename() : string
+    public function getFilename(): string
     {
         return $this->file_name;
     }
 
-    public function getBasename(string $a_ext = '.zip') : string
+    public function getBasename(string $a_ext = '.zip'): string
     {
         return basename($this->getFilename(), $a_ext);
     }
 
-    public function setObjId(int $a_id) : void
+    public function setObjId(int $a_id): void
     {
         $this->obj_id = $a_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setVersion(string $a_version) : void
+    public function setVersion(string $a_version): void
     {
         $this->version = $a_version;
     }
 
-    public function getVersion() : string
+    public function getVersion(): string
     {
         return $this->version;
     }
 
-    public function getCreationDate() : ilDateTime
+    public function getCreationDate(): ilDateTime
     {
         return $this->create_date instanceof ilDateTime ? $this->create_date : new ilDateTime(time(), IL_CAL_UNIX);
     }
@@ -120,7 +136,7 @@ class ilExportFileInfo
         $this->create_date = $dt;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $exists_query = 'select * from export_file_info ' .
             'where obj_id = ' . $this->db->quote($this->obj_id, 'integer') . ' ' .
@@ -144,7 +160,7 @@ class ilExportFileInfo
         }
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $this->db->manipulate(
             'DELETE FROM export_file_info ' .
@@ -153,7 +169,7 @@ class ilExportFileInfo
         );
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $query = "SELECT * FROM export_file_info " .
             "WHERE obj_id = " . $this->db->quote($this->getObjId(), 'integer') . ' ' .

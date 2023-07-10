@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 
@@ -32,7 +48,7 @@ abstract class Icon implements C\Symbol\Icon\Icon
     /**
      * @inheritdoc
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -40,7 +56,7 @@ abstract class Icon implements C\Symbol\Icon\Icon
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -48,7 +64,7 @@ abstract class Icon implements C\Symbol\Icon\Icon
     /**
      * @inheritdoc
      */
-    public function withAbbreviation(string $abbreviation) : C\Symbol\Icon\Icon
+    public function withAbbreviation(string $abbreviation): C\Symbol\Icon\Icon
     {
         $clone = clone $this;
         $clone->abbreviation = $abbreviation;
@@ -58,7 +74,7 @@ abstract class Icon implements C\Symbol\Icon\Icon
     /**
      * @inheritdoc
      */
-    public function getAbbreviation() : ?string
+    public function getAbbreviation(): ?string
     {
         return $this->abbreviation;
     }
@@ -66,7 +82,7 @@ abstract class Icon implements C\Symbol\Icon\Icon
     /**
      * @inheritdoc
      */
-    public function withSize(string $size) : C\Symbol\Icon\Icon
+    public function withSize(string $size): C\Symbol\Icon\Icon
     {
         $this->checkArgIsElement(
             "size",
@@ -82,7 +98,7 @@ abstract class Icon implements C\Symbol\Icon\Icon
     /**
      * @inheritdoc
      */
-    public function getSize() : string
+    public function getSize(): string
     {
         return $this->size;
     }
@@ -90,7 +106,7 @@ abstract class Icon implements C\Symbol\Icon\Icon
     /**
      * @inheritdoc
      */
-    public function isDisabled() : bool
+    public function isDisabled(): bool
     {
         return $this->is_disabled;
     }
@@ -98,7 +114,7 @@ abstract class Icon implements C\Symbol\Icon\Icon
     /**
      * @inheritdoc
      */
-    public function withDisabled(bool $is_disabled) : C\Symbol\Icon\Icon
+    public function withDisabled(bool $is_disabled): C\Symbol\Icon\Icon
     {
         $clone = clone $this;
         $clone->is_disabled = $is_disabled;

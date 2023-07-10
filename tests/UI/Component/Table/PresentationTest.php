@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -14,19 +30,23 @@ use ILIAS\UI\Implementation\Component\Table\PresentationRow;
  */
 class PresentationTest extends ILIAS_UI_TestBase
 {
-    private function getFactory() : I\Component\Table\Factory
+    private function getFactory(): I\Component\Table\Factory
     {
         return new I\Component\Table\Factory(
-            new I\Component\SignalGenerator()
+            new I\Component\SignalGenerator(),
+            new \ILIAS\Data\Factory(),
+            new I\Component\Table\Column\Factory(),
+            new I\Component\Table\Action\Factory(),
+            new I\Component\Table\DataRowBuilder()
         );
     }
 
-    public function testTableConstruction() : void
+    public function testTableConstruction(): void
     {
         $f = $this->getFactory();
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\Factory", $f);
 
-        $pt = $f->presentation('title', [], function () : void {
+        $pt = $f->presentation('title', [], function (): void {
         });
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\Presentation", $pt);
 
@@ -41,11 +61,11 @@ class PresentationTest extends ILIAS_UI_TestBase
         $this->assertEquals(array('dk' => 'dv'), $pt->getData());
     }
 
-    public function testBareTableRendering() : void
+    public function testBareTableRendering(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
-        $pt = $f->presentation('title', [], function () : void {
+        $pt = $f->presentation('title', [], function (): void {
         });
         $expected = '' .
             '<div class="il-table-presentation">' .
@@ -55,10 +75,10 @@ class PresentationTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $r->render($pt->withData([])));
     }
 
-    public function testRowConstruction() : void
+    public function testRowConstruction(): void
     {
         $f = $this->getFactory();
-        $pt = $f->presentation('title', [], function () : void {
+        $pt = $f->presentation('title', [], function (): void {
         });
         $row = new PresentationRow($pt->getSignalGenerator());
 
@@ -89,16 +109,16 @@ class PresentationTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
-            public function button() : C\Button\Factory
+        $factory = new class () extends NoUIFactory {
+            public function button(): C\Button\Factory
             {
                 return new I\Component\Button\Factory(
                     new I\Component\SignalGenerator()
                 );
             }
-            public function symbol() : ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): ILIAS\UI\Component\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
@@ -111,7 +131,7 @@ class PresentationTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    protected function getDummyData() : array
+    protected function getDummyData(): array
     {
         return [[
             'headline' => 'some title',
@@ -124,7 +144,7 @@ class PresentationTest extends ILIAS_UI_TestBase
         ]];
     }
 
-    public function testFullRendering() : void
+    public function testFullRendering(): void
     {
         $mapping = function ($row, $record, $ui_factory, $environment) {
             return $row
@@ -145,22 +165,19 @@ class PresentationTest extends ILIAS_UI_TestBase
 
             <div class="il-table-presentation-row-controls">
                 <div class="il-table-presentation-row-controls-expander inline">
-                    <a class="glyph" href="#" aria-label="expand_content" id="id_2">
+                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_2">
                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div class="il-table-presentation-row-controls-collapser">
-                    <a class="glyph" href="#" aria-label="collapse_content" id="id_3">
+                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_3">
                         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                     </a>
                 </div>
             </div>
 
             <div class="il-table-presentation-row-contents">
-                <div class="il-table-presentation-actions">
-                    <button class="btn btn-default" data-action="#" id="id_5">do</button>
-                    <br />
-                </div>
+                <div class="il-table-presentation-actions"><button class="btn btn-default" data-action="#" id="id_5">do</button><br /></div>
                 <div class="il-table-presentation-row-header">
                     <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title<br /><small>some type</small>
                     </h4>
@@ -207,7 +224,7 @@ EXP;
     }
 
 
-    public function testMinimalRendering() : void
+    public function testMinimalRendering(): void
     {
         $mapping = function ($row, $record, $ui_factory, $environment) {
             return $row
@@ -223,12 +240,12 @@ EXP;
 
             <div class="il-table-presentation-row-controls">
                 <div class="il-table-presentation-row-controls-expander inline">
-                    <a class="glyph" href="#" aria-label="expand_content" id="id_2">
+                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_2">
                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div class="il-table-presentation-row-controls-collapser">
-                    <a class="glyph" href="#" aria-label="collapse_content" id="id_3">
+                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_3">
                         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                     </a>
                 </div>

@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
@@ -41,7 +44,7 @@ class ilECSCommunitiesCache
      * Singleton instance
      * @return ilECSCommunitiesCache
      */
-    public static function getInstance() : ilECSCommunitiesCache
+    public static function getInstance(): ilECSCommunitiesCache
     {
         return self::$instance ?? (self::$instance = new ilECSCommunitiesCache());
     }
@@ -49,19 +52,19 @@ class ilECSCommunitiesCache
     /**
      * Delete comunities by server id
      */
-    public function delete(int $a_server_id) : void
+    public function delete(int $a_server_id): void
     {
         $query = 'DELETE FROM ecs_community ' .
             'WHERE sid = ' . $this->db->quote($a_server_id, 'integer');
         $this->db->manipulate($query);
         $this->read();
     }
-    
+
     /**
      * Get communities
      * @return ilECSCommunityCache[]
      */
-    public function getCommunities() : array
+    public function getCommunities(): array
     {
         return $this->communities;
     }
@@ -69,7 +72,7 @@ class ilECSCommunitiesCache
     /**
      * Lookup own mid of the community of a mid
      */
-    public function lookupOwnId(int $a_server_id, int $a_mid) : int
+    public function lookupOwnId(int $a_server_id, int $a_mid): int
     {
         foreach ($this->getCommunities() as $com) {
             if (($com->getServerId() === $a_server_id) && in_array($a_mid, $com->getMids(), true)) {
@@ -84,7 +87,7 @@ class ilECSCommunitiesCache
      * @param int server_id
      * @param int mid
      */
-    public function lookupTitle(int $a_server_id, int $a_mid) : string
+    public function lookupTitle(int $a_server_id, int $a_mid): string
     {
         foreach ($this->getCommunities() as $com) {
             if (($com->getServerId() === $a_server_id) && in_array($a_mid, $com->getMids(), true)) {
@@ -97,7 +100,7 @@ class ilECSCommunitiesCache
     /**
      * Read comunities
      */
-    private function read() : void
+    private function read(): void
     {
         $query = 'SELECT sid,cid FROM ecs_community ';
         $res = $this->db->query($query);

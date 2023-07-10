@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Export class for survey questionpools
@@ -37,10 +40,10 @@ class ilSurveyQuestionpoolExport
         $ilDB = $DIC->database();
 
         $this->spl_obj = $a_spl_obj;
-    
+
         $this->db = $ilDB;
         $this->mode = $a_mode;
-    
+
         $this->inst_id = (int) IL_INST_ID;
 
         $date = time();
@@ -54,7 +57,7 @@ class ilSurveyQuestionpoolExport
         }
     }
 
-    public function getInstId() : int
+    public function getInstId(): int
     {
         return $this->inst_id;
     }
@@ -65,7 +68,7 @@ class ilSurveyQuestionpoolExport
      */
     public function buildExportFile(
         array $questions = null
-    ) : string {
+    ): string {
         switch ($this->mode) {
             default:
                 return $this->buildExportFileXML($questions);
@@ -77,7 +80,7 @@ class ilSurveyQuestionpoolExport
      */
     public function buildExportFileXML(
         array $questions = null
-    ) : string {
+    ): string {
         // create directories
         $this->spl_obj->createExportDirectory();
         ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);

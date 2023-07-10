@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjSurveyQuestionPoolListGUI
@@ -21,7 +24,7 @@
  */
 class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -36,7 +39,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
         $this->commands = ilObjSurveyQuestionPoolAccess::_getCommands();
     }
 
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         $frame = "";
         switch ($cmd) {
@@ -51,7 +54,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
         return $frame;
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $lng = $this->lng;
 
@@ -64,7 +67,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         return "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=$cmd";
     }

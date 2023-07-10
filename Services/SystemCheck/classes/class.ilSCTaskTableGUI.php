@@ -1,6 +1,24 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * Table GUI for system check task overview
@@ -11,6 +29,8 @@ class ilSCTaskTableGUI extends ilTable2GUI
     private int $group_id = 0;
 
     private ilAccess $access;
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
 
     public function __construct(int $a_group_id, object $a_parent_obj, string $a_parent_cmd = '')
     {
@@ -18,16 +38,18 @@ class ilSCTaskTableGUI extends ilTable2GUI
         $this->group_id = $a_group_id;
         $this->setId('sc_groups');
         $this->access = $DIC->access();
-
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
     }
 
-    public function getGroupId() : int
+    public function getGroupId(): int
     {
         return $this->group_id;
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->lng->loadLanguageModule('sysc');
         $this->addColumn($this->lng->txt('title'), 'title', '60%');
@@ -44,7 +66,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_TITLE', (string) ($a_set['title'] ?? ''));
         $this->tpl->setVariable('VAL_DESC', (string) ($a_set['description'] ?? ''));
@@ -70,33 +92,27 @@ class ilSCTaskTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_LAST_UPDATE', (string) ($a_set['last_update'] ?? ''));
 
         // Actions
-        if ($this->access->checkAccess('write', '', $this->parent_obj->object->getRefId())) {
+        if ($this->access->checkAccess('write', '', $this->parent_obj->getObject()->getRefId())) {
             $id = (int) ($a_set['id'] ?? 0);
-            $list = new ilAdvancedSelectionListGUI();
-            $list->setSelectionHeaderClass('small');
-            $list->setItemLinkClass('small');
-            $list->setId('sysc_' . $id);
-            $list->setListTitle($this->lng->txt('actions'));
+
+            $dropDownItems = array();
 
             $task_handler = ilSCComponentTaskFactory::getComponentTask($id);
 
             $this->ctrl->setParameterByClass(get_class($task_handler), 'task_id', $id);
             foreach ($task_handler->getActions() as $actions) {
-                $list->addItem(
+                $dropDownItems[] = $this->uiFactory->button()->shy(
                     (string) ($actions['txt'] ?? ''),
-                    '',
-                    $this->ctrl->getLinkTargetByClass(
-                        get_class($task_handler),
-                        (string) ($actions['command'] ?? '')
-                    )
+                    $this->ctrl->getLinkTargetByClass(get_class($task_handler), (string) ($actions['command'] ?? ''))
                 );
             }
-
-            $this->tpl->setVariable('ACTIONS', $list->getHTML());
+            $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                    ->withLabel($this->lng->txt('actions'));
+            $this->tpl->setVariable('ACTIONS', $this->renderer->render($dropDown));
         }
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $data = array();
 

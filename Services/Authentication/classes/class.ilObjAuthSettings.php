@@ -1,23 +1,26 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 */
-
 class ilObjAuthSettings extends ilObject
 {
     /**
@@ -30,7 +33,7 @@ class ilObjAuthSettings extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function checkAuthLDAP() : bool
+    public function checkAuthLDAP(): bool
     {
         $settings = $this->ilias->getAllSettings();
 
@@ -43,7 +46,7 @@ class ilObjAuthSettings extends ilObject
         return true;
     }
 
-    public function checkAuthSHIB() : bool
+    public function checkAuthSHIB(): bool
     {
         $settings = $this->ilias->getAllSettings();
 
@@ -57,20 +60,7 @@ class ilObjAuthSettings extends ilObject
         return true;
     }
 
-    public function checkAuthRADIUS() : bool
-    {
-        $settings = $this->ilias->getAllSettings();
-
-        if (!$settings["radius_server"] || !$settings["radius_shared_secret"] || !$settings["radius_port"]) {
-            return false;
-        }
-
-        $this->ilias->setSetting('radius_active', "1");
-
-        return true;
-    }
-
-    public function checkAuthScript() : bool
+    public function checkAuthScript(): bool
     {
         $settings = $this->ilias->getAllSettings();
 

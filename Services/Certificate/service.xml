@@ -12,7 +12,6 @@
 		<event type="listen" id="Services/Tracking" />
 		<event type="listen" id="Services/Certificate" />
 		<event type="listen" id="Services/User" />
-		<event type="listen" id="Modules/StudyProgramme" />
 		<event type="raise" id="certificateIssued" />
 	</events>
 	<crons>

@@ -1,7 +1,22 @@
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 import HTMLTransform from "./html-transform.js";
 import TinyDomTransform from "./tiny-dom-transform.js";
+import DomUtil from "./dom-util.js";
 import CB from "./tiny-wrapper-cb-types.js";
 
 /**
@@ -120,10 +135,13 @@ export default class TinyWrapper {
       Sub: { inline: 'sub', classes: 'ilc_sub_Sub' }
     };
 
+    this.text_block_formats = {};
+
     this.cb = [];
 
     this.lib = tinyMCE;
     this.htmlTransform = new HTMLTransform();
+    this.domUtil = new DomUtil();
   }
 
   /**
@@ -232,6 +250,10 @@ export default class TinyWrapper {
 
   addTextFormat(f) {
     this.text_formats[f] = { inline: 'span', classes: 'ilc_text_inline_' + f };
+  }
+
+  setTextBlockFormats(formats) {
+    this.text_block_formats = formats;
   }
 
   pastePreProcess(pl, o) {
@@ -440,11 +462,12 @@ export default class TinyWrapper {
       // backspace (8)
       if ([8].includes(ev.keyCode)) {
         wrapper.mergePrevious = (
-          currentRng.commonAncestorContainer.previousSibling === null &&
+          wrapper.isFirstNode(currentRng.commonAncestorContainer) &&
           currentRng.collapsed &&
           currentRng.startOffset === 0 &&
           currentRng.endOffset === 0
         );
+
         if (wrapper.mergePrevious) {
           const dom = tiny.dom;
           if (dom.select('ol,ul')) {    // do not allow to outdent first list element
@@ -596,6 +619,14 @@ export default class TinyWrapper {
         cb();
       });
       wrapper.autoScroll();
+      this.clearUndo();
+    }
+  }
+
+  // see e.g. #32336
+  clearUndo() {
+    if (this.tiny) {
+      this.tiny.undoManager.clear();
     }
   }
 
@@ -658,7 +689,8 @@ export default class TinyWrapper {
     this.ghost = content_element;
     this.ghost.classList.add("copg-ghost-wrapper");
 
-    this.ghost_reg = YAHOO.util.Region.getRegion(this.ghost);
+    //this.ghost_reg = YAHOO.util.Region.getRegion(this.ghost);
+    this.ghost_reg = this.domUtil.getRegion(this.ghost);
   }
 
   // copy input of tiny to ghost div in background
@@ -696,9 +728,13 @@ export default class TinyWrapper {
       }
 
       let label = "";
+      let char_text = characteristic;
       if (!this.getDataTableMode()) {
+        if (this.text_block_formats[characteristic]) {
+          char_text = this.text_block_formats[characteristic];
+        }
         label = "<div class='ilEditLabel'>" + il.Language.txt("cont_ed_par") +
-          " (" + characteristic + ")</div>";
+          " (" + char_text + ")</div>";
       }
 
       c = label + "<" + tag + " style='position:static;' class='" + cl + "'>" + c + "</" + tag + ">";
@@ -750,6 +786,8 @@ export default class TinyWrapper {
       back_el = back_el.parentNode;
     }
 
+    this.log(back_el);
+
     if (!back_el) {
       return;
     }
@@ -763,20 +801,25 @@ export default class TinyWrapper {
     back_el.style.display = '';
     back_el.style.overflow = 'auto';
     back_el.style.height = '';
-    var back_reg = YAHOO.util.Region.getRegion(back_el);
+    //var back_reg = YAHOO.util.Region.getRegion(back_el);
+    var back_reg = this.domUtil.getRegion(back_el);
 
     this.log("Ghost region: ");
     this.log(back_reg);
 
-    var cl_reg = YAHOO.util.Dom.getClientRegion();
+    //var cl_reg = YAHOO.util.Dom.getClientRegion();
+    var cl_reg = this.domUtil.getClientRegion();
     if (back_reg.y + back_reg.height + 20 > cl_reg.top + cl_reg.height) {
       back_el.style.overflow = 'hidden';
       back_el.style.height = (cl_reg.top + cl_reg.height - back_reg.y - 20) + "px";
-      back_reg = YAHOO.util.Region.getRegion(back_el);
+      //back_reg = YAHOO.util.Region.getRegion(back_el);
+      back_reg = this.domUtil.getRegion(back_el);
     }
 
-    YAHOO.util.Dom.setX(tdiv, back_reg.x);
-    YAHOO.util.Dom.setY(tdiv, back_reg.y);
+    //YAHOO.util.Dom.setX(tdiv, back_reg.x);
+    this.domUtil.setX(tdiv, back_reg.x);
+    //YAHOO.util.Dom.setY(tdiv, back_reg.y);
+    this.domUtil.setY(tdiv, back_reg.y);
     this.setEditFrameSize(back_reg.width,
       back_reg.height);
 
@@ -888,6 +931,7 @@ export default class TinyWrapper {
     }
     this.autoResize();
     this.setParagraphClass(characteristic);
+    this.clearUndo();
   }
 
   getText() {
@@ -930,7 +974,7 @@ export default class TinyWrapper {
     }
     ed.execCommand('mceToggleFormat', false, t);
     ed.focus();
-    ed.selection.collapse(false);
+    //ed.selection.collapse(false); // see #33963
     this.autoResize();
   }
 
@@ -1023,4 +1067,13 @@ export default class TinyWrapper {
     ed.selection.collapse(false);
   }
 
+  disable() {
+    const ed = this.tiny;
+    ed.getBody().setAttribute('contenteditable', false);
+  }
+
+  enable() {
+    const ed = this.tiny;
+    ed.getBody().setAttribute('contenteditable', true);
+  }
 }

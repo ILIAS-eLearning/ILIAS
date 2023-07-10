@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestNavigationToolbarGUITest
@@ -10,7 +26,7 @@ class ilTestNavigationToolbarGUITest extends ilTestBaseTestCase
 {
     private ilTestNavigationToolbarGUI $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -23,12 +39,12 @@ class ilTestNavigationToolbarGUITest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestNavigationToolbarGUI::class, $this->testObj);
     }
 
-    public function testSuspendTestButtonEnabled() : void
+    public function testSuspendTestButtonEnabled(): void
     {
         $this->testObj->setSuspendTestButtonEnabled(false);
         $this->assertFalse($this->testObj->isSuspendTestButtonEnabled());
@@ -37,7 +53,7 @@ class ilTestNavigationToolbarGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isSuspendTestButtonEnabled());
     }
 
-    public function testQuestionListButtonEnabled() : void
+    public function testQuestionListButtonEnabled(): void
     {
         $this->testObj->setQuestionListButtonEnabled(false);
         $this->assertFalse($this->testObj->isQuestionListButtonEnabled());
@@ -46,7 +62,7 @@ class ilTestNavigationToolbarGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isQuestionListButtonEnabled());
     }
 
-    public function testQuestionTreeButtonEnabled() : void
+    public function testQuestionTreeButtonEnabled(): void
     {
         $this->testObj->setQuestionTreeButtonEnabled(false);
         $this->assertFalse($this->testObj->isQuestionTreeButtonEnabled());
@@ -55,7 +71,7 @@ class ilTestNavigationToolbarGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isQuestionTreeButtonEnabled());
     }
 
-    public function testQuestionTreeVisible() : void
+    public function testQuestionTreeVisible(): void
     {
         $this->testObj->setQuestionTreeVisible(false);
         $this->assertFalse($this->testObj->isQuestionTreeVisible());
@@ -64,7 +80,7 @@ class ilTestNavigationToolbarGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isQuestionTreeVisible());
     }
 
-    public function testQuestionSelectionButtonEnabled() : void
+    public function testQuestionSelectionButtonEnabled(): void
     {
         $this->testObj->setQuestionSelectionButtonEnabled(false);
         $this->assertFalse($this->testObj->isQuestionSelectionButtonEnabled());
@@ -73,7 +89,7 @@ class ilTestNavigationToolbarGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isQuestionSelectionButtonEnabled());
     }
 
-    public function testFinishTestButtonEnabled() : void
+    public function testFinishTestButtonEnabled(): void
     {
         $this->testObj->setFinishTestButtonEnabled(false);
         $this->assertFalse($this->testObj->isFinishTestButtonEnabled());
@@ -82,13 +98,13 @@ class ilTestNavigationToolbarGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isFinishTestButtonEnabled());
     }
 
-    public function testFinishTestCommand() : void
+    public function testFinishTestCommand(): void
     {
         $this->testObj->setFinishTestCommand("testString");
         $this->assertEquals("testString", $this->testObj->getFinishTestCommand());
     }
 
-    public function testFinishTestButtonPrimary() : void
+    public function testFinishTestButtonPrimary(): void
     {
         $this->testObj->setFinishTestButtonPrimary(false);
         $this->assertFalse($this->testObj->isFinishTestButtonPrimary());
@@ -97,7 +113,7 @@ class ilTestNavigationToolbarGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isFinishTestButtonPrimary());
     }
 
-    public function testDisabledStateEnabled() : void
+    public function testDisabledStateEnabled(): void
     {
         $this->testObj->setDisabledStateEnabled(false);
         $this->assertFalse($this->testObj->isDisabledStateEnabled());

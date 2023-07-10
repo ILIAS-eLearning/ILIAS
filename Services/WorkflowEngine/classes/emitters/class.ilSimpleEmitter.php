@@ -1,14 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilEmitter.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilSimpleEmitter is part of the petri net based workflow engine.
@@ -17,8 +23,6 @@ require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
  * the designated simple detector.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
@@ -37,7 +41,6 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
      */
     private ilNode $context;
 
-    /** @var string $name */
     protected string $name;
 
     /**
@@ -55,7 +58,7 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @param ilDetector $target_detector
      */
-    public function setTargetDetector(ilDetector $target_detector)
+    public function setTargetDetector(ilDetector $target_detector): void
     {
         $this->target_detector = $target_detector;
     }
@@ -65,7 +68,7 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @return ilDetector Reference to the target detector.
      */
-    public function getTargetDetector() : ilDetector
+    public function getTargetDetector(): ilDetector
     {
         return $this->target_detector;
     }
@@ -75,7 +78,7 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @return ilNode Reference to the parent node.
      */
-    public function getContext() : ilNode
+    public function getContext(): ilNode
     {
         return $this->context;
     }
@@ -83,20 +86,17 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * Executes this emitter.
      */
-    public function emit() : void
+    public function emit(): void
     {
-        $this->target_detector->trigger(array());
+        $this->target_detector->trigger([]);
     }
 
-    public function setName($name)
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() : string
+    public function getName(): ?string
     {
         return $this->name;
     }

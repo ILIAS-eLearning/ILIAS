@@ -110,7 +110,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
      * @param array $a_set
      * @noinspection PhpIfWithCommonPartsInspection
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -171,7 +171,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
             $categories = [];
 
             foreach ($assignments as $assignment) {
-                $category_title = ilObject::_lookupTitle(ilObject::_lookupObjId((int)$assignment['ref_id']));
+                $category_title = ilObject::_lookupTitle(ilObject::_lookupObjId((int) $assignment['ref_id']));
                 if ($category_title) {
                     $categories[] = $category_title;
                 }
@@ -259,17 +259,17 @@ class ilSystemStylesTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
     }
 
-    public function isWithActions() : bool
+    public function isWithActions(): bool
     {
         return $this->with_actions;
     }
 
-    public function setWithActions(bool $with_actions) : void
+    public function setWithActions(bool $with_actions): void
     {
         $this->with_actions = $with_actions;
     }
 
-    public function isManagementEnabled() : bool
+    public function isManagementEnabled(): bool
     {
         return $this->management_enabled;
     }
@@ -279,7 +279,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
         $this->management_enabled = $management_enabled;
     }
 
-    public function isReadDocumentation() : bool
+    public function isReadDocumentation(): bool
     {
         return $this->read_documentation;
     }

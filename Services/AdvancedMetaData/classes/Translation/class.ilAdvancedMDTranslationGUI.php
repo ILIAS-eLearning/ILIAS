@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use Psr\Http\Message\RequestInterface;
 
@@ -60,7 +78,7 @@ abstract class ilAdvancedMDTranslationGUI
     /**
      * @return void
      */
-    abstract protected function translations() : void;
+    abstract protected function translations(): void;
 
     /**
      * show translation creation form
@@ -74,7 +92,7 @@ abstract class ilAdvancedMDTranslationGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function initCreateTranslationForm() : ilPropertyFormGUI
+    protected function initCreateTranslationForm(): ilPropertyFormGUI
     {
         $form = new \ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -101,24 +119,11 @@ abstract class ilAdvancedMDTranslationGUI
         return $form;
     }
 
-    protected function addToolbarLanguageCreation() : void
-    {
-        $button = ilLinkButton::getInstance();
-        $button->setCaption('obj_add_languages');
-        $button->setUrl(
-            $this->ctrl->getLinkTargetByClass(
-                strtolower(get_class($this)),
-                self::CMD_ADD_TRANSLATION
-            )
-        );
-        $this->toolbar->addButtonInstance($button);
-    }
-
     /**
      * @return array<string, string>
      * @todo handle generic isConfigured
      */
-    protected function getAvailableLanguagesOptions() : array
+    protected function getAvailableLanguagesOptions(): array
     {
         $languages = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
 
@@ -135,7 +140,7 @@ abstract class ilAdvancedMDTranslationGUI
         return $options;
     }
 
-    protected function saveAdditionalTranslations() : void
+    protected function saveAdditionalTranslations(): void
     {
         $form = $this->initCreateTranslationForm();
         if (!$form->checkInput()) {

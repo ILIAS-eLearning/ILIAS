@@ -1,8 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-include_once __DIR__ . '/../../../libs/composer/vendor/autoload.php';
+declare(strict_types=1);
 
 use Monolog\Logger;
 use Monolog\Processor\MemoryPeakUsageProcessor;
@@ -13,130 +27,123 @@ use Monolog\Processor\MemoryPeakUsageProcessor;
  */
 abstract class ilLogger
 {
-    private Logger $logger;
-    
-    public function __construct(Logger $logger)
+    public function __construct(private readonly Logger $logger)
     {
-        $this->logger = $logger;
     }
-    
+
     /**
      * Check whether current logger is handling a log level
      */
-    public function isHandling(int $a_level) : bool
+    public function isHandling(int $level): bool
     {
-        return $this->getLogger()->isHandling($a_level);
-    }
-    
-    public function log(string $a_message, int $a_level = ilLogLevel::INFO) : void
-    {
-        $this->getLogger()->log($a_level, $a_message);
+        return $this->getLogger()->isHandling($level);
     }
 
-    /**
-     * @param  mixed $a_variable
-     * @param int    $a_level
-     * @return void
-     */
-    public function dump($a_variable, int $a_level = ilLogLevel::INFO) : void
+    public function log(string $message, int $level = ilLogLevel::INFO, array $context = []): void
     {
-        $this->log((string) print_r($a_variable, true), $a_level);
-    }
-    
-    public function debug(string $a_message, array $a_context = array()) : void
-    {
-        $this->getLogger()->debug($a_message, $a_context);
-    }
-    
-    public function info(string $a_message) : void
-    {
-        $this->getLogger()->info($a_message);
+        $this->getLogger()->log($level, $message, $context);
     }
 
-    public function notice(string $a_message) : void
+    public function dump($value, int $level = ilLogLevel::INFO): void
     {
-        $this->getLogger()->notice($a_message);
+        $this->log('{dump}', $level, [
+            'dump' => print_r($value, true),
+        ]);
     }
 
-    public function warning(string $a_message) : void
+    public function debug(string $message, array $context = []): void
     {
-        $this->getLogger()->warning($a_message);
-    }
-    
-    public function error(string $a_message) : void
-    {
-        $this->getLogger()->error($a_message);
-    }
-    
-    public function critical(string $a_message) : void
-    {
-        $this->getLogger()->critical($a_message);
+        $this->getLogger()->debug($message, $context);
     }
 
-    public function alert(string $a_message) : void
+    public function info(string $message, array $context = []): void
     {
-        $this->getLogger()->alert($a_message);
+        $this->getLogger()->info($message, $context);
     }
-    
-    
-    public function emergency(string $a_message) : void
+
+    public function notice(string $message, array $context = []): void
     {
-        $this->getLogger()->emergency($a_message);
+        $this->getLogger()->notice($message, $context);
     }
-    
-    public function getLogger() : Logger
+
+    public function warning(string $message, array $context = []): void
+    {
+        $this->getLogger()->warning($message, $context);
+    }
+
+    public function error(string $message, array $context = []): void
+    {
+        $this->getLogger()->error($message, $context);
+    }
+
+    public function critical(string $message, array $context = []): void
+    {
+        $this->getLogger()->critical($message, $context);
+    }
+
+    public function alert(string $message, array $context = []): void
+    {
+        $this->getLogger()->alert($message, $context);
+    }
+
+    public function emergency(string $message, array $context = []): void
+    {
+        $this->getLogger()->emergency($message, $context);
+    }
+
+    public function getLogger(): Logger
     {
         return $this->logger;
     }
-    
+
     /**
      * write log message
      * @deprecated since version 5.1
      * @see ilLogger->info(), ilLogger()->debug(), ...
      */
-    public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
+    public function write(string $message, $level = ilLogLevel::INFO, array $context = []): void
     {
-        if (!in_array($a_level, ilLogLevel::getLevels())) {
-            $a_level = ilLogLevel::INFO;
+        if (!in_array($level, ilLogLevel::getLevels())) {
+            $level = ilLogLevel::INFO;
         }
-        $this->getLogger()->log((int) $a_level, $a_message);
+        $this->getLogger()->log((int) $level, $message, $context);
     }
 
     /**
      * Write language log
      * @deprecated since version 5.1
      */
-    public function writeLanguageLog(string $a_topic, string $a_lang_key) : void
+    public function writeLanguageLog(string $topic, string $lang_key): void
     {
-        $this->getLogger()->debug("Language (" . $a_lang_key . "): topic -" . $a_topic . "- not present");
+        $this->getLogger()->debug("Language (" . $lang_key . "): topic -" . $topic . "- not present");
     }
-    
-    public function logStack(?int $a_level = null, string $a_message = '') : void
+
+    public function logStack(?int $level = null, string $message = '', array $context = []): void
     {
-        if (is_null($a_level)) {
-            $a_level = ilLogLevel::INFO;
+        if (is_null($level)) {
+            $level = ilLogLevel::INFO;
         }
 
-        if (!in_array($a_level, ilLogLevel::getLevels())) {
-            $a_level = ilLogLevel::INFO;
+        if (!in_array($level, ilLogLevel::getLevels())) {
+            $level = ilLogLevel::INFO;
         }
-        
-        
+
+
         try {
-            throw new \Exception($a_message);
+            throw new Exception($message);
         } catch (Exception $ex) {
-            $this->getLogger()->log($a_level, $a_message . "\n" . $ex->getTraceAsString());
+            $this->getLogger()->log($level, $message . "\n" . $ex->getTraceAsString(), $context);
         }
     }
-    
+
     /**
      * Write memory peak usage
      * Automatically called at end of script
      */
-    public function writeMemoryPeakUsage(int $a_level) : void
+    public function writeMemoryPeakUsage(int $level): void
     {
         $this->getLogger()->pushProcessor(new MemoryPeakUsageProcessor());
-        $this->getLogger()->log($a_level, 'Memory usage: ');
+        $this->getLogger()->log($level, 'Memory usage: ');
         $this->getLogger()->popProcessor();
     }
 }

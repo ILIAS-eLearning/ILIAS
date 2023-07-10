@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -9,16 +11,11 @@ class BlogStandardGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\Blog\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\Blog\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,20 +16,18 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 class ilCronManagerTableGUI extends ilTable2GUI
 {
-    private ilCronJobRepository $cronRepository;
-    private bool $mayWrite;
-
     public function __construct(
         ilCronManagerGUI $a_parent_obj,
-        ilCronJobRepository $cronRepository,
+        private readonly ilCronJobRepository $cronRepository,
         string $a_parent_cmd,
-        bool $mayWrite = false
+        private readonly bool $mayWrite = false
     ) {
-        $this->cronRepository = $cronRepository;
-        $this->mayWrite = $mayWrite;
-
         $this->setId('crnmng'); // #14526 / #16391
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -63,56 +61,32 @@ class ilCronManagerTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
     }
 
-    private function formatSchedule(ilCronJobEntity $entity, array $row) : string
+    private function formatSchedule(ilCronJobEntity $entity, array $row): string
     {
-        $schedule = '';
-        switch ($entity->getEffectiveScheduleType()) {
-            case ilCronJob::SCHEDULE_TYPE_DAILY:
-                $schedule = $this->lng->txt('cron_schedule_daily');
-                break;
-
-            case ilCronJob::SCHEDULE_TYPE_WEEKLY:
-                $schedule = $this->lng->txt('cron_schedule_weekly');
-                break;
-
-            case ilCronJob::SCHEDULE_TYPE_MONTHLY:
-                $schedule = $this->lng->txt('cron_schedule_monthly');
-                break;
-
-            case ilCronJob::SCHEDULE_TYPE_QUARTERLY:
-                $schedule = $this->lng->txt('cron_schedule_quarterly');
-                break;
-
-            case ilCronJob::SCHEDULE_TYPE_YEARLY:
-                $schedule = $this->lng->txt('cron_schedule_yearly');
-                break;
-
-            case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
-                $schedule = sprintf(
-                    $this->lng->txt('cron_schedule_in_minutes'),
-                    $entity->getEffectiveScheduleValue()
-                );
-                break;
-
-            case ilCronJob::SCHEDULE_TYPE_IN_HOURS:
-                $schedule = sprintf(
-                    $this->lng->txt('cron_schedule_in_hours'),
-                    $entity->getEffectiveScheduleValue()
-                );
-                break;
-
-            case ilCronJob::SCHEDULE_TYPE_IN_DAYS:
-                $schedule = sprintf(
-                    $this->lng->txt('cron_schedule_in_days'),
-                    $entity->getEffectiveScheduleValue()
-                );
-                break;
-        }
+        $schedule = match ($entity->getEffectiveScheduleType()) {
+            CronJobScheduleType::SCHEDULE_TYPE_DAILY => $this->lng->txt('cron_schedule_daily'),
+            CronJobScheduleType::SCHEDULE_TYPE_WEEKLY => $this->lng->txt('cron_schedule_weekly'),
+            CronJobScheduleType::SCHEDULE_TYPE_MONTHLY => $this->lng->txt('cron_schedule_monthly'),
+            CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY => $this->lng->txt('cron_schedule_quarterly'),
+            CronJobScheduleType::SCHEDULE_TYPE_YEARLY => $this->lng->txt('cron_schedule_yearly'),
+            CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES => sprintf(
+                $this->lng->txt('cron_schedule_in_minutes'),
+                $entity->getEffectiveScheduleValue()
+            ),
+            CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS => sprintf(
+                $this->lng->txt('cron_schedule_in_hours'),
+                $entity->getEffectiveScheduleValue()
+            ),
+            CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS => sprintf(
+                $this->lng->txt('cron_schedule_in_days'),
+                $entity->getEffectiveScheduleValue()
+            )
+        };
 
         return $schedule;
     }
 
-    private function formatStatusInfo(ilCronJobEntity $entity) : string
+    private function formatStatusInfo(ilCronJobEntity $entity): string
     {
         $status_info = [];
         if ($entity->getJobStatusTimestamp()) {
@@ -130,7 +104,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         return implode('<br />', $status_info);
     }
 
-    private function formatResult(ilCronJobEntity $entity) : string
+    private function formatResult(ilCronJobEntity $entity): string
     {
         $result = '-';
         if ($entity->getJobResultStatus()) {
@@ -164,7 +138,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         return $result;
     }
 
-    private function formatResultInfo(ilCronJobEntity $entity) : string
+    private function formatResultInfo(ilCronJobEntity $entity): string
     {
         $result_info = [];
         if ($entity->getJobResultDuration()) {
@@ -179,7 +153,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
             $result_info[] = $entity->getJobResultMessage();
         }
 
-        if (defined('DEVMODE') && DEVMODE) {
+        if (defined('DEVMODE') && DEVMODE && $resultCode) {
             $result_info[] = $resultCode;
         }
 
@@ -192,9 +166,9 @@ class ilCronManagerTableGUI extends ilTable2GUI
         return implode('<br />', $result_info);
     }
 
-    public function populate(ilCronJobCollection $collection) : self
+    public function populate(ilCronJobCollection $collection): self
     {
-        $this->setData(array_map(function (ilCronJobEntity $entity) : array {
+        $this->setData(array_map(function (ilCronJobEntity $entity): array {
             $row = [];
 
             $row['schedule'] = $this->formatSchedule($entity, $row);
@@ -231,14 +205,14 @@ class ilCronManagerTableGUI extends ilTable2GUI
 
             if ($entity->getJob()->hasFlexibleSchedule()) {
                 $row['editable_schedule'] = true;
-                if (!$entity->getScheduleType()) {
+                if ($entity->getScheduleType() === null) {
                     $this->cronRepository->updateJobSchedule(
                         $entity->getJob(),
                         $entity->getEffectiveScheduleType(),
                         $entity->getEffectiveScheduleValue()
                     );
                 }
-            } elseif ($entity->getScheduleType()) {
+            } elseif ($entity->getScheduleType() !== null) {
                 $this->cronRepository->updateJobSchedule($entity->getJob(), null, null);
             }
 
@@ -248,7 +222,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         return $this;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->mayWrite) {
             $this->tpl->setVariable('VAL_JID', $a_set['job_id']);

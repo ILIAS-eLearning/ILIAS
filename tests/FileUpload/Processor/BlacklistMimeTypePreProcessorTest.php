@@ -22,7 +22,6 @@ use PHPUnit\Framework\TestCase;
  */
 class BlacklistMimeTypePreProcessorTest extends TestCase
 {
-
     /**
      * @Test
      * @small

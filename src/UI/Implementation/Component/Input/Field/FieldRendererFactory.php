@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -9,7 +25,7 @@ use ILIAS\UI\Component;
 
 class FieldRendererFactory extends Render\DefaultRendererFactory
 {
-    public function getRendererInContext(Component\Component $component, array $contexts) : Render\AbstractComponentRenderer
+    public function getRendererInContext(Component\Component $component, array $contexts): Render\AbstractComponentRenderer
     {
         if (in_array('StandardFilterContainerInput', $contexts)) {
             return new FilterContextRenderer(
@@ -18,7 +34,9 @@ class FieldRendererFactory extends Render\DefaultRendererFactory
                 $this->lng,
                 $this->js_binding,
                 $this->refinery,
-                $this->image_path_resolver
+                $this->image_path_resolver,
+                $this->data_factory,
+                $this->help_text_retriever
             );
         }
         return new Renderer(
@@ -27,7 +45,9 @@ class FieldRendererFactory extends Render\DefaultRendererFactory
             $this->lng,
             $this->js_binding,
             $this->refinery,
-            $this->image_path_resolver
+            $this->image_path_resolver,
+            $this->data_factory,
+            $this->help_text_retriever
         );
     }
 }

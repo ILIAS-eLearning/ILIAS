@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * User Interface for plugged page component
@@ -25,7 +28,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
     protected ?ilPageComponentPlugin $current_plugin = null;
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
-    
+
     public function __construct(
         ilPageObject $a_pg_obj,
         ?ilPageContent $a_content_obj,
@@ -46,12 +49,12 @@ class ilPCPluggedGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function setPluginName(string $a_pluginname) : void
+    public function setPluginName(string $a_pluginname): void
     {
         $this->pluginname = $a_pluginname;
     }
 
-    public function getPluginName() : string
+    public function getPluginName(): string
     {
         return $this->pluginname;
     }
@@ -66,9 +69,9 @@ class ilPCPluggedGUI extends ilPageContentGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ret = "";
-        
+
         $ilTabs->setBackTarget($lng->txt("pg"), $ilCtrl->getLinkTarget($this, "returnToParent"));
-        
+
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -98,19 +101,19 @@ class ilPCPluggedGUI extends ilPageContentGUI
         return $ret;
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         $this->edit(true);
     }
 
-    public function edit(bool $a_insert = false) : void
+    public function edit(bool $a_insert = false): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $html = "";
-        
+
         $this->displayValidationError();
-        
+
         // edit form
         if ($a_insert) {
             $plugin_name = $this->getPluginName();
@@ -136,7 +139,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
         }
     }
 
-    public function createElement(array $a_properties) : bool
+    public function createElement(array $a_properties): bool
     {
         $this->content_obj = new ilPCPlugged($this->getPage());
         $this->content_obj->create(
@@ -154,7 +157,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
         return false;
     }
 
-    public function updateElement(array $a_properties) : bool
+    public function updateElement(array $a_properties): bool
     {
         $this->content_obj->setProperties($a_properties);
         $this->content_obj->setPluginVersion($this->current_plugin->getVersion());
@@ -164,8 +167,8 @@ class ilPCPluggedGUI extends ilPageContentGUI
         }
         return false;
     }
-    
-    public function returnToParent() : void
+
+    public function returnToParent(): void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }

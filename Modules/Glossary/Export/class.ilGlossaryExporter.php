@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Glossary XML export
@@ -22,7 +25,7 @@ class ilGlossaryExporter extends ilXmlExporter
 {
     private ilGlossaryDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilGlossaryDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -33,7 +36,7 @@ class ilGlossaryExporter extends ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         if ($a_entity == "glo") {
             $md_ids = array();
 
@@ -62,11 +65,8 @@ class ilGlossaryExporter extends ilXmlExporter
                 );
 
                 foreach ($terms as $t) {
-                    $defs = ilGlossaryDefinition::getDefinitionList($t["id"]);
-                    foreach ($defs as $d) {
-                        $page_ids[] = "gdf:" . $d["id"];
-                        $md_ids[] = $id . ":" . $d["id"] . ":gdf";
-                    }
+                    $page_ids[] = "term:" . $t["id"];
+                    $md_ids[] = $id . ":" . $t["id"] . ":term";
                 }
             }
             // definition pages and their metadat
@@ -84,7 +84,7 @@ class ilGlossaryExporter extends ilXmlExporter
             // taxonomy
             $tax_ids = array();
             foreach ($a_ids as $id) {
-                $t_ids = ilObjTaxonomy::getUsageOfObject($id);
+                $t_ids = ilObjTaxonomy::getUsageOfObject((int) $id);
                 if (count($t_ids) > 0) {
                     $tax_ids[$t_ids[0]] = $t_ids[0];
                 }
@@ -136,7 +136,7 @@ class ilGlossaryExporter extends ilXmlExporter
         return array();
     }
 
-    protected function getActiveAdvMDRecords(int $a_id) : array
+    protected function getActiveAdvMDRecords(int $a_id): array
     {
         $active = array();
         // selected globals
@@ -156,13 +156,19 @@ class ilGlossaryExporter extends ilXmlExporter
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string {
+    ): string {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
+            "9.0.0" => array(
+                "namespace" => "https://www.ilias.de/Modules/Glossary/htlm/9_0",
+                "xsd_file" => "ilias_glo_9_0.xsd",
+                "uses_dataset" => true,
+                "min" => "9.0.0",
+                "max" => ""),
             "5.4.0" => array(
                 "namespace" => "https://www.ilias.de/Modules/Glossary/htlm/5_4",
                 "xsd_file" => "ilias_glo_5_4.xsd",

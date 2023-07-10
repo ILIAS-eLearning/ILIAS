@@ -1,12 +1,22 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
-require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
 
 /**
  * Class for error text questions
@@ -22,10 +32,26 @@ require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php'
  */
 class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
 {
-    protected $errortext;
-    protected $textsize;
-    protected $errordata;
-    protected $points_wrong;
+    protected const ERROR_TYPE_WORD = 1;
+    protected const ERROR_TYPE_PASSAGE = 2;
+    protected const DEFAULT_TEXT_SIZE = 100.0;
+    protected const ERROR_MAX_LENGTH = 150;
+
+    protected const PARAGRAPH_SPLIT_REGEXP = '/[\n\r]+/';
+    protected const WORD_SPLIT_REGEXP = '/\s+/';
+    protected const FIND_PUNCTUATION_REGEXP = '/\p{P}/';
+    protected const ERROR_WORD_MARKER = '#';
+    protected const ERROR_PARAGRAPH_DELIMITERS = [
+        'start' => '((',
+        'end' => '))'
+    ];
+
+    protected string $errortext = '';
+    protected array $parsed_errortext = [];
+    /** @var list<assAnswerErrorText> $errordata */
+    protected array $errordata = [];
+    protected float $textsize;
+    protected ?float $points_wrong;
 
     /**
      * assErorText constructor
@@ -44,9 +70,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         $question = ''
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
-        $this->errortext = '';
-        $this->textsize = 100.0;
-        $this->errordata = array();
+        $this->textsize = self::DEFAULT_TEXT_SIZE;
     }
 
     /**
@@ -54,9 +78,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return boolean True, if the single choice question is complete for use, otherwise false
     */
-    public function isComplete() : bool
+    public function isComplete(): bool
     {
-        if (strlen($this->title)
+        if (mb_strlen($this->title)
             && ($this->author)
             && ($this->question)
             && ($this->getMaximumPoints() > 0)) {
@@ -70,7 +94,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     * Saves a the object to the database
     *
     */
-    public function saveToDb($original_id = "") : void
+    public function saveToDb($original_id = ""): void
     {
         if ($original_id == '') {
             $this->saveQuestionDataToDb();
@@ -85,28 +109,27 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
     public function saveAnswerSpecificDataToDb()
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM qpl_a_errortext WHERE question_fi = %s",
-            array( 'integer' ),
-            array( $this->getId() )
+            ['integer'],
+            [$this->getId()]
         );
 
         $sequence = 0;
-        foreach ($this->errordata as $object) {
-            $next_id = $ilDB->nextId('qpl_a_errortext');
-            $ilDB->manipulateF(
-                "INSERT INTO qpl_a_errortext (answer_id, question_fi, text_wrong, text_correct, points, sequence) VALUES (%s, %s, %s, %s, %s, %s)",
-                array( 'integer', 'integer', 'text', 'text', 'float', 'integer' ),
-                array(
-                                    $next_id,
-                                    $this->getId(),
-                                    $object->text_wrong,
-                                    $object->text_correct,
-                                    $object->points,
-                                    $sequence++
-                                )
+        foreach ($this->errordata as $error) {
+            $next_id = $this->db->nextId('qpl_a_errortext');
+            $this->db->manipulateF(
+                "INSERT INTO qpl_a_errortext (answer_id, question_fi, text_wrong, text_correct, points, sequence, position) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                ['integer', 'integer', 'text', 'text', 'float', 'integer', 'integer'],
+                [
+                    $next_id,
+                    $this->getId(),
+                    $error->getTextWrong(),
+                    $error->getTextCorrect(),
+                    $error->getPoints(),
+                    $sequence++,
+                    $error->getPosition()
+                ]
             );
         }
     }
@@ -118,24 +141,22 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      */
     public function saveAdditionalQuestionDataToDb()
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        // save additional data
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-            array( "integer" ),
-            array( $this->getId() )
+            ["integer"],
+            [$this->getId()]
         );
-        
-        $ilDB->manipulateF(
-            "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, errortext, textsize, points_wrong) VALUES (%s, %s, %s, %s)",
-            array("integer", "text", "float", "float"),
-            array(
-                               $this->getId(),
-                               $this->getErrorText(),
-                               $this->getTextSize(),
-                               $this->getPointsWrong()
-                           )
+
+        $this->db->manipulateF(
+            "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, errortext, parsed_errortext, textsize, points_wrong) VALUES (%s, %s, %s, %s, %s)",
+            ["integer", "text", "text", "float", "float"],
+            [
+                $this->getId(),
+                $this->getErrorText(),
+                json_encode($this->getParsedErrorText()),
+                $this->getTextSize(),
+                $this->getPointsWrong()
+            ]
         );
     }
 
@@ -145,18 +166,15 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     * @param object $db A pear DB object
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     */
-    public function loadFromDb($question_id) : void
+    public function loadFromDb($question_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
+        $db_question = $this->db->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
-            array("integer"),
-            array($question_id)
+            ["integer"],
+            [$question_id]
         );
-        if ($result->numRows() == 1) {
-            $data = $ilDB->fetchAssoc($result);
+        if ($db_question->numRows() === 1) {
+            $data = $this->db->fetchAssoc($db_question);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
             $this->setTitle((string) $data["title"]);
@@ -166,44 +184,75 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
-            include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
-            $this->setErrorText($data["errortext"]);
+            $this->setErrorText((string) $data["errortext"]);
+            $this->setParsedErrorText(json_decode($data['parsed_errortext'] ?? json_encode([]), true));
             $this->setTextSize($data["textsize"]);
             $this->setPointsWrong($data["points_wrong"]);
-            $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
             }
-            
+
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
             } catch (ilTestQuestionPoolException $e) {
             }
         }
 
-        $result = $ilDB->queryF(
+        $db_error_text = $this->db->queryF(
             "SELECT * FROM qpl_a_errortext WHERE question_fi = %s ORDER BY sequence ASC",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
-        if ($result->numRows() > 0) {
-            while ($data = $ilDB->fetchAssoc($result)) {
-                array_push($this->errordata, new assAnswerErrorText($data["text_wrong"], $data["text_correct"], $data["points"]));
+
+        if ($db_error_text->numRows() > 0) {
+            while ($data = $this->db->fetchAssoc($db_error_text)) {
+                $this->errordata[] = new assAnswerErrorText(
+                    (string) $data['text_wrong'],
+                    (string) $data['text_correct'],
+                    (float) $data['points'],
+                    $data['position']
+                );
             }
         }
 
+        $this->correctDataAfterParserUpdate();
+
         parent::loadFromDb($question_id);
+    }
+
+    private function correctDataAfterParserUpdate(): void
+    {
+        if ($this->getErrorText() === '') {
+            return;
+        }
+        $needs_finalizing = false;
+        if ($this->getParsedErrorText() === []) {
+            $needs_finalizing = true;
+            $this->parseErrorText();
+        }
+
+        if (isset($this->errordata[0])
+            && $this->errordata[0]->getPosition() === null) {
+            foreach ($this->errordata as $key => $error) {
+                $this->errordata[$key] = $this->addPositionToErrorAnswer($error);
+            }
+            $this->saveAnswerSpecificDataToDb();
+        }
+
+        if ($needs_finalizing) {
+            $this->completeParsedErrorTextFromErrorData();
+            $this->saveAdditionalQuestionDataToDb();
+        }
     }
 
     /**
     * Duplicates the object
     */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null): int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
@@ -212,16 +261,16 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         // duplicate the question in database
         $this_id = $this->getId();
         $thisObjId = $this->getObjId();
-        
+
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
-        
+
         if ((int) $testObjId > 0) {
             $clone->setObjId($testObjId);
         }
-        
+
         if ($title) {
             $clone->setTitle($title);
         }
@@ -250,18 +299,18 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
     * Copies an object
     */
-    public function copyObject($target_questionpool_id, $title = "") : int
+    public function copyObject($target_questionpool_id, $title = ""): int
     {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
         // duplicate the question in database
-        
+
         $thisId = $this->getId();
         $thisObjId = $this->getObjId();
-        
+
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
         $clone->setObjId($target_questionpool_id);
@@ -280,13 +329,11 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "") : int
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
     {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
-
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 
         $sourceQuestionId = $this->id;
         $sourceParentId = $this->getObjId();
@@ -317,12 +364,12 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @see $points
     */
-    public function getMaximumPoints() : float
+    public function getMaximumPoints(): float
     {
         $maxpoints = 0.0;
-        foreach ($this->errordata as $object) {
-            if ($object->points > 0) {
-                $maxpoints += $object->points;
+        foreach ($this->errordata as $error) {
+            if ($error->getPoints() > 0) {
+                $maxpoints += $error->getPoints();
             }
         }
         return $maxpoints;
@@ -338,34 +385,31 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false) : int
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
         }
 
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         /* First get the positions which were selected by the user. */
-        $positions = array();
+        $positions = [];
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
         $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
 
-        while ($row = $ilDB->fetchAssoc($result)) {
-            array_push($positions, $row['value1']);
+        while ($row = $this->db->fetchAssoc($result)) {
+            $positions[] = $row['value1'];
         }
         $points = $this->getPointsForSelectedPositions($positions);
         return $points;
     }
 
-    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $preview_session)
     {
-        $reachedPoints = $this->getPointsForSelectedPositions($previewSession->getParticipantsSolution());
-        $reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
-        return $this->ensureNonNegativePoints($reachedPoints);
+        $reached_points = $this->getPointsForSelectedPositions($preview_session->getParticipantsSolution() ?? []);
+        $reached_points = $this->deductHintPointsFromReachedPoints($preview_session, $reached_points);
+        return $this->ensureNonNegativePoints($reached_points);
     }
 
     /**
@@ -376,668 +420,490 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
+    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
-
         if (is_null($pass)) {
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
             $pass = ilObjTest::_getPass($active_id);
         }
 
-        $entered_values = false;
+        $selected = $this->getAnswersFromRequest();
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
+            function () use ($selected, $active_id, $pass, $authorized) {
+                $this->removeCurrentSolution($active_id, $pass, $authorized);
 
-        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized) {
-            $this->removeCurrentSolution($active_id, $pass, $authorized);
-
-            if (strlen($_POST["qst_" . $this->getId()])) {
-                $selected = explode(",", $_POST["qst_" . $this->getId()]);
                 foreach ($selected as $position) {
                     $this->saveCurrentSolution($active_id, $pass, $position, null, $authorized);
                 }
-                $entered_values = true;
             }
-        });
+        );
 
-        if ($entered_values) {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
-                ), $active_id, $this->getId());
-            }
-        } else {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_not_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
-                ), $active_id, $this->getId());
-            }
+        if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
+            $this->logUserAction($selected !== [], (int) $active_id);
         }
 
         return true;
     }
 
-    public function savePreviewData(ilAssQuestionPreviewSession $previewSession) : void
+    public function savePreviewData(ilAssQuestionPreviewSession $previewSession): void
     {
-        if (strlen($_POST["qst_" . $this->getId()])) {
-            $selection = explode(',', $_POST["qst_{$this->getId()}"]);
-        } else {
-            $selection = array();
-        }
-        
+        $selection = $this->getAnswersFromRequest();
         $previewSession->setParticipantsSolution($selection);
     }
 
-    /**
-    * Returns the question type of the question
-    *
-    * @return integer The question type of the question
-    */
-    public function getQuestionType() : string
+    private function logUserAction(bool $user_entered_values, int $active_id): void
     {
-        return "assErrorText";
+        $log_text = $this->lng->txtlng(
+            "assessment",
+            $user_entered_values ? 'log_user_entered_values' : 'log_user_not_entered_values',
+            ilObjAssessmentFolder::_getLogLanguage()
+        );
+        assQuestion::logAction($log_text, $active_id, $this->getId());
     }
 
-    /**
-    * Returns the name of the additional question data table in the database
-    *
-    * @return string The additional table name
-    */
-    public function getAdditionalTableName() : string
+    private function getAnswersFromRequest(): array
     {
-        return "qpl_qst_errortext";
+        if (mb_strlen($_POST["qst_" . $this->getId()])) {
+            return explode(',', $_POST["qst_{$this->getId()}"]);
+        }
+
+        return [];
     }
 
-    /**
-    * Returns the name of the answer table in the database
-    *
-    * @return string The answer table name
-    */
-    public function getAnswerTableName() : string
+    public function getQuestionType(): string
     {
-        return "qpl_a_errortext";
+        return 'assErrorText';
     }
 
-    /**
-    * Collects all text in the question which could contain media objects
-    * which were created with the Rich Text Editor
-    */
-    public function getRTETextWithMediaObjects() : string
+    public function getAdditionalTableName(): string
     {
-        $text = parent::getRTETextWithMediaObjects();
-        return $text;
+        return 'qpl_qst_errortext';
+    }
+
+    public function getAnswerTableName(): string
+    {
+        return 'qpl_a_errortext';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
     {
-        parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+        parent::setExportDetailsXLS($worksheet, $startrow, $col, $active_id, $pass);
 
         $i = 0;
-        $selections = array();
+        $selections = [];
         $solutions = $this->getSolutionValues($active_id, $pass);
         if (is_array($solutions)) {
             foreach ($solutions as $solution) {
-                array_push($selections, $solution['value1']);
+                $selections[] = $solution['value1'];
             }
-            $errortext_value = join(",", $selections);
         }
         $errortext = $this->createErrorTextExport($selections);
         $i++;
-        $worksheet->setCell($startrow + $i, 0, $errortext);
+        $worksheet->setCell($startrow + $i, $col + 2, $errortext);
         $i++;
 
         return $startrow + $i + 1;
     }
 
-    /**
-    * Creates a question from a QTI file
-    *
-    * Receives parameters from a QTI parser and creates a valid ILIAS question object
-    *
-    * @param ilQTIItem $item The QTI item object
-    * @param integer $questionpool_id The id of the parent questionpool
-    * @param integer $tst_id The id of the parent test if the question is part of a test
-    * @param object $tst_object A reference to the parent test object
-    * @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
-    * @param array $import_mapping An array containing references to included ILIAS objects
-    */
-    public function fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping) : void
+    public function fromXML($item, int $questionpool_id, ?int $tst_id, &$tst_object, int &$question_counter, array $import_mapping, array &$solutionhints = []): array
     {
-        include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assErrorTextImport.php";
         $import = new assErrorTextImport($this);
-        $import->fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping);
+        return $import->fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping);
     }
 
-    /**
-    * Returns a QTI xml representation of the question and sets the internal
-    * domxml variable with the DOM XML representation of the QTI xml representation
-    *
-    * @return string The QTI xml representation of the question
-    */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
-        include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assErrorTextExport.php";
         $export = new assErrorTextExport($this);
         return $export->toXML($a_include_header, $a_include_binary, $a_shuffle, $test_output, $force_image_references);
     }
 
-    /**
-    * Returns the best solution for a given pass of a participant
-    *
-    * @return array An associated array containing the best solution
-    */
-    public function getBestSolution($active_id, $pass) : array
+    public function setErrorsFromParsedErrorText(): void
     {
-        $user_solution = array();
-        return $user_solution;
-    }
+        $current_error_data = $this->getErrorData();
+        $this->errordata = [];
 
-    public function getErrorsFromText($a_text = "") : array
-    {
-        if (strlen($a_text) == 0) {
-            $a_text = $this->getErrorText();
-        }
-
-        /* Workaround to allow '(' and ')' in passages.
-           The beginning- and ending- Passage delimiters are
-           replaced by a ~ (Tilde) symbol. */
-        $a_text = str_replace(array("((", "))"), array("~", "~"), $a_text);
-
-        /* Match either Passage delimited by double brackets
-           or single words marked with a hash (#). */
-        $r_passage = "/(~([^~]+)~|#([^\s]+))/";
-
-        preg_match_all($r_passage, $a_text, $matches);
-
-        if (is_array($matches[0]) && !empty($matches[0])) {
-            /* At least one match. */
-
-            /* We need only groups 2 and 3, respectively representing
-               passage matches and single word matches. */
-            $matches = array_intersect_key($matches, array(2 => '', 3 => ''));
-
-            /* Remove empty values. */
-            $matches[2] = array_diff($matches[2], array(''));
-            $matches[3] = array_diff($matches[3], array(''));
-
-            return array(
-                "passages" => $matches[2],
-                "words" => $matches[3],);
-        }
-
-        return array();
-    }
-
-    public function setErrorData($a_data)
-    {
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
-        $temp = $this->errordata;
-        $this->errordata = array();
-        foreach ($a_data as $err_type => $errors) {
-            /* Iterate through error types (Passages|single words) */
-
-            foreach ($errors as $idx => $error) {
-                /* Iterate through errors of this type. */
-                $text_correct = "";
-                $points = 0.0;
-                foreach ($temp as $object) {
-                    if (strcmp($object->text_wrong, $error) == 0) {
-                        $text_correct = $object->text_correct;
-                        $points = $object->points;
-                        continue;
-                    }
+        $has_too_long_errors = false;
+        foreach ($this->getParsedErrorText() as $paragraph) {
+            foreach ($paragraph as $position => $word) {
+                if ($word['error_type'] === 'in_passage'
+                    || $word['error_type'] === 'passage_end'
+                    || $word['error_type'] === 'none') {
+                    continue;
                 }
-                $this->errordata[$idx] = new assAnswerErrorText($error, $text_correct, $points);
+
+                $text_wrong = $word['text_wrong'];
+                if (mb_strlen($text_wrong) > self::ERROR_MAX_LENGTH) {
+                    $has_too_long_errors = true;
+                    continue;
+                }
+
+                list($text_correct, $points) =
+                    $this->getAdditionalInformationFromExistingErrorDataByErrorText($current_error_data, $text_wrong);
+                $this->errordata[] = new assAnswerErrorText($text_wrong, $text_correct, $points, $position);
             }
         }
-        ksort($this->errordata);
+
+        if ($has_too_long_errors) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('qst_error_text_too_long')
+            );
+        }
     }
 
-    public function createErrorTextOutput($selections = null, $graphicalOutput = false, $correct_solution = false, $use_link_tags = true) : string
+    private function addPositionToErrorAnswer(assAnswerErrorText $error): assAnswerErrorText
     {
-        $counter = 0;
-        $errorcounter = 0;
-        include_once "./Services/Utilities/classes/class.ilStr.php";
-        if (!is_array($selections)) {
-            $selections = array();
-        }
-        $textarray = preg_split("/[\n\r]+/", $this->getErrorText());
-
-        foreach ($textarray as $textidx => $text) {
-            $in_passage = false;
-            $passage_end = false;
-            $items = preg_split("/\s+/", $text);
-            foreach ($items as $idx => $item) {
-                $img = '';
-
-                if (
-                    ($posHash = strpos($item, '#')) === 0 ||
-                    ($posOpeningBrackets = strpos($item, '((')) === 0 ||
-                    ($posClosingBrackets = strpos($item, '))')) !== false
+        foreach ($this->getParsedErrorText() as $paragraph) {
+            foreach ($paragraph as $position => $word) {
+                if (isset($word['text_wrong'])
+                    && ($word['text_wrong'] === $error->getTextWrong()
+                        || mb_substr($word['text_wrong'], 0, -1) === $error->getTextWrong()
+                            && preg_match(self::FIND_PUNCTUATION_REGEXP, mb_substr($word['text_wrong'], -1)) === 1)
+                    && !array_key_exists($position, $this->generateArrayByPositionFromErrorData())
                 ) {
-                    /* (Word|Passage)-Marking delimiter found. */
-
-                    if ($posHash !== false) {
-                        $item = ilStr::substr($item, 1, ilStr::strlen($item) - 1);
-                        $passage_end = false;
-                    } elseif ($posOpeningBrackets !== false) {
-                        $in_passage = true;
-                        $passage_start_idx = $counter;
-                        $items_in_passage = array();
-                        $passage_end = false;
-                        $item = ilStr::substr($item, 2, ilStr::strlen($item) - 2);
-
-                        /* Sometimes a closing bracket group needs
-                           to be removed as well. */
-                        if (strpos($item, '))') !== false) {
-                            $item = str_replace("))", "", $item);
-                            $passage_end = true;
-                        }
-                    } else {
-                        $passage_end = true;
-                        $item = str_replace("))", "", $item);
-                    }
-
-                    if ($correct_solution && !$in_passage) {
-                        $errorobject = $this->errordata[$errorcounter];
-                        if (is_object($errorobject)) {
-                            $item = strlen($errorobject->text_correct) ? $errorobject->text_correct : '&nbsp;';
-                        }
-                        $errorcounter++;
-                    }
+                    return $error->withPosition($position);
                 }
-                
-                if ($in_passage && !$passage_end) {
-                    $items_in_passage[$idx] = $item;
-                    $items[$idx] = '';
-                    $counter++;
-                    continue;
-                }
-
-                if ($in_passage && $passage_end) {
-                    $in_passage = false;
-                    $passage_end = false;
-                    if ($correct_solution) {
-                        $class = (
-                            $this->isTokenSelected($counter, $selections) ?
-                            "ilc_qetitem_ErrorTextSelected" : "ilc_qetitem_ErrorTextItem"
-                        );
-                        
-                        $errorobject = $this->errordata[$errorcounter];
-                        if (is_object($errorobject)) {
-                            $item = strlen($errorobject->text_correct) ? $errorobject->text_correct : '&nbsp;';
-                        }
-                        $errorcounter++;
-                        $items[$idx] = $this->getErrorTokenHtml($item, $class, $use_link_tags) . $img;
-                        $counter++;
-                        continue;
-                    }
-                    
-                    $group_selected = true;
-                    if ($graphicalOutput) {
-                        $start_idx = $passage_start_idx;
-                        foreach ($items_in_passage as $tmp_idx => $tmp_item) {
-                            if (!$this->isTokenSelected($start_idx, $selections)) {
-                                $group_selected = false;
-                                break;
-                            }
-                            
-                            ++$start_idx;
-                        }
-                        if ($group_selected) {
-                            if (!$this->isTokenSelected($counter, $selections)) {
-                                $group_selected = false;
-                            }
-                        }
-                    }
-
-                    $item_stack = array();
-                    $start_idx = $passage_start_idx;
-                    foreach ($items_in_passage as $tmp_idx => $tmp_item) {
-                        $class = (
-                            $this->isTokenSelected($counter, $selections) ?
-                            "ilc_qetitem_ErrorTextSelected" : "ilc_qetitem_ErrorTextItem"
-                        );
-                        $item_stack[] = $this->getErrorTokenHtml($tmp_item, $class, $use_link_tags) . $img;
-                        $start_idx++;
-                    }
-                    $class = (
-                        $this->isTokenSelected($counter, $selections) ?
-                        "ilc_qetitem_ErrorTextSelected" : "ilc_qetitem_ErrorTextItem"
-                    );
-                    if ($graphicalOutput) {
-                        if ($group_selected) {
-                            $img = ' <img src="' . ilUtil::getImagePath("icon_ok.svg") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
-                        } else {
-                            $img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.svg") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
-                        }
-                    }
-                    
-                    $item_stack[] = $this->getErrorTokenHtml($item, $class, $use_link_tags) . $img;
-                    $item_stack = trim(implode(" ", $item_stack));
-                    $item_stack = strlen($item_stack) ? $item_stack : '&nbsp;';
-                    
-                    if ($graphicalOutput) {
-                        $items[$idx] = '<span class="selGroup">' . $item_stack . '</span>';
-                    } else {
-                        $items[$idx] = $item_stack;
-                    }
-                    
-                    $counter++;
-                    continue;
-                }
-
-                // Errors markes with #, group errors (()) are handled above
-                $class = 'ilc_qetitem_ErrorTextItem';
-                $img = '';
-                if ($this->isTokenSelected($counter, $selections)) {
-                    $class = "ilc_qetitem_ErrorTextSelected";
-                    if ($graphicalOutput) {
-                        if ($this->getPointsForSelectedPositions(array($counter)) > 0) {
-                            $img = ' <img src="' . ilUtil::getImagePath("icon_ok.svg") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
-                        } else {
-                            $img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.svg") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
-                        }
-                    }
-                }
-
-                $items[$idx] = $this->getErrorTokenHtml($item, $class, $use_link_tags) . $img;
-                $counter++;
-            }
-            $textarray[$textidx] = '<p>' . implode(" ", $items) . '</p>';
-        }
-        
-        return implode("\n", $textarray);
-    }
-    
-    protected function isTokenSelected($counter, array $selection) : bool
-    {
-        foreach ($selection as $data) {
-            if (!is_array($data)) {
-                if ($counter == $data) {
-                    return true;
-                }
-            } elseif (in_array($counter, $data)) {
-                return true;
             }
         }
-        
-        return false;
+
+        return $error;
     }
 
-    public function createErrorTextExport($selections = null) : string
+    private function completeParsedErrorTextFromErrorData(): void
     {
-        $counter = 0;
-        $errorcounter = 0;
-        include_once "./Services/Utilities/classes/class.ilStr.php";
+        foreach ($this->errordata as $error) {
+            $position = $error->getPosition();
+            foreach ($this->getParsedErrorText() as $key => $paragraph) {
+                if (array_key_exists($position, $paragraph)) {
+                    $this->parsed_errortext[$key][$position]['text_correct'] =
+                        $error->getTextCorrect();
+                    $this->parsed_errortext[$key][$position]['points'] =
+                        $error->getPoints();
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param array<assAnswerErrorText> $errors
+     */
+    public function setErrorData(array $errors): void
+    {
+        $this->errordata = [];
+
+        foreach ($errors as $error) {
+            $answer = $this->addPositionToErrorAnswer($error);
+            $this->errordata[] = $answer;
+        }
+        $this->completeParsedErrorTextFromErrorData();
+    }
+
+    public function removeErrorDataWithoutPosition(): void
+    {
+        foreach ($this->getErrorData() as $index => $error) {
+            if ($error->getPosition() === null) {
+                unset($this->errordata[$index]);
+            }
+        }
+        $this->errordata = array_values($this->errordata);
+    }
+
+    /**
+     *
+     * @param array<assAnswerErrorText> $current_error_data
+     * @return array<mixed>
+     */
+    private function getAdditionalInformationFromExistingErrorDataByErrorText(
+        array $current_error_data,
+        string $text_wrong
+    ): array {
+        foreach ($current_error_data as $answer_object) {
+            if (strcmp($answer_object->getTextWrong(), $text_wrong) === 0) {
+                return[
+                    $answer_object->getTextCorrect(),
+                    $answer_object->getPoints()
+                ];
+            }
+        }
+        return ['', 0.0];
+    }
+
+    public function assembleErrorTextOutput(
+        array $selections,
+        bool $graphical_output = false,
+        bool $show_correct_solution = false,
+        bool $use_link_tags = true,
+        array $correctness_icons = []
+    ): string {
+        $output_array = [];
+        foreach ($this->getParsedErrorText() as $paragraph) {
+            $array_reduce_function = fn (?string $carry, int $position)
+                => $carry . $this->generateOutputStringFromPosition(
+                    $position,
+                    $selections,
+                    $paragraph,
+                    $graphical_output,
+                    $show_correct_solution,
+                    $use_link_tags,
+                    $correctness_icons
+                );
+            $output_array[] = '<p>' . trim(array_reduce(array_keys($paragraph), $array_reduce_function)) . '</p>';
+        }
+
+        return implode("\n", $output_array);
+    }
+
+    private function generateOutputStringFromPosition(
+        int $position,
+        array $selections,
+        array $paragraph,
+        bool $graphical_output,
+        bool $show_correct_solution,
+        bool $use_link_tags,
+        array $correctness_icons
+    ): string {
+        $text = $this->getTextForPosition($position, $paragraph, $show_correct_solution);
+        if ($text === '') {
+            return '';
+        }
+        $class = $this->getClassForPosition($position, $show_correct_solution, $selections);
+        $img = $this->getCorrectnessIconForPosition(
+            $position,
+            $graphical_output,
+            $selections,
+            $correctness_icons
+        );
+
+        return ' ' . $this->getErrorTokenHtml($text, $class, $use_link_tags) . $img;
+    }
+
+    private function getTextForPosition(
+        int $position,
+        array $paragraph,
+        bool $show_correct_solution
+    ): string {
+        $v = $paragraph[$position];
+        if ($show_correct_solution === true
+            && ($v['error_type'] === 'in_passage'
+            || $v['error_type'] === 'passage_end')) {
+            return '';
+        }
+        if ($show_correct_solution
+            && ($v['error_type'] === 'passage_start'
+            || $v['error_type'] === 'word')) {
+            return $v['text_correct'] ?? '';
+        }
+
+        return $v['text'];
+    }
+
+    private function getClassForPosition(
+        int $position,
+        bool $show_correct_solution,
+        array $selections
+    ): string {
+        if ($show_correct_solution !== true
+            && in_array($position, $selections['user'])) {
+            return 'ilc_qetitem_ErrorTextSelected';
+        }
+
+        if ($show_correct_solution === true
+            && in_array($position, $selections['best'])) {
+            return 'ilc_qetitem_ErrorTextSelected';
+        }
+
+        return 'ilc_qetitem_ErrorTextItem';
+    }
+
+    private function getCorrectnessIconForPosition(
+        int $position,
+        bool $graphical_output,
+        array $selections,
+        array $correctness_icons
+    ): string {
+        if ($graphical_output === true
+             && (in_array($position, $selections['user']) && !in_array($position, $selections['best'])
+             || !in_array($position, $selections['user']) && in_array($position, $selections['best']))) {
+            return $correctness_icons['not_correct'];
+        }
+
+        if ($graphical_output === true
+            && in_array($position, $selections['user']) && in_array($position, $selections['best'])) {
+            return $correctness_icons['correct'];
+        }
+
+        return '';
+    }
+
+    public function createErrorTextExport(array $selections): string
+    {
         if (!is_array($selections)) {
-            $selections = array();
+            $selections = [];
         }
-        $textarray = preg_split("/[\n\r]+/", $this->getErrorText());
-        foreach ($textarray as $textidx => $text) {
-            $items = preg_split("/\s+/", $text);
-            foreach ($items as $idx => $item) {
-                if (($posHash = strpos($item, '#')) === 0
-                    || ($posOpeningBrackets = strpos($item, '((')) === 0
-                    || ($posClosingBrackets = strpos($item, '))')) !== false) {
-                    /* (Word|Passage)-Marking delimiter found. */
 
-                    if ($posHash !== false) {
-                        $item = ilStr::substr($item, 1, ilStr::strlen($item) - 1);
-                    } elseif ($posOpeningBrackets !== false) {
-                        $item = ilStr::substr($item, 2, ilStr::strlen($item) - 2);
-
-                        /* Sometimes a closing bracket group needs
-                           to be removed as well. */
-                        if (strpos($item, '))') !== false) {
-                            $item = ilStr::substr($item, 0, ilStr::strlen($item) - 2);
-                        }
-                    } else {
-                        $appendComma = "";
-                        if ($item[$posClosingBrackets + 2] == ',') {
-                            $appendComma = ",";
-                        }
-
-                        $item = ilStr::substr($item, 0, $posClosingBrackets) . $appendComma;
-                    }
+        foreach ($this->getParsedErrorText() as $paragraph) {
+            $array_reduce_function = function ($carry, $k) use ($paragraph, $selections) {
+                $text = $paragraph[$k]['text'];
+                if (in_array($k, $selections)) {
+                    $text = self::ERROR_WORD_MARKER . $paragraph[$k]['text'] . self::ERROR_WORD_MARKER;
                 }
-
-                $word = "";
-                if (in_array($counter, $selections)) {
-                    $word .= '#';
-                }
-                $word .= ilLegacyFormElementsUtil::prepareFormOutput($item);
-                if (in_array($counter, $selections)) {
-                    $word .= '#';
-                }
-                $items[$idx] = $word;
-                $counter++;
-            }
-            $textarray[$textidx] = join(" ", $items);
+                return $carry . ' ' . $text;
+            };
+            $output_array[] = trim(array_reduce(array_keys($paragraph), $array_reduce_function));
         }
-        return join("\n", $textarray);
+        return implode("\n", $output_array);
     }
 
-    public function getBestSelection($withPositivePointsOnly = true) : array
+    public function getBestSelection($withPositivePointsOnly = true): array
     {
-        $passages = array();
-        $words = array();
-        $counter = 0;
-        $errorcounter = 0;
-        $textarray = preg_split("/[\n\r]+/", $this->getErrorText());
-        foreach ($textarray as $textidx => $text) {
-            $items = preg_split("/\s+/", $text);
-            $inPassage = false;
-            foreach ($items as $word) {
-                $points = $this->getPointsWrong();
-                $isErrorItem = false;
-                if (strpos($word, '#') === 0) {
-                    /* Word selection detected */
-                    $errorobject = $this->errordata[$errorcounter];
-                    if (is_object($errorobject)) {
-                        $points = $errorobject->points;
-                        $isErrorItem = true;
-                    }
-                    $errorcounter++;
-                } elseif (($posOpeningBracket = strpos($word, '((')) === 0
-                        || ($posClosingBracket = strpos($word, '))')) !== false
-                        || $inPassage) {
-                    /* Passage selection detected */
+        $positions_array = $this->generateArrayByPositionFromErrorData();
+        $selections = [];
+        foreach ($positions_array as $position => $position_data) {
+            if ($position === ''
+                || $withPositivePointsOnly && $position_data['points'] < 1) {
+                continue;
+            }
 
-                    if ($posOpeningBracket !== false) {
-                        $passages[] = array('begin_pos' => $counter, 'cnt_words' => 0);
-                        $inPassage = true;
-                    } elseif ($posClosingBracket !== false) {
-                        $inPassage = false;
-                        $cur_pidx = count($passages) - 1;
-                        $passages[$cur_pidx]['end_pos'] = $counter;
-
-                        $errorobject = $this->errordata[$errorcounter];
-                        if (is_object($errorobject)) {
-                            $passages[$cur_pidx]['score'] = $errorobject->points;
-                            $passages[$cur_pidx]['isError'] = true;
-                        }
-                        
-                        $errorcounter++;
-                    }
-
-                    $cur_pidx = count($passages) - 1;
-                    $passages[$cur_pidx]['cnt_words']++;
-                    $points = 0;
+            $selections[] = $position;
+            if ($position_data['length'] > 1) {
+                for ($i = 1;$i < $position_data['length'];$i++) {
+                    $selections[] = $position + $i;
                 }
-
-                $words[$counter] = array("word" => $word, "points" => $points, "isError" => $isErrorItem);
-                $counter++;
             }
         }
 
-        $selections = array();
-        foreach ($passages as $cnt => $pdata) {
-            if (!$withPositivePointsOnly && $pdata['isError'] || $withPositivePointsOnly && $pdata['score'] > 0) {
-                $indexes = range($pdata['begin_pos'], $pdata['end_pos']);
-                $selections[$pdata['begin_pos']] = $indexes;
-            }
-        }
-
-        foreach ($words as $idx => $word) {
-            if (!$withPositivePointsOnly && $word['isError'] || $withPositivePointsOnly && $word['points'] > 0) {
-                $selections[$idx] = array($idx);
-            }
-        }
-
-        ksort($selections);
-        
-        $selections = array_values($selections);
-        
         return $selections;
     }
 
-    protected function getPointsForSelectedPositions($positions)
+    /**
+     *
+     * @param list<string>|null $selected_words Positions of Selected Words Counting from 0
+     */
+    protected function getPointsForSelectedPositions(array $selected_word_positions): float
     {
-        $passages = array();
-        $words = array();
-        $counter = 0;
-        $errorcounter = 0;
-        $textarray = preg_split("/[\n\r]+/", $this->getErrorText());
-        foreach ($textarray as $textidx => $text) {
-            $items = preg_split("/\s+/", $text);
-            $inPassage = false;
-            foreach ($items as $word) {
-                $points = $this->getPointsWrong();
-                if (strpos($word, '#') === 0) {
-                    /* Word selection detected */
-                    $errorobject = $this->errordata[$errorcounter];
-                    if (is_object($errorobject)) {
-                        $points = $errorobject->points;
-                    }
-                    $errorcounter++;
-                } elseif (($posOpeningBracket = strpos($word, '((')) === 0
-                        || ($posClosingBracket = strpos($word, '))')) !== false
-                        || $inPassage) {
-                    /* Passage selection detected */
+        $points = 0;
+        $correct_positions = $this->generateArrayByPositionFromErrorData();
 
-                    if ($posOpeningBracket !== false) {
-                        $passages[] = array('begin_pos' => $counter, 'cnt_words' => 0);
-                        $inPassage = true;
-                    } elseif ($posClosingBracket !== false) {
-                        $inPassage = false;
-                        $cur_pidx = count($passages) - 1;
-                        $passages[$cur_pidx]['end_pos'] = $counter;
+        foreach ($correct_positions as $correct_position => $correct_position_data) {
+            $selected_word_key = array_search($correct_position, $selected_word_positions);
+            if ($selected_word_key === false) {
+                continue;
+            }
 
-                        $errorobject = $this->errordata[$errorcounter];
-                        if (is_object($errorobject)) {
-                            $passages[$cur_pidx]['score'] = $errorobject->points;
-                        }
-                        $errorcounter++;
-                    }
+            if ($correct_position_data['length'] === 1) {
+                $points += $correct_position_data['points'];
+                unset($selected_word_positions[$selected_word_key]);
+                continue;
+            }
 
-                    $cur_pidx = count($passages) - 1;
-                    $passages[$cur_pidx]['cnt_words']++;
-                    $points = 0;
+            $passage_complete = true;
+            for ($i = 1;$i < $correct_position_data['length'];$i++) {
+                $selected_passage_element_key = array_search($correct_position + $i, $selected_word_positions);
+                if ($selected_passage_element_key === false) {
+                    $passage_complete = false;
+                    continue;
                 }
+                unset($selected_word_positions[$selected_passage_element_key]);
+            }
 
-                $words[$counter] = array("word" => $word, "points" => $points);
-                $counter++;
+            if ($passage_complete) {
+                $points += $correct_position_data['points'];
+                unset($selected_word_positions[$selected_word_key]);
             }
         }
 
-        /* Calculate reached points */
-        $total = 0;
-        foreach ($positions as $position) {
-            /* First iterate through positions
-               to identify single-word-selections. */
-
-            $total += $words[$position]['points'];
-        }
-
-        foreach ($passages as $cnt => $p_data) {
-            /* Iterate through configured passages to check
-               wether the entire passage is selected or not.
-               The total points is incremented by the passage's
-               score only if the entire passage is selected. */
-            $isSelected = in_array($p_data['begin_pos'], $positions);
-
-            for ($i = 0; $i < $p_data['cnt_words']; $i++) {
-                $current_pos = $p_data['begin_pos'] + $i;
-                $isSelected = $isSelected && in_array($current_pos, $positions);
+        foreach ($selected_word_positions as $word_position) {
+            if (!array_key_exists($word_position, $correct_positions)) {
+                $points += $this->getPointsWrong();
+                continue;
             }
-
-            $total += $isSelected ? $p_data['score'] : 0;
         }
 
-        return $total;
+        return $points;
+    }
+
+    public function flushErrorData(): void
+    {
+        $this->errordata = [];
     }
 
     /**
-    * Flush error data
-    */
-    public function flushErrorData()
+     *
+     * @return array<assAnswerErrorText>
+     */
+    public function getErrorData(): array
     {
-        $this->errordata = array();
-    }
-
-    public function addErrorData($text_wrong, $text_correct, $points)
-    {
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
-        array_push($this->errordata, new assAnswerErrorText($text_wrong, $text_correct, $points));
+        return $this->errordata;
     }
 
     /**
-    * Get error data
-    *
-    * @return string[] Error data
-    */
-    public function getErrorData() : array
+     *
+     * @return array<mixed>
+     */
+    private function getErrorDataAsArrayForJS(): array
     {
-        return $this->errordata ?? array();
+        $correct_answers = [];
+        foreach ($this->getErrorData() as $index => $answer_obj) {
+            $correct_answers[] = [
+                'answertext_wrong' => $answer_obj->getTextWrong(),
+                'answertext_correct' => $answer_obj->getTextCorrect(),
+                'points' => $answer_obj->getPoints(),
+                'length' => $answer_obj->getLength(),
+                'pos' => $this->getId() . '_' . $answer_obj->getPosition()
+            ];
+        }
+        return $correct_answers;
     }
 
-    /**
-    * Get error text
-    *
-    * @return string Error text
-    */
-    public function getErrorText() : string
+    public function getErrorText(): string
     {
         return $this->errortext ?? '';
     }
 
-    /**
-    * Set error text
-    *
-    * @param string $a_value Error text
-    */
-    public function setErrorText($a_value)
+    public function setErrorText(?string $text): void
     {
-        $this->errortext = $a_value;
+        $this->errortext = $this->getHtmlQuestionContentPurifier()->purify($text ?? '');
     }
 
-    /**
-    * Set text size in percent
-    *
-    * @return double Text size in percent
-    */
-    public function getTextSize() : float
+    public function getParsedErrorText(): array
+    {
+        return $this->parsed_errortext;
+    }
+
+    private function getParsedErrorTextForJS(): array
+    {
+        $answers = [];
+        foreach ($this->parsed_errortext as $paragraph) {
+            foreach ($paragraph as $position => $word) {
+                $answers[] = [
+                    'answertext' => $word['text'],
+                    'order' => $this->getId() . '_' . $position
+                ];
+            }
+            $answers[] = [
+                'answertext' => '###'
+            ];
+        }
+        array_pop($answers);
+
+        return $answers;
+    }
+
+    public function setParsedErrorText(array $parsed_errortext): void
+    {
+        $this->parsed_errortext = $parsed_errortext;
+    }
+
+    public function getTextSize(): float
     {
         return $this->textsize;
     }
 
-    /**
-    * Set text size in percent
-    *
-    * @param double $a_value text size in percent
-    */
-    public function setTextSize($a_value)
+    public function setTextSize($a_value): void
     {
         // in self-assesment-mode value should always be set (and must not be null)
         if ($a_value === null) {
@@ -1046,65 +912,19 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->textsize = $a_value;
     }
 
-    /**
-    * Get wrong points
-    *
-    * @return double Points for wrong selection
-    */
-    public function getPointsWrong() : float
+    public function getPointsWrong(): ?float
     {
         return $this->points_wrong;
     }
 
-    /**
-    * Set wrong points
-    *
-    * @param double $a_value Points for wrong selection
-    */
-    public function setPointsWrong($a_value)
+    public function setPointsWrong($a_value): void
     {
         $this->points_wrong = $a_value;
     }
 
-    public function __get($value)
+    public function toJSON(): string
     {
-        switch ($value) {
-            case "errortext":
-                return $this->getErrorText();
-            case "textsize":
-                return $this->getTextSize();
-            case "points_wrong":
-                return $this->getPointsWrong();
-        }
-        return null;
-    }
-
-    /**
-    * Object setter
-    */
-    public function __set($key, $value)
-    {
-        switch ($key) {
-            case "errortext":
-                $this->setErrorText($value);
-                break;
-            case "textsize":
-                $this->setTextSize($value);
-                break;
-            case "points_wrong":
-                $this->setPointsWrong($value);
-                break;
-        }
-    }
-
-
-    /**
-    * Returns a JSON representation of the question
-    */
-    public function toJSON() : string
-    {
-        include_once("./Services/RTE/classes/class.ilRTE.php");
-        $result = array();
+        $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = $this->getTitle();
@@ -1112,56 +932,17 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         $result['text'] = ilRTE::_replaceMediaObjectImageSrc($this->getErrorText(), 0);
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['shuffle'] = $this->getShuffle();
-        $result['feedback'] = array(
+        $result['feedback'] = [
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
-        );
+        ];
 
-        $answers = array();
-        foreach ($this->getErrorData() as $idx => $answer_obj) {
-            /** @var assAnswerErrorText $answer_obj */
-            array_push($answers, array(
-                "answertext_wrong" => (string) $answer_obj->text_wrong,
-                "answertext_correct" => (string) $answer_obj->text_correct,
-                "points" => (float) $answer_obj->points,
-                "order" => (int) $idx + 1
-            ));
-        }
-        $result['correct_answers'] = $answers;
-
-        $answers = array();
-        $textarray = preg_split("/[\n\r]+/", $this->getErrorText());
-        foreach ($textarray as $textidx => $text) {
-            $items = preg_split("/\s+/", trim($text));
-            foreach ($items as $idx => $item) {
-                if (substr($item, 0, 1) == "#") {
-                    $item = substr($item, 1);
-                    
-                    // #14115 - add position to correct answer
-                    foreach ($result["correct_answers"] as $aidx => $answer) {
-                        if ($answer["answertext_wrong"] == $item && !$answer["pos"]) {
-                            $result["correct_answers"][$aidx]["pos"] = $this->getId() . "_" . $textidx . "_" . ($idx + 1);
-                            break;
-                        }
-                    }
-                }
-                array_push($answers, array(
-                    "answertext" => (string) ilLegacyFormElementsUtil::prepareFormOutput($item),
-                    "order" => $this->getId() . "_" . $textidx . "_" . ($idx + 1)
-                ));
-            }
-            if ($textidx != sizeof($textarray) - 1) {
-                array_push($answers, array(
-                        "answertext" => "###",
-                        "order" => $this->getId() . "_" . $textidx . "_" . ($idx + 2)
-                    ));
-            }
-        }
-        $result['answers'] = $answers;
+        $result['correct_answers'] = $this->getErrorDataAsArrayForJS();
+        $result['answers'] = $this->getParsedErrorTextForJS();
 
         $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
         $result['mobs'] = $mobs;
-        
+
         return json_encode($result);
     }
 
@@ -1173,9 +954,8 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @internal param string $expression_type
      * @return array
      */
-    public function getOperators($expression) : array
+    public function getOperators($expression): array
     {
-        require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 
@@ -1183,14 +963,14 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * Get all available expression types for a specific question
      * @return array
      */
-    public function getExpressionTypes() : array
+    public function getExpressionTypes(): array
     {
-        return array(
+        return [
             iQuestionCondition::PercentageResultExpression,
             iQuestionCondition::NumberOfResultExpression,
             iQuestionCondition::EmptyAnswerExpression,
             iQuestionCondition::ExclusiveResultExpression
-        );
+        ];
     }
 
     /**
@@ -1198,25 +978,20 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @param int $active_id
     * @param int $pass
-    *
-    * @return ilUserQuestionResult
     */
-    public function getUserQuestionResult($active_id, $pass) : ilUserQuestionResult
+    public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
         $result = new ilUserQuestionResult($this, $active_id, $pass);
 
-        $data = $ilDB->queryF(
+        $data = $this->db->queryF(
             "SELECT value1+1 as value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
 				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
 			)",
-            array("integer", "integer", "integer","integer", "integer", "integer"),
-            array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
+            ["integer", "integer", "integer","integer", "integer", "integer"],
+            [$active_id, $pass, $this->getId(), $active_id, $pass, $this->getId()]
         );
 
-        while ($row = $ilDB->fetchAssoc($data)) {
+        while ($row = $this->db->fetchAssoc($data)) {
             $result->addKeyValue($row["value1"], $row["value1"]);
         }
 
@@ -1228,6 +1003,93 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return $result;
     }
 
+    public function parseErrorText(): void
+    {
+        $text_by_paragraphs = preg_split(self::PARAGRAPH_SPLIT_REGEXP, $this->getErrorText());
+        $text_array = [];
+        $offset = 0;
+        foreach ($text_by_paragraphs as $paragraph) {
+            $text_array[] = $this->addErrorInformationToTextParagraphArray(
+                preg_split(self::WORD_SPLIT_REGEXP, trim($paragraph)),
+                $offset
+            );
+            $offset += count(end($text_array));
+        }
+        $this->setParsedErrorText($text_array);
+    }
+
+    /**
+     *
+     * @param list<string> $paragraph
+     * @return array<string|array>
+     */
+    private function addErrorInformationToTextParagraphArray(array $paragraph, int $offset): array
+    {
+        $paragraph_with_error_info = [];
+        $passage_start = null;
+        foreach ($paragraph as $position => $word) {
+            $actual_position = $position + $offset;
+            if ($passage_start !== null
+                && (mb_strrpos($word, self::ERROR_PARAGRAPH_DELIMITERS['end']) === mb_strlen($word) - 2
+                || mb_strrpos($word, self::ERROR_PARAGRAPH_DELIMITERS['end']) === mb_strlen($word) - 3
+                    && preg_match(self::FIND_PUNCTUATION_REGEXP, mb_substr($word, -1)) === 1)) {
+                $actual_word = $this->parsePassageEndWord($word);
+
+                $paragraph_with_error_info[$passage_start]['text_wrong'] .=
+                    ' ' . $actual_word;
+                $paragraph_with_error_info[$actual_position] = [
+                    'text' => $actual_word,
+                    'error_type' => 'passage_end'
+                ];
+                $passage_start = null;
+                continue;
+            }
+            if ($passage_start !== null) {
+                $paragraph_with_error_info[$passage_start]['text_wrong'] .= ' ' . $word;
+                $paragraph_with_error_info[$actual_position] = [
+                    'text' => $word,
+                    'error_type' => 'in_passage'
+                ];
+                continue;
+            }
+            if (mb_strpos($word, self::ERROR_PARAGRAPH_DELIMITERS['start']) === 0) {
+                $paragraph_with_error_info[$actual_position] = [
+                    'text' => substr($word, 2),
+                    'text_wrong' => substr($word, 2),
+                    'error_type' => 'passage_start',
+                    'error_position' => $actual_position,
+                ];
+                $passage_start = $actual_position;
+                continue;
+            }
+            if (mb_strpos($word, self::ERROR_WORD_MARKER) === 0) {
+                $paragraph_with_error_info[$actual_position] = [
+                    'text' => substr($word, 1),
+                    'text_wrong' => substr($word, 1),
+                    'error_type' => 'word',
+                    'error_position' => $actual_position,
+                ];
+                continue;
+            }
+
+            $paragraph_with_error_info[$actual_position] = [
+                'text' => $word,
+                'error_type' => 'none',
+                'points' => $this->getPointsWrong()
+            ];
+        }
+
+        return $paragraph_with_error_info;
+    }
+
+    private function parsePassageEndWord(string $word): string
+    {
+        if (mb_substr($word, -2) === self::ERROR_PARAGRAPH_DELIMITERS['end']) {
+            return mb_substr($word, 0, -2);
+        }
+        return mb_substr($word, 0, -3) . mb_substr($word, -1);
+    }
+
     /**
      * If index is null, the function returns an array with all anwser options
      * Else it returns the specific answer option
@@ -1235,18 +1097,37 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param null|int $index
      *
      */
-    public function getAvailableAnswerOptions($index = null)
+    public function getAvailableAnswerOptions($index = null): ?int
     {
-        $error_text_array = explode(' ', $this->errortext);
-        
-        if ($index !== null) {
-            if (array_key_exists($index, $error_text_array)) {
-                return $error_text_array[$index];
-            }
-            return null;
-        } else {
+        $error_text_array = array_reduce(
+            $this->parsed_errortext,
+            fn ($c, $v) => $c + $v
+        );
+
+        if ($index === null) {
             return $error_text_array;
         }
+
+        if (array_key_exists($index, $error_text_array)) {
+            return $error_text_array[$index];
+        }
+
+        return null;
+    }
+
+    private function generateArrayByPositionFromErrorData(): array
+    {
+        $array_by_position = [];
+        foreach ($this->errordata as $error) {
+            $array_by_position[$error->getPosition()] = [
+                'length' => $error->getLength(),
+                'points' => $error->getPoints(),
+                'text' => $error->getTextWrong(),
+                'text_correct' => $error->getTextCorrect()
+            ];
+        }
+        ksort($array_by_position);
+        return $array_by_position;
     }
 
     /**
@@ -1254,14 +1135,14 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param $class
      * @return string
      */
-    private function getErrorTokenHtml($item, $class, $useLinkTags) : string
+    private function getErrorTokenHtml($item, $class, $useLinkTags): string
     {
         if ($useLinkTags) {
             return '<a class="' . $class . '" href="#">' . ($item == '&nbsp;' ? $item : ilLegacyFormElementsUtil::prepareFormOutput(
                 $item
             )) . '</a>';
         }
-        
+
         return '<span class="' . $class . '">' . ($item == '&nbsp;' ? $item : ilLegacyFormElementsUtil::prepareFormOutput(
             $item
         )) . '</span>';

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author Alex Killing <alex.killing@gmx.de>
  */
@@ -24,16 +26,14 @@ class ilObjectListGUIFactory
     public static function _getListGUIByType(
         string $type,
         int $context = ilObjectListGUI::CONTEXT_REPOSITORY
-    ) : ilObjectListGUI {
+    ): ilObjectListGUI {
         global $DIC;
 
         $objDefinition = $DIC["objDefinition"];
-        
+
         $class = $objDefinition->getClassName($type);
-        $location = $objDefinition->getLocation($type);
         $full_class = "ilObj" . $class . "ListGUI";
-        if (file_exists($location . "/class." . $full_class . ".php")) {
-            include_once($location . "/class." . $full_class . ".php");
+        if (class_exists($full_class)) {
             return new $full_class($context);
         }
 

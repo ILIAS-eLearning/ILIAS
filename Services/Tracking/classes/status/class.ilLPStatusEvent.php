@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,7 +29,7 @@
  */
 class ilLPStatusEvent extends ilLPStatus
 {
-    public static function _getNotAttempted(int $a_obj_id) : array
+    public static function _getNotAttempted(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -37,17 +39,19 @@ class ilLPStatusEvent extends ilLPStatus
         if ($members) {
             // diff in progress and completed (use stored result in LPStatusWrapper)
             $users = array_diff(
-                $members, ilLPStatusWrapper::_getInProgress($a_obj_id)
+                $members,
+                ilLPStatusWrapper::_getInProgress($a_obj_id)
             );
             $users = array_diff(
-                $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+                $users,
+                ilLPStatusWrapper::_getCompleted($a_obj_id)
             );
         }
 
         return $users;
     }
 
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -64,13 +68,13 @@ class ilLPStatusEvent extends ilLPStatus
         return $status_info['registered_users'] ?: array();
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         return $status_info['participated_users'] ?: array();
     }
 
-    public static function _getStatusInfo(int $a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id): array
     {
         $tree = $GLOBALS['DIC']->repositoryTree();
 
@@ -111,7 +115,7 @@ class ilLPStatusEvent extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -132,13 +136,15 @@ class ilLPStatusEvent extends ilLPStatus
                 if ($registration && $time_info['start'] >= time()) {
                     // is user registered -> in progress
                     if (ilEventParticipants::_isRegistered(
-                        $a_usr_id, $a_obj_id
+                        $a_usr_id,
+                        $a_obj_id
                     )) {
                         $status = self::LP_STATUS_IN_PROGRESS_NUM;
                     }
                 }
                 if (ilEventParticipants::_hasParticipated(
-                    $a_usr_id, $a_obj_id
+                    $a_usr_id,
+                    $a_obj_id
                 )) {
                     $status = self::LP_STATUS_COMPLETED_NUM;
                 }
@@ -153,7 +159,7 @@ class ilLPStatusEvent extends ilLPStatus
     protected static function getMembers(
         int $a_obj_id,
         bool $a_is_crs_id = false
-    ) : array {
+    ): array {
         if (!$a_is_crs_id) {
             $tree = $GLOBALS['DIC']->repositoryTree();
             $references = ilObject::_getAllReferences($a_obj_id);
@@ -182,7 +188,7 @@ class ilLPStatusEvent extends ilLPStatus
     public static function _lookupCompletedForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
-    ) : array {
+    ): array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
@@ -190,7 +196,9 @@ class ilLPStatusEvent extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_COMPLETED_NUM,
+            $a_user_ids
         );
     }
 
@@ -200,7 +208,7 @@ class ilLPStatusEvent extends ilLPStatus
     public static function _lookupFailedForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
-    ) : array {
+    ): array {
         return array();
     }
 
@@ -210,7 +218,7 @@ class ilLPStatusEvent extends ilLPStatus
     public static function _lookupInProgressForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
-    ) : array {
+    ): array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
@@ -218,7 +226,9 @@ class ilLPStatusEvent extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_IN_PROGRESS_NUM,
+            $a_user_ids
         );
     }
 }

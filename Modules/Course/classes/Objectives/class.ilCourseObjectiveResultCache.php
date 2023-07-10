@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Caches results for a specific user and course
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -25,7 +27,7 @@ class ilCourseObjectiveResultCache
     private static array $suggested = [];
     private static array $status = [];
 
-    public static function isSuggested(int $a_usr_id, int $a_crs_id, int $a_objective_id) : bool
+    public static function isSuggested(int $a_usr_id, int $a_crs_id, int $a_objective_id): bool
     {
         if (!is_array(self::$suggested[$a_usr_id][$a_crs_id])) {
             self::$suggested[$a_usr_id][$a_crs_id] = self::readSuggested($a_usr_id, $a_crs_id);
@@ -33,7 +35,7 @@ class ilCourseObjectiveResultCache
         return in_array($a_objective_id, self::$suggested[$a_usr_id][$a_crs_id]);
     }
 
-    public static function getStatus(int $a_usr_id, int $a_crs_id) : string
+    public static function getStatus(int $a_usr_id, int $a_crs_id): string
     {
         if (isset(self::$status[$a_usr_id][$a_crs_id])) {
             return self::$status[$a_usr_id][$a_crs_id];
@@ -42,7 +44,7 @@ class ilCourseObjectiveResultCache
         return self::$status[$a_usr_id][$a_crs_id] = $tmp_res->getStatus($a_crs_id);
     }
 
-    protected function readSuggested(int $a_usr_id, int $a_crs_id) : array
+    protected function readSuggested(int $a_usr_id, int $a_crs_id): array
     {
         return ilCourseObjectiveResult::_getSuggested($a_usr_id, $a_crs_id, self::getStatus($a_usr_id, $a_crs_id));
     }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Custom\Constraint;
 
@@ -25,23 +27,17 @@ use ILIAS\Refinery\Custom\Constraint;
  */
 class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
 {
-    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
-    protected ilTermsOfServiceDocument $document;
-
     public function __construct(
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        ilTermsOfServiceDocument $document,
+        protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+        protected ilTermsOfServiceDocument $document,
         Factory $dataFactory,
         ilLanguage $lng
     ) {
-        $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->document = $document;
-
         parent::__construct(
-            function (ilTermsOfServiceDocumentCriterionAssignment $value) : bool {
-                return 0 === count($this->filterEqualValues($value));
+            function (ilTermsOfServiceDocumentCriterionAssignment $value): bool {
+                return [] === $this->filterEqualValues($value);
             },
-            static function ($txt, $value) : string {
+            static function ($txt, $value): string {
                 return 'The passed assignment must be unique for the document!';
             },
             $dataFactory,
@@ -50,17 +46,16 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
     }
 
     /**
-     * @param ilTermsOfServiceDocumentCriterionAssignment $value
      * @return ilTermsOfServiceDocumentCriterionAssignment[]|ilTermsOfServiceEvaluableCriterion[]
      */
     protected function filterEqualValues(
         ilTermsOfServiceDocumentCriterionAssignment $value
-    ) : array {
+    ): array {
         $otherValues = $this->document->criteria();
 
         return array_filter(
             $otherValues,
-            function (ilTermsOfServiceDocumentCriterionAssignment $otherValue) use ($value) : bool {
+            function (ilTermsOfServiceDocumentCriterionAssignment $otherValue) use ($value): bool {
                 $idCurrent = $otherValue->getId();
                 $idNew = $value->getId();
 
@@ -80,21 +75,16 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
     }
 
     /**
-     * @param ilTermsOfServiceDocumentCriterionAssignment $value
-     * @param ilTermsOfServiceDocumentCriterionAssignment $otherValue
-     * @return bool
      * @throws ilTermsOfServiceCriterionTypeNotFoundException
      */
     protected function haveSameNature(
         ilTermsOfServiceDocumentCriterionAssignment $value,
         ilTermsOfServiceDocumentCriterionAssignment $otherValue
-    ) : bool {
+    ): bool {
         if ($value->getCriterionId() !== $otherValue->getCriterionId()) {
             return false;
         }
 
-        $valuesHaveSameNature = $this->criterionTypeFactory->findByTypeIdent($value->getCriterionId())->hasUniqueNature();
-
-        return $valuesHaveSameNature;
+        return $this->criterionTypeFactory->findByTypeIdent($value->getCriterionId())->hasUniqueNature();
     }
 }

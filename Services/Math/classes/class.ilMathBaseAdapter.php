@@ -25,7 +25,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
     /**
      * @inheritDoc
      */
-    public function applyScale($left_operand, int $scale = null) : string
+    public function applyScale($left_operand, int $scale = null): string
     {
         if (is_numeric($left_operand)) {
             $scale = (int) $scale;
@@ -50,7 +50,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
     /**
      * @inheritDoc
      */
-    public function round($value, int $precision = 0) : string
+    public function round($value, int $precision = 0): string
     {
         return number_format($value, $precision, '.', '');
     }
@@ -58,7 +58,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
     /**
      * @inheritDoc
      */
-    public function equals($left_operand, $right_operand, int $scale = null) : bool
+    public function equals($left_operand, $right_operand, int $scale = null): bool
     {
         return $this->comp($left_operand, $right_operand, $scale) === 0;
     }
@@ -69,7 +69,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
      * @param mixed $number
      * @return string
      */
-    protected function normalize($number) : ?string
+    protected function normalize($number): ?string
     {
         if (null === $number) {
             return null;
@@ -98,7 +98,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
      * @param float|string|int $float_str
      * @return string
      */
-    protected function exp2dec($float_str) : string
+    protected function exp2dec($float_str): string
     {
         // make sure its a standard php float string (i.e. change 0.2e+2 to 20)
         // php will automatically format floats decimally if they are within a certain range

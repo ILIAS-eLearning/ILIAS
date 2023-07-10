@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,8 +29,17 @@ class ilTestingHandler extends ilPlainTextHandler
     /**
      * Get the header for the page.
      */
-    protected function pageHeader() : string
+    protected function pageHeader(): string
     {
         return "DEAR TESTER! AN ERROR OCCURRED... PLEASE INCLUDE THE FOLLOWING OUTPUT AS ADDITIONAL INFORMATION IN YOUR BUG REPORT.\n\n";
+    }
+
+    /**
+     * Assemble the output for this handler.
+     */
+    protected function content(): string
+    {
+        return $this->pageHeader()
+            . $this->exceptionContent();
     }
 }

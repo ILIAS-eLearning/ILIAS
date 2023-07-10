@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -24,6 +26,8 @@
  */
 class ilSkillTree extends ilTree
 {
+    protected array $by_type_data = [];
+
     public function __construct(int $a_tree_id = 1)
     {
         parent::__construct($a_tree_id);
@@ -34,7 +38,7 @@ class ilSkillTree extends ilTree
     /**
      * @return array{skill_id: int, child: int, tref_id: int, parent: int}[]
      */
-    public function getSkillTreePath(int $a_base_skill_id, int $a_tref_id = 0) : array
+    public function getSkillTreePath(int $a_base_skill_id, int $a_tref_id = 0): array
     {
         if ($a_tref_id > 0) {
             $path = $this->getPathFull($a_tref_id);
@@ -79,7 +83,7 @@ class ilSkillTree extends ilTree
         return [];
     }
 
-    public function getSkillTreePathAsString(int $a_base_skill_id, int $a_tref_id = 0) : string
+    public function getSkillTreePathAsString(int $a_base_skill_id, int $a_tref_id = 0): string
     {
         $path = $this->getSkillTreePath($a_base_skill_id, $a_tref_id);
         $str = "";
@@ -93,13 +97,13 @@ class ilSkillTree extends ilTree
         return $str;
     }
 
-    public function getTopParentNodeId(int $a_node_id) : int
+    public function getTopParentNodeId(int $a_node_id): int
     {
         $path = $this->getPathId($a_node_id);
         return $path[1];
     }
 
-    public function getMaxOrderNr(int $a_par_id, bool $a_templates = false) : int
+    public function getMaxOrderNr(int $a_par_id, bool $a_templates = false): int
     {
         if ($a_par_id != $this->readRootId()) {
             $childs = $this->getChilds($a_par_id);
@@ -115,6 +119,47 @@ class ilSkillTree extends ilTree
             );
         }
 
-        return max(0, ...array_column($childs, 'order_nr'));
+        $max = 0;
+        foreach ($childs as $k => $c) {
+            $max = max(array((int) $c["order_nr"], $max));
+        }
+
+        return $max;
+    }
+
+    public function initChildsData()
+    {
+        if (isset($this->by_type_data[$this->getTreeId()])) {
+            return;
+        }
+
+        $db = $this->db;
+        $set = $db->queryF(
+            "SELECT * FROM " .
+            "skl_tree JOIN skl_tree_node ON skl_tree.child=skl_tree_node.obj_id " .
+            " WHERE skl_tree.skl_tree_id = %s ",
+            ["integer"],
+            [$this->getTreeId()]
+        );
+        $this->by_type_data[$this->getTreeId()] = [];
+        while ($rec = $db->fetchAssoc($set)) {
+            $this->by_type_data[$this->getTreeId()][$rec["parent"]][$rec["type"]][] = $rec;
+        }
+    }
+
+    public function getChildsByTypeFilter($a_node_id, $a_types, $a_order = "", $a_direction = "ASC"): array
+    {
+        $this->initChildsData();
+        $childs = [];
+        foreach ($a_types as $type) {
+            $type_childs = $this->by_type_data[$this->getTreeId()][$a_node_id][$type] ?? [];
+            $childs = array_merge($childs, $type_childs);
+        }
+
+        if ($a_order != "") {
+            ilArrayUtil::sortArray($childs, $a_order, $a_direction);
+        }
+
+        return $childs;
     }
 }

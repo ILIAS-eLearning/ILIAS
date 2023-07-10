@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilRoleMailboxAddress
  * @author Werner Randelshofer <wrandels@hsw.fhz.ch>
@@ -24,23 +26,18 @@
  */
 class ilRoleMailboxAddress
 {
-    protected int $roleId;
-    protected bool $localize = true;
     protected ilMailRfc822AddressParserFactory $parserFactory;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 
     public function __construct(
-        int $roleId,
-        bool $localize = true,
+        protected int $roleId,
+        protected bool $localize = true,
         ilMailRfc822AddressParserFactory $parserFactory = null,
         ilDBInterface $db = null,
         ilLanguage $lng = null
     ) {
         global $DIC;
-
-        $this->roleId = $roleId;
-        $this->localize = $localize;
 
         if (null === $db) {
             $db = $DIC->database();
@@ -116,7 +113,7 @@ class ilRoleMailboxAddress
      * course object is unique, or if the role title contains a quote or a
      * backslash.
      */
-    public function value() : string
+    public function value(): string
     {
         // Retrieve the role title and the object title.
         $query = "SELECT rdat.title role_title,odat.title object_title, " .
@@ -129,7 +126,7 @@ class ilRoleMailboxAddress
             "WHERE rdat.obj_id = " . $this->db->quote($this->roleId, 'integer') . " " .
             "AND fa.assign = 'y' ";
         $res = $this->db->query($query);
-        if (!$row = $this->db->fetchObject($res)) {
+        if (($row = $this->db->fetchObject($res)) === null) {
             return '';
         }
 
@@ -162,15 +159,15 @@ class ilRoleMailboxAddress
         //if (domain != null && preg_match('/[\[\]\\]|[\x00-\x1f]/',$domain))
         // Fix for Mantis Bug: 7429 sending mail fails because of brakets
         // Fix for Mantis Bug: 9978 sending mail fails because of semicolon
-        if ($domain !== null && preg_match('/[\[\]\\]|[\x00-\x1f]|[\x28-\x29]|[;]/', $domain)) {
+        if ($domain !== null && preg_match('/[\[\]\\]|[\x00-\x1f]|[\x28-\x29]|[;]/', (string) $domain)) {
             $domain = null;
         }
 
         // If the domain contains special characters, we put square
         //   brackets around it.
         if ($domain !== null &&
-            (preg_match('/[()<>@,;:\\".\[\]]/', $domain) ||
-                preg_match('/[^\x21-\x8f]/', $domain))
+            (preg_match('/[()<>@,;:\\".\[\]]/', (string) $domain) ||
+                preg_match('/[^\x21-\x8f]/', (string) $domain))
         ) {
             $domain = '[' . $domain . ']';
         }
@@ -178,7 +175,7 @@ class ilRoleMailboxAddress
         // If the role title is one of the ILIAS reserved role titles,
         //     we can use a shorthand version of it for the local part
         //     of the mailbox address.
-        if ($domain !== null && strpos($role_title, 'il_') === 0) {
+        if ($domain !== null && str_starts_with($role_title, 'il_')) {
             $unambiguous_role_title = $role_title;
 
             $pos = strpos($role_title, '_', 3) + 1;
@@ -228,9 +225,9 @@ class ilRoleMailboxAddress
 
         // If the local part contains illegal characters, we use
         //     the unambiguous role title instead.
-        if (preg_match('/[\\"\x00-\x1f]/', $local_part)) {
+        if (preg_match('/[\\"\x00-\x1f]/', (string) $local_part)) {
             $local_part = $unambiguous_role_title;
-        } elseif (!preg_match('/^[\\x00-\\x7E]+$/i', $local_part)) {
+        } elseif (!preg_match('/^[\\x00-\\x7E]+$/i', (string) $local_part)) {
             // 2013-12-05: According to #12283, we do not accept umlauts in the local part
             $local_part = $unambiguous_role_title;
             $use_phrase = false;
@@ -249,7 +246,7 @@ class ilRoleMailboxAddress
             $local_part . '@' . $domain;
 
         if ($this->localize) {
-            if (strpos($role_title, 'il_') === 0) {
+            if (str_starts_with($role_title, 'il_')) {
                 $phrase = $this->lng->txt(substr($role_title, 0, strrpos($role_title, '_')));
             } else {
                 $phrase = $role_title;
@@ -271,12 +268,12 @@ class ilRoleMailboxAddress
             $parser->parse();
 
             return $mailbox;
-        } catch (ilException $e) {
+        } catch (ilMailException) {
             $res = $this->db->query("SELECT title FROM object_data WHERE obj_id = " . $this->db->quote(
                 $this->roleId,
                 'integer'
             ));
-            if ($row = $this->db->fetchObject($res)) {
+            if (($row = $this->db->fetchObject($res)) !== null) {
                 return '#' . $row->title;
             }
 

@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBaseFieldRepresentation
@@ -8,15 +23,11 @@
  */
 abstract class ilDclBaseFieldRepresentation
 {
-    protected $field;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilCtrl $ctrl ;
-     */
-    protected $ctrl;
+    protected ilDclBaseFieldModel $field;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
@@ -24,11 +35,12 @@ abstract class ilDclBaseFieldRepresentation
     public function __construct(ilDclBaseFieldModel $field)
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
+
         $this->field = $field;
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->component_repository = $DIC["component.repository"];
         $this->component_factory = $DIC["component.factory"];
     }
@@ -45,9 +57,8 @@ abstract class ilDclBaseFieldRepresentation
 
     /**
      * Set basic settings for filter-input-gui
-     * @param ilFormPropertyGUI $input
      */
-    protected function setupFilterInputField(ilFormPropertyGUI $input)
+    protected function setupFilterInputField(?ilTableFilterItem $input): void
     {
         if ($input != null) {
             $input->setTitle($this->getField()->getTitle());
@@ -56,11 +67,9 @@ abstract class ilDclBaseFieldRepresentation
 
     /**
      * Checks if a filter affects a record
-     * @param ilDclBaseRecordModel $record
-     * @param                      $filter
-     * @return bool
+     * @param int|string|array $filter
      */
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         $pass = true;
@@ -77,42 +86,37 @@ abstract class ilDclBaseFieldRepresentation
     }
 
     /**
-     * @param      $value
-     * @param bool $link
+     * @param mixed $value
      * @return mixed
      */
-    public function parseSortingValue($value, $link = true)
+    public function parseSortingValue(string $value, bool $link = true)
     {
         return $value;
     }
 
     /**
      * Returns field-input
-     * @param ilPropertyFormGUI $form
-     * @param int               $record_id
-     * @return ?ilFormPropertyGUI
      */
-    public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ?ilFormPropertyGUI
     {
         return null;
     }
 
     /**
      * Sets basic settings on field-input
-     * @param ilFormPropertyGUI   $input
+     * @param ilFormPropertyGUI $input
      * @param ilDclBaseFieldModel $field
      */
-    protected function setupInputField(ilFormPropertyGUI $input, ilDclBaseFieldModel $field)
+    protected function setupInputField(ilFormPropertyGUI $input, ilDclBaseFieldModel $field): void
     {
         $input->setInfo($field->getDescription() . ($input->getInfo() ? '<br>' . $input->getInfo() : ''));
     }
 
     /**
-     * @param $input
-     * @return null
+     * @return string|array|null
      */
-    protected function getFilterInputFieldValue(/*ilPropertyFormGUI*/
-        $input
+    protected function getFilterInputFieldValue(
+        ilTableFilterItem $input
     ) {
         $value = $input->getValue();
         if (is_array($value)) {
@@ -130,12 +134,12 @@ abstract class ilDclBaseFieldRepresentation
 
     /**
      * Adds the options for the field-types to the field-creation form
-     * @param                     $form
-     * @param ilObjDataCollection $dcl
-     * @param string              $mode
      */
-    public function addFieldCreationForm($form, ilObjDataCollection $dcl, $mode = "create")
-    {
+    public function addFieldCreationForm(
+        ilSubEnabledFormPropertyGUI $form,
+        ilObjDataCollection $dcl,
+        string $mode = "create"
+    ): void {
         $opt = $this->buildFieldCreationInput($dcl, $mode);
 
         if ($mode != 'create' && $this->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
@@ -152,14 +156,13 @@ abstract class ilDclBaseFieldRepresentation
 
     /**
      * Build the creation-input-field
-     * @param ilObjDataCollection $dcl
-     * @param string              $mode
-     * @return ilPropertyFormGUI
      */
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
     {
-        $opt = new ilRadioOption($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
-            $this->getField()->getDatatypeId());
+        $opt = new ilRadioOption(
+            $this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
+            $this->getField()->getDatatypeId()
+        );
         $opt->setInfo($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle() . '_desc'));
 
         return $opt;
@@ -167,19 +170,16 @@ abstract class ilDclBaseFieldRepresentation
 
     /**
      * Return post-var for property-fields
-     * @param $property
-     * @return string
      */
-    public function getPropertyInputFieldId($property)
+    public function getPropertyInputFieldId(string $property): string
     {
         return "prop_" . $property;
     }
 
     /**
      * Return BaseFieldModel
-     * @return ilDclBaseFieldModel
      */
-    public function getField()
+    public function getField(): ilDclBaseFieldModel
     {
         return $this->field;
     }

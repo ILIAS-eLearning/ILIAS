@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -22,15 +24,15 @@ class ILIASSuite extends TestSuite
     /**
      * @var	string
      */
-    const REGEX_TEST_FILENAME = "#[a-zA-Z]+Test\.php#";
-    const PHP_UNIT_PARENT_CLASS = TestCase::class;
+    public const REGEX_TEST_FILENAME = "#[a-zA-Z]+Test\.php#";
+    public const PHP_UNIT_PARENT_CLASS = TestCase::class;
 
     public static function suite()
     {
         $suite = new ILIASSuite();
         echo "ILIAS PHPUnit-Tests need installed dev-requirements, please install using 'composer install' in ./libs/composer \n";
         echo "\n";
-        
+
         // scan Modules and Services directories
         $basedirs = array("Services", "Modules");
 
@@ -44,7 +46,7 @@ class ILIASSuite extends TestSuite
                         $basedir . "/" . $file . "/test/il" . $basedir . $file . "Suite.php";
                     if (is_file($suite_path)) {
                         include_once($suite_path);
-                        
+
                         $name = "il" . $basedir . $file . "Suite";
                         $s = $name::suite();
                         echo "Adding Suite: " . $name . "\n";
@@ -65,7 +67,7 @@ class ILIASSuite extends TestSuite
     /**
      * Find and add all testSuits beneath ILIAS_ROOL/tests - folder
      */
-    protected static function addTestFolderToSuite(ILIASSuite $suite) : ILIASSuite
+    protected static function addTestFolderToSuite(ILIASSuite $suite): ILIASSuite
     {
         $test_directories = array("tests");
         while ($aux_dir = current($test_directories)) {

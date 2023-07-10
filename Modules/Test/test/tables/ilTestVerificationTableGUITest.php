@@ -1,6 +1,24 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Services\Logging\NullLogger;
 
 /**
  * Class ilTestVerificationTableGUITest
@@ -10,7 +28,7 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
 {
     private ilTestVerificationTableGUI $tableGui;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -27,44 +45,22 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("tpl", $this->createMock(ilGlobalPageTemplate::class));
         $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
         $this->setGlobalVariable("component.factory", $this->createMock(ilComponentFactory::class));
-        $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin($this->createMock(ilComponentRepository::class)));
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
         $this->setGlobalVariable("ilUser", $this->createMock(ilObjUser::class));
 
-        $this->setGlobalVariable("ilLoggerFactory", new class() extends ilLoggerFactory {
+        $this->setGlobalVariable("ilLoggerFactory", new class () extends ilLoggerFactory {
             public function __construct()
             {
             }
 
-            public static function getRootLogger() : ilLogger
+            public static function getRootLogger(): ilLogger
             {
-                return new class() extends ilLogger {
-                    public function __construct()
-                    {
-                    }
-
-                    public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
-                    {
-                    }
-
-                    public function info(string $a_message) : void
-                    {
-                        //return "testInfo";
-                    }
-                };
+                return new NullLogger();
             }
 
-            public static function getLogger(string $a_component_id) : ilLogger
+            public static function getLogger(string $a_component_id): ilLogger
             {
-                return new class() extends ilLogger {
-                    public function __construct()
-                    {
-                    }
-
-                    public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
-                    {
-                    }
-                };
+                return new NullLogger();
             }
         });
 
@@ -72,7 +68,7 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilTestVerificationTableGUI($test_gui);
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestVerificationTableGUI::class, $this->tableGui);
     }

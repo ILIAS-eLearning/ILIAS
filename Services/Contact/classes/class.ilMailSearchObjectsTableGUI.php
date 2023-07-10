@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilMailSearchObjectsTableGUI extends ilTable2GUI
 {
     protected ilObjUser $user;
@@ -26,10 +28,8 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
 
     /**
      * @param ilMailSearchCoursesGUI|ilMailSearchGroupsGUI $a_parent_obj
-     * @param string $type
-     * @param string $context
      */
-    public function __construct(object $a_parent_obj, string $type = 'crs', string $context = 'mail')
+    public function __construct($a_parent_obj, string $type = 'crs', string $context = 'mail')
     {
         global $DIC;
 
@@ -111,18 +111,18 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->ctrl->clearParameters($a_parent_obj);
-        
+
         $this->setSelectAllCheckbox($mode["checkbox"] . '[]');
         $this->setRowTemplate('tpl.mail_search_objects_row.html', 'Services/Contact');
-        
+
         $this->setShowRowsSelector(true);
 
         $this->addColumn('', '', '1px', true);
-        $this->addColumn($mode["lng_mail"], 'CRS_NAME', '30%');
-        $this->addColumn($this->lng->txt('path'), 'CRS_PATH', '30%');
-        $this->addColumn($this->lng->txt('crs_count_members'), 'CRS_NO_MEMBERS', '20%');
+        $this->addColumn($mode["lng_mail"], 'OBJECT_NAME', '30%');
+        $this->addColumn($this->lng->txt('path'), 'OBJECT_PATH', '30%');
+        $this->addColumn($this->lng->txt('obj_count_members'), 'OBJECT_NO_MEMBERS', '20%');
         $this->addColumn($this->lng->txt('actions'), '', '19%');
-        
+
         if ($context === "mail") {
             if ($this->mailing_allowed) {
                 $this->addMultiCommand('mail', $this->lng->txt('mail_members'));
@@ -140,8 +140,8 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
             $this->addCommandButton('cancel', $this->lng->txt('cancel'));
         }
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         if ($a_set['hidden_members']) {
             $this->tpl->setCurrentBlock('caption_asterisk');
@@ -154,8 +154,8 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('SHORT', $this->mode["short"]);
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
-        return $a_field === 'CRS_NO_MEMBERS';
+        return $a_field === 'OBJECT_NO_MEMBERS';
     }
 }

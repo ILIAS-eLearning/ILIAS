@@ -1,25 +1,21 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * searchResult stores all result of a search query.
@@ -46,7 +42,6 @@ class ilSearchResult
     protected int $offset = 0;
 
     // OBJECT VARIABLES
-    protected ILIAS $ilias;
     protected ilAccess $ilAccess;
     protected ilDBInterface $db;
     protected ilTree $tree;
@@ -69,12 +64,9 @@ class ilSearchResult
         global $DIC;
 
         $this->ilAccess = $DIC->access();
-        $this->ilias = $DIC['ilias'];
         $this->db = $DIC->database();
         $this->tree = $DIC->repositoryTree();
         $this->user = $DIC->user();
-
-
 
         if ($a_user_id) {
             $this->user_id = $a_user_id;
@@ -88,41 +80,41 @@ class ilSearchResult
     /**
     * Set the required permission for the rbac checks in function 'filter()'
     */
-    public function setRequiredPermission(string $a_permission) : void
+    public function setRequiredPermission(string $a_permission): void
     {
         $this->permission = $a_permission;
     }
 
-    public function getRequiredPermission() : string
+    public function getRequiredPermission(): string
     {
         return $this->permission;
     }
 
 
-    public function setUserId(int $a_user_id) : void
+    public function setUserId(int $a_user_id): void
     {
         $this->user_id = $a_user_id;
     }
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function getEntries() : array
+    public function getEntries(): array
     {
         return $this->entries;
     }
 
-    public function isLimitReached() : bool
+    public function isLimitReached(): bool
     {
         return $this->limit_reached;
     }
 
-    public function setMaxHits(int $a_max_hits) : void
+    public function setMaxHits(int $a_max_hits): void
     {
         $this->max_hits = $a_max_hits;
     }
-    public function getMaxHits() : int
+    public function getMaxHits(): int
     {
         return $this->max_hits;
     }
@@ -130,7 +122,7 @@ class ilSearchResult
     /**
      * Check if offset is reached
      */
-    public function isOffsetReached(int $a_counter) : bool
+    public function isOffsetReached(int $a_counter): bool
     {
         return !($a_counter < $this->offset);
     }
@@ -145,7 +137,7 @@ class ilSearchResult
      * @param int child id e.g id of page or chapter
      * @return void
      */
-    public function addEntry(int $a_obj_id, string $a_type, array $found, int $a_child_id = 0) : void
+    public function addEntry(int $a_obj_id, string $a_type, array $found, int $a_child_id = 0): void
     {
         // Create new entry if it not exists
         if (!isset($this->entries[$a_obj_id])) {
@@ -162,8 +154,6 @@ class ilSearchResult
             if ($a_child_id and $a_child_id != $a_obj_id) {
                 $this->entries[$a_obj_id]['child'][$a_child_id] = $a_child_id;
             }
-
-            // UPDATE FOUND
             $counter = 0;
             foreach ($found as $position) {
                 if ($position) {
@@ -179,7 +169,7 @@ class ilSearchResult
      * Check number of entries
      * @access	public
      */
-    public function numEntries() : int
+    public function numEntries(): int
     {
         return count($this->getEntries());
     }
@@ -190,7 +180,7 @@ class ilSearchResult
      * @param object result_obj
      * @access	public
      */
-    public function mergeEntries(ilSearchResult $result_obj) : void
+    public function mergeEntries(ilSearchResult $result_obj): void
     {
         foreach ($result_obj->getEntries() as $entry) {
             $this->addEntry($entry['obj_id'], $entry['type'], $entry['found']);
@@ -202,7 +192,7 @@ class ilSearchResult
      * diff entries of this instance and another result object
      * Used for search in results
      */
-    public function diffEntriesFromResult() : void
+    public function diffEntriesFromResult(): void
     {
         $new_entries = $this->getEntries();
         $this->entries = array();
@@ -226,7 +216,7 @@ class ilSearchResult
     /**
      * Build intersection of entries (all entries that are present in both result sets)
      */
-    public function intersectEntries(ilSearchResult $result_obj) : void
+    public function intersectEntries(ilSearchResult $result_obj): void
     {
         $new_entries = $this->getEntries();
         $this->entries = array();
@@ -248,24 +238,14 @@ class ilSearchResult
         }
     }
 
-
-    /**
-     *
-     * add search result
-     * Results are stored with 'ref_id'. This method is typically called after checking access of entries.
-     * @param integer ref_id
-     * @param integer obj_id
-     * @param string obj_type 'lm' or 'crs' ...
-     * @access	public
-     */
-    public function addResult(int $a_ref_id, int $a_obj_id, string $a_type) : void
+    public function addResult(int $a_ref_id, int $a_obj_id, string $a_type): void
     {
         $this->results[$a_ref_id]['ref_id'] = $a_ref_id;
         $this->results[$a_ref_id]['obj_id'] = $a_obj_id;
         $this->results[$a_ref_id]['type'] = $a_type;
     }
 
-    public function getResults() : array
+    public function getResults(): array
     {
         return $this->results;
     }
@@ -274,7 +254,7 @@ class ilSearchResult
      * get result ids
      * @return int[] result ids
      */
-    public function getResultIds() : array
+    public function getResultIds(): array
     {
         $ids = [];
         foreach ($this->getResults() as $id => $tmp) {
@@ -283,7 +263,7 @@ class ilSearchResult
         return $ids;
     }
 
-    public function getResultsByObjId() : array
+    public function getResultsByObjId(): array
     {
         $tmp_res = [];
         foreach ($this->getResults() as $ref_id => $res_data) {
@@ -297,7 +277,7 @@ class ilSearchResult
      * Get unique results. Return an array of obj_id (No multiple results for references)
      * Results are stored with 'ref_id'. This method is typically called after checking access of entries.
      */
-    public function getUniqueResults() : array
+    public function getUniqueResults(): array
     {
         $obj_ids = [];
         $objects = [];
@@ -311,20 +291,24 @@ class ilSearchResult
         return $objects;
     }
 
-    public function getResultsForPresentation() : array
+    public function getResultsForPresentation(): array
     {
         $res = [];
         foreach ($this->getResults() as $result) {
-            $res[$result['ref_id']] = $result['obj_id'];
+            if (!is_array($result)) {
+                continue;
+            }
+
+            $res[(int) $result['ref_id']] = (int) $result['obj_id'];
         }
         return $res;
     }
 
-    public function getSubitemIds() : array
+    public function getSubitemIds(): array
     {
         $res = array();
         foreach ($this->getResults() as $row) {
-            $res[$row['obj_id']] = $row['child'];
+            $res[$row['obj_id']] = $row['child'] ?? [];
         }
         return $res;
     }
@@ -336,10 +320,8 @@ class ilSearchResult
      * Do RBAC checks.
      * Allows paging of results for referenced objects
      */
-    public function filter(int $a_root_node, bool $check_and) : bool
+    public function filter(int $a_root_node, bool $check_and): bool
     {
-
-
         // get ref_ids and check access
         $counter = 0;
         $offset_counter = 0;
@@ -425,14 +407,14 @@ class ilSearchResult
      * Filter search area of result set
      * @access	public
      */
-    public function filterResults(int $a_root_node) : void
+    public function filterResults(int $a_root_node): void
     {
         $tmp_results = $this->getResults();
         $this->results = array();
         foreach ($tmp_results as $result) {
-            if ($this->tree->isGrandChild($a_root_node, $result['ref_id']) and $this->tree->isInTree($result['ref_id'])) {
+            if ($this->tree->isGrandChild($a_root_node, $result['ref_id']) && $this->tree->isInTree($result['ref_id'])) {
                 $this->addResult($result['ref_id'], $result['obj_id'], $result['type']);
-                $this->__updateResultChilds($result['ref_id'], $result['child']);
+                $this->__updateResultChilds($result['ref_id'], $result['child'] ?? []);
             }
         }
     }
@@ -443,7 +425,7 @@ class ilSearchResult
      * Save search results
      * @param int DEFAULT_SEARCH or ADVANCED_SEARCH
      */
-    public function save(int $a_type = ilUserSearchCache::DEFAULT_SEARCH) : void
+    public function save(int $a_type = ilUserSearchCache::DEFAULT_SEARCH): void
     {
         $this->search_cache->save();
     }
@@ -453,7 +435,7 @@ class ilSearchResult
      * @param int DEFAULT_SEARCH or ADVANCED_SEARCH
      * @access	public
      */
-    public function read(int $a_type = ilUserSearchCache::DEFAULT_SEARCH) : void
+    public function read(int $a_type = ilUserSearchCache::DEFAULT_SEARCH): void
     {
         $this->results = $this->search_cache->getResults();
     }
@@ -466,7 +448,7 @@ class ilSearchResult
      * @param array array of child ids. E.g 'pg', 'st'
      * @access	private
      */
-    public function __updateEntryChilds(int $a_obj_id, array $a_childs) : bool
+    public function __updateEntryChilds(int $a_obj_id, array $a_childs): bool
     {
         if ($this->entries[$a_obj_id] and is_array($a_childs)) {
             foreach ($a_childs as $child_id) {
@@ -479,13 +461,9 @@ class ilSearchResult
         return false;
     }
     /**
-     *
-     * Update childs for a specific result
-     * @param integer  object ref_id
-     * @param array array of child ids. E.g 'pg', 'st'
-     * @access	private
+     * Update child ids for a specific result
      */
-    public function __updateResultChilds(int $a_ref_id, array $a_childs) : bool
+    public function __updateResultChilds(int $a_ref_id, array $a_childs): bool
     {
         if ($this->results[$a_ref_id] and is_array($a_childs)) {
             foreach ($a_childs as $child_id) {
@@ -498,7 +476,7 @@ class ilSearchResult
 
 
 
-    public function __initSearchSettingsObject() : void
+    public function __initSearchSettingsObject(): void
     {
         $this->search_settings = new ilSearchSettings();
         if (!$this->preventOverwritingMaxhits()) {
@@ -512,7 +490,7 @@ class ilSearchResult
      * @access private
      *
      */
-    protected function initUserSearchCache() : void
+    protected function initUserSearchCache(): void
     {
         $this->search_cache = ilUserSearchCache::_getInstance($this->getUserId());
         $this->offset = $this->getMaxHits() * ($this->search_cache->getResultPageNumber() - 1) ;
@@ -544,7 +522,7 @@ class ilSearchResult
      * @param object class of callback function
      * @param string name of callback method
      */
-    public function addObserver(object $a_class, string $a_method) : bool
+    public function addObserver(object $a_class, string $a_method): bool
     {
         $this->observers[] = array('class' => $a_class,
                                    'method' => $a_method);
@@ -552,7 +530,7 @@ class ilSearchResult
     }
 
 
-    public function callListeners(int $a_ref_id, array $a_data) : bool
+    public function callListeners(int $a_ref_id, array $a_data): bool
     {
         foreach ($this->observers as $observer) {
             $class = &$observer['class'];

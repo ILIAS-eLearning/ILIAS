@@ -1,195 +1,103 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
-// namespace ILIAS\Modules\OrgUnit\Positions\Authorities;
+declare(strict_types=1);
 
 /**
  * Class ilOrguAuthority
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilOrgUnitAuthority extends \ActiveRecord
+class ilOrgUnitAuthority
 {
-    const FIELD_OVER = 'over';
-    const OVER_EVERYONE = -1;
-    const POSITION_ID = "position_id";
-    const SCOPE_SAME_ORGU = 1;
-    const SCOPE_SUBSEQUENT_ORGUS = 2;
-    const SCOPE_ALL_ORGUS = 3;
-    /**
-     * @var array
-     */
-    protected static $scopes
-        = array(
-            self::SCOPE_SAME_ORGU,
-            self::SCOPE_SUBSEQUENT_ORGUS,
-            //		self::SCOPE_ALL_ORGUS,
-        );
+    public const FIELD_OVER = 'over';
+    public const OVER_EVERYONE = -1;
+    public const POSITION_ID = "position_id";
+    public const SCOPE_SAME_ORGU = 1;
+    public const SCOPE_SUBSEQUENT_ORGUS = 2;
+    public const SCOPES = [
+        self::SCOPE_SAME_ORGU,
+        self::SCOPE_SUBSEQUENT_ORGUS
+    ];
 
-    /**
-     * @return array
-     */
-    public static function getScopes()
-    {
-        return self::$scopes;
-    }
+    protected int $id;
+    protected int $over = self::OVER_EVERYONE;
+    protected int $scope = self::SCOPE_SAME_ORGU;
+    protected int $position_id = 0;
 
-    /**
-     * @return string
-     */
-    public static function returnDbTableName() : string
-    {
-        return "il_orgu_authority";
-    }
-
-    /**
-     * @var int
-     * @con_is_primary true
-     * @con_is_unique  true
-     * @con_sequence   true
-     * @con_has_field  true
-     * @con_fieldtype  integer
-     * @con_length     8
-     */
-    protected $id = 0;
-    /**
-     * @var int
-     * @con_has_field  true
-     * @con_fieldtype  integer
-     * @con_length     1
-     */
-    protected $over = self::OVER_EVERYONE;
-    /**
-     * @var int
-     * @con_has_field  true
-     * @con_fieldtype  integer
-     * @con_length     1
-     */
-    protected $scope = self::SCOPE_SAME_ORGU;
-    /**
-     * @var int
-     * @con_has_field  true
-     * @con_fieldtype  integer
-     * @con_length     1
-     */
-    protected $position_id = 0;
-    /**
-     * @var \Closure
-     */
-    protected static $name_render;
-
-    /**
-     * ilOrgUnitAuthority constructor.
-     * @param int               $primary_key
-     * @param \arConnector|null $connector
-     */
-    public function __construct($primary_key = 0, \arConnector $connector = null)
-    {
-        parent::__construct($primary_key, $connector);
-        if (!self::$name_render) {
-            self::$name_render = function($id) {
-                return $id;
-            };
-        }
-    }
-
-    /**
-     * @param \Closure $closure
-     */
-    public static function replaceNameRenderer(Closure $closure)
-    {
-        self::$name_render = $closure;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        $renderer = self::$name_render;
-
-        return $renderer($this->getId());
-    }
-
-    /**
-     * @return array
-     */
-    public function __toArray()
-    {
-        return array(
-            'id' => $this->getId(),
-            'over' => $this->getOver(),
-            'scope' => $this->getScope(),
-            'position_id' => $this->getPositionId(),
-        );
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function __construct($id = 0)
     {
         $this->id = $id;
     }
 
     /**
-     * @return int
+     * @return int[]
      */
-    public function getOver()
+    public static function getScopes(): array
+    {
+        return self::SCOPES;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->id;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getOver(): int
     {
         return $this->over;
     }
 
-    /**
-     * This is either an ID of a position or ilOrgUnitAuthority::OVER_EVERYONE
-     * @param int $over
-     */
-    public function setOver($over)
+    public function withOver(int $over): self
     {
-        $this->over = $over;
+        $clone = clone $this;
+        $clone->over = $over;
+        return $clone;
     }
 
-    /**
-     * @return int
-     */
-    public function getScope()
+    public function getScope(): int
     {
         return $this->scope;
     }
 
-    /**
-     * This is either ilOrgUnitAuthority::SCOPE_SAME_ORGU, ilOrgUnitAuthority::SCOPE_ALL_ORGUS or
-     * ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS
-     * @param int $scope
-     * @throws \ilException
-     */
-    public function setScope($scope)
+    public function withScope(int $scope): self
     {
-        if (!in_array($scope, self::$scopes)) {
-            throw new ilException('Selected Scop in ' . self::class . ' not allowed');
+        if (!in_array($scope, self::SCOPES)) {
+            throw new ilException('Selected Scope in ' . self::class . ' not allowed');
         }
-        $this->scope = $scope;
+        $clone = clone $this;
+        $clone->scope = $scope;
+        return $clone;
     }
 
-    /**
-     * @return int
-     */
-    public function getPositionId()
+    public function getPositionId(): int
     {
         return $this->position_id;
     }
 
-    /**
-     * @param int $position_id
-     */
-    public function setPositionId($position_id)
+    public function withPositionId(int $position_id): self
     {
-        $this->position_id = $position_id;
+        $clone = clone $this;
+        $clone->position_id = $position_id;
+        return $clone;
     }
 }

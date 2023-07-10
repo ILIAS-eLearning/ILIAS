@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Help mapping
@@ -23,7 +26,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
     protected bool $validation;
     protected ilAccessHandler $access;
     public bool $online_help_mode = false;
-    
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -56,12 +59,12 @@ class ilHelpMappingTableGUI extends ilTable2GUI
 
         $this->addCommandButton("saveHelpMapping", $lng->txt("save"));
     }
-    
-    public function getChapters() : void
+
+    public function getChapters(): void
     {
         $hc = ilSession::get("help_chap");
-        $lm_tree = $this->parent_obj->object->getTree();
-        
+        $lm_tree = $this->parent_obj->getObject()->getTree();
+
         if ($hc > 0 && $lm_tree->isInTree($hc)) {
             //$node = $lm_tree->getNodeData($hc);
             //$chaps = $lm_tree->getSubTree($node);
@@ -70,12 +73,12 @@ class ilHelpMappingTableGUI extends ilTable2GUI
         } else {
             $chaps = ilStructureObject::getChapterList($this->parent_obj->object->getId());
         }
-        
+
         $this->setData($chaps);
     }
-    
 
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 

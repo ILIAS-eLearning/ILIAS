@@ -1,4 +1,24 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilLoggerCronCleanErrorFiles extends ilCronJob
 {
@@ -18,47 +38,47 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         $this->error_settings = ilLoggingErrorSettings::getInstance();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "log_error_file_cleanup";
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt("log_error_file_cleanup_title");
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt("log_error_file_cleanup_info");
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_IN_DAYS;
+        return CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
     }
 
-    public function getDefaultScheduleValue() : int
+    public function getDefaultScheduleValue(): int
     {
         return 10;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function hasCustomSettings() : bool
+    public function hasCustomSettings(): bool
     {
         return true;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $result = new ilCronJobResult();
         $folder = $this->error_settings->folder();
@@ -68,8 +88,10 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
             return $result;
         }
 
-        $offset = $this->settings->get('clear_older_then');
-        if (!$offset) {
+        $offset = $this->settings->get('clear_older_then', '');
+        if ($offset) {
+            $offset = (int) $offset;
+        } else {
             $offset = self::DEFAULT_VALUE_OLDER_THAN;
         }
 
@@ -89,9 +111,9 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         return $result;
     }
 
-    protected function readLogDir($path) : array
+    protected function readLogDir(string $path): array
     {
-        $ret = array();
+        $ret = [];
 
         $folder = dir($path);
         while ($file_name = $folder->read()) {
@@ -104,17 +126,18 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         return $ret;
     }
 
-    protected function deleteFile($path) : void
+    protected function deleteFile(string $path): void
     {
         unlink($path);
     }
 
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
-        $offset = $this->settings->get('clear_older_then');
+        $offset = $this->settings->get('clear_older_then', '');
         if (!$offset) {
-            $offset = self::DEFAULT_VALUE_OLDER_THAN;
+            $offset = (string) self::DEFAULT_VALUE_OLDER_THAN;
         }
+
         $clear_older_then = new ilNumberInputGUI($this->lng->txt('frm_clear_older_then'), 'clear_older_then');
         $clear_older_then->allowDecimals(false);
         $clear_older_then->setMinValue(1, true);
@@ -124,9 +147,15 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         $a_form->addItem($clear_older_then);
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
-        $this->settings->set('clear_older_then', $a_form->getInput('clear_older_then'));
+        $threshold = $a_form->getInput('clear_older_then');
+        if ((string) $threshold === '') {
+            $this->settings->delete('clear_older_then');
+        } else {
+            $this->settings->set('clear_older_then', (string) ((int) $a_form->getInput('clear_older_then')));
+        }
+
         return true;
     }
 }

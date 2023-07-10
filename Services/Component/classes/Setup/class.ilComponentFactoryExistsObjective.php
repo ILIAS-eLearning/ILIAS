@@ -1,5 +1,4 @@
-<?php declare(strict_types=1);
-
+<?php
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@
  ********************************************************************
  */
 
+declare(strict_types=1);
+
 use ILIAS\Setup;
 
 /**
@@ -27,7 +28,7 @@ class ilComponentFactoryExistsObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
@@ -35,7 +36,7 @@ class ilComponentFactoryExistsObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "ilComponentFactory is initialized and stored into the environment.";
     }
@@ -43,7 +44,7 @@ class ilComponentFactoryExistsObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
@@ -51,7 +52,7 @@ class ilComponentFactoryExistsObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [
             new \ilDatabaseUpdatedObjective(),
@@ -62,7 +63,7 @@ class ilComponentFactoryExistsObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
@@ -81,7 +82,7 @@ class ilComponentFactoryExistsObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return is_null($environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY));
     }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 namespace ILIAS\Setup\Objective;
 
 use ILIAS\Setup;
@@ -49,15 +51,26 @@ class ObjectiveWithPreconditions implements Setup\Objective
     /**
      * @inheritdocs
      */
-    public function getHash() : string
+    public function getHash(): string
     {
-        return $this->original->getHash();
+        return hash(
+            "sha256",
+            self::class
+            . $this->original->getHash()
+            . implode(
+                "",
+                array_map(
+                    fn ($o) => $o->getHash(),
+                    $this->preconditions
+                )
+            )
+        );
     }
 
     /**
      * @inheritdocs
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->original->getLabel();
     }
@@ -65,7 +78,7 @@ class ObjectiveWithPreconditions implements Setup\Objective
     /**
      * @inheritdocs
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return $this->original->isNotable();
     }
@@ -73,7 +86,7 @@ class ObjectiveWithPreconditions implements Setup\Objective
     /**
      * @inheritdocs
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return array_merge($this->preconditions, $this->original->getPreconditions($environment));
     }
@@ -81,7 +94,7 @@ class ObjectiveWithPreconditions implements Setup\Objective
     /**
      * @inheritdocs
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         return $this->original->achieve($environment);
     }
@@ -89,7 +102,7 @@ class ObjectiveWithPreconditions implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return $this->original->isApplicable($environment);
     }

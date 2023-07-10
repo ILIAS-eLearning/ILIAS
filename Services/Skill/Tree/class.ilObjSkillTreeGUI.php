@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -42,7 +44,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     protected Tree\SkillTreeNodeManager $skill_tree_node_manager;
     protected Access\SkillTreeAccess $skill_tree_access_manager;
     protected Access\SkillManagementAccess $skill_management_access_manager;
-    protected ilBasicSkillTreeRepository $skill_tree_repo;
+    protected ilSkillTreeRepository $skill_tree_repo;
     protected Tree\SkillTreeFactory $skill_tree_factory;
     protected UIServices $ui;
     protected ilGlobalTemplateInterface $main_tpl;
@@ -52,7 +54,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     protected int $requested_tref_id = 0;
     protected int $requested_templates_tree = 0;
     protected string $requested_skexpand = "";
-    protected int $requested_tmpmode = 0;
+    protected bool $requested_tmpmode = false;
 
     /**
      * @var string[]
@@ -116,7 +118,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $this->requested_node_ids = $this->admin_gui_request->getNodeIds();
     }
 
-    public function init(Service\SkillInternalManagerService $skill_manager) : void
+    public function init(Service\SkillInternalManagerService $skill_manager): void
     {
         $this->skill_tree_manager = $skill_manager->getTreeManager();
         $this->skill_tree_node_manager = $skill_manager->getTreeNodeManager($this->object->getId());
@@ -126,7 +128,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         );
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $rbacsystem = $this->rbacsystem;
         $ilErr = $this->error;
@@ -240,6 +242,11 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 $ret = $this->ctrl->forwardCommand($skprof_gui);
                 break;
 
+            case "ilskillprofileuploadhandlergui":
+                $skprof_upl_gui = new ilSkillProfileUploadHandlerGUI();
+                $ret = $this->ctrl->forwardCommand($skprof_upl_gui);
+                break;
+
             case 'ilpermissiongui':
                 if (!$this->skill_tree_access_manager->hasEditTreePermissionsPermission()) {
                     return;
@@ -276,7 +283,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         }
     }
 
-    protected function showLocator() : void
+    protected function showLocator(): void
     {
         $ctrl = $this->ctrl;
         $locator = $this->locator;
@@ -306,7 +313,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         }*/
     }
 
-    protected function getSkillManagementLink() : string
+    protected function getSkillManagementLink(): string
     {
         $this->ctrl->clearParametersByClass("ilobjskillmanagementgui");
         $this->ctrl->setParameterByClass(
@@ -317,7 +324,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         return $this->ctrl->getLinkTargetByClass("ilobjskillmanagementgui", "");
     }
 
-    protected function create() : void
+    protected function create(): void
     {
         $lng = $this->lng;
         $tabs = $this->tabs;
@@ -333,7 +340,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $mtpl->setContent($ui->renderer()->render($this->initTreeForm()));
     }
 
-    protected function edit() : void
+    protected function edit(): void
     {
         $tabs = $this->tabs;
         $tabs->activateTab("settings");
@@ -347,7 +354,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $mtpl->setContent($ui->renderer()->render($this->initTreeForm(true)));
     }
 
-    public function initTreeForm(bool $edit = false) : Form\Standard
+    public function initTreeForm(bool $edit = false): Form\Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -375,7 +382,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         return $f->input()->container()->form()->standard($form_action, ["props" => $section1]);
     }
 
-    public function save() : void
+    public function save(): void
     {
         $request = $this->request;
         $form = $this->initTreeForm();
@@ -408,7 +415,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $ctrl->redirectByClass("ilskillrootgui", "listSkills");
     }
 
-    public function update() : void
+    public function update(): void
     {
         $request = $this->request;
         $form = $this->initTreeForm();
@@ -433,14 +440,14 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $ctrl->redirect($this, "edit");
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $ctrl = $this->ctrl;
 
         $this->deleteNodes($this);
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
         $ilAccess = $this->access;
@@ -500,7 +507,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         }
     }
 
-    public function editSkills() : void
+    public function editSkills(): void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -513,7 +520,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
     }
 
-    public function saveAllTitles(bool $a_succ_mess = true) : void
+    public function saveAllTitles(bool $a_succ_mess = true): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -533,7 +540,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "editSkills");
     }
 
-    public function saveAllTemplateTitles(bool $a_succ_mess = true) : void
+    public function saveAllTemplateTitles(bool $a_succ_mess = true): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -553,7 +560,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "editSkillTemplates");
     }
 
-    public function expandAll(bool $a_redirect = true) : void
+    public function expandAll(bool $a_redirect = true): void
     {
         $this->requested_skexpand = "";
         $n_id = ($this->requested_node_id > 0)
@@ -568,7 +575,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $this->saveAllTitles(false);
     }
 
-    public function collapseAll(bool $a_redirect = true) : void
+    public function collapseAll(bool $a_redirect = true): void
     {
         $this->requested_skexpand = "";
         $n_id = ($this->requested_node_id > 0)
@@ -586,7 +593,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $this->saveAllTitles(false);
     }
 
-    public function deleteNodes(object $a_gui) : void
+    public function deleteNodes(object $a_gui): void
     {
         $lng = $this->lng;
         $tpl = $this->tpl;
@@ -671,7 +678,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
 
         $confirmation_gui = new ilConfirmationGUI();
 
-        $ilCtrl->setParameter($a_gui, "tmpmode", $this->requested_tmpmode);
+        $ilCtrl->setParameter($a_gui, "tmpmode", (int) $this->requested_tmpmode);
         $a_form_action = $this->ctrl->getFormAction($a_gui);
         $confirmation_gui->setFormAction($a_form_action);
         $confirmation_gui->setHeaderText($this->lng->txt("info_delete_sure"));
@@ -689,7 +696,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 }
                 $confirmation_gui->addItem(
                     "id[]",
-                    $node_obj->getId(),
+                    (string) $node_obj->getId(),
                     $obj_title,
                     ilUtil::getImagePath("icon_" . $node_obj->getType() . ".svg")
                 );
@@ -706,12 +713,12 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $tpl->setContent($confirmation_gui->getHTML());
     }
 
-    public function cancelDelete() : void
+    public function cancelDelete(): void
     {
         $this->ctrl->redirectByClass("ilobjskillmanagementgui", "");
     }
 
-    public function confirmedDeleteTrees() : void
+    public function confirmedDeleteTrees(): void
     {
         $ctrl = $this->ctrl;
 
@@ -737,7 +744,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $ctrl->redirectByClass("ilobjskillmanagementgui", "");
     }
 
-    public function confirmedDelete() : void
+    public function confirmedDelete(): void
     {
         // delete all selected objects
         foreach ($this->requested_node_ids as $id) {
@@ -761,7 +768,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     // Skill Templates
     //
 
-    public function editSkillTemplates() : void
+    public function editSkillTemplates(): void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -777,7 +784,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     // Tree
     //
 
-    public function showTree(bool $a_templates, $a_gui = "", $a_gui_cmd = "") : void
+    public function showTree(bool $a_templates, $a_gui = "", $a_gui_cmd = ""): void
     {
         $ilUser = $this->user;
         $tpl = $this->tpl;

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,26 +16,25 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificatePdfFileNameFactory
 {
-    private ilLanguage $lng;
-
-    public function __construct(ilLanguage $lng)
+    public function __construct(private readonly ilLanguage $lng)
     {
-        $this->lng = $lng;
     }
 
-    public function create(ilUserCertificatePresentation $presentation) : string
+    public function create(ilUserCertificatePresentation $presentation): string
     {
         $objectType = $presentation->getObjType();
 
         return $this->fetchCertificateGenerator($objectType)->createFileName($presentation);
     }
 
-    private function fetchCertificateGenerator(string $objectType) : ilCertificateFilename
+    private function fetchCertificateGenerator(string $objectType): ilCertificateFilename
     {
         $generator = new ilCertificatePdfFilename($this->lng);
         if ('sahs' === $objectType) {

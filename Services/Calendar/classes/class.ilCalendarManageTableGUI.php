@@ -1,25 +1,25 @@
-<?php declare(strict_types=1);
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * show list of alle calendars to manage
@@ -31,6 +31,9 @@ class ilCalendarManageTableGUI extends ilTable2GUI
     protected ilCalendarActions $actions;
     protected ilObjUser $user;
 
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
+
     public function __construct(object $a_parent_obj)
     {
         global $DIC;
@@ -39,6 +42,8 @@ class ilCalendarManageTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, 'manage');
 
         $this->user = $DIC->user();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
 
         $this->actions = ilCalendarActions::getInstance();
         $this->lng->loadLanguageModule('dateplaner');
@@ -66,55 +71,71 @@ class ilCalendarManageTableGUI extends ilTable2GUI
     /**
      * reset table to defaults
      */
-    public function resetToDefaults() : void
+    public function resetToDefaults(): void
     {
         $this->resetOffset();
         $this->setOrderField('type_sortable');
         $this->setOrderDirection('asc');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
-        $current_selection_list = new ilAdvancedSelectionListGUI();
-        $current_selection_list->setListTitle($this->lng->txt("actions"));
-        $current_selection_list->setId("act_" . $a_set['id']);
+        $dropDownItems = array();
 
         $this->ctrl->setParameter($this->getParentObject(), 'category_id', $a_set['id']);
 
         // edit
         if ($this->actions->checkSettingsCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'edit');
-            $current_selection_list->addItem($this->lng->txt('settings'), '', $url);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt('settings'),
+                $url
+            );
         }
 
         // import (ics appointments)
         if ($this->actions->checkAddEvent($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'importAppointments');
-            $current_selection_list->addItem($this->lng->txt('cal_import_appointments'), '', $url);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt('cal_import_appointments'),
+                $url
+            );
         }
 
         // unshare
         if ($this->actions->checkUnshareCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'unshare');
-            $current_selection_list->addItem($this->lng->txt('cal_unshare'), '', $url);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt('cal_unshare'),
+                $url
+            );
         }
 
         // share
         if ($this->actions->checkShareCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'shareSearch');
-            $current_selection_list->addItem($this->lng->txt('cal_share'), '', $url);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt('cal_share'),
+                $url
+            );
         }
 
         // synchronize
         if ($this->actions->checkSynchronizeCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'synchroniseCalendar');
-            $current_selection_list->addItem($this->lng->txt('cal_cal_synchronize'), '', $url);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt('cal_cal_synchronize'),
+                $url
+            );
         }
 
         // delete
         if ($this->actions->checkDeleteCal($a_set['id'])) {
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDelete');
-            $current_selection_list->addItem($this->lng->txt('delete'), '', $url);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt('delete'),
+                $url
+            );
 
             $this->tpl->setCurrentBlock("checkbox");
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
@@ -150,7 +171,6 @@ class ilCalendarManageTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_calch.svg'));
                 $this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_ch_ch'));
                 break;
-
         }
 
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
@@ -167,11 +187,15 @@ class ilCalendarManageTableGUI extends ilTable2GUI
                 ''
             )
         );
+
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withLabel($this->lng->txt("actions"));
+
         $this->tpl->setVariable('BGCOLOR', $a_set['color']);
-        $this->tpl->setVariable("ACTIONS", $current_selection_list->getHTML());
+        $this->tpl->setVariable("ACTIONS", $this->renderer->render($dropDown));
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
 
@@ -197,13 +221,17 @@ class ilCalendarManageTableGUI extends ilTable2GUI
             $categories[] = $tmp_arr;
 
             // count title for appending the parent container if there is more than one entry.
-            $tmp_title_counter[$category['type'] . '_' . $category['title']]++;
+            if ($tmp_title_counter[$category['type'] . '_' . $category['title']] ?? false) {
+                $tmp_title_counter[$category['type'] . '_' . $category['title']]++;
+            } else {
+                $tmp_title_counter[$category['type'] . '_' . $category['title']] = 1;
+            }
         }
 
         $path_categories = array();
         foreach ($categories as $cat) {
             if ($cat['type'] == ilCalendarCategory::TYPE_OBJ) {
-                if ($tmp_title_counter[$cat['type'] . '_' . $cat['title']] > 1) {
+                if (($tmp_title_counter[$cat['type'] . '_' . $cat['title']] ?? 1) > 1) {
                     foreach (ilObject::_getAllReferences($cat['obj_id']) as $ref_id) {
                         $path = new ilPathGUI();
                         $path->setUseImages(false);

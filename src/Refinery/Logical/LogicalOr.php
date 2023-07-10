@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Refinery\Logical;
 
@@ -33,7 +35,7 @@ class LogicalOr extends Constraint
     public function __construct(array $other, Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            static function ($value) use ($other) : bool {
+            static function ($value) use ($other): bool {
                 foreach ($other as $constraint) {
                     if ($constraint->accepts($value)) {
                         return true;
@@ -42,7 +44,7 @@ class LogicalOr extends Constraint
 
                 return false;
             },
-            static function ($value) use ($other) : string {
+            static function ($value) use ($other): string {
                 $problems = [];
 
                 foreach ($other as $constraint) {

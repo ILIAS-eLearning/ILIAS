@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 /**
@@ -29,43 +31,23 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
  */
 class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 {
-    protected ilObjectGUI $repository_gui;
-    protected ilObject $obj;
-    protected ilObjUserTracking $obj_user_tracking;
-    protected ilPrivacySettings $privacy_settings;
-    protected ilRbacReview $rbac_review;
-    protected ilSetting $settings;
-    protected ilToolbarGUI $toolbar;
-    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
-    protected ArrayBasedRequestWrapper $post_wrapper;
-    protected ILIAS\Refinery\Factory $refinery;
-
     public function __construct(
         ilObjectGUI $repository_gui,
-        ilObject $obj,
-        ilObjUserTracking $obj_user_tracking,
-        ilPrivacySettings $privacy_settings,
-        ilRbacReview $rbac_review,
-        ilSetting $settings,
-        ilToolbarGUI $toolbar,
-        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
-        ArrayBasedRequestWrapper $post_wrapper,
-        ILIAS\Refinery\Factory $refinery
+        protected ilObject $obj,
+        protected ilObjUserTracking $obj_user_tracking,
+        protected ilPrivacySettings $privacy_settings,
+        protected ilRbacReview $rbac_review,
+        protected ilSetting $settings,
+        protected ilToolbarGUI $toolbar,
+        protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
+        protected ArrayBasedRequestWrapper $post_wrapper,
+        protected ILIAS\Refinery\Factory $refinery,
+        protected ILIAS\UI\Factory $ui_factory
     ) {
         parent::__construct($repository_gui, $obj);
-
-        $this->obj = $obj;
-        $this->obj_user_tracking = $obj_user_tracking;
-        $this->privacy_settings = $privacy_settings;
-        $this->rbac_review = $rbac_review;
-        $this->settings = $settings;
-        $this->toolbar = $toolbar;
-        $this->request_wrapper = $request_wrapper;
-        $this->post_wrapper = $post_wrapper;
-        $this->refinery = $refinery;
     }
 
-    protected function printMembers() : void
+    protected function printMembers(): void
     {
         $this->checkPermission('read');
         if ($this->checkRbacOrPositionAccessBool('manage_members', 'manage_members')) {
@@ -87,9 +69,10 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function getDefaultCommand() : string
+    protected function getDefaultCommand(): string
     {
-        return $this->request_wrapper->retrieve("back_cmd", $this->refinery->kindlyTo()->string());
+        $r = $this->refinery;
+        return $this->request_wrapper->retrieve("back_cmd", $r->byTrying([$r->kindlyTo()->string(), $r->always("members")]));
     }
 
     /**
@@ -97,7 +80,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
      * @param int[] $a_user_ids
      * @return int[]
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $a_user_ids) : array
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $a_user_ids): array
     {
         return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
@@ -110,7 +93,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
     /**
      * @param array<int>  $user_ids
      */
-    public function assignMembers(array $user_ids, string $type) : bool
+    public function assignMembers(array $user_ids, string $type): bool
     {
         $object = $this->getParentObject();
         $members = $this->getParentObject()->getLSParticipants();
@@ -180,7 +163,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
     /**
      * save in participants table
      */
-    protected function updateParticipantsStatus() : void
+    protected function updateParticipantsStatus(): void
     {
         $members = $this->getParentObject()->getLSParticipants();
 
@@ -188,10 +171,14 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
             "visible_member_ids",
             $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
         );
-        $notification = $this->post_wrapper->retrieve(
-            "notification",
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-        );
+
+        $notification = [];
+        if ($this->post_wrapper->has('notification')) {
+            $notification = $this->post_wrapper->retrieve(
+                "notification",
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+        }
 
         foreach ($participants as $participant) {
             if ($members->isAdmin($participant)) {
@@ -205,7 +192,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         $this->ctrl->redirect($this, 'participants');
     }
 
-    protected function initParticipantTableGUI() : ilLearningSequenceParticipantsTableGUI
+    protected function initParticipantTableGUI(): ilLearningSequenceParticipantsTableGUI
     {
         return new ilLearningSequenceParticipantsTableGUI(
             $this,
@@ -219,7 +206,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         );
     }
 
-    public function getParentObject() : ilObjLearningSequence
+    public function getParentObject(): ilObjLearningSequence
     {
         $obj = parent::getParentObject();
         if (!$obj instanceof ilObjLearningSequence) {
@@ -228,7 +215,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         return $obj;
     }
 
-    protected function initEditParticipantTableGUI(array $participants) : ilLearningSequenceEditParticipantsTableGUI
+    protected function initEditParticipantTableGUI(array $participants): ilLearningSequenceEditParticipantsTableGUI
     {
         $table = new ilLearningSequenceEditParticipantsTableGUI(
             $this,
@@ -246,7 +233,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
     /**
      * Init participant view template
      */
-    protected function initParticipantTemplate() : void
+    protected function initParticipantTemplate(): void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lso_edit_members.html', 'Modules/LearningSequence');
     }
@@ -254,7 +241,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
     /**
      * @return array<string, int>
      */
-    public function getLocalTypeRole(bool $translation = false) : array
+    public function getLocalTypeRole(bool $translation = false): array
     {
         return $this->getParentObject()->getLocalLearningSequenceRoles($translation);
     }
@@ -264,22 +251,18 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
      * @param string[] $columns
      * @return array<int|string, array>
      */
-    public function readMemberData(array $usr_ids, array $columns = null) : array
+    public function readMemberData(array $usr_ids, array $columns = null): array
     {
         return $this->getParentObject()->readMemberData($usr_ids, $columns);
     }
 
-    protected function updateLPFromStatus()
-    {
-        return null;
-    }
 
-    protected function initWaitingList() : ilLearningSequenceWaitingList
+    protected function initWaitingList(): ilLearningSequenceWaitingList
     {
         return new ilLearningSequenceWaitingList($this->getParentObject()->getId());
     }
 
-    protected function getDefaultRole() : ?int
+    protected function getDefaultRole(): ?int
     {
         return $this->getParentObject()->getDefaultMemberRole();
     }
@@ -287,7 +270,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
     /**
      * @return array<string, mixed>
      */
-    public function getPrintMemberData(array $members) : array
+    public function getPrintMemberData(array $members): array
     {
         $member_data = $this->readMemberData($members, array());
 
@@ -297,25 +280,27 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
     /**
      * @return array<string, mixed>
      */
-    public function getAttendanceListUserData(int $user_id, array $filters = []) : array
+    public function getAttendanceListUserData(int $user_id, array $filters = []): array
     {
         $data = array();
 
         if ($this->filterUserIdsByRbacOrPositionOfCurrentUser([$user_id])) {
             $data = $this->member_data[$user_id];
-            $data['access'] = $data['access_time'];
+            if (array_key_exists('access_time', $data)) {
+                $data['access'] = $data['access_time'];
+            }
             $data['progress'] = $this->lng->txt($data['progress']);
         }
 
         return $data;
     }
 
-    protected function getMailMemberRoles() : ?ilAbstractMailMemberRoles
+    protected function getMailMemberRoles(): ?ilAbstractMailMemberRoles
     {
         return new ilMailMemberLearningSequenceRoles();
     }
 
-    protected function setSubTabs(ilTabsGUI $tabs) : void
+    protected function setSubTabs(ilTabsGUI $tabs): void
     {
         $access = $this->checkRbacOrPositionAccessBool(
             'manage_members',
@@ -347,7 +332,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         }
     }
 
-    protected function showParticipantsToolbar() : void
+    protected function showParticipantsToolbar(): void
     {
         $toolbar_entries = [
             'auto_complete_name' => $this->lng->txt('user'),
@@ -375,9 +360,11 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 
         $this->toolbar->addSeparator();
 
-        $this->toolbar->addButton(
-            $this->lng->txt($this->getParentObject()->getType() . "_print_list"),
-            $this->ctrl->getLinkTarget($this, 'printMembers')
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt($this->getParentObject()->getType() . "_print_list"),
+                $this->ctrl->getLinkTarget($this, 'printMembers')
+            )
         );
 
         $this->showMailToMemberToolbarButton($this->toolbar, 'participants');

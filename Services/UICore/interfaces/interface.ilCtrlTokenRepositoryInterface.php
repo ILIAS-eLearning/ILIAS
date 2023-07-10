@@ -14,5 +14,5 @@ interface ilCtrlTokenRepositoryInterface
      *
      * @return ilCtrlTokenInterface
      */
-    public function getToken() : ilCtrlTokenInterface;
+    public function getToken(): ilCtrlTokenInterface;
 }

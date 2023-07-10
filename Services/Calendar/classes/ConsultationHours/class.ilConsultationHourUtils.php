@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -11,12 +13,14 @@ class ilConsultationHourUtils
         int $ref_id,
         int $current_user_id,
         array $ctrl_class_structure
-    ) : array {
+    ): array {
         global $DIC;
 
         $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
         $logger = $DIC->logger()->cal();
+        $ctrl->setParameterByClass(end($ctrl_class_structure), 'seed', '');
+        $ctrl->setParameterByClass(end($ctrl_class_structure), 'category_id', '');
 
         $obj_id = \ilObject::_lookupObjId($ref_id);
         $participants = \ilParticipants::getInstance($ref_id);
@@ -36,7 +40,7 @@ class ilConsultationHourUtils
                     continue;
                 }
                 $booking_entry = new ilBookingEntry($entry->getContextId());
-                if (!in_array($obj_id, $booking_entry->getTargetObjIds())) {
+                if (count($booking_entry->getTargetObjIds()) > 0 && !in_array($obj_id, $booking_entry->getTargetObjIds())) {
                     continue;
                 }
                 if (!$booking_entry->isAppointmentBookableForUser($entry->getEntryId(), $current_user_id)) {
@@ -48,10 +52,13 @@ class ilConsultationHourUtils
 
             $ctrl->setParameterByClass(end($ctrl_class_structure), 'ch_user_id', $user_id);
             if ($next_entry instanceof \ilCalendarEntry) {
+                $arr = explode("-", $next_entry->getStart()->get(IL_CAL_DATE));
+                $arr[2] = "01";
+                $seed = implode("-", $arr);
                 $ctrl->setParameterByClass(
                     end($ctrl_class_structure),
                     'seed',
-                    $next_entry->getStart()->get(IL_CAL_DATE)
+                    $seed
                 );
             }
             $current_link = [
@@ -77,7 +84,7 @@ class ilConsultationHourUtils
         ilBookingEntry $booking,
         ilDateTime $start,
         ilDateTime $end
-    ) : array {
+    ): array {
         global $DIC;
 
         $db = $DIC->database();
@@ -110,7 +117,7 @@ class ilConsultationHourUtils
      * @param int $a_app_id
      * @return bool
      */
-    public static function bookAppointment(int $a_usr_id, int $a_app_id) : bool
+    public static function bookAppointment(int $a_usr_id, int $a_app_id): bool
     {
         global $DIC;
 
@@ -145,7 +152,7 @@ class ilConsultationHourUtils
     /**
      * Cancel a booking
      */
-    public static function cancelBooking(int $a_usr_id, int $a_app_id, bool $a_send_notification = true) : bool
+    public static function cancelBooking(int $a_usr_id, int $a_app_id, bool $a_send_notification = true): bool
     {
         // Delete personal copy of appointment
         $app = new ilCalendarEntry($a_app_id);
@@ -181,7 +188,7 @@ class ilConsultationHourUtils
      * Lookup managed users
      * @return int[]
      */
-    public static function lookupManagedUsers($a_usr_id) : array
+    public static function lookupManagedUsers($a_usr_id): array
     {
         global $DIC;
 

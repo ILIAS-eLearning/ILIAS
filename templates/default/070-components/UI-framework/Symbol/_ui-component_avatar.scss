@@ -1,0 +1,112 @@
+@use "sass:list";
+@use "sass:math";
+@use "../../../010-settings/" as *;
+@use "../../../030-tools/tool_contrast-color" as t-contr;
+@use "../../../050-layout/basics" as *;
+@use "../../../050-layout/standardpage/" as *;
+
+//== Avatar
+//
+//** Size for avatars: used in the header. e.g. standard (and recommended) is $il-icon-size-large
+$il-avatar-size-small: $il-avatar-size * 0.5;
+$il-avatar-size-large: $il-avatar-size * 2;
+//** border-radius for image avatar
+$il-avatar-border-radius: 50%;
+//** border size for letter avatars
+$il-avatar-border-size: 2px;
+$il-avatar-small-border-size: 0px;
+//** border style for letter avatars
+$il-avatar-border-style: solid;
+//** border color for picture avatars
+$il-avatar-picture-border-color: $il-main-border-color;
+//** there are 26 colors for letter avatar backgrounds, this is for the abbreviation ant the border color
+$il-avatar-letter-border-color-contrast-lighten: 40%;
+$il-avatar-letter-border-color-contrast-darken: 20%;
+//** change the abbreviations font weight
+$il-avatar-letter-abbreviation-font-weight: $il-font-weight-light;
+//** change the abbreviations font transform
+$il-avatar-letter-abbreviation-font-transform: inherit;
+
+$il-avatar-colors: $il-avatar-letter-color-variants;
+$il-avatar-inner-size: ($il-avatar-size - (2 * $il-avatar-border-size));
+
+$zoom-small: math.div($il-avatar-size-small, $il-avatar-size);
+$zoom-large: math.div($il-avatar-size-large, $il-avatar-size);
+
+.il-avatar {
+	height: $il-avatar-size;
+	width: $il-avatar-size;
+
+	display: inline-block;
+
+	border-radius: $il-avatar-border-radius;
+	border-style: $il-avatar-border-style;
+	border-width: $il-avatar-border-size;
+
+	overflow: hidden;
+	line-height: 1;
+	text-align: center;
+	pointer-events: none;
+
+
+	&.il-avatar-picture {
+		border-color: $il-avatar-picture-border-color;
+
+		img {
+			height: $il-avatar-size;
+			width: $il-avatar-size;
+			vertical-align: top;
+			border: $il-avatar-border-radius;
+			overflow: hidden;
+			object-fit: cover;
+		}
+	}
+
+	&.il-avatar-letter {
+		span.abbreviation {
+			font-weight: $il-avatar-letter-abbreviation-font-weight;
+			text-transform: $il-avatar-letter-abbreviation-font-transform;
+			font-size: calc($il-avatar-inner-size / 2);
+			line-height: 1;
+			position: relative;
+			top: calc($il-avatar-inner-size / 4);
+		}
+
+		@for $i from 1 through length($il-avatar-colors) {
+			&.il-avatar-letter-color-#{$i} {
+				$color: list.nth($il-avatar-colors, $i);
+				$contrast: t-contr.contrast-color($color, darken($color, $il-avatar-letter-border-color-contrast-darken), lighten($color, $il-avatar-letter-border-color-contrast-lighten));
+				background-color: $color;
+				border-color: $contrast;
+				color: white;
+				// @debug "color #{$i}: #{$color} - contrast-color: #{$contrast}"
+			}
+		}
+	}
+}
+
+
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+	.il-avatar {
+		height: $il-avatar-inner-mobile-size;
+		width: $il-avatar-inner-mobile-size;
+		margin-top: auto;
+		border-width: $il-avatar-small-border-size;
+
+		&.il-avatar-picture {
+			img {
+				height: $il-avatar-inner-mobile-size;
+				width: $il-avatar-inner-mobile-size;
+			}
+		}
+
+		&.il-avatar-letter {
+			span.abbreviation {
+				font-size: calc($il-avatar-inner-mobile-size / 2);
+				top: calc($il-avatar-inner-mobile-size / 4);
+			}
+		}
+	}
+}
+
+

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Exercise\GUIRequest;
 
 /**
@@ -42,7 +42,7 @@ class ilExSubmissionGUI
     protected ilExAssignmentTypesGUI $type_guis;
     protected ?int $user_id;
     protected GUIRequest $request;
-    
+
     public function __construct(
         ilObjExercise $a_exercise,
         ilExAssignment $a_ass,
@@ -57,11 +57,11 @@ class ilExSubmissionGUI
         $lng = $DIC->language();
         $tpl = $DIC["tpl"];
         $ilUser = $DIC->user();
-        
+
         if (!$a_user_id) {
             $a_user_id = $ilUser->getId();
         }
-        
+
         $this->assignment = $a_ass;
         $this->exercise = $a_exercise;
         $this->user_id = $a_user_id;
@@ -72,7 +72,7 @@ class ilExSubmissionGUI
         if (!$this->exercise->members_obj->isAssigned($a_user_id)) {
             $this->exercise->members_obj->assignMember($a_user_id);
         }
-                        
+
         // public submissions ???
         $public_submissions = false;
         if ($this->exercise->getShowSubmissions() &&
@@ -80,7 +80,7 @@ class ilExSubmissionGUI
             $public_submissions = true;
         }
         $this->submission = new ilExSubmission($a_ass, $a_user_id, null, false, $public_submissions);
-        
+
         // :TODO:
         $this->ctrl = $ilCtrl;
         $this->tabs_gui = $ilTabs;
@@ -92,17 +92,17 @@ class ilExSubmissionGUI
     /**
      * @throws ilCtrlException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("listPublicSubmissions");
-        
+
         switch ($class) {
             case "ilexsubmissionteamgui":
                 // team gui has no base gui - see we have to handle tabs here
-                
+
                 $this->tabs_gui->clearTargets();
                 $this->tabs_gui->setBackTarget(
                     $this->lng->txt("back"),
@@ -121,33 +121,33 @@ class ilExSubmissionGUI
                 $gui = new ilExSubmissionTeamGUI($this->exercise, $this->submission);
                 $ilCtrl->forwardCommand($gui);
                 break;
-            
+
             case "ilexsubmissiontextgui":
                 $gui = new ilExSubmissionTextGUI($this->exercise, $this->submission);
                 $ilCtrl->forwardCommand($gui);
                 break;
-            
+
             case "ilexsubmissionfilegui":
                 $gui = new ilExSubmissionFileGUI($this->exercise, $this->submission);
                 $ilCtrl->forwardCommand($gui);
                 break;
-            
+
             case "ilexsubmissionobjectgui":
                 $gui = new ilExSubmissionObjectGUI($this->exercise, $this->submission);
                 $ilCtrl->forwardCommand($gui);
                 break;
-            
+
             case "ilexpeerreviewgui":
                 $this->tabs_gui->clearTargets();
                 $this->tabs_gui->setBackTarget(
                     $this->lng->txt("back"),
                     $this->ctrl->getLinkTarget($this, "returnToParent")
                 );
-        
+
                 $peer_gui = new ilExPeerReviewGUI($this->assignment, $this->submission);
                 $this->ctrl->forwardCommand($peer_gui);
                 break;
-                
+
             default:
 
 
@@ -168,21 +168,21 @@ class ilExSubmissionGUI
         ilInfoScreenGUI $a_info,
         ilExSubmission $a_submission,
         ilObjExercise $a_exc
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
-        
+
         if (!$a_submission->canView()) {
             return;
         }
-            
+
         $ilCtrl->setParameterByClass("ilExSubmissionGUI", "ass_id", $a_submission->getAssignment()->getId());
-            
+
         if ($a_submission->getAssignment()->hasTeam()) {
             ilExSubmissionTeamGUI::getOverviewContent($a_info, $a_submission);
         }
-        
+
         $submission_type = $a_submission->getSubmissionType();
         // old handling -> forward to submission type gui class
         // @todo migrate everything to new concept
@@ -198,14 +198,14 @@ class ilExSubmissionGUI
                 "submission" => $a_submission
             ));
         }
-            
+
         $ilCtrl->setParameterByClass("ilExSubmissionGUI", "ass_id", "");
     }
 
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getHTML(array $par) : string
+    public function getHTML(array $par): string
     {
         switch ($par["mode"]) {
             // get overview content from ass type gui
@@ -217,22 +217,22 @@ class ilExSubmissionGUI
         return "";
     }
 
-    public function listPublicSubmissionsObject() : void
+    public function listPublicSubmissionsObject(): void
     {
         $ilTabs = $this->tabs_gui;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         if (!$this->exercise->getShowSubmissions()) {
             $this->returnToParentObject();
         }
-        
+
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $lng->txt("back"),
             $ilCtrl->getLinkTarget($this, "returnToParent")
         );
-        
+
         if ($this->assignment->getType() != ilExAssignment::TYPE_TEXT) {
             $tab = new ilPublicSubmissionsTableGUI($this, "listPublicSubmissions", $this->assignment);
             $this->tpl->setContent($tab->getHTML());
@@ -242,11 +242,11 @@ class ilExSubmissionGUI
             $this->tpl->setContent($tbl->getHTML());
         }
     }
-    
+
     /**
      * Download feedback file
      */
-    public function downloadFeedbackFileObject() : bool
+    public function downloadFeedbackFileObject(): bool
     {
         $file = $this->request->getFile();
 
@@ -254,7 +254,7 @@ class ilExSubmissionGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_select_one_file"), true);
             $this->ctrl->redirect($this, "view");
         }
-        
+
         // check, whether file belongs to assignment
         $storage = new ilFSStorageExercise($this->exercise->getId(), $this->assignment->getId());
         $files = $storage->getFeedbackFiles($this->submission->getFeedbackId());
@@ -269,23 +269,23 @@ class ilExSubmissionGUI
         if (!$file_exist) {
             return false;
         }
-        
+
         // check whether assignment has already started
         if (!$this->assignment->notStartedYet()) {
             // deliver file
             $p = $storage->getFeedbackFilePath($this->submission->getFeedbackId(), $file);
             ilFileDelivery::deliverFileLegacy($p, $file);
         }
-    
+
         return true;
     }
-    
-    public function downloadGlobalFeedbackFileObject() : void
+
+    public function downloadGlobalFeedbackFileObject(): void
     {
         $ilCtrl = $this->ctrl;
 
         $state = ilExcAssMemberState::getInstanceByIds($this->assignment->getId(), $this->user_id);
-        
+
         // fix bug 28466, this code should be streamlined with the if above and
         // the presentation of the download link in the ilExAssignmentGUI->addSubmission
         if (!$state->isGlobalFeedbackFileAccessible($this->submission)) {
@@ -299,8 +299,8 @@ class ilExSubmissionGUI
 
         ilFileDelivery::deliverFileLegacy($file, $this->assignment->getFeedbackFile());
     }
-    
-    public function downloadFileObject() : bool
+
+    public function downloadFileObject(): bool
     {
         $file = $this->request->getFile();
 
@@ -308,7 +308,7 @@ class ilExSubmissionGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_select_one_file"), true);
             $this->ctrl->redirect($this, "view");
         }
-        
+
         // check whether assignment as already started
         $state = ilExcAssMemberState::getInstanceByIds($this->assignment->getId(), $this->user_id);
         if ($state->areInstructionsVisible()) {
@@ -326,11 +326,11 @@ class ilExSubmissionGUI
                 return false;
             }
         }
-        
+
         return true;
     }
-    
-    public function returnToParentObject() : void
+
+    public function returnToParentObject(): void
     {
         $this->ctrl->returnToParent($this);
     }

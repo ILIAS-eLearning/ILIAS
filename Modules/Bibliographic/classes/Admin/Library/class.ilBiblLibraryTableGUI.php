@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Bibliographic ilBiblLibraryTableGUI
  *
@@ -42,7 +42,7 @@ class ilBiblLibraryTableGUI extends ilTable2GUI
     }
 
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_LIBRARY_NAME', $a_set['name']);
         $this->tpl->setVariable('VAL_LIBRARY_URL', $a_set['url']);
@@ -50,27 +50,28 @@ class ilBiblLibraryTableGUI extends ilTable2GUI
 
         if ($this->checkPermissionBoolAndReturn('write')) {
             $this->ctrl()->setParameter($this->parent_obj, ilBiblLibraryGUI::F_LIB_ID, $a_set['id']);
-            $current_selection_list = new ilAdvancedSelectionListGUI();
-            $current_selection_list->setListTitle($this->lng->txt("actions"));
-            $current_selection_list->setId($a_set['id']);
-            $current_selection_list->addItem(
+            // build edit action entry
+            $action_entries['edit'] = $this->ui()->factory()->button()->shy(
                 $this->lng->txt(ilBiblLibraryGUI::CMD_EDIT),
-                "",
                 $this->ctrl()->getLinkTarget($this->parent_obj, ilBiblLibraryGUI::CMD_EDIT)
             );
-            $current_selection_list->addItem(
+            // build delete action entry
+            $action_entries['delete'] = $this->ui()->factory()->button()->shy(
                 $this->lng->txt(ilBiblLibraryGUI::CMD_DELETE),
-                "",
                 $this->ctrl()->getLinkTarget($this->parent_obj, ilBiblLibraryGUI::CMD_DELETE)
             );
-            $this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
+            // build actions dropdown
+            $actions = $this->ui()->factory()->dropdown()->standard($action_entries)->withLabel($this->lng->txt("actions"));
+            $rendered_actions = $this->ui()->renderer()->render($actions);
+
+            $this->tpl->setVariable('VAL_ACTIONS', $rendered_actions);
         } else {
             $this->tpl->setVariable('VAL_ACTIONS', "&nbsp;");
         }
     }
 
 
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng()->txt('bibl_library_name'), '', '30%');
         $this->addColumn($this->lng()->txt('bibl_library_url'), '30%');

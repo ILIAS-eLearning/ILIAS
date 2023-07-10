@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * GUI class for learning history page content
@@ -42,7 +45,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
         $this->ui = $DIC->ui();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -57,7 +60,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
     /**
      * Insert learning history form
      */
-    public function insert(ilPropertyFormGUI $a_form = null) : void
+    public function insert(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -69,7 +72,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
         $tpl->setContent($a_form->getHTML());
     }
 
-    public function edit(ilPropertyFormGUI $a_form = null) : void
+    public function edit(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -84,7 +87,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
     /**
      * Init learning history edit form
      */
-    protected function initForm(bool $a_insert = false) : ilPropertyFormGUI
+    protected function initForm(bool $a_insert = false): ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -112,10 +115,10 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
 
         //
         $radg = new ilRadioGroupInputGUI($lng->txt("lhist_type_of_achievement"), "mode");
-        //$radg->setValue();
-        $op1 = new ilRadioOption($lng->txt("lhist_all"), 0);
+        $radg->setValue("0");
+        $op1 = new ilRadioOption($lng->txt("lhist_all"), "0");
         $radg->addOption($op1);
-        $op2 = new ilRadioOption($lng->txt("lhist_selected"), 1);
+        $op2 = new ilRadioOption($lng->txt("lhist_selected"), "1");
         $radg->addOption($op2);
         $form->addItem($radg);
 
@@ -150,10 +153,10 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
     /**
      * Create new learning history component
      */
-    public function create() : void
+    public function create(): void
     {
         $valid = false;
-        
+
         $form = $this->initForm(true);
         if ($form->checkInput()) {
             //$data = $form->getInput("skill_id");
@@ -177,7 +180,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
     /**
      * Update learning history component
      */
-    public function update() : void
+    public function update(): void
     {
         $form = $this->initForm();
         if ($form->checkInput()) {
@@ -194,7 +197,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
         $this->edit($form);
     }
 
-    protected function setAttributesFromInput(ilPropertyFormGUI $form) : void
+    protected function setAttributesFromInput(ilPropertyFormGUI $form): void
     {
         /** @var ilDateDurationInputGUI $item */
         $item = $form->getItemByPostVar("period");
@@ -213,7 +216,7 @@ class ilPCLearningHistoryGUI extends ilPageContentGUI
         $this->content_obj->setClasses($classes);
     }
 
-    public static function getPlaceholderPresentation() : string
+    public static function getPlaceholderPresentation(): string
     {
         global $DIC;
 

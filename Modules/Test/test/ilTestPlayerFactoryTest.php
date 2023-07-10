@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestPlayerFactoryTest
@@ -10,19 +26,19 @@ class ilTestPlayerFactoryTest extends ilTestBaseTestCase
 {
     private ilTestPlayerFactory $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->testObj = new ilTestPlayerFactory($this->createMock(ilObjTest::class));
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestPlayerFactory::class, $this->testObj);
     }
 
-    public function testGetPlayerGUI() : void
+    public function testGetPlayerGUI(): void
     {
         $this->addGlobal_ilUser();
         $this->addGlobal_lng();
@@ -35,10 +51,9 @@ class ilTestPlayerFactoryTest extends ilTestBaseTestCase
         $this->addGlobal_objDefinition();
         $this->addGlobal_tpl();
         $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilPluginAdmin();
+        $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();
-        $_GET["ref_id"] = 2;
         $this->addGlobal_rbacsystem();
         $this->addGlobal_refinery();
 

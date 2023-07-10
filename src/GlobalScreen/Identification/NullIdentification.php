@@ -1,18 +1,25 @@
-<?php namespace ILIAS\GlobalScreen\Identification;
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\GlobalScreen\Identification;
+
 /**
  * Class NullIdentification
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -20,7 +27,7 @@
 class NullIdentification implements IdentificationInterface
 {
     protected ?IdentificationInterface $wrapped_identification = null;
-    
+
     /**
      * NullIdentification constructor.
      * @param IdentificationInterface $wrapped_identification
@@ -29,7 +36,7 @@ class NullIdentification implements IdentificationInterface
     {
         $this->wrapped_identification = $wrapped_identification;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -38,51 +45,61 @@ class NullIdentification implements IdentificationInterface
         if ($this->wrapped_identification !== null) {
             return $this->wrapped_identification->serialize();
         }
-        
+
         return "";
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         // noting to do
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getClassName() : string
+    public function getClassName(): string
     {
         if ($this->wrapped_identification !== null) {
             return $this->wrapped_identification->getClassName();
         }
-        
+
         return "Null";
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getInternalIdentifier() : string
+    public function getInternalIdentifier(): string
     {
         if ($this->wrapped_identification !== null) {
             return $this->wrapped_identification->getInternalIdentifier();
         }
-        
+
         return "Null";
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getProviderNameForPresentation() : string
+    public function getProviderNameForPresentation(): string
     {
         if ($this->wrapped_identification !== null) {
             return $this->wrapped_identification->getProviderNameForPresentation();
         }
-        
+
         return "Null";
+    }
+
+    public function __serialize(): array
+    {
+        return ['data' => $this->serialize()];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->unserialize($data['data']);
     }
 }

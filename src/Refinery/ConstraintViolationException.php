@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Refinery;
 
@@ -47,7 +49,7 @@ class ConstraintViolationException extends UnexpectedValueException
         $this->languageValues = $languageValues;
     }
 
-    public function getTranslatedMessage(callable $txt) : string
+    public function getTranslatedMessage(callable $txt): string
     {
         return vsprintf($txt($this->languageId), $this->languageValues);
     }

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblAdminFieldGUI
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
@@ -24,22 +24,22 @@
 abstract class ilBiblAdminFieldGUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-    
-    const CMD_INIT_DEFAULT_FIELDS_AND_SORTING = 'initDefaultFieldsAndSorting';
-    const SUBTAB_RIS = 'subtab_ris';
-    const SUBTAB_BIBTEX = 'subtab_bibtex';
-    const FIELD_IDENTIFIER = 'field_id';
-    const DATA_TYPE = 'data_type';
-    const CMD_STANDARD = 'index';
-    const CMD_CANCEL = 'cancel';
-    const CMD_EDIT = 'edit';
-    const CMD_UPDATE = 'update';
-    const CMD_APPLY_FILTER = 'applyFilter';
-    const CMD_RESET_FILTER = 'resetFilter';
-    const CMD_SAVE = 'save';
+
+    public const CMD_INIT_DEFAULT_FIELDS_AND_SORTING = 'initDefaultFieldsAndSorting';
+    public const SUBTAB_RIS = 'subtab_ris';
+    public const SUBTAB_BIBTEX = 'subtab_bibtex';
+    public const FIELD_IDENTIFIER = 'field_id';
+    public const DATA_TYPE = 'data_type';
+    public const CMD_STANDARD = 'index';
+    public const CMD_CANCEL = 'cancel';
+    public const CMD_EDIT = 'edit';
+    public const CMD_UPDATE = 'update';
+    public const CMD_APPLY_FILTER = 'applyFilter';
+    public const CMD_RESET_FILTER = 'resetFilter';
+    public const CMD_SAVE = 'save';
     protected \ilBiblAdminFactoryFacadeInterface $facade;
     private \ilGlobalTemplateInterface $main_tpl;
-    
+
     /**
      * ilBiblAdminFieldGUI constructor.
      */
@@ -49,8 +49,8 @@ abstract class ilBiblAdminFieldGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->facade = $facade;
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $nextClass = $this->ctrl()->getNextClass();
         $this->tabs()->activateTab(ilObjBibliographicAdminGUI::TAB_FIELDS);
@@ -59,24 +59,24 @@ abstract class ilBiblAdminFieldGUI
                 $this->tabs()->clearTargets();
                 $target = $this->ctrl()->getLinkTarget($this);
                 $this->tabs()->setBackTarget($this->lng()->txt('back'), $target);
-                
+
                 $field_id = $this->http()->request()->getQueryParams()[self::FIELD_IDENTIFIER];
                 if (!$field_id) {
                     throw new ilException("Field not found");
                 }
                 $this->ctrl()->saveParameter($this, self::FIELD_IDENTIFIER);
                 $field = $this->facade->fieldFactory()->findById($field_id);
-                
+
                 $gui = new ilBiblTranslationGUI($this->facade, $field);
                 $this->ctrl()->forwardCommand($gui);
                 break;
-            
+
             default:
                 $this->performCommand();
         }
     }
-    
-    protected function performCommand() : void
+
+    protected function performCommand(): void
     {
         $cmd = $this->ctrl()->getCmd(self::CMD_STANDARD);
         switch ($cmd) {
@@ -96,16 +96,16 @@ abstract class ilBiblAdminFieldGUI
                 break;
         }
     }
-    
-    protected function index() : void
+
+    protected function index(): void
     {
         $this->setSubTabs();
-        
+
         $table = new ilBiblAdminFieldTableGUI($this, $this->facade);
         $this->tpl()->setContent($table->getHTML());
     }
-    
-    protected function setSubTabs() : void
+
+    protected function setSubTabs(): void
     {
         $this->tabs()->addSubTab(
             self::SUBTAB_RIS,
@@ -119,7 +119,7 @@ abstract class ilBiblAdminFieldGUI
             )
         );
         $this->tabs()->activateSubTab(self::SUBTAB_RIS);
-        
+
         $this->tabs()->addSubTab(
             self::SUBTAB_BIBTEX,
             $this->lng()->txt('bibtex'),
@@ -140,33 +140,33 @@ abstract class ilBiblAdminFieldGUI
                 break;
         }
     }
-    
-    protected function save() : void
+
+    protected function save(): void
     {
         // I currently did not find a way to use the wrapper here
         $positions = $this->http()->request()->getParsedBody()['position'];
-        
+
         foreach ($positions as $set) {
             $field_id = (int) key($set);
             $position = (int) current($set);
-            
+
             $ilBiblField = $this->facade->fieldFactory()->findById($field_id);
             $ilBiblField->setPosition($position);
             $ilBiblField->store();
         }
-        
+
         $this->main_tpl->setOnScreenMessage('success', $this->lng()->txt('changes_successfully_saved'));
         $this->ctrl()->redirect($this, self::CMD_STANDARD);
     }
-    
-    protected function applyFilter() : void
+
+    protected function applyFilter(): void
     {
         $ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, $this->facade);
         $ilBiblAdminFieldTableGUI->writeFilterToSession();
         $this->ctrl()->redirect($this, self::CMD_STANDARD);
     }
-    
-    protected function resetFilter() : void
+
+    protected function resetFilter(): void
     {
         $ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, $this->facade);
         $ilBiblAdminFieldTableGUI->resetFilter();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -29,7 +31,7 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
     protected bool $root_node_processed = false;
     protected SkillTreeManager $skill_tree_manager;
     protected SkillTreeFactory $skill_tree_factory;
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected ilSkillTreeRepository $tree_repo;
 
     public function __construct()
     {
@@ -44,7 +46,7 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
     /**
      * @return array{id: int, parent: int, depth: int, obj_id: int}
      */
-    public function getRootNode() : array
+    public function getRootNode(): array
     {
         $root_id = 0;
         $root_node = $this->tree->getNodeData($root_id);
@@ -60,7 +62,7 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
     /**
      * @return array{id: int, child: int, parent: int}[]
      */
-    public function getChildsOfNode(string $a_parent_id) : array
+    public function getChildsOfNode(string $a_parent_id): array
     {
         if ($a_parent_id === "0") {
             $childs = [];
@@ -73,7 +75,9 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
             }
             return $childs;
         } else {
-            $tree_id = $this->tree_repo->getTreeIdForNodeId($a_parent_id);
+            $parent_id_parts = explode(":", $a_parent_id);
+            $parent_skl_tree_id = (int) $parent_id_parts[0];
+            $tree_id = $this->tree_repo->getTreeIdForNodeId($parent_skl_tree_id);
             $this->tree = $this->skill_tree_factory->getTreeById($tree_id);
             return parent::getChildsOfNode($a_parent_id);
         }
@@ -82,7 +86,7 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
     /**
      * @return {cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string, type: string}[]
      */
-    public function getSubTreeForTreeId(string $a_tree_id) : array
+    public function getSubTreeForTreeId(string $a_tree_id): array
     {
         return array_merge(
             [$this->getNode($a_tree_id)],

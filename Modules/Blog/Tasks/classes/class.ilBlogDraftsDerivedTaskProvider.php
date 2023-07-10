@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilBlogDraftsDerivedTaskProvider
@@ -35,12 +40,12 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
         $this->lng->loadLanguageModule('blog');
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return true;
     }
 
-    public function getTasks(int $user_id) : array
+    public function getTasks(int $user_id): array
     {
         $tasks = [];
 
@@ -93,7 +98,7 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
         string $operation,
         int $objId,
         int $userId
-    ) : int {
+    ): int {
         foreach (\ilObject::_getAllReferences($objId) as $refId) {
             if ($this->accessHandler->checkAccessOfUser($userId, $operation, '', $refId)) {
                 return $refId;
@@ -103,7 +108,7 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
         return 0;
     }
 
-    protected function getWspId(int $objId, int $userId) : int
+    protected function getWspId(int $objId, int $userId): int
     {
         $wst = new ilWorkspaceTree($userId);
         return $wst->lookupNodeId($objId);

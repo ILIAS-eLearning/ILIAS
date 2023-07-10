@@ -1,5 +1,23 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilLanguageDetectorFactory
@@ -27,18 +45,19 @@ class ilLanguageDetectorFactory
     /**
      * @throws ilLanguageException
      */
-    public function getValidInstances() : array
+    public function getValidInstances(): array
     {
         $detectors = array(
             $this->createDetectorByType(self::DEFAULT_DETECTOR)
         );
 
         if ($this->settings->get("lang_detection") &&
-            ilContext::usesHTTP()
+            ilContext::usesHTTP() &&
+            array_key_exists('HTTP_ACCEPT_LANGUAGE', $this->request_information)
         ) {
             $detectors[] = $this->createDetectorByType(self::HTTP_REQUEST_DETECTOR);
         }
-        
+
         return $detectors;
     }
 

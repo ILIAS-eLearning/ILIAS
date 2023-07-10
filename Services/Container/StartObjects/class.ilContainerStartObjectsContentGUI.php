@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilContainerStartObjectsContentGUI
@@ -20,7 +23,7 @@
  */
 class ilContainerStartObjectsContentGUI
 {
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilSetting $settings;
     protected ilObjUser $user;
@@ -51,26 +54,26 @@ class ilContainerStartObjectsContentGUI
         $this->content_style_domain = $cs->domain()->styleForRefId($a_parent_obj->getRefId());
         $this->content_style_gui = $cs->gui();
     }
-    
+
     public function enableDesktop(
         bool $a_value,
         ilContainerGUI $a_parent_gui
-    ) : void {
+    ): void {
         $this->enable_desktop = $a_value;
-        
+
         if ($this->enable_desktop) {
             $this->parent_gui = $a_parent_gui;
         }
     }
-    
+
     // Set HTML in main template
-    public function getHTML() : void
+    public function getHTML(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("crs");
-        
+
         $tbl = new ilContainerStartObjectsContentTableGUI(
             $this->parent_gui,
             "",
@@ -82,8 +85,8 @@ class ilContainerStartObjectsContentGUI
             $tbl->getHTML()
         );
     }
-    
-    protected function getPageHTML() : string
+
+    protected function getPageHTML(): string
     {
         $tpl = $this->tpl;
         $ilSetting = $this->settings;
@@ -91,9 +94,9 @@ class ilContainerStartObjectsContentGUI
         if (!$ilSetting->get("enable_cat_page_edit")) {
             return "";
         }
-        
+
         $page_id = $this->start_object->getObjId();
-        
+
         // if page does not exist, return nothing
         if (!ilPageUtil::_existsAndNotEmpty("cstr", $page_id)) {
             return "";
@@ -108,7 +111,7 @@ class ilContainerStartObjectsContentGUI
         $tpl->parseCurrentBlock();
 
         $page_gui = new ilContainerStartObjectsPageGUI($page_id);
-        
+
         $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
 
         $page_gui->setPresentationTitle("");

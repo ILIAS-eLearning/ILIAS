@@ -1,5 +1,21 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 2021 Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once(__DIR__ . '/../../../../libs/composer/vendor/autoload.php');
 require_once(__DIR__ . '/../../Base.php');
@@ -12,12 +28,12 @@ use ILIAS\UI\Implementation as I;
  */
 class ItemShyTest extends ILIAS_UI_TestBase
 {
-    public function getFactory() : C\Item\Factory
+    public function getFactory(): C\Item\Factory
     {
-        return new I\Component\Item\Factory;
+        return new I\Component\Item\Factory();
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getFactory();
 
@@ -26,28 +42,28 @@ class ItemShyTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf('ILIAS\\UI\\Component\\Item\\Shy', $shy);
     }
 
-    public function test_with_description() : void
+    public function test_with_description(): void
     {
         $f = $this->getFactory();
         $c = $f->shy('shy')->withDescription('This is a shy');
         $this->assertEquals('This is a shy', $c->getDescription());
     }
 
-    public function test_with_property() : void
+    public function test_with_property(): void
     {
         $f = $this->getFactory();
         $c = $f->shy('shy')->withProperties(['name' => 'value']);
         $this->assertEquals(['name' => 'value'], $c->getProperties());
     }
 
-    public function test_with_close() : void
+    public function test_with_close(): void
     {
         $f = $this->getFactory();
         $c = $f->shy('shy')->withClose((new I\Component\Button\Factory())->close());
         $this->assertInstanceOf(I\Component\Button\Close::class, $c->getClose());
     }
 
-    public function test_with_lead_icon() : void
+    public function test_with_lead_icon(): void
     {
         $f = $this->getFactory();
         $c = $f->shy('shy')->withLeadIcon(
@@ -56,7 +72,7 @@ class ItemShyTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(I\Component\Symbol\Icon\Icon::class, $c->getLeadIcon());
     }
 
-    public function test_render_base() : void
+    public function test_render_base(): void
     {
         $c = $this->getFactory()->shy('shy');
 
@@ -74,7 +90,7 @@ EOT;
         );
     }
 
-    public function test_render_critical() : void
+    public function test_render_critical(): void
     {
         $c = $this->getFactory()->shy('noid"><script>alert(\'CRITICAL\')</script');
 
@@ -92,7 +108,7 @@ EOT;
         );
     }
 
-    public function test_render_with_description() : void
+    public function test_render_with_description(): void
     {
         $c = $this->getFactory()->shy('shy')->withDescription('This is a shy');
 
@@ -111,7 +127,7 @@ EOT;
         );
     }
 
-    public function test_render_with_property() : void
+    public function test_render_with_property(): void
     {
         $c = $this->getFactory()->shy('shy')->withProperties(['name' => 'value']);
 
@@ -135,7 +151,7 @@ EOT;
     }
 
 
-    public function test_render_with_lead_icon() : void
+    public function test_render_with_lead_icon(): void
     {
         $c = $this->getFactory()->shy('shy')->withLeadIcon(
             new I\Component\Symbol\Icon\Standard('name', 'aria_label', 'small', false)
@@ -156,7 +172,7 @@ EOT;
         );
     }
 
-    public function test_render_with_close() : void
+    public function test_render_with_close(): void
     {
         $c = $this->getFactory()->shy('shy')->withClose(new I\Component\Button\Close());
 

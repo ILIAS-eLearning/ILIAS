@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Refinery\Random\Transformation;
 
@@ -43,7 +45,7 @@ class ShuffleTransformation implements Transformation
         $this->seed = $seed;
     }
 
-    public function transform($from) : array
+    public function transform($from): array
     {
         if (!is_array($from)) {
             throw new ConstraintViolationException('not an array', 'no_array');

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\COPage\Editor\Components\PageComponentEditor;
 use ILIAS\COPage\Editor\Server\UIWrapper;
@@ -26,7 +29,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         string $page_type,
         ilPageObjectGUI $page_gui,
         int $style_id
-    ) : array {
+    ): array {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
@@ -39,7 +42,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 
         return [
-            "creation_form" => $acc->getHTML(),
+            "creation_form" => $acc->getHTML(true),
             "icon" => $ui_wrapper->getRenderedIcon("pemed")
         ];
     }
@@ -50,12 +53,15 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         \ilPageObjectGUI $page_gui,
         int $style_id,
         string $pcid
-    ) : string {
+    ): string {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
 
-        $media_type = new ILIAS\MediaObjects\MediaType\MediaType();
+        $media_type = $DIC->mediaObjects()
+            ->internal()
+            ->domain()
+            ->mediaType();
 
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
@@ -138,10 +144,27 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         return $html . $link;
     }
 
-    protected function getRenderedUploadForm(
+    public function getRenderedUploadForm(
         UIWrapper $ui_wrapper,
+        ilLanguage $lng,
+        ilPropertyFormGUI $form = null
+    ): string {
+        if (!$form) {
+            $form = $this->getUploadForm($lng);
+        }
+
+        $html = $ui_wrapper->getRenderedForm(
+            $form,
+            [["Page", "component.save", $lng->txt("insert")],
+             ["Page", "component.cancel", $lng->txt("cancel")]]
+        );
+
+        return $html;
+    }
+
+    public function getUploadForm(
         $lng
-    ) : string {
+    ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
 
@@ -164,7 +187,20 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         $up = new ilFileInputGUI($lng->txt("cont_file"), "standard_file");
         $up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
         $up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
+        $up->setRequired(true);
         $form->addItem($up);
+
+        return $form;
+    }
+
+    public function getRenderedUrlForm(
+        UIWrapper $ui_wrapper,
+        ilLanguage $lng,
+        ilPropertyFormGUI $form = null
+    ): string {
+        if (!$form) {
+            $form = $this->getUrlForm($lng);
+        }
 
         $html = $ui_wrapper->getRenderedForm(
             $form,
@@ -175,10 +211,9 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         return $html;
     }
 
-    protected function getRenderedUrlForm(
-        UIWrapper $ui_wrapper,
+    public function getUrlForm(
         ilLanguage $lng
-    ) : string {
+    ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
 
@@ -200,22 +235,16 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         // standard reference
         $ti = new ilTextInputGUI($lng->txt("url"), "standard_reference");
         $ti->setInfo($lng->txt("cont_url_info"));
+        $ti->setRequired(true);
         $form->addItem($ti);
 
-
-        $html = $ui_wrapper->getRenderedForm(
-            $form,
-            [["Page", "component.save", $lng->txt("insert")],
-             ["Page", "component.cancel", $lng->txt("cancel")]]
-        );
-
-        return $html;
+        return $form;
     }
 
     protected function getRenderedPoolBar(
         UIWrapper $ui_wrapper,
         ilLanguage $lng
-    ) : string {
+    ): string {
         global $DIC;
 
         $ui = $DIC->ui();
@@ -251,7 +280,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         UIWrapper $ui_wrapper,
         ilLanguage $lng,
         ilPageObjectGUI $page_gui
-    ) : string {
+    ): string {
         global $DIC;
 
         $ctrl = $DIC->ctrl();

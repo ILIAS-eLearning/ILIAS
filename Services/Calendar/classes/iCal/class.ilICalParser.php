@@ -1,25 +1,23 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -56,12 +54,12 @@ class ilICalParser
         $this->default_timezone = ilTimeZone::_getInstance();
     }
 
-    public function setCategoryId(int $a_id) : void
+    public function setCategoryId(int $a_id): void
     {
         $this->category = new ilCalendarCategory($a_id);
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $lines = $this->tokenize($this->ical, ilICalUtils::ICAL_EOL);
         if (count($lines) == 1) {
@@ -72,9 +70,13 @@ class ilICalParser
 
             // Check for next multilines (they start with a space)
             $offset = 1;
-            while (isset($lines[$i + $offset]) and
-                (strpos($lines[$i + $offset], ilICalUtils::ICAL_SPACE) === 0) or
-                (strpos($lines[$i + $offset], ilICalUtils::ICAL_TAB) === 0)) {
+            while (
+                isset($lines[$i + $offset]) &&
+                (
+                    (strpos($lines[$i + $offset], ilICalUtils::ICAL_SPACE) === 0) ||
+                    (strpos($lines[$i + $offset], ilICalUtils::ICAL_TAB) === 0)
+                )
+            ) {
                 $lines[$i + $offset] = str_replace(ilICalUtils::ICAL_EOL, '', $lines[$i + $offset]);
                 $line = $line . substr($lines[$i + $offset], 1);
                 $offset++;
@@ -86,7 +88,7 @@ class ilICalParser
         }
     }
 
-    protected function getContainer() : ?ilICalItem
+    protected function getContainer(): ?ilICalItem
     {
         if (count($this->container)) {
             return $this->container[count($this->container) - 1];
@@ -97,12 +99,12 @@ class ilICalParser
     /**
      * @param ilICalItem
      */
-    protected function setContainer(ilICalItem $a_container) : void
+    protected function setContainer(ilICalItem $a_container): void
     {
         $this->container = array($a_container);
     }
 
-    protected function dropContainer() : ?ilICalItem
+    protected function dropContainer(): ?ilICalItem
     {
         if (is_array($this->container)) {
             return array_pop($this->container);
@@ -110,12 +112,12 @@ class ilICalParser
         return null;
     }
 
-    protected function pushContainer(ilICalItem $a_container) : void
+    protected function pushContainer(ilICalItem $a_container): void
     {
         $this->container[] = $a_container;
     }
 
-    protected function parseLine(string $line) : void
+    protected function parseLine(string $line): void
     {
         switch (trim($line)) {
             case 'BEGIN:VCALENDAR':
@@ -168,7 +170,7 @@ class ilICalParser
         }
     }
 
-    protected function storeItems(string $a_param_part, string $a_value_part) : void
+    protected function storeItems(string $a_param_part, string $a_value_part): void
     {
         // Check for a semicolon in param part and split it.
         $items = array();
@@ -193,7 +195,8 @@ class ilICalParser
             $counter = 0;
             foreach ($splitted_values as $value) {
                 // Split by '='
-                if ($splitted_value_values = explode('=', $value)) {
+                $splitted_value_values = explode('=', $value);
+                if (is_array($splitted_value_values) && count($splitted_value_values) >= 2) {
                     $values[$counter]['param'] = $splitted_value_values[0];
                     $values[$counter]['value'] = $splitted_value_values[1];
                 }
@@ -235,7 +238,7 @@ class ilICalParser
         $this->dropContainer();
     }
 
-    protected function splitLine(string $a_line) : array
+    protected function splitLine(string $a_line): array
     {
         $matches = array();
 
@@ -247,12 +250,12 @@ class ilICalParser
         return array('', '');
     }
 
-    protected function tokenize(string $a_string, string $a_tokenizer) : array
+    protected function tokenize(string $a_string, string $a_tokenizer): array
     {
         return explode($a_tokenizer, $a_string);
     }
 
-    protected function getTZ(string $a_timezone) : ilTimeZone
+    protected function getTZ(string $a_timezone): ilTimeZone
     {
         $parts = explode('/', $a_timezone);
         $tz = array_pop($parts);
@@ -275,7 +278,7 @@ class ilICalParser
         }
     }
 
-    protected function switchTZ(ilTimeZone $timezone) : void
+    protected function switchTZ(ilTimeZone $timezone): void
     {
         try {
             $timezone->switchTZ();
@@ -284,12 +287,12 @@ class ilICalParser
         }
     }
 
-    protected function restoreTZ() : void
+    protected function restoreTZ(): void
     {
         $this->default_timezone->restoreTZ();
     }
 
-    protected function writeEvent() : void
+    protected function writeEvent(): void
     {
         $entry = new ilCalendarEntry();
 
@@ -457,7 +460,7 @@ class ilICalParser
         }
     }
 
-    protected function purgeString(string $a_string) : string
+    protected function purgeString(string $a_string): string
     {
         $a_string = str_replace("\;", ";", $a_string);
         $a_string = str_replace("\,", ",", $a_string);

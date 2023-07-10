@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
 * @author Jens Conze
 * @ilCtrl_Calls ilMailSearchCoursesGUI: ilBuddySystemGUI
@@ -23,12 +25,12 @@
 */
 class ilMailSearchCoursesGUI extends ilMailSearchObjectGUI
 {
-    protected function getObjectType() : string
+    protected function getObjectType(): string
     {
         return 'crs';
     }
 
-    protected function getLocalDefaultRolePrefixes() : array
+    protected function getLocalDefaultRolePrefixes(): array
     {
         return [
             'il_crs_member_',
@@ -37,7 +39,7 @@ class ilMailSearchCoursesGUI extends ilMailSearchObjectGUI
         ];
     }
 
-    protected function doesExposeMembers(ilObject $object) : bool
+    protected function doesExposeMembers(ilObject $object): bool
     {
         $isOffline = !$object->isActivated();
         $showMemberListEnabled = (bool) $object->getShowMembers();

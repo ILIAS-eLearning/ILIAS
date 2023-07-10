@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+/**
+ * @method static _round(mixed $value, int $precision) : string
+ * @method static _equals(mixed $left_operand, mixed $right_operand, int $scale = null) : bool
+ */
 class ilMath
 {
     protected static ?ilMathAdapter $default_adapter = null;
@@ -46,7 +50,7 @@ class ilMath
      * @param int|float $modulu
      * @throws ilMathDivisionByZeroException
      */
-    public static function _mod($operand, $modulu) : int
+    public static function _mod($operand, $modulu): int
     {
         return static::getDefaultAdapter()->mod($operand, $modulu);
     }
@@ -94,7 +98,7 @@ class ilMath
      * @param int|float $numerator
      * @param int|float $denominator
      */
-    public static function isCoprimeFraction($numerator, $denominator) : bool
+    public static function isCoprimeFraction($numerator, $denominator): bool
     {
         $gcd = self::getGreatestCommonDivisor(abs($numerator), abs($denominator));
 
@@ -115,12 +119,12 @@ class ilMath
         return $a;
     }
 
-    public static function setDefaultAdapter(ilMathAdapter $adapter) : void
+    public static function setDefaultAdapter(ilMathAdapter $adapter): void
     {
         static::$default_adapter = $adapter;
     }
 
-    public static function getDefaultAdapter() : ilMathAdapter
+    public static function getDefaultAdapter(): ilMathAdapter
     {
         if (null === static::$default_adapter) {
             static::$default_adapter = static::getFirstValidAdapter();
@@ -132,7 +136,7 @@ class ilMath
     /**
      * @throws ilMathException
      */
-    public static function getInstance(string $adapter = null) : \ilMathAdapter
+    public static function getInstance(string $adapter = null): \ilMathAdapter
     {
         if (null === $adapter) {
             return static::getFirstValidAdapter();
@@ -162,7 +166,7 @@ class ilMath
     /**
      * @throws ilMathException
      */
-    public static function getFirstValidAdapter() : ilMathAdapter
+    public static function getFirstValidAdapter(): ilMathAdapter
     {
         if (extension_loaded('bcmath')) {
             return static::getInstance('BCMath');

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,26 +16,24 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailMailingListAddressType
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMailMailingListAddressType extends ilBaseMailAddressType
 {
-    private ilMailingLists $lists;
-
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
         ilMailAddress $address,
         ilLogger $logger,
-        ilMailingLists $lists
+        private readonly ilMailingLists $lists
     ) {
         parent::__construct($typeHelper, $address, $logger);
-
-        $this->lists = $lists;
     }
 
-    protected function isValid(int $senderId) : bool
+    protected function isValid(int $senderId): bool
     {
         $valid = $this->lists->mailingListExists($this->address->getMailbox());
 
@@ -50,7 +48,7 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
         return $valid;
     }
 
-    public function resolve() : array
+    public function resolve(): array
     {
         $usrIds = [];
 

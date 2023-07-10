@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Editing history for object custom user fields
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -43,7 +45,7 @@ class ilObjectCustomUserFieldHistory
      * @return array<int, array<{update_user: int, editing_time: ilDateTime}>>
      * @throws ilDateTimeException
      */
-    public static function lookupEntriesByObjectId(int $a_obj_id) : array
+    public static function lookupEntriesByObjectId(int $a_obj_id): array
     {
         global $DIC;
 
@@ -55,33 +57,33 @@ class ilObjectCustomUserFieldHistory
 
         $users = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $users[$row->usr_id]['update_user'] = $row->update_user;
-            $users[$row->usr_id]['editing_time'] = new ilDateTime($row->editing_time, IL_CAL_DATETIME, ilTimeZone::UTC);
+            $users[(int) $row->usr_id]['update_user'] = (int) $row->update_user;
+            $users[(int) $row->usr_id]['editing_time'] = new ilDateTime($row->editing_time, IL_CAL_DATETIME, ilTimeZone::UTC);
         }
         return $users;
     }
 
-    public function setUpdateUser(int $a_id) : void
+    public function setUpdateUser(int $a_id): void
     {
         $this->update_user = $a_id;
     }
 
-    public function getUpdateUser() : int
+    public function getUpdateUser(): int
     {
         return $this->update_user;
     }
 
-    public function setEditingTime(ilDateTime $dt) : void
+    public function setEditingTime(ilDateTime $dt): void
     {
         $this->editing_time = $dt;
     }
 
-    public function getEditingTime() : ?\ilDateTime
+    public function getEditingTime(): ?\ilDateTime
     {
         return $this->editing_time;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->delete();
         $query = 'INSERT INTO obj_user_data_hist (obj_id, usr_id, update_user, editing_time) ' .
@@ -91,13 +93,13 @@ class ilObjectCustomUserFieldHistory
             $this->db->quote($this->getUpdateUser(), 'integer') . ', ' .
             $this->db->quote(
                 $this->getEditingTime()->get(IL_CAL_DATETIME, '', ilTimeZone::UTC),
-                ilDBConstants::T_INTEGER
+                ilDBConstants::T_TIMESTAMP
             ) . ' ' .
             ')';
         $this->db->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM obj_user_data_hist ' .
             'WHERE obj_id = ' . $this->db->quote($this->obj_id, 'integer') . ' ' .
@@ -105,7 +107,7 @@ class ilObjectCustomUserFieldHistory
         $this->db->manipulate($query);
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $query = 'SELECT * FROM obj_user_data_hist ' .
             'WHERE obj_id = ' . $this->db->quote($this->obj_id, 'integer') . ' ' .
@@ -113,7 +115,7 @@ class ilObjectCustomUserFieldHistory
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setEditingTime(new ilDateTime($row->editing_time, IL_CAL_DATETIME, ilTimeZone::UTC));
-            $this->setUpdateUser($row->update_user);
+            $this->setUpdateUser((int) $row->update_user);
         }
     }
 }

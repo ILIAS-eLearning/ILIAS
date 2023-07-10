@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -15,7 +17,7 @@ use ILIAS\DI\Container;
  */
 final class InitCtrlServiceTest extends TestCase
 {
-    public function testCtrlServiceInitializationWithoutRefinery() : void
+    public function testCtrlServiceInitializationWithoutRefinery(): void
     {
         $dic = new Container();
         // $dic['ilDB'] = $this->createMock(ilDBInterface::class);
@@ -26,7 +28,7 @@ final class InitCtrlServiceTest extends TestCase
         (new InitCtrlService())->init($dic);
     }
 
-    public function testCtrlServiceInitializationWithoutHttpServices() : void
+    public function testCtrlServiceInitializationWithoutHttpServices(): void
     {
         $dic = new Container();
         // $dic['ilDB'] = $this->createMock(ilDBInterface::class);
@@ -48,7 +50,7 @@ final class InitCtrlServiceTest extends TestCase
     //     (new InitCtrlService())->init($dic);
     // }
 
-    public function testCtrlServiceInitializationSuccess() : void
+    public function testCtrlServiceInitializationSuccess(): void
     {
         $dic = new Container();
         $dic['refinery'] = $this->createMock(Refinery::class);

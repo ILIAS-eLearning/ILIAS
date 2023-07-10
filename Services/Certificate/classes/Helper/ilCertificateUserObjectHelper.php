@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateUserObjectHelper
 {
-    public function lookupFields($user_id) : array
+    public function lookupFields($user_id): array
     {
         return ilObjUser::_lookupFields($user_id);
     }

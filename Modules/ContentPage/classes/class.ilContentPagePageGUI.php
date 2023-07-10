@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @ilCtrl_Calls ilContentPagePageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilContentPagePageGUI: ilPublicUserProfileGUI, ilNoteGUI
@@ -23,18 +25,16 @@
  */
 class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjectConstants
 {
-    protected bool $isEmbeddedMode = false;
     protected string $language = '-';
 
-    public function __construct(int $a_id = 0, int $a_old_nr = 0, bool $isEmbeddedMode = false, string $language = '')
+    public function __construct(int $a_id = 0, int $a_old_nr = 0, protected bool $isEmbeddedMode = false, string $language = '')
     {
         parent::__construct(self::OBJ_TYPE, $a_id, $a_old_nr, false, $language);
         $this->setTemplateTargetVar('ADM_CONTENT');
         $this->setTemplateOutput(false);
-        $this->isEmbeddedMode = $isEmbeddedMode;
     }
 
-    public function getProfileBackUrl() : string
+    public function getProfileBackUrl(): string
     {
         if ($this->isEmbeddedMode) {
             return '';
@@ -43,7 +43,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
         return parent::getProfileBackUrl();
     }
 
-    public function setDefaultLinkXml() : void
+    public function setDefaultLinkXml(): void
     {
         parent::setDefaultLinkXml();
 
@@ -52,7 +52,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
 
             try {
                 $linkXml = str_replace('<LinkTargets></LinkTargets>', '', $linkXml);
-                
+
                 $domDoc = new DOMDocument();
                 $domDoc->loadXML('<?xml version="1.0" encoding="UTF-8"?>' . $linkXml);
 
@@ -79,8 +79,27 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
         }
     }
 
-    public function finishEditing() : void
+    public function finishEditing(): void
     {
         $this->ctrl->redirectByClass(ilObjContentPageGUI::class, 'view');
+    }
+
+    public function getAdditionalPageActions(): array
+    {
+        $this->ctrl->setParameterByClass(ilObjContentPageGUI::class, 'page_editor_style', '1');
+
+        $tabs = [
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt('obj_sty'),
+                $this->ctrl->getLinkTargetByClass([
+                    ilRepositoryGUI::class,
+                    ilObjContentPageGUI::class
+                ], self::UI_CMD_STYLES_EDIT)
+            )
+        ];
+
+        $this->ctrl->setParameterByClass(ilObjContentPageGUI::class, 'page_editor_style', null);
+
+        return $tabs;
     }
 }

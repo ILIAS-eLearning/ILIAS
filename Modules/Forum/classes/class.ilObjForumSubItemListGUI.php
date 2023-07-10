@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Show forum threads
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -23,7 +25,7 @@
  */
 class ilObjForumSubItemListGUI extends ilSubItemListGUI
 {
-    public function getHTML() : string
+    public function getHTML(): string
     {
         global $DIC;
 

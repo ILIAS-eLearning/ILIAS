@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Interface ilAccessibilitySequentialDocumentEvaluation
@@ -41,7 +44,7 @@ class ilAccessibilitySequentialDocumentEvaluation implements ilAccessibilityDocu
     /**
      * @return ilAccessibilitySignableDocument[]
      */
-    protected function getMatchingDocuments() : array
+    protected function getMatchingDocuments(): array
     {
         if (null === $this->matchingDocuments) {
             $this->matchingDocuments = [];
@@ -67,7 +70,7 @@ class ilAccessibilitySequentialDocumentEvaluation implements ilAccessibilityDocu
         return $this->matchingDocuments;
     }
 
-    public function document() : ilAccessibilitySignableDocument
+    public function document(): ilAccessibilitySignableDocument
     {
         $matchingDocuments = $this->getMatchingDocuments();
         if (count($matchingDocuments) > 0) {
@@ -81,7 +84,7 @@ class ilAccessibilitySequentialDocumentEvaluation implements ilAccessibilityDocu
         ));
     }
 
-    public function hasDocument() : bool
+    public function hasDocument(): bool
     {
         return count($this->getMatchingDocuments()) > 0;
     }

@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Taxonomy node <-> item assignment
@@ -55,42 +69,42 @@ class ilTaxNodeAssignment
         $this->setObjectId($a_obj_id);
     }
 
-    protected function setComponentId(string $a_val) : void
+    protected function setComponentId(string $a_val): void
     {
         $this->component_id = $a_val;
     }
 
-    public function getComponentId() : string
+    public function getComponentId(): string
     {
         return $this->component_id;
     }
 
-    protected function setItemType(string $a_val) : void
+    protected function setItemType(string $a_val): void
     {
         $this->item_type = $a_val;
     }
 
-    public function getItemType() : string
+    public function getItemType(): string
     {
         return $this->item_type;
     }
 
-    protected function setTaxonomyId(int $a_val) : void
+    protected function setTaxonomyId(int $a_val): void
     {
         $this->taxonomy_id = $a_val;
     }
 
-    public function getTaxonomyId() : int
+    public function getTaxonomyId(): int
     {
         return $this->taxonomy_id;
     }
 
-    public function setObjectId(int $a_val) : void
+    public function setObjectId(int $a_val): void
     {
         $this->obj_id = $a_val;
     }
 
-    public function getObjectId() : int
+    public function getObjectId(): int
     {
         return $this->obj_id;
     }
@@ -100,7 +114,7 @@ class ilTaxNodeAssignment
      * @param string|array $a_node_id node id
      * @return array array of tax node assignments arrays
      */
-    final public function getAssignmentsOfNode($a_node_id) : array
+    final public function getAssignmentsOfNode($a_node_id): array
     {
         $ilDB = $this->db;
 
@@ -137,7 +151,7 @@ class ilTaxNodeAssignment
      * Get assignments for item
      * @return array array of tax node assignments arrays
      */
-    final public function getAssignmentsOfItem(int $a_item_id) : array
+    final public function getAssignmentsOfItem(int $a_item_id): array
     {
         $ilDB = $this->db;
 
@@ -160,7 +174,7 @@ class ilTaxNodeAssignment
      * Add assignment
      * @throws ilTaxonomyException
      */
-    public function addAssignment(int $a_node_id, int $a_item_id, int $a_order_nr = 0) : void
+    public function addAssignment(int $a_node_id, int $a_item_id, int $a_order_nr = 0): void
     {
         $ilDB = $this->db;
 
@@ -214,7 +228,7 @@ class ilTaxNodeAssignment
         );
     }
 
-    public function deleteAssignment(int $a_node_id, int $a_item_id) : void
+    public function deleteAssignment(int $a_node_id, int $a_item_id): void
     {
         $ilDB = $this->db;
 
@@ -244,7 +258,7 @@ class ilTaxNodeAssignment
         );
     }
 
-    public function getMaxOrderNr(int $a_node_id) : int
+    public function getMaxOrderNr(int $a_node_id): int
     {
         $ilDB = $this->db;
 
@@ -261,7 +275,7 @@ class ilTaxNodeAssignment
         return (int) $rec["mnr"];
     }
 
-    public function setOrderNr(int $a_node_id, int $a_item_id, int $a_order_nr) : void
+    public function setOrderNr(int $a_node_id, int $a_item_id, int $a_order_nr): void
     {
         $ilDB = $this->db;
 
@@ -277,7 +291,7 @@ class ilTaxNodeAssignment
         );
     }
 
-    public function deleteAssignmentsOfItem(int $a_item_id) : void
+    public function deleteAssignmentsOfItem(int $a_item_id): void
     {
         $ilDB = $this->db;
 
@@ -291,7 +305,7 @@ class ilTaxNodeAssignment
         );
     }
 
-    public function deleteAssignmentsOfNode(int $a_node_id) : void
+    public function deleteAssignmentsOfNode(int $a_node_id): void
     {
         $ilDB = $this->db;
 
@@ -304,7 +318,7 @@ class ilTaxNodeAssignment
         );
     }
 
-    public static function deleteAllAssignmentsOfNode(int $a_node_id) : void
+    public static function deleteAllAssignmentsOfNode(int $a_node_id): void
     {
         global $DIC;
 
@@ -317,7 +331,7 @@ class ilTaxNodeAssignment
     }
 
     // renumber with 10, 20, ...
-    public function fixOrderNr(int $a_node_id) : void
+    public function fixOrderNr(int $a_node_id): void
     {
         $ilDB = $this->db;
 
@@ -349,7 +363,7 @@ class ilTaxNodeAssignment
     /**
      * Find object which have assigned nodes
      */
-    public static function findObjectsByNode(int $a_tax_id, array $a_node_ids, string $a_item_type) : array
+    public static function findObjectsByNode(int $a_tax_id, array $a_node_ids, string $a_item_type): array
     {
         global $DIC;
 

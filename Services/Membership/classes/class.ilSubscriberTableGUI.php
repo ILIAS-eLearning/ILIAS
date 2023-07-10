@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,10 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * GUI class for course/group subscriptions
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -28,7 +33,10 @@ class ilSubscriberTableGUI extends ilTable2GUI
     protected array $subscribers = array();
     protected bool $show_subject = true;
     protected ilObject $rep_object;
-    
+
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
+
     public function __construct(
         object $a_parent_obj,
         ilObject $rep_object,
@@ -38,6 +46,10 @@ class ilSubscriberTableGUI extends ilTable2GUI
         $this->rep_object = $rep_object;
         $this->setId('crs_sub_' . $this->getRepositoryObject()->getId());
         parent::__construct($a_parent_obj, 'participants');
+
+        global $DIC;
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
 
         $this->lng->loadLanguageModule('grp');
         $this->lng->loadLanguageModule('crs');
@@ -53,7 +65,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
             $this->addColumn(
                 $all_cols[$col]['txt'],
                 $col,
-                array_key_exists('width', $all_cols[$col]) ? $all_cols[$col]['width'] : null
+                array_key_exists('width', $all_cols[$col]) ? $all_cols[$col]['width'] : ""
             );
         }
 
@@ -98,12 +110,12 @@ class ilSubscriberTableGUI extends ilTable2GUI
         self::$has_odf_definitions = (bool) ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
     }
 
-    protected function getRepositoryObject() : ilObject
+    protected function getRepositoryObject(): ilObject
     {
         return $this->rep_object;
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         if (self::$all_columns) {
             return self::$all_columns;
@@ -130,9 +142,9 @@ class ilSubscriberTableGUI extends ilTable2GUI
         return self::$all_columns;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
-        if (!ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(), $a_set['usr_id']) and
+        if (!ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(), (int) $a_set['usr_id']) and
             ($ids = ilObjCourseGrouping::getAssignedObjects())) {
             $prefix = $this->getRepositoryObject()->getType();
             $this->tpl->setVariable(
@@ -173,7 +185,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable(
                         'VAL_CUST',
-                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int)$a_set['usr_id'])
                     );
                     $this->tpl->parseCurrentBlock();
                     break;
@@ -205,34 +217,28 @@ class ilSubscriberTableGUI extends ilTable2GUI
     /**
      * Show action links (mail ; edit crs|grp data)
      */
-    public function showActionLinks(array $a_set) : void
+    public function showActionLinks(array $a_set): void
     {
-        if (!self::$has_odf_definitions) {
-            $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'member_id', $a_set['usr_id']);
-            $link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'sendMailToSelectedUsers');
-            $this->tpl->setVariable('MAIL_LINK', $link);
-            $this->tpl->setVariable('MAIL_TITLE', $this->lng->txt('crs_mem_send_mail'));
-            return;
-        }
-
-        // show action menu
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setSelectionHeaderClass('small');
-        $list->setItemLinkClass('small');
-        $list->setId('actl_' . $a_set['usr_id'] . '_' . $this->getId());
-        $list->setListTitle($this->lng->txt('actions'));
-
         $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'member_id', $a_set['usr_id']);
         $this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
-        $trans = $this->lng->txt($this->getRepositoryObject()->getType() . '_mem_send_mail');
-        $link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'sendMailToSelectedUsers');
-        $list->addItem($trans, '', $link, 'sendMailToSelectedUsers');
 
-        $this->ctrl->setParameterByClass('ilobjectcustomuserfieldsgui', 'member_id', $a_set['usr_id']);
-        $trans = $this->lng->txt($this->getRepositoryObject()->getType() . '_cdf_edit_member');
-        $list->addItem($trans, '', $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui', 'editMember'));
+        $dropDownItems = array();
+        $dropDownItems[] = $this->uiFactory->button()->shy(
+            $this->lng->txt($this->getRepositoryObject()->getType() . '_mem_send_mail'),
+            $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'sendMailToSelectedUsers')
+        );
 
-        $this->tpl->setVariable('ACTION_USER', $list->getHTML());
+        if (self::$has_odf_definitions) {
+            $this->ctrl->setParameterByClass('ilobjectcustomuserfieldsgui', 'member_id', $a_set['usr_id']);
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt($this->getRepositoryObject()->getType() . '_cdf_edit_member'),
+                $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui', 'editMember')
+            );
+        }
+
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withLabel($this->lng->txt('actions'));
+        $this->tpl->setVariable('ACTION_USER', $this->renderer->render($dropDown));
     }
 
     /**
@@ -241,7 +247,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
      * @param int[] subscriber ids
      * @throws ilDateTimeException
      */
-    public function readSubscriberData(array $a_subscriber_ids) : void
+    public function readSubscriberData(array $a_subscriber_ids): void
     {
         $subscriber_data = ilParticipants::lookupSubscribersData($this->getRepositoryObject()->getId());
         $sub_ids = $sub_data = [];
@@ -356,7 +362,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
         foreach ($usr_data['set'] as $user) {
             // Check acceptance
-            if (!$this->checkAcceptance($user['usr_id'])) {
+            if (!$this->checkAcceptance((int) $user['usr_id'])) {
                 continue;
             }
             // DONE: accepted
@@ -378,17 +384,17 @@ class ilSubscriberTableGUI extends ilTable2GUI
         $this->setData($a_user_data);
     }
 
-    protected function checkAcceptance(int $a_usr_id) : bool
+    protected function checkAcceptance(int $a_usr_id): bool
     {
         return true;
     }
 
-    public function setShowSubject(bool $a_value) : void
+    public function setShowSubject(bool $a_value): void
     {
         $this->show_subject = $a_value;
     }
 
-    public function getShowSubject() : bool
+    public function getShowSubject(): bool
     {
         return $this->show_subject;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 /**
@@ -41,7 +43,7 @@ class ObjectiveCollection implements Objective
     /**
      * @return Objective[]
      */
-    public function getObjectives() : array
+    public function getObjectives(): array
     {
         return $this->objectives;
     }
@@ -49,14 +51,14 @@ class ObjectiveCollection implements Objective
     /**
      * @inheritdocs
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash(
             "sha256",
             get_class($this) .
             implode(
                 array_map(
-                    fn ($g) : string => $g->getHash(),
+                    fn ($g): string => $g->getHash(),
                     $this->objectives
                 )
             )
@@ -66,7 +68,7 @@ class ObjectiveCollection implements Objective
     /**
      * @inheritdocs
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -74,7 +76,7 @@ class ObjectiveCollection implements Objective
     /**
      * @inheritdocs
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return $this->is_notable;
     }
@@ -82,7 +84,7 @@ class ObjectiveCollection implements Objective
     /**
      * @inheritdocs
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return $this->objectives;
     }
@@ -90,7 +92,7 @@ class ObjectiveCollection implements Objective
     /**
      * @inheritdocs
      */
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Environment $environment): Environment
     {
         return $environment;
     }
@@ -98,7 +100,7 @@ class ObjectiveCollection implements Objective
     /**
      * @inheritdocs
      */
-    public function isApplicable(Environment $environment) : bool
+    public function isApplicable(Environment $environment): bool
     {
         return false;
     }

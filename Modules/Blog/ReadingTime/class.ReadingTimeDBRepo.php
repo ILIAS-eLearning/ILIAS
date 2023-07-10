@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /* Copyright (c) 1998-2022 ILIAS open source, GPLv3, see LICENSE */
 
 namespace ILIAS\Blog\ReadingTime;
@@ -9,19 +11,15 @@ namespace ILIAS\Blog\ReadingTime;
  */
 class ReadingTimeDBRepo
 {
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
+    protected \ilDBInterface $db;
 
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
         $this->db = $DIC->database();
     }
 
-    public function isActivated(int $lm_id) : bool
+    public function isActivated(int $lm_id): bool
     {
         $db = $this->db;
         $set = $db->queryF(
@@ -36,7 +34,7 @@ class ReadingTimeDBRepo
         return false;
     }
 
-    public function activate(int $lm_id, bool $activated) : void
+    public function activate(int $lm_id, bool $activated): void
     {
         $db = $this->db;
         $db->update(

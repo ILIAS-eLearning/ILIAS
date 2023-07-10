@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a number property in a property form.
@@ -20,12 +25,14 @@
  */
 class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
+    public const COMPARISON_NONE = 0;
     public const COMPARISON_ASCENDING = 1;
     public const COMPARISON_DESCENDING = 2;
 
     protected array $items = array();
     protected array $labels = [];
-    protected int $comparison_mode = 1;
+    // BT 35500: default should be no comparison
+    protected int $comparison_mode = self::COMPARISON_NONE;
 
     public function __construct(
         string $a_title = "",
@@ -33,7 +40,6 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     ) {
         parent::__construct($a_title, $a_postvar);
         global $DIC;
-
         $this->lng = $DIC->language();
     }
 
@@ -41,14 +47,14 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         string $id,
         ilFormPropertyGUI $item,
         $label = ""
-    ) : void {
+    ): void {
         $this->items[$id] = $item;
         if ($label) {
             $this->labels[$id] = $label;
         }
     }
 
-    public function getCombinationItem(string $id) : ?ilFormPropertyGUI
+    public function getCombinationItem(string $id): ?ilFormPropertyGUI
     {
         if (isset($this->items[$id])) {
             return $this->items[$id];
@@ -56,7 +62,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         return null;
     }
 
-    public function removeCombinationItem(string $id) : void
+    public function removeCombinationItem(string $id): void
     {
         if (isset($this->items[$id])) {
             unset($this->items[$id]);
@@ -66,7 +72,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     public function __call(
         string $method,
         array $param
-    ) : array {
+    ): array {
         $result = array();
         foreach ($this->items as $id => $obj) {
             if (method_exists($obj, $method)) {
@@ -76,7 +82,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         return $result;
     }
 
-    public function serializeData() : string
+    public function serializeData(): string
     {
         $result = array();
         foreach ($this->items as $id => $obj) {
@@ -85,7 +91,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         return serialize($result);
     }
 
-    public function unserializeData(string $a_data) : void
+    public function unserializeData(string $a_data): void
     {
         $data = unserialize($a_data);
 
@@ -105,7 +111,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     /**
      * Set mode for comparison (extended validation)
      */
-    public function setComparisonMode(int $mode) : bool
+    public function setComparisonMode(int $mode): bool
     {
         if (in_array($mode, array(self::COMPARISON_ASCENDING, self::COMPARISON_DESCENDING))) {
             foreach ($this->items as $obj) {
@@ -119,17 +125,27 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         return false;
     }
 
-    public function setValue(?array $a_value) : void
+    public function setValue(?array $a_value): void
     {
         if (is_array($a_value)) {
             foreach ($a_value as $id => $value) {
                 if (isset($this->items[$id])) {
                     if (method_exists($this->items[$id], "setValue")) {
+                        // BT 35708: numeric inputs in table filters do not take floats as values
+                        $value = is_float($value) ? (string) $value : $value;
                         $this->items[$id]->setValue($value);
                     }
                     // datetime
                     elseif (method_exists($this->items[$id], "setDate")) {
                         $this->items[$id]->setDate($value);
+                    }
+                    // duration
+                    elseif (method_exists($this->items[$id], "setMonths")) {
+                        $this->items[$id]->setMonths((int) ($value['MM'] ?? 0));
+                        $this->items[$id]->setDays((int) ($value['dd'] ?? 0));
+                        $this->items[$id]->setHours((int) ($value['hh'] ?? 0));
+                        $this->items[$id]->setMinutes((int) ($value['mm'] ?? 0));
+                        $this->items[$id]->setSeconds((int) ($value['ss'] ?? 0));
                     }
                 }
             }
@@ -154,7 +170,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         }
     }
 
-    public function getValue() : ?array
+    public function getValue(): ?array
     {
         $result = array();
         foreach ($this->items as $id => $obj) {
@@ -165,11 +181,15 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
             elseif (method_exists($obj, "setDate")) {
                 $result[$id] = $obj->getDate();
             }
+            // duration
+            elseif (method_exists($obj, 'getValueAsArray')) {
+                $result[$id] = $obj->getValueAsArray();
+            }
         }
         return $result;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         foreach ($this->items as $obj) {
             $obj->setValueByArray($a_values);
@@ -179,7 +199,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
      */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         if (sizeof($this->items)) {
             foreach ($this->items as $obj) {
@@ -188,7 +208,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
                 }
             }
 
-            if ($this->comparison_mode) {
+            if ($this->comparison_mode !== self::COMPARISON_NONE) {
                 $prev = null;
                 foreach ($this->items as $obj) {
                     $value = $obj->getPostValueForComparison();
@@ -213,7 +233,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         return $this->checkSubItemsInput();
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $html = $this->render();
 
@@ -222,7 +242,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         $a_tpl->parseCurrentBlock();
     }
 
-    public function render() : string
+    public function render(): string
     {
         $tpl = new ilTemplate("tpl.prop_combination.html", true, true, "Services/Form");
 
@@ -244,7 +264,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         return $tpl->get();
     }
 
-    public function getTableFilterHTML() : string
+    public function getTableFilterHTML(): string
     {
         $html = $this->render();
         return $html;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -21,9 +23,7 @@ class ilOerHarvesterSettings
     protected ilSetting $storage;
     protected ilSetting $settings;
 
-
     private int $target = 0;
-
 
     /**
      * @var string[]
@@ -31,9 +31,6 @@ class ilOerHarvesterSettings
     private array $copyright_templates = [];
 
     private ?ilCronOerHarvester $cronjob = null;
-
-
-
 
     protected function __construct()
     {
@@ -45,19 +42,15 @@ class ilOerHarvesterSettings
         $this->read();
     }
 
-
-
-
-    public static function getInstance() : ilOerHarvesterSettings
+    public static function getInstance(): self
     {
-        if (!self::$instance instanceof ilOerHarvesterSettings) {
+        if (!self::$instance instanceof self) {
             self::$instance = new self();
         }
         return self::$instance;
     }
 
-
-    public function supportsHarvesting(string $a_type) : bool
+    public function supportsHarvesting(string $a_type): bool
     {
         return in_array($a_type, self::COLLECTED_TYPES);
     }
@@ -65,19 +58,17 @@ class ilOerHarvesterSettings
     /**
      * @return string[]
      */
-    public function getHarvestingTypes() : array
+    public function getHarvestingTypes(): array
     {
         return self::COLLECTED_TYPES;
     }
 
-
-    public function setTarget(int $a_target) : void
+    public function setTarget(int $a_target): void
     {
         $this->target = $a_target;
     }
 
-
-    public function getTarget() : int
+    public function getTarget(): int
     {
         return $this->target;
     }
@@ -85,7 +76,7 @@ class ilOerHarvesterSettings
     /**
      * @param string[] $a_template_ids
      */
-    public function setCopyrightTemplates(array $a_template_ids) : void
+    public function setCopyrightTemplates(array $a_template_ids): void
     {
         $this->copyright_templates = $a_template_ids;
     }
@@ -93,13 +84,12 @@ class ilOerHarvesterSettings
     /**
      * @return string[]
      */
-    public function getCopyrightTemplates() : array
+    public function getCopyrightTemplates(): array
     {
         return $this->copyright_templates;
     }
 
-
-    public function isActiveCopyrightTemplate(int $a_id) : bool
+    public function isActiveCopyrightTemplate(int $a_id): bool
     {
         return in_array($a_id, $this->getCopyrightTemplates());
     }
@@ -108,7 +98,7 @@ class ilOerHarvesterSettings
      * Get copyright entries in LOM format: "il_copyright_entry_INST_ID_ID"
      * @return string[]
      */
-    public function getCopyRightTemplatesInLomFormat() : array
+    public function getCopyRightTemplatesInLomFormat(): array
     {
         $lom_entries = [];
         foreach ($this->getCopyrightTemplates() as $copyright_id) {
@@ -117,18 +107,15 @@ class ilOerHarvesterSettings
         return $lom_entries;
     }
 
-
-
-    public function save() : void
+    public function save(): void
     {
         $this->storage->set('target', (string) $this->getTarget());
         $this->storage->set('templates', serialize($this->copyright_templates));
     }
 
-
-    public function read() : void
+    public function read(): void
     {
         $this->setTarget((int) $this->storage->get('target', '0'));
-        $this->setCopyrightTemplates(unserialize($this->storage->get('templates', serialize([]))));
+        $this->setCopyrightTemplates(unserialize($this->storage->get('templates', serialize([])), ['allowed_classes' => false]));
     }
 }

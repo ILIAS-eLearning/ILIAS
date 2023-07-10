@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -45,7 +47,7 @@ class ilDate extends ilDateTime
     /**
      * To string for dates
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->get(IL_CAL_DATE) . '<br />';
     }

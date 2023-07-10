@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Auto completion class for user lists
  * @author Stefan Meyer <meyer@leifos.com>
@@ -24,7 +26,7 @@ class ilRoleAutoComplete
     /**
      * Get completion list
      */
-    public static function getList(string $a_str) : string
+    public static function getList(string $a_str): string
     {
         global $DIC;
 
@@ -63,7 +65,7 @@ class ilRoleAutoComplete
     /**
      * Get list of roles assigned to an object
      */
-    public static function getListByObject(string $a_str) : string
+    public static function getListByObject(string $a_str): string
     {
         global $DIC;
 

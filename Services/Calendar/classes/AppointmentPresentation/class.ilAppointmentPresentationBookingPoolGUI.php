@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @author            Jesús López Reyes <lopez@leifos.com>
@@ -7,7 +9,7 @@
  */
 class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions() : void
+    public function collectPropertiesAndActions(): void
     {
         $a_app = $this->appointment;
         $cat_info = $this->getCatInfo();
@@ -76,7 +78,8 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 
                 $link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI",
                                                                 "ilObjBookingPoolGUI",
-                                                                "ilbookingobjectgui"
+                                                                "ilbookingobjectgui",
+                                                                "ilBookingProcessGUI"
                 ), "deliverPostFile");
 
                 $array_info[] = $this->ui->renderer()->render(

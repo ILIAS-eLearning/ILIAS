@@ -1,134 +1,154 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
+class ilPrgUserNotRestartedCronJobMock extends ilPrgUserNotRestartedCronJob
+{
+    public array $logs = [];
+
+    public function __construct(
+        ilPRGAssignmentDBRepository $repo,
+        ilPrgCronJobAdapter $adapter
+    ) {
+        $this->assignment_repo = $repo;
+        $this->adapter = $adapter;
+    }
+    protected function getNow(): DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromFormat('Ymd', '20221224');
+    }
+
+    protected function log(string $msg): void
+    {
+        $this->logs[] = $msg;
+    }
+}
+
 class ilStudyProgrammeCronAboutToExpireTest extends TestCase
 {
-    /**
-     * @var ilPrgUserNotRestartedCronJob|mixed|MockObject
-     */
-    protected $job;
-    /**
-     * @var ilStudyProgrammeSettingsDBRepository|mixed|MockObject
-     */
-    protected $settings_repo;
-    /**
-     * @var ilStudyProgrammeProgressDBRepository|mixed|MockObject
-     */
-    protected $progress_repo;
+    protected ilPrgUserNotRestartedCronJobMock $job;
+    protected ilStudyProgrammeSettingsDBRepository $settings_repo;
+    protected ilPRGAssignmentDBRepository $assignment_repo;
     protected ProgrammeEventsMock $events;
+    protected ilPrgNotRestarted $adapter;
+    protected ilPrgNotRestarted $real_adapter;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        $this->job = $this
-            ->getMockBuilder(ilPrgUserNotRestartedCronJob::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getEvents', 'getSettingsRepository', 'getProgressRepository', 'log'])
-            ->getMock();
-
+        $this->events = new ProgrammeEventsMock();
         $this->settings_repo = $this->getMockBuilder(ilStudyProgrammeSettingsDBRepository::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getProgrammeIdsWithMailsForExpiringValidity'])
             ->getMock();
 
-        $this->progress_repo = $this->getMockBuilder(ilStudyProgrammeProgressDBRepository::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getAboutToExpire'])
+        $this->adapter = $this->getMockBuilder(ilPrgNotRestarted::class)
+            ->setConstructorArgs([$this->settings_repo, $this->events])
             ->getMock();
 
-        $this->events = new ProgrammeEventsMock();
+        $this->real_adapter = new ilPrgNotRestarted($this->settings_repo, $this->events);
+
+        $this->assignment_repo = $this->getMockBuilder(ilPRGAssignmentDBRepository::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getAboutToExpire', 'storeExpiryInfoSentFor'])
+            ->getMock();
+
+        $this->job = new ilPrgUserNotRestartedCronJobMock($this->assignment_repo, $this->adapter);
     }
 
-    public function testRiskyToFailNoSettings() : void
+    public function testAboutToExpireForNoRelevantProgrammes(): void
     {
-        $this->settings_repo
+        $this->adapter
             ->expects($this->once())
-            ->method('getProgrammeIdsWithMailsForExpiringValidity')
+            ->method('getRelevantProgrammeIds')
             ->willReturn([]);
+        $this->assignment_repo
+            ->expects($this->never())
+            ->method('getAboutToExpire');
+        $this->assignment_repo
+            ->expects($this->never())
+            ->method('storeExpiryInfoSentFor');
+        $this->adapter
+            ->expects($this->never())
+            ->method('actOnSingleAssignment');
+        $this->job->run();
+    }
 
+    public function testAboutToExpireForRelevantProgrammes(): void
+    {
+        $pgs1 = (new ilPRGProgress(11, ilPRGProgress::STATUS_COMPLETED));
+        $ass1 = (new ilPRGAssignment(42, 7))
+            ->withProgressTree($pgs1);
+        $ass2 = (new ilPRGAssignment(43, 8))
+            ->withProgressTree($pgs1);
 
-        $this->job->expects($this->once())
-            ->method('getSettingsRepository')
-            ->willReturn($this->settings_repo);
-      
-        $this->job->expects($this->never())
-            ->method('getProgressRepository');
-      
-        $this->job->expects($this->never())
-            ->method('getEvents');
+        $this->adapter
+            ->expects($this->once())
+            ->method('getRelevantProgrammeIds')
+            ->willReturn([
+                1 => 3
+            ]);
+        $this->assignment_repo
+            ->expects($this->once())
+            ->method('getAboutToExpire')
+            ->willReturn([$ass1, $ass2]);
+
+        $this->assignment_repo
+            ->expects($this->exactly(2))
+            ->method('storeExpiryInfoSentFor');
+
+        $this->adapter
+            ->expects($this->exactly(2))
+            ->method('actOnSingleAssignment');
 
         $this->job->run();
     }
 
-    public function testRiskyToFailNoRepos() : void
+    public function testAboutToExpireEvents(): void
     {
+        $pgs1 = (new ilPRGProgress(11, ilPRGProgress::STATUS_COMPLETED));
+        $ass1 = (new ilPRGAssignment(42, 7))->withProgressTree($pgs1);
+        $ass2 = (new ilPRGAssignment(43, 8))->withProgressTree($pgs1);
+
         $this->settings_repo
             ->expects($this->once())
             ->method('getProgrammeIdsWithMailsForExpiringValidity')
             ->willReturn([
-                71 => 2, //id 71, 2 days
-                72 => 4
+                42 => 3,
+                43 => 3
             ]);
 
-        $this->progress_repo
+        $this->assignment_repo
             ->expects($this->once())
             ->method('getAboutToExpire')
-            ->willReturn([]);
+            ->willReturn([$ass1, $ass2]);
 
-        $this->job->expects($this->once())
-            ->method('getSettingsRepository')
-            ->willReturn($this->settings_repo);
-      
-        $this->job->expects($this->once())
-            ->method('getProgressRepository')
-            ->willReturn($this->progress_repo);
-      
-        $this->job->expects($this->never())
-            ->method('getEvents');
-        
-        $this->job->run();
-    }
+        $job = new ilPrgUserNotRestartedCronJobMock($this->assignment_repo, $this->real_adapter);
+        $job->run();
 
-    public function testRiskyToFail() : void
-    {
-        $this->settings_repo
-            ->expects($this->once())
-            ->method('getProgrammeIdsWithMailsForExpiringValidity')
-            ->willReturn([71 => 2]);
-
-        $progress_1 = (new ilStudyProgrammeProgress(1))->withUserId(11)->withNodeId(71)->withAssignmentId(61);
-        $progress_2 = (new ilStudyProgrammeProgress(2))->withUserId(22)->withNodeId(71)->withAssignmentId(62);
-        $progress_3 = (new ilStudyProgrammeProgress(3))->withUserId(33)->withNodeId(71)->withAssignmentId(63);
-  
+        $this->assertEquals(2, count($job->logs));
         $expected_events = [
-            ['informUserToRestart', ["usr_id" => 11, "ass_id" => 61, 'progress_id' => 1]],
-            ['informUserToRestart', ["usr_id" => 22, "ass_id" => 62, 'progress_id' => 2]],
-            ['informUserToRestart', ["usr_id" => 33, "ass_id" => 63, 'progress_id' => 3]]
+            ['informUserToRestart', ["ass_id" => 42, 'root_prg_id' => 11]],
+            ['informUserToRestart', ["ass_id" => 43, 'root_prg_id' => 11]]
         ];
-  
-        $this->progress_repo
-            ->expects($this->once())
-            ->method('getAboutToExpire')
-            ->willReturn([
-                $progress_1,
-                $progress_2,
-                $progress_3
-            ]);
-
-        $this->job->expects($this->once())
-            ->method('getSettingsRepository')
-            ->willReturn($this->settings_repo);
-      
-        $this->job->expects($this->once())
-            ->method('getProgressRepository')
-            ->willReturn($this->progress_repo);
-      
-        $this->job->expects($this->once())
-            ->method('getEvents')
-            ->willReturn($this->events);
-
-        $this->job->run();
         $this->assertEquals($expected_events, $this->events->raised);
     }
 }

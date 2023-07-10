@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -52,8 +54,8 @@ class SkillTreeTableGUI extends \ilTable2GUI
         $this->requested_ref_id = $this->admin_gui_request->getRefId();
 
         $this->internal_manager = $manager;
-        $this->tree_manager = $manager->getTreeManager();
-        $this->management_access_manager = $manager->getManagementAccessManager($this->requested_ref_id);
+        $this->tree_manager = $this->internal_manager->getTreeManager();
+        $this->management_access_manager = $this->internal_manager->getManagementAccessManager($this->requested_ref_id);
         $this->tree_factory = $DIC->skills()->internal()->factory()->tree();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -78,10 +80,10 @@ class SkillTreeTableGUI extends \ilTable2GUI
     /**
      * @return array({title: string, tree: \ilObjSkillTree}|array{})[]
      */
-    protected function getItems() : array
+    protected function getItems(): array
     {
         return array_filter(array_map(
-            function (\ilObjSkillTree $skillTree) : array {
+            function (\ilObjSkillTree $skillTree): array {
                 $tree_access_manager = $this->internal_manager->getTreeAccessManager($skillTree->getRefId());
                 if ($tree_access_manager->hasVisibleTreePermission()) {
                     return [
@@ -98,7 +100,7 @@ class SkillTreeTableGUI extends \ilTable2GUI
     /**
      * @param array{tree: \ilObjSkillTree}
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $tpl = $this->tpl;
         $ctrl = $this->ctrl;

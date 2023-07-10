@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateUserCertificateAccessValidator
 {
-    private ilUserCertificateRepository $userCertificateRepository;
+    private readonly ilUserCertificateRepository $userCertificateRepository;
 
     public function __construct(?ilUserCertificateRepository $userCertificateRepository = null)
     {
@@ -35,11 +37,11 @@ class ilCertificateUserCertificateAccessValidator
         $this->userCertificateRepository = $userCertificateRepository;
     }
 
-    public function validate(int $userId, int $objId) : bool
+    public function validate(int $userId, int $objId): bool
     {
         try {
             $this->userCertificateRepository->fetchActiveCertificate($userId, $objId);
-        } catch (ilException $exception) {
+        } catch (ilException) {
             return false;
         }
 

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,13 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Concrete class for sanitizing html of forum posts
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilHtmlForumPostPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
-    protected function getPurifierConfigInstance() : HTMLPurifier_Config
+    protected function getPurifierConfigInstance(): HTMLPurifier_Config
     {
         $config = HTMLPurifier_Config::createDefault();
         $config->set('HTML.DefinitionID', 'ilias forum post');
@@ -35,7 +37,7 @@ class ilHtmlForumPostPurifier extends ilHtmlPurifierAbstractLibWrapper
         $config->set('HTML.AllowedElements', $this->removeUnsupportedElements($tags));
         $config->set('HTML.ForbiddenAttributes', 'div@style');
 
-        if ($def = $config->maybeGetRawHTMLDefinition()) {
+        if (($def = $config->maybeGetRawHTMLDefinition()) !== null) {
             $def->addAttribute('a', 'target', 'Enum#_blank,_self,_target,_top');
         }
 

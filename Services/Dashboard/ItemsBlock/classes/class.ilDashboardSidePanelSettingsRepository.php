@@ -34,7 +34,7 @@ class ilDashboardSidePanelSettingsRepository
             : $dashboard_settings;
     }
 
-    public function getValidModules() : array
+    public function getValidModules(): array
     {
         return [
             self::CALENDAR,
@@ -44,14 +44,14 @@ class ilDashboardSidePanelSettingsRepository
         ];
     }
 
-    protected function isValidModule(string $mod) : bool
+    protected function isValidModule(string $mod): bool
     {
         return in_array($mod, $this->getValidModules());
     }
 
 
     // Enable module
-    public function enable(string $mod, bool $active) : void
+    public function enable(string $mod, bool $active): void
     {
         if ($this->isValidModule($mod)) {
             $this->setting->set("enable_" . $mod, (int) $active);
@@ -59,7 +59,7 @@ class ilDashboardSidePanelSettingsRepository
     }
 
     // Is module enabled?
-    public function isEnabled(string $mod) : bool
+    public function isEnabled(string $mod): bool
     {
         if ($this->isValidModule($mod)) {
             return (bool) $this->setting->get("enable_" . $mod, true);

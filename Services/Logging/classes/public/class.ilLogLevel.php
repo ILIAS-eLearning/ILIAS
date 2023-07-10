@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -21,12 +23,12 @@ class ilLogLevel
     public const CRITICAL = 500;
     public const ALERT = 550;
     public const EMERGENCY = 600;
-    
+
     public const OFF = 1000;
 
-    
-    
-    public static function getLevels() : array
+
+
+    public static function getLevels(): array
     {
         return array(
             self::DEBUG,
@@ -42,7 +44,7 @@ class ilLogLevel
     }
 
 
-    public static function getLevelOptions() : array
+    public static function getLevelOptions(): array
     {
         global $DIC;
 

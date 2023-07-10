@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\Metrics;
 
 class ArrayStorage implements Storage
@@ -35,7 +37,7 @@ class ArrayStorage implements Storage
     /**
      * @inheritdocs
      */
-    public function store(string $key, Metric $metric) : void
+    public function store(string $key, Metric $metric): void
     {
         $path = explode(".", $key);
         $this->metrics = $this->doStore($this->metrics, $path, $metric);
@@ -44,7 +46,7 @@ class ArrayStorage implements Storage
     /**
      * Recursive implementation of storing.
      */
-    protected function doStore(array $base, array $path, $metric) : array
+    protected function doStore(array $base, array $path, $metric): array
     {
         $key = array_shift($path);
         if (count($path) == 0) {
@@ -56,17 +58,17 @@ class ArrayStorage implements Storage
         return $base;
     }
 
-    public function get() : array
+    public function get(): array
     {
         return $this->metrics;
     }
 
-    public function asMetric() : Metric
+    public function asMetric(): Metric
     {
         return $this->doAsMetric($this->metrics);
     }
 
-    protected function doAsMetric(array $cur) : Metric
+    protected function doAsMetric(array $cur): Metric
     {
         return new Metric(
             Metric::STABILITY_MIXED,

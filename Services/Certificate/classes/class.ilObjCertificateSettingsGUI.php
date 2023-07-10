@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Certificate Settings.
@@ -42,7 +44,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('trac');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -70,7 +72,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -90,7 +92,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function settings() : void
+    public function settings(): void
     {
         $this->tabs_gui->setTabActive('settings');
         $form_settings = new ilSetting('certificate');
@@ -118,12 +120,12 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             if (!$this->upload->hasBeenProcessed()) {
                 $this->upload->process();
             }
-            
+
             if (is_array($this->upload->getResults()) && $this->upload->getResults() !== []) {
                 $results = $this->upload->getResults();
                 $file = array_pop($results);
                 if ($file->isOK()) {
-                    $result = $this->object->uploadBackgroundImage($file->getPath());
+                    $result = $this->object->uploadBackgroundImage($file);
                     if ($result === false) {
                         $bgimage->setAlert($this->lng->txt('certificate_error_upload_bgimage'));
                     }
@@ -204,7 +206,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function save() : void
+    public function save(): void
     {
         $form_settings = new ilSetting("certificate");
 

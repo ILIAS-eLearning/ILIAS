@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblTranslation
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
@@ -22,18 +22,18 @@
  */
 class ilBiblTranslation extends ActiveRecord implements ilBiblTranslationInterface
 {
-    const TABLE_NAME = 'il_bibl_translation';
-    
-    public static function returnDbTableName() : string
+    public const TABLE_NAME = 'il_bibl_translation';
+
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
-    
-    public function getConnectorContainerName() : string
+
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
-    
+
     /**
      * @con_has_field  true
      * @con_fieldtype  integer
@@ -69,53 +69,53 @@ class ilBiblTranslation extends ActiveRecord implements ilBiblTranslationInterfa
      * @con_fieldtype  clob
      */
     protected string $description = '';
-    
-    public function getId() : ?int
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    public function setId(int $id) : void
+
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
-    
-    public function getFieldId() : int
+
+    public function getFieldId(): int
     {
         return $this->field_id;
     }
-    
-    public function setFieldId(int $field_id) : void
+
+    public function setFieldId(int $field_id): void
     {
         $this->field_id = $field_id;
     }
-    
-    public function getLanguageKey() : string
+
+    public function getLanguageKey(): string
     {
         return $this->language_key;
     }
-    
-    public function setLanguageKey(string $language_key) : void
+
+    public function setLanguageKey(string $language_key): void
     {
         $this->language_key = $language_key;
     }
-    
-    public function getTranslation() : string
+
+    public function getTranslation(): string
     {
         return $this->translation;
     }
-    
-    public function setTranslation(string $translation) : void
+
+    public function setTranslation(string $translation): void
     {
         $this->translation = $translation;
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         return $this->description;
     }
-    
-    public function setDescription(string $description) : void
+
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }

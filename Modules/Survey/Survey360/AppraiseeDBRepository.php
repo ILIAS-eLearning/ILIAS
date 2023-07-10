@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Survey360;
 
@@ -40,9 +43,9 @@ class AppraiseeDBRepository
      */
     public function getAppraiseesForRater(
         int $rater_id
-    ) : array {
+    ): array {
         $db = $this->db;
-        
+
         $set = $db->queryF(
             "SELECT obj_id, appr_id FROM svy_360_rater " .
             " WHERE user_id = %s ",
@@ -58,7 +61,7 @@ class AppraiseeDBRepository
         }
         return $appraisee;
     }
-    
+
 
     /**
      * Get closed appraisees for a number of surveys
@@ -67,9 +70,9 @@ class AppraiseeDBRepository
      */
     public function getClosedAppraiseesForSurveys(
         array $survey_ids
-    ) : array {
+    ): array {
         $db = $this->db;
-        
+
         $set = $db->queryF(
             "SELECT obj_id, user_id FROM svy_360_appr " .
             " WHERE " . $db->in("obj_id", $survey_ids, false, "integer") .
@@ -93,7 +96,7 @@ class AppraiseeDBRepository
      */
     public function getUnclosedSurveysForAppraisee(
         int $appr_user_id
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $set = $db->queryF(

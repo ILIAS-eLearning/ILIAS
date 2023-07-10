@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -19,14 +21,14 @@ class ilCtrlPathFactoryTest extends ilCtrlPathTestBase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->factory = new ilCtrlPathFactory($this->structure);
     }
 
-    public function testPathFactoryFindSingleClassTargetPath() : void
+    public function testPathFactoryFindSingleClassTargetPath(): void
     {
         $context = $this->createMock(ilCtrlContextInterface::class);
         $path = $this->factory->find($context, ilCtrlBaseClass1TestGUI::class);
@@ -38,7 +40,7 @@ class ilCtrlPathFactoryTest extends ilCtrlPathTestBase
         );
     }
 
-    public function testPathFactoryFindArrayClassTargetPath() : void
+    public function testPathFactoryFindArrayClassTargetPath(): void
     {
         $context = $this->createMock(ilCtrlContextInterface::class);
         $path = $this->factory->find($context, [
@@ -53,7 +55,7 @@ class ilCtrlPathFactoryTest extends ilCtrlPathTestBase
         );
     }
 
-    public function testPathFactoryNullPath() : void
+    public function testPathFactoryNullPath(): void
     {
         $path = $this->factory->null();
 
@@ -64,7 +66,7 @@ class ilCtrlPathFactoryTest extends ilCtrlPathTestBase
         );
     }
 
-    public function testPathFactoryExistingPath() : void
+    public function testPathFactoryExistingPath(): void
     {
         $path = $this->factory->existing('foo');
 

@@ -1,25 +1,27 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * @deprecated
  */
 class ilStr
 {
-    public static function subStr(string $a_str, int $a_start, ?int $a_length = null) : string
+    public static function subStr(string $a_str, int $a_start, ?int $a_length = null): string
     {
         if (function_exists("mb_substr")) {
             // bug in PHP < 5.4.12: null is not supported as length (if encoding given)
@@ -27,7 +29,7 @@ class ilStr
             if ($a_length === null) {
                 $a_length = mb_strlen($a_str, "UTF-8");
             }
-            
+
             return mb_substr($a_str, $a_start, $a_length, "UTF-8");
         } else {
             return substr($a_str, $a_start, $a_length);
@@ -45,20 +47,20 @@ class ilStr
             return strpos($a_haystack, $a_needle, $a_offset);
         }
     }
-    
+
     /**
      * @return false|int
      */
     public static function strIPos(string $a_haystack, string $a_needle, ?int $a_offset = null)
     {
         if (function_exists("mb_stripos")) {
-            return mb_stripos($a_haystack, $a_needle, $a_offset, "UTF-8");
+            return mb_stripos($a_haystack, $a_needle, $a_offset ?? 0, "UTF-8");
         } else {
             return stripos($a_haystack, $a_needle, $a_offset);
         }
     }
-    
-    public static function strLen(string $a_string) : int
+
+    public static function strLen(string $a_string): int
     {
         if (function_exists("mb_strlen")) {
             return mb_strlen($a_string, "UTF-8");
@@ -66,8 +68,8 @@ class ilStr
             return strlen($a_string);
         }
     }
-    
-    public static function strToLower(string $a_string) : string
+
+    public static function strToLower(string $a_string): string
     {
         if (function_exists("mb_strtolower")) {
             return mb_strtolower($a_string, "UTF-8");
@@ -75,8 +77,8 @@ class ilStr
             return strtolower($a_string);
         }
     }
-    
-    public static function strToUpper(string $a_string) : string
+
+    public static function strToUpper(string $a_string): string
     {
         if (function_exists("mb_strtoupper")) {
             return mb_strtoupper($a_string, "UTF-8");
@@ -84,12 +86,12 @@ class ilStr
             return strtoupper($a_string);
         }
     }
-    
-    public static function strCmp(string $a, string $b) : int
+
+    public static function strCmp(string $a, string $b): int
     {
         return strcoll(ilStr::strToUpper($a), ilStr::strToUpper($b));
     }
-    
+
     /**
      * Shorten text to the given number of bytes.
      * If the character is cut within a character
@@ -102,17 +104,17 @@ class ilStr
         int $a_start_pos,
         int $a_num_bytes,
         string $a_encoding = 'UTF-8'
-    ) : string {
+    ): string {
         if (function_exists("mb_strcut")) {
             return mb_strcut($a_string, $a_start_pos, $a_num_bytes, $a_encoding);
         }
         return substr($a_string, $a_start_pos, $a_num_bytes);
     }
-    
+
     /**
      * Check whether string is utf-8
      */
-    public static function isUtf8(string $a_str) : bool
+    public static function isUtf8(string $a_str): bool
     {
         if (function_exists("mb_detect_encoding")) {
             if (mb_detect_encoding($a_str, "UTF-8", true) === "UTF-8") {
@@ -159,14 +161,14 @@ class ilStr
         }
         return false;
     }
-    
+
     /**
      * Convert a value given in camel case conversion to underscore case conversion (e.g. MyClass to my_class)
      *
      * @param string $value Value in lower camel case conversion
      * @return string The value in underscore case conversion
      */
-    public static function convertUpperCamelCaseToUnderscoreCase(string $value) : string
+    public static function convertUpperCamelCaseToUnderscoreCase(string $value): string
     {
         return strtolower(
             preg_replace(
@@ -176,7 +178,7 @@ class ilStr
             )
         );
     }
-    
+
     /**
      * @deprecated
      */
@@ -186,8 +188,16 @@ class ilStr
         bool $a_dots = false,
         bool $a_next_blank = false,
         bool $a_keep_extension = false
-    ) : string {
+    ): string {
         if (ilStr::strLen($a_str) > $a_len) {
+            /*
+             * When adding dots, the dots have to be included in the length such
+             * that the total length of the resulting string does not exceed
+             * the given maximum length (see BT 33865).
+             */
+            if ($a_dots) {
+                $a_len--;
+            }
             if ($a_next_blank) {
                 $len = ilStr::strPos($a_str, " ", $a_len);
             } else {
@@ -218,20 +228,20 @@ class ilStr
                 }
             }
         }
-        
+
         return $a_str;
     }
-    
+
     /**
      * Ensure that the maximum word lenght within a text is not longer
      * than $a_len
      *
      * @depends
      */
-    public static function shortenWords(string $a_str, int $a_len = 30, bool $a_dots = true) : string
+    public static function shortenWords(string $a_str, int $a_len = 30, bool $a_dots = true): string
     {
         $str_arr = explode(" ", $a_str);
-        
+
         for ($i = 0; $i < count($str_arr); $i++) {
             if (ilStr::strLen($str_arr[$i]) > $a_len) {
                 $str_arr[$i] = ilStr::subStr($str_arr[$i], 0, $a_len);
@@ -240,7 +250,7 @@ class ilStr
                 }
             }
         }
-        
+
         return implode(" ", $str_arr);
     }
 }

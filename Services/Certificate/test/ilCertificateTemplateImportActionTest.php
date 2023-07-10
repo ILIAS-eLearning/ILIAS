@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 {
-    public function testCertificateCanBeImportedWithBackgroundImage() : void
+    public function testCertificateCanBeImportedWithBackgroundImage(): void
     {
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->getMock();
@@ -34,7 +36,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $filesystem
-            ->expects($this->never())
+            ->expects($this->once())
             ->method('deleteDir');
 
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
@@ -101,7 +103,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
         $this->assertTrue($result);
     }
 
-    public function testCertificateCanBeImportedWithoutBackgroundImage() : void
+    public function testCertificateCanBeImportedWithoutBackgroundImage(): void
     {
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->getMock();
@@ -114,7 +116,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $filesystem
-            ->expects($this->never())
+            ->expects($this->once())
             ->method('deleteDir');
 
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
@@ -173,7 +175,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
         $this->assertTrue($result);
     }
 
-    public function testNoXmlFileInUplodadZipFolder() : void
+    public function testNoXmlFileInUplodadZipFolder(): void
     {
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->getMock();
@@ -237,7 +239,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
         $this->assertFalse($result);
     }
 
-    public function testZipfileCouldNoBeMoved() : void
+    public function testZipfileCouldNoBeMoved(): void
     {
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->disableOriginalConstructor()

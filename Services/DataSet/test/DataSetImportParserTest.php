@@ -11,17 +11,17 @@ class DataSetImportParserTest extends TestCase
 {
     protected ilPDSelectedItemsBlockViewSettings $view_settings;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $GLOBALS["DIC"] = new \ILIAS\DI\Container();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         unset($GLOBALS["DIC"]);
     }
 
-    public function testInstanceAndParseValidXML() : void
+    public function testInstanceAndParseValidXML(): void
     {
         $map_mock = $this->createMock(ilImportMapping::class);
         $ds_mock = $this->createMock(ilDataSet::class);

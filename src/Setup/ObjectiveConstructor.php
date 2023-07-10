@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 use Closure;
@@ -36,12 +38,12 @@ class ObjectiveConstructor
         $this->objectiveCreationClosure = $objectiveCreationClosure;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function create() : Objective
+    public function create(): Objective
     {
         return ($this->objectiveCreationClosure)();
     }

@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * a booking reservation
@@ -27,16 +26,17 @@ class ilBookingReservation
     public const STATUS_CANCELLED = 5;
 
     protected ilDBInterface $db;
-    protected int $id;
-    protected int $object_id;
-    protected int $user_id;
-    protected int $from;
-    protected int $to;
-    protected ?int $status;
-    protected int $group_id;
-    protected int $assigner_id;
+    protected int $id = 0;
+    protected int $object_id = 0;
+    protected int $user_id = 0;
+    protected int $from = 0;
+    protected int $to = 0;
+    protected int $status = 0;
+    protected int $group_id = 0;
+    protected int $assigner_id = 0;
     protected int $context_obj_id = 0;
-    protected ilBookingReservationDBRepository $repo;
+    protected string $message = "";
+    protected \ILIAS\BookingManager\Reservations\ReservationDBRepository $repo;
 
     public function __construct(
         int $a_id = null
@@ -46,46 +46,57 @@ class ilBookingReservation
         $this->db = $DIC->database();
         $this->id = (int) $a_id;
 
-        $f = new ilBookingReservationDBRepositoryFactory();
-        $this->repo = $f->getRepo();
-
+        $this->repo = $DIC->bookingManager()
+                    ->internal()
+                    ->repo()
+                    ->reservation();
         $this->read();
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setObjectId(int $a_object_id) : void
+    public function setObjectId(int $a_object_id): void
     {
         $this->object_id = $a_object_id;
     }
 
-    public function getObjectId() : int
+    public function getObjectId(): int
     {
         return $this->object_id;
     }
 
-    public function setUserId(int $a_user_id) : void
+    public function setUserId(int $a_user_id): void
     {
         $this->user_id = $a_user_id;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
+    }
+
+    public function setMessage(string $message): void
+    {
+        $this->message = $message;
+    }
+
+    public function getMessage(): string
+    {
+        return $this->message;
     }
 
     /**
      * Set assigner user id
      */
-    public function setAssignerId(int $a_assigner_id) : void
+    public function setAssignerId(int $a_assigner_id): void
     {
         $this->assigner_id = $a_assigner_id;
     }
 
-    public function getAssignerId() : int
+    public function getAssignerId(): int
     {
         return $this->assigner_id;
     }
@@ -93,12 +104,12 @@ class ilBookingReservation
     /**
      * Set booking from date
      */
-    public function setFrom(int $a_from) : void
+    public function setFrom(int $a_from): void
     {
         $this->from = $a_from;
     }
 
-    public function getFrom() : int
+    public function getFrom(): int
     {
         return $this->from;
     }
@@ -106,12 +117,12 @@ class ilBookingReservation
     /**
      * Set booking to date
      */
-    public function setTo(int $a_to) : void
+    public function setTo(int $a_to): void
     {
         $this->to = $a_to;
     }
 
-    public function getTo() : int
+    public function getTo(): int
     {
         return $this->to;
     }
@@ -119,7 +130,7 @@ class ilBookingReservation
     /**
      * Set booking status
      */
-    public function setStatus(?int $a_status) : void
+    public function setStatus(?int $a_status): void
     {
         if ($a_status === null) {
             $this->status = null;
@@ -132,22 +143,22 @@ class ilBookingReservation
     /**
      * Get booking status
      */
-    public function getStatus() : ?int
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    public static function isValidStatus(int $a_status) : bool
+    public static function isValidStatus(int $a_status): bool
     {
         return in_array($a_status, array(self::STATUS_IN_USE, self::STATUS_CANCELLED));
     }
-    
-    public function setGroupId(int $a_group_id) : void
+
+    public function setGroupId(int $a_group_id): void
     {
         $this->group_id = $a_group_id;
     }
 
-    public function getGroupId() : int
+    public function getGroupId(): int
     {
         return $this->group_id;
     }
@@ -155,20 +166,20 @@ class ilBookingReservation
     /**
      * @param int $a_val context object id (e.g. course id)
      */
-    public function setContextObjId(int $a_val) : void
+    public function setContextObjId(int $a_val): void
     {
         $this->context_obj_id = $a_val;
     }
-    
+
     /**
      * @return int context object id (e.g. course id)
      */
-    public function getContextObjId() : int
+    public function getContextObjId(): int
     {
         return $this->context_obj_id;
     }
-    
-    protected function read() : void
+
+    protected function read(): void
     {
         if ($this->id) {
             $row = $this->repo->getForId($this->id);
@@ -180,10 +191,11 @@ class ilBookingReservation
             $this->setStatus($row['status']);
             $this->setGroupId($row['group_id']);
             $this->setContextObjId($row['context_obj_id']);
+            $this->setMessage($row['message']);
         }
     }
 
-    public function save() : bool
+    public function save(): bool
     {
         if ($this->id) {
             return false;
@@ -197,12 +209,13 @@ class ilBookingReservation
             $this->getFrom(),
             $this->getTo(),
             $this->getStatus(),
-            $this->getGroupId()
+            $this->getGroupId(),
+            $this->getMessage()
         );
         return ($this->id > 0);
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         if (!$this->id) {
             return false;
@@ -217,16 +230,17 @@ class ilBookingReservation
             $this->getFrom(),
             $this->getTo(),
             $this->getStatus(),
-            $this->getGroupId()
+            $this->getGroupId(),
+            $this->getMessage()
         );
         return true;
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $this->repo->delete($this->id);
     }
-    
+
 
     /**
      * Check if any of given objects are bookable
@@ -237,11 +251,12 @@ class ilBookingReservation
         int $a_to,
         bool $a_return_single = true,
         bool $a_return_counter = false
-    ) : array {
+    ): array {
+        global $DIC;
+
         $nr_map = ilBookingObject::getNrOfItemsForObjects($a_ids);
 
-        $f = new ilBookingReservationDBRepositoryFactory();
-        $repo = $f->getRepo();
+        $repo = $DIC->bookingManager()->internal()->repo()->reservation();
 
         $blocked = $counter = array();
         foreach ($repo->getNumberOfReservations($a_ids, $a_from, $a_to) as $row) {
@@ -251,7 +266,7 @@ class ilBookingReservation
                 $counter[$row['object_id']] = $nr_map[$row['object_id']] - (int) $row['cnt'];
             }
         }
-        
+
         // #17868 - validate against schedule availability
         foreach ($a_ids as $obj_id) {
             $bobj = new ilBookingObject($obj_id);
@@ -262,9 +277,9 @@ class ilBookingReservation
                     ? $schedule->getAvailabilityFrom()->get(IL_CAL_UNIX)
                     : null;
                 $av_to = ($schedule->getAvailabilityTo() && !$schedule->getAvailabilityTo()->isNull())
-                    ? strtotime($schedule->getAvailabilityTo()->get(IL_CAL_DATE) . " 23:59:59")
+                    ? $schedule->getAvailabilityTo()->get(IL_CAL_UNIX)
                     : null;
-                
+
                 if (($av_from && $a_from < $av_from) ||
                     ($av_to && $a_to > $av_to)) {
                     $blocked[] = $obj_id;
@@ -272,7 +287,7 @@ class ilBookingReservation
                 }
             }
         }
-        
+
         $available = array_diff($a_ids, $blocked);
         if (count($available)) {
             if ($a_return_counter) {
@@ -290,33 +305,34 @@ class ilBookingReservation
         }
         return [];
     }
-    
+
     public static function isObjectAvailableInPeriod(
         int $a_obj_id,
         ilBookingSchedule $a_schedule,
         int $a_from,
         int $a_to
-    ) : bool {
+    ): bool {
+        global $DIC;
+
         if (!$a_from) {
             $a_from = time();
         }
         if (!$a_to) {
             $a_to = strtotime("+1year", $a_from);
         }
-        
+
         if ($a_from > $a_to) {
             return false;
         }
 
         // all nr of reservations in period that are not over yet (to >= now)
-        $f = new ilBookingReservationDBRepositoryFactory();
-        $repo = $f->getRepo();
+        $repo = $DIC->bookingManager()->internal()->repo()->reservation();
         $res = $repo->getNumberOfReservations([$a_obj_id], $a_from, $a_to, true);
-        $booked_in_period = (int) $res[$a_obj_id]["cnt"];
+        $booked_in_period = (int) ($res[$a_obj_id]["cnt"] ?? 0);
 
         $per_slot = ilBookingObject::getNrOfItemsForObjects(array($a_obj_id));
         $per_slot = $per_slot[$a_obj_id];
-                
+
         // max available nr of items per (week)day
         $schedule_slots = array();
         $definition = $a_schedule->getDefinition();
@@ -324,21 +340,21 @@ class ilBookingReservation
         foreach ($definition as $day => $day_slots) {
             $schedule_slots[$map[$day]] = $day_slots;
         }
-        
+
         $av_from = ($a_schedule->getAvailabilityFrom() && !$a_schedule->getAvailabilityFrom()->isNull())
             ? $a_schedule->getAvailabilityFrom()->get(IL_CAL_UNIX)
             : null;
         $av_to = ($a_schedule->getAvailabilityTo() && !$a_schedule->getAvailabilityTo()->isNull())
             ? strtotime($a_schedule->getAvailabilityTo()->get(IL_CAL_DATE) . " 23:59:59")
             : null;
-        
+
         // sum up max available (to >= now) items in period per (week)day
         $available_in_period = 0;
         $loop = 0;
         while ($a_from < $a_to &&
             ++$loop < 1000) {
             // any slots for current weekday?
-            $day_slots = $schedule_slots[date("w", $a_from)];
+            $day_slots = $schedule_slots[date("w", $a_from)] ?? false;
             if ($day_slots) {
                 foreach ($day_slots as $slot) {
                     // convert slot to current datetime
@@ -353,7 +369,7 @@ class ilBookingReservation
                     }
                 }
             }
-            
+
             $a_from += (60 * 60 * 24);
         }
         return $available_in_period - $booked_in_period > 0;
@@ -363,11 +379,13 @@ class ilBookingReservation
     public static function isBookingPoolLimitReachedByUser(
         int $a_user_id,
         int $a_pool_id
-    ) : int {
+    ): int {
         global $DIC;
         $ilDB = $DIC->database();
+        $object_manager = $DIC->bookingManager()->internal()->domain()
+            ->objects($a_pool_id);
 
-        $booking_pool_objects = ilBookingObject::getObjectsForPool($a_pool_id);
+        $booking_pool_objects = $object_manager->getObjectIds();
 
         $query = "SELECT count(user_id) total" .
             " FROM booking_reservation" .
@@ -385,7 +403,7 @@ class ilBookingReservation
      */
     public static function getMembersWithoutReservation(
         int $a_object_id
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
 
@@ -409,19 +427,19 @@ class ilBookingReservation
 
         return $res;
     }
-    
-    public static function isObjectAvailableNoSchedule(int $a_obj_id) : bool
+
+    public static function isObjectAvailableNoSchedule(int $a_obj_id): bool
     {
         $available = self::getNumAvailablesNoSchedule($a_obj_id);
         return (bool) $available; // #11864
     }
 
-    public static function numAvailableFromObjectNoSchedule(int $a_obj_id) : int
+    public static function numAvailableFromObjectNoSchedule(int $a_obj_id): int
     {
         return self::getNumAvailablesNoSchedule($a_obj_id);
     }
 
-    public static function getNumAvailablesNoSchedule(int $a_obj_id) : int
+    public static function getNumAvailablesNoSchedule(int $a_obj_id): int
     {
         global $DIC;
 
@@ -446,7 +464,7 @@ class ilBookingReservation
      */
     public static function getCurrentOrUpcomingReservation(
         int $a_object_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -470,11 +488,11 @@ class ilBookingReservation
     public static function getObjectReservationForUser(
         int $a_object_id,
         int $a_user_id
-    ) : ?array {
+    ): ?array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query('SELECT booking_reservation_id FROM booking_reservation' .
             ' WHERE user_id = ' . $ilDB->quote($a_user_id, 'integer') .
             ' AND object_id = ' . $ilDB->quote($a_object_id, 'integer') .
@@ -496,7 +514,7 @@ class ilBookingReservation
         int $a_limit = 10,
         int $a_offset = 0,
         array $filter = []
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -508,7 +526,7 @@ class ilBookingReservation
         $count_sql = 'SELECT COUNT(*) AS counter' .
             ' FROM booking_reservation r' .
             ' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
-        
+
         $where = array($ilDB->in('r.object_id', $a_object_ids, '', 'integer'));
         if (isset($filter['status'])) {
             if ($filter['status'] > 0) {
@@ -534,7 +552,7 @@ class ilBookingReservation
         $counter = $row['counter'];
 
         $sql .= ' ORDER BY date_from DESC, booking_reservation_id DESC';
-        
+
         $ilDB->setLimit($a_limit, $a_offset);
         $set = $ilDB->query($sql);
         $res = array();
@@ -544,7 +562,7 @@ class ilBookingReservation
 
         return array('data' => $res, 'counter' => $counter);
     }
-    
+
 
     /**
      * Get all users who have reservations for object(s)
@@ -554,13 +572,13 @@ class ilBookingReservation
      */
     public static function getUserFilter(
         array $a_object_ids
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $res = array();
-        
+
         $sql = "SELECT ud.usr_id,ud.lastname,ud.firstname,ud.login" .
             " FROM usr_data ud " .
             " LEFT JOIN booking_reservation r ON (r.user_id = ud.usr_id)" .
@@ -572,10 +590,10 @@ class ilBookingReservation
             $res[$row["usr_id"]] = $row["lastname"] . ", " . $row["firstname"] .
                 " (" . $row["login"] . ")";
         }
-                
+
         return $res;
     }
-    
+
 
     /**
      * Batch update reservation status
@@ -586,7 +604,7 @@ class ilBookingReservation
     public static function changeStatus(
         array $a_ids,
         int $a_status
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -600,7 +618,7 @@ class ilBookingReservation
     }
 
     // get calendar id of reservation
-    public function getCalendarEntry() : int
+    public function getCalendarEntry(): int
     {
         $ilDB = $this->db;
 
@@ -613,9 +631,9 @@ class ilBookingReservation
             " AND cc.type = " . $ilDB->quote(ilCalendarCategory::TYPE_BOOK, 'integer') .
             " AND ce.context_id = " . $ilDB->quote($this->getId(), 'integer'));
         $row = $ilDB->fetchAssoc($set);
-        return (int) $row["cal_id"];
+        return (int) ($row["cal_id"] ?? 0);
     }
-    
+
     /**
      * Get reservation ids from aggregated id for cancellation
      * @return int[]
@@ -625,13 +643,13 @@ class ilBookingReservation
         int $a_user_id,
         int $a_from,
         int $a_to
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $res = array();
-        
+
         $sql = "SELECT booking_reservation_id" .
             " FROM booking_reservation" .
             " WHERE object_id = " . $ilDB->quote($a_obj_id, "integer") .
@@ -644,7 +662,7 @@ class ilBookingReservation
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[] = (int) $row["booking_reservation_id"];
         }
-        
+
         return $res;
     }
 }

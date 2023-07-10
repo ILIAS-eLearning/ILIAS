@@ -1,44 +1,40 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace ILIAS\ResourceStorage\Identification;
-
-use ILIAS\Data\UUID\Factory;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\ResourceStorage\Identification;
+
 /**
  * Class UniqueIDIdentificationGenerator
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 class UniqueIDIdentificationGenerator implements IdentificationGenerator
 {
-    protected \ILIAS\Data\UUID\Factory $factory;
-
-    /**
-     * UniqueIDIdentificationGenerator constructor.
-     */
-    public function __construct()
-    {
-        $this->factory = new Factory();
-    }
+    use UUIDStringTrait;
 
     /**
      * @throws \Exception
      */
-    public function getUniqueResourceIdentification() : ResourceIdentification
+    public function getUniqueResourceIdentification(): ResourceIdentification
     {
+        $unique_id = null;
         try {
             $unique_id = $this->factory->uuid4AsString();
         } catch (\Exception $e) {

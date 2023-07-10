@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Media Pool Data set class
@@ -33,12 +36,12 @@ class ilMediaPoolDataSet extends ilDataSet
     protected ?ilObjMediaPool $transl_into_mep = null;
     protected string $transl_lang = "";
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("5.1.0", "4.1.0");
     }
-    
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Modules/MediaPool/" . $a_entity;
     }
@@ -46,12 +49,12 @@ class ilMediaPoolDataSet extends ilDataSet
     /**
      * Set master language only (export)
      */
-    public function setMasterLanguageOnly(bool $a_val) : void
+    public function setMasterLanguageOnly(bool $a_val): void
     {
         $this->master_lang_only = $a_val;
     }
 
-    public function getMasterLanguageOnly() : bool
+    public function getMasterLanguageOnly(): bool
     {
         return $this->master_lang_only;
     }
@@ -59,7 +62,7 @@ class ilMediaPoolDataSet extends ilDataSet
     public function setTranslationImportMode(
         ?ilObjMediaPool $a_mep,
         string $a_lang = ""
-    ) : void {
+    ): void {
         if ($a_mep !== null) {
             $this->transl_into = true;
             $this->transl_into_mep = $a_mep;
@@ -69,7 +72,7 @@ class ilMediaPoolDataSet extends ilDataSet
         }
     }
 
-    public function getTranslationImportMode() : bool
+    public function getTranslationImportMode(): bool
     {
         return $this->transl_into;
     }
@@ -77,17 +80,17 @@ class ilMediaPoolDataSet extends ilDataSet
     /**
      * Get translation pool (import)
      */
-    public function getTranslationMep() : ?ilObjMediaPool
+    public function getTranslationMep(): ?ilObjMediaPool
     {
         return $this->transl_into_mep;
     }
 
-    public function getTranslationLang() : string
+    public function getTranslationLang(): string
     {
         return $this->transl_lang;
     }
 
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         // mep
         if ($a_entity === "mep") {
@@ -111,28 +114,28 @@ class ilMediaPoolDataSet extends ilDataSet
                     );
             }
         }
-    
+
         // mep_tree
         if ($a_entity === "mep_tree") {
             switch ($a_version) {
                 case "4.1.0":
                 case "5.1.0":
-                        return array(
-                            "MepId" => "integer",
-                            "Child" => "integer",
-                            "Parent" => "integer",
-                            "Depth" => "integer",
-                            "Type" => "text",
-                            "Title" => "text",
-                            "ForeignId" => "integer",
-                            "ImportId" => "text"
-                        );
+                    return array(
+                        "MepId" => "integer",
+                        "Child" => "integer",
+                        "Parent" => "integer",
+                        "Depth" => "integer",
+                        "Type" => "text",
+                        "Title" => "text",
+                        "ForeignId" => "integer",
+                        "ImportId" => "text"
+                    );
             }
         }
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
 
@@ -170,7 +173,6 @@ class ilMediaPoolDataSet extends ilDataSet
                         $this->data[] = $rec;
                     }
                     break;
-
             }
         }
 
@@ -222,29 +224,29 @@ class ilMediaPoolDataSet extends ilDataSet
             }
         }
     }
-    
+
     protected function getDependencies(
         string $a_entity,
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         switch ($a_entity) {
             case "mep":
                 return array(
-                    "mep_tree" => array("ids" => $a_rec["Id"])
+                    "mep_tree" => array("ids" => $a_rec["Id"] ?? null)
                 );
         }
         return [];
     }
-    
+
     public function importRecord(
         string $a_entity,
         array $a_types,
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         //echo $a_entity;
         //var_dump($a_rec);
 
@@ -262,14 +264,14 @@ class ilMediaPoolDataSet extends ilDataSet
                     $newObj->setType("mep");
                     $newObj->create();
                 }
-                
+
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);
-                $newObj->setDefaultWidth($a_rec["DefaultWidth"]);
-                $newObj->setDefaultHeight($a_rec["DefaultHeight"]);
-                $newObj->setForTranslation($a_rec["ForTranslation"]);
+                $newObj->setDefaultWidth((int) $a_rec["DefaultWidth"]);
+                $newObj->setDefaultHeight((int) $a_rec["DefaultHeight"]);
+                $newObj->setForTranslation((bool) ($a_rec["ForTranslation"] ?? false));
                 $newObj->update();
-                
+
                 $this->current_obj = $newObj;
                 $a_mapping->addMapping("Modules/MediaPool", "mep", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
@@ -300,6 +302,9 @@ class ilMediaPoolDataSet extends ilDataSet
                             $item->setTitle($a_rec["Title"]);
                             $item->create();
                             if ($item->getId() > 0) {
+                                if ($parent === 0) {
+                                    $parent = null;
+                                }
                                 $this->current_obj->insertInTree($item->getId(), $parent);
                             }
                             break;
@@ -320,10 +325,12 @@ class ilMediaPoolDataSet extends ilDataSet
                                 "mep:" . $item->getId()
                             );
                             if ($item->getId() > 0) {
+                                if ($parent === 0) {
+                                    $parent = null;
+                                }
                                 $this->current_obj->insertInTree($item->getId(), $parent);
                             }
                             break;
-
                     }
                 } elseif ($a_rec["Type"] === "pg") {
                     $imp_id = explode("_", $a_rec["ImportId"]);

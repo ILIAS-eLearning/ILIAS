@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,14 +16,16 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 interface ilCertificateFormRepository
 {
-    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI;
+    public function createForm(ilCertificateGUI $certificateGUI): ilPropertyFormGUI;
 
-    public function save(array $formFields) : void;
+    public function save(array $formFields): void;
 
-    public function fetchFormFieldData(string $content) : array;
+    public function fetchFormFieldData(string $content): array;
 }

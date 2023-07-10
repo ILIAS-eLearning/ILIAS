@@ -24,7 +24,7 @@ class ilSystemStyleColorException extends ilSystemStyleExceptionBase
 {
     public const INVALID_COLOR_EXCEPTION = 1001;
 
-    protected function assignMessageToCode() : void
+    protected function assignMessageToCode(): void
     {
         switch ($this->code) {
             case self::INVALID_COLOR_EXCEPTION:

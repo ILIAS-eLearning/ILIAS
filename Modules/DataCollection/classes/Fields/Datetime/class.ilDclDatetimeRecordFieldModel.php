@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBaseFieldModel
@@ -10,18 +25,16 @@
  */
 class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    public function parseValue($value)
+    /**
+     * @param int|string|null $value
+     */
+    public function parseValue($value): string
     {
-        return $value;
+        return (string)$value;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getValueFromExcel($excel, $row, $col)
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col): ?string
     {
-        assert($excel instanceof ilExcel);
-
         $value = parent::getValueFromExcel($excel, $row, $col);
 
         return date('Y-m-d', strtotime($value));
@@ -29,22 +42,19 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
 
     /**
      * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
-     * @param mixed $value
-     * @return mixed
+     * @param string $value
      */
-    public function parseExportValue($value)
+    public function parseExportValue($value): ?string
     {
-        return substr($value, 0, 10);
+        $date = new ilDate($value, IL_CAL_DATE);
+        return $date->get(IL_CAL_DATE);
     }
 
     /**
      * Returns sortable value for the specific field-types
-     * @param                           $value
-     * @param ilDclBaseRecordFieldModel $record_field
-     * @param bool|true                 $link
-     * @return int|string
+     * @param string $value
      */
-    public function parseSortingValue($value, $link = true)
+    public function parseSortingValue($value, bool $link = true): ?int
     {
         return strtotime($value);
     }

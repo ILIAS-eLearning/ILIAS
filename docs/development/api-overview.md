@@ -61,6 +61,7 @@ Services provide general functionalities used in the modules or in other service
 
 - [Certificate](../../Services/Certificate/README.md): Certificate Management
 - [LearningHistory](../../Services/LearningHistory/README.md): Learning History
+- [Skill](../../Services/Skill/README.md#api): Competence Management
 
 
 ## Domain APIs

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 // Address values for the ADR type
 const ADR_TYPE_NONE = 0;
@@ -98,7 +101,7 @@ class ilvCard
     /**
      * Encode data with "b" type encoding according to RFC 2045
      */
-    public function encode(string $string) : string
+    public function encode(string $string): string
     {
         return $this->escape(quoted_printable_encode($string));
     }
@@ -106,7 +109,7 @@ class ilvCard
     /**
      * Fold a string according to RFC 2425
      */
-    public function fold(string $string = "") : string
+    public function fold(string $string = ""): string
     {
         $folded_string = "";
         preg_match_all("/(.{1,74})/", $string, $matches);
@@ -125,7 +128,7 @@ class ilvCard
     /**
      * Escapes a string according to RFC 2426
      */
-    public function escape(string $string) : string
+    public function escape(string $string): string
     {
         $string = preg_replace("/(?<!\\\\)(\\\\)([^;,n\\\\])/", "\${1}\${1}\${2}", $string);
         $string = preg_replace("/(?<!\\\\);/", "\\;", $string);
@@ -138,7 +141,7 @@ class ilvCard
      * Splits a variable into an array using a separator and escapes every value
      * @return array<string,string>
      */
-    public function explodeVar(string $variable, string $separator = ",") : array
+    public function explodeVar(string $variable, string $separator = ","): array
     {
         $exploded = explode($separator, $variable);
         foreach ($exploded as $index => $var) {
@@ -150,7 +153,7 @@ class ilvCard
     /**
      * Builds a vCard string out of the attributes of this object
      */
-    public function buildVCard() : string
+    public function buildVCard(): string
     {
         $fn = $n = $nickname = $photo = $bday = $adr = $label = $tel = $email = $mailer =
         $tz = $geo = $title = $role = $logo = $agent = $org = $categories = $note = $prodid =
@@ -185,10 +188,10 @@ class ilvCard
                     break;
                 case "PHOTO":
                     $photo = "";
-                    if (is_array($this->types["PHOTO"])) {
-                        if (strcmp($this->types["PHOTO"]["VALUE"], "") != 0) {
+                    if (isset($this->types["PHOTO"])) {
+                        if (strcmp(($this->types["PHOTO"]["VALUE"] ?? ""), "") != 0) {
                             $photo = $this->fold("PHOTO;VALUE=uri:" . $this->types["PHOTO"]["VALUE"]) . "\n";
-                        } elseif (strcmp($this->types["PHOTO"]["ENCODING"], "") != 0) {
+                        } elseif (strcmp(($this->types["PHOTO"]["ENCODING"] ?? ""), "") != 0) {
                             $photo = "PHOTO;ENCODING=" . $this->types["PHOTO"]["ENCODING"];
                             if (strcmp($this->types["PHOTO"]["TYPE"], "") != 0) {
                                 $photo .= ";TYPE=" . $this->types["PHOTO"]["TYPE"];
@@ -252,8 +255,8 @@ class ilvCard
                     break;
                 case "LABEL":
                     $label = "";
-                    if (is_array($this->types["LABEL"])) {
-                        if (strcmp($this->types["LABEL"]["LABEL"], "") != 0) {
+                    if (isset($this->types["LABEL"])) {
+                        if (strcmp(($this->types["LABEL"]["LABEL"] ?? ""), "") != 0) {
                             $label = "LABEL";
                             $adr_types = array();
                             if ($this->types["LABEL"]["TYPE"] > 0) {
@@ -377,23 +380,23 @@ class ilvCard
                     }
                     break;
                 case "MAILER":
-                    if (strcmp($this->types["MAILER"], "") != 0) {
+                    if (strcmp(($this->types["MAILER"] ?? ""), "") != 0) {
                         $mailer = $this->fold("MAILER:" . $this->types["MAILER"]) . "\n";
                     } else {
                         $mailer = "";
                     }
                     break;
                 case "TZ":
-                    if (strcmp($this->types["TZ"], "") != 0) {
+                    if (strcmp(($this->types["TZ"] ?? ""), "") != 0) {
                         $tz = $this->fold("TZ:" . $this->types["TZ"]) . "\n";
                     } else {
                         $tz = "";
                     }
                     break;
                 case "GEO":
-                    if (is_array($this->types["GEO"]) and
-                        (strcmp($this->types["GEO"]["LAT"], "") != 0) and
-                        (strcmp($this->types["GEO"]["LON"], "") != 0)) {
+                    if (isset($this->types["GEO"]) and
+                        (strcmp(($this->types["GEO"]["LAT"] ?? ""), "") != 0) and
+                        (strcmp(($this->types["GEO"]["LON"] ?? ""), "") != 0)) {
                         $geo = $this->fold(
                             "GEO:" . $this->types["GEO"]["LAT"] . ";" . $this->types["GEO"]["LON"]
                         ) . "\n";
@@ -402,14 +405,14 @@ class ilvCard
                     }
                     break;
                 case "TITLE":
-                    if (strcmp($this->types["TITLE"], "") != 0) {
+                    if (strcmp(($this->types["TITLE"] ?? ""), "") != 0) {
                         $title = $this->fold("TITLE:" . $this->types["TITLE"]) . "\n";
                     } else {
                         $title = "";
                     }
                     break;
                 case "ROLE":
-                    if (strcmp($this->types["ROLE"], "") != 0) {
+                    if (strcmp(($this->types["ROLE"] ?? ""), "") != 0) {
                         $role = $this->fold("ROLE:" . $this->types["ROLE"]) . "\n";
                     } else {
                         $role = "";
@@ -417,10 +420,10 @@ class ilvCard
                     break;
                 case "LOGO":
                     $logo = "";
-                    if (is_array($this->types["LOGO"])) {
-                        if (strcmp($this->types["LOGO"]["VALUE"], "") != 0) {
+                    if (isset($this->types["LOGO"])) {
+                        if (strcmp(($this->types["LOGO"]["VALUE"] ?? ""), "") != 0) {
                             $logo = $this->fold("LOGO;VALUE=uri:" . $this->types["LOGO"]["VALUE"]) . "\n";
-                        } elseif (strcmp($this->types["LOGO"]["ENCODING"], "") != 0) {
+                        } elseif (strcmp(($this->types["LOGO"]["ENCODING"] ?? ""), "") != 0) {
                             $logo = "LOGO;ENCODING=" . $this->types["LOGO"]["ENCODING"];
                             if (strcmp($this->types["LOGO"]["TYPE"], "") != 0) {
                                 $logo .= ";TYPE=" . $this->types["LOGO"]["TYPE"];
@@ -431,49 +434,49 @@ class ilvCard
                     }
                     break;
                 case "AGENT":
-                    if (strcmp($this->types["AGENT"], "") != 0) {
+                    if (strcmp(($this->types["AGENT"] ?? ""), "") != 0) {
                         $agent = $this->fold("AGENT:" . $this->types["AGENT"]) . "\n";
                     } else {
                         $agent = "";
                     }
                     break;
                 case "ORG":
-                    if (strcmp($this->types["ORG"], "") != 0) {
+                    if (strcmp(($this->types["ORG"] ?? ""), "") != 0) {
                         $org = $this->fold("ORG:" . $this->types["ORG"]) . "\n";
                     } else {
                         $org = "";
                     }
                     break;
                 case "CATEGORIES":
-                    if (strcmp($this->types["CATEGORIES"], "") != 0) {
+                    if (strcmp(($this->types["CATEGORIES"] ?? ""), "") != 0) {
                         $categories = $this->fold("CATEGORIES:" . $this->types["CATEGORIES"]) . "\n";
                     } else {
                         $categories = "";
                     }
                     break;
                 case "NOTE":
-                    if (strcmp($this->types["NOTE"], "") != 0) {
+                    if (strcmp(($this->types["NOTE"] ?? ""), "") != 0) {
                         $note = $this->fold("NOTE:" . $this->types["NOTE"]) . "\n";
                     } else {
                         $note = "";
                     }
                     break;
                 case "PRODID":
-                    if (strcmp($this->types["PRODID"], "") != 0) {
+                    if (strcmp(($this->types["PRODID"] ?? ""), "") != 0) {
                         $prodid = $this->fold("PRODID:" . $this->types["PRODID"]) . "\n";
                     } else {
                         $prodid = "";
                     }
                     break;
                 case "REV":
-                    if (strcmp($this->types["REV"], "") != 0) {
+                    if (strcmp(($this->types["REV"] ?? ""), "") != 0) {
                         $rev = $this->fold("REV:" . $this->types["REV"]) . "\n";
                     } else {
                         $rev = "";
                     }
                     break;
                 case "SORT-STRING":
-                    if (strcmp($this->types["SORT-STRING"], "") != 0) {
+                    if (strcmp(($this->types["SORT-STRING"] ?? ""), "") != 0) {
                         $sortstring = $this->fold("SORT-STRING:" . $this->types["SORT-STRING"]) . "\n";
                     } else {
                         $sortstring = "";
@@ -481,10 +484,10 @@ class ilvCard
                     break;
                 case "SOUND":
                     $sound = "";
-                    if (is_array($this->types["SOUND"])) {
-                        if (strcmp($this->types["SOUND"]["VALUE"], "") != 0) {
+                    if (isset($this->types["SOUND"])) {
+                        if (strcmp(($this->types["SOUND"]["VALUE"] ?? ""), "") != 0) {
                             $sound = $this->fold("SOUND;VALUE=uri:" . $this->types["SOUND"]["VALUE"]) . "\n";
-                        } elseif (strcmp($this->types["SOUND"]["ENCODING"], "") != 0) {
+                        } elseif (strcmp(($this->types["SOUND"]["ENCODING"] ?? ""), "") != 0) {
                             $sound = "SOUND;ENCODING=" . $this->types["SOUND"]["ENCODING"];
                             if (strcmp($this->types["SOUND"]["TYPE"], "") != 0) {
                                 $sound .= ";TYPE=" . $this->types["SOUND"]["TYPE"];
@@ -496,8 +499,8 @@ class ilvCard
                     break;
                 case "UID":
                     $uid = "";
-                    if (is_array($this->types["UID"])) {
-                        if (strcmp($this->types["UID"]["UID"], "") != 0) {
+                    if (isset($this->types["UID"])) {
+                        if (strcmp(($this->types["UID"]["UID"] ?? ""), "") != 0) {
                             $uid = "UID";
                             if (strcmp($this->types["UID"]["TYPE"], "") != 0) {
                                 $uid .= ";TYPE=" . $this->types["UID"]["TYPE"];
@@ -508,7 +511,7 @@ class ilvCard
                     }
                     break;
                 case "URL":
-                    if (strcmp($this->types["URL"], "") != 0) {
+                    if (strcmp(($this->types["URL"] ?? ""), "") != 0) {
                         $url = $this->fold("URL:" . $this->types["URL"]) . "\n";
                     } else {
                         $url = "";
@@ -516,8 +519,8 @@ class ilvCard
                     break;
                 case "KEY":
                     $key = "";
-                    if (is_array($this->types["KEY"])) {
-                        if (strcmp($this->types["KEY"]["KEY"], "") != 0) {
+                    if (isset($this->types["KEY"])) {
+                        if (strcmp(($this->types["KEY"]["KEY"] ?? ""), "") != 0) {
                             $key = "KEY";
                             if (strcmp($this->types["KEY"]["TYPE"], "") != 0) {
                                 $key .= ";TYPE=" . $this->types["KEY"]["TYPE"];
@@ -531,7 +534,7 @@ class ilvCard
                     }
                     break;
                 case "CLASS":
-                    if (strcmp($this->types["CLASS"], "") != 0) {
+                    if (strcmp(($this->types["CLASS"] ?? ""), "") != 0) {
                         $class = $this->fold("CLASS:" . $this->types["CLASS"]) . "\n";
                     } else {
                         $class = "";
@@ -549,7 +552,7 @@ class ilvCard
     /**
      * Creates a quoted printable encoded string according to RFC 2045
      */
-    public function quoted_printable_encode(string $input, int $line_max = 76) : string
+    public function quoted_printable_encode(string $input, int $line_max = 76): string
     {
         $hex = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
         $lines = preg_split("/(\r\n|\r|\n)/", $input);
@@ -599,7 +602,7 @@ class ilvCard
      * Type example:
      * FN:Mr. John Q. Public\, Esq.
      */
-    public function setFormattedName(string $formatted_name) : void
+    public function setFormattedName(string $formatted_name): void
     {
         $this->types["FN"] = $this->escape($formatted_name);
     }
@@ -632,7 +635,7 @@ class ilvCard
         string $additional_names = "",
         string $honorific_prefixes = "",
         string $honorific_suffixes = ""
-    ) : void {
+    ): void {
         $familynames = $this->explodeVar($family_name);
         $givennames = $this->explodeVar($given_name);
         $addnames = $this->explodeVar($additional_names);
@@ -671,7 +674,7 @@ class ilvCard
      * It can also be used to specify a familiar form of a proper name
      * specified by the FN or N types.
      */
-    public function setNickname(string $nickname) : void
+    public function setNickname(string $nickname): void
     {
         $nicknames = $this->explodeVar($nickname);
         $this->types["NICKNAME"] = implode(",", $nicknames);
@@ -706,7 +709,7 @@ class ilvCard
     public function setPhoto(
         string $photo,
         string $type = ""
-    ) : void {
+    ): void {
         $value = "";
         $encoding = "";
         if (preg_match("/^http/", $photo)) {
@@ -737,7 +740,7 @@ class ilvCard
      * @param int $month The month of the birthday
      * @param int $day   The day of the birthday
      */
-    public function setBirthday(int $year, int $month, int $day) : void
+    public function setBirthday(int $year, int $month, int $day): void
     {
         if (($year < 1) or ($day < 1) or ($month < 1)) {
             $this->types["BDAY"] = "";
@@ -806,7 +809,7 @@ class ilvCard
         string $postal_code = "",
         string $country = "",
         int $type = ADR_TYPE_NONE
-    ) : void {
+    ): void {
         if ($type == ADR_TYPE_NONE) {
             $type = ADR_TYPE_INTL + ADR_TYPE_POSTAL + ADR_TYPE_PARCEL + ADR_TYPE_WORK;
         }
@@ -862,7 +865,7 @@ class ilvCard
     public function setLabel(
         string $label = "",
         int $type = ADR_TYPE_NONE
-    ) : void {
+    ): void {
         if ($type == ADR_TYPE_NONE) {
             $type = ADR_TYPE_INTL + ADR_TYPE_POSTAL + ADR_TYPE_PARCEL + ADR_TYPE_WORK;
         }
@@ -914,7 +917,7 @@ class ilvCard
     public function setPhone(
         string $number = "",
         int $type = TEL_TYPE_VOICE
-    ) : void {
+    ): void {
         $this->types["TEL"][] = array(
             "TEL" => $this->escape($number),
             "TYPE" => $type
@@ -944,7 +947,7 @@ class ilvCard
     public function setEmail(
         string $address = "",
         int $type = EMAIL_TYPE_INTERNET
-    ) : void {
+    ): void {
         $this->types["EMAIL"][] = array(
             "EMAIL" => $this->escape($address),
             "TYPE" => $type
@@ -965,7 +968,7 @@ class ilvCard
      * agent products.
      * @param string $name The mailer name
      */
-    public function setMailer(string $name = "") : void
+    public function setMailer(string $name = ""): void
     {
         $this->types["MAILER"] = $this->escape($name);
     }
@@ -986,7 +989,7 @@ class ilvCard
      * Type special notes: The type value consists of a single value.
      * @param string $zone The timezone as utc-offset value
      */
-    public function setTimezone(string $zone = "") : void
+    public function setTimezone(string $zone = ""): void
     {
         $this->types["TZ"] = $this->escape($zone);
     }
@@ -1017,7 +1020,7 @@ class ilvCard
      * @param string $latitude  The latitude of the position
      * @param string $longitude The longitude of the position
      */
-    public function setPosition(string $latitude = "", string $longitude = "") : void
+    public function setPosition(string $latitude = "", string $longitude = ""): void
     {
         $this->types["GEO"] = array(
             "LAT" => $latitude,
@@ -1040,7 +1043,7 @@ class ilvCard
      * Type special notes: This type is based on the X.520 Title attribute.
      * @param string $title Job title
      */
-    public function setTitle(string $title = "") : void
+    public function setTitle(string $title = ""): void
     {
         $this->types["TITLE"] = $this->escape($title);
     }
@@ -1059,7 +1062,7 @@ class ilvCard
      * intended.
      * @param string $role Role title
      */
-    public function setRole(string $role = "") : void
+    public function setRole(string $role = ""): void
     {
         $this->types["ROLE"] = $this->escape($role);
     }
@@ -1089,7 +1092,7 @@ class ilvCard
      * @param string $logo A binary string containing the logo or an uri
      * @param string $type The IANA type of the image format
      */
-    public function setLogo(string $logo, string $type = "") : void
+    public function setLogo(string $logo, string $type = ""): void
     {
         $value = "";
         $encoding = "";
@@ -1127,7 +1130,7 @@ class ilvCard
      * represents somebody or something that is separately addressable.
      * @param string $agent Agent type
      */
-    public function setAgent(string $agent = "") : void
+    public function setAgent(string $agent = ""): void
     {
         $this->types["AGENT"] = $this->escape($agent);
     }
@@ -1146,7 +1149,7 @@ class ilvCard
      * of organizational unit names.
      * @param string $organization Organization description
      */
-    public function setOrganization(string $organization = "") : void
+    public function setOrganization(string $organization = ""): void
     {
         $organization = implode(";", $this->explodeVar($organization, ";"));
         $this->types["ORG"] = $organization;
@@ -1167,7 +1170,7 @@ class ilvCard
      * (ASCII decimal 44).
      * @access    public
      */
-    public function setCategories(string $categories) : void
+    public function setCategories(string $categories): void
     {
         $categories = implode(",", $this->explodeVar($categories));
         $this->types["CATEGORIES"] = $categories;
@@ -1185,7 +1188,7 @@ class ilvCard
      * attribute.
      * @param string $note A note or comment
      */
-    public function setNote(string $note = "") : void
+    public function setNote(string $note = ""): void
     {
         $this->types["NOTE"] = $this->escape($note);
     }
@@ -1202,7 +1205,7 @@ class ilvCard
      * the text value is unique.
      * @param string $product_id Product identifier
      */
-    public function setProductId(string $product_id = "") : void
+    public function setProductId(string $product_id = ""): void
     {
         $this->types["PRODID"] = $this->escape($product_id);
     }
@@ -1221,7 +1224,7 @@ class ilvCard
      * information.
      * @param string $revision_date Revision date
      */
-    public function setRevision(string $revision_date = "") : void
+    public function setRevision(string $revision_date = ""): void
     {
         $this->types["REV"] = $this->escape($revision_date);
     }
@@ -1258,7 +1261,7 @@ class ilvCard
      * for sorting the vCard.
      * @param string $string Sort string
      */
-    public function setSortString(string $string = "") : void
+    public function setSortString(string $string = ""): void
     {
         $this->types["SORT-STRING"] = $this->escape($string);
     }
@@ -1289,7 +1292,7 @@ class ilvCard
      * @param string $sound Binary string containing the sound
      * @param string $type  The IANA registered sound type
      */
-    public function setSound(string $sound = "", string $type = "") : void
+    public function setSound(string $sound = "", string $type = ""): void
     {
         $value = "";
         $encoding = "";
@@ -1325,7 +1328,7 @@ class ilvCard
      * @param string $uid  Globally unique identifier
      * @param string $type IANA registered identifier format
      */
-    public function setUID(string $uid = "", string $type = "") : void
+    public function setUID(string $uid = "", string $type = ""): void
     {
         $this->types["UID"] = array(
             "UID" => $this->escape($uid),
@@ -1343,7 +1346,7 @@ class ilvCard
      * Type value: A single text value.
      * @param string $uri URL
      */
-    public function setURL(string $uri = "") : void
+    public function setURL(string $uri = ""): void
     {
         $this->types["URL"] = $this->escape($uri);
     }
@@ -1358,7 +1361,7 @@ class ilvCard
      * The value MUST be "3.0" if the vCard corresponds to the vCard 3.0 specification.
      * @param string $version Version string
      */
-    public function setVersion(string $version = "3.0") : void
+    public function setVersion(string $version = "3.0"): void
     {
         $this->types["VERSION"] = $version;
     }
@@ -1383,7 +1386,7 @@ class ilvCard
      * object.
      * @param string $classification Classification string
      */
-    public function setClassification(string $classification = "") : void
+    public function setClassification(string $classification = ""): void
     {
         $this->types["CLASS"] = $this->escape($classification);
     }
@@ -1424,7 +1427,7 @@ class ilvCard
      * @param string $key  Public key
      * @param string $type IANA registered public key or authentication certificate format
      */
-    public function setKey(string $key = "", string $type = "") : void
+    public function setKey(string $key = "", string $type = ""): void
     {
         $encoding = "b";
         $key = base64_encode($key);
@@ -1435,7 +1438,7 @@ class ilvCard
         );
     }
 
-    public function getFilename() : string
+    public function getFilename(): string
     {
         if (strcmp($this->filename, "") == 0) {
             return "vcard.vcf";
@@ -1444,7 +1447,7 @@ class ilvCard
         }
     }
 
-    public function getMimetype() : string
+    public function getMimetype(): string
     {
         return "text/x-vcard";
     }

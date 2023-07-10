@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * StudyProgramme Administration Settings.
@@ -12,10 +28,9 @@
 class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
 {
     protected ilErrorHandling $error;
-    protected ilSetting $setting;
     protected ilStudyProgrammeTypeGUI $type_gui;
 
-    public function __construct(array $data, int $id, bool $call_by_reference = true, bool $prepare_output = true)
+    public function __construct($data, int $id, bool $call_by_reference = true, bool $prepare_output = true)
     {
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
 
@@ -24,7 +39,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         $this->type_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         //Check Permissions globally for all SubGUIs. We only check write permissions
         if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
@@ -45,7 +60,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($this->type_gui);
                 break;
             default:
-                if (!$cmd || $cmd == "view") {
+                if (!$cmd || $cmd === "view") {
                     $cmd = "editSettings";
                 }
                 $this->$cmd();
@@ -53,7 +68,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings(ilPropertyFormGUI $form = null) : bool
+    public function editSettings(ilPropertyFormGUI $form = null): bool
     {
         $this->tabs_gui->activateTab('settings');
         if (is_null($form)) {
@@ -63,7 +78,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         return true;
     }
 
-    public function initFormSettings() : ilPropertyFormGUI
+    public function initFormSettings(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "saveSettings"));
@@ -78,7 +93,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
             $this->lng->txt("prg_show_programmes_on_pd_only_read"),
             ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ
         ));
-        $value = $this->setting->get(ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD);
+        $value = $this->settings->get(ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD);
         $value = ($value) ?: ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ;
         $radio_grp->setValue($value);
         $form->addItem($radio_grp);
@@ -91,14 +106,14 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         return $form;
     }
 
-    public function saveSettings()
+    public function saveSettings(): void
     {
         $this->checkPermission("write");
 
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
             if ($this->save($form)) {
-                $this->setting->set(
+                $this->settings->set(
                     ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD,
                     $form->getInput('visible_on_personal_desktop')
                 );
@@ -112,7 +127,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         $this->editSettings($form);
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -138,7 +153,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         }
     }
 
-    public function _goto($ref_id) : void
+    public function _goto($ref_id): void
     {
         $this->ctrl->setTargetScript('ilias.php');
         $this->ctrl->setParameterByClass("ilObjStudyProgrammeAdminGUI", "ref_id", $ref_id);
@@ -146,7 +161,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         $this->ctrl->redirectByClass(array("ilAdministrationGUI", "ilObjStudyProgrammeAdminGUI"), "view");
     }
 
-    protected function save(ilPropertyFormGUI $form) : bool
+    protected function save(ilPropertyFormGUI $form): bool
     {
         return true;
     }

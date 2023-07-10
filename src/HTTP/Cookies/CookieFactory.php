@@ -27,14 +27,13 @@ namespace ILIAS\HTTP\Cookies;
  */
 interface CookieFactory
 {
-
     /**
      * Create a new cookie with the given name and value.
      *
      * @param string      $name  The unique cookie name.
      * @param null|string $value Cookie value.
      */
-    public function create(string $name, string $value = null) : Cookie;
+    public function create(string $name, string $value = null): Cookie;
 
 
     /**
@@ -43,7 +42,7 @@ interface CookieFactory
      * @param string      $name  The unique cookie name.
      * @param null|string $value Cookie value.
      */
-    public function createRememberedForLongTime(string $name, string $value = null) : Cookie;
+    public function createRememberedForLongTime(string $name, string $value = null): Cookie;
 
 
     /**
@@ -52,7 +51,7 @@ interface CookieFactory
      *
      * @param string $name Cookie name.
      */
-    public function createExpired(string $name) : Cookie;
+    public function createExpired(string $name): Cookie;
 
 
     /**
@@ -60,5 +59,5 @@ interface CookieFactory
      *
      * @param string $string Cookie string.
      */
-    public function fromSetCookieString(string $string) : Cookie;
+    public function fromSetCookieString(string $string): Cookie;
 }

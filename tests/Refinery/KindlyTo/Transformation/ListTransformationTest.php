@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Refinery\KindlyTo\Transformation\ListTransformation;
@@ -30,7 +32,7 @@ class ListTransformationTest extends TestCase
      * @param mixed $originValue
      * @param mixed $expectedValue
      */
-    public function testListTransformation($originValue, $expectedValue) : void
+    public function testListTransformation($originValue, $expectedValue): void
     {
         $transformList = new ListTransformation(new StringTransformation());
         $transformedValue = $transformList->transform($originValue);
@@ -42,14 +44,14 @@ class ListTransformationTest extends TestCase
      * @dataProvider ArrayFailureDataProvider
      * @param mixed $origValue
      */
-    public function testFailingTransformations($origValue) : void
+    public function testFailingTransformations($origValue): void
     {
         $this->expectException(UnexpectedValueException::class);
         $transformList = new ListTransformation(new StringTransformation());
         $transformList->transform($origValue);
     }
 
-    public function ArrayToListTransformationDataProvider() : array
+    public function ArrayToListTransformationDataProvider(): array
     {
         return [
             'first_arr' => [['hello', 'world'], ['hello', 'world']],
@@ -59,7 +61,7 @@ class ListTransformationTest extends TestCase
         ];
     }
 
-    public function ArrayFailureDataProvider() : array
+    public function ArrayFailureDataProvider(): array
     {
         return [
             'null_array' => [[null]],

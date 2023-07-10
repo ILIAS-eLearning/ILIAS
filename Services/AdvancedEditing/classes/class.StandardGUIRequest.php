@@ -35,7 +35,7 @@ class StandardGUIRequest
         );
     }
 
-    public function getGroup() : string
+    public function getGroup(): string
     {
         return $this->str("grp");
     }

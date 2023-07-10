@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Helper class for local user accounts (in categories)
@@ -22,7 +25,7 @@ class ilLocalUser
 {
     public ilDBInterface $db;
     public int $parent_id;
-        
+
     public function __construct(
         int $a_parent_id
     ) {
@@ -34,12 +37,12 @@ class ilLocalUser
         $this->parent_id = $a_parent_id;
     }
 
-    public function setParentId(int $a_parent_id) : void
+    public function setParentId(int $a_parent_id): void
     {
         $this->parent_id = $a_parent_id;
     }
 
-    public function getParentId() : int
+    public function getParentId(): int
     {
         return $this->parent_id;
     }
@@ -50,7 +53,7 @@ class ilLocalUser
      */
     public static function _getFolderIds(
         bool $access_with_orgunit = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -63,8 +66,8 @@ class ilLocalUser
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             // Workaround for users with time limit owner "0".
-            if (!$row->parent_id) {
-                if ($rbacsystem->checkAccess('read_users', USER_FOLDER_ID) ||
+            if (!$row->parent_id || (int) $row->parent_id === USER_FOLDER_ID) {
+                if ($rbacsystem->checkAccess('read', USER_FOLDER_ID) ||
                     ($access_with_orgunit && $access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID))) {
                     $parent[] = (int) $row->parent_id;
                 }
@@ -88,7 +91,7 @@ class ilLocalUser
      */
     public static function _getAllUserIds(
         int $a_filter = 0
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -96,11 +99,7 @@ class ilLocalUser
             case 0:
                 if (self::_getFolderIds()) {
                     $where = "WHERE " . $ilDB->in("time_limit_owner", self::_getFolderIds(), false, "integer") . " ";
-                //$where .= '(';
-                    //$where .= implode(",",ilUtil::quoteArray(ilLocalUser::_getFolderIds()));
-                    //$where .= ')';
                 } else {
-                    //$where = "WHERE time_limit_owner IN ('')";
                     return [];
                 }
 
@@ -111,7 +110,7 @@ class ilLocalUser
 
                 break;
         }
-        
+
         $query = "SELECT usr_id FROM usr_data " . $where;
         $res = $ilDB->query($query);
 
@@ -123,7 +122,7 @@ class ilLocalUser
         return $users;
     }
 
-    public static function _getUserFolderId() : int
+    public static function _getUserFolderId(): int
     {
         return 7;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /*
     +-----------------------------------------------------------------------------+
@@ -24,28 +26,28 @@
 
 class ilLPStatusSCORMPackage extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $users = $status_info['in_progress'];
         return array_unique($users);
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $users = $status_info['completed'];
         return array_unique($users);
     }
 
-    public static function _getFailed(int $a_obj_id) : array
+    public static function _getFailed(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $users = $status_info['failed'];
         return array_unique($users);
     }
 
-    public static function _getStatusInfo(int $a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id): array
     {
         $status_info['subtype'] = "scorm2004";
         $info = ilSCORM2004Tracking::_getProgressInfo($a_obj_id);
@@ -68,7 +70,7 @@ class ilLPStatusSCORMPackage extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -76,7 +78,8 @@ class ilLPStatusSCORMPackage extends ilLPStatus
         $ilLog = $DIC['ilLog'];
 
         $scorm_status = ilSCORM2004Tracking::_getProgressInfoOfUser(
-            $a_obj_id, $a_usr_id
+            $a_obj_id,
+            $a_usr_id
         );
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($scorm_status) {
@@ -94,7 +97,7 @@ class ilLPStatusSCORMPackage extends ilLPStatus
         return $status;
     }
 
-    public function refreshStatus(int $a_obj_id, ?array $a_users = null) : void
+    public function refreshStatus(int $a_obj_id, ?array $a_users = null): void
     {
         parent::refreshStatus($a_obj_id, $a_users);
 
@@ -109,7 +112,8 @@ class ilLPStatusSCORMPackage extends ilLPStatus
         $all_tracked_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);
 
         $not_attempted_users = array_diff(
-            $all_tracked_users, $all_active_users
+            $all_tracked_users,
+            $all_active_users
         );
         unset($all_tracked_users);
         unset($all_active_users);
@@ -119,7 +123,10 @@ class ilLPStatusSCORMPackage extends ilLPStatus
             foreach ($not_attempted_users as $usr_id) {
                 // this will update any (parent) collections if necessary
                 ilLPStatus::writeStatus(
-                    $a_obj_id, $usr_id, self::LP_STATUS_NOT_ATTEMPTED_NUM, 0
+                    $a_obj_id,
+                    $usr_id,
+                    self::LP_STATUS_NOT_ATTEMPTED_NUM,
+                    0
                 );
             }
         }
@@ -129,7 +136,7 @@ class ilLPStatusSCORMPackage extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         ?object $a_obj = null
-    ) : int {
+    ): int {
         return 0;//todo!
     }
 }

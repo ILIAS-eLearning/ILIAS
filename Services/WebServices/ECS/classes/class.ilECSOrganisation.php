@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
@@ -37,7 +40,7 @@ class ilECSOrganisation
      * @param object json representation
      * @throws ilException
      */
-    public function loadFromJson($a_json) : void
+    public function loadFromJson($a_json): void
     {
         if (!is_object($a_json)) {
             $this->logger->warning(__METHOD__ . ': Cannot load from JSON. No object given.');
@@ -50,7 +53,7 @@ class ilECSOrganisation
     /**
      * Get name
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -58,7 +61,7 @@ class ilECSOrganisation
     /**
      * Get abbreviation
      */
-    public function getAbbreviation() : string
+    public function getAbbreviation(): string
     {
         return $this->abbr;
     }

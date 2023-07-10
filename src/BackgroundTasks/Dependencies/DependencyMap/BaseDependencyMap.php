@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Dependencies\DependencyMap;
 
 use ILIAS\BackgroundTasks\Dependencies\Injector;
@@ -31,14 +31,14 @@ use ILIAS\DI\Container;
 class BaseDependencyMap extends EmptyDependencyMap
 {
     protected array $map = [];
-    
+
     public function __construct()
     {
         $this->maps = [function (\ILIAS\DI\Container $DIC, $fullyQualifiedDomainName, $for) {
             return $this->resolveBaseDependencies($DIC, $fullyQualifiedDomainName, $for);
         }];
     }
-    
+
     protected function resolveBaseDependencies(Container $DIC, $fullyQualifiedDomainName, $for)
     {
         // wow, why a switch statement and not an array?

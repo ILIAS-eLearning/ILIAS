@@ -6,7 +6,7 @@
 	</div>
 	<!-- BEGIN ov_head -->
 	<div id="ilMMSearchMenu">
-		<p><a id="search_link" target="_top" href="{HREF_SEARCH_LINK}">» {TXT_SEARCH_LINK}</a></p>
+		<p><a id="search_link" target="_top" href="{HREF_SEARCH_LINK}">{TXT_SEARCH_LINK}</a></p>
 		<div id="mm_search_menu_options" aria-label="{LABEL_SEARCH_OPTIONS}">
 			<fieldset>
 				<legend>{LABEL_SEARCH_OPTIONS}</legend>
@@ -15,7 +15,7 @@
 				<input type="radio" name="root_id" value="{REF_ID}" id="ilmmsc"/> <label for="ilmmsc"> {TXT_CURRENT_POSITION}</label><br />
 				<!-- END position_rep -->
 				<!-- BEGIN usr_search -->
-				<input type="radio" name="root_id" value="-1" id="ilmmsu"/> <label for="ilmmsu"> {TXT_USR_SEARCH}</label>
+				<input type="radio" name="root_id" value="{USER_SEARCH_ID}" id="ilmmsu"/> <label for="ilmmsu"> {TXT_USR_SEARCH}</label>
 				<!-- END usr_search -->
 				<!-- BEGIN position_hid --><input type="hidden" name="root_id" value="{ROOT_ID_HID}"/><!-- END position_hid -->
 			</fieldset>
@@ -23,58 +23,4 @@
 	</div>
 	<!-- END ov_head -->
 	<div id="mm_search_menu_ac"></div>
-	<script>
-        il.Util.addOnLoad(
-            function () {
-                if (typeof $ != "undefined") {
-                    // we must bind the blur event before the autocomplete
-                    // item is added
-                    $("#main_menu_search").on("blur", function (e) {
-                        // prevent that the autocomplete list disappears when blur occurs
-                        e.stopImmediatePropagation();
-                    });
-
-                    $("#main_menu_search").autocomplete({
-                        source: "{AC_DATASOURCE}" + "&search_type=4",
-                        appendTo: "#mm_search_menu_ac",
-                        open: function (event, ui) {
-                            $(".ui-autocomplete").position({
-                                my: "left top",
-                                at: "left top",
-                                of: $("#mm_search_menu_ac")
-                            })
-                        },
-                        /*close: function(event, ui) {
-						 alert("close");
-						 console.log(event);
-						 console.log(ui);
-						 return false;
-						 },*/
-                        minLength: 3
-                    });
-
-
-                    $("#ilMMSearchMenu input[type='radio']").change(function () {
-                        $("#main_menu_search").focus();
-
-                        /* close current search */
-                        $("#main_menu_search").autocomplete("close");
-
-                        /* append search type */
-
-                        var orig_datasource = "{AC_DATASOURCE}";
-                        var type_val = $('input[name=root_id]:checked', '#mm_search_form').val();
-
-                        $("#main_menu_search").autocomplete("option",
-                            {
-                                source: orig_datasource + "&search_type=" + type_val
-                            });
-
-                        /* start new search */
-                        $("#main_menu_search").autocomplete("search");
-                    });
-                }
-            }
-        );
-	</script>
 </form>

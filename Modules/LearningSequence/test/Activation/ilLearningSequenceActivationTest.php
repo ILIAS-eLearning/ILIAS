@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,12 +17,12 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 class ilLearningSequenceActivationTest extends TestCase
 {
-    public function testCreateObjectMinimal() : void
+    public function testCreateObjectMinimal(): void
     {
         $obj = new ilLearningSequenceActivation(22);
 
@@ -32,7 +34,7 @@ class ilLearningSequenceActivationTest extends TestCase
         $this->assertNull($obj->getActivationEnd());
     }
 
-    public function testCreateObjectMaximal() : void
+    public function testCreateObjectMaximal(): void
     {
         $start_date = new DateTime('2021-07-21 07:30');
         $end_date = new DateTime('2021-07-21 07:35');
@@ -53,7 +55,7 @@ class ilLearningSequenceActivationTest extends TestCase
         $this->assertEquals($end_date, $obj->getActivationEnd());
     }
 
-    public function testWithOnline() : void
+    public function testWithOnline(): void
     {
         $start_date = new DateTime('2021-07-21 07:44');
         $end_date = new DateTime('2021-07-21 07:50');
@@ -84,7 +86,7 @@ class ilLearningSequenceActivationTest extends TestCase
         $this->assertEquals($end_date, $new_obj->getActivationEnd());
     }
 
-    public function testWithActivationStart() : void
+    public function testWithActivationStart(): void
     {
         $start_date = new DateTime('2021-07-21 07:44');
         $end_date = new DateTime('2021-07-21 07:50');
@@ -116,7 +118,7 @@ class ilLearningSequenceActivationTest extends TestCase
         $this->assertEquals($end_date, $new_obj->getActivationEnd());
     }
 
-    public function testWithActivationEnd() : void
+    public function testWithActivationEnd(): void
     {
         $start_date = new DateTime('2021-07-21 07:44');
         $end_date = new DateTime('2021-07-21 07:50');

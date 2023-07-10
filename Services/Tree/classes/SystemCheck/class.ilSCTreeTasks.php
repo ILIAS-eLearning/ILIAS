@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -19,7 +21,7 @@ class ilSCTreeTasks
         $this->task = $task;
     }
 
-    public static function findDeepestDuplicate() : int
+    public static function findDeepestDuplicate(): int
     {
         global $DIC;
 
@@ -38,7 +40,7 @@ class ilSCTreeTasks
         return 0;
     }
 
-    public static function repairPK() : void
+    public static function repairPK(): void
     {
         global $DIC;
 
@@ -47,7 +49,7 @@ class ilSCTreeTasks
         $ilDB->addPrimaryKey('tree', array('child'));
     }
 
-    public static function getNodeInfo(int $a_tree_id, int $a_child) : array
+    public static function getNodeInfo(int $a_tree_id, int $a_child): array
     {
         global $DIC;
 
@@ -88,7 +90,7 @@ class ilSCTreeTasks
         return $node;
     }
 
-    public static function getChilds(int $a_tree_id, int $a_childs) : array
+    public static function getChilds(int $a_tree_id, int $a_childs): array
     {
         global $DIC;
 
@@ -107,7 +109,7 @@ class ilSCTreeTasks
         return $childs;
     }
 
-    public static function findDuplicates(int $a_duplicate_id) : array
+    public static function findDuplicates(int $a_duplicate_id): array
     {
         global $DIC;
 
@@ -134,7 +136,7 @@ class ilSCTreeTasks
         return $nodes;
     }
 
-    public static function hasDuplicate(int $a_child) : int
+    public static function hasDuplicate(int $a_child): int
     {
         global $DIC;
 
@@ -143,7 +145,7 @@ class ilSCTreeTasks
         return count(self::findDuplicates($a_child));
     }
 
-    public static function deleteDuplicateFromTree(int $a_duplicate_id, bool $a_delete_trash) : bool
+    public static function deleteDuplicateFromTree(int $a_duplicate_id, bool $a_delete_trash): bool
     {
         $dups = self::findDuplicates($a_duplicate_id);
         foreach ($dups as $dup) {
@@ -157,7 +159,7 @@ class ilSCTreeTasks
         return true;
     }
 
-    protected static function deleteDuplicate(int $tree_id, int $dup_id) : void
+    protected static function deleteDuplicate(int $tree_id, int $dup_id): void
     {
         global $DIC;
 
@@ -180,17 +182,17 @@ class ilSCTreeTasks
         }
     }
 
-    protected function getDB() : ilDBInterface
+    protected function getDB(): ilDBInterface
     {
         return $this->db;
     }
 
-    public function getTask() : ilSCTask
+    public function getTask(): ilSCTask
     {
         return $this->task;
     }
 
-    public function validateStructure() : int
+    public function validateStructure(): int
     {
         $failures = $this->checkStructure();
 
@@ -204,12 +206,12 @@ class ilSCTreeTasks
         return count($failures);
     }
 
-    public function checkStructure() : array
+    public function checkStructure(): array
     {
         return $this->tree->validateParentRelations();
     }
 
-    public function validateDuplicates() : int
+    public function validateDuplicates(): int
     {
         $failures = $this->checkDuplicates();
 
@@ -223,7 +225,7 @@ class ilSCTreeTasks
         return count($failures);
     }
 
-    public function checkDuplicates() : array
+    public function checkDuplicates(): array
     {
         $query = 'SELECT child, count(child) num FROM tree ' .
             'GROUP BY child ' .
@@ -237,7 +239,7 @@ class ilSCTreeTasks
         return $failures;
     }
 
-    public function findMissingTreeEntries() : int
+    public function findMissingTreeEntries(): int
     {
         $failures = $this->readMissingTreeEntries();
 
@@ -252,7 +254,7 @@ class ilSCTreeTasks
         return count($failures);
     }
 
-    public function findMissing() : int
+    public function findMissing(): int
     {
         $failures = $this->readMissing();
 
@@ -267,7 +269,7 @@ class ilSCTreeTasks
         return count($failures);
     }
 
-    public function repairMissing() : void
+    public function repairMissing(): void
     {
         $failures = $this->readMissing();
         $recf_ref_id = $this->createRecoveryContainer();
@@ -276,9 +278,8 @@ class ilSCTreeTasks
         }
     }
 
-    protected function repairMissingObject(int $a_parent_ref, int $a_ref_id) : void
+    protected function repairMissingObject(int $a_parent_ref, int $a_ref_id): void
     {
-
         // check if object entry exist
         $query = 'SELECT obj_id FROM object_reference ' .
             'WHERE ref_id = ' . $this->db->quote($a_ref_id, ilDBConstants::T_INTEGER);
@@ -319,7 +320,7 @@ class ilSCTreeTasks
     /**
      * @return int[]
      */
-    protected function readMissing() : array
+    protected function readMissing(): array
     {
         $query = 'SELECT ref_id FROM object_reference ' .
             'LEFT JOIN tree ON ref_id = child ' .
@@ -333,7 +334,7 @@ class ilSCTreeTasks
         return $failures;
     }
 
-    public function repairMissingTreeEntries() : void
+    public function repairMissingTreeEntries(): void
     {
         $missing = $this->readMissingTreeEntries();
         foreach ($missing as $ref_id) {
@@ -347,7 +348,7 @@ class ilSCTreeTasks
         }
     }
 
-    protected function deleteMissingTreeEntry(int $a_tree_id, int $a_ref_id) : void
+    protected function deleteMissingTreeEntry(int $a_tree_id, int $a_ref_id): void
     {
         $query = 'SELECT child FROM tree ' .
             'WHERE parent = ' . $this->db->quote($a_ref_id, ilDBConstants::T_INTEGER) . ' ' .
@@ -383,7 +384,7 @@ class ilSCTreeTasks
      * Read missing tree entries for referenced objects
      * Entry in tree but no entry in object reference
      */
-    protected function readMissingTreeEntries() : array
+    protected function readMissingTreeEntries(): array
     {
         $query = 'SELECT child FROM tree ' .
             'LEFT JOIN object_reference ON child = ref_id ' .
@@ -398,7 +399,7 @@ class ilSCTreeTasks
         return $failures;
     }
 
-    protected function createRecoveryContainer() : int
+    protected function createRecoveryContainer(): int
     {
         $now = new ilDateTime(time(), IL_CAL_UNIX);
 

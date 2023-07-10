@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for media object usages listing
@@ -56,10 +59,10 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
     /**
      * Get items of current folder
      */
-    public function getItems() : void
+    public function getItems(): void
     {
         $usages = $this->media_object->getUsages($this->include_hist);
-        
+
         $clip_cnt = 0;
         $to_del = array();
         $agg_usages = array();
@@ -95,8 +98,8 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                         $agg_usages[$usage["type"] . ":" . $usage["id"]] = $usage;
                     }
                     $agg_usages[$usage["type"] . ":" . $usage["id"]]["versions"][] =
-                        ["hist_nr" => $usage["hist_nr"],
-                         "lang" => $usage["lang"]];
+                        ["hist_nr" => $usage["hist_nr"] ?? 0,
+                         "lang" => $usage["lang"] ?? ""];
                 }
             }
         }
@@ -105,11 +108,10 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         if ($clip_cnt > 0) {
             $agg_usages[] = array("type" => "clip", "cnt" => $clip_cnt);
         }
-
         $this->setData($agg_usages);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $cont_type = "";
@@ -139,7 +141,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                             $item["sub_title"] = ilLMObject::_lookupTitle($page_obj->getId());
                             $ref_id = $this->getFirstWritableRefId($lm_obj->getId());
                             if ($ref_id > 0) {
-                                $item["obj_link"] = ilLink::_getStaticLink($page_obj->getId() . "_" . $ref_id, "pg");
+                                $item["obj_link"] = ilLink::_getStaticLink(null, "pg", "", $page_obj->getId() . "_" . $ref_id);
                             }
                         }
                         break;
@@ -155,8 +157,8 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                         }
                         break;
 
-                    case "gdf":
-                        $term_id = ilGlossaryDefinition::_lookupTermId($page_obj->getId());
+                    case "term":
+                        $term_id = $page_obj->getId();
                         $glo_id = ilGlossaryTerm::_lookGlossaryID($term_id);
                         $item["obj_type_txt"] = $this->lng->txt("obj_glo");
                         $item["obj_title"] = ilObject::_lookupTitle($glo_id);
@@ -175,6 +177,23 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                         $ref_id = $this->getFirstWritableRefId($page_obj->getId());
                         if ($ref_id > 0) {
                             $item["obj_link"] = ilLink::_getStaticLink($ref_id, $otype);
+                        }
+                        break;
+
+                    case "mep":
+                        $item["obj_type_txt"] = $this->lng->txt("mep_page_type_mep");
+                        $item["sub_txt"] = $this->lng->txt("mep_page_type_mep");
+                        $item["sub_title"] = ilMediaPoolItem::lookupTitle($usage["id"]);
+
+                        $mep_pools = ilMediaPoolItem::getPoolForItemId($usage["id"]);
+                        foreach ($mep_pools as $mep_id) {
+                            $ref_ids = ilObject::_getAllReferences($mep_id);
+                            $item["obj_title"] = ilObject::_lookupTitle($mep_id);
+                            foreach ($ref_ids as $rid) {
+                                $item["obj_link"] = ilLink::_getStaticLink($rid, "mep");
+                                break;
+                            }
+                            break;
                         }
                         break;
 
@@ -212,10 +231,22 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                 $item["obj_title"] = ilObject::_lookupTitle($usage["id"]);
                 $item["sub_txt"] = $this->lng->txt("cont_link_area");
                 break;
+
+            case "news":
+                $obj_id = ilNewsItem::_lookupContextObjId($usage["id"]);
+                $obj_type = ilObject::_lookupType($obj_id);
+                $item["obj_type_txt"] = $this->lng->txt("obj_" . $obj_type);
+                $item["obj_title"] = ilObject::_lookupTitle($obj_id);
+                $item["sub_txt"] = $this->lng->txt("news");
+                $ref_id = $this->getFirstWritableRefId($obj_id);
+                if ($ref_id > 0) {
+                    $item["obj_link"] = ilLink::_getStaticLink($ref_id, $obj_type);
+                }
+                break;
         }
 
         // show versions
-        if (is_array($usage["versions"]) && is_object($usage["page"])) {
+        if (is_array($usage["versions"]) && is_object($usage["page"] ?? null)) {
             $ver = $sep = "";
 
             if (count($usage["versions"]) > 5) {
@@ -244,11 +275,11 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         }
         $this->tpl->parseCurrentBlock();
 
-        if ($item["obj_type_txt"] != "") {
+        if (($item["obj_type_txt"] ?? "") != "") {
             $this->tpl->setVariable("VAL_TYPE", $item["obj_type_txt"]);
         }
 
-        if ($usage["type"] != "clip") {
+        if (($usage["type"] ?? "") != "clip") {
             if ($item["obj_link"]) {
                 $this->tpl->setCurrentBlock("linked_item");
                 $this->tpl->setVariable("TXT_OBJECT", $item["obj_title"]);
@@ -257,11 +288,11 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
             } else {
                 $this->tpl->setVariable("TXT_OBJECT_NO_LINK", $item["obj_title"]);
             }
-            
-            if ($item["sub_txt"] != "") {
+
+            if (($item["sub_txt"] ?? "") != "") {
                 $this->tpl->setVariable("SEP", ", ");
                 $this->tpl->setVariable("SUB_TXT", $item["sub_txt"]);
-                if ($item["sub_title"] != "") {
+                if (($item["sub_title"] ?? "") != "") {
                     $this->tpl->setVariable("SEP2", ": ");
                     $this->tpl->setVariable("SUB_TITLE", $item["sub_title"]);
                 }
@@ -274,9 +305,9 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 
     public function getFirstWritableRefId(
         int $a_obj_id
-    ) : int {
+    ): int {
         $ilAccess = $this->access;
-        
+
         $ref_ids = ilObject::_getAllReferences($a_obj_id);
         foreach ($ref_ids as $ref_id) {
             if ($ilAccess->checkAccess("write", "", $ref_id)) {

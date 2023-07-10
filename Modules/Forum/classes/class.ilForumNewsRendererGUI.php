@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Forum news renderer
  * @author Alex Killing <alex.killing@gmx.de>
@@ -23,7 +25,7 @@
  */
 class ilForumNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
-    public function getObjectLink() : string
+    public function getObjectLink(): string
     {
         $link_target_suffix = '';
         $news = $this->getNewsItem();

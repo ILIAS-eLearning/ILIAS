@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +19,9 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Profile;
+use ILIAS\Skill\Personal;
+
 /**
  * Handles deletion of (user) objects
  *
@@ -27,37 +32,49 @@ class ilSkillObjDeletionHandler
 {
     protected int $obj_id = 0;
     protected string $obj_type = "";
+    protected Profile\SkillProfileManager $profile_manager;
+    protected Profile\SkillProfileCompletionManager $profile_completion_manager;
+    protected Personal\PersonalSkillManager $personal_manager;
+    protected Personal\AssignedMaterialManager $assigned_material_manager;
 
     public function __construct(int $obj_id, string $obj_type)
     {
+        global $DIC;
+
         $this->obj_type = $obj_type;
         $this->obj_id = $obj_id;
+        $this->profile_manager = $DIC->skills()->internal()->manager()->getProfileManager();
+        $this->profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
+        $this->personal_manager = $DIC->skills()->internal()->manager()->getPersonalSkillManager();
+        $this->assigned_material_manager = $DIC->skills()->internal()->manager()->getAssignedMaterialManager();
     }
 
-    public function processDeletion() : void
+    public function processDeletion(): void
     {
         if ($this->obj_type == "usr" && ilObject::_lookupType($this->obj_id) == "usr") {
-            ilPersonalSkill::removeSkills($this->obj_id);
-            ilPersonalSkill::removeMaterials($this->obj_id);
-            ilSkillProfile::removeUserFromAllProfiles($this->obj_id);
+            $this->personal_manager->removePersonalSkills($this->obj_id);
+            $this->assigned_material_manager->removeAssignedMaterials($this->obj_id);
+            $this->profile_manager->removeUserFromAllProfiles($this->obj_id);
+            $this->profile_completion_manager->deleteEntriesForUser($this->obj_id);
             ilBasicSkill::removeAllUserData($this->obj_id);
         }
         if ($this->obj_type == "role" && ilObject::_lookupType($this->obj_id) == "role") {
-            ilSkillProfile::removeRoleFromAllProfiles($this->obj_id);
+            $this->profile_manager->removeRoleFromAllProfiles($this->obj_id);
         }
         if ($this->obj_type == "crs" && ilObject::_lookupType($this->obj_id) == "crs") {
             foreach (ilContainerReference::_getAllReferences($this->obj_id) as $ref_id) {
                 if ($ref_id != 0) {
-                    ilSkillProfile::deleteProfilesFromObject($ref_id);
+                    $this->profile_manager->deleteProfilesFromObject($ref_id);
                 }
             }
         }
         if ($this->obj_type == "grp" && ilObject::_lookupType($this->obj_id) == "grp") {
             foreach (ilContainerReference::_getAllReferences($this->obj_id) as $ref_id) {
                 if ($ref_id != 0) {
-                    ilSkillProfile::deleteProfilesFromObject($ref_id);
+                    $this->profile_manager->deleteProfilesFromObject($ref_id);
                 }
             }
         }
+        ilSkillUsage::removeUsagesFromObject($this->obj_id);
     }
 }

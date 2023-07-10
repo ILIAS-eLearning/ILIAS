@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\News\StandardGUIRequest;
 
@@ -57,7 +60,7 @@ class ilNewsItemGUI
         $this->toolbar = $DIC->toolbar();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->ctrl = $ilCtrl;
 
         $params = $DIC->http()->request()->getQueryParams();
@@ -65,10 +68,10 @@ class ilNewsItemGUI
         $this->requested_news_item_id = (int) ($params["news_item_id"] ?? 0);
         $this->add_mode = (string) ($params["add_mode"] ?? "");
 
-        $this->std_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $this->std_request = $DIC->news()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         if ($this->requested_news_item_id > 0) {
             $this->news_item = new ilNewsItem($this->requested_news_item_id);
@@ -90,14 +93,14 @@ class ilNewsItemGUI
         $ilCtrl->saveParameter($this, "add_mode");
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("news");
         return $this->getNewsForContextBlock();
     }
 
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         // check, if news item id belongs to context
         if (isset($this->news_item) && $this->news_item->getId() > 0
@@ -119,70 +122,70 @@ class ilNewsItemGUI
         return $html;
     }
 
-    public function setEnableEdit(bool $a_enable_edit = false) : void
+    public function setEnableEdit(bool $a_enable_edit = false): void
     {
         $this->enable_edit = $a_enable_edit;
     }
 
-    public function getEnableEdit() : bool
+    public function getEnableEdit(): bool
     {
         return $this->enable_edit;
     }
 
-    public function setContextObjId(int $a_context_obj_id) : void
+    public function setContextObjId(int $a_context_obj_id): void
     {
         $this->context_obj_id = $a_context_obj_id;
     }
 
-    public function getContextObjId() : int
+    public function getContextObjId(): int
     {
         return $this->context_obj_id;
     }
 
-    public function setContextObjType(string $a_context_obj_type) : void
+    public function setContextObjType(string $a_context_obj_type): void
     {
         $this->context_obj_type = $a_context_obj_type;
     }
 
-    public function getContextObjType() : string
+    public function getContextObjType(): string
     {
         return $this->context_obj_type;
     }
 
-    public function setContextSubObjId(int $a_context_sub_obj_id) : void
+    public function setContextSubObjId(int $a_context_sub_obj_id): void
     {
         $this->context_sub_obj_id = $a_context_sub_obj_id;
     }
 
-    public function getContextSubObjId() : int
+    public function getContextSubObjId(): int
     {
         return $this->context_sub_obj_id;
     }
 
-    public function setContextSubObjType(string $a_context_sub_obj_type) : void
+    public function setContextSubObjType(string $a_context_sub_obj_type): void
     {
         $this->context_sub_obj_type = $a_context_sub_obj_type;
     }
 
-    public function getContextSubObjType() : string
+    public function getContextSubObjType(): string
     {
         return $this->context_sub_obj_type;
     }
 
-    public function createNewsItem() : string
+    public function createNewsItem(): string
     {
         $form = $this->initFormNewsItem(self::FORM_CREATE);
         return $form->getHTML();
     }
 
-    public function editNewsItem() : string
+    public function editNewsItem(): string
     {
         $form = $this->initFormNewsItem(self::FORM_EDIT);
         $this->getValuesNewsItem($form);
         return $form->getHTML();
     }
 
-    protected function initFormNewsItem(int $a_mode) : ilPropertyFormGUI
+    protected function initFormNewsItem(int $a_mode): ilPropertyFormGUI
     {
         $ilTabs = $this->tabs;
 
@@ -196,7 +199,7 @@ class ilNewsItemGUI
     public static function getEditForm(
         int $a_mode,
         int $a_ref_id
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         global $DIC;
 
         $lng = $DIC->language();
@@ -234,10 +237,10 @@ class ilNewsItemGUI
         $media = new ilFileInputGUI($lng->txt('news_media'), 'media');
         $media->setSuffixes(["jpeg", "jpg", "png", "gif", "mp4", "mp3"]);
         $media->setRequired(false);
-        $media->setALlowDeletion(true);
+        $media->setAllowDeletion(true);
         $media->setValue(" ");
         $form->addItem($media);
-        
+
         // save and cancel commands
         if (in_array($a_mode, [self::FORM_CREATE, self::FORM_RE_CREATE])) {
             $form->addCommandButton("saveNewsItem", $lng->txt("save"), "news_btn_create");
@@ -263,7 +266,7 @@ class ilNewsItemGUI
     }
 
     // FORM NewsItem: Get current values for NewsItem form.
-    public function getValuesNewsItem(ilPropertyFormGUI $a_form) : void
+    public function getValuesNewsItem(ilPropertyFormGUI $a_form): void
     {
         $values = [];
 
@@ -282,7 +285,7 @@ class ilNewsItemGUI
     }
 
     // FORM NewsItem: Save NewsItem.
-    public function saveNewsItem() : string
+    public function saveNewsItem(): string
     {
         $ilUser = $this->user;
 
@@ -330,7 +333,7 @@ class ilNewsItemGUI
         return "";
     }
 
-    public function exitSaveNewsItem() : void
+    public function exitSaveNewsItem(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -341,10 +344,10 @@ class ilNewsItemGUI
         }
     }
 
-    public function updateNewsItem() : string
+    public function updateNewsItem(): string
     {
         $ilUser = $this->user;
-        
+
         if (!$this->getEnableEdit()) {
             return "";
         }
@@ -393,19 +396,19 @@ class ilNewsItemGUI
         return "";
     }
 
-    public function exitUpdateNewsItem() : void
+    public function exitUpdateNewsItem(): void
     {
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->redirect($this, "editNews");
     }
 
-    public function cancelUpdateNewsItem() : string
+    public function cancelUpdateNewsItem(): string
     {
         return $this->editNews();
     }
 
-    public function cancelSaveNewsItem() : string
+    public function cancelSaveNewsItem(): string
     {
         $ilCtrl = $this->ctrl;
 
@@ -417,7 +420,7 @@ class ilNewsItemGUI
         return "";
     }
 
-    public function editNews() : string
+    public function editNews(): string
     {
         $ilToolbar = $this->toolbar;
         $lng = $this->lng;
@@ -436,12 +439,12 @@ class ilNewsItemGUI
         return $this->getNewsForContextTable();
     }
 
-    public function cancelUpdate() : string
+    public function cancelUpdate(): string
     {
         return $this->editNews();
     }
 
-    public function confirmDeletionNewsItems() : string
+    public function confirmDeletionNewsItems(): string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -476,7 +479,7 @@ class ilNewsItemGUI
         return $c_gui->getHTML();
     }
 
-    public function deleteNewsItems() : string
+    public function deleteNewsItems(): string
     {
         if (!$this->getEnableEdit()) {
             return "";
@@ -490,7 +493,7 @@ class ilNewsItemGUI
         return $this->editNews();
     }
 
-    public function getNewsForContextBlock() : string
+    public function getNewsForContextBlock(): string
     {
         $lng = $this->lng;
 
@@ -517,7 +520,7 @@ class ilNewsItemGUI
     }
 
 
-    public function getNewsForContextTable() : string
+    public function getNewsForContextTable(): string
     {
         $lng = $this->lng;
 
@@ -569,8 +572,8 @@ class ilNewsItemGUI
 
         return $table_gui->getHTML();
     }
-    
-    public function setTabs() : void
+
+    public function setTabs(): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -583,7 +586,7 @@ class ilNewsItemGUI
         );
     }
 
-    public static function isRteActivated() : bool
+    public static function isRteActivated(): bool
     {
         if (ilObjAdvancedEditing::_getRichTextEditor() === "") {
             return false;

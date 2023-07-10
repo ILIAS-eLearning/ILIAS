@@ -1,34 +1,33 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use ILIAS\Filesystem\FilesystemFacade;
+use League\Flysystem\Local\LocalFilesystemAdapter;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
- * Class FlySystemLocalFilesystemFactoryTest
- *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  */
 class FlySystemLocalFilesystemFactoryTest extends TestCase
 {
@@ -41,7 +40,7 @@ class FlySystemLocalFilesystemFactoryTest extends TestCase
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -52,7 +51,7 @@ class FlySystemLocalFilesystemFactoryTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreationOfFilesystemWithLinkSkipBehaviourWhichShouldSucceed() : void
+    public function testCreationOfFilesystemWithLinkSkipBehaviourWhichShouldSucceed(): void
     {
         $rootPath = __DIR__;
 
@@ -81,7 +80,7 @@ class FlySystemLocalFilesystemFactoryTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreationOfFilesystemWithInvalidLinkBehaviourWhichShouldFail() : void
+    public function testCreationOfFilesystemWithInvalidLinkBehaviourWhichShouldFail(): void
     {
         $rootPath = __DIR__;
 
@@ -113,7 +112,7 @@ class FlySystemLocalFilesystemFactoryTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreationOfFilesystemWithInvalidFileLockModeWhichShouldFail() : void
+    public function testCreationOfFilesystemWithInvalidFileLockModeWhichShouldFail(): void
     {
         $rootPath = __DIR__;
 

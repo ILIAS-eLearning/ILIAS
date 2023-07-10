@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,27 +16,24 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceHistorizedCriterion
  * @author Michael Jansen <mjansen@datababay.de>
  */
 class ilTermsOfServiceHistorizedCriterion implements ilTermsOfServiceEvaluableCriterion
 {
-    private string $id;
-    private array $config;
-
-    public function __construct(string $id, array $config)
+    public function __construct(private readonly string $id, private readonly array $config)
     {
-        $this->id = $id;
-        $this->config = $config;
     }
 
-    public function getCriterionValue() : ilTermsOfServiceCriterionConfig
+    public function getCriterionValue(): ilTermsOfServiceCriterionConfig
     {
         return new ilTermsOfServiceCriterionConfig($this->config);
     }
 
-    public function getCriterionId() : string
+    public function getCriterionId(): string
     {
         return $this->id;
     }

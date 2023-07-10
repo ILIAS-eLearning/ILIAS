@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
 {
-    public function testUsersWithCertifcatesWillBePreoloaded() : void
+    public function testUsersWithCertifcatesWillBePreoloaded(): void
     {
         $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
@@ -39,7 +41,7 @@ class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
         $this->assertTrue($result);
     }
 
-    public function testUserWithCertificateIsNotPreloaded() : void
+    public function testUserWithCertificateIsNotPreloaded(): void
     {
         $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
@@ -57,7 +59,7 @@ class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
         $this->assertFalse($result);
     }
 
-    public function testUserIsNoProloaded() : void
+    public function testUserIsNoProloaded(): void
     {
         $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()

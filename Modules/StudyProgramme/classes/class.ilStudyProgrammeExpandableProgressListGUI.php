@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgressListGUI
 {
@@ -13,8 +29,9 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
     protected int $indent = 0;
     protected bool $js_added = false;
     protected bool $css_added = false;
+    protected string $alert_icon;
 
-    public function __construct(ilStudyProgrammeProgress $progress)
+    public function __construct(ilPRGProgress $progress)
     {
         parent::__construct($progress);
 
@@ -25,27 +42,35 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         $this->access = $DIC['ilAccess'];
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->refinery = $DIC->refinery();
+
+        $ui_factory = $DIC['ui.factory'];
+        $ui_renderer = $DIC['ui.renderer'];
+        $this->alert_icon = $ui_renderer->render(
+            $ui_factory->symbol()->icon()
+                ->custom(ilUtil::getImagePath("icon_alert.svg"), $this->lng->txt("warning"))
+                ->withSize('medium')
+        );
     }
 
-    protected function getIndent() : int
+    protected function getIndent(): int
     {
         return $this->indent;
     }
 
-    public function setIndent(int $indent) : void
+    public function setIndent(int $indent): void
     {
         assert($indent >= 0);
         $this->indent = $indent;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $this->addJavaScript();
         $this->addCSS();
         return parent::getHTML();
     }
 
-    protected function fillTemplate(ilTemplate $tpl) : void
+    protected function fillTemplate(ilTemplate $tpl): void
     {
         parent::fillTemplate($tpl);
 
@@ -80,29 +105,28 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
             $tpl->setVariable("ACCORDION_HIDE_CONTENT", "ilAccHideContent");
         }
         $tpl->setVariable("ACCORDION_CONTENT", $content);
-        $this->tpl->addOnloadCode("il.Accordion.add(" . json_encode($this->getAccordionOptions()) . ");");
+        $this->tpl->addOnloadCode("il.Accordion.add(" . json_encode($this->getAccordionOptions(), JSON_THROW_ON_ERROR) . ");");
         $tpl->parseCurrentBlock();
     }
 
-    protected function getAccordionContentHTML() : string
+    protected function getAccordionContentHTML(): string
     {
         $programme = ilObjStudyProgramme::getInstanceByObjId($this->progress->getNodeId());
 
         if (!$programme->hasLPChildren()) {
             return $this->getAccordionContentProgressesHTML();
-        } else {
-            return $this->getAccordionContentCoursesHTML();
         }
+
+        return $this->getAccordionContentCoursesHTML();
     }
 
-    protected function getAccordionContentProgressesHTML() : string
+    protected function getAccordionContentProgressesHTML(): string
     {
         // Make shouldShowSubProgress and newSubItem protected again afterwards, do
         // the same in the derived class ilStudyProgrammeIndividualPlanProgressListGUI.
-        $programme = ilObjStudyProgramme::getInstanceByObjId($this->progress->getNodeId());
-        $child_progresses = $programme->getChildrenProgress($this->progress);
+        $child_progresses = $this->progress->getSubnodes();
 
-        return implode("\n", array_map(function (ilStudyProgrammeProgress $progress) {
+        return implode("\n", array_map(function (ilPRGProgress $progress) {
             if (!$this->shouldShowSubProgress($progress)) {
                 return "";
             }
@@ -112,13 +136,13 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         }, $child_progresses));
     }
 
-    protected function shouldShowSubProgress(ilStudyProgrammeProgress $progress) : bool
+    protected function shouldShowSubProgress(ilPRGProgress $progress): bool
     {
         if ($progress->isRelevant()) {
             $prg = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
 
             $can_read = $this->access->checkAccess("read", "", $prg->getRefId(), "prg", $prg->getId());
-            if ($this->visible_on_pd_mode == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ && !$can_read) {
+            if ($this->visible_on_pd_mode === ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ && !$can_read) {
                 return false;
             }
 
@@ -128,20 +152,20 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         return false;
     }
 
-    protected function newSubItem(ilStudyProgrammeProgress $progress) : ilStudyProgrammeExpandableProgressListGUI
+    protected function newSubItem(ilPRGProgress $progress): ilStudyProgrammeExpandableProgressListGUI
     {
         return new ilStudyProgrammeExpandableProgressListGUI($progress);
     }
 
-    protected function getAccordionContentCoursesHTML() : string
+    protected function getAccordionContentCoursesHTML(): string
     {
         $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
 
         $crs = array();
         $prg = ilObjStudyProgramme::getInstanceByObjId($this->progress->getNodeId());
         foreach ($prg->getLPChildren() as $il_obj_crs_ref) {
-            if (ilObject::_exists($il_obj_crs_ref, true) &&
-                is_null(ilObject::_lookupDeletedDate($il_obj_crs_ref))
+            if (ilObject::_exists($il_obj_crs_ref->getRefId(), true) &&
+                is_null(ilObject::_lookupDeletedDate($il_obj_crs_ref->getRefId()))
             ) {
                 continue;
             }
@@ -164,8 +188,8 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
             );
         }, $crs));
     }
-    
-    protected function configureItemGUI(ilStudyProgrammeCourseListGUI $item_gui) : void
+
+    protected function configureItemGUI(ilStudyProgrammeCourseListGUI $item_gui): void
     {
         $item_gui->enableComments(false);
         $item_gui->enableTags(false);
@@ -186,7 +210,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         $item_gui->setIndent($this->getIndent() + 2);
     }
 
-    protected function getAccordionOptions() : array
+    protected function getAccordionOptions(): array
     {
         return [
             "orientation" => "horizontal",
@@ -208,30 +232,30 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         ];
     }
 
-    protected function getAccordionId() : string
+    protected function getAccordionId(): string
     {
         return "prg_progress_" . $this->progress->getId() . "_" . $this->getIndent();
     }
 
-    protected function getExpandedImageURL() : string
+    protected function getExpandedImageURL(): string
     {
         return ilUtil::getImagePath("tree_exp.svg");
     }
 
-    protected function getNotExpandedImageURL() : string
+    protected function getNotExpandedImageURL(): string
     {
         return ilUtil::getImagePath("tree_col.svg");
     }
 
-    protected function getTitleAndIconTarget(ilStudyProgrammeProgress $progress) : ?string
+    protected function getTitleAndIconTarget(ilPRGProgress $progress): ?string
     {
         return null;
     }
 
-    protected function showMyProgress() : bool
+    protected function showMyProgress(): bool
     {
         $prg_progress_id = $this->request_wrapper->retrieve("prg_progress_id", $this->refinery->kindlyTo()->int());
-        return  $prg_progress_id == $this->progress->getId();
+        return  $prg_progress_id === $this->progress->getId();
     }
 
     /**

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilVirusScannerSophos extends ilVirusScanner
 {
     public function __construct(string $scan_command, string $clean_command)
@@ -25,14 +27,17 @@ class ilVirusScannerSophos extends ilVirusScanner
         $this->scanZipFiles = true;
     }
 
-    public function scanFile(string $file_path, string $org_name = "") : string
+    public function scanFile(string $file_path, string $org_name = ""): string
     {
         $this->scanFilePath = $file_path;
         $this->scanFileOrigName = $org_name;
 
         // Call of scan_file from Sophie (www.vanja.com/tools/sophie)
         // sophie must run as a process
-        $cmd = $this->scanCommand . " " . $file_path . " 2>&1";
+        $a_filepath = realpath($file_path);
+        $cmd = ilShellUtil::escapeShellCmd($this->scanCommand);
+        $args = ilShellUtil::escapeShellArg(" " . $a_filepath . " ");
+        $cmd = $cmd .  " " . $args . " 2>&1";
         exec($cmd, $out, $ret);
         $this->scanResult = implode("\n", $out);
 
@@ -83,7 +88,7 @@ class ilVirusScannerSophos extends ilVirusScanner
         );
     }
 
-    public function cleanFile(string $file_path, string $org_name = "") : string
+    public function cleanFile(string $file_path, string $org_name = ""): string
     {
         $this->cleanFilePath = $file_path;
         $this->cleanFileOrigName = $org_name;

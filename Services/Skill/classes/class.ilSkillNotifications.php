@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +20,7 @@
  */
 
 use ILIAS\Skill\Service\SkillTreeService;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Course/group skill notification
@@ -49,46 +52,46 @@ class ilSkillNotifications extends ilCronJob
         $this->tree_service = $DIC->skills()->tree();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "skll_notification";
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("skll");
         return $lng->txt("skll_skill_notification");
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("skll");
         return $lng->txt("skll_skill_notification_desc");
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         global $DIC;
 
@@ -155,7 +158,7 @@ class ilSkillNotifications extends ilCronJob
     /**
      * Send news mail for 1 user and n objects
      */
-    protected function sendMail(int $a_user_id, array $a_achievements, string $a_last_run) : void
+    protected function sendMail(int $a_user_id, array $a_achievements, string $a_last_run): void
     {
         $ilClientIniFile = $this->client_ini;
         $tree = $this->tree;
@@ -174,7 +177,6 @@ class ilSkillNotifications extends ilCronJob
         $a_achievements = $vtree->getOrderedNodeset($a_achievements, "skill_id", "tref_id");
 
         foreach ($a_achievements as $skill_level) {
-
             // path
             $path = [];
             foreach ($tree->getPathId($skill_level["trigger_ref_id"]) as $node) {
@@ -226,8 +228,8 @@ class ilSkillNotifications extends ilCronJob
         $mail = new ilMail(ANONYMOUS_USER_ID);
         $mail->enqueue(
             ilObjUser::_lookupLogin($a_user_id),
-            null,
-            null,
+            "",
+            "",
             $subject,
             $ntf->composeAndGetMessage($a_user_id, null, "read", true),
             []

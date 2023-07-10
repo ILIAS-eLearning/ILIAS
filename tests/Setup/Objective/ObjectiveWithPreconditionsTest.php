@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Setup\Objective;
 
 use ILIAS\Setup;
@@ -31,7 +33,7 @@ class ObjectiveWithPreconditionsTest extends TestCase
     protected Setup\Objective $precondition;
     protected Objective\ObjectiveWithPreconditions $with_precondition;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->objective = $this->newObjective();
         $this->precondition = $this->newObjective();
@@ -42,12 +44,14 @@ class ObjectiveWithPreconditionsTest extends TestCase
         );
     }
 
-    public function testGetHash() : void
+    public function testGetHash(): void
     {
-        $this->assertEquals($this->objective->getHash(), $this->with_precondition->getHash());
+        $hash = $this->with_precondition->getHash();
+        $this->assertNotEquals($this->objective->getHash(), $hash);
+        $this->assertNotEquals($this->precondition->getHash(), $hash);
     }
 
-    public function testGetLabel() : void
+    public function testGetLabel(): void
     {
         $label = "some_label";
 
@@ -59,7 +63,7 @@ class ObjectiveWithPreconditionsTest extends TestCase
         $this->assertEquals($label, $this->with_precondition->getLabel());
     }
 
-    public function testIsNotable() : void
+    public function testIsNotable(): void
     {
         $notable = true;
 
@@ -71,7 +75,7 @@ class ObjectiveWithPreconditionsTest extends TestCase
         $this->assertEquals($notable, $this->with_precondition->isNotable());
     }
 
-    public function testGetPreconditions() : void
+    public function testGetPreconditions(): void
     {
         $another = $this->newObjective();
 
@@ -88,7 +92,7 @@ class ObjectiveWithPreconditionsTest extends TestCase
     }
 
 
-    public function testAchieve() : void
+    public function testAchieve(): void
     {
         $env = $this->createMock(Setup\Environment::class);
 

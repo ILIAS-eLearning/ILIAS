@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Parent class for all plugin config gui classes
@@ -20,13 +35,13 @@
 abstract class ilPluginConfigGUI
 {
     protected ?ilPlugin $plugin_object = null;
-    
-    final public function setPluginObject(ilPlugin $a_val) : void
+
+    final public function setPluginObject(ilPlugin $a_val): void
     {
         $this->plugin_object = $a_val;
     }
 
-    final public function getPluginObject() : ?ilPlugin
+    final public function getPluginObject(): ?ilPlugin
     {
         return $this->plugin_object;
     }
@@ -37,7 +52,7 @@ abstract class ilPluginConfigGUI
      * @param
      * @return
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -57,7 +72,7 @@ abstract class ilPluginConfigGUI
         $tpl->setDescription("");
 
         $ilTabs->clearTargets();
-        
+
         if ($request_wrapper->retrieve("plugin_id", $string_trafo)) {
             $ilTabs->setBackTarget(
                 $lng->txt("cmps_plugin"),
@@ -73,5 +88,5 @@ abstract class ilPluginConfigGUI
         $this->performCommand($ilCtrl->getCmd("configure"));
     }
 
-    abstract public function performCommand(string $cmd) : void;
+    abstract public function performCommand(string $cmd): void;
 }

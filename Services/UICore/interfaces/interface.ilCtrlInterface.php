@@ -1,12 +1,27 @@
 <?php
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilCtrl provides processing control methods. A global
  * instance is available through $DIC->ctrl() or $ilCtrl.
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ * @noinspection AutoloadingIssuesInspection
  */
 interface ilCtrlInterface
 {
@@ -47,16 +62,18 @@ interface ilCtrlInterface
 
     /**
      * Calls the currently provided baseclass.
+     *
      * If no baseclass is provided as an argument, the current GET
-     * request MUST contain @param string|null $a_base_class
+     * request MUST contain ilCtrlInterface::PARAM_BASE_CLASS
+     *
+     * @param string|null $a_base_class
      * @throws ilCtrlException if no valid baseclass is provided.
-     * @see ilCtrlInterface::PARAM_BASE_CLASS.
      */
-    public function callBaseClass(string $a_base_class = null) : void;
+    public function callBaseClass(string $a_base_class = null): void;
 
     /**
      * Forwards the request by invoking executeCommand() on the
-     * given GUI object.
+     * given GUI object and fires an according ilCtrlEvent.
      *
      * If any output was generated in that method, it will be
      * returned by this method as well.
@@ -76,42 +93,43 @@ interface ilCtrlInterface
      * @return string
      * @throws ilCtrlException if getHTML() cannot be invoked.
      */
-    public function getHTML(object $a_gui_object, array $a_parameters = null) : string;
+    public function getHTML(object $a_gui_object, array $a_parameters = null): string;
 
     /**
-     * Returns the command passed with the current POST or GET request.
+     * Returns the command passed with the current POST or GET request
+     * and fires an according ilCtrlEvent.
      *
      * @param string|null $fallback_command
      * @return string|null
      */
-    public function getCmd(string $fallback_command = null) : ?string;
+    public function getCmd(string $fallback_command = null): ?string;
 
     /**
      * Sets the current command.
      *
-     * @deprecated this method should not be used anymore, as all commands
-     *             should be passed as $_GET or $_POST parameters.
+     * @deprecated this method should not be used anymore and will be
+     *             removed with ILIAS 10.
      *
-     * @param string $a_cmd
+     * @param string|null $a_cmd
      */
-    public function setCmd(string $a_cmd) : void;
+    public function setCmd(?string $a_cmd): void;
 
     /**
      * Returns the command class which should be executed next.
      *
      * @return string|null
      */
-    public function getCmdClass() : ?string;
+    public function getCmdClass(): ?string;
 
     /**
      * Sets the command class that should be executed next.
      *
-     * @deprecated this method should not be used anymore, as all command
-     *             classes should be passed by $_GET or $_POST parameters.
+     * @deprecated this method should not be used anymore and will be
+     *             removed with ILIAS 10.
      *
-     * @param object|string $a_cmd_class
+     * @param object|string|null $a_cmd_class
      */
-    public function setCmdClass($a_cmd_class) : void;
+    public function setCmdClass($a_cmd_class): void;
 
     /**
      * Returns the classname of the next class in the control flow.
@@ -120,7 +138,7 @@ interface ilCtrlInterface
      * @return string|null
      * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function getNextClass($a_gui_class = null) : ?string;
+    public function getNextClass($a_gui_class = null): ?string;
 
     /**
      * Sets parameters for the given object.
@@ -131,7 +149,7 @@ interface ilCtrlInterface
      * @param string|string[] $a_parameter
      * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function saveParameter(object $a_gui_obj, $a_parameter) : void;
+    public function saveParameter(object $a_gui_obj, $a_parameter): void;
 
     /**
      * Sets a parameter for the given GUI class that must be passed in every
@@ -148,7 +166,7 @@ interface ilCtrlInterface
      * @param string|string[] $a_parameter
      * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function saveParameterByClass(string $a_class, $a_parameter) : void;
+    public function saveParameterByClass(string $a_class, $a_parameter): void;
 
     /**
      * Sets a parameter for the given GUI object and appends the given value.
@@ -160,7 +178,7 @@ interface ilCtrlInterface
      * @param mixed  $a_value
      * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function setParameter(object $a_gui_obj, string $a_parameter, $a_value) : void;
+    public function setParameter(object $a_gui_obj, string $a_parameter, $a_value): void;
 
     /**
      * Sets a parameter for the given GUI class and appends the given value as well.
@@ -174,7 +192,7 @@ interface ilCtrlInterface
      * @param mixed  $a_value
      * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function setParameterByClass(string $a_class, string $a_parameter, $a_value) : void;
+    public function setParameterByClass(string $a_class, string $a_parameter, $a_value): void;
 
     /**
      * Returns all parameters that have been saved or set for a GUI object.
@@ -183,7 +201,7 @@ interface ilCtrlInterface
      * @return array
      * @throws ilCtrlException if the given object cannot be found.
      */
-    public function getParameterArray(object $a_gui_obj) : array;
+    public function getParameterArray(object $a_gui_obj): array;
 
     /**
      * Returns all parameters that have been saved or set for a given GUI class.
@@ -192,21 +210,21 @@ interface ilCtrlInterface
      * @return array<string, mixed>
      * @throws ilCtrlException if the given class cannot be found.
      */
-    public function getParameterArrayByClass(string $a_class) : array;
+    public function getParameterArrayByClass(string $a_class): array;
 
     /**
      * Removes all currently set or saved parameters for the given GUI object.
      *
      * @param object $a_gui_obj
      */
-    public function clearParameters(object $a_gui_obj) : void;
+    public function clearParameters(object $a_gui_obj): void;
 
     /**
      * Removes all currently set or saved parameters for the given GUI class.
      *
      * @param string $a_class
      */
-    public function clearParametersByClass(string $a_class) : void;
+    public function clearParametersByClass(string $a_class): void;
 
     /**
      * Removes a specific parameter of a specific class that is currently set or saved.
@@ -214,7 +232,7 @@ interface ilCtrlInterface
      * @param string $a_class
      * @param string $a_parameter
      */
-    public function clearParameterByClass(string $a_class, string $a_parameter) : void;
+    public function clearParameterByClass(string $a_class, string $a_parameter): void;
 
     /**
      * Returns a link target for the given information.
@@ -233,7 +251,7 @@ interface ilCtrlInterface
         string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
-    ) : string;
+    ): string;
 
     /**
      * Returns a link target for the given information.
@@ -252,7 +270,7 @@ interface ilCtrlInterface
         string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
-    ) : string;
+    ): string;
 
     /**
      * Returns a form action link for the given information.
@@ -270,7 +288,7 @@ interface ilCtrlInterface
         string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
-    ) : string;
+    ): string;
 
     /**
      * Returns a form action link for the given information.
@@ -289,7 +307,7 @@ interface ilCtrlInterface
         string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
-    ) : string;
+    ): string;
 
     /**
      * Redirects to another GUI object.
@@ -305,7 +323,7 @@ interface ilCtrlInterface
         string $a_cmd = null,
         string $a_anchor = null,
         bool $is_async = false
-    ) : void;
+    ): void;
 
     /**
      * Redirects to the provided GUI class.
@@ -321,14 +339,14 @@ interface ilCtrlInterface
         string $a_cmd = null,
         string $a_anchor = null,
         bool $is_async = false
-    ) : void;
+    ): void;
 
     /**
      * Redirects to the given target URL.
      *
      * @param string $target_url
      */
-    public function redirectToURL(string $target_url) : void;
+    public function redirectToURL(string $target_url): void;
 
     /**
      * Sets the current object (id and type) of ilCtrl's context.
@@ -339,7 +357,7 @@ interface ilCtrlInterface
      * @param int    $obj_id
      * @param string $obj_type
      */
-    public function setContextObject(int $obj_id, string $obj_type) : void;
+    public function setContextObject(int $obj_id, string $obj_type): void;
 
     /**
      * Returns the current context's object id.
@@ -349,7 +367,7 @@ interface ilCtrlInterface
      *
      * @return int|null
      */
-    public function getContextObjId() : ?int;
+    public function getContextObjId(): ?int;
 
     /**
      * Returns the current context's object type.
@@ -359,14 +377,14 @@ interface ilCtrlInterface
      *
      * @return string|null
      */
-    public function getContextObjType() : ?string;
+    public function getContextObjType(): ?string;
 
     /**
      * Returns the descending stacktrace of ilCtrl calls that have been made.
      *
      * @return array<int, array<string, string>>
      */
-    public function getCallHistory() : array;
+    public function getCallHistory(): array;
 
     /**
      * Get class path that can be used in include statements
@@ -376,7 +394,15 @@ interface ilCtrlInterface
      * @return string
      * @throws ilCtrlException if the class cannot be found.
      */
-    public function lookupClassPath(string $a_class) : string;
+    public function lookupClassPath(string $a_class): string;
+
+    /**
+     * This method was introduced due to composer being case-sensitive
+     * when autoloading classes. In some cases, the command class needs
+     * to be dynamically instantiated, for which one should use the
+     * name with proper capitalization.
+     */
+    public function lookupOriginalClassName(string $a_class): ?string;
 
     /**
      * Returns the effective classname for a given path.
@@ -389,21 +415,21 @@ interface ilCtrlInterface
      * @return string
      * @throws ilCtrlException in the future.
      */
-    public function getClassForClasspath(string $a_class_path) : string;
+    public function getClassForClasspath(string $a_class_path): string;
 
     /**
      * Sets the current ilCtrl target script (default ilias.php).
      *
      * @param string $a_target_script
      */
-    public function setTargetScript(string $a_target_script) : void;
+    public function setTargetScript(string $a_target_script): void;
 
     /**
      * Returns whether the current request is an asynchronous one.
      *
      * @return bool
      */
-    public function isAsynch() : bool;
+    public function isAsynch(): bool;
 
     /**
      * Sets the return command of a given GUI object.
@@ -413,7 +439,7 @@ interface ilCtrlInterface
      * @return mixed
      * @throws ilCtrlException if a provided class cannot be found.
      */
-    public function setReturn(object $a_gui_obj, string $a_cmd = null) : void;
+    public function setReturn(object $a_gui_obj, string $a_cmd = null): void;
 
     /**
      * Sets the return command of a given class.
@@ -423,7 +449,7 @@ interface ilCtrlInterface
      * @return mixed
      * @throws ilCtrlException if a provided class cannot be found.
      */
-    public function setReturnByClass(string $a_class, string $a_cmd = null) : void;
+    public function setReturnByClass(string $a_class, string $a_cmd = null): void;
 
     /**
      * @see ilCtrlInterface::getReturnClass().
@@ -434,7 +460,7 @@ interface ilCtrlInterface
      * @param object $a_gui_obj
      * @return string|null
      */
-    public function getParentReturn(object $a_gui_obj) : ?string;
+    public function getParentReturn(object $a_gui_obj): ?string;
 
     /**
      * @see ilCtrlInterface::getReturnClass().
@@ -444,7 +470,7 @@ interface ilCtrlInterface
      * @param string $a_class
      * @return string|null
      */
-    public function getParentReturnByClass(string $a_class) : ?string;
+    public function getParentReturnByClass(string $a_class): ?string;
 
     /**
      * Redirects to next parent class set with setReturn().
@@ -455,14 +481,14 @@ interface ilCtrlInterface
      * @param string|null $a_anchor
      * @throws ilCtrlException if the object was not yet provided with a return target.
      */
-    public function returnToParent(object $a_gui_obj, string $a_anchor = null) : void;
+    public function returnToParent(object $a_gui_obj, string $a_anchor = null): void;
 
     /**
      * Returns the current redirect source.
      *
      * @return string|null
      */
-    public function getRedirectSource() : ?string;
+    public function getRedirectSource(): ?string;
 
     /**
      * Inserts an ilCtrl call record into the database.
@@ -477,7 +503,7 @@ interface ilCtrlInterface
      * @param string        $a_comp_prefix
      * @throws ilCtrlException due to deprecation.
      */
-    public function insertCtrlCalls($a_parent, $a_child, string $a_comp_prefix) : void;
+    public function insertCtrlCalls($a_parent, $a_child, string $a_comp_prefix): void;
 
     /**
      * Check if current CID trace contains a certain gui class.
@@ -486,12 +512,22 @@ interface ilCtrlInterface
      * @return bool
      * @throws ilCtrlException
      */
-    public function checkCurrentPathForClass(string $gui_class) : bool;
+    public function checkCurrentPathForClass(string $gui_class): bool;
 
     /**
      * Get current class path as array of class file names.
      *
      * @return array
      */
-    public function getCurrentClassPath() : array;
+    public function getCurrentClassPath(): array;
+
+    /**
+     * Attaches an observer to ALL or a specific @see ilCtrlEvent
+     */
+    public function attachObserver(ilCtrlObserver $observer, ilCtrlEvent $event = ilCtrlEvent::ALL): void;
+
+    /**
+     * Detaches an observer from ALL or a specific @see ilCtrlEvent
+     */
+    public function detachObserver(ilCtrlObserver $observer, ilCtrlEvent $event = ilCtrlEvent::ALL): void;
 }

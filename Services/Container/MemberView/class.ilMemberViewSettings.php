@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use Psr\Http\Message\RequestInterface;
 use ILIAS\Container;
@@ -49,22 +52,22 @@ class ilMemberViewSettings
         $this->container_service = $DIC->container();
     }
 
-    public static function getInstance() : ilMemberViewSettings
+    public static function getInstance(): ilMemberViewSettings
     {
         return self::$instance ?? (self::$instance = new ilMemberViewSettings());
     }
 
-    public function getContainer() : ?int
+    public function getContainer(): ?int
     {
         return $this->container;
     }
 
-    public function getCurrentRefId() : int
+    public function getCurrentRefId(): int
     {
         return $this->current_ref_id;
     }
 
-    public function setContainer(int $container) : void
+    public function setContainer(int $container): void
     {
         $this->container = $container;
         ilSession::set(self::SESSION_MEMBER_VIEW_CONTAINER, $this->container);
@@ -79,7 +82,7 @@ class ilMemberViewSettings
     /**
      * Check if member view currently enabled
      */
-    public function isActive() : bool
+    public function isActive(): bool
     {
         static $mv_status;
         if (!isset($mv_status)) {
@@ -104,16 +107,16 @@ class ilMemberViewSettings
 
         return $mv_status;
     }
-    
+
     /**
      * Check if member view is currently enabled for given ref id
      */
-    public function isActiveForRefId(int $a_ref_id) : bool
+    public function isActiveForRefId(int $a_ref_id): bool
     {
         if (!$this->active || !$a_ref_id) {
             return false;
         }
-        
+
         if (
             !in_array($a_ref_id, $this->container_items) &&
             $this->getContainer() !== $a_ref_id) {
@@ -121,27 +124,27 @@ class ilMemberViewSettings
         }
         return true;
     }
-    
+
     /**
      * Enable member view for this session and container.
      */
-    public function activate(int $a_ref_id) : void
+    public function activate(int $a_ref_id): void
     {
         $this->active = true;
         $this->setContainer($a_ref_id);
     }
-    
-    public function deactivate() : void
+
+    public function deactivate(): void
     {
         $this->active = false;
         $this->container = null;
         ilSession::clear(self::SESSION_MEMBER_VIEW_CONTAINER);
     }
-    
+
     /**
      * Toggle activation status
      */
-    public function toggleActivation(int $a_ref_id, bool $a_activation) : void
+    public function toggleActivation(int $a_ref_id, bool $a_activation): void
     {
         if ($a_activation) {
             $this->activate($a_ref_id);
@@ -149,22 +152,22 @@ class ilMemberViewSettings
             $this->deactivate();
         }
     }
-    
+
     /**
      * Check if members view is enabled in the administration
      */
-    public function isEnabled() : bool
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
-    
+
     /**
      * Read settings
      */
-    protected function read() : void
+    protected function read(): void
     {
         $current_ref_id = $this->findEffectiveRefId();
-        
+
         // member view is always enabled
         // (2013-06-18, http://www.ilias.de/docu/goto_docu_wiki_1357_Reorganising_Administration.html)
 
@@ -186,11 +189,11 @@ class ilMemberViewSettings
             }
         }
     }
-    
+
     /**
      * Find effective ref_id for request
      */
-    protected function findEffectiveRefId() : int
+    protected function findEffectiveRefId(): int
     {
         if ($this->ctrl->isAsynch()) {
             // Ignore asynchronous requests

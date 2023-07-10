@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,7 +20,7 @@
 
 namespace ILIAS\UI\examples\Player\Video;
 
-function video_mp4() : string
+function video_mp4(): string
 {
     global $DIC;
     $renderer = $DIC->ui()->renderer();

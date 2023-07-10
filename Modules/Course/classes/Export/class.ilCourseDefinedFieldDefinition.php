@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
@@ -53,7 +53,7 @@ class ilCourseDefinedFieldDefinition
         }
     }
 
-    public static function _clone(int $a_source_id, int $a_target_id) : void
+    public static function _clone(int $a_source_id, int $a_target_id): void
     {
         foreach (ilCourseDefinedFieldDefinition::_getFields($a_source_id) as $field_obj) {
             $cdf = new ilCourseDefinedFieldDefinition($a_target_id);
@@ -66,7 +66,7 @@ class ilCourseDefinedFieldDefinition
         }
     }
 
-    public static function _deleteByContainer(int $a_container_id) : void
+    public static function _deleteByContainer(int $a_container_id): void
     {
         global $DIC;
 
@@ -83,7 +83,7 @@ class ilCourseDefinedFieldDefinition
     /**
      * Check if there are any define fields
      */
-    public static function _hasFields(int $a_container_id) : int
+    public static function _hasFields(int $a_container_id): int
     {
         return count(ilCourseDefinedFieldDefinition::_getFields($a_container_id));
     }
@@ -93,7 +93,7 @@ class ilCourseDefinedFieldDefinition
      * @param int container obj_id
      * @return ilCourseDefinedFieldDefinition[]
      */
-    public static function _getFields(int $a_container_id, $a_sort = self::IL_CDF_SORT_NAME) : array
+    public static function _getFields(int $a_container_id, $a_sort = self::IL_CDF_SORT_NAME): array
     {
         $fields = [];
         foreach (ilCourseDefinedFieldDefinition::_getFieldIds($a_container_id, self::IL_CDF_SORT_ID) as $field_id) {
@@ -106,7 +106,7 @@ class ilCourseDefinedFieldDefinition
      * Get required filed id's
      * @return int[]
      */
-    public static function _getRequiredFieldIds(int $a_obj_id) : array
+    public static function _getRequiredFieldIds(int $a_obj_id): array
     {
         global $DIC;
 
@@ -123,7 +123,7 @@ class ilCourseDefinedFieldDefinition
         return $req_fields;
     }
 
-    public static function _fieldsToInfoString(int $a_obj_id) : string
+    public static function _fieldsToInfoString(int $a_obj_id): string
     {
         global $DIC;
 
@@ -141,7 +141,7 @@ class ilCourseDefinedFieldDefinition
     /**
      * @return int[]
      */
-    public static function _getFieldIds(int $a_container_id, string $a_sort = self::IL_CDF_SORT_ID) : array
+    public static function _getFieldIds(int $a_container_id, string $a_sort = self::IL_CDF_SORT_ID): array
     {
         global $DIC;
 
@@ -157,7 +157,7 @@ class ilCourseDefinedFieldDefinition
         return $field_ids;
     }
 
-    public static function _lookupName(int $a_field_id) : string
+    public static function _lookupName(int $a_field_id): string
     {
         global $DIC;
 
@@ -170,47 +170,47 @@ class ilCourseDefinedFieldDefinition
         return $row->field_name ?: '';
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getType() : int
+    public function getType(): int
     {
         return $this->type;
     }
 
-    public function setType(int $a_type) : void
+    public function setType(int $a_type): void
     {
         $this->type = $a_type;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(string $a_name) : void
+    public function setName(string $a_name): void
     {
         $this->name = $a_name;
     }
 
-    public function getValues() : array
+    public function getValues(): array
     {
         return $this->values;
     }
 
-    public function setValues(array $a_values) : void
+    public function setValues(array $a_values): void
     {
         $this->values = $a_values;
     }
 
-    public function getValueById(int $a_id) : string
+    public function getValueById(int $a_id): string
     {
         if (
             is_array($this->values) &&
@@ -221,32 +221,32 @@ class ilCourseDefinedFieldDefinition
         return '';
     }
 
-    public function getIdByValue(string $a_value) : int
+    public function getIdByValue(string $a_value): int
     {
         return (($pos = array_search($a_value, $this->values)) === false) ? -1 : $pos;
     }
 
-    public function isRequired() : bool
+    public function isRequired(): bool
     {
         return $this->required;
     }
 
-    public function enableRequired(bool $a_status) : void
+    public function enableRequired(bool $a_status): void
     {
         $this->required = $a_status;
     }
 
-    public function setValueOptions(array $a_options) : void
+    public function setValueOptions(array $a_options): void
     {
         $this->value_options = $a_options;
     }
 
-    public function getValueOptions() : array
+    public function getValueOptions(): array
     {
         return $this->value_options;
     }
 
-    public function prepareSelectBox() : array
+    public function prepareSelectBox(): array
     {
         $options = array();
         $options[''] = $this->lng->txt('select_one');
@@ -257,21 +257,21 @@ class ilCourseDefinedFieldDefinition
         return $options;
     }
 
-    public function prepareValues(array $a_values) : array
+    public function prepareValues(array $a_values): array
     {
         $tmp_values = [];
         $tmp_values = array_filter($a_values, 'strlen');
         return $tmp_values;
     }
 
-    public function appendValues(array $a_values) : bool
+    public function appendValues(array $a_values): bool
     {
         $this->values = array_unique(array_merge($this->values, $a_values));
         #sort($this->values);
         return true;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $next_id = $this->db->nextId('crs_f_definitions');
         $query = "INSERT INTO crs_f_definitions (field_id,obj_id,field_name,field_type,field_values,field_required,field_values_opt) " .
@@ -288,7 +288,7 @@ class ilCourseDefinedFieldDefinition
         $this->id = $next_id;
     }
 
-    public function update() : void
+    public function update(): void
     {
         $query = "UPDATE crs_f_definitions " .
             "SET field_name = " . $this->db->quote($this->getName(), 'text') . ", " .
@@ -301,7 +301,7 @@ class ilCourseDefinedFieldDefinition
         $res = $this->db->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         ilCourseUserData::_deleteByField($this->getId());
         $query = "DELETE FROM crs_f_definitions " .
@@ -309,7 +309,7 @@ class ilCourseDefinedFieldDefinition
         $res = $this->db->manipulate($query);
     }
 
-    private function read() : void
+    private function read(): void
     {
         $query = "SELECT * FROM crs_f_definitions " .
             "WHERE field_id = " . $this->db->quote($this->getId(), 'integer') . " " .

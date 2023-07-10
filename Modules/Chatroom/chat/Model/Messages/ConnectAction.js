@@ -9,12 +9,11 @@ var ConnectAction = function ConnectAction() {};
 
 /**
  * @param {number} roomId
- * @param {number} subRoomId
  * @param {{id: number, username: string}} subscriber
- * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number, subscriber}}
+ * @returns {{type: string, timestamp: number, content: string, roomId: number, subscriber}}
  */
-ConnectAction.prototype.create = function(roomId, subRoomId, subscriber) {
-	var message = Message.create('connected', 'connected', roomId, subRoomId);
+ConnectAction.prototype.create = function(roomId, subscriber) {
+	var message = Message.create('connected', 'connected', roomId);
 
 	message.user = subscriber;
 

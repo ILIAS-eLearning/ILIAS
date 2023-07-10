@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 use ILIAS\ResourceStorage\Services;
@@ -23,24 +25,24 @@ use ILIAS\ResourceStorage\Services;
 class ilBibtechParserTest extends TestCase
 {
     private ?\ILIAS\DI\Container $dic_backup = null;
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         global $DIC;
         $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
-        
+
         $DIC = new Container();
         $DIC['resource_storage'] = $this->createMock(Services::class);
         $DIC['ilDB'] = $this->createMock(ilDBInterface::class);
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
         $DIC = $this->dic_backup;
     }
-    
-    public function testParseBibtechAsArray() : void
+
+    public function testParseBibtechAsArray(): void
     {
         $ilBiblEntryFactory = $this->createMock(ilBiblEntryFactoryInterface::class);
         $ilBiblFieldFactory = $this->createMock(ilBiblFieldFactoryInterface::class);
@@ -54,7 +56,7 @@ class ilBibtechParserTest extends TestCase
         $content = $reader->parseContent();
         $this->assertIsArray($content);
         $this->assertEquals(2, count($content));
-        
+
         // First item
         $first_item = $content[0];
         $this->assertEquals('book', $first_item['entryType']);
@@ -67,7 +69,7 @@ class ilBibtechParserTest extends TestCase
         $this->assertEquals('XIII, 103 S.', $first_item['pages']);
         $this->assertEquals('1. Aufl.', $first_item['edition']);
         $this->assertEquals('3-437-43015-7', $first_item['isbn']);
-        
+
         // Second item
         $second_item = $content[1];
         $this->assertEquals('journal', $second_item['entryType']);
@@ -86,32 +88,32 @@ class ilBibtechParserTest extends TestCase
         $this->assertEquals('IX, 176 S.', $second_item['pages']);
         $this->assertEquals('978-1-60406-649-4', $second_item['isbn']);
     }
-    
-    public function testParseBibtechAsItems() : void
+
+    public function testParseBibtechAsItems(): void
     {
         $ilBiblEntryFactory = $this->createMock(ilBiblEntryFactoryInterface::class);
         $ilBiblFieldFactory = $this->createMock(ilBiblFieldFactoryInterface::class);
         $ilBiblAttributeFactory = $this->createMock(ilBiblAttributeFactoryInterface::class);
         $ilObjBibliographic = $this->createMock(ilObjBibliographic::class);
-        
+
         $reader = new ilBiblTexFileReader(
             $ilBiblEntryFactory,
             $ilBiblFieldFactory,
             $ilBiblAttributeFactory
         );
         $reader->setFileContent($this->getBibtechContent());
-        
+
         $ilBiblEntryFactory->expects($this->atLeast(2))
                            ->method('getEmptyInstance')
                            ->willReturnOnConsecutiveCalls(new ilBiblEntry(), new ilBiblEntry());
-        
-        
+
+
         $content = $reader->parseContentToEntries($ilObjBibliographic);
-        
+
         $this->assertIsArray($content);
         $this->assertEquals(2, count($content));
         $this->assertContainsOnlyInstancesOf(ilBiblEntry::class, $content);
-        
+
         // First item
         /** @var ilBiblEntry $first_item */
         $first_item = $content[0];
@@ -121,8 +123,8 @@ class ilBibtechParserTest extends TestCase
         $second_item = $content[1];
         $this->assertEquals('journal', $second_item->getType());
     }
-    
-    protected function getBibtechContent() : string
+
+    protected function getBibtechContent(): string
     {
         return '@book {
 author = {Süß, Henrik http://www.testlink.ch},

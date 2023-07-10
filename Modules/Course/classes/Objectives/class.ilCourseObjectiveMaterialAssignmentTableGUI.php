@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * TableGUI for material assignments of course objectives
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -50,7 +52,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $this->initObjectiveAssignments();
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         foreach ($a_set['sub'] as $sub_data) {
             // Indentation
@@ -80,7 +82,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         if ($this->objective_lm->isAssigned($a_set['id'])) {
             $this->tpl->setVariable('VAL_CHECKED', 'checked="checked"');
         }
-        
+
         $this->tpl->setVariable('ROW_TYPE_IMG', ilObject::_getIcon((int) $a_set['obj_id'], "tiny", $a_set['type']));
         $this->tpl->setVariable('ROW_TYPE_ALT', $this->lng->txt('obj_' . $a_set['type']));
 
@@ -90,7 +92,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         }
     }
 
-    public function parse(array $a_assignable) : void
+    public function parse(array $a_assignable): void
     {
         $materials = [];
         foreach ($a_assignable as $node) {
@@ -123,7 +125,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $this->setData($materials);
     }
 
-    protected function getAllSubObjects(int $a_ref_id) : array
+    protected function getAllSubObjects(int $a_ref_id): array
     {
         $tree = new ilTree(ilObject::_lookupObjId($a_ref_id));
         $tree->setTableNames('lm_tree', 'lm_data');
@@ -140,7 +142,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         return $chapter;
     }
 
-    protected function initObjectiveAssignments() : void
+    protected function initObjectiveAssignments(): void
     {
         $this->objective_lm = new ilCourseObjectiveMaterials($this->objective_id);
     }

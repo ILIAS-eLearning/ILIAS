@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI;
 
@@ -46,7 +62,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Counter\Factory
      */
-    public function counter() : C\Counter\Factory;
+    public function counter(): C\Counter\Factory;
 
     /**
      * ---
@@ -70,7 +86,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Image\Factory
      */
-    public function image() : C\Image\Factory;
+    public function image(): C\Image\Factory;
 
     /**
      * ---
@@ -98,7 +114,7 @@ interface Factory
      * ----
      * @return  \ILIAS\UI\Component\Player\Factory
      */
-    public function player() : C\Player\Factory;
+    public function player(): C\Player\Factory;
 
     /**
      * ---
@@ -117,7 +133,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Divider\Factory
      **/
-    public function divider() : C\Divider\Factory;
+    public function divider(): C\Divider\Factory;
 
     /**
      * ---
@@ -162,10 +178,13 @@ interface Factory
      *      3: >
      *           All Links visible in a view MUST be accessible by keyboard by using the
      *           ‘Tab’-Key.
+     *   composition:
+     *      1: >
+     *           If a link has a help topic, it should be rendered as a tool tip.
      * ---
      * @return  \ILIAS\UI\Component\Link\Factory
      */
-    public function link() : C\Link\Factory;
+    public function link(): C\Link\Factory;
 
     /**
      * ---
@@ -244,10 +263,13 @@ interface Factory
      *          The engaged state MUST be reflected in the "aria-pressed" -, respectively
      *          the "aria-checked"-attribute if active.
      *          If the Button is not engaged (which is the default), the aria-attribute can be omitted.
+     *   composition:
+     *      1: >
+     *           If a button has a help topic, it should be rendered as a tool tip.
      * ---
      * @return  \ILIAS\UI\Component\Button\Factory
      */
-    public function button() : C\Button\Factory;
+    public function button(): C\Button\Factory;
 
     /**
      * ---
@@ -329,7 +351,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Dropdown\Factory
      */
-    public function dropdown() : C\Dropdown\Factory;
+    public function dropdown(): C\Dropdown\Factory;
 
     /**
      * ---
@@ -364,7 +386,7 @@ interface Factory
      * @param 	\ILIAS\UI\Component\Link\Standard[] 	$crumbs 	a list of Links
      * @return 	\ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
      **/
-    public function breadcrumbs(array $crumbs) : Breadcrumbs;
+    public function breadcrumbs(array $crumbs): Breadcrumbs;
 
     /**
      * ---
@@ -377,7 +399,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\ViewControl\Factory
      */
-    public function viewControl() : C\ViewControl\Factory;
+    public function viewControl(): C\ViewControl\Factory;
 
     /**
      * ---
@@ -398,7 +420,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Chart\Factory
      */
-    public function chart() : C\Chart\Factory;
+    public function chart(): C\Chart\Factory;
 
     /**
      * ---
@@ -415,7 +437,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Input\Factory
      */
-    public function input() : C\Input\Factory;
+    public function input(): C\Input\Factory;
 
     /**
      * ---
@@ -451,7 +473,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Card\Factory
      */
-    public function card() : C\Card\Factory;
+    public function card(): C\Card\Factory;
 
     /**
      * ---
@@ -478,7 +500,7 @@ interface Factory
      * @param \ILIAS\UI\Component\Card\Card[] $cards
      * @return \ILIAS\UI\Component\Deck\Deck
      */
-    public function deck(array $cards) : Deck;
+    public function deck(array $cards): Deck;
 
     /**
      * ---
@@ -496,7 +518,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Listing\Factory
      */
-    public function listing() : C\Listing\Factory;
+    public function listing(): C\Listing\Factory;
 
     /**
      * ---
@@ -515,7 +537,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Panel\Factory
      */
-    public function panel() : C\Panel\Factory;
+    public function panel(): C\Panel\Factory;
 
     /**
      * ---
@@ -544,7 +566,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Item\Factory
      */
-    public function item() : C\Item\Factory;
+    public function item(): C\Item\Factory;
 
     /**
      * ---
@@ -581,7 +603,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Modal\Factory
      **/
-    public function modal() : C\Modal\Factory;
+    public function modal(): C\Modal\Factory;
 
     /**
      * ---
@@ -645,7 +667,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Popover\Factory
      */
-    public function popover() : C\Popover\Factory;
+    public function popover(): C\Popover\Factory;
 
     /**
      * ---
@@ -664,7 +686,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Dropzone\Factory
      */
-    public function dropzone() : C\Dropzone\Factory;
+    public function dropzone(): C\Dropzone\Factory;
 
     /**
      * ---
@@ -684,7 +706,7 @@ interface Factory
      * @param   string $content
      * @return  \ILIAS\UI\Component\Legacy\Legacy
      */
-    public function legacy(string $content) : Legacy;
+    public function legacy(string $content): Legacy;
 
     /**
      * ---
@@ -695,7 +717,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Table\Factory
      */
-    public function table() : C\Table\Factory;
+    public function table(): C\Table\Factory;
 
     /**
      * ---
@@ -726,7 +748,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\MessageBox\Factory
      */
-    public function messageBox() : C\MessageBox\Factory;
+    public function messageBox(): C\MessageBox\Factory;
 
     /**
      * ---
@@ -744,7 +766,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Layout\Factory
      */
-    public function layout() : C\Layout\Factory;
+    public function layout(): C\Layout\Factory;
 
     /**
      * ---
@@ -767,7 +789,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\MainControls\Factory
      */
-    public function mainControls() : C\MainControls\Factory;
+    public function mainControls(): C\MainControls\Factory;
 
     /**
      * ---
@@ -807,7 +829,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Tree\Factory
      */
-    public function tree() : C\Tree\Factory;
+    public function tree(): C\Tree\Factory;
 
     /**
      * ---
@@ -818,7 +840,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Menu\Factory
      */
-    public function menu() : C\Menu\Factory;
+    public function menu(): C\Menu\Factory;
 
     /**
      * ---
@@ -826,11 +848,17 @@ interface Factory
      *   purpose: >
      *     Symbols are graphical representations of concepts or contexts
      *     quickly comprehensible or generally known to the user.
-     *
+     *   composition:
+     *     Symbols contain a graphical along with textual representation describing, what the graphic is depicting.
+     * rules:
+     *   accessibility:
+     *     1: Symbols MUST have labels which then might be used to display some alternative text (e.g. as alt attribute).
+     *     2: The label of the Symbol MUST NOT be displayed, if the Symbol has a purely decorative function (as e.g. in
+     *        primary buttons).
      * ---
      * @return \ILIAS\UI\Component\Symbol\Factory
      */
-    public function symbol() : Component\Symbol\Factory;
+    public function symbol(): Component\Symbol\Factory;
 
     /**
      * ---
@@ -873,5 +901,81 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Toast\Factory
      */
-    public function toast() : C\Toast\Factory;
+    public function toast(): C\Toast\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The Launcher starts an object, a process or a workflow.
+     *     It conveys the smallest set of information needed to decide upon launching.
+     *     The Launcher communicates clearly whether or not a user can or cannot
+     *     launch at any given time.
+     *   composition: >
+     *     For a clear guidance of the users' intent the Launcher can present
+     *     a title and a descriptive text; it will always contain a Button for launching.
+     *     If necessary, the component can be enriched with status information
+     *     about the users' progress such as Icons or Progress Meter as well as
+     *     optional inputs (e.g. access code field) if launching is restricted.
+     *   effect: >
+     *     Clicking the Button starts the object, process or workflow. If the
+     *     Component is configured with inputs, they will be provided to make the user
+     *     fill them before the object can be launched. If the provided data is sufficient
+     *     the user is redirected to the target. Otherwise, a message is being displayed.
+     *     If the user cannot launch the object at all (precondition, unavailability etc.),
+     *     the Button is disabled with unavailable action.
+     *     The label of the Button may change, e.g. in relation to the status
+     *     of the progress.
+     *   rivals:
+     *     Item: >
+     *       Other than an item, the Launcher's focus is on an action rather than
+     *       the representation of an entity.
+     *     Link: >
+     *       Link's primary function is navigation; operating a Link must not
+     *       change the systems's status, while a launcher may well sign up a user
+     *       to a LearningSequence, e.g.
+     * rules:
+     *   usage:
+     *     1: If the user cannot launch the process, the Button MUST be disabled.
+     *     2: >
+     *       The Launcher SHOULD NOT be used to collect larger sets of information (e.g. a
+     *       full user registration) - that would be a process in itself.
+     *     3: >
+     *       The launcher SHOULD support the users' intent to make a quick choice if it is
+     *       the desired object/process/workflow to launch or not. Just relevant information
+     *       SHOULD guide this decision.
+     *     4: >
+     *       There MUST be but one Launcher per process or activity stream.
+     *       However, there MAY be multiple Launchers residing on a view or page
+     *       if there are multiple processes or activity streams on that view or page.
+     *   interaction:
+     *     1: The Launcher MUST start the object/procress when the Button is clicked.
+     *     2: >
+     *      The Launcher MUST provide ample inputs if the object is configured
+     *      with restricted access or the process needs further user decisions.
+     *   accessibility:
+     *     1: >
+     *       All interactions offered by a Launcher MUST be accessible by only using
+     *       the keyboard.
+     *     2: >
+     *       All information required before launching the object MUST be placed
+     *       before the Button launching the object/process, so users working
+     *       with screen readers will not miss it.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Launcher\Factory
+     */
+    public function launcher(): C\Launcher\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Help Topics can be attached to certain components. They make it possible
+     *     that suitable help texts can be displayed alongside the component.
+     *
+     * ---
+     * @return \ILIAS\UI\Help\Topic[]
+     */
+    public function helpTopics(string ...$topic): array;
 }

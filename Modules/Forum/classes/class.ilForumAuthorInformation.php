@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * ilForumAuthorInformation
  * @author  Michael Jansen <mjansen@databay.de>
@@ -24,10 +26,6 @@
  */
 class ilForumAuthorInformation
 {
-    private int $display_id;
-    private string $alias;
-    private string $import_name;
-    private array $public_profile_link_attributes;
     private string $author_name = '';
     private string $author_short_name = '';
     private string $linked_public_name = '';
@@ -35,41 +33,32 @@ class ilForumAuthorInformation
     private string $suffix = '';
     private string $profilePicture;
     private ?ilObjUser $author = null;
-    private int $author_id;
-    private ?ilLanguage $lng = null;
     private ilLanguage $globalLng;
     private ilObjUser $globalUser;
     private bool $is_deleted = false;
 
     public function __construct(
-        int $author_id,
-        int $display_id,
-        string $alias,
-        string $import_name,
-        array $public_profile_link_attributes = [],
-        ?ilLanguage $lng = null
+        private int $author_id,
+        private int $display_id,
+        private string $alias,
+        private string $import_name,
+        private array $public_profile_link_attributes = [],
+        private ?ilLanguage $lng = null
     ) {
         global $DIC;
 
         $this->globalUser = $DIC->user();
         $this->globalLng = $DIC->language();
 
-        $this->author_id = $author_id;
-        $this->display_id = $display_id;
-        $this->alias = $alias;
-        $this->import_name = $import_name;
-        $this->public_profile_link_attributes = $public_profile_link_attributes;
-        $this->lng = $lng;
-
         $this->init();
     }
 
-    protected function initUserInstance() : void
+    protected function initUserInstance(): void
     {
         if ($this->display_id > 0) {
             // Try to read user instance from preloaded cache array
             $this->author = ilForumAuthorInformationCache::getUserObjectById($this->display_id);
-            if (!$this->author) {
+            if (!$this->author instanceof ilObjUser) {
                 // Get a user instance from forum module's cache method
                 $this->author = ilObjForumAccess::getCachedUserInstance($this->display_id);
             }
@@ -83,22 +72,22 @@ class ilForumAuthorInformation
         }
     }
 
-    protected function doesAuthorAccountExists() : bool
+    protected function doesAuthorAccountExists(): bool
     {
         return $this->getAuthor() instanceof ilObjUser && $this->getAuthor()->getId();
     }
 
-    protected function isAuthorAnonymous() : bool
+    protected function isAuthorAnonymous(): bool
     {
         return $this->doesAuthorAccountExists() && $this->getAuthor()->isAnonymous();
     }
 
-    protected function isCurrentUserSessionLoggedIn() : bool
+    protected function isCurrentUserSessionLoggedIn(): bool
     {
         return !$this->globalUser->isAnonymous();
     }
 
-    protected function buildAuthorProfileLink(bool $with_profile_link) : void
+    protected function buildAuthorProfileLink(bool $with_profile_link): void
     {
         $link = '';
 
@@ -124,7 +113,7 @@ class ilForumAuthorInformation
         $this->linked_short_name = $linked_login;
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $translationLanguage = $this->globalLng;
         if ($this->lng instanceof ilLanguage) {
@@ -170,7 +159,7 @@ class ilForumAuthorInformation
                     $this->getAuthor()->getId()
                 );
             }
-        } elseif ($this->display_id > 0 && $this->alias !== '' && $this->doesAuthorAccountExists() === false) {
+        } elseif ($this->display_id > 0 && $this->alias !== '') {
             // The author did use a pseudonym and the account does not exist anymore (deleted, lost on import etc.)
             $this->author_short_name = $this->author_name = $translationLanguage->txt('deleted');
             $this->is_deleted = true;
@@ -197,7 +186,7 @@ class ilForumAuthorInformation
         }
     }
 
-    protected function getUserImagePath(ilObjUser $user) : string
+    protected function getUserImagePath(ilObjUser $user): string
     {
         if (!ilContext::hasHTML()) {
             return '';
@@ -206,7 +195,7 @@ class ilForumAuthorInformation
         return $user->getPersonalPicturePath('xsmall');
     }
 
-    protected function getAvatarImageSource(string $name, int $usrId = ANONYMOUS_USER_ID) : string
+    protected function getAvatarImageSource(string $name, int $usrId = ANONYMOUS_USER_ID): string
     {
         global $DIC;
 
@@ -222,17 +211,17 @@ class ilForumAuthorInformation
         return $avatar->getUrl();
     }
 
-    public function getProfilePicture() : string
+    public function getProfilePicture(): string
     {
         return $this->profilePicture;
     }
 
-    public function getAuthor() : ilObjUser
+    public function getAuthor(): ilObjUser
     {
         return $this->author;
     }
 
-    public function getAuthorName(bool $without_short_name = false) : string
+    public function getAuthorName(bool $without_short_name = false): string
     {
         if (!$without_short_name) {
             return $this->author_name;
@@ -241,37 +230,37 @@ class ilForumAuthorInformation
         return trim(preg_replace('/\(' . preg_quote($this->getAuthorShortName(), '/') . '\)/', '', $this->author_name));
     }
 
-    public function getAuthorShortName() : string
+    public function getAuthorShortName(): string
     {
         return $this->author_short_name;
     }
 
-    public function getLinkedAuthorName() : string
+    public function getLinkedAuthorName(): string
     {
         return $this->linked_public_name;
     }
 
-    public function getLinkedAuthorShortName() : string
+    public function getLinkedAuthorShortName(): string
     {
         return $this->linked_short_name;
     }
 
-    public function hasSuffix() : bool
+    public function hasSuffix(): bool
     {
         return $this->suffix !== '';
     }
 
-    public function getSuffix() : string
+    public function getSuffix(): string
     {
         return $this->suffix;
     }
 
-    public function isDeleted() : bool
+    public function isDeleted(): bool
     {
         return $this->is_deleted;
     }
 
-    public function getAlias() : string
+    public function getAlias(): string
     {
         return $this->alias;
     }

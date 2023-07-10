@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
@@ -42,7 +45,7 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
         $this->tree = new ilWorkspaceTree($user->getId());
     }
 
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return
             [
@@ -50,17 +53,17 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(ilWorkspaceCopyDefinition::class);
     }
 
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
 
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : Value
+    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer): Value
     {
         $this->logger->debug('Start checking adherence to maxsize!');
         $this->logger->dump($input);
@@ -95,7 +98,7 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
     protected function calculateRecursive(
         array $object_wps_ids,
         int &$a_file_size
-    ) : void {
+    ): void {
         global $DIC;
         $tree = $DIC['tree'];
 
@@ -122,13 +125,13 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
                     break;
 
                 case "file":
-                    $a_file_size += ilObjFileAccess::_lookupFileSize($obj_id);
+                    $a_file_size += ilObjFileAccess::_lookupFileSize($obj_id, false);
                     break;
             }
         }
     }
 
-    protected function validateAccess(int $wsp_id) : bool
+    protected function validateAccess(int $wsp_id): bool
     {
         $ilAccess = new ilWorkspaceAccessHandler($this->tree);
 
@@ -139,7 +142,7 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
         return true;
     }
 
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

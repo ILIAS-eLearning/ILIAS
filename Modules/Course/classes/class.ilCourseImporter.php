@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -36,7 +38,7 @@ class ilCourseImporter extends ilXmlImporter
         $this->logger = $DIC->logger()->crs();
     }
 
-    public function init() : void
+    public function init(): void
     {
     }
 
@@ -46,7 +48,7 @@ class ilCourseImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $refs = ilObject::_getAllReferences((int) $new_id);
             $this->course = ilObjectFactory::getInstanceByRefId((int) end($refs), false);
@@ -84,7 +86,7 @@ class ilCourseImporter extends ilXmlImporter
         }
     }
 
-    public function afterContainerImportProcessing(\ilImportMapping $mapping) : void
+    public function afterContainerImportProcessing(\ilImportMapping $mapping): void
     {
         foreach ($this->final_processing_info as $info) {
             // import learning objectives
@@ -95,7 +97,7 @@ class ilCourseImporter extends ilXmlImporter
         }
     }
 
-    protected function addFinalProcessingInfo($a_course, $a_entity, $a_xml) : void
+    protected function addFinalProcessingInfo($a_course, $a_entity, $a_xml): void
     {
         $this->final_processing_info[] = array(
             'course' => $a_course,

@@ -1,4 +1,21 @@
 <?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Iterator;
@@ -10,20 +27,6 @@ use InvalidArgumentException;
 use IteratorAggregate;
 use Traversable;
 use Closure;
-
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 
 /**
  * Class SortableIterator
@@ -38,45 +41,42 @@ class SortableIterator implements IteratorAggregate
     public const SORT_BY_NAME_NATURAL = 4;
     public const SORT_BY_TIME = 5;
 
-    private FileSystem $filesystem;
-
-    private \Traversable $iterator;
-
     /** @var callable|Closure|int */
     private $sort;
 
     /**
      * Sortable constructor.
-     * @param Filesystem $filesystem
-     * @param Traversable $iterator
      * @param int|callable|Closure $sort
-     * @param bool $reverseOrder
+     * @param bool                 $reverseOrder
      */
-    public function __construct(Filesystem $filesystem, Traversable $iterator, $sort, $reverseOrder = false)
-    {
-        $this->filesystem = $filesystem;
-        $this->iterator = $iterator;
+    public function __construct(
+        private Filesystem $filesystem,
+        private Traversable $iterator,
+        $sort,
+        $reverseOrder = false
+    ) {
         $order = $reverseOrder ? -1 : 1;
 
         if (self::SORT_BY_NAME === $sort) {
-            $this->sort = static function (Metadata $left, Metadata $right) use ($order) : int {
+            $this->sort = static function (Metadata $left, Metadata $right) use ($order): int {
                 $leftRealPath = $left->getPath();
                 $rightRealPath = $right->getPath();
 
                 return $order * strcmp($leftRealPath, $rightRealPath);
             };
         } elseif (self::SORT_BY_NAME_NATURAL === $sort) {
-            $this->sort = static function (Metadata $left, Metadata $right) use ($order) : int {
+            $this->sort = static function (Metadata $left, Metadata $right) use ($order): int {
                 $leftRealPath = $left->getPath();
                 $rightRealPath = $right->getPath();
 
                 return $order * strnatcmp($leftRealPath, $rightRealPath);
             };
         } elseif (self::SORT_BY_TYPE === $sort) {
-            $this->sort = static function (Metadata $left, Metadata $right) use ($order) : int {
+            $this->sort = static function (Metadata $left, Metadata $right) use ($order): int {
                 if ($left->isDir() && $right->isFile()) {
                     return -$order;
-                } elseif ($left->isFile() && $right->isDir()) {
+                }
+                if ($left->isFile() && $right->isDir()) {
                     return $order;
                 }
 
@@ -86,7 +86,7 @@ class SortableIterator implements IteratorAggregate
                 return $order * strcmp($leftRealPath, $rightRealPath);
             };
         } elseif (self::SORT_BY_TIME === $sort) {
-            $this->sort = function (Metadata $left, Metadata $right) use ($order) : int {
+            $this->sort = function (Metadata $left, Metadata $right) use ($order): int {
                 $leftTimestamp = $this->filesystem->getTimestamp($left->getPath());
                 $rightTimestamp = $this->filesystem->getTimestamp($right->getPath());
 
@@ -97,17 +97,19 @@ class SortableIterator implements IteratorAggregate
         } elseif (is_callable($sort)) {
             $this->sort = $sort;
             if ($reverseOrder) {
-                $this->sort = static fn (Metadata $left, Metadata $right) => -$sort($left, $right);
+                $this->sort = static fn (Metadata $left, Metadata $right): int|float => -$sort($left, $right);
             }
         } else {
-            throw new InvalidArgumentException('The SortableIterator takes a PHP callable or a valid built-in sort algorithm as an argument.');
+            throw new InvalidArgumentException(
+                'The SortableIterator takes a PHP callable or a valid built-in sort algorithm as an argument.'
+            );
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function getIterator() : \Traversable
+    public function getIterator(): \Traversable
     {
         if (1 === $this->sort) {
             return $this->iterator;

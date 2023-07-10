@@ -1,25 +1,22 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Utility class for meta data handling
@@ -34,7 +31,7 @@ class ilMDUtils
      * This function tries to parse a given string in an array of months, days, hours, minutes and seconds
      * @return int[]  e.g array(1,2,0,1,2) => 1 month,2 days, 0 hours, 1 minute, 2 seconds or empty array if not parsable
      */
-    public static function _LOMDurationToArray(string $a_string) : array
+    public static function _LOMDurationToArray(string $a_string): array
     {
         $a_string = trim($a_string);
         #$pattern = '/^(PT)?(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?$/i';
@@ -68,24 +65,28 @@ class ilMDUtils
         }
 
         // Hack for zero values
-        if (!$months and !$days and !$hours and !$min and !$sec) {
+        if (!$months && !$days && !$hours && !$min && !$sec) {
             return [];
         }
 
         return array((int) $months, (int) $days, (int) $hours, (int) $min, (int) $sec);
     }
 
-    public static function _fillHTMLMetaTags(int $a_rbac_id, int $a_obj_id, string $a_type) : bool
+    public static function _fillHTMLMetaTags(int $a_rbac_id, int $a_obj_id, string $a_type): bool
     {
         global $DIC;
 
         // currently disabled due to mantis 0026864
         return true;
 
-        $tpl            = $DIC['tpl'];
+        $tpl = $DIC['tpl'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
-        foreach (ilMDKeyword::_getKeywordsByLanguageAsString($a_rbac_id, $a_obj_id, $a_type) as $lng_code => $key_string) {
+        foreach (ilMDKeyword::_getKeywordsByLanguageAsString(
+            $a_rbac_id,
+            $a_obj_id,
+            $a_type
+        ) as $lng_code => $key_string) {
             $tpl->setCurrentBlock('mh_meta_item');
             $tpl->setVariable('MH_META_NAME', 'keywords');
             $tpl->setVariable('MH_META_LANG', $lng_code);
@@ -102,14 +103,21 @@ class ilMDUtils
         return true;
     }
 
-    public static function _parseCopyright(string $a_copyright) : string
+    public static function _parseCopyright(string $a_copyright): string
     {
-
         $settings = ilMDSettings::_getInstance();
         if (!$settings->isCopyrightSelectionActive()) {
-            return $a_copyright;
+            return ilMDCopyrightSelectionEntry::isEntry($a_copyright) ? '' : $a_copyright;
         }
 
         return ilMDCopyrightSelectionEntry::_lookupCopyright($a_copyright);
+    }
+
+    public static function _getDefaultCopyright(): string
+    {
+        $default_id = ilMDCopyrightSelectionEntry::getDefault();
+        return self::_parseCopyright(
+            ilMDCopyrightSelectionEntry::createIdentifier($default_id)
+        );
     }
 }

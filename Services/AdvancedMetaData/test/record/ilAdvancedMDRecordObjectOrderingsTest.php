@@ -7,19 +7,19 @@ class ilAdvancedMDRecordObjectOrderingsTest extends TestCase
 {
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->initRecordSortingDependencies();
         parent::setUp();
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $sorting = new ilAdvancedMDRecordObjectOrderings();
         $this->assertTrue($sorting instanceof ilAdvancedMDRecordObjectOrderings);
     }
 
-    public function testGlobalRecordSorting() : void
+    public function testGlobalRecordSorting(): void
     {
         $record_id_reflection = new ReflectionMethod(ilAdvancedMDRecord::class, 'setRecordId');
         $record_id_reflection->setAccessible(true);
@@ -48,7 +48,7 @@ class ilAdvancedMDRecordObjectOrderingsTest extends TestCase
      * @param string $name
      * @param mixed $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -59,7 +59,7 @@ class ilAdvancedMDRecordObjectOrderingsTest extends TestCase
         };
     }
 
-    protected function initRecordSortingDependencies() : void
+    protected function initRecordSortingDependencies(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;

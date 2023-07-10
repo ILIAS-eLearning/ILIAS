@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Collection of basic placeholder values that can be used
  * @author  Niels Theen <ntheen@databay.de>
@@ -23,7 +25,7 @@
 class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
     private array $placeholder;
-    private ilLanguage $language;
+    private readonly ilLanguage $language;
 
     public function __construct(
         ilLanguage $language,
@@ -63,10 +65,8 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     * @param ilTemplate|null $template
-     * @return string
      */
-    public function createPlaceholderHtmlDescription(?ilTemplate $template = null) : string
+    public function createPlaceholderHtmlDescription(?ilTemplate $template = null): string
     {
         if (null === $template) {
             $template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
@@ -89,7 +89,7 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
      * the the description as array value.
      * @return array - [PLACEHOLDER] => 'description'
      */
-    public function getPlaceholderDescriptions() : array
+    public function getPlaceholderDescriptions(): array
     {
         return $this->placeholder;
     }

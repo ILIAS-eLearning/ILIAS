@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,15 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailAutoCompleteBuddyRecipientsProvider
  */
 class ilMailAutoCompleteBuddyRecipientsProvider extends ilMailAutoCompleteUserProvider
 {
-    /**
-     * @return string
-     */
-    protected function getFromPart() : string
+    protected function getFromPart(): string
     {
         $joins = [];
 

@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * GUI class for test verification
@@ -13,22 +30,17 @@
  */
 class ilObjTestVerificationGUI extends ilObject2GUI
 {
-
-    private \ILIAS\Test\InternalRequestService $testrequest;
-
     public function __construct(int $id = 0, int $id_type = self::REPOSITORY_NODE_ID, int $parent_node_id = 0)
     {
-        global $DIC;
-        $this->testrequest = $DIC->test()->internal()->request();
         parent::__construct($id, $id_type, $parent_node_id);
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "tstv";
     }
 
-    public function create() : void
+    public function create(): void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -44,7 +56,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function save() : void
+    public function save(): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -88,7 +100,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         $this->create();
     }
 
-    public function deliver() : void
+    public function deliver(): void
     {
         $file = $this->object->getFilePath();
         if ($file) {
@@ -96,7 +108,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         }
     }
 
-    public function render(bool $a_return = false, string $a_url = '') : string
+    public function render(bool $a_return = false, string $a_url = ''): string
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -135,7 +147,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         return "";
     }
 
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page): void
     {
         global $DIC;
         $ilErr = $DIC['ilErr'];
@@ -147,14 +159,12 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
+        global $DIC;
         $id = explode("_", $a_target);
-
-        $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["wsp_id"] = $id[0];
-        include("ilias.php");
-        exit;
+        $DIC->ctrl()->setParameterByClass('ilsharedresourceGUI', 'wsp_id', $id[0]);
+        $DIC->ctrl()->redirectByClass('ilsharedresourceGUI');
     }
 
     /**

@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -11,15 +26,14 @@ use PHPUnit\Framework\TestCase;
  */
 class ilassMarkSchemaTest extends TestCase
 {
+    private ASS_MarkSchema $ass_mark_schema;
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../');
 
-        // Arrange
-        include_once './Modules/Test/classes/class.assMarkSchema.php';
         $this->ass_mark_schema = new ASS_MarkSchema();
     }
 
@@ -193,7 +207,7 @@ class ilassMarkSchemaTest extends TestCase
         // Arrange
         $expected = is_array(array());
         $this->ass_mark_schema->mark_steps = array("a string");
-        $this->assertEquals($this->ass_mark_schema->mark_steps, array("a string"));
+        $this->assertEquals(array("a string"), $this->ass_mark_schema->mark_steps);
         $this->ass_mark_schema->flush();
 
         // Act

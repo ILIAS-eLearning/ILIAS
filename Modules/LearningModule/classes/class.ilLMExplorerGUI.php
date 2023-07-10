@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * LM editor explorer GUI class
@@ -56,7 +59,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
         }
 
         parent::__construct($a_id, $a_parent_obj, $a_parent_cmd, $tree);
-        
+
         $this->setSkipRootNode(false);
         $this->setAjax(false);
         $this->setPreloadChilds(true);
@@ -72,7 +75,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
         }
     }
 
-    public function beforeRendering() : void
+    public function beforeRendering(): void
     {
         if ($this->cnt_lmobj > 200 && !$this->getOfflineMode()) {
             $class = (is_object($this->parent_obj))
@@ -87,7 +90,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
     /**
      * @param object|array $a_node
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             return $this->lm->getTitle();
@@ -106,11 +109,11 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
             $lang
         );
     }
-    
+
     /**
      * @param object|array $a_node
      */
-    public function isNodeHighlighted($a_node) : bool
+    public function isNodeHighlighted($a_node): bool
     {
         if ($a_node["child"] == $this->obj_id ||
             ($this->obj_id == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
@@ -123,12 +126,12 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
      * @param int $a_id lm tree node id
      * @throws ilInvalidLPStatusException
      */
-    protected function checkLPIcon(int $a_id) : string
+    protected function checkLPIcon(int $a_id): string
     {
         $ilUser = $this->user;
 
         // do it once for all chapters
-        if ($this->lp_cache[$this->lm->getId()] === null) {
+        if (!isset($this->lp_cache[$this->lm->getId()])) {
             $this->lp_cache[$this->lm->getId()] = false;
 
             if (ilLearningProgressAccess::checkAccess($this->lm->getRefId())) {
@@ -142,13 +145,13 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
                 }
 
                 // parse collection items
-                if (is_array($info["items"])) {
+                if (isset($info["items"])) {
                     foreach ($info["items"] as $item_id) {
                         $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-                        if (is_array($info["in_progress"][$item_id]) &&
+                        if (isset($info["in_progress"][$item_id]) &&
                             in_array($ilUser->getId(), $info["in_progress"][$item_id])) {
                             $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
-                        } elseif (is_array($info["completed"][$item_id]) &&
+                        } elseif (isset($info["completed"][$item_id]) &&
                             in_array($ilUser->getId(), $info["completed"][$item_id])) {
                             $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
                         }
@@ -158,9 +161,10 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
             }
         }
 
-        if (is_array($this->lp_cache[$this->lm->getId()]) &&
+        if (isset($this->lp_cache[$this->lm->getId()]) &&
             isset($this->lp_cache[$this->lm->getId()][$a_id])) {
-            return ilLearningProgressBaseGUI::_getImagePathForStatus($this->lp_cache[$this->lm->getId()][$a_id]);
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
+            return $icons->getImagePathForStatus($this->lp_cache[$this->lm->getId()][$a_id]);
         }
 
         return "";

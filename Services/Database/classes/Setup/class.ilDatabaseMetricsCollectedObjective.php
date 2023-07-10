@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Setup;
 use ILIAS\DI;
@@ -10,7 +26,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
     /**
      * @return array<\ilDatabaseInitializedObjective|\ilIniFilesLoadedObjective>
      */
-    protected function getTentativePreconditions(Setup\Environment $environment) : array
+    protected function getTentativePreconditions(Setup\Environment $environment): array
     {
         return [
             new \ilIniFilesLoadedObjective(),
@@ -18,7 +34,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         ];
     }
 
-    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage): void
     {
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         if ($client_ini) {
@@ -71,37 +87,37 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilBench"] = null;
-        $GLOBALS["DIC"]["ilLog"] = new class() {
-            public function write() : void
+        $GLOBALS["DIC"]["ilLog"] = new class () {
+            public function write(): void
             {
             }
-            public function info() : void
+            public function info(): void
             {
             }
-            public function warning($msg) : void
+            public function warning($msg): void
             {
             }
-            public function error($msg) : void
+            public function error($msg): void
             {
             }
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         /** @noinspection PhpArrayIndexImmediatelyRewrittenInspection */
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
-            public function getRootLogger() : object
+        $GLOBALS["DIC"]["ilLoggerFactory"] = new class () {
+            public function getRootLogger(): object
             {
-                return new class() {
-                    public function write() : void
+                return new class () {
+                    public function write(): void
                     {
                     }
                 };
             }
         };
-        $GLOBALS["ilCtrlStructureReader"] = new class() {
-            public function getStructure() : void
+        $GLOBALS["ilCtrlStructureReader"] = new class () {
+            public function getStructure(): void
             {
             }
-            public function setIniFile() : void
+            public function setIniFile(): void
             {
             }
         };
@@ -130,36 +146,6 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         $db_update = new  ilDBUpdate($db);
         $db_update->readCustomUpdatesInfo(true);
 
-        $storage->storeStableCounter(
-            "version",
-            $db_update->getCurrentVersion(),
-            "The version of the database schema that is currently installed."
-        );
-        $storage->storeStableCounter(
-            "available_version",
-            $db_update->getFileVersion(),
-            "The version of the database schema that is available in the current source."
-        );
-        $storage->storeStableBool(
-            "update_required",
-            !$db_update->getDBVersionStatus(),
-            "Does the database require an update?"
-        );
-        $storage->storeStableCounter(
-            "hotfix_version",
-            $db_update->getHotfixCurrentVersion() ?? 0,
-            "The version of the hotfix database schema that is currently installed."
-        );
-        $storage->storeStableCounter(
-            "available_hotfix_version",
-            $db_update->getHotfixFileVersion() ?? 0,
-            "The version of the hotfix database schema that is available in the current source."
-        );
-        $storage->storeStableBool(
-            "hotfix_required",
-            $db_update->hotfixAvailable(),
-            "Does the database require a hotfix update?"
-        );
         $storage->storeStableCounter(
             "custom_version",
             $db_update->getCustomUpdatesCurrentVersion() ?? 0,

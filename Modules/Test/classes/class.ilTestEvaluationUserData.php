@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class ilTestEvaluationUserData
@@ -11,9 +25,7 @@
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
 */
-
-include_once "./Services/Object/classes/class.ilObject.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 class ilTestEvaluationUserData
 {
@@ -127,6 +139,13 @@ class ilTestEvaluationUserData
     */
     public $passes;
 
+
+    /**
+     * Number of the last finished pass
+     * @var int|null
+     */
+    public $lastFinishedPass;
+
     /**
     * Questions
     *
@@ -136,8 +155,6 @@ class ilTestEvaluationUserData
 
     /**
     * Pass Scoring (Last pass = 0, Best pass = 1)
-    *
-    * @var array
     */
     private $passScoring;
 
@@ -166,37 +183,37 @@ class ilTestEvaluationUserData
         return $this->passScoring;
     }
 
-    public function setPassScoring($passScoring)
+    public function setPassScoring($passScoring): void
     {
         $this->passScoring = $passScoring;
     }
 
-    public function getPassed() : bool
+    public function getPassed(): bool
     {
         return $this->passed;
     }
 
-    public function setPassed($a_passed)
+    public function setPassed($a_passed): void
     {
         $this->passed = ($a_passed ? true : false);
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName($a_name)
+    public function setName($a_name): void
     {
         $this->name = $a_name;
     }
 
-    public function getLogin() : string
+    public function getLogin(): string
     {
-        return $this->login;
+        return $this->login ?? '';
     }
 
-    public function setLogin($a_login)
+    public function setLogin($a_login): void
     {
         $this->login = $a_login;
     }
@@ -204,7 +221,7 @@ class ilTestEvaluationUserData
     /**
      * @return bool
      */
-    public function isSubmitted() : bool
+    public function isSubmitted(): bool
     {
         return $this->submitted;
     }
@@ -212,12 +229,12 @@ class ilTestEvaluationUserData
     /**
      * @param bool $submitted
      */
-    public function setSubmitted($submitted)
+    public function setSubmitted($submitted): void
     {
         $this->submitted = $submitted;
     }
 
-    public function getReached() : float
+    public function getReached(): float
     {
         return $this->getReachedPoints($this->getScoredPass());
     }
@@ -232,7 +249,7 @@ class ilTestEvaluationUserData
         return $this->getAvailablePoints($this->getScoredPass());
     }
 
-    public function setMaxpoints($a_max_points)
+    public function setMaxpoints($a_max_points): void
     {
         $this->maxpoints = $a_max_points;
     }
@@ -242,27 +259,27 @@ class ilTestEvaluationUserData
         return $this->getMaxPoints() ? $this->getReached() / $this->getMaxPoints() * 100.0 : 0;
     }
 
-    public function getMark() : string
+    public function getMark(): string
     {
         return $this->mark;
     }
 
-    public function setMark($a_mark)
+    public function setMark($a_mark): void
     {
         $this->mark = $a_mark;
     }
 
-    public function getECTSMark()
+    public function getECTSMark(): ?string
     {
         return $this->markECTS;
     }
 
-    public function setECTSMark($a_mark_ects)
+    public function setECTSMark($a_mark_ects): void
     {
         $this->markECTS = $a_mark_ects;
     }
 
-    public function getQuestionsWorkedThrough() : int
+    public function getQuestionsWorkedThrough(): int
     {
         $questionpass = $this->getScoredPass();
         if (!is_object($this->passes[$questionpass])) {
@@ -279,7 +296,7 @@ class ilTestEvaluationUserData
         $this->questionsWorkedThrough = $a_nr;
     }
 
-    public function getNumberOfQuestions() : int
+    public function getNumberOfQuestions(): int
     {
         $questionpass = $this->getScoredPass();
         if (!is_object($this->passes[$questionpass])) {
@@ -302,7 +319,7 @@ class ilTestEvaluationUserData
         return $this->getNumberOfQuestions() ? $this->getQuestionsWorkedThrough() / $this->getNumberOfQuestions() * 100.0 : 0;
     }
 
-    public function getTimeOfWork() : int
+    public function getTimeOfWork(): int
     {
         $time = 0;
         foreach ($this->passes as $pass) {
@@ -316,7 +333,7 @@ class ilTestEvaluationUserData
         $this->timeOfWork = $a_time_of_work;
     }
 
-    public function getFirstVisit() : string
+    public function getFirstVisit(): string
     {
         return $this->firstVisit;
     }
@@ -326,7 +343,7 @@ class ilTestEvaluationUserData
         $this->firstVisit = $a_time;
     }
 
-    public function getLastVisit() : string
+    public function getLastVisit(): string
     {
         return $this->lastVisit;
     }
@@ -336,7 +353,7 @@ class ilTestEvaluationUserData
         $this->lastVisit = $a_time;
     }
 
-    public function getPasses() : array
+    public function getPasses(): array
     {
         return $this->passes;
     }
@@ -354,7 +371,7 @@ class ilTestEvaluationUserData
      * @param $pass_nr
      * @return ilTestEvaluationPassData|null
      */
-    public function getPass($pass_nr) : ?ilTestEvaluationPassData
+    public function getPass($pass_nr): ?ilTestEvaluationPassData
     {
         if (array_key_exists($pass_nr, $this->passes)) {
             return $this->passes[$pass_nr];
@@ -363,7 +380,7 @@ class ilTestEvaluationUserData
         }
     }
 
-    public function getPassCount() : int
+    public function getPassCount(): int
     {
         return count($this->passes);
     }
@@ -376,24 +393,29 @@ class ilTestEvaluationUserData
             return $this->getLastPass();
         }
     }
-
-    public function getBestPass() : int
+    /**
+     * This is used in the export of test results
+     * Aligned with ilObjTest::_getBestPass: from passes with equal points the first one wins
+    */
+    public function getBestPass()
     {
         $bestpoints = 0;
-        $bestpass = 0;
+        $bestpass = null;
 
         $obligationsAnsweredPassExists = $this->doesObligationsAnsweredPassExist();
 
         foreach ($this->passes as $pass) {
             $reached = $this->getReachedPointsInPercentForPass($pass->getPass());
 
-            if ($reached >= $bestpoints && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists)) {
+            if (($reached > $bestpoints
+                && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists))
+                || !isset($bestpass)) {
                 $bestpoints = $reached;
                 $bestpass = $pass->getPass();
             }
         }
 
-        return $bestpass;
+        return (int) $bestpass;
     }
 
     public function getLastPass()
@@ -406,7 +428,29 @@ class ilTestEvaluationUserData
         }
         return $lastpass;
     }
+    /**
+         * @return int
+         */
+    public function getFinishedPasses()
+    {
+        return $this->getLastFinishedPass() === null ? 0 : $this->getLastFinishedPass() + 1;
+    }
 
+    /**
+     * @return ?int
+     */
+    public function getLastFinishedPass()
+    {
+        return $this->lastFinishedPass;
+    }
+
+    /**
+     * @param ?int $pass
+     */
+    public function setLastFinishedPass($pass = null)
+    {
+        $this->lastFinishedPass = $pass;
+    }
     public function addQuestionTitle($question_id, $question_title)
     {
         $this->questionTitles[$question_id] = $question_title;
@@ -449,7 +493,7 @@ class ilTestEvaluationUserData
         }
     }
 
-    public function getQuestionCount($pass = 0) : int
+    public function getQuestionCount($pass = 0): int
     {
         $count = 0;
         if (array_key_exists($pass, $this->passes)) {
@@ -458,7 +502,7 @@ class ilTestEvaluationUserData
         return $count;
     }
 
-    public function getReachedPoints($pass = 0) : float
+    public function getReachedPoints($pass = 0): float
     {
         $reached = 0;
         if (array_key_exists($pass, $this->passes)) {
@@ -496,7 +540,7 @@ class ilTestEvaluationUserData
         $this->user_id = $a_usr_id;
     }
 
-    public function getUserID() : int
+    public function getUserID(): ?int
     {
         return $this->user_id;
     }
@@ -506,7 +550,7 @@ class ilTestEvaluationUserData
         $this->mark_official = $a_mark_official;
     }
 
-    public function getMarkOfficial() : string
+    public function getMarkOfficial(): string
     {
         return $this->mark_official;
     }
@@ -531,7 +575,7 @@ class ilTestEvaluationUserData
      *
      * @return integer $requestedHintsCount
      */
-    public function getRequestedHintsCountFromScoredPass() : int
+    public function getRequestedHintsCountFromScoredPass(): int
     {
         return $this->getRequestedHintsCount($this->getScoredPass());
     }
@@ -539,7 +583,7 @@ class ilTestEvaluationUserData
     /**
      * @return string
      */
-    public function getExamIdFromScoredPass() : string
+    public function getExamIdFromScoredPass(): string
     {
         $examId = '';
         $scoredPass = $this->getScoredPass();
@@ -558,7 +602,7 @@ class ilTestEvaluationUserData
      * @return integer $requestedHintsCount
      * @throws ilTestException
      */
-    public function getRequestedHintsCount($pass) : int
+    public function getRequestedHintsCount($pass): int
     {
         if (!isset($this->passes[$pass]) || !($this->passes[$pass] instanceof ilTestEvaluationPassData)) {
             throw new ilTestException("invalid pass index given: $pass");
@@ -600,7 +644,7 @@ class ilTestEvaluationUserData
      *
      * @return ilTestEvaluationPassData $passDataObject
      */
-    public function getLastPassObject() : ilTestEvaluationPassData
+    public function getLastPassObject(): ilTestEvaluationPassData
     {
         $lastpassIndex = 0;
 
@@ -621,7 +665,7 @@ class ilTestEvaluationUserData
      *
      * @return boolean
      */
-    public function doesObligationsAnsweredPassExist() : bool
+    public function doesObligationsAnsweredPassExist(): bool
     {
         foreach ($this->passes as $pass) {
             if ($pass->areObligationsAnswered()) {
@@ -638,7 +682,7 @@ class ilTestEvaluationUserData
      *
      * @return boolean
      */
-    public function areObligationsAnswered() : bool
+    public function areObligationsAnswered(): bool
     {
         return $this->getScoredPassObject()->areObligationsAnswered();
     }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,48 +16,40 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceHistorizedDocument
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTermsOfServiceHistorizedDocument implements ilTermsOfServiceSignableDocument
 {
-    private ilTermsOfServiceAcceptanceEntity $entity;
-    private ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria;
-
-    public function __construct(
-        ilTermsOfServiceAcceptanceEntity $entity,
-        ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria
-    ) {
-        $this->entity = $entity;
-        $this->criteria = $criteria;
+    public function __construct(private readonly ilTermsOfServiceAcceptanceEntity $entity, private readonly ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria)
+    {
     }
 
-    public function content() : string
+    public function content(): string
     {
         return $this->entity->getTitle();
     }
 
-    public function title() : string
+    public function title(): string
     {
         return $this->entity->getTitle();
     }
 
-    public function id() : int
+    public function id(): int
     {
         return $this->entity->getDocumentId();
     }
 
-    public function criteria() : array
+    public function criteria(): array
     {
-        $criteria = [];
-        foreach ($this->criteria as $criterion) {
-            $criteria[] = new ilTermsOfServiceHistorizedCriterion(
+        return array_map(static function (array $criterion): ilTermsOfServiceHistorizedCriterion {
+            return new ilTermsOfServiceHistorizedCriterion(
                 $criterion['id'],
                 $criterion['value']
             );
-        }
-
-        return $criteria;
+        }, $this->criteria->getArrayCopy());
     }
 }

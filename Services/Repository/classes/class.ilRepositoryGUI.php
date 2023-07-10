@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\Repository\StandardGUIRequest;
@@ -105,7 +108,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    protected function redirectToRoot() : void
+    protected function redirectToRoot(): void
     {
         $ctrl = $this->ctrl;
         $ctrl->setParameterByClass(
@@ -117,7 +120,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         $ctrl->redirectByClass(self::class, "");
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $rbacsystem = $this->rbacsystem;
         $lng = $this->lng;
@@ -177,7 +180,8 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
 
             $this->ctrl->setCmdClass($next_class);
             if ($this->ctrl->getCmd() === "return") {
-                $this->ctrl->setCmd("");
+                //$this->ctrl->setCmd(null);    // this does not work anymore
+                $this->ctrl->redirectByClass($next_class, "");
             }
         }
 
@@ -233,7 +237,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    public function show() : void
+    public function show(): void
     {
         // normal command processing
         $this->ctrl->forwardCommand($this->gui_obj);
@@ -241,7 +245,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         $this->tpl->printToStdout();
     }
 
-    public function showRepTree() : void
+    public function showRepTree(): void
     {
         $exp = new ilRepositoryExplorerGUI($this, "showRepTree");
         // root node should be skipped, see #26787

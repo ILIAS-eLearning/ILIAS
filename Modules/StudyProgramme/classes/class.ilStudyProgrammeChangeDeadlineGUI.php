@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Input\Factory;
@@ -9,9 +25,9 @@ use ILIAS\UI\Renderer;
 
 class ilStudyProgrammeChangeDeadlineGUI
 {
-    const CMD_SHOW_DEADLINE_CONFIG = "showDeadlineConfig";
-    const CMD_CHANGE_DEADLINE = "changeDeadline";
-    const PROP_DEADLINE = "deadline";
+    private const CMD_SHOW_DEADLINE_CONFIG = "showDeadlineConfig";
+    private const CMD_CHANGE_DEADLINE = "changeDeadline";
+    private const PROP_DEADLINE = "deadline";
 
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
@@ -56,7 +72,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         $this->messages = $messages;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -75,7 +91,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         }
     }
 
-    protected function showDeadlineConfig() : void
+    protected function showDeadlineConfig(): void
     {
         $this->tpl->loadStandardTemplate();
         $this->ctrl->setParameter($this, 'prgrs_ids', implode(',', $this->getProgressIds()));
@@ -90,7 +106,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         $this->tpl->setContent($this->renderer->render($form));
     }
 
-    protected function buildForm(ilObjStudyProgramme $prg, string $submit_action) : Standard
+    protected function buildForm(ilObjStudyProgramme $prg, string $submit_action): Standard
     {
         $ff = $this->input_factory->field();
         $txt = function ($id) {
@@ -107,7 +123,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         );
     }
 
-    protected function getDeadlineSubForm(ilObjStudyProgramme $prg) : Input
+    protected function getDeadlineSubForm(ilObjStudyProgramme $prg): Input
     {
         $ff = $this->input_factory->field();
         $txt = function ($id) {
@@ -146,7 +162,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         $ff,
         Closure $txt,
         ilObjStudyProgramme $prg
-    ) : array {
+    ): array {
         return [
             $ff->section(
                 [
@@ -156,9 +172,11 @@ class ilStudyProgrammeChangeDeadlineGUI
                 ""
             )
         ];
+
+        return $return;
     }
 
-    protected function changeDeadline() : void
+    protected function changeDeadline(): void
     {
         $form = $this
             ->buildForm($this->getObject(), $this->ctrl->getFormAction($this, "changeDeadline"))
@@ -177,19 +195,18 @@ class ilStudyProgrammeChangeDeadlineGUI
             $deadline_type = $deadline_data[0];
             $deadline = null;
             if ($deadline_type === ilObjStudyProgrammeSettingsGUI::OPT_DEADLINE_DATE) {
-                $deadline = DateTimeImmutable::createFromFormat(
-                    'd.m.Y',
-                    array_shift($deadline_data[1])
-                );
+                $deadline = array_shift($deadline_data[1]);
 
                 if (!$deadline) {
                     $this->tpl->setOnScreenMessage("failure", $this->lng->txt('error_updating_deadline'), true);
+                    $this->ctrl->setParameter($this, 'prgrs_ids', implode(',', $this->getProgressIds()));
                     $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_DEADLINE_CONFIG);
                 }
             }
 
             foreach ($this->getProgressIds() as $progress_id) {
-                $programme->changeProgressDeadline($progress_id, $acting_usr_id, $msg_collection, $deadline);
+                $assignment_id = $progress_id->getAssignmentId();
+                $programme->changeProgressDeadline($assignment_id, $acting_usr_id, $msg_collection, $deadline);
             }
 
             $this->messages->showMessages($msg_collection);
@@ -197,40 +214,41 @@ class ilStudyProgrammeChangeDeadlineGUI
         }
 
         $this->tpl->setOnScreenMessage("failure", $this->lng->txt('error_updating_deadline'), true);
+        $this->ctrl->setParameter($this, 'prgrs_ids', implode(',', $this->getProgressIds()));
         $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_DEADLINE_CONFIG);
     }
 
-    protected function getBackTarget() : ?string
+    protected function getBackTarget(): ?string
     {
         return $this->back_target;
     }
 
-    public function setBackTarget(string $target) : void
+    public function setBackTarget(string $target): void
     {
         $this->back_target = $target;
     }
 
-    protected function getProgressIds() : array
+    protected function getProgressIds(): array
     {
         return $this->progress_ids;
     }
 
-    public function setProgressIds(array $progress_ids) : void
+    public function setProgressIds(array $progress_ids): void
     {
-        $this->progress_ids = array_map('intval', $progress_ids);
+        $this->progress_ids = $progress_ids;
     }
 
-    protected function getRefId() : ?int
+    protected function getRefId(): ?int
     {
         return $this->ref_id;
     }
 
-    public function setRefId(int $ref_id) : void
+    public function setRefId(int $ref_id): void
     {
         $this->ref_id = $ref_id;
     }
 
-    protected function getObject() : ilObjStudyProgramme
+    protected function getObject(): ilObjStudyProgramme
     {
         $ref_id = $this->getRefId();
         if (is_null($ref_id)) {
@@ -243,7 +261,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         return $this->object;
     }
 
-    protected function redirectToParent() : void
+    protected function redirectToParent(): void
     {
         $back_target = $this->getBackTarget();
         if (is_null($back_target)) {

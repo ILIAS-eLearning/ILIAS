@@ -1,8 +1,23 @@
 # Roadmap
 
+## Without Priority
+
+The following issues are mostly usability issues, that could be tackled as part of the ongoing PER project.
+- Action to edit translations is hard to find: https://mantis.ilias.de/view.php?id=33957
+- Creating instance link areas for new media objects is cumbersome, see [README.md](./README.md)
+
+
 ## Short Term
 
-### Page Editor Refactoring (ILIAS 7, at least partially)
+### Remove dependency to include/inc.xml5compliance.php
+
+Dom handling should be move to internal service, the dependency to include/inc.xml5compliance.php should be removed. More unit tests for dom transformations should be introduced.
+
+### Remove YUI and jQuery dependencies
+
+- Migrate from jQueryUI draggable to a non jQuery lib, e.g. https://shopify.github.io/draggable/ 
+
+### Continue Page Editor Refactoring (started with ILIAS 7)
 
 https://docu.ilias.de/goto_docu_wiki_wpage_6254_1357.html
 
@@ -33,7 +48,7 @@ See https://mantis.ilias.de/view.php?id=29680
 
 This code is copied from an older mediawiki version. I compares two versions of page HTML outputs and marks differences. The code should either be replaced by a lib that provides the same functionality, refactored and integrated into own code or at least replaced by an up-to-date code excerpt from mediawiki.
 
-### Lower Cyclomatic Complexity
+### Lower Cyclomatic Complexity (Ongoing)
 
 This component suffers from record high cyclomatic complexity numbers. Refactorings should target and split up methods and classes to gain better maintainability.
 
@@ -57,6 +72,15 @@ Cyclomatic Complexity
 ...
 ```
 
+### Refactor Update Listeners
+
+If i18n is enabled and a page is copied (e.g. because of a new translation), it is currently not possible to attach an update listener to that page. Because \ilPageObject::copyPageToTranslation statically creates a new instance for the copied page, listeners attached to the source page instance are not copied/executed on update. Of course just copying the update listeners is maybe not sufficient (because copying their arguments could create new issues).
+
+See also https://mantis.ilias.de/view.php?id=29057
+
+
+## Long Term
+
 ### Integration of new question service
 
 The new questions service should be integrated into the page editor. Especially the client side "self-assessment" player part should be implemented (and factored out into a separate component).
@@ -64,6 +88,28 @@ The new questions service should be integrated into the page editor. Especially 
 ### Refactor page question handling
 
 Note this is an older entry. Should be done with integration of the question service.
+
+#### Render page questions
+
+- ilPCQuestion::getJavascriptFiles loads
+  - ./Modules/Scorm2004/scripts/questions/pure.js 
+  - ./Modules/Scorm2004/scripts/questions/question_handling.js 
+  - Modules/TestQuestionPool/js/ilAssMultipleChoice.js
+  - Modules/TestQuestionPool/js/ilMatchingQuestion.js
+  - (./Services/COPage/js/ilCOPageQuestionHandler.js)
+- ilPCQuestion::getJSTextInitCode loads
+  - ilias.question.txt... strings
+- ilPCQuestion::getQuestionJsOfPage
+  - uses Services/COPage/templates/default/tpl.question_export.html
+  - returns basix HTML of question (qtitle content)
+  - adds function renderILQuestion<NR>
+    - this function is declared early here, BUT not called yet
+    - it contains jQuery('div#container{VAL_ID}').autoRender call (pure.js rendering)
+- ilPCQuestion::getOnloadCode
+  - adds calls for all renderers renderILQuestion<NR>
+  - inits question answers and callback
+
+#### Saving page questions
 
 Saving of page question answers is quite strange and includes dependencies to the SCORM component. This should be refactored.
 

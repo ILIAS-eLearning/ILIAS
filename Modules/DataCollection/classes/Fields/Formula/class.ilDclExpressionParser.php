@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclExpressionParser
@@ -7,25 +23,14 @@
  */
 class ilDclExpressionParser
 {
-    const N_DECIMALS = 1;
-    const SCIENTIFIC_NOTATION_UPPER = 1000000000000;
-    const SCIENTIFIC_NOTATION_LOWER = 0.000000001;
-    /**
-     * @var ilDclBaseRecordModel
-     */
-    protected $record;
-    /**
-     * @var ilDclBaseFieldModel
-     */
-    protected $field;
-    /**
-     * @var string
-     */
-    protected $expression;
-    /**
-     * @var array
-     */
-    protected static $operators
+    public const N_DECIMALS = 1;
+    public const SCIENTIFIC_NOTATION_UPPER = 1000000000000;
+    public const SCIENTIFIC_NOTATION_LOWER = 0.000000001;
+
+    protected ilDclBaseRecordModel $record;
+    protected ilDclBaseFieldModel $field;
+    protected string $expression;
+    protected static array $operators
         = array(
             '+' => array('precedence' => 1),
             '-' => array('precedence' => 1),
@@ -33,26 +38,11 @@ class ilDclExpressionParser
             '/' => array('precedence' => 2),
             '^' => array('precedence' => 3),
         );
-    /**
-     * @var array
-     */
-    protected static $cache_tokens = array();
-    /**
-     * @var array
-     */
-    protected static $cache_fields = array();
-    /**
-     * @var array
-     */
-    protected static $cache_math_tokens = array();
-    /**
-     * @var array
-     */
-    protected static $cache_math_function_tokens = array();
-    /**
-     * @var array
-     */
-    protected static $functions
+    protected static array $cache_tokens = array();
+    protected static array $cache_fields = array();
+    protected static array $cache_math_tokens = array();
+    protected static array $cache_math_function_tokens = array();
+    protected static array $functions
         = array(
             'SUM',
             'AVERAGE',
@@ -60,12 +50,7 @@ class ilDclExpressionParser
             'MAX',
         );
 
-    /**
-     * @param string               $expression
-     * @param ilDclBaseRecordModel $record
-     * @param ilDclBaseFieldModel  $field
-     */
-    public function __construct($expression, ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
+    public function __construct(string $expression, ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
         $this->expression = $expression;
         $this->record = $record;
@@ -76,10 +61,9 @@ class ilDclExpressionParser
      * Parse expression and return result.
      * This method loops the tokens and checks if Token is of type string or math. Concatenates results
      * to produce resulting string of parsed expression.
-     * @return string
      * @throws ilException
      */
-    public function parse()
+    public function parse(): string
     {
         if (isset(self::$cache_tokens[$this->field->getId()])) {
             $tokens = self::$cache_tokens[$this->field->getId()];
@@ -87,7 +71,6 @@ class ilDclExpressionParser
             $tokens = ilDclTokenizer::getTokens($this->expression);
             self::$cache_tokens[$this->field->getId()] = $tokens;
         }
-        //		        ilUtil::sendInfo( "<pre>" . print_r($tokens, 1) . "</pre>");
         $parsed = '';
         foreach ($tokens as $token) {
             if (empty($token)) {
@@ -117,8 +100,8 @@ class ilDclExpressionParser
     }
 
     /**
-     * @param $value
-     * @return string
+     * @param float|int $value
+     * @return string|int
      */
     protected function formatScientific($value)
     {
@@ -128,35 +111,23 @@ class ilDclExpressionParser
         if (abs($value) <= self::SCIENTIFIC_NOTATION_LOWER && $value != 0) {
             return sprintf("%e", $value);
         }
-        if (is_float($value)) {
-            return $value;
-        }
-
         return $value;
     }
 
-    /**
-     * @return array
-     */
-    public static function getOperators()
+    public static function getOperators(): array
     {
         return self::$operators;
     }
 
-    /**
-     * @return array
-     */
-    public static function getFunctions()
+    public static function getFunctions(): array
     {
         return self::$functions;
     }
 
     /**
      * Check if a given token is a math expression
-     * @param string $token
-     * @return bool
      */
-    protected function isMathToken($token)
+    protected function isMathToken(string $token): bool
     {
         if (isset(self::$cache_math_tokens[$this->field->getId()][$token])) {
             return self::$cache_math_tokens[$this->field->getId()][$token];
@@ -166,8 +137,10 @@ class ilDclExpressionParser
             }
             $operators = array_keys(self::getOperators());
             $functions = self::getFunctions();
-            $result = (bool) preg_match('#(\\' . implode("|\\", $operators) . '|' . implode('|', $functions) . ')#',
-                $token);
+            $result = (bool) preg_match(
+                '#(\\' . implode("|\\", $operators) . '|' . implode('|', $functions) . ')#',
+                $token
+            );
             self::$cache_math_tokens[$this->field->getId()][$token] = $result;
 
             return $result;
@@ -176,10 +149,8 @@ class ilDclExpressionParser
 
     /**
      * Execute any math functions inside a token
-     * @param string $token
-     * @return string
      */
-    protected function calculateFunctions($token)
+    protected function calculateFunctions(string $token): string
     {
         if (isset(self::$cache_math_function_tokens[$this->field->getId()][$token])) {
             $result = self::$cache_math_function_tokens[$this->field->getId()][$token];
@@ -211,11 +182,8 @@ class ilDclExpressionParser
 
     /**
      * Helper method to return the function and its arguments from a preg_replace_all $result array
-     * @param       $index
-     * @param array $data
-     * @return array
      */
-    protected function getFunctionArgs($index, array $data)
+    protected function getFunctionArgs(int $index, array $data): array
     {
         $return = array(
             'function' => '',
@@ -237,10 +205,8 @@ class ilDclExpressionParser
 
     /**
      * Given an array of tokens, replace each token that is a placeholder (e.g. [[Field name]]) with it's value
-     * @param array $tokens
-     * @return array
      */
-    protected function substituteFieldValues(array $tokens)
+    protected function substituteFieldValues(array $tokens): array
     {
         $replaced = array();
         foreach ($tokens as $token) {
@@ -256,11 +222,9 @@ class ilDclExpressionParser
 
     /**
      * Substitute field values in placehoders like [[Field Title]] from current record
-     * @param string $placeholder
-     * @return string
      * @throws ilException
      */
-    protected function substituteFieldValue($placeholder)
+    protected function substituteFieldValue(string $placeholder): string
     {
         if (isset(self::$cache_fields[$placeholder])) {
             $field = self::$cache_fields[$placeholder];
@@ -290,11 +254,9 @@ class ilDclExpressionParser
 
     /**
      * Parse a math expression
-     * @param array $tokens
-     * @return null
      * @throws Exception
      */
-    protected function parseMath(array $tokens)
+    protected function parseMath(array $tokens): ?string
     {
         $operators = self::$operators;
         $precedence = 0;
@@ -367,12 +329,10 @@ class ilDclExpressionParser
 
     /**
      * Calculate a function with its arguments
-     * @param       $function Function name to calculate
-     * @param array $args     Arguments of function
      * @return float|int|number
      * @throws ilException
      */
-    protected function calculateFunction($function, array $args = array())
+    protected function calculateFunction(string $function, array $args = array())
     {
         switch ($function) {
             case 'AVERAGE':
@@ -391,13 +351,13 @@ class ilDclExpressionParser
     }
 
     /**
-     * @param string $operator
-     * @param float  $left
-     * @param float  $right
-     * @return float|number
+     * @param string    $operator
+     * @param float|int $left
+     * @param float|int $right
+     * @return float|int
      * @throws ilException
      */
-    protected function calculate($operator, $left, $right)
+    protected function calculate(string $operator, $left, $right)
     {
         switch ($operator) {
             case '+':

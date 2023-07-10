@@ -1,24 +1,29 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilWebDAVMountInstructionsDocumentPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
     private array $allowedTags;
     protected string $cacheDirectory;
-    
+
     public function __construct(array $allowedTags = null, string $cacheDirectory = null)
     {
         $this->cacheDirectory = $cacheDirectory ?? ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory();
@@ -26,8 +31,8 @@ class ilWebDAVMountInstructionsDocumentPurifier extends ilHtmlPurifierAbstractLi
 
         parent::__construct();
     }
-    
-    protected function getPurifierConfigInstance() : HTMLPurifier_Config
+
+    protected function getPurifierConfigInstance(): HTMLPurifier_Config
     {
         $config = HTMLPurifier_Config::createDefault();
         $config->set('HTML.DefinitionID', 'ilias termsofservice document');

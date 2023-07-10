@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Style\Content\Object\ObjectManager;
 use ILIAS\Style\Content\Container\ContainerManager;
@@ -54,7 +59,7 @@ class ilObjectContentStyleSettingsGUI
         $this->current_style_id = $current_style_id ?? $this->object_manager->getStyleId();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->gui->ctrl();
 
@@ -62,7 +67,6 @@ class ilObjectContentStyleSettingsGUI
         $cmd = $ctrl->getCmd("settings");
 
         switch ($next_class) {
-
             case "ilobjstylesheetgui":
                 $this->gui->tabs()->clearTargets();
                 $ctrl->setReturn($this, "settings");
@@ -84,7 +88,7 @@ class ilObjectContentStyleSettingsGUI
         }
     }
 
-    protected function settings() : void
+    protected function settings(): void
     {
         $mt = $this->gui->mainTemplate();
         $form = $this->initStylePropertiesForm();
@@ -96,7 +100,7 @@ class ilObjectContentStyleSettingsGUI
     /**
      * Init style properties form
      */
-    public function initStylePropertiesForm() : ilPropertyFormGUI
+    public function initStylePropertiesForm(): ilPropertyFormGUI
     {
         $ilCtrl = $this->gui->ctrl();
         $lng = $this->domain->lng();
@@ -105,7 +109,6 @@ class ilObjectContentStyleSettingsGUI
         $mt = $this->gui->mainTemplate();
 
         $style_id = $this->current_style_id;
-
         /*
         if (ilObject::_lookupType($style_id) == "sty") {
             $page_gui->setStyleId($style_id);
@@ -185,7 +188,7 @@ class ilObjectContentStyleSettingsGUI
         return $form;
     }
 
-    protected function isContainer() : bool
+    protected function isContainer(): bool
     {
         if ($this->ref_id > 0) {
             $type = ilObject::_lookupType($this->ref_id, true);
@@ -208,6 +211,7 @@ class ilObjectContentStyleSettingsGUI
         );
         $style_id = $ctrl->forwardCommand($style_gui);
         if (in_array($cmd, ["save", "copyStyle", "importStyle", "confirmedDelete"])) {
+            $style_id = $style_gui->getObject()->getId();
             if ($cmd == "confirmedDelete") {
                 $style_id = 0;
             } else {
@@ -218,29 +222,29 @@ class ilObjectContentStyleSettingsGUI
         }
     }
 
-    protected function updateStyleId(int $style_id) : void
+    protected function updateStyleId(int $style_id): void
     {
         $this->object_manager->updateStyleId($style_id);
     }
 
-    protected function setOwnerId(int $style_id) : void
+    protected function setOwnerId(int $style_id): void
     {
         $this->object_manager->setOwnerOfStyle($style_id);
     }
 
-    public function createStyle() : void
+    public function createStyle(): void
     {
         $ctrl = $this->gui->ctrl();
         $ctrl->redirectByClass("ilobjstylesheetgui", "create");
     }
 
-    public function editStyle() : void
+    public function editStyle(): void
     {
         $ctrl = $this->gui->ctrl();
         $ctrl->redirectByClass("ilobjstylesheetgui", "edit");
     }
 
-    public function deleteStyle() : void
+    public function deleteStyle(): void
     {
         $ctrl = $this->gui->ctrl();
         $ctrl->redirectByClass("ilobjstylesheetgui", "delete");
@@ -249,7 +253,7 @@ class ilObjectContentStyleSettingsGUI
     /**
      * Save style settings
      */
-    protected function saveStyleSettings() : void
+    protected function saveStyleSettings(): void
     {
         $settings = $this->domain->settings();
         $lng = $this->domain->lng();
@@ -267,7 +271,7 @@ class ilObjectContentStyleSettingsGUI
         $ctrl->redirect($this, "settings");
     }
 
-    protected function saveIndividualStyleSettings() : void
+    protected function saveIndividualStyleSettings(): void
     {
         $lng = $this->domain->lng();
         $ctrl = $this->gui->ctrl();
@@ -275,7 +279,7 @@ class ilObjectContentStyleSettingsGUI
         $form = $this->initStylePropertiesForm();
         $form->checkInput();
         if ($this->isContainer()) {
-            $this->container_manager->saveReuse($form->getInput("support_reuse"));
+            $this->container_manager->saveReuse((bool) $form->getInput("support_reuse"));
             $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ctrl->redirect($this, "settings");

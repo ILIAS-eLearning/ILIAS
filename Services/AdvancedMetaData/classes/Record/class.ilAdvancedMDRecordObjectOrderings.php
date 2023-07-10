@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -20,7 +22,7 @@ class ilAdvancedMDRecordObjectOrderings
     /**
      * Delete entries by obj_id
      */
-    public function deleteByObjId(int $obj_id) : void
+    public function deleteByObjId(int $obj_id): void
     {
         $query = 'DELETE FROM adv_md_record_obj_ord ' .
             'WHERE obj_id = ' . $this->db->quote($obj_id, 'integer');
@@ -32,7 +34,7 @@ class ilAdvancedMDRecordObjectOrderings
      * @param ?int                 $obj_id
      * @return ilAdvancedMDRecord[]
      */
-    public function sortRecords(array $records, int $obj_id = null) : array
+    public function sortRecords(array $records, int $obj_id = null): array
     {
         // if local custom meta is not enabled use global sorting
         $use_global = true;
@@ -72,7 +74,7 @@ class ilAdvancedMDRecordObjectOrderings
      * @param ilAdvancedMDRecord $b
      * @return int
      */
-    public function compareRecords(ilAdvancedMDRecord $a, ilAdvancedMDRecord $b) : int
+    public function compareRecords(ilAdvancedMDRecord $a, ilAdvancedMDRecord $b): int
     {
         if ($a->getGlobalPosition() == null) {
             $a->setGlobalPosition(999);
@@ -95,7 +97,7 @@ class ilAdvancedMDRecordObjectOrderings
      * @param ilAdvancedMDRecord $b
      * @return int
      */
-    public function compareLocalRecords(ilAdvancedMDRecord $a, ilAdvancedMDRecord $b) : int
+    public function compareLocalRecords(ilAdvancedMDRecord $a, ilAdvancedMDRecord $b): int
     {
         $local_pos_a = $this->record_position_map[$a->getRecordId()] ??
             ($a->getGlobalPosition() ?: 999);
@@ -113,7 +115,7 @@ class ilAdvancedMDRecordObjectOrderings
     /**
      * Read local positions for object
      */
-    protected function readPositionsForObject(int $obj_id) : void
+    protected function readPositionsForObject(int $obj_id): void
     {
         $query = 'SELECT record_id, position FROM adv_md_record_obj_ord ' .
             'WHERE obj_id = ' . $this->db->quote($obj_id, 'integer');

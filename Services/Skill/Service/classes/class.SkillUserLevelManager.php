@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,23 +27,20 @@ namespace ILIAS\Skill\Service;
  */
 class SkillUserLevelManager
 {
-    protected \ilBasicSkillLevelRepository $level_repo;
-    protected \ilBasicSkillUserLevelRepository $user_level_repo;
+    protected \ilSkillLevelRepository $level_repo;
+    protected \ilSkillUserLevelRepository $user_level_repo;
     protected \ilSkillObjectAdapterInterface $obj_adapter;
 
     public function __construct(
-        ?\ilBasicSkillLevelRepository $a_level_repo = null,
-        ?\ilBasicSkillUserLevelRepository $a_user_level_repo = null,
-        ?\ilSkillObjectAdapterInterface $a_obj_adapter = null
+        \ilSkillLevelRepository $a_level_repo = null,
+        \ilSkillUserLevelRepository $a_user_level_repo = null,
+        \ilSkillObjectAdapterInterface $a_obj_adapter = null
     ) {
         global $DIC;
 
-        $this->level_repo = ($a_level_repo)
-            ?: $DIC->skills()->internal()->repo()->getLevelRepo();
-        $this->user_level_repo = ($a_user_level_repo)
-            ?: $DIC->skills()->internal()->repo()->getUserLevelRepo();
-        $this->obj_adapter = ($a_obj_adapter)
-            ?: new \ilSkillObjectAdapter();
+        $this->level_repo = ($a_level_repo) ?: $DIC->skills()->internal()->repo()->getLevelRepo();
+        $this->user_level_repo = ($a_user_level_repo) ?: $DIC->skills()->internal()->repo()->getUserLevelRepo();
+        $this->obj_adapter = ($a_obj_adapter) ?: new \ilSkillObjectAdapter();
     }
 
     public function writeSkillLevel(
@@ -52,7 +51,7 @@ class SkillUserLevelManager
         bool $a_self_eval,
         string $a_unique_identifier,
         float $a_next_level_fulfilment
-    ) : void {
+    ): void {
         $skill_id = $this->level_repo->lookupLevelSkillId($a_level_id);
         $trigger_ref_id = $a_trigger_ref_id;
         $trigger_obj_id = $this->obj_adapter->getObjIdForRefId($trigger_ref_id);

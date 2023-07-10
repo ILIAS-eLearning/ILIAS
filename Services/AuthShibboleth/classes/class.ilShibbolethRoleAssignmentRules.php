@@ -29,7 +29,7 @@ class ilShibbolethRoleAssignmentRules
     /**
      * @return array<int|string, \ilShibbolethRoleAssignmentRule>
      */
-    public static function getAllRules() : array
+    public static function getAllRules(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -46,7 +46,7 @@ class ilShibbolethRoleAssignmentRules
         return $rules;
     }
 
-    public static function getCountRules() : int
+    public static function getCountRules(): int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -56,7 +56,7 @@ class ilShibbolethRoleAssignmentRules
         return (int) ($row->num ?? 0);
     }
 
-    public static function updateAssignments(int $a_usr_id, array $a_data) : bool
+    public static function updateAssignments(int $a_usr_id, array $a_data): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -88,7 +88,7 @@ class ilShibbolethRoleAssignmentRules
         return true;
     }
 
-    public static function doAssignments(int $a_usr_id, array $a_data) : bool
+    public static function doAssignments(int $a_usr_id, array $a_data): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -116,7 +116,7 @@ class ilShibbolethRoleAssignmentRules
         return true;
     }
 
-    public static function callPlugin(string $a_plugin_id, array $a_user_data) : bool
+    public static function callPlugin(string $a_plugin_id, array $a_user_data): bool
     {
         global $DIC;
         foreach ($DIC['component.factory']->getActivePluginsInSlot('shibhk') as $plugin) {

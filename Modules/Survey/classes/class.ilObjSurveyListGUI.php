@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjSurveyListGUI
@@ -35,7 +38,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -51,7 +54,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
     }
 
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $lng = $this->lng;
         $ilUser = $this->user;
@@ -64,7 +67,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
         }
 
         $props = parent::getProperties();
-        
+
         if (!ilObject::lookupOfflineStatus($this->obj_id)) {
             // BEGIN Usability Distinguish between status and participation
             if (!ilObjSurveyAccess::_lookupCreationComplete($this->obj_id)) {
@@ -106,9 +109,24 @@ class ilObjSurveyListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
-        return "ilias.php?baseClass=ilObjSurveyGUI&amp;ref_id=" . $this->ref_id .
+        $link = "ilias.php?baseClass=ilObjSurveyGUI&amp;ref_id=" . $this->ref_id .
             "&amp;cmd=$cmd";
+
+        $this->ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $this->ref_id);
+        if ($cmd === "questions") {
+            $link = $this->ctrl->getLinkTargetByClass(
+                [
+                "ilObjSurveyGUI", "ilSurveyEditorGUI", "ilSurveyPageEditGUI"],
+                "renderPage"
+            );
+        }
+        $this->ctrl->setParameterByClass(
+            "ilObjSurveyGUI",
+            "ref_id",
+            $this->requested_ref_id
+        );
+        return $link;
     }
 }

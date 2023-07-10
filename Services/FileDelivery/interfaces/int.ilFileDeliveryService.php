@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\FileDelivery;
@@ -28,20 +29,20 @@ interface ilFileDeliveryService
         ?string $download_file_name = null,
         ?string $mime_type = null,
         bool $delete_file = false
-    ) : void;
+    ): void;
 
     public static function streamVideoInline(
         string $path_to_file,
         ?string $download_file_name = null
-    ) : void;
+    ): void;
 
     public static function deliverFileInline(
         string $path_to_file,
         ?string $download_file_name = null
-    ) : void;
+    ): void;
 
     /**
      * Converts a UTF-8 filename to ASCII
      */
-    public static function returnASCIIFileName(string $original_filename) : string;
+    public static function returnASCIIFileName(string $original_filename): string;
 }

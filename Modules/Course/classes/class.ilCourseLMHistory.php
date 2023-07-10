@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * class ilCourseLMHistory
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -37,17 +39,17 @@ class ilCourseLMHistory
         $this->user_id = $user_id;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function getCourseRefId() : int
+    public function getCourseRefId(): int
     {
         return $this->course_id;
     }
 
-    public static function _updateLastAccess(int $a_user_id, int $a_lm_ref_id, int $a_page_id) : bool
+    public static function _updateLastAccess(int $a_user_id, int $a_lm_ref_id, int $a_page_id): bool
     {
         global $DIC;
 
@@ -74,7 +76,7 @@ class ilCourseLMHistory
         return true;
     }
 
-    public function getLastLM() : int
+    public function getLastLM(): int
     {
         $query = "SELECT * FROM crs_lm_history " .
             "WHERE usr_id = " . $this->db->quote($this->getUserId(), 'integer') . " " .
@@ -88,7 +90,7 @@ class ilCourseLMHistory
         return 0;
     }
 
-    public function getLMHistory() : array
+    public function getLMHistory(): array
     {
         $query = "SELECT * FROM crs_lm_history " .
             "WHERE usr_id = " . $this->db->quote($this->getUserId(), 'integer') . " " .
@@ -104,7 +106,7 @@ class ilCourseLMHistory
         return $lm;
     }
 
-    public static function _deleteUser(int $a_usr_id) : void
+    public static function _deleteUser(int $a_usr_id): void
     {
         global $DIC;
 

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Dependencies\DependencyMap;
 
 use ILIAS\BackgroundTasks\Dependencies\Exceptions\NoSuchServiceException;
@@ -29,7 +29,7 @@ use ILIAS\DI\Container;
 class EmptyDependencyMap implements DependencyMap
 {
     protected array $maps = [];
-    
+
     /**
      * @inheritdoc
      */
@@ -42,20 +42,20 @@ class EmptyDependencyMap implements DependencyMap
             return $this->getDependency($DIC, $fullyQualifiedDomainName, $for);
         }
     }
-    
+
     /**
      * Returns a new dependency map with the given mapping. The newer mapping always comes first!
      * @param callable $map (Container $DIC, string $fullyQualifiedDomainName, string $for) =>
      *                      mixed|null
      */
-    public function with(callable $map) : DependencyMap
+    public function with(callable $map): DependencyMap
     {
         $dependency_map = new static();
         $dependency_map->maps = array_merge([$map], $this->maps);
-        
+
         return $dependency_map;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -67,7 +67,7 @@ class EmptyDependencyMap implements DependencyMap
                 return $result;
             }
         }
-        
+
         throw new NoSuchServiceException("The requested service " . $fullyQualifiedDomainName
             . " could not be resolved.");
     }

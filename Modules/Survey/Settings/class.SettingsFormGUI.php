@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Settings;
 
@@ -26,7 +31,7 @@ use ILIAS\Survey\InternalDomainService;
 class SettingsFormGUI
 {
     protected InternalGUIService $ui_service;
-    protected \ilObjectServiceInterface $object_service;
+    protected \ilObjectService $object_service;
     protected \ilObjSurvey $survey;
     protected UIModifier $modifier;
     protected InternalDomainService $domain_service;
@@ -37,7 +42,7 @@ class SettingsFormGUI
     public function __construct(
         InternalGUIService $ui_service,
         InternalDomainService $domain_service,
-        \ilObjectServiceInterface $object_service,
+        \ilObjectService $object_service,
         \ilObjSurvey $survey,
         UIModifier $modifier
     ) {
@@ -54,7 +59,7 @@ class SettingsFormGUI
         $this->feature_config = $this->domain_service->modeFeatureConfig($survey->getMode());
     }
 
-    public function checkForm(\ilPropertyFormGUI $form) : bool
+    public function checkForm(\ilPropertyFormGUI $form): bool
     {
         $feature_config = $this->feature_config;
         $lng = $this->ui_service->lng();
@@ -100,7 +105,7 @@ class SettingsFormGUI
      * @param \ilPropertyFormGUI $form
      * @return array
      */
-    protected function getTutorIdsFromForm(\ilPropertyFormGUI $form) : array
+    protected function getTutorIdsFromForm(\ilPropertyFormGUI $form): array
     {
         $rbacsystem = $this->rbacsystem;
         $survey = $this->survey;
@@ -120,7 +125,7 @@ class SettingsFormGUI
      * @param \ilPropertyFormGUI $form
      * @return array
      */
-    protected function getTutorResIdsFromForm(\ilPropertyFormGUI $form) : array
+    protected function getTutorResIdsFromForm(\ilPropertyFormGUI $form): array
     {
         $rbacsystem = $this->rbacsystem;
         $survey = $this->survey;
@@ -142,7 +147,7 @@ class SettingsFormGUI
      */
     public function getForm(
         string $target_class
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $ctrl = $this->ui_service->ctrl();
         $lng = $this->ui_service->lng();
 
@@ -173,7 +178,7 @@ class SettingsFormGUI
      */
     public function withGeneral(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
         $feature_config = $this->feature_config;
@@ -210,7 +215,7 @@ class SettingsFormGUI
         $opt = new \ilRadioOption($lng->txt("survey_question_pool_usage_inactive"), "0");
         $opt->setInfo($lng->txt("survey_question_pool_usage_inactive_info"));
         $pool_usage->addOption($opt);
-        $pool_usage->setValue((string) $survey->getPoolUsage());
+        $pool_usage->setValue((string) (int) $survey->getPoolUsage());
         $form->addItem($pool_usage);
 
         if ($feature_config->usesAppraisees()) {
@@ -237,7 +242,7 @@ class SettingsFormGUI
      */
     public function withActivation(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $lng = $this->ui_service->lng();
         $survey = $this->survey;
 
@@ -285,7 +290,7 @@ class SettingsFormGUI
      */
     public function withPresentation(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $obj_service = $this->object_service;
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
@@ -306,7 +311,7 @@ class SettingsFormGUI
      */
     public function withBeforeStart(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
 
@@ -319,13 +324,15 @@ class SettingsFormGUI
         $intro->setValue($survey->prepareTextareaOutput($survey->getIntroduction()));
         $intro->setRows(10);
         $intro->setCols(80);
-        $intro->setUseRte(true);
         $intro->setInfo($lng->txt("survey_introduction_info"));
-        $intro->setRteTags(\ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-        $intro->addPlugin("latex");
-        $intro->addButton("latex");
-        $intro->addButton("pastelatex");
-        $intro->setRTESupport($survey->getId(), "svy", "survey", null);
+        if (\ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+            $intro->setUseRte(true);
+            $intro->setRteTags(\ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
+            $intro->addPlugin("latex");
+            $intro->addButton("latex");
+            $intro->addButton("pastelatex");
+            $intro->setRTESupport($survey->getId(), "svy", "survey", null);
+        }
         $form->addItem($intro);
 
         return $form;
@@ -336,7 +343,7 @@ class SettingsFormGUI
      */
     public function withAccess(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
         $feature_config = $this->feature_config;
@@ -387,7 +394,7 @@ class SettingsFormGUI
      */
     public function withQuestionBehaviour(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
 
@@ -412,7 +419,7 @@ class SettingsFormGUI
     public function withAfterEnd(
         \ilPropertyFormGUI $form,
         string $target_class
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
         $feature_config = $this->feature_config;
@@ -445,12 +452,14 @@ class SettingsFormGUI
         $finalstatement->setValue($survey->prepareTextareaOutput($survey->getOutro()));
         $finalstatement->setRows(10);
         $finalstatement->setCols(80);
-        $finalstatement->setUseRte(true);
-        $finalstatement->setRteTags(\ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-        $finalstatement->addPlugin("latex");
-        $finalstatement->addButton("latex");
-        $finalstatement->addButton("pastelatex");
-        $finalstatement->setRTESupport($survey->getId(), "svy", "survey", null);
+        if (\ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+            $finalstatement->setUseRte(true);
+            $finalstatement->setRteTags(\ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
+            $finalstatement->addPlugin("latex");
+            $finalstatement->addButton("latex");
+            $finalstatement->addButton("pastelatex");
+            $finalstatement->setRTESupport($survey->getId(), "svy", "survey", null);
+        }
         $form->addItem($finalstatement);
 
         // mail notification
@@ -498,7 +507,7 @@ class SettingsFormGUI
         if ($feature_config->supportsTutorNotification()) {
             $num_inv = count($invitation_manager->getAllForSurvey($survey->getSurveyId()));
 
-            // notification
+            // notification, if "all participants" have finished the survey
             $tut = new \ilCheckboxInputGUI($lng->txt("survey_notification_tutor_setting"), "tut");
             $tut->setChecked($survey->getTutorNotificationStatus());
             $form->addItem($tut);
@@ -521,11 +530,13 @@ class SettingsFormGUI
             $tut_ids->setValue(array_shift($tut_logins));
             $tut->addSubItem($tut_ids);
 
+            // radio to define who are "all participants"
             $tut_grp = new \ilRadioGroupInputGUI($lng->txt("survey_notification_target_group"), "tut_grp");
             $tut_grp->setRequired(true);
             $tut_grp->setValue((string) $survey->getTutorNotificationTarget());
             $tut->addSubItem($tut_grp);
 
+            // (a) ... the member of the parent group or course
             $tut_grp_crs = new \ilRadioOption(
                 $lng->txt("survey_notification_target_group_parent_course"),
                 (string) \ilObjSurvey::NOTIFICATION_PARENT_COURSE
@@ -540,6 +551,7 @@ class SettingsFormGUI
             }
             $tut_grp->addOption($tut_grp_crs);
 
+            // (b) ... all invited users
             $tut_grp_inv = new \ilRadioOption(
                 $lng->txt("survey_notification_target_group_invited"),
                 (string) \ilObjSurvey::NOTIFICATION_INVITED_USERS
@@ -585,7 +597,7 @@ class SettingsFormGUI
     /**
      * Check for group course parent
      */
-    protected function hasGroupCourseParent() : bool
+    protected function hasGroupCourseParent(): bool
     {
         $survey = $this->survey;
 
@@ -602,7 +614,7 @@ class SettingsFormGUI
      */
     public function withReminders(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
         $feature_config = $this->feature_config;
@@ -675,7 +687,7 @@ class SettingsFormGUI
                 $rmdt->setRequired(true);
                 $rmdt->addOption(new \ilRadioOption($lng->txt("svy_reminder_mail_template_none"), "-1"));
                 foreach ($mtmpl as $mtmpl_id => $mtmpl_caption) {
-                    $option = new \ilRadioOption($mtmpl_caption, $mtmpl_id);
+                    $option = new \ilRadioOption($mtmpl_caption, (string) $mtmpl_id);
                     $rmdt->addOption($option);
                 }
 
@@ -703,7 +715,7 @@ class SettingsFormGUI
      */
     public function withResults(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $lng = $this->ui_service->lng();
         $survey = $this->survey;
         $feature_config = $this->feature_config;
@@ -738,7 +750,7 @@ class SettingsFormGUI
      */
     public function withOther(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $lng = $this->ui_service->lng();
         $survey = $this->survey;
         $feature_config = $this->feature_config;
@@ -787,7 +799,7 @@ class SettingsFormGUI
 
     public function saveForm(
         \ilPropertyFormGUI $form
-    ) : void {
+    ): void {
         $survey = $this->survey;
         $feature_config = $this->feature_config;
         $obj_service = $this->object_service;
@@ -804,25 +816,24 @@ class SettingsFormGUI
             $survey->setReminderStatus(true);
             $survey->setReminderStart($rmd_start);
             $survey->setReminderEnd($rmd_end);
-            $survey->setReminderFrequency($form->getInput("rmd_freq"));
+            $survey->setReminderFrequency((int) $form->getInput("rmd_freq"));
             if ($feature_config->supportsMemberReminder()) {
-                $survey->setReminderTarget($form->getInput("rmd_grp"));
+                $survey->setReminderTarget((int) $form->getInput("rmd_grp"));
                 $survey->setReminderTemplate(($form->getInput("rmdt") > 0)
-                    ? $form->getInput("rmdt")
+                    ? (int) $form->getInput("rmdt")
                     : null);
             }
         } else {
             $survey->setReminderStatus(false);
         }
 
-        if (!$feature_config->supportsTutorNotification()) {
-
+        if ($feature_config->supportsTutorNotification()) {
             // "one mail after all participants finished"
             if ($form->getInput("tut")) {
                 $tut_ids = $this->getTutorIdsFromForm($form);
                 $survey->setTutorNotificationStatus(true);
                 $survey->setTutorNotificationRecipients($tut_ids); // see above
-                $survey->setTutorNotificationTarget($form->getInput("tut_grp"));
+                $survey->setTutorNotificationTarget((int) $form->getInput("tut_grp"));
             } else {
                 $survey->setTutorNotificationStatus(false);
             }
@@ -857,7 +868,7 @@ class SettingsFormGUI
         $period = $form->getItemByPostVar("access_period");
         if ($period->getStart() && $period->getEnd()) {
             $survey->setActivationLimited(true);
-            $survey->setActivationVisibility($form->getInput("access_visiblity"));
+            $survey->setActivationVisibility((bool) $form->getInput("access_visiblity"));
             $survey->setActivationStartDate($period->getStart()->get(IL_CAL_UNIX));
             $survey->setActivationEndDate($period->getEnd()->get(IL_CAL_UNIX));
         } else {

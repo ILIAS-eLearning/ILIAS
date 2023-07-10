@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Taxonomy node
@@ -14,6 +28,7 @@ class ilTaxonomyNode
     public string $title;
     protected int $order_nr = 0;
     protected int $taxonomy_id;
+    protected ?array $data_record = null;
 
     /**
      * Constructor
@@ -33,57 +48,57 @@ class ilTaxonomyNode
         $this->setType("taxn");
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setType(string $a_type) : void
+    public function setType(string $a_type): void
     {
         $this->type = $a_type;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setId(int $a_id) : void
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setOrderNr(int $a_val) : void
+    public function setOrderNr(int $a_val): void
     {
         $this->order_nr = $a_val;
     }
 
-    public function getOrderNr() : int
+    public function getOrderNr(): int
     {
         return $this->order_nr;
     }
 
-    public function setTaxonomyId(int $a_val) : void
+    public function setTaxonomyId(int $a_val): void
     {
         $this->taxonomy_id = $a_val;
     }
 
-    public function getTaxonomyId() : int
+    public function getTaxonomyId(): int
     {
         return $this->taxonomy_id;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $ilDB = $this->db;
 
@@ -99,7 +114,7 @@ class ilTaxonomyNode
         $this->setTaxonomyId((int) $this->data_record["tax_id"]);
     }
 
-    public function create() : void
+    public function create(): void
     {
         $ilDB = $this->db;
 
@@ -122,7 +137,7 @@ class ilTaxonomyNode
         $this->setId($id);
     }
 
-    public function update() : void
+    public function update(): void
     {
         $ilDB = $this->db;
 
@@ -134,7 +149,7 @@ class ilTaxonomyNode
         $ilDB->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $ilDB = $this->db;
 
@@ -146,7 +161,7 @@ class ilTaxonomyNode
         $ilDB->manipulate($query);
     }
 
-    public function copy(int $a_tax_id = 0) : ilTaxonomyNode
+    public function copy(int $a_tax_id = 0): ilTaxonomyNode
     {
         $taxn = new ilTaxonomyNode();
         $taxn->setTitle($this->getTitle());
@@ -163,7 +178,7 @@ class ilTaxonomyNode
         return $taxn;
     }
 
-    protected static function _lookup(int $a_obj_id, string $a_field) : string
+    protected static function _lookup(int $a_obj_id, string $a_field): string
     {
         global $DIC;
 
@@ -172,12 +187,13 @@ class ilTaxonomyNode
         $query = "SELECT $a_field FROM tax_node WHERE obj_id = " .
             $ilDB->quote($a_obj_id, "integer");
         $obj_set = $ilDB->query($query);
-        $obj_rec = $ilDB->fetchAssoc($obj_set);
-
-        return $obj_rec[$a_field];
+        if ($obj_rec = $ilDB->fetchAssoc($obj_set)) {
+            return $obj_rec[$a_field];
+        }
+        return "";
     }
 
-    public static function _lookupTitle(int $a_obj_id) : string
+    public static function _lookupTitle(int $a_obj_id): string
     {
         return self::_lookup($a_obj_id, "title");
     }
@@ -188,7 +204,7 @@ class ilTaxonomyNode
         int $a_parent_id = 0,
         int $a_target_node_id = 0,
         int $a_order_nr = 0
-    ) : void {
+    ): void {
         $tax_tree = new ilTaxonomyTree($a_tax_id);
 
         // determine parent
@@ -216,7 +232,7 @@ class ilTaxonomyNode
     }
 
     // Write order nr
-    public static function writeOrderNr(int $a_node_id, int $a_order_nr) : void
+    public static function writeOrderNr(int $a_node_id, int $a_order_nr): void
     {
         global $DIC;
 
@@ -232,7 +248,7 @@ class ilTaxonomyNode
     /**
      * Write title
      */
-    public static function writeTitle(int $a_node_id, string $a_title) : void
+    public static function writeTitle(int $a_node_id, string $a_title): void
     {
         global $DIC;
 
@@ -248,7 +264,7 @@ class ilTaxonomyNode
     /**
      * Put this node into the taxonomy tree
      */
-    public static function getNextOrderNr(int $a_tax_id, int $a_parent_id) : int
+    public static function getNextOrderNr(int $a_tax_id, int $a_parent_id): int
     {
         $tax_tree = new ilTaxonomyTree($a_tax_id);
         if ($a_parent_id == 0) {
@@ -267,7 +283,7 @@ class ilTaxonomyNode
     }
 
     // set order nrs to 10, 20, ...
-    public static function fixOrderNumbers(int $a_tax_id, int $a_parent_id) : void
+    public static function fixOrderNumbers(int $a_tax_id, int $a_parent_id): void
     {
         $tax_tree = new ilTaxonomyTree($a_tax_id);
         if ($a_parent_id == 0) {

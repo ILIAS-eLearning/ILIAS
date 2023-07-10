@@ -1,0 +1,62 @@
+@use "../../../010-settings/" as *;
+
+/* Services/Object */
+
+div.ilCreationFormSection {
+	//width: 700px;
+}
+
+div.ilCreationFormSection div.ilForm {
+	//width: 699px;
+}
+
+div.ilCreationFormSection div.ilForm div.ilForm {
+	//width: auto;
+}
+
+.ilHeadAction img {
+	width: 18px;
+	height: 18px;
+}
+
+
+.il_ItemProperty .badge{
+	font-size: $il-font-size-xsmall;
+	padding: 2px 4px;
+	margin-top: -1px;
+	margin-left: -5px;
+	position: absolute;
+}
+
+div.ilCreationFormSection .form-horizontal {
+	margin-top: -1px;
+	padding-top: 1px;
+}
+
+.ilObjListRow {
+	border-bottom: $il-main-border;
+	background-color: $il-main-bg;
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+//mantis #0017866
+.table-striped {
+    border-collapse: separate;
+    > tbody > tr.ilObjListRow {
+        > td {
+            background-color: $il-main-bg;
+        }
+        &:hover {
+            > td {
+                background-color: lighten($il-highlight-bg, 5%);
+            }
+            &:nth-child(2n+1) {
+                > td {
+                    background-color: lighten($il-highlight-bg, 5%);
+                }
+            }
+        }
+    }
+}

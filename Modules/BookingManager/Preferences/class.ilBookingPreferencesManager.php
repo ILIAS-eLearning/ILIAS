@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Booking preferences business logic
@@ -47,7 +46,7 @@ class ilBookingPreferencesManager
     /**
      * Can participants hand in preferences
      */
-    public function isGivingPreferencesPossible() : bool
+    public function isGivingPreferencesPossible(): bool
     {
         return $this->pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES &&
             $this->pool->getPreferenceDeadline() > $this->current_time;
@@ -56,7 +55,7 @@ class ilBookingPreferencesManager
     /**
      * Can participants hand in preferences
      */
-    public function isPreferenceDeadlineReached() : bool
+    public function isPreferenceDeadlineReached(): bool
     {
         return $this->pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES &&
             $this->pool->getPreferenceDeadline() < $this->current_time;
@@ -72,7 +71,7 @@ class ilBookingPreferencesManager
     public function storeBookings(
         ilBookingPreferences $preferences,
         ?array $booking_object_ids = null
-    ) : void {
+    ): void {
         $bookings = $this->calculateBookings($preferences, $booking_object_ids);
         $this->book_repo->storeBookings($this->pool->getId(), $bookings);
     }
@@ -80,7 +79,7 @@ class ilBookingPreferencesManager
     /**
      * @return int[][]
      */
-    public function readBookings() : array
+    public function readBookings(): array
     {
         $booking_object_ids = array_map(static function ($i) {
             return $i["booking_object_id"];
@@ -97,7 +96,7 @@ class ilBookingPreferencesManager
         ilBookingPreferences $preferences,
         ?array $booking_object_ids = null,
         ?array $availability = null
-    ) : array {
+    ): array {
         $preferences = $preferences->getPreferences();
 
         // we calculate if a) any preferences are given and b) the deadline is reached
@@ -137,7 +136,6 @@ class ilBookingPreferencesManager
         // phase one: assign lowest popular items to random user
         while (!$end_phase_one) {
             $popularity = $this->calculatePopularity($booking_object_ids, $preferences);
-
             $low_pop_book_obj_id = $this->getObjectWithLowestPopularity($popularity, $availability);
             if ($low_pop_book_obj_id > 0) {
                 $user_ids = $this->getUsersForObject($preferences, $low_pop_book_obj_id);
@@ -175,7 +173,7 @@ class ilBookingPreferencesManager
         array &$availability,
         int $user_id,
         int $book_obj_id
-    ) : void {
+    ): void {
         $bookings[$user_id][] = $book_obj_id;
         $availability[$book_obj_id]--;
         if (count($bookings[$user_id]) >= $this->bookings_per_user) {
@@ -196,8 +194,8 @@ class ilBookingPreferencesManager
     {
         return $items[array_rand($items)];
     }
-    
-    
+
+
     /**
      * Get users for object
      * @return int[]
@@ -205,26 +203,26 @@ class ilBookingPreferencesManager
     protected function getUsersForObject(
         array $preferences,
         int $sel_obj_id
-    ) : array {
+    ): array {
         $user_ids = [];
         foreach ($preferences as $user_id => $obj_ids) {
             foreach ($obj_ids as $obj_id) {
-                if ($obj_id === $sel_obj_id) {
+                if ((int) $obj_id === $sel_obj_id) {
                     $user_ids[] = (int) $user_id;
                 }
             }
         }
         return $user_ids;
     }
-    
-    
+
+
     /**
      * Calculate popularity (number of preferences each object got from users)
      */
     protected function calculatePopularity(
         array $booking_object_ids,
         array $preferences
-    ) : array {
+    ): array {
         $popularity = [];
         foreach ($booking_object_ids as $book_obj_id) {
             $popularity[$book_obj_id] = 0;
@@ -245,7 +243,7 @@ class ilBookingPreferencesManager
     protected function getObjectWithLowestPopularity(
         array $popularity,
         array $availability
-    ) : int {
+    ): int {
         asort($popularity, SORT_NUMERIC);
         foreach ($popularity as $obj_id => $pop) {
             if ($pop > 0 && $availability[$obj_id] > 0) {
@@ -262,7 +260,7 @@ class ilBookingPreferencesManager
         int $user_id,
         int $obj_id,
         array $preferences
-    ) : array {
+    ): array {
         if (is_array($preferences[$user_id])) {
             $preferences[$user_id] = array_filter($preferences[$user_id], static function ($i) use ($obj_id) {
                 return ($i !== $obj_id);
@@ -277,7 +275,7 @@ class ilBookingPreferencesManager
     protected function removeObjectFromPreferences(
         int $obj_id,
         array $preferences
-    ) : array {
+    ): array {
         $new_preferences = [];
         foreach ($preferences as $user_id => $obj_ids) {
             $new_preferences[$user_id] = array_filter($obj_ids, static function ($i) use ($obj_id) {
@@ -293,7 +291,7 @@ class ilBookingPreferencesManager
     protected function removeUserFromPreferences(
         int $user_id,
         array $preferences
-    ) : array {
+    ): array {
         if (is_array($preferences[$user_id])) {
             unset($preferences[$user_id]);
         }
@@ -305,7 +303,10 @@ class ilBookingPreferencesManager
      */
     protected function chooseRandomUserFromPreferences(
         array $preferences
-    ) : ?int {
+    ): ?int {
+        if (count($preferences) === 0) {
+            return null;
+        }
         $user_ids = array_keys($preferences);
         return $this->selectRandomEntry($user_ids);
     }
@@ -325,7 +326,7 @@ class ilBookingPreferencesManager
         array $bookings,
         array $user_preferences,
         array $availability
-    ) : int {
+    ): int {
         // count the assignments per object
         $count_assignments = [];
         foreach ($booking_object_ids as $obj_id) {
@@ -347,5 +348,15 @@ class ilBookingPreferencesManager
             }
         }
         return 0;
+    }
+
+    public function hasRun(): bool
+    {
+        return $this->book_repo->hasRun($this->pool->getId());
+    }
+
+    public function resetRun(): void
+    {
+        $this->book_repo->resetRun($this->pool->getId());
     }
 }

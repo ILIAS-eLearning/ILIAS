@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -17,7 +19,7 @@ class ilCalendarCache extends ilCache
         $this->setExpiresAfter(60 * ilCalendarSettings::_getInstance()->getCacheMinutes());
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         if (!self::$instance instanceof self) {
             self::$instance = new self();
@@ -28,7 +30,7 @@ class ilCalendarCache extends ilCache
     /**
      * Get cached entry if cache is active
      */
-    protected function readEntry(string $a_id) : bool
+    protected function readEntry(string $a_id): bool
     {
         if (!ilCalendarSettings::_getInstance()->isCacheUsed()) {
             return false;
@@ -43,7 +45,7 @@ class ilCalendarCache extends ilCache
         ?int $a_int_key2 = null,
         ?string $a_text_key1 = null,
         ?string $a_text_key2 = null
-    ) : void {
+    ): void {
         if (!ilCalendarSettings::_getInstance()->isCacheUsed()) {
             return;
         }
@@ -60,7 +62,7 @@ class ilCalendarCache extends ilCache
         ?int $a_key2 = 0,
         ?string $a_key3 = '',
         ?string $a_key4 = ''
-    ) : void {
+    ): void {
         if (!ilCalendarSettings::_getInstance()->isCacheUsed()) {
             return;
         }
@@ -73,7 +75,7 @@ class ilCalendarCache extends ilCache
     /**
      * Delete user entries in cache
      */
-    public function deleteUserEntries(int $a_user_id) : void
+    public function deleteUserEntries(int $a_user_id): void
     {
         $this->deleteByAdditionalKeys($a_user_id);
     }

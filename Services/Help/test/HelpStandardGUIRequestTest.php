@@ -9,11 +9,11 @@ use PHPUnit\Framework\TestCase;
  */
 class HelpStandardGUIRequestTest extends TestCase
 {
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\Help\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\Help\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -27,7 +27,7 @@ class HelpStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -42,7 +42,7 @@ class HelpStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testHelpModuleId() : void
+    public function testHelpModuleId(): void
     {
         $request = $this->getRequest(
             [
@@ -57,7 +57,7 @@ class HelpStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testTerm() : void
+    public function testTerm(): void
     {
         $request = $this->getRequest(
             [
@@ -72,7 +72,7 @@ class HelpStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testIds() : void
+    public function testIds(): void
     {
         $request = $this->getRequest(
             [
@@ -88,7 +88,7 @@ class HelpStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testHelpScreenId() : void
+    public function testHelpScreenId(): void
     {
         $request = $this->getRequest(
             [

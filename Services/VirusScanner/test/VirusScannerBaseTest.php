@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,19 +16,21 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 
 abstract class VirusScannerBaseTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $GLOBALS['DIC'] = new Container();
 
         parent::setUp();
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,7 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\String;
+
+require_once 'libs/composer/vendor/autoload.php';
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
@@ -34,9 +38,13 @@ EOT;
 <div>Lorem ipsum dolor <span style="color: red;">sit amet</span>, <img src="#" /> consetetur sadipscing elitr, sed diam nonumy eirmod <img src="#" />  tempor invidunt <img src="#" />  ut labore et dolore <img src="#" />  magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor <img src="#" />  sit amet. <img src="#" />  Lorem ipsum dolor <img src="#" />  sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, <img src="#" />  sed diam voluptua. <img src="#" />  At vero eos et accusam et justo duo dolores et ea rebum. Stet <img src="#" />  clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
 EOT;
 
+    private const HTML_WITH_NON_XHTML_URLS = <<<EOT
+<a href="http://www.ilias.de=foo=1&bar=2">ILIAS</a>
+EOT;
+
     private Refinery $refinery;
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         $this->refinery = new Refinery(
             $this->createMock(DataFactory::class),
@@ -49,7 +57,7 @@ EOT;
     /**
      * @return array[]
      */
-    public function subjectProvider() : array
+    public function inputProvider(): array
     {
         return [
             [5],
@@ -58,24 +66,46 @@ EOT;
             [new stdClass()],
             [true],
             [null],
-            [static function () : void {
+            [static function (): void {
             }],
         ];
     }
 
     /**
-     * @dataProvider subjectProvider
+     * @return array[]
+     */
+    public function unsupportedButKnownEntitiesProvider(): array
+    {
+        return array_map(static function (string $entity): array {
+            return [
+                '<div>Lorem ipsum dolor <' . $entity . '></' . $entity . '></div>'
+            ];
+        }, [
+            'figure',
+            'figcaption',
+            'nav',
+            'section',
+            'header',
+            'article',
+            'footer',
+            'aside',
+            'noindex',
+        ]);
+    }
+
+    /**
+     * @dataProvider inputProvider
      * @param mixed $from
      */
-    public function testExceptionIsRaisedIfSubjectIsNotAString($from) : void
+    public function testExceptionIsRaisedIfInputIsNotAString($from): void
     {
-        $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
-        
         $this->expectException(InvalidArgumentException::class);
+        $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
+
         $readingTimeTrafo->transform($from);
     }
 
-    public function testReadingTimeForPlainText() : void
+    public function testReadingTimeForPlainTextCanBeDetermined(): void
     {
         $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
         $this->assertEquals(
@@ -84,7 +114,7 @@ EOT;
         );
     }
 
-    public function testReadingTimeForHtmlFragment() : void
+    public function testReadingTimeForHtmlFragmentCanBeDetermined(): void
     {
         $text = self::HTML;
 
@@ -101,13 +131,13 @@ EOT;
         );
     }
 
-    public function testSolitaryPunctuationCharactersMustNotAffectReadingTime() : void
+    public function testSolitaryPunctuationCharactersMustNotAffectReadingTime(): void
     {
         $textSegmentWithPunctuation = 'Lorem ipsum <img src="#" />, and some other text... ';
         $repetitions = 300; // 275 repetitions result in an additional minute, if the `,` would be considered
-        
+
         $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
-        
+
         $text = str_repeat($textSegmentWithPunctuation, $repetitions);
 
         $timeInMinutes = $readingTimeTrafo->transform($text);
@@ -120,10 +150,10 @@ EOT;
         $this->assertEquals(23, $timeInMinutes);
     }
 
-    public function testXTHMLCommentsMustNotAffectReadingTime() : void
+    public function testXTHMLCommentsMustNotAffectReadingTime(): void
     {
         $text = self::HTML;
-    
+
         $comment = '<script><!--a comment--></script>';
         $repetitions = 300;
         $text .= str_repeat($comment, $repetitions);
@@ -133,5 +163,29 @@ EOT;
             1,
             $onlyTextReadingTimeInfo->transform($text)
         );
+    }
+
+    /**
+     * @dataProvider unsupportedButKnownEntitiesProvider
+     * @param string $text
+     */
+    public function testNoExceptionIsRaisedIfHtmlContainsUnsupportedEntities(string $text): void
+    {
+        $reading_time_trafo = $this->refinery->string()->estimatedReadingTime(true);
+
+        $reading_time = $reading_time_trafo->transform($text);
+
+        $this->assertIsInt($reading_time);
+        $this->assertGreaterThan(0, $reading_time);
+    }
+
+    public function testNoExceptionIsRaisedIfHtmlContainsAmpersandInUrls(): void
+    {
+        $reading_time_trafo = $this->refinery->string()->estimatedReadingTime(true);
+
+        $reading_time = $reading_time_trafo->transform(self::HTML_WITH_NON_XHTML_URLS);
+
+        $this->assertIsInt($reading_time);
+        $this->assertGreaterThan(0, $reading_time);
     }
 }

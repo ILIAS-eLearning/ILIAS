@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,18 +16,20 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilBuddySystemRelationStateNullFilterRule
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilBuddySystemRelationStateNullFilterRule extends ilBuddySystemRelationStateFilterRule
 {
-    public function matches() : bool
+    public function matches(): bool
     {
         return true;
     }
 
-    public function __invoke(ilBuddySystemRelationState $state) : bool
+    public function __invoke(ilBuddySystemRelationState $state): bool
     {
         return true;
     }

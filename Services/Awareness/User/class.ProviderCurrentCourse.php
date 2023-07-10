@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Awareness\User;
 
@@ -48,7 +51,7 @@ class ProviderCurrentCourse implements Provider
      * Get provider id
      * @return string provider id
      */
-    public function getProviderId() : string
+    public function getProviderId(): string
     {
         return "crs_current";
     }
@@ -57,7 +60,7 @@ class ProviderCurrentCourse implements Provider
      * Provider title (used in awareness overlay and in administration settings)
      * @return string provider title
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $this->lng->loadLanguageModule("crs");
         return $this->lng->txt("crs_awrn_current_course");
@@ -67,7 +70,7 @@ class ProviderCurrentCourse implements Provider
      * Provider info (used in administration settings)
      * @return string provider info text
      */
-    public function getInfo() : string
+    public function getInfo(): string
     {
         $this->lng->loadLanguageModule("crs");
         return $this->lng->txt("crs_awrn_current_course_info");
@@ -78,7 +81,7 @@ class ProviderCurrentCourse implements Provider
      * @param ?int[] $user_ids
      * @return int[] array of user IDs
      */
-    public function getInitialUserSet(?array $user_ids = null) : array
+    public function getInitialUserSet(?array $user_ids = null): array
     {
         $ilDB = $this->db;
         $tree = $this->tree;
@@ -115,7 +118,7 @@ class ProviderCurrentCourse implements Provider
         return $ub;
     }
 
-    public function isHighlighted() : bool
+    public function isHighlighted(): bool
     {
         return false;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\HTTP\Services as HTTPService;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -49,7 +51,7 @@ class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
         $this->tpl = $DIC->ui()->mainTemplate();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -58,7 +60,7 @@ class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
                 'ref_id',
                 $this->refinery->kindlyTo()->int()
             ) : 0;
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {
             $this->ctrl->setCmdClass(ilObjLinkResourceGUI::class);

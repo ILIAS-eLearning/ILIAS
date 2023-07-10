@@ -14,8 +14,9 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author   Richard Klees <richard.klees@concepts-and-training.de>
@@ -29,7 +30,7 @@ class ilPluginLanguage
         $this->plugin_info = $plugin_info;
     }
 
-    protected function getLanguageDirectory() : string
+    protected function getLanguageDirectory(): string
     {
         return $this->plugin_info->getPath() . "/lang";
     }
@@ -39,7 +40,7 @@ class ilPluginLanguage
      *
      * @return array of [key => "en" (e.g.), file => ...]
      */
-    public function getAvailableLangFiles() : array
+    public function getAvailableLangFiles(): array
     {
         $directory = $this->getLanguageDirectory();
         if (!@is_dir($directory)) {
@@ -68,12 +69,12 @@ class ilPluginLanguage
         return $langs;
     }
 
-    public function hasAvailableLangFiles() : bool
+    public function hasAvailableLangFiles(): bool
     {
         return count($this->getAvailableLangFiles()) > 0;
     }
 
-    public function getPrefix() : string
+    public function getPrefix(): string
     {
         $plugin = $this->plugin_info;
         $component = $plugin->getComponent();
@@ -87,10 +88,8 @@ class ilPluginLanguage
      *
      * @var array|null $a_lang_keys keys of languages to be updated (null for all)
      */
-    public function updateLanguages(?array $a_lang_keys = null) : void
+    public function updateLanguages(?array $a_lang_keys = null): void
     {
-        ilGlobalCache::flushAll();
-
         // get the keys of all installed languages if keys are not provided
         if (!isset($a_lang_keys)) {
             $a_lang_keys = [];
@@ -140,7 +139,7 @@ class ilPluginLanguage
         }
     }
 
-    public function uninstall() : void
+    public function uninstall(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -163,7 +162,7 @@ class ilPluginLanguage
     /**
      * Load language module for plugin
      */
-    public function loadLanguageModule() : void
+    public function loadLanguageModule(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -176,7 +175,7 @@ class ilPluginLanguage
     /**
      * Get Language Variable (prefix will be prepended automatically)
      */
-    public function txt(string $a_var) : string
+    public function txt(string $a_var): string
     {
         global $DIC;
         $lng = $DIC->language();

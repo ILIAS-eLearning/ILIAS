@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -28,32 +30,32 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTermsOfServiceAcceptanceHistoryGUITest extends ilTermsOfServiceBaseTest
 {
-    /** @var MockObject|ilTermsOfServiceTableDataProviderFactory */
+    /** @var MockObject&ilTermsOfServiceTableDataProviderFactory */
     protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
-    /** @var MockObject|ilObjTermsOfService */
+    /** @var MockObject&ilObjTermsOfService */
     protected ilObjTermsOfService $tos;
-    /** @var MockObject|ilGlobalTemplateInterface */
+    /** @var MockObject&ilGlobalTemplateInterface */
     protected ilGlobalTemplateInterface $tpl;
-    /** @var MockObject|ilCtrlInterface */
+    /** @var MockObject&ilCtrlInterface */
     protected ilCtrlInterface $ctrl;
-    /** @var MockObject|ilLanguage */
+    /** @var MockObject&ilLanguage */
     protected ilLanguage $lng;
-    /** @var MockObject|ilRbacSystem */
+    /** @var MockObject&ilRbacSystem */
     protected ilRbacSystem $rbacsystem;
-    /** @var MockObject|ilErrorHandling */
+    /** @var MockObject&ilErrorHandling */
     protected ilErrorHandling $error;
-    /** @var MockObject|Factory */
+    /** @var MockObject&Factory */
     protected Factory $uiFactory;
-    /** @var MockObject|Renderer */
+    /** @var MockObject&Renderer */
     protected Renderer $uiRenderer;
-    /** @var MockObject|GlobalHttpState */
+    /** @var MockObject&GlobalHttpState */
     protected GlobalHttpState $http;
-    /** @var MockObject|Refinery */
+    /** @var MockObject&Refinery */
     protected Refinery $refinery;
-    /** @var MockObject|ilTermsOfServiceCriterionTypeFactoryInterface */
+    /** @var MockObject&ilTermsOfServiceCriterionTypeFactoryInterface */
     protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -71,7 +73,7 @@ class ilTermsOfServiceAcceptanceHistoryGUITest extends ilTermsOfServiceBaseTest
         $this->tableDataProviderFactory = $this->getMockBuilder(ilTermsOfServiceTableDataProviderFactory::class)->disableOriginalConstructor()->getMock();
     }
 
-    public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing() : void
+    public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing(): void
     {
         $this->ctrl
             ->method('getCmd')

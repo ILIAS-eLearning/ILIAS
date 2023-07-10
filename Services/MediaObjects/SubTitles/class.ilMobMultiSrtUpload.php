@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Handler class for multi srt upload
@@ -40,7 +43,7 @@ class ilMobMultiSrtUpload
     /**
      * Get directory for multi srt upload
      */
-    public function getMultiSrtUploadDir() : string
+    public function getMultiSrtUploadDir(): string
     {
         return $this->multi_srt->getUploadDir();
     }
@@ -55,7 +58,7 @@ class ilMobMultiSrtUpload
      */
     public function uploadMultipleSubtitleFile(
         array $a_file
-    ) : void {
+    ): void {
         if (!is_file($a_file["tmp_name"])) {
             throw new ilMobSrtUploadException($this->lng->txt("cont_srt_zip_file_could_not_be_uploaded"));
         }
@@ -70,7 +73,7 @@ class ilMobMultiSrtUpload
     /**
      * Clear multi feedback directory
      */
-    public function clearMultiSrtDirectory() : void
+    public function clearMultiSrtDirectory(): void
     {
         ilFileUtils::delDir($this->getMultiSrtUploadDir());
     }
@@ -78,7 +81,7 @@ class ilMobMultiSrtUpload
     /**
      * Get all srt files of srt multi upload
      */
-    public function getMultiSrtFiles() : array
+    public function getMultiSrtFiles(): array
     {
         $items = array();
 
@@ -130,7 +133,7 @@ class ilMobMultiSrtUpload
     /**
      * Move all srt files that could be mapped to media objects
      */
-    public function moveMultiSrtFiles() : int
+    public function moveMultiSrtFiles(): int
     {
         $items = $this->getMultiSrtFiles();
         $cnt = 0;

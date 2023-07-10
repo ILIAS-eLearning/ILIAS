@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Awareness;
 
@@ -28,6 +33,10 @@ class InternalDomainService
     protected Container $dic;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
+
+    protected \ilUserActionProviderFactory $user_action_provider_factory;
+    protected \ilUserActionAdmin $user_action_admin;
+
     /** @var array<int,WidgetManager> */
     protected static array $managers = array();
     /** @var array<int,User\Collector>  */
@@ -42,6 +51,9 @@ class InternalDomainService
         $this->data_service = $data_service;
         $this->initDomainServices($DIC);
         $this->dic = $DIC;
+
+        $this->user_action_provider_factory = new \ilUserActionProviderFactory();
+        $this->user_action_admin = new \ilUserActionAdmin($DIC['ilDB']);
     }
 
     /*
@@ -55,7 +67,7 @@ class InternalDomainService
         );
     }*/
 
-    public function widget(int $user_id, int $ref_id = 0) : WidgetManager
+    public function widget(int $user_id, int $ref_id = 0): WidgetManager
     {
         if (!isset(self::$managers[$user_id])) {
             self::$managers[$user_id] = new WidgetManager(
@@ -63,13 +75,15 @@ class InternalDomainService
                 $ref_id,
                 $this->data_service,
                 $this->repo_service,
-                $this
+                $this,
+                $this->user_action_provider_factory,
+                $this->user_action_admin
             );
         }
         return self::$managers[$user_id];
     }
 
-    public function admin(int $ref_id) : AdminManager
+    public function admin(int $ref_id): AdminManager
     {
         return new AdminManager(
             $ref_id,
@@ -78,17 +92,17 @@ class InternalDomainService
         );
     }
 
-    public function awarenessSettings() : \ilSetting
+    public function awarenessSettings(): \ilSetting
     {
         return new \ilSetting("awrn");
     }
 
-    public function userProvider() : User\ProviderFactory
+    public function userProvider(): User\ProviderFactory
     {
         return new User\ProviderFactory($this->dic);
     }
 
-    public function userCollector(int $user_id, int $ref_id = 0) : User\Collector
+    public function userCollector(int $user_id, int $ref_id = 0): User\Collector
     {
         if (!isset(self::$collectors[$user_id])) {
             self::$collectors[$user_id] = new User\Collector(

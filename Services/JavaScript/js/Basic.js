@@ -1,5 +1,19 @@
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /*
    Please note that this file should only contain common Javascript code
@@ -168,40 +182,7 @@ il.Util = {
 		console.log(o);
 	},
 	
-	// Screen reader related functions
-	
-	// Set focus for screen reader per element id
-	setScreenReaderFocus: function(id)
-	{
-		var obj = document.getElementById(id);
-		if (obj)
-		{
-			obj.focus();
-			self.location.hash = id;
-		}
-	},
-	
-	// Set standard screen reader focus
-	setStdScreenReaderFocus: function() {
-		var obj = document.getElementById("il_message_focus");
-		if (obj) {
-			obj.focus();
-			self.location.hash = 'il_message_focus';
-		} else {
-			obj = document.getElementById("il_lm_head");
-			if (obj && self.location.hash == '') {
-				obj.focus();
-				self.location.hash = 'il_lm_head';
-			} else {
-				obj = document.getElementById("il_mhead_t_focus");
-				if (obj && self.location.hash == '') {
-					obj.focus();
-					self.location.hash = 'il_mhead_t_focus';
-				}
-			}
-		}
-	},
-	
+
 	/**
 	 * Get region information (coordinates + size) for an element
 	 */
@@ -386,6 +367,9 @@ il.Object = {
 		if (ah !== null)
 		{
 			il.Util.ajaxReplaceInner(o.argument.url_redraw, "il_head_action");
+			if (typeof WebuiPopovers !== "undefined") {
+				WebuiPopovers.hideAll();
+			}
 		}
 	},
 			
@@ -399,24 +383,11 @@ il.Object = {
 			var parent = id.split("_").pop();
 			il.Util.ajaxReplace(o.argument.url_redraw + "&child_ref_id=" + o.argument.ref_id + "&parent_ref_id=" + parent, id);
 		});
+		if (typeof WebuiPopovers !== "undefined") {
+			WebuiPopovers.hideAll();
+		}
 	}
 }
-
-/* Main menu handling */
-il.MainMenu = {
-	
-	removeLastVisitedItems: function (url) {
-		
-		$('.ilLVNavEnt').remove();
-		il.Util.sendAjaxGetRequestToUrl(url, {}, {}, this.dummyCallback);
-		
-		return false;
-	},
-	
-	dummyCallback: function () {
-	}
-}
-
 
 
 /* UICore */
@@ -976,38 +947,6 @@ il.Language = {
 ////
 //// The following methods should be moved to the corresponding components
 ////
-
-/**
- * Opens a chat window
- *
- * @param   object	the link which was clicked
- * @param   int		desired width of the new window
- * @param   int		desired height of the new window
- */
-function openChatWindow(oLink, width, height)
-{
-	if(width == null)
-	{
-		width = screen.availWidth;
-	}
-	leftPos = (screen.availWidth / 2)- (width / 2);	
-	
-	if(height == null)
-	{
-		height = screen.availHeight;
-	}
-	topPos = (screen.availHeight / 2)- (height / 2);				
-
-	oChatWindow = window.open(
-		oLink.href, 
-		oLink.target, 
-		'width=' + width + ',height=' + height + ',left=' + leftPos + ',top=' + topPos +
-		',resizable=yes,scrollbars=yes,status=yes,toolbar=yes,menubar=yes,location=yes'
-	);
-
-	oChatWindow.focus();
-}
-
 
 function startSAHS(SAHSurl, SAHStarget, SAHSopenMode, SAHSwidth, SAHSheight)
 {

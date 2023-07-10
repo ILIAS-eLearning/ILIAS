@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
@@ -29,22 +28,17 @@ use ILIAS\UI\Component\Button\Button;
 interface Standard extends File
 {
     /**
-     * Get a dropzone like this, displaying the given message in it.
-     */
-    public function withMessage(string $message) : Standard;
-
-    /**
      * Get the message of this dropzone.
      */
-    public function getMessage() : string;
+    public function getMessage(): string;
 
     /**
      * Get a dropzone like this, using the given button to upload the files to the server.
      */
-    public function withUploadButton(Button $button) : Standard;
+    public function withUploadButton(Button $button): Standard;
 
     /**
      * Get the button to upload the files to the server.
      */
-    public function getUploadButton() : ?Button;
+    public function getUploadButton(): ?Button;
 }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCQuestion
@@ -23,13 +26,12 @@ class ilPCQuestion extends ilPageContent
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
-    public php4DOMElement $q_node;
     protected static bool $initial_done = false;
-    
+
     /**
      * Init page content component.
      */
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -39,23 +41,17 @@ class ilPCQuestion extends ilPageContent
         $this->setType("pcqst");
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setQuestionReference(string $a_questionreference): void
     {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->q_node = $a_node->first_child();		//... and this the Question
-    }
-
-    public function setQuestionReference(string $a_questionreference) : void
-    {
-        if (is_object($this->q_node)) {
-            $this->q_node->set_attribute("QRef", $a_questionreference);
+        if (is_object($this->getChildNode())) {
+            $this->getChildNode()->setAttribute("QRef", $a_questionreference);
         }
     }
 
-    public function getQuestionReference() : ?string
+    public function getQuestionReference(): ?string
     {
-        if (is_object($this->q_node)) {
-            return $this->q_node->get_attribute("QRef");
+        if (is_object($this->getChildNode())) {
+            return $this->getChildNode()->getAttribute("QRef");
         }
         return null;
     }
@@ -64,21 +60,22 @@ class ilPCQuestion extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
-        $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
-        $this->q_node = $this->dom->create_element("Question");
-        $this->q_node = $this->node->append_child($this->q_node);
-        $this->q_node->set_attribute("QRef", "");
+    ): void {
+        $this->createInitialChildNode(
+            $a_hier_id,
+            $a_pc_id,
+            "Question",
+            ["QRef" => ""]
+        );
     }
-    
+
     /**
      * Copy question from pool into page
      */
     public function copyPoolQuestionIntoPage(
         string $a_q_id,
         string $a_hier_id
-    ) : void {
+    ): void {
         $question = assQuestion::instantiateQuestion($a_q_id);
         $duplicate_id = $question->copyObject(0, $question->getTitle());
         $duplicate = assQuestion::instantiateQuestion($duplicate_id);
@@ -86,10 +83,10 @@ class ilPCQuestion extends ilPageContent
 
         ilAssSelfAssessmentQuestionFormatter::prepareQuestionForLearningModule($duplicate);
 
-        $this->q_node->set_attribute("QRef", "il__qst_" . $duplicate_id);
+        $this->getChildNode()->setAttribute("QRef", "il__qst_" . $duplicate_id);
     }
-    
-    public static function getLangVars() : array
+
+    public static function getLangVars(): array
     {
         return array("ed_insert_pcqst", "empty_question", "pc_qst");
     }
@@ -102,11 +99,11 @@ class ilPCQuestion extends ilPageContent
         DOMDocument $a_domdoc,
         string $a_xml,
         bool $a_creation
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulateF(
             "DELETE FROM page_question WHERE page_parent_type = %s " .
             " AND page_id = %s AND page_lang = %s",
@@ -137,14 +134,14 @@ class ilPCQuestion extends ilPageContent
             );
         }
     }
-    
+
     public static function beforePageDelete(
         ilPageObject $a_page
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulateF(
             "DELETE FROM page_question WHERE page_parent_type = %s " .
             " AND page_id = %s AND page_lang = %s",
@@ -152,21 +149,23 @@ class ilPCQuestion extends ilPageContent
             array($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage())
         );
     }
-    
+
     public static function _getQuestionIdsForPage(
         string $a_parent_type,
         int $a_page_id,
         string $a_lang = "-"
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
+
+        $parent_type_array = explode(':', $a_parent_type);
 
         $res = $ilDB->queryF(
             "SELECT * FROM page_question WHERE page_parent_type = %s " .
             " AND page_id = %s AND page_lang = %s",
             array("text", "integer", "text"),
-            array($a_parent_type, $a_page_id, $a_lang)
+            array($parent_type_array[0], $a_page_id, $a_lang)
         );
         $q_ids = array();
         while ($rec = $ilDB->fetchAssoc($res)) {
@@ -179,7 +178,7 @@ class ilPCQuestion extends ilPageContent
     public static function _getPageForQuestionId(
         int $a_q_id,
         string $a_parent_type = ""
-    ) : ?array {
+    ): ?array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -200,14 +199,14 @@ class ilPCQuestion extends ilPageContent
         string $a_output,
         string $a_mode,
         bool $a_abstract_only = false
-    ) : string {
+    ): string {
         $lng = $this->lng;
 
         $qhtml = "";
 
         if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
             // #14154
-            $q_ids = $this->getPage()->getQuestionIds();
+            $q_ids = $this->getQuestionIds();
             if (count($q_ids)) {
                 foreach ($q_ids as $q_id) {
                     $q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
@@ -220,10 +219,10 @@ class ilPCQuestion extends ilPageContent
                         );
                     }
                 }
-                
+
                 // this exports the questions which is needed below
                 $qhtml = $this->getQuestionJsOfPage($a_mode == "edit", $a_mode);
-                                                            
+
                 $a_output = "<script>" . ilQuestionExporter::questionsJS($q_ids) . "</script>" . $a_output;
                 if (!self::$initial_done) {
                     $a_output = "<script>var ScormApi=null; var questions = new Array();</script>" . $a_output;
@@ -237,7 +236,7 @@ class ilPCQuestion extends ilPageContent
             // address #19788
             if (!is_array($qhtml) || count($qhtml) == 0) {
                 // #14154
-                $q_ids = $this->getPage()->getQuestionIds();
+                $q_ids = $this->getQuestionIds();
                 if (count($q_ids)) {
                     foreach ($q_ids as $k) {
                         $a_output = str_replace("{{{{{Question;il__qst_$k" . "}}}}}", " " . $lng->txt("copg_questions_not_supported_here"), $a_output);
@@ -258,12 +257,12 @@ class ilPCQuestion extends ilPageContent
     /**
      * Reset initial state (for exports)
      */
-    public static function resetInitialState() : void
+    public static function resetInitialState(): void
     {
         self::$initial_done = false;
     }
 
-    public function getJavascriptFiles(string $a_mode) : array
+    public function getJavascriptFiles(string $a_mode): array
     {
         $js_files = array();
 
@@ -272,8 +271,8 @@ class ilPCQuestion extends ilPageContent
             $js_files[] = "./Modules/Scorm2004/scripts/questions/question_handling.js";
             $js_files[] = 'Modules/TestQuestionPool/js/ilAssMultipleChoice.js';
             $js_files[] = "Modules/TestQuestionPool/js/ilMatchingQuestion.js";
-            
-            foreach ($this->getPage()->getQuestionIds() as $qId) {
+
+            foreach ($this->getQuestionIds() as $qId) {
                 $qstGui = assQuestionGUI::_getQuestionGUI('', $qId);
                 $js_files = array_merge($js_files, $qstGui->getPresentationJavascripts());
             }
@@ -287,7 +286,7 @@ class ilPCQuestion extends ilPageContent
         return $js_files;
     }
 
-    public function getCssFiles(string $a_mode) : array
+    public function getCssFiles(string $a_mode): array
     {
         if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
             return array("./Modules/Scorm2004/templates/default/question_handling.css",
@@ -296,7 +295,7 @@ class ilPCQuestion extends ilPageContent
         return array();
     }
 
-    public function getOnloadCode(string $a_mode) : array
+    public function getOnloadCode(string $a_mode): array
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -314,17 +313,24 @@ class ilPCQuestion extends ilPageContent
             if ($this->getPage()->getPageConfig()->getDisableDefaultQuestionFeedback()) {
                 $code[] = "ilias.questions.default_feedback = false;";
             }
-                        
+
             $code[] = self::getJSTextInitCode($this->getPage()->getPageConfig()->getLocalizationLanguage()) . ' il.COPagePres.updateQuestionOverviews();';
         }
 
+        $q_ids = $this->getQuestionIds();
+
+        // call renderers
+        foreach ($q_ids as $q_id) {
+            $code[] = "renderILQuestion$q_id();";
+        }
+
+        // init answer status
         $get_stored_tries = $this->getPage()->getPageConfig()->getUseStoredQuestionTries();
         if ($get_stored_tries) {
-            $q_ids = $this->getPage()->getQuestionIds();
             if (count($q_ids) > 0) {
                 foreach ($q_ids as $q_id) {
                     $as = ilPageQuestionProcessor::getAnswerStatus($q_id, $ilUser->getId());
-                    $code[] = "ilias.questions.initAnswer(" . $q_id . ", " . (int) $as["try"] . ", " . ($as["passed"] ? "true" : "null") . ");";
+                    $code[] = "ilias.questions.initAnswer(" . $q_id . ", " . (int) ($as["try"] ?? 0) . ", " . ($as["passed"] ? "true" : "null") . ");";
                 }
             }
         }
@@ -334,7 +340,7 @@ class ilPCQuestion extends ilPageContent
     /**
      * Get js txt init code
      */
-    public static function getJSTextInitCode(string $a_lang) : string
+    public static function getJSTextInitCode(string $a_lang): string
     {
         global $DIC;
 
@@ -354,6 +360,7 @@ class ilPCQuestion extends ilPageContent
 			ilias.questions.txt.all_answers_correct = "' . $lng->txtlng("content", "cont_all_answers_correct", $a_lang) . '";
 			ilias.questions.txt.enough_answers_correct = "' . $lng->txtlng("content", "cont_enough_answers_correct", $a_lang) . '";
 			ilias.questions.txt.nr_of_tries_exceeded = "' . $lng->txtlng("content", "cont_nr_of_tries_exceeded", $a_lang) . '";
+			ilias.questions.txt.correct_answers_separator = "' . $lng->txtlng("assessment", "or", $a_lang) . '";
 			ilias.questions.txt.correct_answers_shown = "' . $lng->txtlng("content", "cont_correct_answers_shown", $a_lang) . '";
 			ilias.questions.txt.correct_answers_also = "' . $lng->txtlng("content", "cont_correct_answers_also", $a_lang) . '";
 			ilias.questions.txt.correct_answer_also = "' . $lng->txtlng("content", "cont_correct_answer_also", $a_lang) . '";
@@ -370,8 +377,8 @@ class ilPCQuestion extends ilPageContent
     public function getQuestionJsOfPage(
         bool $a_no_interaction,
         string $a_mode
-    ) : array {
-        $q_ids = $this->getPage()->getQuestionIds();
+    ): array {
+        $q_ids = $this->getQuestionIds();
         $js = array();
         if (count($q_ids) > 0) {
             foreach ($q_ids as $q_id) {
@@ -389,5 +396,79 @@ class ilPCQuestion extends ilPageContent
             }
         }
         return $js;
+    }
+
+    protected function getQuestionIds(): array
+    {
+        $dom = $this->getPage()->getDomDoc();
+        $q_ids = [];
+        $nodes = $this->dom_util->path($dom, "//Question");
+        foreach ($nodes as $node) {
+            $qref = $node->getAttribute("QRef");
+            $inst_id = ilInternalLink::_extractInstOfTarget($qref);
+            $obj_id = ilInternalLink::_extractObjIdOfTarget($qref);
+
+            if (!($inst_id > 0)) {
+                if ($obj_id > 0) {
+                    $q_ids[] = $obj_id;
+                }
+            }
+        }
+        return $q_ids;
+    }
+
+    public static function handleCopiedContent(
+        DOMDocument $a_domdoc,
+        bool $a_self_ass = true,
+        bool $a_clone_mobs = false,
+        int $new_parent_id = 0,
+        int $obj_copy_id = 0
+    ): void {
+        global $DIC;
+
+        $dom_util = $DIC->copage()->internal()->domain()->domUtil();
+
+        // handle question elements
+        if ($a_self_ass) {
+            // copy questions
+            $path = "//Question";
+            $nodes = $dom_util->path($a_domdoc, $path);
+            foreach ($nodes as $node) {
+                $qref = $node->getAttribute("QRef");
+
+                $inst_id = ilInternalLink::_extractInstOfTarget($qref);
+                $q_id = ilInternalLink::_extractObjIdOfTarget($qref);
+
+                if (!($inst_id > 0)) {
+                    if ($q_id > 0) {
+                        $question = null;
+                        try {
+                            $question = assQuestion::_instantiateQuestion($q_id);
+                        } catch (Exception $e) {
+                        }
+                        // check due to #16557
+                        if (is_object($question) && $question->isComplete()) {
+                            // check if page for question exists
+                            // due to a bug in early 4.2.x version this is possible
+                            if (!ilPageObject::_exists("qpl", $q_id)) {
+                                $question->createPageObject();
+                            }
+
+                            // now copy this question and change reference to
+                            // new question id
+                            $duplicate_id = $question->duplicate(false);
+                            $node->setAttribute("QRef", "il__qst_" . $duplicate_id);
+                        }
+                    }
+                }
+            }
+        } else {
+            // remove question
+            $path = "//Question";
+            $nodes = $dom_util->path($a_domdoc, $path);
+            foreach ($nodes as $node) {
+                $node->parentNode->removeChild($node);
+            }
+        }
     }
 }

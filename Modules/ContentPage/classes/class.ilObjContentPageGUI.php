@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
@@ -34,22 +36,23 @@ use ILIAS\HTTP\GlobalHttpState;
  * @ilCtrl_Calls      ilObjContentPageGUI: ilLearningProgressGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilContentPagePageGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectCustomIconConfigurationGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectTranslationGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilPageMultiLangGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilMDEditorGUI
  */
 class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
 {
     protected GlobalHttpState $http;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
-    private ilNavigationHistory $navHistory;
-    private Container $dic;
+    private readonly ilNavigationHistory $navHistory;
+    private readonly Container $dic;
     private bool $infoScreenEnabled = false;
     private PageMetricsService $pageMetricsService;
     private ilHelpGUI $help;
     private \ILIAS\DI\UIServices $uiServices;
+    private readonly bool $in_page_editor_style_context;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
@@ -86,9 +89,14 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         if (is_object($this->object)) {
             $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
         }
+
+        $this->in_page_editor_style_context = $this->http->wrapper()->query()->has(
+            self::HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT
+        );
+        $this->ctrl->saveParameterByClass(ilObjectContentStyleSettingsGUI::class, self::HTTP_PARAM_PAGE_EDITOR_STYLE_CONTEXT);
     }
 
-    public static function _goto(string $target) : void
+    public static function _goto(string $target): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -123,13 +131,17 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $DIC['ilErr']->raiseError($DIC->language()->txt('msg_no_perm_read'), $DIC['ilErr']->FATAL);
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return self::OBJ_TYPE;
     }
 
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
+        if ($this->in_page_editor_style_context) {
+            return;
+        }
+
         $this->help->setScreenIdComponent($this->object->getType());
 
         if ($this->checkPermissionBool('read')) {
@@ -166,6 +178,14 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
         if ($this->checkPermissionBool('write')) {
             $this->tabs_gui->addTab(
+                self::UI_TAB_ID_MD,
+                $this->lng->txt('meta_data'),
+                $this->ctrl->getLinkTargetByClass(ilMDEditorGUI::class)
+            );
+        }
+
+        if ($this->checkPermissionBool('write')) {
+            $this->tabs_gui->addTab(
                 self::UI_TAB_ID_EXPORT,
                 $this->lng->txt('export'),
                 $this->ctrl->getLinkTargetByClass(ilExportGUI::class)
@@ -181,14 +201,18 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd(self::UI_CMD_VIEW);
 
         $this->addToNavigationHistory();
 
-        if (strtolower($nextClass) !== strtolower(ilObjectContentStyleSettingsGUI::class)) {
+        if (
+            !$this->in_page_editor_style_context &&
+            strtolower($nextClass) !== strtolower(ilObjectContentStyleSettingsGUI::class) &&
+            (strtolower($cmd) !== strtolower(self::UI_CMD_EDIT) || strtolower($nextClass) !== strtolower(ilContentPagePageGUI::class))
+        ) {
             $this->renderHeaderActions();
         }
 
@@ -205,11 +229,13 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 break;
 
             case strtolower(ilObjectContentStyleSettingsGUI::class):
-                $this->checkPermission("write");
+                $this->checkPermission('write');
                 $this->prepareOutput();
                 $this->setLocator();
-                $this->tabs_gui->activateTab(self::UI_TAB_ID_SETTINGS);
-                $this->setSettingsSubTabs(self::UI_TAB_ID_STYLE);
+                if (!$this->in_page_editor_style_context) {
+                    $this->tabs_gui->activateTab(self::UI_TAB_ID_SETTINGS);
+                    $this->setSettingsSubTabs(self::UI_TAB_ID_STYLE);
+                }
                 $settings_gui = $this->content_style_gui
                     ->objectSettingsGUIForRefId(
                         null,
@@ -222,6 +248,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $isMediaRequest = in_array(strtolower($cmd), array_map('strtolower', [
                     self::UI_CMD_COPAGE_DOWNLOAD_FILE,
                     self::UI_CMD_COPAGE_DISPLAY_FULLSCREEN,
+                    self::UI_CMD_COPAGE_DISPLAY_MEDIA,
                     self::UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH,
                 ]), true);
                 if ($isMediaRequest) {
@@ -253,7 +280,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 );
                 $forwarder->setIsMediaRequest($isMediaRequest);
 
-                $forwarder->addUpdateListener(function (PageUpdatedEvent $event) : void {
+                $forwarder->addUpdateListener(function (PageUpdatedEvent $event): void {
                     $this->pageMetricsService->store(
                         new StorePageMetricsCommand(
                             $this->object->getId(),
@@ -278,6 +305,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 break;
 
             case strtolower(ilCommonActionDispatcherGUI::class):
+                $this->prepareOutput();
                 $this->ctrl->forwardCommand(ilCommonActionDispatcherGUI::getInstanceFromAjaxCall());
                 break;
 
@@ -288,6 +316,18 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tabs_gui->activateTab(self::UI_TAB_ID_PERMISSIONS);
 
                 $this->ctrl->forwardCommand(new ilPermissionGUI($this));
+                break;
+
+            case strtolower(ilMDEditorGUI::class):
+                $this->checkPermission('write');
+
+                $this->prepareOutput();
+                $this->tabs_gui->activateTab(self::UI_TAB_ID_MD);
+
+
+                $md_gui = new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+                $md_gui->addObserver($this->object, 'MDUpdateListener', 'General');
+                $this->ctrl->forwardCommand($md_gui);
                 break;
 
             case strtolower(ilLearningProgressGUI::class):
@@ -324,20 +364,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case strtolower(ilObjectCustomIconConfigurationGUI::class):
-                if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons', '0')) {
-                    $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-                }
-
-                $this->prepareOutput();
-                $this->tabs_gui->activateTab(self::UI_TAB_ID_SETTINGS);
-                $this->setSettingsSubTabs(self::UI_TAB_ID_ICON);
-
-                require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-                $gui = new ilObjectCustomIconConfigurationGUI($this->dic, $this, $this->object);
-                $this->ctrl->forwardCommand($gui);
-                break;
-
             case strtolower(ilObjectCopyGUI::class):
                 $this->tpl->loadStandardTemplate();
 
@@ -363,7 +389,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    public function addToNavigationHistory() : void
+    public function addToNavigationHistory(): void
     {
         if (!$this->getCreationMode() && $this->checkPermissionBool('read')) {
             $this->navHistory->addItem(
@@ -374,14 +400,14 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    public function renderHeaderActions() : void
+    public function renderHeaderActions(): void
     {
         if (!$this->getCreationMode() && $this->checkPermissionBool('read')) {
             $this->addHeaderAction();
         }
     }
 
-    public function infoScreenForward() : void
+    public function infoScreenForward(): void
     {
         if (!$this->infoScreenEnabled) {
             return;
@@ -401,7 +427,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->ctrl->forwardCommand($info);
     }
 
-    protected function setSettingsSubTabs(string $activeTab) : void
+    protected function setSettingsSubTabs(string $activeTab): void
     {
         if ($this->checkPermissionBool('write')) {
             $this->tabs_gui->addSubTab(
@@ -409,14 +435,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->lng->txt('settings'),
                 $this->ctrl->getLinkTarget($this, self::UI_CMD_EDIT)
             );
-
-            if ($this->settings->get('custom_icons', '0')) {
-                $this->tabs_gui->addSubTab(
-                    self::UI_TAB_ID_ICON,
-                    $this->lng->txt('icon_settings'),
-                    $this->ctrl->getLinkTargetByClass(ilObjectCustomIconConfigurationGUI::class)
-                );
-            }
 
             $this->tabs_gui->addSubTab(
                 self::UI_TAB_ID_STYLE,
@@ -434,7 +452,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    protected function addLocatorItems() : void
+    protected function addLocatorItems(): void
     {
         if ($this->object instanceof ilObject) {
             $this->locator->addItem(
@@ -446,7 +464,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    public function infoScreen() : void
+    public function infoScreen(): void
     {
         $this->ctrl->setCmd('showSummary');
         $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
@@ -454,7 +472,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->infoScreenForward();
     }
 
-    public function view() : void
+    public function view(): void
     {
         $this->checkPermission('read');
 
@@ -467,7 +485,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->tpl->setContent($this->getContent());
     }
 
-    protected function populateContentToolbar() : void
+    protected function populateContentToolbar(): void
     {
         if (!$this->user->isAnonymous() && $this->checkPermissionBool('write')) {
             $this->lng->loadLanguageModule('cntr');
@@ -482,10 +500,9 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     /**
      * @param string $ctrlLink A link which describes the target controller for all page object links/actions
-     * @return string
      * @throws ilException
      */
-    public function getContent(string $ctrlLink = '') : string
+    public function getContent(string $ctrlLink = ''): string
     {
         if ($this->checkPermissionBool('read')) {
             $this->object->trackProgress($this->user->getId());
@@ -510,7 +527,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         return '';
     }
 
-    protected function initStyleSheets() : void
+    protected function initStyleSheets(): void
     {
         $this->content_style_gui->addCss($this->tpl, $this->object->getRefId());
         $this->tpl->setCurrentBlock('SyntaxStyle');
@@ -518,7 +535,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function afterSave(ilObject $new_object) : void
+    protected function afterSave(ilObject $new_object): void
     {
         $new_object->getObjectTranslation()->addLanguage(
             $this->lng->getDefaultLanguage(),
@@ -533,7 +550,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->ctrl->redirect($this, 'edit');
     }
 
-    protected function setTitleAndDescription() : void
+    protected function setTitleAndDescription(): void
     {
         parent::setTitleAndDescription();
 
@@ -541,7 +558,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->tpl->setTitleIcon($icon, $this->lng->txt('obj_' . $this->object->getType()));
     }
 
-    protected function initEditCustomForm(ilPropertyFormGUI $a_form) : void
+    protected function initEditCustomForm(ilPropertyFormGUI $a_form): void
     {
         $this->addAvailabilitySection($a_form);
 
@@ -549,6 +566,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $presentationHeader->setTitle($this->lng->txt('settings_presentation_header'));
         $a_form->addItem($presentationHeader);
 
+        $this->object_service->commonSettings()->legacyForm($a_form, $this->object)->addIcon();
         $this->object_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
 
         $sh = new ilFormSectionHeaderGUI();
@@ -564,7 +582,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         );
     }
 
-    private function addAvailabilitySection(ilPropertyFormGUI $form) : void
+    private function addAvailabilitySection(ilPropertyFormGUI $form): void
     {
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('rep_activation_availability'));
@@ -575,13 +593,13 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $form->addItem($online);
     }
 
-    protected function getEditFormCustomValues(array &$a_values) : void
+    protected function getEditFormCustomValues(array &$a_values): void
     {
         $a_values['activation_online'] = $this->object->getOfflineStatus() === false;
         $a_values[ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY] = $this->infoScreenEnabled;
     }
 
-    protected function updateCustom(ilPropertyFormGUI $form) : void
+    protected function updateCustom(ilPropertyFormGUI $form): void
     {
         $this->object->setOfflineStatus(!(bool) $form->getInput('activation_online'));
         $this->object->update();
@@ -593,6 +611,12 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
             ]
         );
+        $this->object_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
         $this->object_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
+    }
+
+    public function editStyleProperties(): void
+    {
+        $this->content_style_gui->redirectToObjectSettings();
     }
 }

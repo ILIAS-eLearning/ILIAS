@@ -34,7 +34,6 @@ use Psr\Http\Message\StreamInterface;
  */
 interface PreProcessor
 {
-
     /**
      * This method gets invoked by the file upload service to process the file with the help of the
      * processor. If the return value is REJECTED, no further invocations of processors are done
@@ -48,5 +47,5 @@ interface PreProcessor
      *
      * @return ProcessingStatus The new status of the file.
      */
-    public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus;
+    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus;
 }

@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Toast;
 
@@ -16,8 +34,8 @@ class Toast implements ComponentInterface\Toast
     use ComponentHelper;
     use JavaScriptBindable;
 
-    public const DEFAULT_VANISH_TIME_IN_MS = 5000;
-    public const DEFAULT_DELAY_TIME_IN_MS = 500;
+    public const DEFAULT_VANISH_TIME = 5000;
+    public const DEFAULT_DELAY_TIME = 500;
 
     /**
      * @var string|Shy|Link
@@ -30,8 +48,8 @@ class Toast implements ComponentInterface\Toast
     protected string $action = '';
     protected SignalGeneratorInterface $signal_generator;
     protected Signal $signal;
-    protected int $vanishTime = Toast::DEFAULT_VANISH_TIME_IN_MS;
-    protected int $delayTime = Toast::DEFAULT_DELAY_TIME_IN_MS;
+    protected int $vanishTime = Toast::DEFAULT_VANISH_TIME;
+    protected int $delayTime = Toast::DEFAULT_DELAY_TIME;
 
     public function __construct($title, Icon $icon, SignalGeneratorInterface $signal_generator)
     {
@@ -48,26 +66,26 @@ class Toast implements ComponentInterface\Toast
         return $this->title;
     }
 
-    public function withDescription(string $description) : ComponentInterface\Toast
+    public function withDescription(string $description): ComponentInterface\Toast
     {
         $new = clone $this;
         $new->description = $description;
         return $new;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function withAdditionalLink(Link $link) : ComponentInterface\Toast
+    public function withAdditionalLink(Link $link): ComponentInterface\Toast
     {
         $new = clone $this;
         $new->links[] = $link;
         return $new;
     }
 
-    public function withoutLinks() : ComponentInterface\Toast
+    public function withoutLinks(): ComponentInterface\Toast
     {
         $new = clone $this;
         $new->links = [];
@@ -77,58 +95,58 @@ class Toast implements ComponentInterface\Toast
     /**
      * @return \ILIAS\UI\Component\Link\Link[]
      */
-    public function getLinks() : array
+    public function getLinks(): array
     {
         return $this->links;
     }
 
-    public function withAction(string $action) : ComponentInterface\Toast
+    public function withAction(string $action): ComponentInterface\Toast
     {
         $new = clone $this;
         $new->action = $action;
         return $new;
     }
 
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->action;
     }
 
-    public function getIcon() : Icon
+    public function getIcon(): Icon
     {
         return $this->icon;
     }
 
-    public function initSignals() : void
+    public function initSignals(): void
     {
         $this->signal = $this->signal_generator->create();
     }
 
-    public function getShowSignal() : Signal
+    public function getShowSignal(): Signal
     {
         return $this->signal;
     }
 
-    public function withVanishTime(int $vanishTime) : Toast
+    public function withVanishTime(int $vanishTime): Toast
     {
         $new = clone $this;
         $new->vanishTime = $vanishTime;
         return $new;
     }
 
-    public function getVanishTime() : int
+    public function getVanishTime(): int
     {
         return $this->vanishTime;
     }
 
-    public function withDelayTime(int $delayTime) : Toast
+    public function withDelayTime(int $delayTime): Toast
     {
         $new = clone $this;
         $new->delayTime = $delayTime;
         return $new;
     }
 
-    public function getDelayTime() : int
+    public function getDelayTime(): int
     {
         return $this->delayTime;
     }

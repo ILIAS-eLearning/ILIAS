@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\OrgUnit\Webservices\SOAP;
 
@@ -10,20 +26,12 @@ use ilOrgUnitPosition;
  */
 class SuperiorPositionId extends Base
 {
-
-    /**
-     * @param array $params
-     * @return int
-     */
-    protected function run(array $params)
+    protected function run(array $params): int
     {
-        return ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
+        return $this->positionRepo->getSingle(ilOrgUnitPosition::CORE_POSITION_SUPERIOR, 'core_identifier')->getId();
     }
 
-    /**
-     * @return string
-     */
-    public function getName() : string
+    public function getName(): string
     {
         return "getSuperiorPositionId";
     }
@@ -31,23 +39,17 @@ class SuperiorPositionId extends Base
     /**
      * @return array
      */
-    protected function getAdditionalInputParams()
+    protected function getAdditionalInputParams(): array
     {
         return array();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOutputParams() : array
+    public function getOutputParams(): array
     {
         return array('position_id' => Base::TYPE_INT);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDocumentation() : string
+    public function getDocumentation(): string
     {
         return "Returns the id of the default position 'Superior'";
     }

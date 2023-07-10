@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * TableGUI class for timings administration
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -46,17 +48,17 @@ class ilTimingUser
         $this->read();
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function isScheduled() : bool
+    public function isScheduled(): bool
     {
         return $this->is_scheduled;
     }
@@ -64,7 +66,7 @@ class ilTimingUser
     /**
      * Use to set start date
      */
-    public function getStart() : ilDateTime
+    public function getStart(): ilDateTime
     {
         return $this->start;
     }
@@ -72,12 +74,12 @@ class ilTimingUser
     /**
      * Use to set date
      */
-    public function getEnd() : ilDateTime
+    public function getEnd(): ilDateTime
     {
         return $this->end;
     }
 
-    public function create() : void
+    public function create(): void
     {
         if ($this->isScheduled()) {
             $this->update();
@@ -94,7 +96,7 @@ class ilTimingUser
         $this->is_scheduled = true;
     }
 
-    public function update() : void
+    public function update(): void
     {
         if (!$this->isScheduled()) {
             $this->create();
@@ -109,7 +111,7 @@ class ilTimingUser
         $this->db->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM crs_timings_user ' . ' ' .
             'WHERE ref_id = ' . $this->db->quote($this->getRefId(), 'integer') . ' ' .
@@ -118,7 +120,7 @@ class ilTimingUser
         $this->is_scheduled = false;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $query = 'SELECT * FROM crs_timings_user ' .
             'WHERE ref_id = ' . $this->db->quote($this->getRefId(), 'integer') . ' ' .

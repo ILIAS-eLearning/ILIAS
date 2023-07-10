@@ -1,0 +1,85 @@
+/* Modules/BookingManager */
+
+@use "../../../010-settings/"as *;
+@use "../../../050-layout/basics"as *;
+
+.ilTextinfo {
+	margin-bottom: 10px;
+}
+
+ul.il-book-obj-selection {
+	list-style: none;
+	padding: 0;
+	margin: $il-padding-xlarge-vertical 0;
+	li {
+		padding-left: $il-padding-base-horizontal;
+	}
+}
+
+
+@mixin il-book-border-mark-mixin($color){
+	border-left: 3px solid $color;
+}
+
+.il-book-border-mark-1{
+	@include il-book-border-mark-mixin($il-extended-color-1);
+}
+.il-book-border-mark-2{
+	@include il-book-border-mark-mixin($il-extended-color-2);
+}
+.il-book-border-mark-3{
+	@include il-book-border-mark-mixin($il-extended-color-3);
+}
+.il-book-border-mark-4{
+	@include il-book-border-mark-mixin($il-extended-color-4);
+}
+.il-book-border-mark-5{
+	@include il-book-border-mark-mixin($il-extended-color-5);
+}
+.il-book-border-mark-6{
+	@include il-book-border-mark-mixin($il-extended-color-6);
+}
+.il-book-border-mark-7{
+	@include il-book-border-mark-mixin($il-extended-color-7);
+}
+.il-book-border-mark-8{
+	@include il-book-border-mark-mixin($il-extended-color-8);
+}
+.il-book-border-mark-9{
+	@include il-book-border-mark-mixin($il-extended-color-9);
+}
+
+@mixin il-book-slot-mixin($color){
+	height: 100%;
+	width: 100%;
+	padding:3px;
+	@include il-book-border-mark-mixin($color);
+}
+
+.il-book-slot-1{
+	@include il-book-slot-mixin($il-extended-color-1);
+}
+.il-book-slot-2{
+	@include il-book-slot-mixin($il-extended-color-2);
+}
+.il-book-slot-3{
+	@include il-book-slot-mixin($il-extended-color-3);
+}
+.il-book-slot-4{
+	@include il-book-slot-mixin($il-extended-color-4);
+}
+.il-book-slot-5{
+	@include il-book-slot-mixin($il-extended-color-5);
+}
+.il-book-slot-6{
+	@include il-book-slot-mixin($il-extended-color-6);
+}
+.il-book-slot-7{
+	@include il-book-slot-mixin($il-extended-color-7);
+}
+.il-book-slot-8{
+	@include il-book-slot-mixin($il-extended-color-8);
+}
+.il-book-slot-9{
+	@include il-book-slot-mixin($il-extended-color-9);
+}

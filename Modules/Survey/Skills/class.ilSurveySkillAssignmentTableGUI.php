@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Skill\Service\SkillTreeService;
 
@@ -44,19 +47,19 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
 
         $this->skill_tree_service = $DIC->skills()->tree();
         $this->skill_tree = $this->skill_tree_service->getGlobalSkillTree();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->getQuestions();
 
         $this->addColumn($this->lng->txt("question"));
         $this->addColumn($this->lng->txt("survey_skill"));
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.svy_skill_ass_row.html", "Modules/Survey");
     }
-    
-    public function getQuestions() : void
+
+    public function getQuestions(): void
     {
         $survey_questions = $this->object->getSurveyQuestions();
 
@@ -74,7 +77,7 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
                 }
 
                 $id = $data["question_id"];
-                
+
                 $table_data[$id] = array("id" => $id,
                     "type" => "question",
                     "supported" => $supported,
@@ -87,8 +90,8 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
         }
         $this->setData($table_data);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -106,7 +109,7 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
             );
             $this->tpl->setVariable("TXT_CMD", $lng->txt("survey_assign_competence"));
             $this->tpl->parseCurrentBlock();
-            
+
             if ($s = $this->skill_survey->getSkillForQuestion($a_set["id"])) {
                 $this->tpl->setCurrentBlock("cmd");
                 $this->tpl->setVariable(
@@ -118,7 +121,7 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
                 );
                 $this->tpl->setVariable("TXT_CMD", $lng->txt("survey_remove_competence"));
                 $this->tpl->parseCurrentBlock();
-                
+
                 $this->tpl->setVariable(
                     "COMPETENCE",
                     ilBasicSkill::_lookupTitle($s["base_skill_id"], $s["tref_id"])
@@ -138,9 +141,9 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable("NOT_SUPPORTED", $lng->txt("svy_skl_comp_assignm_not_supported"));
         }
-        
+
         $this->tpl->setVariable("QUESTION_TITLE", $a_set["title"]);
-        
+
         $ilCtrl->setParameter($this->parent_obj, "q_id", "");
     }
 }

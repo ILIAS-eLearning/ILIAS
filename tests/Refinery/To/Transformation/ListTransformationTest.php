@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\To\Transformation;
 
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\ListTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
-use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 use UnexpectedValueException;
 
@@ -30,7 +31,7 @@ class ListTransformationTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testListTransformationIsValid() : void
+    public function testListTransformationIsValid(): void
     {
         $listTransformation = new ListTransformation(new StringTransformation());
 
@@ -39,20 +40,20 @@ class ListTransformationTest extends TestCase
         $this->assertEquals(['hello', 'world'], $result);
     }
 
-    public function testTransformOnEmptyArrayReturnsEmptyList() : void
+    public function testTransformOnEmptyArrayReturnsEmptyList(): void
     {
         $listTransformation = new ListTransformation(new StringTransformation());
         $this->assertSame([], $listTransformation->transform([]));
     }
 
-    public function testApplyToOnEmptyArrayDoesNotFail() : void
+    public function testApplyToOnEmptyArrayDoesNotFail(): void
     {
         $listTransformation = new ListTransformation(new StringTransformation());
         $result = $listTransformation->applyTo(new Ok([]));
         $this->assertFalse($result->isError());
     }
 
-    public function testTransformOnNullFails() : void
+    public function testTransformOnNullFails(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -66,7 +67,7 @@ class ListTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testApplyToOnNullFails() : void
+    public function testApplyToOnNullFails(): void
     {
         $listTransformation = new ListTransformation(new StringTransformation());
         $result = $listTransformation->applyTo(new Ok(null));
@@ -74,7 +75,7 @@ class ListTransformationTest extends TestCase
     }
 
 
-    public function testListTransformationIsInvalid() : void
+    public function testListTransformationIsInvalid(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -89,7 +90,7 @@ class ListTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testListApplyIsValid() : void
+    public function testListApplyIsValid(): void
     {
         $listTransformation = new ListTransformation(new StringTransformation());
 
@@ -99,7 +100,7 @@ class ListTransformationTest extends TestCase
         $this->assertTrue($result->isOK());
     }
 
-    public function testListApplyIsInvalid() : void
+    public function testListApplyIsInvalid(): void
     {
         $listTransformation = new ListTransformation(new StringTransformation());
 

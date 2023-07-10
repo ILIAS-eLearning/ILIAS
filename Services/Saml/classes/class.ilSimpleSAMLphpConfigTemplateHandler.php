@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,27 +16,24 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Filesystem;
 
 /**
  * Class ilSimpleSAMLphpConfigTemplateHandler
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSimpleSAMLphpConfigTemplateHandler
+final class ilSimpleSAMLphpConfigTemplateHandler
 {
-    protected Filesystem $fs;
-
-    public function __construct(Filesystem $fs)
+    public function __construct(private readonly Filesystem $fs)
     {
-        $this->fs = $fs;
     }
 
     /**
-     * @param string $sourcePath
-     * @param string $destinationPath
      * @param array $placeholders A key/value map where the key is the name of a placeholder, and the value is a primitive type or a callable
      */
-    public function copy(string $sourcePath, string $destinationPath, array $placeholders = []) : void
+    public function copy(string $sourcePath, string $destinationPath, array $placeholders = []): void
     {
         if (!$this->fs->has($destinationPath)) {
             $templateContents = file_get_contents($sourcePath);

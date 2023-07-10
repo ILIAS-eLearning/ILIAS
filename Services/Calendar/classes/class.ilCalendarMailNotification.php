@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,15 +30,15 @@
  */
 class ilCalendarMailNotification extends ilMailNotification
 {
-    protected const TYPE_GRP_NOTIFICATION = 1;
-    protected const TYPE_GRP_NEW_NOTIFICATION = 2;
-    protected const TYPE_CRS_NOTIFICATION = 3;
-    protected const TYPE_CRS_NEW_NOTIFICATION = 4;
+    public const TYPE_GRP_NOTIFICATION = 1;
+    public const TYPE_GRP_NEW_NOTIFICATION = 2;
+    public const TYPE_CRS_NOTIFICATION = 3;
+    public const TYPE_CRS_NEW_NOTIFICATION = 4;
     public const TYPE_BOOKING_CONFIRMATION = 5;
     public const TYPE_BOOKING_CANCELLATION = 6;
-    protected const TYPE_USER = 7;
-    protected const TYPE_USER_ANONYMOUS = 8;
-    protected const TYPE_BOOKING_REMINDER = 9;
+    public const TYPE_USER = 7;
+    public const TYPE_USER_ANONYMOUS = 8;
+    public const TYPE_BOOKING_REMINDER = 9;
 
     private ?int $appointment_id = null;
     private ?ilCalendarEntry $appointment = null;
@@ -53,29 +55,29 @@ class ilCalendarMailNotification extends ilMailNotification
         $this->rbacreview = $DIC->rbac()->review();
     }
 
-    public function setAppointmentId(int $a_id) : void
+    public function setAppointmentId(int $a_id): void
     {
         $this->appointment_id = $a_id;
         $this->appointment = new ilCalendarEntry($this->getAppointmentId());
     }
 
-    public function getAppointment() : ?ilCalendarEntry
+    public function getAppointment(): ?ilCalendarEntry
     {
         return $this->appointment;
     }
 
-    public function getAppointmentId() : ?int
+    public function getAppointmentId(): ?int
     {
         return $this->appointment_id;
     }
 
-    public function appendAppointmentDetails() : void
+    public function appendAppointmentDetails(): void
     {
         $app = new ilCalendarEntry($this->getAppointmentId());
         $this->appendBody($app->appointmentToMailString($this->getLanguage()));
     }
 
-    public function send() : void
+    public function send(): void
     {
         switch ($this->getType()) {
             case self::TYPE_USER:
@@ -377,7 +379,7 @@ class ilCalendarMailNotification extends ilMailNotification
         $this->deleteAttachments();
     }
 
-    protected function addAttachment() : void
+    protected function addAttachment(): void
     {
         $export = new ilCalendarExport();
         $export->setExportType(ilCalendarExport::EXPORT_APPOINTMENTS);
@@ -397,7 +399,7 @@ class ilCalendarMailNotification extends ilMailNotification
         );
     }
 
-    protected function deleteAttachments() : void
+    protected function deleteAttachments(): void
     {
         $attachment = new ilFileDataMail($this->getSender());
         $attachment->unlinkFiles($this->getAttachments());

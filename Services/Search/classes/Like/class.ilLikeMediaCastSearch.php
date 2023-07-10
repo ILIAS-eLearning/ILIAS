@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -33,7 +35,7 @@
 
 class ilLikeMediaCastSearch extends ilMediaCastSearch
 {
-    public function __createWhereCondition() : string
+    public function __createWhereCondition(): string
     {
         $and = "  WHERE context_obj_type='mcst' AND (  ";
         $counter = 0;

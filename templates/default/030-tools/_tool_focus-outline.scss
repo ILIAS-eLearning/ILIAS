@@ -1,0 +1,50 @@
+@use "../010-settings/" as *;
+
+// The offset should only be used if the contrast between the focus outline and the component is insufficient.
+$il-focus-outline-inner-width: 3px;
+$il-focus-outline-outer-width: 2px;
+$il-focus-outline-inner: $il-focus-outline-inner-width solid $il-focus-color;
+$il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protection-color;
+
+// In order not to manually overwrite the focus in all places, the following bootstrap focus mixin is overwritten ilias/libs/bower/bower_components/bootstrap/scss/mixins/tab-focus.scss.
+
+@mixin tab-focus(){
+    // WebKit-specific. Other browsers will keep their default outline style.
+    // (Initially tried to also force default via `outline: initial`,
+    // but that seems to erroneously remove the outline in Firefox altogether.)
+    outline: none;
+    outline-offset: 0px;
+    &:focus-visible {
+        outline: $il-focus-outline-outer;
+        outline-offset: $il-focus-outline-inner-width + $il-focus-outline-outer-width;
+        
+        @include il-focus-after();
+    }
+  }
+
+@mixin il-focus(){
+	&:focus-visible {
+		position: relative;
+		outline: $il-focus-outline-outer;
+		outline-offset: $il-focus-outline-inner-width + $il-focus-outline-outer-width - 1px;
+		
+		@include il-focus-after();
+	}
+
+	&:active,&.engaged{
+		outline: none;
+	}
+}
+
+@mixin il-focus-after(){
+	&::after {
+		content: " ";
+		position: absolute;
+		top: -$il-focus-outline-outer-width;
+		left: -$il-focus-outline-outer-width;
+		right: -$il-focus-outline-outer-width;
+		bottom: -$il-focus-outline-outer-width;
+		border: $il-focus-outline-outer;
+		outline: $il-focus-outline-inner;
+	}
+}

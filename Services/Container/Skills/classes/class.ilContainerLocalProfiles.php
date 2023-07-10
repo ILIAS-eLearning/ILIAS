@@ -42,41 +42,41 @@ class ilContainerLocalProfiles
         }
     }
 
-    protected function setObjId(int $a_obj_id) : void
+    protected function setObjId(int $a_obj_id): void
     {
         $this->obj_id = $a_obj_id;
     }
 
-    protected function getObjId() : int
+    protected function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    protected function setMemberRoleId() : void
+    protected function setMemberRoleId(): void
     {
         $refs = ilObject::_getAllReferences($this->getObjId());
         $ref_id = end($refs);
         $this->mem_rol_id = ilParticipants::getDefaultMemberRole($ref_id);
     }
 
-    protected function getMemberRoleId() : int
+    protected function getMemberRoleId(): int
     {
         return $this->mem_rol_id;
     }
 
-    public function getProfiles() : array
+    public function getProfiles(): array
     {
         return $this->profiles;
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $db = $this->db;
 
         $this->profiles = [];
         $set = $db->query(
-            "SELECT spr.profile_id, spr.role_id, sp.title FROM skl_profile_role spr INNER JOIN skl_profile sp " .
-            " ON spr.profile_id = sp.id " .
+            "SELECT spr.profile_id, spr.role_id, sp.title, sp.skill_tree_id " .
+            " FROM skl_profile_role spr INNER JOIN skl_profile sp ON spr.profile_id = sp.id " .
             " WHERE sp.ref_id <> 0 " .
             " AND role_id  = " . $db->quote($this->getMemberRoleId(), "integer")
         );

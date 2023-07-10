@@ -3,7 +3,6 @@ ilMap = Array();
 ilMapOptions = [];
 ilCM = Array();
 ilMapUserMarker = Array();
-
 ilMapData["{MAP_ID}"] = new Array({LAT},{LONG},{ZOOM},{TYPE_CONTROL},{NAV_CONTROL},{UPDATE_LISTENER},{LARGE_CONTROL},{CENTRAL_MARKER});
 ilMapUserMarker["{MAP_ID}"] = Array();
 <!-- BEGIN user_marker -->
@@ -266,4 +265,4 @@ function ilLookupAddress(id, address)
         }
     });
 }
-
+window.ilLookupAddress = ilLookupAddress;

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,26 +16,23 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailTemplatePlaceholderResolver
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMailTemplatePlaceholderResolver
 {
-    protected ilMailTemplateContext $context;
-    protected string $message = '';
-
-    public function __construct(ilMailTemplateContext $context, string $a_message)
+    public function __construct(protected ilMailTemplateContext $context, protected string $message)
     {
-        $this->context = $context;
-        $this->message = $a_message;
     }
 
     public function resolve(
         ilObjUser $user = null,
         array $contextParameters = [],
         bool $replaceEmptyPlaceholders = true
-    ) : string {
+    ): string {
         $message = $this->message;
 
         foreach ($this->context->getPlaceholders() as $key => $ph_definition) {

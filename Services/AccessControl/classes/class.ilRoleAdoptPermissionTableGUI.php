@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Copy Permission Settings
  * @author  Fabian Wolf <wolf@leifos.com>
@@ -25,7 +27,7 @@ class ilRoleAdoptPermissionTableGUI extends ilTable2GUI
 {
     public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
-        $this->setId("adopt_permission_" . $a_parent_obj->obj_id);
+        $this->setId("adopt_permission");
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->addColumn("");
@@ -46,12 +48,12 @@ class ilRoleAdoptPermissionTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("PARAM", "adopt");
         $this->tpl->setVariable("VAL_ID", $a_set["role_id"]);
         $this->tpl->setVariable("VAL_TITLE", $a_set["role_name"]);
-        if (strlen($a_set["role_desc"])) {
+        if (is_string($a_set["role_desc"]) && $a_set["role_desc"] !== '') {
             $this->tpl->setVariable("VAL_DESCRIPTION", $a_set["role_desc"]);
         }
         $this->tpl->setVariable("VAL_TYPE", $a_set["type"]);

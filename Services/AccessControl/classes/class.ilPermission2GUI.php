@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
@@ -68,7 +70,7 @@ class ilPermission2GUI
     }
 
     // show owner sub tab
-    public function owner() : void
+    public function owner(): void
     {
         $this->__initSubTabs("owner");
 
@@ -89,7 +91,7 @@ class ilPermission2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function changeOwner() : void
+    public function changeOwner(): void
     {
         $owner = '';
         if ($this->http->wrapper()->post()->has('owner')) {
@@ -125,7 +127,7 @@ class ilPermission2GUI
     }
 
     // init sub tabs
-    public function __initSubTabs(string $a_cmd) : void
+    public function __initSubTabs(string $a_cmd): void
     {
         $perm = $a_cmd == 'perm';
         $perm_positions = $a_cmd == ilPermissionGUI::CMD_PERM_POSITIONS;
@@ -182,7 +184,7 @@ class ilPermission2GUI
         }
     }
 
-    public function log() : void
+    public function log(): void
     {
         if (!ilRbacLog::isActive()) {
             $this->ctrl->redirect($this, "perm");
@@ -194,7 +196,7 @@ class ilPermission2GUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function applyLogFilter() : void
+    public function applyLogFilter(): void
     {
         $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->getObject()->getRefId());
         $table->resetOffset();
@@ -202,7 +204,7 @@ class ilPermission2GUI
         $this->log();
     }
 
-    public function resetLogFilter() : void
+    public function resetLogFilter(): void
     {
         $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->getObject()->getRefId());
         $table->resetOffset();

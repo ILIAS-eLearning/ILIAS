@@ -1,16 +1,23 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
 
 /**
  * TableGUI class for registration codes
@@ -25,6 +32,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
     protected ilRbacReview $rbacreview;
 
     public array $filter = [];
+    /** @var array<int, string> */
     protected array $role_map = [];
 
     /**
@@ -41,7 +49,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 
         $this->addColumn("", "", "1", true);
         foreach ($this->getSelectedColumns() as $c => $caption) {
-            if ($c == "role_local" || $c == "alimit") {
+            if ($c === "role_local" || $c === "alimit") {
                 $c = "";
             }
             $this->addColumn($this->lng->txt($caption), $c);
@@ -72,12 +80,12 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
     /**
      * Get user items
      */
-    public function getItems() : void
+    private function getItems(): void
     {
         $this->determineOffsetAndOrder();
 
         // #12737
-        if (!in_array($this->getOrderField(), array_keys($this->getSelectedColumns()))) {
+        if (!array_key_exists($this->getOrderField(), $this->getSelectedColumns())) {
             $this->setOrderField($this->getDefaultOrderField());
         }
 
@@ -106,14 +114,15 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
             );
         }
 
-        $options = array();
+        $options = [];
+        $this->role_map = [];
         foreach ($this->rbacreview->getGlobalRoles() as $role_id) {
-            if (!in_array($role_id, array(SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID))) {
-                $role_map[$role_id] = ilObject::_lookupTitle($role_id);
+            if (!in_array($role_id, [SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID], true)) {
+                $this->role_map[$role_id] = ilObject::_lookupTitle($role_id);
             }
         }
 
-        $result = array();
+        $result = [];
         foreach ($codes_data["set"] as $k => $code) {
             $result[$k]["code"] = $code["code"];
             $result[$k]["code_id"] = $code["code_id"];
@@ -122,16 +131,20 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 
             if ($code["used"]) {
                 $result[$k]["used"] = ilDatePresentation::formatDate(new ilDateTime($code["used"], IL_CAL_UNIX));
+            } else {
+                $result[$k]["used"] = "";
             }
 
             if ($code["role"]) {
                 $result[$k]["role"] = $this->role_map[$code["role"]];
+            } else {
+                $result[$k]["role"] = "";
             }
 
             if ($code["role_local"]) {
-                $local = array();
+                $local = [];
                 foreach (explode(";", $code["role_local"]) as $role_id) {
-                    $role = ilObject::_lookupTitle($role_id);
+                    $role = ilObject::_lookupTitle((int) $role_id);
                     if ($role) {
                         $local[] = $role;
                     }
@@ -140,6 +153,8 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
                     sort($local);
                     $result[$k]["role_local"] = implode("<br />", $local);
                 }
+            } else {
+                $result[$k]["role_local"] = "";
             }
 
             if ($code["alimit"]) {
@@ -154,7 +169,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
                         break;
 
                     case "relative":
-                        $limit_caption = array();
+                        $limit_caption = [];
                         $limit = unserialize($code["alimitdt"], ['allowed_classes' => false]);
                         if ((int) $limit["d"]) {
                             $limit_caption[] = (int) $limit["d"] . " " . $this->lng->txt("days");
@@ -181,7 +196,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
     /**
      * Init filter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         // code
         $ti = new ilTextInputGUI($this->lng->txt("registration_code"), "query");
@@ -194,14 +209,14 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 
         // role
 
-        $this->role_map = array();
+        $this->role_map = [];
         foreach ($this->rbacreview->getGlobalRoles() as $role_id) {
-            if (!in_array($role_id, array(SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID))) {
+            if (!in_array($role_id, [SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID], true)) {
                 $this->role_map[$role_id] = ilObject::_lookupTitle($role_id);
             }
         }
 
-        $options = array("" => $this->lng->txt("registration_roles_all")) +
+        $options = ["" => $this->lng->txt("registration_roles_all")] +
             $this->role_map;
         $si = new ilSelectInputGUI($this->lng->txt("role"), "role");
         $si->setOptions($options);
@@ -210,11 +225,12 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
         $this->filter["role"] = $si->getValue();
 
         // access limitation
-        $options = array("" => $this->lng->txt("registration_codes_access_limitation_all"),
-                         "unlimited" => $this->lng->txt("reg_access_limitation_none"),
-                         "absolute" => $this->lng->txt("reg_access_limitation_mode_absolute"),
-                         "relative" => $this->lng->txt("reg_access_limitation_mode_relative")
-        );
+        $options = [
+            "" => $this->lng->txt("registration_codes_access_limitation_all"),
+            "unlimited" => $this->lng->txt("reg_access_limitation_none"),
+            "absolute" => $this->lng->txt("reg_access_limitation_mode_absolute"),
+            "relative" => $this->lng->txt("reg_access_limitation_mode_relative")
+        ];
         $si = new ilSelectInputGUI($this->lng->txt("reg_access_limitations"), "alimit");
         $si->setOptions($options);
         $this->addFilterItem($si);
@@ -222,7 +238,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
         $this->filter["alimit"] = $si->getValue();
 
         // generated
-        $options = array("" => $this->lng->txt("registration_generated_all"));
+        $options = ["" => $this->lng->txt("registration_generated_all")];
         foreach (ilRegistrationCode::getGenerationDates() as $date) {
             $options[$date] = ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_UNIX));
         }
@@ -233,22 +249,23 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
         $this->filter["generated"] = $si->getValue();
     }
 
-    public function getSelectedColumns() : array
+    public function getSelectedColumns(): array
     {
-        return array("code" => "registration_code",
-                     "role" => "registration_codes_roles",
-                     "role_local" => "registration_codes_roles_local",
-                     "alimit" => "reg_access_limitations",
-                     "generated" => "registration_generated",
-                     "used" => "registration_used"
-        );
+        return [
+            "code" => "registration_code",
+            "role" => "registration_codes_roles",
+            "role_local" => "registration_codes_roles_local",
+            "alimit" => "reg_access_limitations",
+            "generated" => "registration_generated",
+            "used" => "registration_used"
+        ];
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("ID", $a_set["code_id"]);
         foreach (array_keys($this->getSelectedColumns()) as $c) {
-            $this->tpl->setVariable("VAL_" . strtoupper($c), $a_set[$c]);
+            $this->tpl->setVariable("VAL_" . strtoupper($c), $a_set[$c] ?? "");
         }
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -16,23 +18,23 @@ class ResultTest extends TestCase
 {
     private ?Data\Factory $f;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->f = new Data\Factory();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         $this->f = null;
     }
 
-    public function testValue() : void
+    public function testValue(): void
     {
         $result = $this->f->ok(3.154);
         $this->assertEquals(3.154, $result->value());
     }
 
-    public function testNoValue() : void
+    public function testNoValue(): void
     {
         $result = $this->f->error("Something went wrong");
 
@@ -46,20 +48,20 @@ class ResultTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testIsOk() : void
+    public function testIsOk(): void
     {
         $result = $this->f->ok(3.154);
         $this->assertTrue($result->isOk());
         $this->assertFalse($result->isError());
     }
 
-    public function testError() : void
+    public function testError(): void
     {
         $result = $this->f->error("Something went wrong");
         $this->assertEquals("Something went wrong", $result->error());
     }
 
-    public function testNoError() : void
+    public function testNoError(): void
     {
         $result = $this->f->ok(3.154);
 
@@ -73,26 +75,26 @@ class ResultTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testIsError() : void
+    public function testIsError(): void
     {
         $result = $this->f->error("Something went wrong");
         $this->assertTrue($result->isError());
         $this->assertFalse($result->isOk());
     }
 
-    public function testValueOr() : void
+    public function testValueOr(): void
     {
         $result = $this->f->ok(3.154);
         $this->assertEquals(3.154, $result->valueOr(5));
     }
 
-    public function testValueOrDefault() : void
+    public function testValueOrDefault(): void
     {
         $result = $this->f->error("Something went wrong");
         $this->assertEquals(5, $result->valueOr(5));
     }
 
-    public function testMapOk() : void
+    public function testMapOk(): void
     {
         $result = $this->f->ok(3);
         $multiplicator = 3;
@@ -105,7 +107,7 @@ class ResultTest extends TestCase
         $this->assertEquals(9, $new_result->value());
     }
 
-    public function testMapError() : void
+    public function testMapError(): void
     {
         $result = $this->f->error("Something went wrong");
         $multiplicator = 3;
@@ -116,7 +118,7 @@ class ResultTest extends TestCase
         $this->assertEquals($result, $new_result);
     }
 
-    public function testThenOk() : void
+    public function testThenOk(): void
     {
         $result = $this->f->ok(3);
         $multiplicator = 3;
@@ -129,7 +131,7 @@ class ResultTest extends TestCase
         $this->assertEquals(9, $new_result->value());
     }
 
-    public function testThenCallableNull() : void
+    public function testThenCallableNull(): void
     {
         $result = $this->f->ok(3);
         $new_result = $result->then(function ($v) {
@@ -140,7 +142,7 @@ class ResultTest extends TestCase
         $this->assertEquals($result, $new_result);
     }
 
-    public function testThenError() : void
+    public function testThenError(): void
     {
         $result = $this->f->error("Something went wrong");
         $multiplicator = 3;
@@ -152,7 +154,7 @@ class ResultTest extends TestCase
         $this->assertEquals($result, $new_result);
     }
 
-    public function testThenNoResult() : void
+    public function testThenNoResult(): void
     {
         $result = $this->f->ok(3);
 
@@ -169,7 +171,7 @@ class ResultTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testExceptError() : void
+    public function testExceptError(): void
     {
         $result = $this->f->error("Something went wrong");
         $exception = "Something else went wrong";
@@ -183,7 +185,7 @@ class ResultTest extends TestCase
         $this->assertEquals("Something else went wrong", $new_result->error());
     }
 
-    public function testExceptCallableNull() : void
+    public function testExceptCallableNull(): void
     {
         $result = $this->f->error("Something went wrong");
         $exception = "Something else went wrong";
@@ -196,7 +198,7 @@ class ResultTest extends TestCase
         $this->assertEquals($result, $new_result);
     }
 
-    public function testExceptOk() : void
+    public function testExceptOk(): void
     {
         $result = $this->f->ok(3);
         $exception = "Something else went wrong";
@@ -209,7 +211,7 @@ class ResultTest extends TestCase
         $this->assertEquals($result, $new_result);
     }
 
-    public function testExceptNoResult() : void
+    public function testExceptNoResult(): void
     {
         $result = $this->f->error("Something went wrong");
 

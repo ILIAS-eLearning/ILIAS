@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
 
@@ -25,18 +27,11 @@ use ILIAS\UI\Factory;
  */
 class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCriterionTypeGUI
 {
-    protected ilTermsOfServiceUserHasLanguageCriterion $type;
-    protected ilLanguage $lng;
-
-    public function __construct(
-        ilTermsOfServiceUserHasLanguageCriterion $type,
-        ilLanguage $lng
-    ) {
-        $this->type = $type;
-        $this->lng = $lng;
+    public function __construct(protected ilTermsOfServiceUserHasLanguageCriterion $type, protected ilLanguage $lng)
+    {
     }
 
-    public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config) : void
+    public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config): void
     {
         $option = new ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
         $option->setInfo($this->lng->txt('tos_crit_type_usr_language_info'));
@@ -52,7 +47,7 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
             $options[$lng] = $this->lng->txt('meta_l_' . $lng);
         }
 
-        asort($options);
+        natcasesort($options);
 
         $languageSelection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
         $languageSelection->setValue((string) ($config['lng'] ?? ''));
@@ -62,21 +57,19 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
         $group->addOption($option);
     }
 
-    public function getConfigByForm(ilPropertyFormGUI $form) : ilTermsOfServiceCriterionConfig
+    public function getConfigByForm(ilPropertyFormGUI $form): ilTermsOfServiceCriterionConfig
     {
-        $config = new ilTermsOfServiceCriterionConfig([
+        return new ilTermsOfServiceCriterionConfig([
             'lng' => (string) $form->getInput($this->type->getTypeIdent() . '_lng')
         ]);
-
-        return $config;
     }
 
-    public function getIdentPresentation() : string
+    public function getIdentPresentation(): string
     {
         return $this->lng->txt('tos_crit_type_usr_language');
     }
 
-    public function getValuePresentation(ilTermsOfServiceCriterionConfig $config, Factory $uiFactory) : Component
+    public function getValuePresentation(ilTermsOfServiceCriterionConfig $config, Factory $uiFactory): Component
     {
         $lng = $config['lng'] ?? '';
 

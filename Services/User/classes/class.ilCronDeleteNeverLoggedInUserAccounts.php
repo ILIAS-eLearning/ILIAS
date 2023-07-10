@@ -1,19 +1,25 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
 {
@@ -72,51 +78,51 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         }
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return 'user_never_logged_in';
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         global $DIC;
 
         return $DIC->language()->txt('user_never_logged_in');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         global $DIC;
 
         return $DIC->language()->txt('user_never_logged_in_info');
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : int
+    public function getDefaultScheduleValue(): int
     {
         return 1;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function hasCustomSettings() : bool
+    public function hasCustomSettings(): bool
     {
         return true;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         global $DIC;
 
@@ -178,7 +184,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         return $result;
     }
 
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
         $roleWhiteList = new ilMultiSelectInputGUI(
             $this->lng->txt('cron_users_without_login_del_role_whitelist'),
@@ -210,13 +216,16 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         $a_form->addItem($threshold);
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
         $valid = true;
 
         $this->roleIdWhiteliste = implode(',', $this->http->wrapper()->post()->retrieve(
             'role_whitelist',
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
         ));
 
         try {

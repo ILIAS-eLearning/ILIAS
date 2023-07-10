@@ -9,10 +9,9 @@ var KickAction = function KickAction() {};
 
 /**
  * @param {number} roomId
- * @param {number} subRoomId
  */
-KickAction.prototype.create = function(roomId, subRoomId) {
-	return Message.create('userjustkicked', 'userjustkicked', roomId, subRoomId);
+KickAction.prototype.create = function(roomId) {
+	return Message.create('userjustkicked', 'userjustkicked', roomId);
 };
 
 /**

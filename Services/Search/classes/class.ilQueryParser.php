@@ -1,25 +1,22 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class ilQueryParser
@@ -50,7 +47,7 @@ class ilQueryParser
     private string $query_str;
     private array $quoted_words = array();
     private string $message; // Translated error message
-    private string $combination; // combiniation of search words e.g 'and' or 'or'
+    private string $combination = ''; // combiniation of search words e.g 'and' or 'or'
     private bool $wildcards_allowed; // [bool]
     /**
      * @var string[]
@@ -74,21 +71,21 @@ class ilQueryParser
         $this->message = '';
 
         $this->setMinWordLength(1);
-        
+
         $this->setAllowedWildcards(false);
     }
 
-    public function setMinWordLength(int $a_length) : void
+    public function setMinWordLength(int $a_length): void
     {
         $this->min_word_length = $a_length;
     }
 
-    public function getMinWordLength() : int
+    public function getMinWordLength(): int
     {
         return $this->min_word_length;
     }
-    
-    public function setGlobalMinLength(int $a_value) : void
+
+    public function setGlobalMinLength(int $a_value): void
     {
         if ($a_value < 1) {
             return;
@@ -96,31 +93,31 @@ class ilQueryParser
 
         $this->global_min_length = $a_value;
     }
-    
-    public function getGlobalMinLength() : int
+
+    public function getGlobalMinLength(): int
     {
         return $this->global_min_length;
     }
-    
-    public function setAllowedWildcards(bool $a_value) : void
+
+    public function setAllowedWildcards(bool $a_value): void
     {
         $this->wildcards_allowed = $a_value;
     }
-    
-    public function getAllowedWildcards() : bool
+
+    public function getAllowedWildcards(): bool
     {
         return $this->wildcards_allowed;
     }
 
-    public function setMessage(string $a_msg) : void
+    public function setMessage(string $a_msg): void
     {
         $this->message = $a_msg;
     }
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
-    public function appendMessage(string $a_msg) : void
+    public function appendMessage(string $a_msg): void
     {
         if (strlen($this->getMessage())) {
             $this->message .= '<br />';
@@ -128,16 +125,16 @@ class ilQueryParser
         $this->message .= $a_msg;
     }
 
-    public function setCombination(string $a_combination) : void
+    public function setCombination(string $a_combination): void
     {
         $this->combination = $a_combination;
     }
-    public function getCombination() : string
+    public function getCombination(): string
     {
         return $this->combination;
     }
 
-    public function getQueryString() : string
+    public function getQueryString(): string
     {
         return trim($this->query_str);
     }
@@ -145,7 +142,7 @@ class ilQueryParser
     /**
      * @return string[]
      */
-    public function getWords() : array
+    public function getWords(): array
     {
         return $this->words ?? array();
     }
@@ -153,7 +150,7 @@ class ilQueryParser
     /**
      * @return string[]
      */
-    public function getQuotedWords(bool $with_quotation = false) : array
+    public function getQuotedWords(bool $with_quotation = false): array
     {
         if ($with_quotation) {
             return $this->quoted_words ?: array();
@@ -165,7 +162,7 @@ class ilQueryParser
         }
     }
 
-    public function getLuceneQueryString() : string
+    public function getLuceneQueryString(): string
     {
         $counter = 0;
         $tmp_str = "";
@@ -177,7 +174,7 @@ class ilQueryParser
         }
         return $tmp_str;
     }
-    public function parse() : bool
+    public function parse(): bool
     {
         $this->words = array();
 
@@ -187,20 +184,20 @@ class ilQueryParser
             if (!strlen(trim($word))) {
                 continue;
             }
-            
+
             if (strlen(trim($word)) < $this->getMinWordLength()) {
                 $this->setMessage(sprintf($this->lng->txt('search_minimum_info'), $this->getMinWordLength()));
                 continue;
             }
-            
-            $this->words[] = addslashes($word);
+
+            $this->words[] = $word;
         }
-        
+
         $fullstr = trim($this->getQueryString());
         if (!in_array($fullstr, $this->words)) {
-            $this->words[] = addslashes($fullstr);
+            $this->words[] = $fullstr;
         }
-        
+
         if (!$this->getAllowedWildcards()) {
             // #14768
             foreach ($this->words as $idx => $word) {
@@ -215,11 +212,11 @@ class ilQueryParser
         // Parse strings like && 'A "B C D" E' as 'A' && 'B C D' && 'E'
         // Can be used in LIKE search or fulltext search > MYSQL 4.0
         $this->__parseQuotation();
-        
+
         return true;
     }
 
-    public function __parseQuotation() : bool
+    public function __parseQuotation(): bool
     {
         if (!strlen($this->getQueryString())) {
             $this->quoted_words[] = '';
@@ -228,7 +225,7 @@ class ilQueryParser
         $query_str = $this->getQueryString();
         while (preg_match("/\".*?\"/", $query_str, $matches)) {
             $query_str = str_replace($matches[0], '', $query_str);
-            $this->quoted_words[] = addslashes($matches[0]);
+            $this->quoted_words[] = $matches[0];
         }
 
         // Parse the rest
@@ -237,10 +234,10 @@ class ilQueryParser
             if (!strlen(trim($word))) {
                 continue;
             }
-            
-            $this->quoted_words[] = addslashes($word);
+
+            $this->quoted_words[] = $word;
         }
-        
+
         if (!$this->getAllowedWildcards()) {
             // #14768
             foreach ($this->quoted_words as $idx => $word) {
@@ -254,7 +251,7 @@ class ilQueryParser
         return true;
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         // Words with less than 3 characters
         if (strlen($this->getMessage())) {

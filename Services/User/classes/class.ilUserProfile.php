@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 // mjansen@databay.de essential for mail constants, do not remove this include
 
@@ -390,7 +393,7 @@ class ilUserProfile
                         "export_hide" => true,
                         "search_hide" => true,
                         "group" => "settings")
-        
+
         );
     protected string $ajax_href;
     protected array $skip_fields; // Missing array type.
@@ -414,11 +417,11 @@ class ilUserProfile
 
         $this->user_settings_config = new ilUserSettingsConfig();
     }
-    
+
     /**
      * Get standard user fields array
      */
-    public function getStandardFields() : array // Missing array type.
+    public function getStandardFields(): array // Missing array type.
     {
         $fields = array();
         foreach (self::$user_field as $f => $p) {
@@ -431,11 +434,11 @@ class ilUserProfile
         }
         return $fields;
     }
-    
+
     /**
      * Get visible fields in local user administration
      */
-    public function getLocalUserAdministrationFields() : array // Missing array type.
+    public function getLocalUserAdministrationFields(): array // Missing array type.
     {
         global $DIC;
 
@@ -445,18 +448,18 @@ class ilUserProfile
         foreach ($this->getStandardFields() as $field => $info) {
             if ($ilSetting->get('usr_settings_visib_lua_' . $field, '1')) {
                 $fields[$field] = $info;
-            } elseif ($info['visib_lua_fix_value']) {
+            } elseif ($info['visib_lua_fix_value'] ?? false) {
                 $fields[$field] = $info;
             }
         }
         return $fields;
     }
-    
-    
+
+
     /**
      * Skip a group
      */
-    public function skipGroup(string $a_group) : void
+    public function skipGroup(string $a_group): void
     {
         $this->skip_groups[] = $a_group;
     }
@@ -464,11 +467,11 @@ class ilUserProfile
     /**
      * Skip a field
      */
-    public function skipField(string $a_field) : void
+    public function skipField(string $a_field): void
     {
         $this->skip_fields[] = $a_field;
     }
-    
+
     /**
      * Add standard fields to form
      */
@@ -476,7 +479,7 @@ class ilUserProfile
         ilPropertyFormGUI $a_form,
         ?ilObjUser $a_user = null,
         array $custom_fields = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
@@ -499,7 +502,7 @@ class ilUserProfile
             self::$user_field["roles"] = $roles;
             self::$user_field["roles"]["group"] = "settings";
         }
-        
+
         $fields = $this->getStandardFields();
         $current_group = "";
         $custom_fields_done = false;
@@ -522,7 +525,7 @@ class ilUserProfile
                         $custom_fields_done = true;
                     }
                 }
-                
+
                 $sh = new ilFormSectionHeaderGUI();
                 $sh->setTitle($lng->txt($p["group"]));
                 $a_form->addItem($sh);
@@ -534,7 +537,7 @@ class ilUserProfile
             $lv = (isset($p["lang_var"]) && $p["lang_var"] != "")
                 ? $p["lang_var"]
                 : $f;
-            
+
             switch ($p["input"]) {
                 case "login":
                     if ((int) $ilSetting->get('allow_change_loginname') || self::$mode == self::MODE_REGISTRATION) {
@@ -554,7 +557,7 @@ class ilUserProfile
                     }
                     $a_form->addItem($val);
                     break;
-                
+
                 case "text":
                     if (self::userSettingVisible($f)) {
                         $ti = new ilTextInputGUI($lng->txt($lv), "usr_" . $f);
@@ -589,7 +592,7 @@ class ilUserProfile
                     if (self::userSettingVisible($f)) {
                         $bi = new ilBirthdayInputGUI($lng->txt($lv), "usr_" . $f);
                         $date = null;
-                        if ($a_user && strlen($a_user->$m())) {
+                        if ($a_user && $a_user->$m() && strlen($a_user->$m())) {
                             $date = new ilDateTime($a_user->$m(), IL_CAL_DATE);
                             $bi->setDate($date);
                         }
@@ -600,7 +603,7 @@ class ilUserProfile
                         $a_form->addItem($bi);
                     }
                     break;
-                    
+
                 case "radio":
                     if (self::userSettingVisible($f)) {
                         $rg = new ilRadioGroupInputGUI($lng->txt($lv), "usr_" . $f);
@@ -618,7 +621,7 @@ class ilUserProfile
                         $a_form->addItem($rg);
                     }
                     break;
-                    
+
                 case "picture":
                     if (self::userSettingVisible("upload") && $a_user) {
                         $ii = new ilImageFileInputGUI($lng->txt("personal_picture"), "userfile");
@@ -640,11 +643,11 @@ class ilUserProfile
                                 $ii->setAlt($lng->txt("personal_picture"));
                             }
                         }
-            
+
                         $a_form->addItem($ii);
                     }
                     break;
-                    
+
                 case "roles":
                     $role_names = "";
                     if (self::$mode == self::MODE_DESKTOP) {
@@ -721,7 +724,7 @@ class ilUserProfile
                         $a_form->addItem($ta);
                     }
                     break;
-                    
+
                 case "password":
                     if (self::$mode == self::MODE_REGISTRATION) {
                         if (!$registration_settings->passwordGenerationEnabled()) {
@@ -737,7 +740,7 @@ class ilUserProfile
                         $a_form->addItem($ta);
                     }
                     break;
-                    
+
                 case "language":
                     if (self::userSettingVisible($f)) {
                         $ta = new ilSelectInputGUI($lng->txt($lv), "usr_" . $f);
@@ -758,7 +761,7 @@ class ilUserProfile
                         $a_form->addItem($ta);
                     }
                     break;
-                    
+
                 case "multitext":
                     if (self::userSettingVisible($f)) {
                         $ti = new ilTextInputGUI($lng->txt($lv), "usr_" . $f);
@@ -788,7 +791,7 @@ class ilUserProfile
                     break;
             }
         }
-        
+
         // append custom fields as "other"
         if (is_array($custom_fields) && !$custom_fields_done) {
             // add "other" subheader
@@ -802,16 +805,16 @@ class ilUserProfile
             }
         }
     }
-    
-    public function setAjaxCallback(string $a_href) : void
+
+    public function setAjaxCallback(string $a_href): void
     {
         $this->ajax_href = $a_href;
     }
-    
+
     /**
      * Checks whether user setting is visible
      */
-    public static function userSettingVisible(string $a_setting) : bool
+    public static function userSettingVisible(string $a_setting): bool
     {
         global $DIC;
 
@@ -829,8 +832,8 @@ class ilUserProfile
             return ($ilSetting->get("usr_settings_visib_reg_" . $a_setting, "1") || $ilSetting->get("require_" . $a_setting, "0"));
         }
     }
-    
-    public static function setMode(int $mode) : bool
+
+    public static function setMode(int $mode): bool
     {
         if (in_array($mode, array(self::MODE_DESKTOP, self::MODE_REGISTRATION))) {
             self::$mode = $mode;
@@ -838,7 +841,7 @@ class ilUserProfile
         }
         return false;
     }
-        
+
     /**
      * Check if all required personal data fields are set
      *
@@ -851,20 +854,20 @@ class ilUserProfile
         ilObjUser $a_user,
         bool $a_include_udf = true,
         bool $a_personal_data_only = true
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
 
         $user_settings_config = new ilUserSettingsConfig();
-        
+
         // standard fields
         foreach (self::$user_field as $field => $definition) {
             // only if visible in personal data
             if ($a_personal_data_only && !$user_settings_config->isVisible($field)) {
                 continue;
             }
-            
+
             if ($ilSetting->get("require_" . $field) && $definition["method"]) {
                 $value = $a_user->{$definition["method"]}();
                 if ($value == "") {
@@ -872,65 +875,65 @@ class ilUserProfile
                 }
             }
         }
-        
+
         // custom fields
         if ($a_include_udf) {
             $user_defined_data = $a_user->getUserDefinedData();
-            
+
             $user_defined_fields = ilUserDefinedFields::_getInstance();
             foreach ($user_defined_fields->getRequiredDefinitions() as $field => $definition) {
                 // only if visible in personal data
                 if ($a_personal_data_only && !$definition["visible"]) {
                     continue;
                 }
-                
-                if (!$user_defined_data["f_" . $field]) {
+
+                if (!($user_defined_data["f_" . $field] ?? false)) {
                     ilLoggerFactory::getLogger('user')->info('Profile is incomplete due to missing required udf.');
                     return true;
                 }
             }
         }
-        
+
         return false;
     }
-    
+
     /**
      * Returns whether a profile setting is editable by an user in the profile gui
      */
-    protected static function isEditableByUser(string $setting) : bool
+    protected static function isEditableByUser(string $setting): bool
     {
         $user_settings_config = new ilUserSettingsConfig();
         return $user_settings_config->isVisibleAndChangeable($setting);
     }
-    
+
     /**
      * Returns an array of all ignorable profiel fields
      */
-    public static function getIgnorableRequiredSettings() : array // Missing array type.
+    public static function getIgnorableRequiredSettings(): array // Missing array type.
     {
         global $DIC;
 
         $ilSetting = $DIC->settings();
-        
+
         $ignorableSettings = array();
-    
+
         foreach (self::$user_field as $field => $definition) {
             // !!!username and password must not be ignored!!!
             if ('username' == $field ||
                 'password' == $field) {
                 continue;
             }
-            
+
             // Field is not required -> continue
             if (!$ilSetting->get('require_' . $field)) {
                 continue;
             }
-            
+
             if (self::isEditableByUser($field)) {
                 $ignorableSettings[] = $field;
             }
         }
-        
+
         return $ignorableSettings;
     }
 }

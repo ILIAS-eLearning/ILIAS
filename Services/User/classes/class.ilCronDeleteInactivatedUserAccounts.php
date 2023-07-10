@@ -1,19 +1,25 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * This cron deletes user accounts by INACTIVATION period
@@ -81,58 +87,58 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
             }
         }
     }
-    
-    public function getId() : string
+
+    public function getId(): string
     {
         return "user_inactivated";
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->lng->txt("delete_inactivated_user_accounts");
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         return sprintf(
             $this->lng->txt("delete_inactivated_user_accounts_desc"),
             $this->period
         );
     }
-    
-    public function getDefaultScheduleType() : int
+
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
-    
-    public function getDefaultScheduleValue() : ?int
+
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
-    
-    public function hasAutoActivation() : bool
+
+    public function hasAutoActivation(): bool
     {
         return false;
     }
-    
-    public function hasFlexibleSchedule() : bool
+
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
-    
-    public function hasCustomSettings() : bool
+
+    public function hasCustomSettings(): bool
     {
         return true;
     }
-    
-    public function run() : ilCronJobResult
+
+    public function run(): ilCronJobResult
     {
         global $DIC;
 
         $rbacreview = $DIC->rbac()->review();
 
         $status = ilCronJobResult::STATUS_NO_ACTION;
-                
+
         $usr_ids = ilObjUser::_getUserIdsByInactivationPeriod($this->period);
 
         $counter = 0;
@@ -155,7 +161,7 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
 
             $user = ilObjectFactory::getInstanceByObjId($usr_id);
             $user->delete();
-            
+
             $counter++;
         }
 
@@ -168,8 +174,8 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
 
         return $result;
     }
-    
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
         $sub_mlist = new ilMultiSelectInputGUI(
             $this->lng->txt('delete_inactivated_user_accounts_include_roles'),
@@ -210,8 +216,8 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
         $sub_text->setRequired(true);
         $a_form->addItem($sub_text);
     }
-    
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
         $roles = implode(',', $this->http->wrapper()->post()->retrieve(
             'cron_inactivated_user_delete_include_roles',

@@ -1,11 +1,29 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Data\Factory;
+
+/**
  * Responsible for loading the UI Framework into the dependency injection container of ILIAS
  */
 class InitUIFramework
 {
-    public function init(\ILIAS\DI\Container $c) : void
+    public function init(\ILIAS\DI\Container $c): void
     {
         $c["ui.factory"] = function ($c) {
             $c["lng"]->loadLanguageModule("ui");
@@ -34,8 +52,17 @@ class InitUIFramework
                 $c["ui.factory.menu"],
                 $c["ui.factory.symbol"],
                 $c["ui.factory.toast"],
-                $c["ui.factory.legacy"]
+                $c["ui.factory.legacy"],
+                $c["ui.factory.launcher"]
             );
+        };
+        $c["ui.upload_limit_resolver"] = function ($c) {
+            return new \ILIAS\UI\Implementation\Component\Input\UploadLimitResolver(
+                (int) \ilFileUtils::getUploadSizeLimitBytes()
+            );
+        };
+        $c["ui.data_factory"] = function ($c) {
+            return new ILIAS\Data\Factory();
         };
         $c["ui.signal_generator"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\SignalGenerator();
@@ -55,8 +82,15 @@ class InitUIFramework
         $c["ui.factory.panel"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Panel\Factory($c["ui.factory.panel.listing"]);
         };
+        $c["ui.factory.interruptive_item"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Modal\InterruptiveItem\Factory();
+        };
         $c["ui.factory.modal"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Modal\Factory($c["ui.signal_generator"]);
+            return new ILIAS\UI\Implementation\Component\Modal\Factory(
+                $c["ui.signal_generator"],
+                $c["ui.factory.interruptive_item"],
+                $c["ui.factory.input.field"],
+            );
         };
         $c["ui.factory.dropzone"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Dropzone\Factory($c["ui.factory.dropzone.file"]);
@@ -99,7 +133,20 @@ class InitUIFramework
             );
         };
         $c["ui.factory.table"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Table\Factory($c["ui.signal_generator"]);
+            $row_builder = new ILIAS\UI\Implementation\Component\Table\DataRowBuilder();
+            return new ILIAS\UI\Implementation\Component\Table\Factory(
+                $c["ui.signal_generator"],
+                $c["ui.data_factory"],
+                $c["ui.factory.table.column"],
+                $c["ui.factory.table.action"],
+                $row_builder
+            );
+        };
+        $c["ui.factory.table.column"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Table\Column\Factory();
+        };
+        $c["ui.factory.table.action"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Table\Action\Factory();
         };
         $c["ui.factory.messagebox"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\MessageBox\Factory();
@@ -151,13 +198,11 @@ class InitUIFramework
             return new ILIAS\UI\Implementation\Component\Chart\Bar\Factory();
         };
         $c["ui.factory.input.field"] = function ($c) {
-            $data_factory = new ILIAS\Data\Factory();
-            $refinery = new ILIAS\Refinery\Factory($data_factory, $c["lng"]);
-
             return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+                $c["ui.upload_limit_resolver"],
                 $c["ui.signal_generator"],
-                $data_factory,
-                $refinery,
+                $c["ui.data_factory"],
+                $c["refinery"],
                 $c["lng"]
             );
         };
@@ -187,8 +232,8 @@ class InitUIFramework
         };
         $c["ui.factory.dropzone.file"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory(
-                $c["ui.factory.input"],
-                $c["lng"]
+                $c["ui.signal_generator"],
+                $c["ui.factory.input.field"],
             );
         };
         $c["ui.factory.panel.listing"] = function ($c) {
@@ -210,7 +255,9 @@ class InitUIFramework
                             $c["lng"],
                             $c["ui.javascript_binding"],
                             $c["refinery"],
-                            $c["ui.pathresolver"]
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"]
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
                             $c["ui.factory"],
@@ -218,7 +265,19 @@ class InitUIFramework
                             $c["lng"],
                             $c["ui.javascript_binding"],
                             $c["refinery"],
-                            $c["ui.pathresolver"]
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"]
+                        ),
+                        new ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["refinery"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"]
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
@@ -226,7 +285,9 @@ class InitUIFramework
                             $c["lng"],
                             $c["ui.javascript_binding"],
                             $c["refinery"],
-                            $c["ui.pathresolver"]
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"]
                         )
                     )
                 )
@@ -250,8 +311,14 @@ class InitUIFramework
             return new ILIAS\UI\Implementation\Component\Legacy\Factory($c["ui.signal_generator"]);
         };
 
-        $c["ui.pathresolver"] = function ($c) : ILIAS\UI\Implementation\Render\ImagePathResolver {
+        $c["ui.pathresolver"] = function ($c): ILIAS\UI\Implementation\Render\ImagePathResolver {
             return new ilImagePathResolver();
+        };
+
+        $c["ui.factory.launcher"] = function ($c): ILIAS\UI\Implementation\Component\Launcher\Factory {
+            return new ILIAS\UI\Implementation\Component\Launcher\Factory(
+                $c["ui.factory.modal"]
+            );
         };
     }
 }

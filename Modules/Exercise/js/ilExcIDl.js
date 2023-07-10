@@ -1,4 +1,18 @@
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 il.ExcIDl = {
 	ajax_url: '',
@@ -10,13 +24,12 @@ il.ExcIDl = {
 	},
 	
 	trigger: function(user_id, ass_id) {
-		console.log("trigger");
-		il.Util.sendAjaxGetRequestToUrl(
+		il.repository.core.fetchHtml(
 			il.ExcIDl.ajax_url,
-			{idlid: ass_id+"_"+user_id},
-			{},
-			il.ExcIDl.showModal
-		);
+			{idlid: ass_id+"_"+user_id}
+		).then((html) => {
+			il.ExcIDl.showModal(html);
+		});
 		return false;
 	},
 	
@@ -60,14 +73,14 @@ il.ExcIDl = {
 				});	
 				if(cmd == "setIndividualDeadline" && ids.length)
 				{
+					console.log("trigger 2");
 					// :TODO: handle preventDoubleSubmission?
-					
-					il.Util.sendAjaxGetRequestToUrl(
+					il.repository.core.fetchHtml(
 						il.ExcIDl.ajax_url,
-						{idlid: ids.join()},
-						{},
-						il.ExcIDl.showModal
-					);
+						{idlid: ids.join()}
+					).then((html) => {
+						il.ExcIDl.showModal(html);
+					});
 					return false;
 				}
 			}
@@ -78,11 +91,11 @@ il.ExcIDl = {
 		});				
 	},		
 	
-	showModal: function(o) {
+	showModal: function(html) {
 		console.log("show modal");
-		if(o.responseText !== undefined)
+		if(html !== undefined)
 		{			
-			$("#ilExcIDlBody").html(o.responseText);
+			$("#ilExcIDlBody").html(html);
 			
 			il.ExcIDl.parseForm();
 			

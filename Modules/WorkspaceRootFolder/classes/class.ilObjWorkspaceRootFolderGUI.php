@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjWorkspaceRootFolderGUI
@@ -34,20 +37,20 @@ class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI
         $this->lng = $DIC->language();
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "wsrt";
     }
-    
-    protected function setTabs(bool $a_show_settings = false) : void
+
+    protected function setTabs(bool $a_show_settings = false): void
     {
         $ilHelp = $this->help;
 
         parent::setTabs(false);
         $ilHelp->setScreenIdComponent("wsrt");
     }
-    
-    protected function setTitleAndDescription() : void
+
+    protected function setTitleAndDescription(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;

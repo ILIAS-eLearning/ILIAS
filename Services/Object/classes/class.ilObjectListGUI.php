@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,13 +15,17 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Card\RepositoryObject;
 use ILIAS\UI\Component\Item\Item;
+use ILIAS\Notes\Note;
+use ILIAS\HTTP\Services as HTTPServices;
 
 /**
  * Important note:
@@ -36,22 +40,22 @@ use ILIAS\UI\Component\Item\Item;
  */
 class ilObjectListGUI
 {
-    const IL_LIST_AS_TRIGGER = "trigger";
-    const IL_LIST_FULL = "full";
+    public const IL_LIST_AS_TRIGGER = 'trigger';
+    public const IL_LIST_FULL = 'full';
 
-    const DETAILS_MINIMAL = 10;
-    const DETAILS_SEARCH = 20 ;
-    const DETAILS_ALL = 30;
+    public const DETAILS_MINIMAL = 10;
+    public const DETAILS_SEARCH = 20 ;
+    public const DETAILS_ALL = 30;
 
-    const CONTEXT_REPOSITORY = 1;
-    const CONTEXT_WORKSPACE = 2;
-    const CONTEXT_WORKSPACE_SHARING = 4;
-    const CONTEXT_PERSONAL_DESKTOP = 5;
-    const CONTEXT_SEARCH = 6;
+    public const CONTEXT_REPOSITORY = 1;
+    public const CONTEXT_WORKSPACE = 2;
+    public const CONTEXT_WORKSPACE_SHARING = 4;
+    public const CONTEXT_PERSONAL_DESKTOP = 5;
+    public const CONTEXT_SEARCH = 6;
 
-    const DOWNLOAD_CHECKBOX_NONE = 0;
-    const DOWNLOAD_CHECKBOX_ENABLED = 1;
-    const DOWNLOAD_CHECKBOX_DISABLED = 2;
+    public const DOWNLOAD_CHECKBOX_NONE = 0;
+    public const DOWNLOAD_CHECKBOX_ENABLED = 1;
+    public const DOWNLOAD_CHECKBOX_DISABLED = 2;
 
     protected static array $cnt_notes = [];
     protected static array $cnt_tags = [];
@@ -59,8 +63,10 @@ class ilObjectListGUI
     protected static array $comments_activation = [];
     protected static bool $preload_done = false;
     protected static int $js_unique_id = 0;
-    protected static string $tpl_file_name = "tpl.container_list_item.html";
-    protected static string $tpl_component = "Services/Container";
+    protected static string $tpl_file_name = 'tpl.container_list_item.html';
+    protected static string $tpl_component = 'Services/Container';
+    private \ILIAS\Notes\Service $notes_service;
+    protected bool $force_rate_parent = false;
 
     protected array $access_cache;
     protected ilAccessHandler $access;
@@ -68,7 +74,9 @@ class ilObjectListGUI
     protected ilObjectDefinition $obj_definition;
     protected ilTree $tree;
     protected ilSetting $settings;
+    protected HTTPServices $http;
     protected UIServices $ui;
+    protected ilGlobalTemplateInterface $main_tpl;
     protected ilRbacSystem $rbacsystem;
     protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
@@ -89,7 +97,7 @@ class ilObjectListGUI
     protected bool $notice_properties_enabled = true;
     protected bool $info_screen_enabled = false;
     protected string $type;
-    protected string $gui_class_name = "";
+    protected string $gui_class_name = '';
     protected array $commands = [];
 
     protected ?ilLDAPRoleGroupMapping $ldap_mapping;
@@ -139,7 +147,7 @@ class ilObjectListGUI
     protected ?int $reference_obj_id = null;
     protected bool $separate_commands = false;
     protected bool $search_fragment_enabled = false;
-    protected ?string $additional_information = "";
+    protected ?string $additional_information = '';
     protected bool $repository_transfer_enabled = false;
     protected bool $shared = false;
     protected bool $restrict_to_goto = false;
@@ -173,63 +181,66 @@ class ilObjectListGUI
     protected array $notice_prop = [];
     protected string $ajax_hash;
     protected ilListItemAccessCache $acache;
-    protected string $position_field_index = "";
-    protected string $title = "";
-    protected string $description = "";
+    protected string $position_field_index = '';
+    protected string $title = '';
+    protected string $description = '';
     protected ilWorkspaceAccessHandler $ws_access;
-    
+
     public function __construct(int $context = self::CONTEXT_REPOSITORY)
     {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->access = $DIC->access();
-        $this->user = $DIC->user();
-        $this->obj_definition = $DIC["objDefinition"];
-        $this->tree = $DIC->repositoryTree();
-        $this->settings = $DIC->settings();
+        $this->access = $DIC['ilAccess'];
+        $this->user = $DIC['ilUser'];
+        $this->obj_definition = $DIC['objDefinition'];
+        $this->tree = $DIC['tree'];
+        $this->settings = $DIC['ilSetting'];
+        $this->http = $DIC->http();
         $this->ui = $DIC->ui();
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
+        $this->main_tpl = $DIC['tpl'];
+        $this->rbacsystem = $DIC['rbacsystem'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->lng = $DIC['lng'];
         $this->mode = self::IL_LIST_FULL;
         $this->path_enabled = false;
         $this->context = $context;
         $this->object_service = $DIC->object();
         $this->request_wrapper = $DIC->http()->wrapper()->query();
-        $this->refinery = $DIC->refinery();
-        
+        $this->refinery = $DIC['refinery'];
+
         $this->enableComments(false);
         $this->enableNotes(false);
         $this->enableTags(false);
-        
+
         // unique js-ids
-        $this->setParentRefId((int) ($_REQUEST["ref_id"] ?? 0));
+        $this->setParentRefId((int) ($_REQUEST['ref_id'] ?? 0));
 
         $this->init();
-        
+
         $this->ldap_mapping = ilLDAPRoleGroupMapping::_getInstance();
         $this->fav_manager = new ilFavouritesManager();
 
-        $this->lng->loadLanguageModule("obj");
-        $this->lng->loadLanguageModule("rep");
+        $this->lng->loadLanguageModule('obj');
+        $this->lng->loadLanguageModule('rep');
         $params = $DIC->http()->request()->getQueryParams();
-        $this->requested_ref_id = (int) ($params["ref_id"] ?? null);
-        $this->requested_cmd = (string) ($params["cmd"] ?? null);
-        $this->requested_base_class = (string) ($params["baseClass"] ?? null);
+        $this->requested_ref_id = (int) ($params['ref_id'] ?? null);
+        $this->requested_cmd = (string) ($params['cmd'] ?? null);
+        $this->requested_base_class = (string) ($params['baseClass'] ?? null);
         $this->clipboard = $DIC
             ->repository()
             ->internal()
             ->domain()
             ->clipboard();
+        $this->notes_service = $DIC->notes();
     }
 
-    public function setContainerObject(object $container_obj) : void
+    public function setContainerObject(object $container_obj): void
     {
         $this->container_obj = $container_obj;
     }
-    
-    public function getContainerObject() : ?object
+
+    public function getContainerObject(): ?object
     {
         return $this->container_obj;
     }
@@ -240,7 +251,7 @@ class ilObjectListGUI
     *
     * this method should be overwritten by derived classes
     */
-    public function init() : void
+    public function init(): void
     {
         // Create static links for default command (linked title) or not
         $this->static_link_enabled = true;
@@ -252,222 +263,222 @@ class ilObjectListGUI
         $this->progress_enabled = false;
         $this->notice_properties_enabled = true;
         $this->info_screen_enabled = false;
-        $this->type = "";					// "cat", "course", ...
-        $this->gui_class_name = "";			// "ilobjcategorygui", "ilobjcoursegui", ...
+        $this->type = '';					// 'cat', 'course', ...
+        $this->gui_class_name = '';			// 'ilobjcategorygui', 'ilobjcoursegui', ...
 
         // general commands array, e.g.
         $this->commands = ilObjectAccess::_getCommands();
     }
 
-    public function enableProperties(bool $status) : void
+    public function enableProperties(bool $status): void
     {
         $this->properties_enabled = $status;
     }
 
-    public function getPropertiesStatus() : bool
+    public function getPropertiesStatus(): bool
     {
         return $this->properties_enabled;
     }
 
-    public function enablePreconditions(bool $status) : void
+    public function enablePreconditions(bool $status): void
     {
         $this->preconditions_enabled = $status;
     }
 
-    public function getPreconditionsStatus() : bool
+    public function getPreconditionsStatus(): bool
     {
         return $this->preconditions_enabled;
     }
 
-    public function enableNoticeProperties(bool $status) : void
+    public function enableNoticeProperties(bool $status): void
     {
         $this->notice_properties_enabled = $status;
     }
 
-    public function getNoticePropertiesStatus() : bool
+    public function getNoticePropertiesStatus(): bool
     {
         return $this->notice_properties_enabled;
     }
 
-    public function enableDescription(bool $status) : void
+    public function enableDescription(bool $status): void
     {
         $this->description_enabled = $status;
     }
 
-    public function getDescriptionStatus() : bool
+    public function getDescriptionStatus(): bool
     {
         return $this->description_enabled;
     }
 
-    public function enableSearchFragments(bool $status) : void
+    public function enableSearchFragments(bool $status): void
     {
         $this->search_fragment_enabled = $status;
     }
-    
-    public function getSearchFragmentStatus() : bool
+
+    public function getSearchFragmentStatus(): bool
     {
         return $this->search_fragment_enabled;
     }
 
-    public function enableLinkedPath(bool $status) : void
+    public function enableLinkedPath(bool $status): void
     {
         $this->path_linked = $status;
     }
 
-    public function enableRelevance(bool $status) : void
+    public function enableRelevance(bool $status): void
     {
         $this->enabled_relevance = $status;
     }
-    
-    public function enabledRelevance() : bool
+
+    public function enabledRelevance(): bool
     {
         return $this->enabled_relevance;
     }
-    
-    public function setRelevance(int $rel) : void
+
+    public function setRelevance(int $rel): void
     {
         $this->relevance = $rel;
     }
-    
-    public function getRelevance() : int
+
+    public function getRelevance(): int
     {
         return $this->relevance;
     }
-    
-    public function enableIcon(bool $status) : void
+
+    public function enableIcon(bool $status): void
     {
         $this->icons_enabled = $status;
     }
-    
-    public function getIconStatus() : bool
+
+    public function getIconStatus(): bool
     {
         return $this->icons_enabled;
     }
-    
-    public function enableCheckbox(bool $status) : void
+
+    public function enableCheckbox(bool $status): void
     {
         $this->checkboxes_enabled = $status;
     }
-    
-    public function getCheckboxStatus() : bool
+
+    public function getCheckboxStatus(): bool
     {
         return $this->checkboxes_enabled;
     }
-    
-    public function enableExpand(bool $status) : void
+
+    public function enableExpand(bool $status): void
     {
         $this->expand_enabled = $status;
     }
-    
-    public function getExpandStatus() : bool
+
+    public function getExpandStatus(): bool
     {
         return $this->expand_enabled;
     }
-    
-    public function setExpanded(bool $status) : void
+
+    public function setExpanded(bool $status): void
     {
         $this->is_expanded = $status;
     }
-    
-    public function isExpanded() : bool
+
+    public function isExpanded(): bool
     {
         return $this->is_expanded;
     }
     /**
-     * @param string	$field_index e.g. "[crs][34]"
-     * @param string	$position_value	e.g. "2.0"
+     * @param string	$field_index e.g. '[crs][34]'
+     * @param string	$position_value	e.g. '2.0'
      */
-    public function setPositionInputField(string $field_index, string $position_value) : void
+    public function setPositionInputField(string $field_index, string $position_value): void
     {
         $this->position_enabled = true;
         $this->position_field_index = $field_index;
         $this->position_value = $position_value;
     }
 
-    public function enableDelete(bool $status) : void
+    public function enableDelete(bool $status): void
     {
         $this->delete_enabled = $status;
     }
 
-    public function getDeleteStatus() : bool
+    public function getDeleteStatus(): bool
     {
         return $this->delete_enabled;
     }
 
-    public function enableCut(bool $status) : void
+    public function enableCut(bool $status): void
     {
         $this->cut_enabled = $status;
     }
 
-    public function getCutStatus() : bool
+    public function getCutStatus(): bool
     {
         return $this->cut_enabled;
     }
-    
-    public function enableCopy(bool $status) : void
+
+    public function enableCopy(bool $status): void
     {
         $this->copy_enabled = $status;
     }
 
-    public function getCopyStatus() : bool
+    public function getCopyStatus(): bool
     {
         return $this->copy_enabled;
     }
 
-    public function enableSubscribe(bool $status) : void
+    public function enableSubscribe(bool $status): void
     {
         $this->subscribe_enabled = $status;
     }
 
-    public function getSubscribeStatus() : bool
+    public function getSubscribeStatus(): bool
     {
         return $this->subscribe_enabled;
     }
 
-    public function enableLink(bool $status) : void
+    public function enableLink(bool $status): void
     {
         $this->link_enabled = $status;
     }
 
-    public function getLinkStatus() : bool
+    public function getLinkStatus(): bool
     {
         return $this->link_enabled;
     }
 
-    public function enablePath(bool $path, int $start_node = 0, \ilPathGUI $path_gui = null) : void
+    public function enablePath(bool $path, int $start_node = 0, \ilPathGUI $path_gui = null): void
     {
         $this->path_enabled = $path;
         $this->path_start_node = $start_node;
         $this->path_gui = $path_gui;
     }
 
-    public function getPathStatus() : bool
+    public function getPathStatus(): bool
     {
         return $this->path_enabled;
     }
-    
-    public function enableCommands(bool $status, bool $std_only = false) : void
+
+    public function enableCommands(bool $status, bool $std_only = false): void
     {
         $this->commands_enabled = $status;
         $this->std_cmd_only = $std_only;
     }
 
-    public function getCommandsStatus() : bool
+    public function getCommandsStatus(): bool
     {
         return $this->commands_enabled;
     }
 
-    public function enableInfoScreen(bool $info_screen) : void
+    public function enableInfoScreen(bool $info_screen): void
     {
         $this->info_screen_enabled = $info_screen;
     }
 
-    public function getInfoScreenStatus() : bool
+    public function getInfoScreenStatus(): bool
     {
         return $this->info_screen_enabled;
     }
 
-    protected function enableLearningProgress(bool $enabled) : void
+    protected function enableLearningProgress(bool $enabled): void
     {
         $this->lp_cmd_enabled = $enabled;
     }
@@ -477,60 +488,60 @@ class ilObjectListGUI
     *
     * @param string	$html sub items HTML
     */
-    public function addSubItemHTML(string $html) : void
+    public function addSubItemHTML(string $html): void
     {
         $this->sub_item_html[] = $html;
     }
-    
-    public function enableProgressInfo(bool $status) : void
+
+    public function enableProgressInfo(bool $status): void
     {
         $this->progress_enabled = $status;
     }
-    
-    public function getProgressInfoStatus() : bool
+
+    public function getProgressInfoStatus(): bool
     {
         return $this->progress_enabled;
     }
-    
-    public function enableSubstitutions(bool $status) : void
+
+    public function enableSubstitutions(bool $status): void
     {
         $this->substitutions_enabled = $status;
     }
-    
-    public function getSubstitutionStatus() : bool
+
+    public function getSubstitutionStatus(): bool
     {
         return $this->substitutions_enabled;
     }
-    
+
     /**
      * enable item detail links
      * E.g Direct links to chapters or pages
      */
-    public function enableItemDetailLinks(bool $status) : void
+    public function enableItemDetailLinks(bool $status): void
     {
         $this->item_detail_links_enabled = $status;
     }
-    
+
     /**
      * get item detail link status
      */
-    public function getItemDetailLinkStatus() : bool
+    public function getItemDetailLinkStatus(): bool
     {
         return $this->item_detail_links_enabled;
     }
-    
+
     /**
      * set items detail links
      *
      * @param array $detail_links e.g. array(0 => array('desc' => 'Page: ','link' => 'ilias.php...','name' => 'Page XYZ')
      */
-    public function setItemDetailLinks(array $detail_links, string $intro_txt = '') : void
+    public function setItemDetailLinks(array $detail_links, string $intro_txt = ''): void
     {
         $this->item_detail_links = $detail_links;
         $this->item_detail_links_intro = $intro_txt;
     }
-    
-    public function insertItemDetailLinks() : void
+
+    public function insertItemDetailLinks(): void
     {
         if (!count($this->item_detail_links)) {
             return;
@@ -540,7 +551,7 @@ class ilObjectListGUI
             $this->tpl->setVariable('ITEM_DETAIL_INTRO_TXT', $this->item_detail_links_intro);
             $this->tpl->parseCurrentBlock();
         }
-        
+
         foreach ($this->item_detail_links as $info) {
             $this->tpl->setCurrentBlock('item_detail_link');
             $this->tpl->setVariable('ITEM_DETAIL_LINK_TARGET', $info['target']);
@@ -552,7 +563,7 @@ class ilObjectListGUI
         $this->tpl->setCurrentBlock('item_detail_links');
         $this->tpl->parseCurrentBlock();
     }
-    public function setTitle(string $title) : void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -560,12 +571,12 @@ class ilObjectListGUI
     /**
      * getTitle overwritten in class.ilObjLinkResourceList.php
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setDescription(string $description) : void
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
@@ -573,30 +584,30 @@ class ilObjectListGUI
     /**
      * getDescription overwritten in class.ilObjLinkResourceList.php
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
-    
+
     /**
      * @param string $text highlighted search fragment
      */
-    public function setSearchFragment(string $text) : void
+    public function setSearchFragment(string $text): void
     {
         $this->search_fragment = $text;
     }
-    
-    public function getSearchFragment() : string
+
+    public function getSearchFragment(): string
     {
         return $this->search_fragment;
     }
-    
-    public function setSeparateCommands(bool $val) : void
+
+    public function setSeparateCommands(bool $val): void
     {
         $this->separate_commands = $val;
     }
-    
-    public function getSeparateCommands() : bool
+
+    public function getSeparateCommands(): bool
     {
         return $this->separate_commands;
     }
@@ -606,53 +617,53 @@ class ilObjectListGUI
      * Normally the ref id.
      * Overwritten for course and category references
      */
-    public function getCommandId() : int
+    public function getCommandId(): int
     {
         return $this->ref_id;
     }
-    
-    public function setAdditionalInformation(?string $val) : void
+
+    public function setAdditionalInformation(?string $val): void
     {
         $this->additional_information = $val;
     }
-    
-    public function getAdditionalInformation() : ?string
+
+    public function getAdditionalInformation(): ?string
     {
         return $this->additional_information;
     }
-    
+
     /**
      * Details level
      * Currently used in Search which shows only limited properties of forums
      * Currently used for Sessions (switch between minimal and extended view for each session)
      */
-    public function setDetailsLevel(int $level) : void
+    public function setDetailsLevel(int $level): void
     {
         $this->details_level = $level;
     }
-    
-    public function getDetailsLevel() : int
+
+    public function getDetailsLevel(): int
     {
         return $this->details_level;
     }
-    
+
     /**
      * Enable copy/move to repository (from personal workspace)
      */
-    public function enableRepositoryTransfer(bool $value) : void
+    public function enableRepositoryTransfer(bool $value): void
     {
         $this->repository_transfer_enabled = $value;
     }
-    
+
     /**
      * Restrict all actions/links to goto
      */
-    public function restrictToGoto(bool $value) : void
+    public function restrictToGoto(bool $value): void
     {
         $this->restrict_to_goto = $value;
     }
 
-    public function getDefaultCommand() : array
+    public function getDefaultCommand(): array
     {
         return $this->default_command;
     }
@@ -663,7 +674,7 @@ class ilObjectListGUI
         int $ref_id,
         string $type,
         ?int $obj_id = null
-    ) : bool {
+    ): bool {
         // e.g: sub items should not be readable since their parent session is readonly.
         if ($permission != 'visible' and $this->isVisibleOnlyForced()) {
             return false;
@@ -671,17 +682,17 @@ class ilObjectListGUI
 
         $cache_prefix = null;
         if ($this->context == self::CONTEXT_WORKSPACE || $this->context == self::CONTEXT_WORKSPACE_SHARING) {
-            $cache_prefix = "wsp";
+            $cache_prefix = 'wsp';
             if (!isset($this->ws_access)) {
                 $this->ws_access = new ilWorkspaceAccessHandler();
             }
         }
 
-        if (isset($this->access_cache[$permission]["-" . $cmd][$cache_prefix . $ref_id])) {
-            return $this->access_cache[$permission]["-" . $cmd][$cache_prefix . $ref_id];
+        if (isset($this->access_cache[$permission]['-' . $cmd][$cache_prefix . $ref_id])) {
+            return $this->access_cache[$permission]['-' . $cmd][$cache_prefix . $ref_id];
         }
 
-        if ($this->context == self::CONTEXT_REPOSITORY) {
+        if ($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SEARCH) {
             $access = $this->access->checkAccess($permission, $cmd, $ref_id, $type, (int) $obj_id);
             if ($this->access->getPreventCachingLastResult()) {
                 $this->prevent_access_caching = true;
@@ -690,10 +701,10 @@ class ilObjectListGUI
             $access = $this->ws_access->checkAccess($permission, $cmd, $ref_id, $type);
         }
 
-        $this->access_cache[$permission]["-" . $cmd][$cache_prefix . $ref_id] = $access;
+        $this->access_cache[$permission]['-' . $cmd][$cache_prefix . $ref_id] = $access;
         return $access;
     }
-    
+
     /**
      * initialize new item (is called by getItemHTML())
      */
@@ -701,15 +712,15 @@ class ilObjectListGUI
         int $ref_id,
         int $obj_id,
         string $type,
-        string $title = "",
-        string $description = ""
-    ) : void {
-        $this->access_cache = array();
+        string $title = '',
+        string $description = ''
+    ): void {
+        $this->access_cache = [];
         $this->ref_id = $ref_id;
         $this->obj_id = $obj_id;
         $this->setTitle($title);
         $this->setDescription($description);
-        
+
         // checks, whether any admin commands are included in the output
         $this->adm_commands_included = false;
         $this->prevent_access_caching = false;
@@ -723,7 +734,7 @@ class ilObjectListGUI
         $this->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash($node_type, $ref_id, $type, $obj_id));
     }
 
-    public function setConditionTarget(int $ref_id, int $obj_id, string $target_type) : void
+    public function setConditionTarget(int $ref_id, int $obj_id, string $target_type): void
     {
         $this->condition_target = [
             'ref_id' => $ref_id,
@@ -731,28 +742,28 @@ class ilObjectListGUI
             'target_type' => $target_type
         ];
     }
-    
-    public function resetConditionTarget() : void
+
+    public function resetConditionTarget(): void
     {
         $this->condition_target = [];
     }
-    
-    public function disableTitleLink(bool $status) : void
+
+    public function disableTitleLink(bool $status): void
     {
         $this->title_link_disabled = $status;
     }
 
-    public function setDefaultCommandParameters(array $params) : void
+    public function setDefaultCommandParameters(array $params): void
     {
         $this->default_command_params = $params;
     }
-    
+
     /**
      * Get default command link
      * Overwritten for e.g categories,courses => they return a goto link
      * If search engine visibility is enabled these object type return a goto_CLIENT_ID_cat_99.html link
      */
-    public function createDefaultCommand(array $command) : array
+    public function createDefaultCommand(array $command): array
     {
         if ($this->static_link_enabled and !$this->default_command_params) {
             if ($link = ilLink::_getStaticLink($this->ref_id, $this->type, false)) {
@@ -761,12 +772,12 @@ class ilObjectListGUI
             }
         }
         if ($this->default_command_params) {
-            $params = array();
+            $params = [];
             foreach ($this->default_command_params as $name => $value) {
                 $params[] = $name . '=' . $value;
             }
             $params = implode('&', $params);
-            
+
             if (!stristr($command['link'], '?')) {
                 $command['link'] .= '?' . $params;
             } else {
@@ -780,29 +791,28 @@ class ilObjectListGUI
     * Get command link url.
     *
     * Overwrite this method, if link target is not build by ctrl class
-    * (e.g. "forum.php"). This is the case
+    * (e.g. 'forum.php'). This is the case
     * for all links now, but bringing everything to ilCtrl should
     * be realised in the future.
     */
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
-        if ($this->context == self::CONTEXT_REPOSITORY) {
+        if ($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SEARCH) {
             // BEGIN WebDAV Get mount webfolder link.
             if ($cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive()) {
-                global $DIC;
-                $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
+                $uri_builder = new ilWebDAVUriBuilder($this->http->request());
                 return $uri_builder->getUriToMountInstructionModalByRef($this->ref_id);
             }
             // END WebDAV Get mount webfolder link.
 
-            $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getCommandId());
-            $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", $cmd);
-            $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
+            $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->getCommandId());
+            $cmd_link = $this->ctrl->getLinkTargetByClass('ilrepositorygui', $cmd);
+            $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->requested_ref_id);
             return $cmd_link;
         }
 
-        $this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", "");
-        $this->ctrl->setParameterByClass($this->gui_class_name, "wsp_id", $this->ref_id);
+        $this->ctrl->setParameterByClass($this->gui_class_name, 'ref_id', '');
+        $this->ctrl->setParameterByClass($this->gui_class_name, 'wsp_id', $this->ref_id);
         return $this->ctrl->getLinkTargetByClass($this->gui_class_name, $cmd);
     }
 
@@ -814,9 +824,9 @@ class ilObjectListGUI
     * @param string	$cmd command
     * @return string command target frame
     */
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
-        return "";
+        return '';
     }
 
     /**
@@ -827,9 +837,9 @@ class ilObjectListGUI
     * @param string	$cmd command
     * @return string image path
     */
-    public function getCommandImage(string $cmd) : string
+    public function getCommandImage(string $cmd): string
     {
-        return "";
+        return '';
     }
 
     /**
@@ -839,19 +849,14 @@ class ilObjectListGUI
     * the bottom of the item html
     *
     * @return	array		array of property arrays:
-    *						"alert" (boolean) => display as an alert property (usually in red)
-    *						"property" (string) => property name
-    *						"value" (string) => property value
+    *						'alert' (boolean) => display as an alert property (usually in red)
+    *						'property' (string) => property name
+    *						'value' (string) => property value
     */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $props = [];
-        // please list alert properties first
-        // example (use $this->lng->txt instead of "Status"/"Offline" strings):
-        // $props[] = array("alert" => true, "property" => "Status", "value" => "Offline");
-        // $props[] = array("alert" => false, "property" => ..., "value" => ...);
-        // ...
-        
+
         // #8280: WebDav is only supported in repository
         if ($this->context == self::CONTEXT_REPOSITORY) {
             // add centralized offline status
@@ -859,8 +864,8 @@ class ilObjectListGUI
                 $props[] =
                     [
                         'alert' => true,
-                        'property' => $this->lng->txt("status"),
-                        'value' => $this->lng->txt("offline")
+                        'property' => $this->lng->txt('status'),
+                        'value' => $this->lng->txt('offline')
                     ];
             }
 
@@ -875,11 +880,11 @@ class ilObjectListGUI
                         $lock_user = new ilObjUser($lock->getIliasOwner());
 
                         $props[] = [
-                            "alert" => false,
-                            "property" => $this->lng->txt("in_use_by"),
-                            "value" => $lock_user->getLogin(),
-                            "link" =>
-                                "./ilias.php?user=" .
+                            'alert' => false,
+                            'property' => $this->lng->txt('in_use_by'),
+                            'value' => $lock_user->getLogin(),
+                            'link' =>
+                                './ilias.php?user=' .
                                 $lock_user->getId() .
                                 '&cmd=showUserProfile&cmdClass=ildashboardgui&baseClass=ilDashboardGUI'
                         ];
@@ -888,25 +893,25 @@ class ilObjectListGUI
             }
             // END WebDAV Display warning for invisible files and files with special characters
         }
-        
+
         return $props;
     }
-    
+
     public function addCustomProperty(
-        string $property = "",
-        string $value = "",
+        string $property = '',
+        string $value = '',
         bool $alert = false,
         bool $newline = false
-    ) : void {
+    ): void {
         $this->cust_prop[] = [
-            "property" => $property,
-            "value" => $value,
-            "alert" => $alert,
-            "newline" => $newline
+            'property' => $property,
+            'value' => $value,
+            'alert' => $alert,
+            'newline' => $newline
         ];
     }
-    
-    public function getCustomProperties(array $prop) : array
+
+    public function getCustomProperties(array $prop): array
     {
         if (is_array($this->cust_prop)) {
             foreach ($this->cust_prop as $property) {
@@ -916,7 +921,7 @@ class ilObjectListGUI
         return $prop;
     }
 
-    public function getAlertProperties() : array
+    public function getAlertProperties(): array
     {
         $alert = [];
         foreach ($this->getProperties() as $prop) {
@@ -926,8 +931,8 @@ class ilObjectListGUI
         }
         return $alert;
     }
-    
-    public function getNoticeProperties() : array
+
+    public function getNoticeProperties(): array
     {
         $this->notice_prop = [];
         if ($infos = $this->ldap_mapping->getInfoStrings($this->obj_id, true)) {
@@ -938,32 +943,32 @@ class ilObjectListGUI
         return $this->notice_prop;
     }
 
-    public function addCustomCommand(string $link, string $lang_var, string $frame = "", string $onclick = "") : void
+    public function addCustomCommand(string $link, string $lang_var, string $frame = '', string $onclick = ''): void
     {
         $this->cust_commands[] = [
-            "link" => $link,
-            "lang_var" => $lang_var,
-            "frame" => $frame,
-            "onclick" => $onclick
+            'link' => $link,
+            'lang_var' => $lang_var,
+            'frame' => $frame,
+            'onclick' => $onclick
         ];
     }
 
     public function addCustomCommandButton(
         Button $button,
         ?Modal $triggeredModal = null
-    ) : void {
+    ): void {
         $this->cust_commands[] = $button;
         if ($triggeredModal !== null) {
             $this->cust_modals[] = $triggeredModal;
         }
     }
-    
-    public function forceVisibleOnly(bool $stat) : void
+
+    public function forceVisibleOnly(bool $stat): void
     {
         $this->force_visible_only = $stat;
     }
 
-    public function isVisibleOnlyForced() : bool
+    public function isVisibleOnlyForced(): bool
     {
         return $this->force_visible_only;
     }
@@ -983,30 +988,30 @@ class ilObjectListGUI
     * @access	public
     * @param	int		$a_ref_id		ref id of object
     * @return	array	array of command arrays including
-    *					"permission" => permission name
-    *					"cmd" => command
-    *					"link" => command link url
-    *					"frame" => command link frame
-    *					"lang_var" => language variable of command
-    *					"granted" => true/false: command granted or not
-    *					"access_info" => access info object (to do: implementation)
+    *					'permission' => permission name
+    *					'cmd' => command
+    *					'link' => command link url
+    *					'frame' => command link frame
+    *					'lang_var' => language variable of command
+    *					'granted' => true/false: command granted or not
+    *					'access_info' => access info object (to do: implementation)
     */
-    public function getCommands() : array
+    public function getCommands(): array
     {
         $ref_commands = [];
         foreach ($this->commands as $command) {
-            $permission = $command["permission"];
-            $cmd = $command["cmd"];
-            $lang_var = $command["lang_var"];
-            $txt = "";
+            $permission = $command['permission'];
+            $cmd = $command['cmd'];
+            $lang_var = $command['lang_var'] ?? '';
+            $txt = '';
             $info_object = null;
             $cmd_link = '';
             $cmd_frame = '';
             $cmd_image = '';
             $access_granted = false;
 
-            if (isset($command["txt"])) {
-                $txt = $command["txt"];
+            if (isset($command['txt'])) {
+                $txt = $command['txt'];
             }
 
             // Suppress commands that don't make sense for anonymous users
@@ -1024,50 +1029,27 @@ class ilObjectListGUI
 
             if ($access) {
                 $access_granted = true;
-                if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
-                    global $DIC;
-                    $file_obj = new ilObjFile($this->ref_id);
-                    $file_rid = $DIC->resourceStorage()->manage()->find($file_obj->getResourceId());
-                    if (null !== $file_rid &&
-                        'application/zip' === $DIC->resourceStorage()
-                                                  ->manage()
-                                                  ->getCurrentRevision($file_rid)
-                                                  ->getInformation()
-                                                  ->getMimeType()
-                    ) {
-                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
-                        $cmd_link = $DIC->ctrl()->getLinkTargetByClass(
-                            ilRepositoryGUI::class,
-                            ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION
-                        );
-                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->requested_ref_id);
-                    } else {
-                        $access_granted = false;
-                    }
-                } else {
-                    $cmd_link = $this->getCommandLink($command["cmd"]);
-                }
-
-                $cmd_frame = $this->getCommandFrame($command["cmd"]);
-                $cmd_image = $this->getCommandImage($command["cmd"]);
+                $cmd_link = $this->getCommandLink($command['cmd']);
+                $cmd_frame = $this->getCommandFrame($command['cmd']);
+                $cmd_image = $this->getCommandImage($command['cmd']);
             } else {
                 $info_object = $this->access->getInfo();
             }
 
-            if (!isset($command["default"])) {
-                $command["default"] = "";
+            if (!isset($command['default'])) {
+                $command['default'] = '';
             }
             $ref_commands[] = [
-                "permission" => $permission,
-                "cmd" => $cmd,
-                "link" => $cmd_link,
-                "frame" => $cmd_frame,
-                "lang_var" => $lang_var,
-                "txt" => $txt,
-                "granted" => $access_granted,
-                "access_info" => $info_object,
-                "img" => $cmd_image,
-                "default" => $command["default"]
+                'permission' => $permission,
+                'cmd' => $cmd,
+                'link' => $cmd_link,
+                'frame' => $cmd_frame,
+                'lang_var' => $lang_var,
+                'txt' => $txt,
+                'granted' => $access_granted,
+                'access_info' => $info_object,
+                'img' => $cmd_image,
+                'default' => $command['default']
             ];
         }
 
@@ -1081,17 +1063,17 @@ class ilObjectListGUI
     * e.g. 'crs_offline', and/or to express a specific kind of object, e.g.
     * 'file_inline'.
     */
-    public function getIconImageType() : string
+    public function getIconImageType(): string
     {
         return $this->type;
     }
 
-    public function insertTitle() : void
+    public function insertTitle(): void
     {
         if ($this->restrict_to_goto) {
             $this->default_command = [
-                "frame" => "",
-                "link" => $this->buildGotoLink()
+                'frame' => '',
+                'link' => $this->buildGotoLink()
             ];
         }
         // begin-patch lok
@@ -1101,61 +1083,35 @@ class ilObjectListGUI
             $this->title_link_disabled
         ) {
             // end-patch lok
-            $this->tpl->setCurrentBlock("item_title");
-            $this->tpl->setVariable("TXT_TITLE", $this->getTitle());
+            $this->tpl->setCurrentBlock('item_title');
+            $this->tpl->setVariable('TXT_TITLE', $this->getTitle());
         } else {
             $this->default_command['link'] = $this->modifyTitleLink($this->default_command['link']);
-            
-            $this->default_command["link"] =
-                $this->modifySAHSlaunch($this->default_command["link"], $this->default_command["frame"]);
 
-            if ($this->default_command["frame"] != "") {
-                $this->tpl->setCurrentBlock("title_linked_frame");
-                $this->tpl->setVariable("TARGET_TITLE_LINKED", $this->default_command["frame"]);
+            $this->default_command['link'] =
+                $this->modifySAHSlaunch($this->default_command['link'], $this->default_command['frame']);
+
+            if ($this->default_command['frame'] != '') {
+                $this->tpl->setCurrentBlock('title_linked_frame');
+                $this->tpl->setVariable('TARGET_TITLE_LINKED', $this->default_command['frame']);
                 $this->tpl->parseCurrentBlock();
             }
-            
+
             // workaround for repository frameset
-            $this->default_command["link"] = $this->appendRepositoryFrameParameter($this->default_command["link"]);
+            $this->default_command['link'] = $this->appendRepositoryFrameParameter($this->default_command['link']);
 
             // the default command is linked with the title
-            $this->tpl->setCurrentBlock("item_title_linked");
-            $this->tpl->setVariable("TXT_TITLE_LINKED", $this->getTitle());
-            $this->tpl->setVariable("HREF_TITLE_LINKED", $this->default_command["link"]);
-            
-            // has preview?
-            if (ilPreview::hasPreview($this->obj_id, $this->type)) {
+            $this->tpl->setCurrentBlock('item_title_linked');
+            $this->tpl->setVariable('TXT_TITLE_LINKED', $this->getTitle());
+            $this->tpl->setVariable('HREF_TITLE_LINKED', $this->default_command['link']);
 
-                // get context for access checks later on
-                switch ($this->context) {
-                    case self::CONTEXT_WORKSPACE:
-                    case self::CONTEXT_WORKSPACE_SHARING:
-                        $context = ilPreviewGUI::CONTEXT_WORKSPACE;
-                        $access_handler = new ilWorkspaceAccessHandler();
-                        break;
-                    
-                    default:
-                        $ilAccess = $this->access;
-                        $context = ilPreviewGUI::CONTEXT_REPOSITORY;
-                        $access_handler = $ilAccess;
-                        break;
+            // New Preview Implementation, File-Objects only
+            if ($this->type === 'file') {
+                $preview = new ilObjFilePreviewRendererGUI($this->obj_id);
+                if ($preview->has()) {
+                    $this->tpl->setVariable('PREVIEW_GLYPH', $preview->getRenderedTriggerComponents());
+                    $this->tpl->parseCurrentBlock();
                 }
-                
-                $preview = new ilPreviewGUI($this->ref_id, $context, $this->obj_id, $access_handler);
-                $preview_status = ilPreview::lookupRenderStatus($this->obj_id);
-                $preview_status_class = "";
-                $preview_text_topic = "preview_show";
-                if ($preview_status == ilPreview::RENDER_STATUS_NONE) {
-                    $preview_status_class = "ilPreviewStatusNone";
-                    $preview_text_topic = "preview_none";
-                }
-                $this->tpl->setCurrentBlock("item_title_linked");
-                $this->tpl->setVariable("PREVIEW_STATUS_CLASS", $preview_status_class);
-                $this->tpl->setVariable("SRC_PREVIEW_ICON", ilUtil::getImagePath("preview.png"));
-                $this->tpl->setVariable("ALT_PREVIEW_ICON", $this->lng->txt($preview_text_topic));
-                $this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt($preview_text_topic));
-                $this->tpl->setVariable("SCRIPT_PREVIEW_CLICK", $preview->getJSCall($this->getUniqueItemId(true)));
-                $this->tpl->parseCurrentBlock();
             }
         }
         $this->tpl->parseCurrentBlock();
@@ -1165,21 +1121,21 @@ class ilObjectListGUI
             $this->tpl->touchBlock('bold_title_end');
         }
     }
-    
-    protected function buildGotoLink() : ?string
+
+    protected function buildGotoLink(): ?string
     {
         switch ($this->context) {
             case self::CONTEXT_WORKSPACE_SHARING:
                 return ilWorkspaceAccessHandler::getGotoLink($this->ref_id, $this->obj_id);
-            
+
             default:
                 // not implemented yet
                 break;
         }
         return null;
     }
-    
-    public function insertSubstitutions() : void
+
+    public function insertSubstitutions(): void
     {
         $fields_shown = false;
         foreach ($this->substitutions->getParsedSubstitutions($this->ref_id, $this->obj_id) as $data) {
@@ -1187,7 +1143,7 @@ class ilObjectListGUI
                 $data['name'] = '<strong>' . $data['name'] . '</strong>';
                 $data['value'] = '<strong>' . $data['value'] . '</strong>';
             }
-            $this->tpl->touchBlock("std_prop");
+            $this->tpl->touchBlock('std_prop');
             $this->tpl->setCurrentBlock('item_property');
             if ($data['show_field']) {
                 $this->tpl->setVariable('TXT_PROP', $data['name']);
@@ -1202,7 +1158,7 @@ class ilObjectListGUI
         }
     }
 
-    public function insertDescription() : void
+    public function insertDescription(): void
     {
         if ($this->getSubstitutionStatus()) {
             $this->insertSubstitutions();
@@ -1215,15 +1171,15 @@ class ilObjectListGUI
         $d = $this->getDescription();
         // even b tag produced bugs, see #32304
         $d = strip_tags($d);
-        $this->tpl->setCurrentBlock("item_description");
-        $this->tpl->setVariable("TXT_DESC", $d);
+        $this->tpl->setCurrentBlock('item_description');
+        $this->tpl->setVariable('TXT_DESC', $d);
         $this->tpl->parseCurrentBlock();
     }
-    
+
     /**
      * Insert highlighted search fragment
      */
-    public function insertSearchFragment() : void
+    public function insertSearchFragment(): void
     {
         if (strlen($this->getSearchFragment())) {
             $this->tpl->setCurrentBlock('search_fragment');
@@ -1231,16 +1187,16 @@ class ilObjectListGUI
             $this->tpl->parseCurrentBlock();
         }
     }
-    
-    public function insertRelevance() : void
+
+    public function insertRelevance(): void
     {
         if (!$this->enabledRelevance() or !$this->getRelevance()) {
             return;
         }
-        
+
         $pbar = ilProgressBar::getInstance();
         $pbar->setCurrent($this->getRelevance());
-        
+
         $this->tpl->setCurrentBlock('relevance');
         $this->tpl->setVariable('REL_PBAR', $pbar->render());
         $this->tpl->parseCurrentBlock();
@@ -1251,7 +1207,7 @@ class ilObjectListGUI
      *
      * @param string $mode output mode (self::IL_LIST_FULL | self::IL_LIST_AS_TRIGGER)
      */
-    public function setMode(string $mode) : void
+    public function setMode(string $mode): void
     {
         $this->mode = $mode;
     }
@@ -1261,15 +1217,15 @@ class ilObjectListGUI
      *
      * @return string output mode (self::IL_LIST_FULL | self::IL_LIST_AS_TRIGGER)
      */
-    public function getMode() : string
+    public function getMode(): string
     {
         return $this->mode;
     }
-    
+
     /**
      * set depth for precondition output (stops at level 5)
      */
-    public function setConditionDepth(int $depth) : void
+    public function setConditionDepth(int $depth): void
     {
         $this->condition_depth = $depth;
     }
@@ -1280,12 +1236,12 @@ class ilObjectListGUI
     * @param string	$mode (self::IL_LIST_FULL | self::IL_LIST_AS_TRIGGER)
     * @return bool true if current mode is $a_mode
     */
-    public function isMode(string $mode) : bool
+    public function isMode(string $mode): bool
     {
         return $mode === $this->mode;
     }
 
-    public function determineProperties() : array
+    public function determineProperties(): array
     {
         $props = $this->getProperties();
         $props = $this->getCustomProperties($props);
@@ -1295,21 +1251,21 @@ class ilObjectListGUI
             $lp = ilLPStatus::getListGUIStatus($this->obj_id);
             if ($lp) {
                 $props[] = [
-                    "alert" => false,
-                    "property" => $this->lng->txt("learning_progress"),
-                    "value" => $lp,
-                    "newline" => true
+                    'alert' => false,
+                    'property' => $this->lng->txt('learning_progress'),
+                    'value' => $lp,
+                    'newline' => true
                 ];
             }
 
             // add no item access note in public section
             // for items that are visible but not readable
             if ($this->user->getId() === ANONYMOUS_USER_ID) {
-                if (!$this->access->checkAccess("read", "", $this->ref_id, $this->type, $this->obj_id)) {
+                if (!$this->access->checkAccess('read', '', $this->ref_id, $this->type, $this->obj_id)) {
                     $props[] = [
-                        "alert" => true,
-                        "value" => $this->lng->txt("no_access_item_public"),
-                        "newline" => true
+                        'alert' => true,
+                        'value' => $this->lng->txt('no_access_item_public'),
+                        'newline' => true
                     ];
                 }
             }
@@ -1322,18 +1278,17 @@ class ilObjectListGUI
             $note_ref_id = $this->reference_ref_id;
             $note_obj_id = $this->reference_obj_id;
         }
-        $redraw_js = "il.Object.redrawListItem(" . $note_ref_id . ");";
+        $redraw_js = 'il.Object.redrawListItem(' . $note_ref_id . ');';
 
         // add common properties (comments, notes, tags)
-        new ilNote();  // this is only needed to make constants available, constants should be refactored
         if (
             (
                 (
-                    isset(self::$cnt_notes[$note_obj_id][ilNote::PRIVATE]) &&
-                    self::$cnt_notes[$note_obj_id][ilNote::PRIVATE] > 0
+                    isset(self::$cnt_notes[$note_obj_id][Note::PRIVATE]) &&
+                    self::$cnt_notes[$note_obj_id][Note::PRIVATE] > 0
                 ) || (
-                    isset(self::$cnt_notes[$note_obj_id][ilNote::PUBLIC]) &&
-                    self::$cnt_notes[$note_obj_id][ilNote::PUBLIC] > 0
+                    isset(self::$cnt_notes[$note_obj_id][Note::PUBLIC]) &&
+                    self::$cnt_notes[$note_obj_id][Note::PUBLIC] > 0
                 ) || (
                     isset(self::$cnt_tags[$note_obj_id]) && self::$cnt_tags[$note_obj_id] > 0
                 ) || (
@@ -1342,125 +1297,128 @@ class ilObjectListGUI
             ) && ($this->user->getId() !== ANONYMOUS_USER_ID)
         ) {
             $nl = true;
+            $cnt_comments = self::$cnt_notes[$note_obj_id][Note::PUBLIC] ?? 0;
             if ($this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, false, false)
-                && self::$cnt_notes[$note_obj_id][ilNote::PUBLIC] > 0) {
+                && $cnt_comments > 0) {
                 $props[] = [
-                    "alert" => false,
-                    "property" => $this->lng->txt("notes_comments"),
-                    "value" =>
-                        "<a href='#' onclick=\"return " .
-                        ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js) . "\">" .
-                        self::$cnt_notes[$note_obj_id][ilNote::PUBLIC] . "</a>",
-                    "newline" => $nl
+                    'alert' => false,
+                    'property' => $this->lng->txt('notes_comments'),
+                    'value' =>
+                        '<a href="#" onclick="return ' .
+                        ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js) . '">' .
+                        self::$cnt_notes[$note_obj_id][Note::PUBLIC] . '</a>',
+                    'newline' => $nl
                 ];
                 $nl = false;
             }
 
-            if ($this->notes_enabled && self::$cnt_notes[$note_obj_id][ilNote::PRIVATE] > 0) {
+            $cnt_notes = self::$cnt_notes[$note_obj_id][Note::PRIVATE] ?? 0;
+            if ($this->notes_enabled && $cnt_notes > 0) {
                 $props[] = [
-                    "alert" => false,
-                    "property" => $this->lng->txt("notes"),
-                    "value" =>
-                        "<a href='#' onclick=\"return " .
-                        ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js) . "\">" .
-                        self::$cnt_notes[$note_obj_id][ilNote::PRIVATE] . "</a>",
-                    "newline" => $nl
+                    'alert' => false,
+                    'property' => $this->lng->txt('notes'),
+                    'value' =>
+                        '<a href="#" onclick="return ' .
+                        ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js) . '">' .
+                        self::$cnt_notes[$note_obj_id][Note::PRIVATE] . '</a>',
+                    'newline' => $nl
                 ];
                 $nl = false;
             }
-            if ($this->tags_enabled && (self::$cnt_tags[$note_obj_id] > 0 || is_array(self::$tags[$note_obj_id]))) {
-                $tags_set = new ilSetting("tags");
-                if ($tags_set->get("enable")) {
+            $cnt_tags = self::$cnt_tags[$note_obj_id] ?? 0;
+            if ($this->tags_enabled && ($cnt_tags > 0 || isset(self::$tags[$note_obj_id]))) {
+                $tags_set = new ilSetting('tags');
+                if ($tags_set->get('enable')) {
                     $tags_url = ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js);
 
                     // list object tags
-                    if (is_array(self::$tags[$note_obj_id])) {
-                        $tags_tmp = array();
+                    if (isset(self::$tags[$note_obj_id])) {
+                        $tags_tmp = [];
                         foreach (self::$tags[$note_obj_id] as $tag => $is_tag_owner) {
                             if ($is_tag_owner) {
-                                $tags_tmp[] = "<a class=\"ilTag ilTagRelHigh\" href='#' onclick=\"return " .
-                                    $tags_url . "\">" . $tag . "</a>";
+                                $tags_tmp[] = '<a class="ilTag ilTagRelHigh" href="#" onclick="return ' .
+                                    $tags_url . '">' . $tag . '</a>';
                             } else {
-                                $tags_tmp[] = "<span class=\"ilTag ilTagRelMiddle\">" . $tag . "</span>";
+                                $tags_tmp[] = '<span class="ilTag ilTagRelMiddle">' . $tag . '</span>';
                             }
                         }
-                        $tags_value = implode(" ", $tags_tmp);
+                        $tags_value = implode(' ', $tags_tmp);
                         $nl = true;
-                        $prop_text = "";
+                        $prop_text = '';
                     } // tags counter
                     else {
-                        $tags_value = "<a href='#' onclick=\"return " . $tags_url . "\">" .
-                            self::$cnt_tags[$note_obj_id] . "</a>";
-                        $prop_text = $this->lng->txt("tagging_tags");
+                        $tags_value = '<a href="#" onclick="return ' . $tags_url . '>' .
+                            self::$cnt_tags[$note_obj_id] . '</a>';
+                        $prop_text = $this->lng->txt('tagging_tags');
                     }
                     $props[] = [
-                        "alert" => false,
-                        "property" => $prop_text,
-                        "value" => $tags_value,
-                        "newline" => $nl
+                        'alert' => false,
+                        'property' => $prop_text,
+                        'value' => $tags_value,
+                        'newline' => $nl
                     ];
                 }
             }
         }
 
-        if (!is_array($props)) {
+        if (!isset($props)) {
             return [];
         }
 
         return $props;
     }
 
-    public function insertProperties() : void
+    public function insertProperties(): void
     {
         $props = $this->determineProperties();
         $cnt = 1;
         if (is_array($props) && count($props) > 0) {
             foreach ($props as $prop) {
                 if ($cnt > 1) {
-                    $this->tpl->touchBlock("separator_prop");
+                    $this->tpl->touchBlock('separator_prop');
                 }
 
-                if (isset($prop["alert"]) && $prop["alert"] == true) {
-                    $this->tpl->touchBlock("alert_prop");
+                if (isset($prop['alert']) && $prop['alert'] == true) {
+                    $this->tpl->touchBlock('alert_prop');
                 } else {
-                    $this->tpl->touchBlock("std_prop");
+                    $this->tpl->touchBlock('std_prop');
                 }
 
-                if (isset($prop["newline"]) && $prop["newline"] == true && $cnt > 1) {
-                    $this->tpl->touchBlock("newline_prop");
+                if (isset($prop['newline']) && $prop['newline'] == true && $cnt > 1) {
+                    $this->tpl->touchBlock('newline_prop');
                 }
 
                 //BEGIN WebDAV: Support hidden property names.
                 if (
-                    isset($prop["property"]) &&
-                    (isset($prop['propertyNameVisible']) && $prop['propertyNameVisible'] !== false) &&
-                    $prop["property"] != ""
+                    isset($prop['property']) &&
+                    (($prop['propertyNameVisible'] ?? null) !== false) &&
+                    $prop['property'] != ''
                 ) {
                     //END WebDAV: Support hidden property names.
-                    $this->tpl->setCurrentBlock("prop_name");
-                    $this->tpl->setVariable("TXT_PROP", $prop["property"]);
+                    $this->tpl->setCurrentBlock('prop_name');
+                    $this->tpl->setVariable('TXT_PROP', $prop['property']);
                     $this->tpl->parseCurrentBlock();
                 }
 
-                $this->tpl->setCurrentBlock("item_property");
+                $this->tpl->setCurrentBlock('item_property');
                 //BEGIN WebDAV: Support links in property values.
                 if (isset($prop['link']) && $prop['link']) {
-                    $this->tpl->setVariable("LINK_PROP", $prop['link']);
-                    $this->tpl->setVariable("LINK_VAL_PROP", $prop["value"]);
+                    $this->tpl->setVariable('LINK_PROP', $prop['link']);
+                    $this->tpl->setVariable('LINK_VAL_PROP', $prop['value']);
                 } else {
-                    $this->tpl->setVariable("VAL_PROP", $prop["value"]);
+                    $this->tpl->setVariable('VAL_PROP', $prop['value']);
                 }
                 //END WebDAV: Support links in property values.
                 $this->tpl->parseCurrentBlock();
 
                 $cnt++;
             }
-            $this->tpl->setCurrentBlock("item_properties");
+            $this->tpl->setCurrentBlock('item_properties');
             $this->tpl->parseCurrentBlock();
         }
     }
-    
-    public function insertNoticeProperties() : void
+
+    public function insertNoticeProperties(): void
     {
         $this->getNoticeProperties();
         foreach ($this->notice_prop as $property) {
@@ -1472,7 +1430,7 @@ class ilObjectListGUI
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function parseConditions(int $toggle_id, array $conditions, bool $obligatory = true) : bool
+    protected function parseConditions(int $toggle_id, array $conditions, bool $obligatory = true): bool
     {
         $num_required = ilConditionHandler::calculateEffectiveRequiredTriggers($this->ref_id, $this->obj_id);
         $num_optional_required =
@@ -1519,52 +1477,55 @@ class ilObjectListGUI
 
             $operator = ilConditionHandlerGUI::translateOperator($condition['trigger_obj_id'], $condition['operator']);
             $cond_txt = $operator . ' ' . $condition['value'];
-            
+
             // display trigger item
-            $class = $this->obj_definition->getClassName($condition["trigger_type"]);
-            $location = $this->obj_definition->getLocation($condition["trigger_type"]);
-            if ($class == "" && $location == "") {
+            $class = $this->obj_definition->getClassName($condition['trigger_type']);
+            $location = $this->obj_definition->getLocation($condition['trigger_type']);
+            if ($class == '' && $location == '') {
                 continue;
             }
             $missing_cond_exist = true;
 
-            $full_class = "ilObj" . $class . "ListGUI";
-            $item_list_gui = new $full_class($this);
+            $full_class = 'ilObj' . $class . 'ListGUI';
+            $item_list_gui = new $full_class($this->context);
             $item_list_gui->setMode(self::IL_LIST_AS_TRIGGER);
             $item_list_gui->enablePath(false);
             $item_list_gui->enableIcon(true);
             $item_list_gui->setConditionDepth($this->condition_depth + 1);
-            $item_list_gui->setParentRefId($this->getUniqueItemId());
-            $item_list_gui->addCustomProperty($this->lng->txt("precondition_required_itemlist"), $cond_txt, false, true);
+            $item_list_gui->setParentRefId($this->ref_id);
+            $item_list_gui->addCustomProperty($this->lng->txt('precondition_required_itemlist'), $cond_txt, false, true);
             $item_list_gui->enableCommands($this->commands_enabled, $this->std_cmd_only);
             $item_list_gui->enableProperties($this->properties_enabled);
-            
+
             $trigger_html = $item_list_gui->getListItemHTML(
                 $condition['trigger_ref_id'],
                 $condition['trigger_obj_id'],
-                ilObject::_lookupTitle($condition["trigger_obj_id"]),
-                ""
+                ilObject::_lookupTitle($condition['trigger_obj_id']),
+                ''
             );
-            $this->tpl->setCurrentBlock("precondition");
-            if ($trigger_html == "") {
-                $trigger_html = $this->lng->txt("precondition_not_accessible");
+            $this->tpl->setCurrentBlock('precondition');
+            if ($trigger_html == '') {
+                $trigger_html = $this->lng->txt('precondition_not_accessible');
             }
-            $this->tpl->setVariable("TXT_CONDITION", trim($cond_txt));
-            $this->tpl->setVariable("TRIGGER_ITEM", $trigger_html);
+            $this->tpl->setVariable('TXT_CONDITION', trim($cond_txt));
+            $this->tpl->setVariable('TRIGGER_ITEM', $trigger_html);
             $this->tpl->parseCurrentBlock();
         }
-        
+
         if ($missing_cond_exist && $obligatory) {
-            $this->tpl->setCurrentBlock("preconditions");
-            $this->tpl->setVariable("CONDITION_TOGGLE_ID", "_obl_" . $toggle_id);
-            $this->tpl->setVariable("TXT_PRECONDITIONS", $this->lng->txt("preconditions_obligatory_hint"));
+            $this->tpl->setCurrentBlock('preconditions');
+            $this->tpl->setVariable('CONDITION_TOGGLE_ID', '_obl_' . $toggle_id);
+            $this->tpl->setVariable('TXT_PRECONDITIONS', $this->lng->txt('preconditions_obligatory_hint'));
             $this->tpl->parseCurrentBlock();
         } elseif ($missing_cond_exist && !$obligatory) {
-            $this->tpl->setCurrentBlock("preconditions");
-            $this->tpl->setVariable("CONDITION_TOGGLE_ID", "_opt_" . $toggle_id);
+            $this->tpl->setCurrentBlock('preconditions');
+            $this->tpl->setVariable('CONDITION_TOGGLE_ID', '_opt_' . $toggle_id);
             $this->tpl->setVariable(
-                "TXT_PRECONDITIONS",
-                sprintf($this->lng->txt("preconditions_optional_hint"), $num_optional_required)
+                'TXT_PRECONDITIONS',
+                sprintf(
+                    $this->lng->txt('preconditions_optional_hint'),
+                    $num_optional_required - $passed_optional
+                )
             );
             $this->tpl->parseCurrentBlock();
         }
@@ -1575,7 +1536,7 @@ class ilObjectListGUI
     /**
     * insert all missing preconditions
     */
-    public function insertPreconditions() : void
+    public function insertPreconditions(): void
     {
         // do not show multi level conditions (messes up layout)
         if ($this->condition_depth > 0) {
@@ -1591,31 +1552,30 @@ class ilObjectListGUI
             $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget(
                 (int) $this->condition_target['ref_id'],
                 (int) $this->condition_target['obj_id'],
-                $this->condition_target['target_type'] ?? ""
+                $this->condition_target['target_type'] ?? ''
             );
         } else {
             $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($this->ref_id, $this->obj_id);
         }
-        
+
         if (sizeof($conditions)) {
             for ($i = 0; $i < count($conditions); $i++) {
                 $conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
             }
             $conditions = ilArrayUtil::sortArray($conditions, 'title', 'DESC');
-        
-            ++self::$js_unique_id;
 
+            ++self::$js_unique_id;
             // Show obligatory and optional preconditions seperated
             $all_done_obl = $this->parseConditions(self::$js_unique_id, $conditions);
             $all_done_opt = $this->parseConditions(self::$js_unique_id, $conditions, false);
-            
+
             if (!$all_done_obl || !$all_done_opt) {
-                $this->tpl->setCurrentBlock("preconditions_toggle");
-                $this->tpl->setVariable("PRECONDITION_TOGGLE_INTRO", $this->lng->txt("precondition_toggle"));
-                $this->tpl->setVariable("PRECONDITION_TOGGLE_TRIGGER", $this->lng->txt("show"));
-                $this->tpl->setVariable("PRECONDITION_TOGGLE_ID", self::$js_unique_id);
-                $this->tpl->setVariable("TXT_PRECONDITION_SHOW", $this->lng->txt("show"));
-                $this->tpl->setVariable("TXT_PRECONDITION_HIDE", $this->lng->txt("hide"));
+                $this->tpl->setCurrentBlock('preconditions_toggle');
+                $this->tpl->setVariable('PRECONDITION_TOGGLE_INTRO', $this->lng->txt('precondition_toggle'));
+                $this->tpl->setVariable('PRECONDITION_TOGGLE_TRIGGER', $this->lng->txt('show'));
+                $this->tpl->setVariable('PRECONDITION_TOGGLE_ID', self::$js_unique_id);
+                $this->tpl->setVariable('TXT_PRECONDITION_SHOW', $this->lng->txt('show'));
+                $this->tpl->setVariable('TXT_PRECONDITION_HIDE', $this->lng->txt('hide'));
                 $this->tpl->parseCurrentBlock();
             }
         }
@@ -1627,40 +1587,40 @@ class ilObjectListGUI
     public function insertCommand(
         string $href,
         string $text,
-        string $frame = "",
-        string $img = "",
-        string $cmd = "",
-        string $onclick = ""
-    ) : void {
+        string $frame = '',
+        string $img = '',
+        string $cmd = '',
+        string $onclick = ''
+    ): void {
         // #11099
         $checksum = md5($href . $text);
-        if ($href == "#" || !in_array($checksum, $this->prevent_duplicate_commands)) {
-            if ($href != "#") {
+        if ($href == '#' || !in_array($checksum, $this->prevent_duplicate_commands)) {
+            if ($href != '#') {
                 $this->prevent_duplicate_commands[] = $checksum;
             }
-            
+
             $prevent_background_click = false;
             if ($cmd == 'mount_webfolder') {
                 $onclick = "triggerWebDAVModal('$href')";
-                $href = "#";
+                $href = '#';
                 ilWebDAVMountInstructionsModalGUI::maybeRenderWebDAVModalInGlobalTpl();
             }
 
             $this->current_selection_list->addItem(
                 $text,
-                "",
+                '',
                 $href,
                 $img,
                 $text,
                 $frame,
-                "",
+                '',
                 $prevent_background_click,
                 $onclick
             );
         }
     }
 
-    public function insertDeleteCommand() : void
+    public function insertDeleteCommand(): void
     {
         if ($this->std_cmd_only) {
             return;
@@ -1670,34 +1630,34 @@ class ilObjectListGUI
             $this->getContainerObject() instanceof ilAdministrationCommandHandling) {
             if ($this->checkCommandAccess('delete', '', $this->ref_id, $this->type)) {
                 $this->ctrl->setParameter($this->getContainerObject(), 'item_ref_id', $this->getCommandId());
-                $cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "delete");
-                $this->insertCommand($cmd_link, $this->lng->txt("delete"));
+                $cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), 'delete');
+                $this->insertCommand($cmd_link, $this->lng->txt('delete'));
                 $this->adm_commands_included = true;
             }
             return;
         }
-        
+
         if ($this->checkCommandAccess('delete', '', $this->ref_id, $this->type)) {
             $this->ctrl->setParameter(
                 $this->container_obj,
-                "ref_id",
+                'ref_id',
                 $this->container_obj->getObject()->getRefId()
             );
-            $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
-            $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "delete");
-            $this->insertCommand($cmd_link, $this->lng->txt("delete"));
+            $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
+            $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'delete');
+            $this->insertCommand($cmd_link, $this->lng->txt('delete'));
             $this->adm_commands_included = true;
         }
     }
 
-    public function insertLinkCommand() : void
+    public function insertLinkCommand(): void
     {
         $objDefinition = $this->obj_definition;
 
         if ($this->std_cmd_only) {
             return;
         }
-        
+
         // #17307
         if (
             !$this->checkCommandAccess('delete', '', $this->ref_id, $this->type) ||
@@ -1705,12 +1665,12 @@ class ilObjectListGUI
         ) {
             return;
         }
-        
+
         // BEGIN PATCH Lucene search
         if ($this->getContainerObject() instanceof ilAdministrationCommandHandling) {
             $this->ctrl->setParameter($this->getContainerObject(), 'item_ref_id', $this->getCommandId());
-            $cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "link");
-            $this->insertCommand($cmd_link, $this->lng->txt("link"));
+            $cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), 'link');
+            $this->insertCommand($cmd_link, $this->lng->txt('link'));
             $this->adm_commands_included = true;
             return;
         }
@@ -1720,16 +1680,16 @@ class ilObjectListGUI
         // also to be changed in ilContainerGUI, admin command check
         $this->ctrl->setParameter(
             $this->container_obj,
-            "ref_id",
+            'ref_id',
             $this->container_obj->getObject()->getRefId()
         );
-        $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
-        $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "link");
-        $this->insertCommand($cmd_link, $this->lng->txt("link"));
+        $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
+        $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'link');
+        $this->insertCommand($cmd_link, $this->lng->txt('link'));
         $this->adm_commands_included = true;
     }
 
-    public function insertCutCommand(bool $to_repository = false) : void
+    public function insertCutCommand(bool $to_repository = false): void
     {
         if ($this->std_cmd_only) {
             return;
@@ -1740,8 +1700,8 @@ class ilObjectListGUI
         ) {
             if ($this->checkCommandAccess('delete', '', $this->ref_id, $this->type)) {
                 $this->ctrl->setParameter($this->getContainerObject(), 'item_ref_id', $this->getCommandId());
-                $cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "cut");
-                $this->insertCommand($cmd_link, $this->lng->txt("move"));
+                $cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), 'cut');
+                $this->insertCommand($cmd_link, $this->lng->txt('move'));
                 $this->adm_commands_included = true;
             }
             return;
@@ -1753,29 +1713,29 @@ class ilObjectListGUI
         if ($this->checkCommandAccess('delete', '', $this->ref_id, $this->type) && $this->container_obj->getObject()) {
             $this->ctrl->setParameter(
                 $this->container_obj,
-                "ref_id",
+                'ref_id',
                 $this->container_obj->getObject()->getRefId()
             );
-            $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
-            
+            $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
+
             if (!$to_repository) {
-                $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "cut");
-                $this->insertCommand($cmd_link, $this->lng->txt("move"));
+                $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'cut');
+                $this->insertCommand($cmd_link, $this->lng->txt('move'));
             } else {
-                $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "cut_for_repository");
-                $this->insertCommand($cmd_link, $this->lng->txt("wsp_move_to_repository"));
+                $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'cut_for_repository');
+                $this->insertCommand($cmd_link, $this->lng->txt('wsp_move_to_repository'));
             }
-            
+
             $this->adm_commands_included = true;
         }
     }
-    
-    public function insertCopyCommand(bool $to_repository = false) : void
+
+    public function insertCopyCommand(bool $to_repository = false): void
     {
         if ($this->std_cmd_only) {
             return;
         }
-        
+
         if ($this->checkCommandAccess('copy', 'copy', $this->ref_id, $this->type) &&
             $this->obj_definition->allowCopy($this->type)) {
             if ($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING) {
@@ -1785,11 +1745,11 @@ class ilObjectListGUI
             } else {
                 $this->ctrl->setParameter(
                     $this->container_obj,
-                    "ref_id",
+                    'ref_id',
                     $this->container_obj->getObject()->getRefId()
                 );
-                $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
-                
+                $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
+
                 if (!$to_repository) {
                     $cmd_copy = $this->ctrl->getLinkTarget($this->container_obj, 'copy');
                     $this->insertCommand($cmd_copy, $this->lng->txt('copy'));
@@ -1798,33 +1758,33 @@ class ilObjectListGUI
                     $this->insertCommand($cmd_copy, $this->lng->txt('wsp_copy_to_repository'));
                 }
             }
-            
+
             $this->adm_commands_included = true;
         }
     }
 
-    public function insertPasteCommand() : void
+    public function insertPasteCommand(): void
     {
         if ($this->std_cmd_only) {
             return;
         }
-        
+
         if (!$this->obj_definition->isContainer(ilObject::_lookupType($this->obj_id))) {
             return;
         }
-        
+
         if (
             $this->getContainerObject() instanceof ilAdministrationCommandHandling &&
             $this->clipboard->hasEntries()
         ) {
             $this->ctrl->setParameter($this->getContainerObject(), 'item_ref_id', $this->getCommandId());
-            $cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "paste");
-            $this->insertCommand($cmd_link, $this->lng->txt("paste"));
+            $cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), 'paste');
+            $this->insertCommand($cmd_link, $this->lng->txt('paste'));
             $this->adm_commands_included = true;
         }
     }
 
-    public function insertSubscribeCommand() : void
+    public function insertSubscribeCommand(): void
     {
         if ($this->std_cmd_only) {
             return;
@@ -1833,10 +1793,10 @@ class ilObjectListGUI
         // note: the setting disable_my_offers is used for
         // presenting the favourites in the main section of the dashboard
         // see also bug #32014
-        if (!(bool) $this->settings->get('rep_favourites', "0")) {
+        if (!(bool) $this->settings->get('rep_favourites', '0')) {
             return;
         }
-        
+
         $type = ilObject::_lookupType(ilObject::_lookupObjId($this->getCommandId()));
 
         if ($this->user->getId() != ANONYMOUS_USER_ID) {
@@ -1844,122 +1804,122 @@ class ilObjectListGUI
             if (
                 is_object($this->container_obj) &&
                 !($this->container_obj instanceof ilAdministrationCommandHandling) &&
-                method_exists($this->container_obj, "getObject") &&
+                method_exists($this->container_obj, 'getObject') &&
                 is_object($this->container_obj->getObject())
             ) {
-                $this->ctrl->setParameter($this->container_obj, "ref_id", $this->container_obj->getObject()->getRefId());
+                $this->ctrl->setParameter($this->container_obj, 'ref_id', $this->container_obj->getObject()->getRefId());
             }
 
             if (!$this->fav_manager->ifIsFavourite($this->user->getId(), $this->getCommandId())) {
                 // Pass type and object ID to ilAccess to improve performance
-                if ($this->checkCommandAccess("read", "", $this->ref_id, $this->type, $this->obj_id)) {
+                if ($this->checkCommandAccess('read', '', $this->ref_id, $this->type, $this->obj_id)) {
                     if ($this->getContainerObject() instanceof ilDesktopItemHandling) {
-                        $this->ctrl->setParameter($this->container_obj, "type", $type);
-                        $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
-                        $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "addToDesk");
-                        $this->insertCommand($cmd_link, $this->lng->txt("rep_add_to_favourites"));
+                        $this->ctrl->setParameter($this->container_obj, 'type', $type);
+                        $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
+                        $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'addToDesk');
+                        $this->insertCommand($cmd_link, $this->lng->txt('rep_add_to_favourites'));
                     }
                 }
             } else {
                 if ($this->getContainerObject() instanceof ilDesktopItemHandling) {
-                    $this->ctrl->setParameter($this->container_obj, "type", $type);
-                    $this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
-                    $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeFromDesk");
-                    $this->insertCommand($cmd_link, $this->lng->txt("rep_remove_from_favourites"));
+                    $this->ctrl->setParameter($this->container_obj, 'type', $type);
+                    $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
+                    $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'removeFromDesk');
+                    $this->insertCommand($cmd_link, $this->lng->txt('rep_remove_from_favourites'));
                 }
             }
         }
     }
 
-    public function insertInfoScreenCommand() : void
+    public function insertInfoScreenCommand(): void
     {
         if ($this->std_cmd_only) {
             return;
         }
         $this->insertCommand(
-            $this->getCommandLink("infoScreen"),
-            $this->lng->txt("info_short"),
-            $this->getCommandFrame("infoScreen"),
-            ilUtil::getImagePath("icon_info.svg")
+            $this->getCommandLink('infoScreen'),
+            $this->lng->txt('info_short'),
+            $this->getCommandFrame('infoScreen'),
+            ilUtil::getImagePath('icon_info.svg')
         );
     }
 
     /**
      * Insert common social commands (comments, notes, tagging)
      */
-    public function insertCommonSocialCommands(bool $header_actions = false) : void
+    public function insertCommonSocialCommands(bool $header_actions = false): void
     {
         if ($this->std_cmd_only || ($this->user->getId() == ANONYMOUS_USER_ID)) {
             return;
         }
 
-        $this->lng->loadLanguageModule("notes");
-        $this->lng->loadLanguageModule("tagging");
-        $cmd_frame = $this->getCommandFrame("infoScreen");
+        $this->lng->loadLanguageModule('notes');
+        $this->lng->loadLanguageModule('tagging');
+        $cmd_frame = $this->getCommandFrame('infoScreen');
 
         // reference objects have translated ids, revert to originals
         $note_ref_id = $this->ref_id;
         if ($this->reference_ref_id) {
             $note_ref_id = $this->reference_ref_id;
         }
-        
+
         $js_updater = $header_actions
-            ? "il.Object.redrawActionHeader();"
-            : "il.Object.redrawListItem(" . $note_ref_id . ")";
-        
+            ? 'il.Object.redrawActionHeader();'
+            : 'il.Object.redrawListItem(' . $note_ref_id . ')';
+
         $comments_enabled = $this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, $header_actions);
         if ($comments_enabled) {
             $this->insertCommand(
-                "#",
-                $this->lng->txt("notes_comments"),
+                '#',
+                $this->lng->txt('notes_comments'),
                 $cmd_frame,
-                "",
-                "",
+                '',
+                '',
                 ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $js_updater)
             );
         }
 
         if ($this->notes_enabled) {
             $this->insertCommand(
-                "#",
-                $this->lng->txt("notes"),
+                '#',
+                $this->lng->txt('notes'),
                 $cmd_frame,
-                "",
-                "",
+                '',
+                '',
                 ilNoteGUI::getListNotesJSCall($this->ajax_hash, $js_updater)
             );
         }
-        
+
         if ($this->tags_enabled) {
             $this->insertCommand(
-                "#",
-                $this->lng->txt("tagging_set_tag"),
+                '#',
+                $this->lng->txt('tagging_set_tag'),
                 $cmd_frame,
-                "",
-                "",
+                '',
+                '',
                 ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $js_updater)
             );
         }
     }
-    
-    public function insertTimingsCommand() : void
+
+    public function insertTimingsCommand(): void
     {
         if (
-            $this->std_cmd_only ||
-            !method_exists($this->container_obj, "getObject") ||
+            $this->std_cmd_only || is_null($this->container_obj) ||
+            !method_exists($this->container_obj, 'getObject') ||
             !is_object($this->container_obj->getObject())
         ) {
             return;
         }
-        
+
         $parent_ref_id = $this->container_obj->getObject()->getRefId();
         $parent_type = $this->container_obj->getObject()->getType();
-        
+
         // #18737
         if ($this->reference_ref_id) {
             $this->ctrl->setParameterByClass('ilobjectactivationgui', 'ref_id', $this->reference_ref_id);
         }
-        
+
         if (
             $this->checkCommandAccess('write', '', $parent_ref_id, $parent_type) ||
             $this->checkCommandAccess('write', '', $this->ref_id, $this->type)
@@ -1975,13 +1935,13 @@ class ilObjectListGUI
                 $parent_ref_id
             );
             $cmd_lnk = $this->ctrl->getLinkTargetByClass(
-                array($this->gui_class_name, 'ilcommonactiondispatchergui', 'ilobjectactivationgui'),
+                [$this->gui_class_name, 'ilcommonactiondispatchergui', 'ilobjectactivationgui'],
                 'edit'
             );
-            
+
             $this->insertCommand($cmd_lnk, $this->lng->txt('obj_activation_list_gui'));
         }
-        
+
         if ($this->reference_ref_id) {
             $this->ctrl->setParameterByClass('ilobjectactivationgui', 'ref_id', $this->ref_id);
         }
@@ -1993,38 +1953,43 @@ class ilObjectListGUI
     public function insertCommands(
         bool $use_async = false,
         bool $get_async_commands = false,
-        string $async_url = "",
+        string $async_url = '',
         bool $header_actions = false
-    ) : string {
+    ): string {
         if (!$this->getCommandsStatus()) {
-            return "";
+            return '';
         }
 
         $this->current_selection_list = new ilAdvancedSelectionListGUI();
-        $this->current_selection_list->setAriaListTitle(sprintf($this->lng->txt('actions_for'), $this->getTitle()));
+        $this->current_selection_list->setAriaListTitle(
+            sprintf(
+                $this->lng->txt('actions_for'),
+                htmlspecialchars(addslashes($this->getTitle()))
+            )
+        );
         $this->current_selection_list->setAsynch($use_async && !$get_async_commands);
         $this->current_selection_list->setAsynchUrl($async_url);
         if ($header_actions) {
             $this->current_selection_list->setListTitle(
-                "<span class='hidden-xs'>" .
-                $this->lng->txt("actions") .
-                "</span>"
+                '<span class="hidden-xs">' .
+                $this->lng->txt('actions') .
+                '</span>'
             );
         } else {
-            $this->current_selection_list->setListTitle("");
+            $this->current_selection_list->setListTitle('');
         }
-        $this->current_selection_list->setId("act_" . $this->getUniqueItemId());
-        $this->current_selection_list->setSelectionHeaderClass("small");
-        $this->current_selection_list->setItemLinkClass("xsmall");
-        $this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
+        $this->current_selection_list->setId('act_' . $this->getUniqueItemId());
+        $this->current_selection_list->setSelectionHeaderClass('');
+        $this->current_selection_list->setItemLinkClass('');
+        $this->current_selection_list->setLinksMode('il_ContainerItemCommand2');
         $this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
         $this->current_selection_list->setUseImages(false);
         $this->current_selection_list->setAdditionalToggleElement(
             $this->getUniqueItemId(true),
-            "ilContainerListItemOuterHighlight"
+            'ilContainerListItemOuterHighlight'
         );
 
-        $this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", $this->ref_id);
+        $this->ctrl->setParameterByClass($this->gui_class_name, 'ref_id', $this->ref_id);
 
         // only standard command?
         $only_default = false;
@@ -2034,33 +1999,33 @@ class ilObjectListGUI
 
         $this->default_command = [];
         $this->prevent_duplicate_commands = [];
-        
+
         // we only allow the following commands inside the header actions
-        $valid_header_commands = array("mount_webfolder");
+        $valid_header_commands = ['mount_webfolder'];
 
         $commands = $this->getCommands();
         foreach ($commands as $command) {
-            if ($header_actions && !in_array($command["cmd"], $valid_header_commands)) {
+            if ($header_actions && !in_array($command['cmd'], $valid_header_commands)) {
                 continue;
             }
-            
-            if ($command["granted"] == true) {
-                if (!$command["default"] === true) {
+
+            if ($command['granted'] == true) {
+                if (!$command['default'] === true) {
                     if (!$this->std_cmd_only && !$only_default) {
                         // workaround for repository frameset
-                        $command["link"] =
-                            $this->appendRepositoryFrameParameter($command["link"]);
+                        $command['link'] =
+                            $this->appendRepositoryFrameParameter($command['link']);
 
-                        $cmd_link = $command["link"];
-                        $txt = ($command["lang_var"] == "")
-                            ? $command["txt"]
-                            : $this->lng->txt($command["lang_var"]);
+                        $cmd_link = $command['link'];
+                        $txt = ($command['lang_var'] == '')
+                            ? $command['txt']
+                            : $this->lng->txt($command['lang_var']);
                         $this->insertCommand(
                             $cmd_link,
                             $txt,
-                            $command["frame"],
-                            $command["img"],
-                            $command["cmd"]
+                            $command['frame'],
+                            $command['img'],
+                            $command['cmd']
                         );
                     }
                 } else {
@@ -2079,15 +2044,17 @@ class ilObjectListGUI
                     }
 
                     $this->insertCommand(
-                        $command["link"],
-                        $this->lng->txt($command["lang_var"]),
-                        $command["frame"],
-                        "",
-                        $command["cmd"] ?? "",
-                        $command["onclick"]
+                        $command['link'],
+                        $this->lng->txt($command['lang_var']),
+                        $command['frame'],
+                        '',
+                        $command['cmd'] ?? '',
+                        $command['onclick']
                     );
                 }
             }
+            $this->insertLPSettingsCommand();
+
 
             // info screen command
             if ($this->getInfoScreenStatus()) {
@@ -2145,12 +2112,12 @@ class ilObjectListGUI
                 // END PATCH Lucene Search
             }
         }
-        
+
         // common social commands (comment, notes, tags)
         if (!$only_default && !$this->isMode(self::IL_LIST_AS_TRIGGER)) {
             $this->insertCommonSocialCommands($header_actions);
         }
-        
+
         if (!$header_actions) {
             $this->ctrl->clearParametersByClass($this->gui_class_name);
         }
@@ -2164,7 +2131,7 @@ class ilObjectListGUI
                 if (
                     !ilContainer::_lookupContainerSetting($this->obj_id, ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY)
                 ) {
-                    return "";
+                    return '';
                 }
             }
         }
@@ -2172,33 +2139,33 @@ class ilObjectListGUI
         if ($use_async && $get_async_commands) {
             return $this->current_selection_list->getHTML(true);
         }
-        
+
         return $this->current_selection_list->getHTML();
     }
 
-    public function enableComments(bool $value, bool $enable_comments_settings = true) : void
+    public function enableComments(bool $value, bool $enable_comments_settings = true): void
     {
-        if ($this->settings->get("disable_comments")) {
+        if ($this->settings->get('disable_comments')) {
             $value = false;
         }
-        
+
         $this->comments_enabled = $value;
         $this->comments_settings_enabled = $enable_comments_settings;
     }
-    
-    public function enableNotes(bool $value) : void
+
+    public function enableNotes(bool $value): void
     {
-        if ($this->settings->get("disable_notes")) {
+        if ($this->settings->get('disable_notes')) {
             $value = false;
         }
-        
+
         $this->notes_enabled = $value;
     }
-    
-    public function enableTags(bool $value) : void
+
+    public function enableTags(bool $value): void
     {
-        $tags_set = new ilSetting("tags");
-        if (!$tags_set->get("enable")) {
+        $tags_set = new ilSetting('tags');
+        if (!$tags_set->get('enable')) {
             $value = false;
         }
         $this->tags_enabled = $value;
@@ -2208,75 +2175,77 @@ class ilObjectListGUI
         bool $value,
         string $text = null,
         bool $categories = false,
-        array $ctrl_path = null
-    ) : void {
+        array $ctrl_path = null,
+        bool $force_rate_parent = false
+    ): void {
         $this->rating_enabled = $value;
-        
+
         if ($this->rating_enabled) {
             $this->rating_categories_enabled = $categories;
             $this->rating_text = $text;
             $this->rating_ctrl_path = $ctrl_path;
+            $this->force_rate_parent = $force_rate_parent;
         }
     }
-    
+
     /**
      * Toggles whether multiple objects can be downloaded at once or not.
      *
      * @param boolean $value true, to allow downloading of multiple objects; otherwise, false.
      */
-    public function enableMultiDownload(bool $value) : void
+    public function enableMultiDownload(bool $value): void
     {
-        $folder_set = new ilSetting("fold");
-        if (!$folder_set->get("enable_multi_download")) {
+        $folder_set = new ilSetting('fold');
+        if (!$folder_set->get('enable_multi_download')) {
             $value = false;
         }
         $this->multi_download_enabled = $value;
     }
-    
-    public function insertMultiDownloadCommand() : void
+
+    public function insertMultiDownloadCommand(): void
     {
         if ($this->std_cmd_only) {
             return;
         }
-        
+
         if (!$this->obj_definition->isContainer(ilObject::_lookupType($this->obj_id))) {
             return;
         }
-        
+
         if ($this->getContainerObject() instanceof ilContainerGUI) {
-            $this->ctrl->setParameter($this->getContainerObject(), "type", "");
-            $this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
-            $this->ctrl->setParameter($this->getContainerObject(), "active_node", "");
+            $this->ctrl->setParameter($this->getContainerObject(), 'type', '');
+            $this->ctrl->setParameter($this->getContainerObject(), 'item_ref_id', '');
+            $this->ctrl->setParameter($this->getContainerObject(), 'active_node', '');
             // bugfix mantis 24559
             // undoing an erroneous change inside mantis 23516 by
-            // adding "Download Multiple Objects"-functionality for non-admins
+            // adding 'Download Multiple Objects'-functionality for non-admins
             // as they don't have the possibility to use the multi-download-capability of the manage-tab
             $user_id = $this->user->getId();
-            $hasAdminAccess = $this->access->checkAccessOfUser($user_id, "crs_admin", $this->ctrl->getCmd(), $this->requested_ref_id);
+            $hasAdminAccess = $this->access->checkAccessOfUser($user_id, 'crs_admin', $this->ctrl->getCmd(), $this->requested_ref_id);
             // to still prevent duplicate download functions for admins
             // the following if-else statement keeps the redirection for admins
             // while letting other course members access the original multi-download functionality
             if ($hasAdminAccess) {
-                $cmd = ($this->requested_cmd == "enableAdministrationPanel")
-                    ? "render"
-                    : "enableAdministrationPanel";
+                $cmd = ($this->requested_cmd == 'enableAdministrationPanel')
+                    ? 'render'
+                    : 'enableAdministrationPanel';
             } else {
-                $cmd = ($this->requested_cmd == "enableMultiDownload")
-                    ? "render"
-                    : "enableMultiDownload";
+                $cmd = ($this->requested_cmd == 'enableMultiDownload')
+                    ? 'render'
+                    : 'enableMultiDownload';
             }
             $cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), $cmd);
-            $this->insertCommand($cmd_link, $this->lng->txt("download_multiple_objects"));
+            $this->insertCommand($cmd_link, $this->lng->txt('download_multiple_objects'));
         }
     }
-    
-    public function enableDownloadCheckbox(int $ref_id) : void
+
+    public function enableDownloadCheckbox(int $ref_id): void
     {
         // TODO: delegate to list object class!
         if (!$this->getContainerObject()->isActiveAdministrationPanel() || $this->clipboard->hasEntries()) {
             if (
-                in_array($this->type, ["file", "fold"]) &&
-                $this->access->checkAccess("read", "", $ref_id, $this->type)
+                in_array($this->type, ['file', 'fold']) &&
+                $this->access->checkAccess('read', '', $ref_id, $this->type)
             ) {
                 $this->download_checkbox_state = self::DOWNLOAD_CHECKBOX_ENABLED;
             } else {
@@ -2286,12 +2255,12 @@ class ilObjectListGUI
             $this->download_checkbox_state = self::DOWNLOAD_CHECKBOX_NONE;
         }
     }
-    
-    public function getDownloadCheckboxState() : int
+
+    public function getDownloadCheckboxState(): int
     {
         return $this->download_checkbox_state;
     }
-    
+
     /**
      * Insert js/ajax links into template
      */
@@ -2300,26 +2269,27 @@ class ilObjectListGUI
         string $notes_url,
         string $tags_url,
         ilGlobalTemplateInterface $tpl = null
-    ) : void {
+    ): void {
+        global $DIC;
+
         if (is_null($tpl)) {
-            global $DIC;
-            $tpl = $DIC["tpl"];
+            $tpl = $DIC['tpl'];
         }
-        
-        if ($notes_url) {
-            ilNoteGUI::initJavascript($notes_url, ilNote::PRIVATE, $tpl);
-        }
-        
+
+        //if ($notes_url) {
+        $DIC->notes()->gui()->initJavascript($notes_url);
+        //}
+
         if ($tags_url) {
             ilTaggingGUI::initJavascript($tags_url, $tpl);
         }
-        
+
         if ($redraw_url) {
-            $tpl->addOnLoadCode("il.Object.setRedrawAHUrl('" . $redraw_url . "');");
+            $tpl->addOnLoadCode('il.Object.setRedrawAHUrl("' . $redraw_url . '");');
         }
     }
-    
-    public function setHeaderSubObject(?string $type, ?int $id) : void
+
+    public function setHeaderSubObject(?string $type, ?int $id): void
     {
         $this->sub_obj_type = $type;
         $this->sub_obj_id = (int) $id;
@@ -2332,41 +2302,40 @@ class ilObjectListGUI
         string $onclick = null,
         string $status_text = null,
         string $href = null
-    ) : void {
+    ): void {
         $this->header_icons[$id] = [
-            "img" => $img,
-            "tooltip" => $tooltip,
-            "onclick" => $onclick,
-            "status_text" => $status_text,
-            "href" => $href
+            'img' => $img,
+            'tooltip' => $tooltip,
+            'onclick' => $onclick,
+            'status_text' => $status_text,
+            'href' => $href
         ];
     }
-    
-    public function addHeaderIconHTML(string $id, string $html) : void
+
+    public function addHeaderIconHTML(string $id, string $html): void
     {
         $this->header_icons[$id] = $html;
     }
 
-    public function addHeaderGlyph(string $id, ILIAS\UI\Component\Symbol\Glyph\Glyph $glyph, $onclick = null) : void
+    public function addHeaderGlyph(string $id, ILIAS\UI\Component\Symbol\Glyph\Glyph $glyph, $onclick = null): void
     {
-        $this->header_icons[$id] = ["glyph" => $glyph, "onclick" => $onclick];
+        $this->header_icons[$id] = ['glyph' => $glyph, 'onclick' => $onclick];
     }
 
-    public function setAjaxHash(string $hash) : void
+    public function setAjaxHash(string $hash): void
     {
         $this->ajax_hash = $hash;
     }
-    
-    public function getHeaderAction(ilGlobalTemplateInterface $main_tpl = null) : string
+
+    public function getHeaderAction(ilGlobalTemplateInterface $main_tpl = null): string
     {
         if ($main_tpl == null) {
-            global $DIC;
-            $main_tpl = $DIC["tpl"];
+            $main_tpl = $this->main_tpl;
         }
 
-        $htpl = new ilTemplate("tpl.header_action.html", true, true, "Services/Repository");
+        $htpl = new ilTemplate('tpl.header_action.html', true, true, 'Services/Repository');
 
-        $redraw_js = "il.Object.redrawActionHeader();";
+        $redraw_js = 'il.Object.redrawActionHeader();';
 
         // tags
         if ($this->tags_enabled) {
@@ -2374,16 +2343,16 @@ class ilObjectListGUI
                 $this->obj_id,
                 ilObject::_lookupType($this->obj_id),
                 0,
-                "",
+                '',
                 $this->user->getId()
             );
             if (count($tags) > 0) {
-                $this->lng->loadLanguageModule("tagging");
+                $this->lng->loadLanguageModule('tagging');
 
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
-                    "tags",
-                    $f->symbol()->glyph()->tag("#")
+                    'tags',
+                    $f->symbol()->glyph()->tag('#')
                       ->withCounter($f->counter()->status(count($tags))),
                     ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js)
                 );
@@ -2393,34 +2362,35 @@ class ilObjectListGUI
         // notes and comments
         $comments_enabled = $this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, true, false);
         if ($this->notes_enabled || $comments_enabled) {
-            $type = ($this->sub_obj_type == "") ? $this->type : $this->sub_obj_type;
-            $cnt = ilNote::_countNotesAndComments($this->obj_id, $this->sub_obj_id, $type);
-
+            $type = ($this->sub_obj_type == '') ? $this->type : $this->sub_obj_type;
+            $context = $this->notes_service->data()->context($this->obj_id, $this->sub_obj_id, $type);
+            $cnt[$this->obj_id][Note::PUBLIC] = $this->notes_service->domain()->getNrOfCommentsForContext($context);
+            $cnt[$this->obj_id][Note::PRIVATE] = $this->notes_service->domain()->getNrOfNotesForContext($context);
             if (
                 $this->notes_enabled &&
-                isset($cnt[$this->obj_id][ilNote::PRIVATE]) &&
-                $cnt[$this->obj_id][ilNote::PRIVATE] > 0
+                isset($cnt[$this->obj_id][Note::PRIVATE]) &&
+                $cnt[$this->obj_id][Note::PRIVATE] > 0
             ) {
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
-                    "notes",
-                    $f->symbol()->glyph()->note("#")
-                      ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][ilNote::PRIVATE])),
+                    'notes',
+                    $f->symbol()->glyph()->note('#')
+                      ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][Note::PRIVATE])),
                     ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js)
                 );
             }
 
             if (
                 $comments_enabled &&
-                isset($cnt[$this->obj_id][ilNote::PUBLIC]) &&
-                $cnt[$this->obj_id][ilNote::PUBLIC] > 0
+                isset($cnt[$this->obj_id][Note::PUBLIC]) &&
+                $cnt[$this->obj_id][Note::PUBLIC] > 0
             ) {
-                $this->lng->loadLanguageModule("notes");
+                $this->lng->loadLanguageModule('notes');
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
-                    "comments",
-                    $f->symbol()->glyph()->comment("#")
-                      ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][ilNote::PUBLIC])),
+                    'comments',
+                    $f->symbol()->glyph()->comment('#')
+                      ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][Note::PUBLIC])),
                     ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js)
                 );
             }
@@ -2436,21 +2406,24 @@ class ilObjectListGUI
                 $rating_gui->setYourRatingText($this->rating_text);
             }
 
-            $this->ctrl->setParameterByClass("ilRatingGUI", "cadh", $this->ajax_hash);
-            $this->ctrl->setParameterByClass("ilRatingGUI", "rnsb", true);
+            $ajax_hash = $this->force_rate_parent
+                ? ilCommonActionDispatcherGUI::removeSubObjFromAjaxHash($this->ajax_hash)
+                : $this->ajax_hash;
+            $this->ctrl->setParameterByClass('ilRatingGUI', 'cadh', $ajax_hash);
+            $this->ctrl->setParameterByClass('ilRatingGUI', 'rnsb', true);
             if ($this->rating_ctrl_path) {
                 $rating_gui->setCtrlPath($this->rating_ctrl_path);
-                $ajax_url = $this->ctrl->getLinkTargetByClass($this->rating_ctrl_path, "saveRating", "", true);
+                $ajax_url = $this->ctrl->getLinkTargetByClass($this->rating_ctrl_path, 'saveRating', '', true);
             } else {
-                $ajax_url = $this->ctrl->getLinkTargetByClass("ilRatingGUI", "saveRating", "", true);
+                $ajax_url = $this->ctrl->getLinkTargetByClass('ilRatingGUI', 'saveRating', '', true);
             }
-            $main_tpl->addOnLoadCode("il.Object.setRatingUrl('" . $ajax_url . "');");
+            $main_tpl->addOnLoadCode('il.Object.setRatingUrl("' . $ajax_url . '");');
             $this->addHeaderIconHTML(
-                "rating",
+                'rating',
                 $rating_gui->getHTML(
                     true,
-                    $this->checkCommandAccess("read", "", $this->ref_id, $this->type),
-                    "il.Object.saveRating(%rating%);"
+                    $this->checkCommandAccess('read', '', $this->ref_id, $this->type),
+                    'il.Object.saveRating(%rating%);'
                 )
             );
         }
@@ -2458,49 +2431,49 @@ class ilObjectListGUI
         if ($this->header_icons) {
             $chunks = [];
             foreach ($this->header_icons as $id => $attr) {
-                $id = "headp_" . $id;
+                $id = 'headp_' . $id;
 
                 if (is_array($attr)) {
-                    if (isset($attr["glyph"]) && $attr["glyph"]) {
-                        if ($attr["onclick"]) {
-                            $htpl->setCurrentBlock("prop_glyph_oc");
-                            $htpl->setVariable("GLYPH_ONCLICK", $attr["onclick"]);
+                    if (isset($attr['glyph']) && $attr['glyph']) {
+                        if ($attr['onclick']) {
+                            $htpl->setCurrentBlock('prop_glyph_oc');
+                            $htpl->setVariable('GLYPH_ONCLICK', $attr['onclick']);
                             $htpl->parseCurrentBlock();
                         }
                         $renderer = $this->ui->renderer();
-                        $html = $renderer->render($attr["glyph"]);
-                        $htpl->setCurrentBlock("prop_glyph");
-                        $htpl->setVariable("GLYPH", $html);
+                        $html = $renderer->render($attr['glyph']);
+                        $htpl->setCurrentBlock('prop_glyph');
+                        $htpl->setVariable('GLYPH', $html);
                         $htpl->parseCurrentBlock();
                     } else {
-                        if ($attr["onclick"]) {
-                            $htpl->setCurrentBlock("onclick");
-                            $htpl->setVariable("PROP_ONCLICK", $attr["onclick"]);
+                        if ($attr['onclick']) {
+                            $htpl->setCurrentBlock('onclick');
+                            $htpl->setVariable('PROP_ONCLICK', $attr['onclick']);
                             $htpl->parseCurrentBlock();
                         }
 
-                        if ($attr["status_text"]) {
-                            $htpl->setCurrentBlock("status");
-                            $htpl->setVariable("PROP_TXT", $attr["status_text"]);
+                        if ($attr['status_text']) {
+                            $htpl->setCurrentBlock('status');
+                            $htpl->setVariable('PROP_TXT', $attr['status_text']);
                             $htpl->parseCurrentBlock();
                         }
 
 
-                        $htpl->setCurrentBlock("prop");
-                        if ($attr["href"] || $attr["onclick"]) {
-                            $htpl->setVariable("TAG", "a");
+                        $htpl->setCurrentBlock('prop');
+                        if ($attr['href'] || $attr['onclick']) {
+                            $htpl->setVariable('TAG', 'a');
                         } else {
-                            $htpl->setVariable("TAG", "span");
+                            $htpl->setVariable('TAG', 'span');
                         }
-                        $htpl->setVariable("PROP_ID", $id);
-                        $htpl->setVariable("IMG", ilUtil::img($attr["img"], $attr["tooltip"]));
-                        if ($attr["href"] != "") {
-                            $htpl->setVariable("PROP_HREF", ' href="' . $attr["href"] . '" ');
+                        $htpl->setVariable('PROP_ID', $id);
+                        $htpl->setVariable('IMG', ilUtil::img($attr['img'], $attr['tooltip']));
+                        if ($attr['href'] != '') {
+                            $htpl->setVariable('PROP_HREF', ' href="' . $attr['href'] . '" ');
                         }
                         $htpl->parseCurrentBlock();
 
-                        if ($attr["tooltip"]) {
-                            ilTooltipGUI::addTooltip($id, $attr["tooltip"]);
+                        if ($attr['tooltip']) {
+                            ilTooltipGUI::addTooltip($id, $attr['tooltip']);
                         }
                     }
                 } else {
@@ -2510,16 +2483,16 @@ class ilObjectListGUI
 
             if (sizeof($chunks)) {
                 $htpl->setVariable(
-                    "PROP_CHUNKS",
-                    implode("&nbsp;&nbsp;&nbsp;", $chunks) . "&nbsp;&nbsp;&nbsp;"
+                    'PROP_CHUNKS',
+                    implode('&nbsp;&nbsp;&nbsp;', $chunks) . '&nbsp;&nbsp;&nbsp;'
                 );
             }
         }
 
         $this->title = ilObject::_lookupTitle($this->obj_id);
         $htpl->setVariable(
-            "ACTION_DROP_DOWN",
-            $this->insertCommands(false, false, "", true)
+            'ACTION_DROP_DOWN',
+            $this->insertCommands(false, false, '', true)
         );
 
         if ($this->cust_modals !== []) {
@@ -2534,32 +2507,32 @@ class ilObjectListGUI
     * workaround: all links into the repository (from outside)
     * must tell repository to set up the frameset
     */
-    public function appendRepositoryFrameParameter(string $link) : string
+    public function appendRepositoryFrameParameter(string $link): string
     {
         // we should get rid of this nonsense with 4.4 (alex)
-        $base_class = $this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string());
+        $base_class = $this->request_wrapper->retrieve('baseClass', $this->refinery->kindlyTo()->string());
         if (
-            (strtolower($base_class) != "ilrepositorygui") &&
-            is_int(strpos($link, "baseClass=ilRepositoryGUI"))
+            (strtolower($base_class) != 'ilrepositorygui') &&
+            is_int(strpos($link, 'baseClass=ilRepositoryGUI'))
         ) {
-            if ($this->type != "frm") {
-                $link = ilUtil::appendUrlParameterString($link, "rep_frame=1");
+            if ($this->type != 'frm') {
+                $link = ilUtil::appendUrlParameterString($link, 'rep_frame=1');
             }
         }
-        
+
         return $link;
     }
-    
-    protected function modifyTitleLink(string $default_link) : string
+
+    protected function modifyTitleLink(string $default_link): string
     {
         if ($this->default_command_params) {
-            $params = array();
+            $params = [];
             foreach ($this->default_command_params as $name => $value) {
                 $params[] = $name . '=' . $value;
             }
             $params = implode('&', $params);
-            
-            
+
+
             // #12370
             if (!stristr($default_link, '?')) {
                 $default_link = ($default_link . '?' . $params);
@@ -2573,10 +2546,8 @@ class ilObjectListGUI
     /**
     * workaround: SAHS in new javavasript-created window or iframe
     */
-    public function modifySAHSlaunch(string $link, string $wtarget) : string
+    public function modifySAHSlaunch(string $link, string $wtarget): string
     {
-        global $DIC;
-    
         if (strstr($link, ilSAHSPresentationGUI::class)) {
             $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
             $om = $sahs_obj->getOpenMode();
@@ -2585,27 +2556,27 @@ class ilObjectListGUI
             if (($om == 5 || $om == 1) && $width > 0 && $height > 0) {
                 $om++;
             }
-            if ($om != 0 && !$DIC->http()->agent()->isMobile()) {
-                $this->default_command["frame"] = "";
+            if ($om != 0 && !$this->http->agent()->isMobile()) {
+                $this->default_command['frame'] = '';
                 $link =
-                    "javascript:void(0); onclick=startSAHS('" .
+                    'javascript:void(0); onclick=startSAHS("' .
                     $link .
-                    "','" .
+                    '","' .
                     $wtarget .
-                    "'," .
+                    '",' .
                     $om .
-                    "," .
+                    ',' .
                     $width .
-                    "," .
+                    ',' .
                     $height .
-                    ");"
+                    ');'
                 ;
             }
         }
         return $link;
     }
 
-    public function insertPath() : void
+    public function insertPath(): void
     {
         if ($this->getPathStatus() != false) {
             if (!$this->path_gui instanceof \ilPathGUI) {
@@ -2622,34 +2593,36 @@ class ilObjectListGUI
                 $start_node = $this->path_start_node;
             }
 
-            $this->tpl->setCurrentBlock("path_item");
+            $this->tpl->setCurrentBlock('path_item');
             $this->tpl->setVariable('PATH_ITEM', $path_gui->getPath($start_node, $this->ref_id));
             $this->tpl->parseCurrentBlock();
 
-            $this->tpl->setCurrentBlock("path");
-            $this->tpl->setVariable("TXT_LOCATION", $this->lng->txt("locator"));
+            $this->tpl->setCurrentBlock('path');
+            $this->tpl->setVariable('TXT_LOCATION', $this->lng->txt('locator'));
             $this->tpl->parseCurrentBlock();
         }
     }
-    
-    public function insertProgressInfo() : void
+
+    public function insertProgressInfo(): void
     {
     }
 
-    public function insertIconsAndCheckboxes() : void
+    public function insertIconsAndCheckboxes(): void
     {
         $cnt = 0;
         if ($this->getCheckboxStatus()) {
-            $this->tpl->setCurrentBlock("check");
-            $this->tpl->setVariable("VAL_ID", $this->getCommandId());
+            $this->tpl->setCurrentBlock('check');
+            $this->tpl->setVariable('VAL_ID', $this->getCommandId());
+            $this->tpl->setVariable('CHECK_TITLE', $this->lng->txt('select') . ' ' . $this->getTitle());
             $this->tpl->parseCurrentBlock();
             $cnt += 1;
         } elseif ($this->getDownloadCheckboxState() != self::DOWNLOAD_CHECKBOX_NONE) {
-            $this->tpl->setCurrentBlock("check_download");
+            $this->tpl->setCurrentBlock('check_download');
+            $this->tpl->setVariable('CHECK_DOWNLOAD_TITLE', $this->lng->txt('download') . ' ' . $this->getTitle());
             if ($this->getDownloadCheckboxState() == self::DOWNLOAD_CHECKBOX_ENABLED) {
-                $this->tpl->setVariable("VAL_ID", $this->getCommandId());
+                $this->tpl->setVariable('VAL_ID', $this->getCommandId());
             } else {
-                $this->tpl->setVariable("VAL_VISIBILITY", "visibility: hidden;\" disabled=\"disabled");
+                $this->tpl->setVariable('VAL_VISIBILITY', 'visibility: hidden;" disabled="disabled');
             }
             $this->tpl->parseCurrentBlock();
             $cnt += 1;
@@ -2658,14 +2631,14 @@ class ilObjectListGUI
 
             if ($this->isExpanded()) {
                 $this->ctrl->setParameter($this->container_obj, 'expand', -1 * $this->obj_id);
-                // "view" added, see #19922
+                // 'view' added, see #19922
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
                 $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('tree_exp.svg'));
                 $this->tpl->setVariable('EXP_ALT', $this->lng->txt('collapse'));
             } else {
                 $this->ctrl->setParameter($this->container_obj, 'expand', $this->obj_id);
-                // "view" added, see #19922
+                // 'view' added, see #19922
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
                 $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('tree_col.svg'));
@@ -2678,34 +2651,34 @@ class ilObjectListGUI
 
         if ($this->getIconStatus()) {
             if ($cnt == 1) {
-                $this->tpl->touchBlock("i_1");
+                $this->tpl->touchBlock('i_1');
             }
 
-            $this->tpl->setCurrentBlock("icon");
+            $this->tpl->setCurrentBlock('icon');
             if (!$this->obj_definition->isPlugin($this->getIconImageType())) {
-                $this->tpl->setVariable("ALT_ICON", $this->lng->txt("obj_" . $this->getIconImageType()));
+                $this->tpl->setVariable('ALT_ICON', $this->lng->txt('obj_' . $this->getIconImageType()));
             } else {
                 $this->tpl->setVariable(
-                    "ALT_ICON",
-                    ilObjectPlugin::lookupTxtById($this->getIconImageType(), "obj_" . $this->getIconImageType())
+                    'ALT_ICON',
+                    ilObjectPlugin::lookupTxtById($this->getIconImageType(), 'obj_' . $this->getIconImageType())
                 );
             }
 
             $this->tpl->setVariable(
-                "SRC_ICON",
+                'SRC_ICON',
                 $this->getTypeIcon()
             );
             $this->tpl->parseCurrentBlock();
             $cnt += 1;
         }
 
-        $this->tpl->touchBlock("d_" . $cnt);
+        $this->tpl->touchBlock('d_' . $cnt);
     }
 
     /**
      * Get object type specific type icon
      */
-    public function getTypeIcon() : string
+    public function getTypeIcon(): string
     {
         return ilObject::getIconForReference(
             $this->ref_id,
@@ -2714,46 +2687,46 @@ class ilObjectListGUI
             $this->getIconImageType()
         );
     }
-    
-    public function insertSubItems() : void
+
+    public function insertSubItems(): void
     {
         foreach ($this->sub_item_html as $sub_html) {
-            $this->tpl->setCurrentBlock("subitem");
-            $this->tpl->setVariable("SUBITEM", $sub_html);
+            $this->tpl->setCurrentBlock('subitem');
+            $this->tpl->setVariable('SUBITEM', $sub_html);
             $this->tpl->parseCurrentBlock();
         }
     }
-    
-    public function insertPositionField() : void
+
+    public function insertPositionField(): void
     {
         if ($this->position_enabled) {
-            $this->tpl->setCurrentBlock("position");
-            $this->tpl->setVariable("POS_ID", $this->position_field_index);
-            $this->tpl->setVariable("POS_VAL", $this->position_value);
+            $this->tpl->setCurrentBlock('position');
+            $this->tpl->setVariable('POS_ID', $this->position_field_index);
+            $this->tpl->setVariable('POS_VAL', $this->position_value);
             $this->tpl->parseCurrentBlock();
         }
     }
-    
+
     /**
      * returns whether any admin commands (link, delete, cut)
      * are included in the output
      */
-    public function adminCommandsIncluded() : bool
+    public function adminCommandsIncluded(): bool
     {
         return $this->adm_commands_included;
     }
 
-    public function storeAccessCache() : void
+    public function storeAccessCache(): void
     {
-        if ($this->acache->getLastAccessStatus() == "miss" && !$this->prevent_access_caching) {
+        if ($this->acache->getLastAccessStatus() == 'miss' && !$this->prevent_access_caching) {
             $this->acache->storeEntry(
-                $this->user->getId() . ":" . $this->ref_id,
+                $this->user->getId() . ':' . $this->ref_id,
                 serialize($this->access_cache),
                 $this->ref_id
             );
         }
     }
-    
+
     /**
      * Get all item information (title, commands, description) in HTML
      */
@@ -2764,8 +2737,8 @@ class ilObjectListGUI
         string $description,
         bool $use_async = false,
         bool $get_async_commands = false,
-        string $async_url = ""
-    ) : string {
+        string $async_url = ''
+    ): string {
         // this variable stores whether any admin commands
         // are included in the output
         $this->adm_commands_included = false;
@@ -2778,41 +2751,41 @@ class ilObjectListGUI
         if ($use_async && $get_async_commands) {
             return $this->insertCommands(true, true);
         }
-        
+
         if ($this->rating_enabled) {
             if (ilRating::hasRatingInListGUI($this->obj_id, $this->type)) {
-                $may_rate = $this->checkCommandAccess("read", "", $this->ref_id, $this->type);
+                $may_rate = $this->checkCommandAccess('read', '', $this->ref_id, $this->type);
                 $rating = new ilRatingGUI();
                 $rating->setObject($this->obj_id, $this->type);
                 $this->addCustomProperty(
-                    "",
+                    '',
                     $rating->getListGUIProperty($this->ref_id, $may_rate, $this->ajax_hash, $this->parent_ref_id),
                     false,
                     true
                 );
             }
         }
-        
+
         // read from cache
         $this->acache = new ilListItemAccessCache();
-        $cres = $this->acache->getEntry($this->user->getId() . ":" . $ref_id);
-        if ($this->acache->getLastAccessStatus() == "hit") {
+        $cres = $this->acache->getEntry($this->user->getId() . ':' . $ref_id);
+        if ($this->acache->getLastAccessStatus() == 'hit') {
             $this->access_cache = unserialize($cres);
         } else {
             // write to cache
             $this->storeAccessCache();
         }
-        
+
         // visible check
-        if (!$this->checkCommandAccess("visible", "", $ref_id, "", $obj_id)) {
+        if (!$this->checkCommandAccess('visible', '', $ref_id, '', $obj_id)) {
             $this->resetCustomData();
-            return "";
+            return '';
         }
-        
+
         // BEGIN WEBDAV
         if ($type == 'file' and ilObjFileAccess::_isFileHidden($title)) {
             $this->resetCustomData();
-            return "";
+            return '';
         }
         // END WEBDAV
 
@@ -2821,7 +2794,7 @@ class ilObjectListGUI
             true,
             true,
             static::$tpl_component,
-            "DEFAULT",
+            'DEFAULT',
             false,
             true
         );
@@ -2829,12 +2802,12 @@ class ilObjectListGUI
         if ($this->getCommandsStatus()) {
             if (!$this->getSeparateCommands()) {
                 $this->tpl->setVariable(
-                    "COMMAND_SELECTION_LIST",
+                    'COMMAND_SELECTION_LIST',
                     $this->insertCommands($use_async, $get_async_commands, $async_url)
                 );
             }
         }
-        
+
         if ($this->getProgressInfoStatus()) {
             $this->insertProgressInfo();
         }
@@ -2878,7 +2851,7 @@ class ilObjectListGUI
 
         // icons and checkboxes
         $this->insertIconsAndCheckboxes();
-        
+
         // input field for position
         $this->insertPositionField();
 
@@ -2887,31 +2860,35 @@ class ilObjectListGUI
 
         $this->resetCustomData();
 
-        $this->tpl->setVariable("DIV_CLASS", 'ilContainerListItemOuter');
+        $this->tpl->setVariable('DIV_CLASS', 'ilContainerListItemOuter');
         $this->tpl->setVariable(
-            "DIV_ID",
+            'DIV_ID',
             'data-list-item-id="' . $this->getUniqueItemId(true) . '" id = "' . $this->getUniqueItemId(true) . '"'
         );
-        $this->tpl->setVariable("ADDITIONAL", $this->getAdditionalInformation());
+        $this->tpl->setVariable('ADDITIONAL', $this->getAdditionalInformation());
 
         if (is_object($this->getContainerObject())) {
             // #11554 - make sure that internal ids are reset
-            $this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
+            $this->ctrl->setParameter($this->getContainerObject(), 'item_ref_id', '');
         }
 
         // if file upload is enabled the content is wrapped by a UI dropzone.
-        $file_upload_dropzone = new ilObjFileUploadDropzone($this->ref_id, $this->tpl->get());
-        if ($file_upload_dropzone->isUploadAllowed($this->type)) {
+        $content = $this->tpl->get();
+        $file_upload_dropzone = new ilObjFileUploadDropzone($this->ref_id, $content);
+        if ($this->context === self::CONTEXT_REPOSITORY
+            && $this->requested_cmd === "view"
+            && $file_upload_dropzone->isUploadAllowed($this->type)
+        ) {
             return $file_upload_dropzone->getDropzoneHtml();
         }
 
-        return $this->tpl->get();
+        return $content;
     }
-    
+
     /**
      * reset properties and commands
      */
-    protected function resetCustomData() : void
+    protected function resetCustomData(): void
     {
         // #15747
         $this->cust_prop = [];
@@ -2920,99 +2897,107 @@ class ilObjectListGUI
         $this->sub_item_html = [];
         $this->position_enabled = false;
     }
-    
+
     /**
      * Set current parent ref id to enable unique js-ids (sessions, etc.)
      */
-    public function setParentRefId(int $ref_id) : void
+    public function setParentRefId(int $ref_id): void
     {
         $this->parent_ref_id = $ref_id;
     }
-    
+
     /**
      * Get unique item identifier (for js-actions)
      *
      * @param bool $a_as_div
      * @return string
      */
-    public function getUniqueItemId(bool $as_div = false) : string
+    public function getUniqueItemId(bool $as_div = false): string
     {
         // use correct id for references
         $id_ref = $this->ref_id;
         if ($this->reference_ref_id > 0) {
             $id_ref = $this->reference_ref_id;
         }
-        
+
         // add unique identifier for preconditions (objects can appear twice in same container)
         if ($this->condition_depth) {
-            $id_ref .= "_pc" . $this->condition_depth;
+            $id_ref .= '_pc' . $this->condition_depth;
         }
-        
+
         // unique
-        $id_ref .= "_pref_" . $this->parent_ref_id;
-    
+        $id_ref .= '_pref_' . $this->parent_ref_id;
+
         if (!$as_div) {
             return $id_ref;
         } else {
             // action menu [yellow] toggle
-            return "lg_div_" . $id_ref;
+            return 'lg_div_' . $id_ref;
         }
     }
-    
+
     /**
     * Get commands HTML (must be called after get list item html)
     */
-    public function getCommandsHTML() : string
+    public function getCommandsHTML(): string
     {
         return $this->insertCommands();
     }
-    
+
     /**
     * Returns whether current item is a block in a side column or not
     */
-    public function isSideBlock() : bool
+    public function isSideBlock(): bool
     {
         return false;
     }
 
-    public function setBoldTitle(bool $bold_title) : void
+    public function setBoldTitle(bool $bold_title): void
     {
         $this->bold_title = $bold_title;
     }
-    
-    public function isTitleBold() : bool
+
+    public function isTitleBold(): bool
     {
         return $this->bold_title;
     }
-    
-    public static function preloadCommonProperties(array $obj_ids, int $context) : void
+
+    public static function preloadCommonProperties(array $obj_ids, int $context): void
     {
         global $DIC;
         $lng = $DIC->language();
         $ilSetting = $DIC->settings();
         $ilUser = $DIC->user();
+        $notes_manager = $DIC->notes()->internal()->domain()->notes();
 
         if ($context == self::CONTEXT_REPOSITORY) {
-            $active_notes = !$ilSetting->get("disable_notes");
-            $active_comments = !$ilSetting->get("disable_comments");
-        
+            $active_notes = !$ilSetting->get('disable_notes');
+            $active_comments = !$ilSetting->get('disable_comments');
+
             if ($active_comments) {
                 // needed for action
-                self::$comments_activation = ilNote::getRepObjActivation($obj_ids);
+                self::$comments_activation = $DIC->notes()
+                    ->internal()
+                    ->domain()
+                    ->notes()->commentsActiveMultiple($obj_ids);
             }
-            
+
             // properties are optional
             if ($ilSetting->get('comments_tagging_in_lists')) {
                 if ($active_notes || $active_comments) {
-                    self::$cnt_notes = ilNote::_countNotesAndCommentsMultiple($obj_ids, true);
-                    
-                    $lng->loadLanguageModule("notes");
+                    // @todo: should be refactored, see comment in notes db repo
+                    self::$cnt_notes = $notes_manager->countNotesAndCommentsMultipleObjects(
+                        $obj_ids,
+                        true
+                    );
+
+                    $lng->loadLanguageModule('notes');
                 }
-                
-                $tags_set = new ilSetting("tags");
-                if ($tags_set->get("enable")) {
-                    $all_users = (bool) $tags_set->get("enable_all_users");
-                
+
+                $tags_set = new ilSetting('tags');
+                if ($tags_set->get('enable')) {
+                    $all_users = (bool) $tags_set->get('enable_all_users');
+
                     if (!$ilSetting->get('comments_tagging_in_lists_tags')) {
                         self::$cnt_tags = ilTagging::_countTags($obj_ids, $all_users);
                     } else {
@@ -3022,17 +3007,17 @@ class ilObjectListGUI
                         }
                         self::$tags = ilTagging::_getListTagsForObjects($obj_ids, $tag_user_id);
                     }
-                    
-                    $lng->loadLanguageModule("tagging");
+
+                    $lng->loadLanguageModule('tagging');
                 }
             }
-            
-            $lng->loadLanguageModule("rating");
+
+            $lng->loadLanguageModule('rating');
         }
-        
+
         self::$preload_done = true;
     }
-    
+
     /**
      * Check comments status against comments settings and context
      */
@@ -3042,7 +3027,7 @@ class ilObjectListGUI
         int $obj_id,
         bool $header_actions,
         bool $check_write_access = true
-    ) : bool {
+    ): bool {
         if ($this->comments_enabled) {
             if (!$this->comments_settings_enabled) {
                 return true;
@@ -3053,23 +3038,21 @@ class ilObjectListGUI
             // fallback to single object check if no preloaded data
             // only the repository does preloadCommonProperties() yet
             if (!$header_actions && self::$preload_done) {
-                if (isset(self::$comments_activation[$obj_id][$type]) &&
-                    self::$comments_activation[$obj_id][$type]) {
+                if (isset(self::$comments_activation[$obj_id]) &&
+                    self::$comments_activation[$obj_id]) {
                     return true;
                 }
-            } else {
-                if (ilNote::commentsActivated($obj_id, 0, $type)) {
-                    return true;
-                }
+            } elseif ($this->notes_service->domain()->commentsActive($obj_id)) {
+                return true;
             }
         }
         return false;
     }
-    
+
     /**
      * enable timings link
      */
-    public function enableTimings(bool $status) : void
+    public function enableTimings(bool $status): void
     {
         $this->timings_enabled = $status;
     }
@@ -3083,7 +3066,7 @@ class ilObjectListGUI
         string $type,
         string $title,
         string $description
-    ) : ?Item {
+    ): ?Item {
         $ui = $this->ui;
 
         // even b tag produced bugs, see #32304
@@ -3107,10 +3090,9 @@ class ilObjectListGUI
                 ->button()
                 ->shy($action_item['title'], $action_item['link']);
 
-            // Dirty hack to remain the "onclick" action of action items
-            if ($action_item['onclick'] != null && $action_item['onclick'] != '') {
-                $action = $action->withAdditionalOnLoadCode(function ($id) use ($action_item) : string {
-                    return "$('#$id').click(function(){" . $action_item['onclick'] . ";});";
+            if ($action_item['onclick'] !== null && $action_item['onclick'] !== '') {
+                $action = $action->withAdditionalOnLoadCode(function ($id) use ($action_item): string {
+                    return "$('#$id').click(function(){" . $action_item['onclick'] . ';});';
                 });
             }
 
@@ -3122,7 +3104,7 @@ class ilObjectListGUI
             ->standard($actions)
             ->withAriaLabel(sprintf(
                 $this->lng->txt('actions_for'),
-                $title
+                htmlspecialchars(addslashes($title))
             ));
 
         $def_command = $this->getDefaultCommand();
@@ -3130,19 +3112,23 @@ class ilObjectListGUI
         $icon = $this->ui->factory()
             ->symbol()
             ->icon()
-            ->custom(ilObject::_getIcon($obj_id), $this->lng->txt("icon") . " " . $this->lng->txt('obj_' . $type))
+            ->custom(ilObject::_getIcon($obj_id), $this->lng->txt('icon') . ' ' . $this->lng->txt('obj_' . $type))
             ->withSize('medium');
 
 
-        if ($def_command['link']) {
-            $list_item = $ui->factory()->item()->standard(
-                $this->ui->factory()->link()->standard($this->getTitle(), $def_command['link'])
-            );
+        if ($def_command['link'] ?? false) {
+            $def_command['link'] = $this->modifySAHSlaunch($def_command['link'], $def_command['frame']);
+            $new_viewport = !in_array($this->getDefaultCommand()['frame'], ['', '_top', '_self', '_parent'], true); // Cannot use $def_command['frame']. $this->default_command has been edited.
+            $link = $this->ui->factory()
+                             ->link()
+                             ->standard($this->getTitle(), $def_command['link'])
+                             ->withOpenInNewViewport($new_viewport);
+            $list_item = $ui->factory()->item()->standard($link);
         } else {
             $list_item = $ui->factory()->item()->standard($this->getTitle());
         }
 
-        if ($description != "") {
+        if ($description != '') {
             $list_item = $list_item->withDescription($description);
         }
         $list_item = $list_item->withActions($dropdown)->withLeadIcon($icon);
@@ -3163,23 +3149,6 @@ class ilObjectListGUI
             $list_item = $list_item->withProperties($l);
         }
 
-        // @todo: learning progress
-        /*
-        $lp = ilLPStatus::getListGUIStatus($item['obj_id'], false);
-        if (is_array($lp) && array_key_exists('status', $lp)) {
-            $percentage = (int)ilLPStatus::_lookupPercentage($item['obj_id'], $this->user->getId());
-            if ($lp['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-                $percentage = 100;
-            }
-
-            $card = $card->withProgress(
-                $this->uiFactory
-                    ->chart()
-                    ->progressMeter()
-                    ->mini(100, $percentage)
-            );
-        }*/
-
         return $list_item;
     }
 
@@ -3192,7 +3161,7 @@ class ilObjectListGUI
         string $type,
         string $title,
         string $description
-    ) : ?RepositoryObject {
+    ): ?RepositoryObject {
         $ui = $this->ui;
 
         // even b tag produced bugs, see #32304
@@ -3214,22 +3183,22 @@ class ilObjectListGUI
         $sections = [];
 
         // description, @todo: move to new ks element
-        if ($description != "") {
-            $sections[] = $ui->factory()->legacy("<div class='il-multi-line-cap-3'>" . $description . "</div>");
+        if ($description != '') {
+            $sections[] = $ui->factory()->legacy('<div class="il-multi-line-cap-3">' . $description . '</div>');
         }
 
         $this->insertCommands();
         $actions = [];
 
         foreach ($this->current_selection_list->getItems() as $item) {
-            if (!isset($item["onclick"]) || $item["onclick"] == "") {
+            if (!isset($item['onclick']) || $item['onclick'] == '') {
                 $actions[] =
-                    $ui->factory()->button()->shy($item["title"], $item["link"]);
+                    $ui->factory()->button()->shy($item['title'], $item['link']);
             } else {
                 $actions[] =
-                    $ui->factory()->button()->shy($item["title"], "")->withAdditionalOnLoadCode(function ($id) use ($item) : string {
+                    $ui->factory()->button()->shy($item['title'], '')->withAdditionalOnLoadCode(function ($id) use ($item): string {
                         return
-                            "$('#$id').click(function(e) { " . $item["onclick"] . "});";
+                            "$('#$id').click(function(e) { " . $item['onclick'] . '});';
                     });
             }
         }
@@ -3239,54 +3208,54 @@ class ilObjectListGUI
         $dropdown = $ui->factory()->dropdown()->standard($actions)
                        ->withAriaLabel(sprintf(
                            $this->lng->txt('actions_for'),
-                           $title
+                           htmlspecialchars(addslashes($title))
                        ));
 
-        $img = $this->object_service->commonSettings()->tileImage()->getByObjId($obj_id);
-        if ($img->exists()) {
-            $path = $img->getFullPath();
-        } else {
-            $path = ilUtil::getImagePath('cont_tile/cont_tile_default_' . $type . '.svg');
-            if (!is_file($path)) {
-                $path = ilUtil::getImagePath('cont_tile/cont_tile_default.svg');
-            }
-        }
+        $path = $this->getTileImagePath();
 
         // workaround for #26205
         // we should get rid of _top links completely and gifure our how
         // to manage scorm links better
-        if ($def_command["frame"] == "_top") {
-            $def_command["frame"] = "";
+        $def_cmd_frame = ($def_command['frame'] ?? '');
+        if ($def_cmd_frame === '_top') {
+            $def_cmd_frame = '';
         }
+        $def_cmd_link = ($def_command['link'] ?? '');
 
         // workaround for scorm
         $modified_link =
-            $this->modifySAHSlaunch($def_command["link"], $def_command["frame"]);
+            $this->modifySAHSlaunch($def_cmd_link, $def_cmd_frame);
 
         $image = $this->ui->factory()
                           ->image()
                           ->responsive($path, '');
-        if ($def_command['link'] != '') {    // #24256
-            if ($def_command["frame"] != "" && ($modified_link == $def_command["link"])) {
-                $image = $image->withAdditionalOnLoadCode(function ($id) use ($def_command) : string {
+        if ($def_cmd_link != '') {    // #24256
+            if ($def_cmd_frame != '' && ($modified_link == $def_cmd_link)) {
+                $image = $image->withAdditionalOnLoadCode(function ($id) use (
+                    $def_command,
+                    $def_cmd_frame,
+                    $def_cmd_link
+                ): string {
                     return
-                        "$('#$id').click(function(e) { window.open('" . str_replace(
-                            "&amp;",
-                            "&",
-                            $def_command["link"]
-                        ) . "', '" . $def_command["frame"] . "');});";
+                        '$("#' . $id . '").click(function(e) { window.open("' . str_replace(
+                            '&amp;',
+                            '&',
+                            $def_cmd_link
+                        ) . '", "' . $def_cmd_frame . '");});';
                 });
 
                 $button =
                     $ui->factory()->button()->shy($title, "")->withAdditionalOnLoadCode(function ($id) use (
-                        $def_command
-                    ) : string {
+                        $def_command,
+                        $def_cmd_frame,
+                        $def_cmd_link
+                    ): string {
                         return
-                            "$('#$id').click(function(e) { window.open('" . str_replace(
-                                "&amp;",
-                                "&",
-                                $def_command["link"]
-                            ) . "', '" . $def_command["frame"] . "');});";
+                            '$("#' . $id . '").click(function(e) { window.open("' . str_replace(
+                                '&amp;',
+                                '&',
+                                $def_cmd_link
+                            ) . '", "' . $def_cmd_frame . '");});';
                     });
                 $title = $ui->renderer()->render($button);
             } else {
@@ -3295,14 +3264,14 @@ class ilObjectListGUI
         }
 
         if ($type == 'sess') {
-            if ($title != "") {
-                $title = ": " . $title;
+            if ($title != '') {
+                $title = ': ' . $title;
             }
             $app_info = ilSessionAppointment::_lookupAppointment($obj_id);
             $title = ilSessionAppointment::_appointmentToString(
                 $app_info['start'],
                 $app_info['end'],
-                $app_info['fullday']
+                (bool) $app_info['fullday']
             ) . $title;
         }
 
@@ -3311,23 +3280,22 @@ class ilObjectListGUI
             ->symbol()
             ->icon()
             ->standard($type, $this->lng->txt('obj_' . $type))
-            ->withIsOutlined(true)
         ;
 
         // card title action
-        $card_title_action = "";
-        if ($def_command["link"] != "" && ($def_command["frame"] == "" || $modified_link != $def_command["link"])) {    // #24256
+        $card_title_action = '';
+        if ($def_cmd_link != '' && ($def_cmd_frame == '' || $modified_link != $def_cmd_link)) {    // #24256
             $card_title_action = $modified_link;
-        } elseif ($def_command['link'] == "" &&
+        } elseif ($def_cmd_link == '' &&
             $this->getInfoScreenStatus() &&
             $access->checkAccessOfUser(
                 $user->getId(),
-                "visible",
-                "",
+                'visible',
+                '',
                 $ref_id
             )) {
             $card_title_action = ilLink::_getLink($ref_id);
-            if ($image->getAction() == "") {
+            if ($image->getAction() == '') {
                 $image = $image->withAction($card_title_action);
             }
         }
@@ -3341,13 +3309,13 @@ class ilObjectListGUI
             $dropdown
         );
 
-        if ($card_title_action != "") {
+        if ($card_title_action != '') {
             $card = $card->withTitleAction($card_title_action);
         }
 
         $l = [];
         foreach ($this->determineProperties() as $p) {
-            if ($p["alert"] && $p['property'] !== $this->lng->txt('learning_progress')) {
+            if (($p['alert'] ?? false) && $p['property'] !== $this->lng->txt('learning_progress')) {
                 $l[(string) $p['property']] = (string) $p['value'];
             }
         }
@@ -3377,25 +3345,132 @@ class ilObjectListGUI
         return $card;
     }
 
-    public function checkInfoPageOnAsynchronousRendering() : bool
+    public function checkInfoPageOnAsynchronousRendering(): bool
     {
         return false;
+    }
+
+    protected function getTileImagePath(): string
+    {
+        $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
+        if ($object === null) {
+            return '';
+        }
+
+        $img = $object->getObjectProperties()->getPropertyTileImage()->getTileImage();
+        if ($img->exists()) {
+            return $img->getFullPath();
+        }
+
+        $path = ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
+        if (is_file($path)) {
+            return $path;
+        }
+
+        return ilUtil::getImagePath('cont_tile/cont_tile_default.svg');
     }
 
     /**
      * insert learning progress command
      */
-    public function insertLPCommand() : void
+    public function insertLPCommand(): void
     {
         if ($this->std_cmd_only || !$this->lp_cmd_enabled) {
             return;
         }
         $relevant = ilLPStatus::hasListGUIStatus($this->obj_id);
         if ($relevant) {
-            $cmd_link = $this->getCommandLink("learningProgress");
+            $cmd_link = $this->getCommandLink('learningProgress');
             $this->insertCommand(
                 $cmd_link,
-                $this->lng->txt("learning_progress")
+                $this->lng->txt('learning_progress')
+            );
+        }
+    }
+
+    /**
+     * @deprecated in 9.0 (we need a better way to do this!)
+     */
+    private function insertLPSettingsCommand(): void
+    {
+        if (!ilObjUserTracking::_enabledLearningProgress()
+            || ilObjectLP::getTypeClass($this->type) === ''
+            || ! $this->checkCommandAccess('edit_learning_progress', '', $this->ref_id, $this->type)
+        ) {
+            return;
+        }
+
+        $cmd_link = '';
+        $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'ref_id', $this->ref_id);
+        switch ($this->type) {
+            case 'sahs':
+                switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
+                    case 'scorm2004':
+                        $scorm_class = ilObjSCORM2004LearningModuleGUI::class;
+                        break;
+                    case 'scorm':
+                        $scorm_class = ilObjSCORMLearningModuleGUI::class;
+                        break;
+                    default:
+                        $scorm_class = '';
+                        break;
+                }
+
+                $cmd_link = $this->ctrl->getLinkTargetByClass([
+                    ilSAHSEditGUI::class,
+                    $scorm_class,
+                    ilLearningProgressGUI::class,
+                    ilLPListOfSettingsGUI::class
+                ]);
+                break;
+
+            case 'lm':
+                $cmd_link = $this->ctrl->getLinkTargetByClass([
+                    ilLMEditorGUI::class,
+                    ilObjLearningModuleGUI::class,
+                    ilLearningProgressGUI::class,
+                    ilLPListOfSettingsGUI::class
+                ]);
+                break;
+
+            case 'lso':
+                $cmd_link = $this->ctrl->getLinkTargetByClass([
+                    ilObjLearningSequenceGUI::class,
+                    ilLearningProgressGUI::class,
+                    ilLPListOfSettingsGUI::class
+                ]);
+                break;
+
+            case 'copa':
+            case 'iass':
+            case 'tst':
+            case 'htlm':
+            case 'exc':
+            case 'svy':
+            case 'file':
+            case 'crs':
+                $gui_class = 'ilObj' . $this->obj_definition->getClassName($this->type) . 'GUI';
+                $cmd_link = $this->ctrl->getLinkTargetByClass([
+                        ilRepositoryGUI::class,
+                        $gui_class,
+                        ilLearningProgressGUI::class,
+                        ilLPListOfSettingsGUI::class
+                ]);
+                break;
+
+            case 'prgr':
+            case 'prg':
+            case 'lso':
+                break;
+            default:
+                break;
+        }
+
+        $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', $this->requested_ref_id);
+        if ($cmd_link !== '') {
+            $this->insertCommand(
+                $cmd_link,
+                $this->lng->txt('listaction_learning_progress_settings')
             );
         }
     }

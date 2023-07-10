@@ -1,10 +1,22 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilStaticMethodCallActivity
@@ -13,8 +25,6 @@ require_once './Services/WorkflowEngine/interfaces/ilNode.php';
  * and a given array as parameters.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
@@ -22,14 +32,14 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     /** @var ilWorkflowEngineElement $context Holds a reference to the parent object. */
     private $context;
 
-    /** @var string $include_file Filename and path of the class to be loaded. */
+    /** include_file Filename and path of the class to be loaded. */
     private string $include_file = '';
 
     /**
      * Holds the value of the method name to be called.
      * E.g. ilHaumichblau::BuyAPony -> no parentheses.
      *
-     * @var string $class_and_method_name Class::Method without parentheses.
+     * Class::Method without parentheses.
      */
     private string $class_and_method_name = '';
 
@@ -39,14 +49,8 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     /** @var array $outputs Holds a list of valid output element IDs passed as third argument to the method. */
     private array $outputs = [];
 
-    /** @var string $name */
     protected string $name;
 
-    /**
-     * Default constructor.
-     *
-     * @param ilNode $context
-     */
     public function __construct(ilNode $context)
     {
         $this->context = $context;
@@ -56,9 +60,9 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      * Sets the name of the file to be included prior to calling the method..
      * @param string $filename Name of the file to be included.
      * @return void
-     *@see $include_file
+     * @see $include_file
      */
-    public function setIncludeFilename(string $filename) : void
+    public function setIncludeFilename(string $filename): void
     {
         $this->include_file = $filename;
     }
@@ -68,7 +72,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getIncludeFilename() : string
+    public function getIncludeFilename(): string
     {
         return $this->include_file;
     }
@@ -78,9 +82,9 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      * E.g. ilPonyStable::getPony
      * @param string $name Classname::Methodname.
      * @return void
-     *@see $method_name
+     * @see $method_name
      */
-    public function setClassAndMethodName(string $name) : void
+    public function setClassAndMethodName(string $name): void
     {
         $this->class_and_method_name = $name;
     }
@@ -90,7 +94,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getClassAndMethodName() : string
+    public function getClassAndMethodName(): string
     {
         return $this->class_and_method_name;
     }
@@ -101,7 +105,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      * @param array $params Array with parameters.
      * @return void
      */
-    public function setParameters(array $params) : void
+    public function setParameters(array $params): void
     {
         $this->parameters = $params;
     }
@@ -111,7 +115,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return array
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         return $this->parameters;
     }
@@ -119,7 +123,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return array
      */
-    public function getOutputs() : array
+    public function getOutputs(): array
     {
         return $this->outputs;
     }
@@ -127,7 +131,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @param array $outputs
      */
-    public function setOutputs(array $outputs) : void
+    public function setOutputs(array $outputs): void
     {
         $this->outputs = $outputs;
     }
@@ -135,25 +139,25 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * Executes this action according to its settings.
      * @return void
-     *@todo Use exceptions / internal logging.
+     * @todo Use exceptions / internal logging.
      */
-    public function execute() : void
+    public function execute(): void
     {
         /** @noinspection PhpIncludeInspection */
         require_once './' . $this->include_file;
         $name = explode('::', $this->class_and_method_name);
 
         $list = (array) $this->context->getContext()->getInstanceVars();
-        $params = array();
+        $params = [];
         foreach ($this->parameters as $key => $parameter) {
             $set = false;
             foreach ($list as $instance_var) {
-                if ($instance_var['id'] == $parameter) {
+                if ($instance_var['id'] === $parameter) {
                     $set = true;
                     $role = $instance_var['role'];
-                    if ($instance_var['reference'] == true) {
+                    if ($instance_var['reference']) {
                         foreach ($list as $definitions) {
-                            if ($definitions['id'] == $instance_var['target']) {
+                            if ($definitions['id'] === $instance_var['target']) {
                                 $role = $definitions['role'];
                             }
                         }
@@ -167,13 +171,10 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
             }
         }
 
-        /** @var array $return_value */
-        $return_value = call_user_func_array(
-            array($name[0], $name[1]),
-            array($this, array($params, $this->outputs))
-        );
+        /** @var ?array $return_value */
+        $return_value = call_user_func([$name[0], $name[1]], $this, [$params, $this->outputs]);
         foreach ((array) $return_value as $key => $value) {
-            $this->context->getContext()->setInstanceVarById($key, $value);
+            $this->context->getContext()->setInstanceVarById((string) $key, $value);
         }
     }
 
@@ -187,15 +188,12 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
         return $this->context;
     }
 
-    public function setName($name) : void
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }

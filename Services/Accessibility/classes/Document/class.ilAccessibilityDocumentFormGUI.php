@@ -3,17 +3,20 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
-use ILIAS\FileSystem\Filesystem;
+use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
@@ -62,12 +65,12 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-    public function setCheckInputCalled(bool $status) : void
+    public function setCheckInputCalled(bool $status): void
     {
         $this->check_input_called = $status;
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         if ($this->document->getId() > 0) {
             $this->setTitle($this->lng->txt('acc_form_edit_doc_head'));
@@ -108,27 +111,27 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
     }
 
-    public function hasTranslatedError() : bool
+    public function hasTranslatedError(): bool
     {
         return strlen($this->translatedError) > 0;
     }
 
-    public function getTranslatedError() : string
+    public function getTranslatedError(): string
     {
         return $this->translatedError;
     }
 
-    public function hasTranslatedInfo() : bool
+    public function hasTranslatedInfo(): bool
     {
         return strlen($this->translatedInfo) > 0;
     }
 
-    public function getTranslatedInfo() : string
+    public function getTranslatedInfo(): string
     {
         return $this->translatedInfo;
     }
 
-    public function saveObject() : bool
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             $this->setValuesByPost();
@@ -140,7 +143,7 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    protected function fillObject() : bool
+    protected function fillObject(): bool
     {
         if (!$this->checkInput()) {
             return false;

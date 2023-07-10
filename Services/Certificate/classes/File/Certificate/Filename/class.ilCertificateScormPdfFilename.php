@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,35 +16,34 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateScormPdfFilename implements ilCertificateFilename
 {
-    private ilSetting $scormSetting;
-    private ilCertificateFilename $origin;
-    private ilLanguage $lng;
-
-    public function __construct(ilCertificateFilename $origin, ilLanguage $lng, ilSetting $scormSetting)
-    {
-        $this->scormSetting = $scormSetting;
-        $this->origin = $origin;
-        $this->lng = $lng;
+    public function __construct(
+        private readonly ilCertificateFilename $origin,
+        private readonly ilLanguage $lng,
+        private readonly ilSetting $scormSetting
+    ) {
     }
 
-    public function createFileName(ilUserCertificatePresentation $presentation) : string
+    public function createFileName(ilUserCertificatePresentation $presentation): string
     {
         $fileName = $this->origin->createFileName($presentation);
 
         if (null === $presentation->getUserCertificate()) {
             $fileNameParts = implode('_', array_filter([
                 $this->lng->txt('certificate_var_user_lastname'),
-                $this->scormSetting->get('certificate_short_name_' . $presentation->getObjId()),
+                $this->scormSetting->get('certificate_short_name_' . $presentation->getObjId(), ''),
             ]));
         } else {
+            $short_name = $this->scormSetting->get('certificate_short_name_' . $presentation->getObjId(), '');
             $fileNameParts = implode('_', array_filter([
                 $presentation->getUserName(),
-                $presentation->getObjectTitle(),
+                $short_name ?: $presentation->getObjectTitle(),
             ]));
         }
 

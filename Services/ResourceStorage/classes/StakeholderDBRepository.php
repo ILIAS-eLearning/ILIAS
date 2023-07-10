@@ -1,39 +1,45 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace ILIAS\ResourceStorage\Stakeholder\Repository;
-
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\ResourceStorage\Stakeholder\Repository;
+
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Stakeholder\LostStakeholder;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+
 /**
  * Interface StakeholderDBRepository
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 class StakeholderDBRepository implements StakeholderRepository
 {
-    const TABLE_NAME = 'il_resource_stkh_u';
-    const TABLE_NAME_REL = 'il_resource_stkh';
-    const IDENTIFICATION = 'rid';
-    protected \ilDBInterface $db;
+    public const TABLE_NAME = 'il_resource_stkh_u';
+    public const TABLE_NAME_REL = 'il_resource_stkh';
+    public const IDENTIFICATION = 'rid';
 
     /**
      * @var mixed[]
      */
     protected array $cache = [];
+    protected \ilDBInterface $db;
 
     public function __construct(\ilDBInterface $db)
     {
@@ -43,12 +49,12 @@ class StakeholderDBRepository implements StakeholderRepository
     /**
      * @return string[]
      */
-    public function getNamesForLocking() : array
+    public function getNamesForLocking(): array
     {
         return [self::TABLE_NAME, self::TABLE_NAME_REL];
     }
 
-    public function register(ResourceIdentification $i, ResourceStakeholder $s) : bool
+    public function register(ResourceIdentification $i, ResourceStakeholder $s): bool
     {
         $identification = $i->serialize();
         $stakeholder_id = $s->getId();
@@ -58,7 +64,9 @@ class StakeholderDBRepository implements StakeholderRepository
             throw new \InvalidArgumentException('stakeholder ids MUST be shorter or equal to than 64 characters');
         }
         if (strlen($stakeholder_class_name) > 250) {
-            throw new \InvalidArgumentException('stakeholder classnames MUST be shorter or equal to than 250 characters');
+            throw new \InvalidArgumentException(
+                'stakeholder classnames MUST be shorter or equal to than 250 characters'
+            );
         }
 
         $r = $this->db->queryF(
@@ -98,7 +106,7 @@ class StakeholderDBRepository implements StakeholderRepository
         return true;
     }
 
-    public function deregister(ResourceIdentification $i, ResourceStakeholder $s) : bool
+    public function deregister(ResourceIdentification $i, ResourceStakeholder $s): bool
     {
         $this->db->manipulateF(
             "DELETE FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s AND stakeholder_id = %s",
@@ -113,7 +121,7 @@ class StakeholderDBRepository implements StakeholderRepository
     /**
      * @inheritDoc
      */
-    public function getStakeholders(ResourceIdentification $i) : array
+    public function getStakeholders(ResourceIdentification $i): array
     {
         $rid = $i->serialize();
         if (isset($this->cache[$rid]) && is_array($this->cache[$rid])) {
@@ -134,7 +142,7 @@ class StakeholderDBRepository implements StakeholderRepository
         return $this->cache[$rid] ?? [];
     }
 
-    public function preload(array $identification_strings) : void
+    public function preload(array $identification_strings): void
     {
         $r = $this->db->query(
             "SELECT rid, class_name, stakeholder_id FROM " . self::TABLE_NAME
@@ -151,11 +159,15 @@ class StakeholderDBRepository implements StakeholderRepository
         }
     }
 
-    public function populateFromArray(array $data) : void
+    public function populateFromArray(array $data): void
     {
+        $stakeholders = [];
         $class_name = $data['class_name'];
-        $stakeholder = new $class_name();
-        $stakeholders[] = $stakeholder;
-        $this->cache[$data['rid']][$data['stakeholder_id']] = $stakeholder;
+
+        if (class_exists($class_name)) {
+            $stakeholder = new $class_name();
+            $stakeholders[] = $stakeholder;
+            $this->cache[$data['rid']][$data['stakeholder_id']] = $stakeholder;
+        }
     }
 }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Handles Page Objects of ILIAS Learning Modules
@@ -31,7 +34,7 @@ class ilLMPageObject extends ilLMObject
     protected array $files_contained;
     protected array $mobs_contained;
     protected bool $contains_int_link;
-    public ilLMPage $page_object;
+    public ?ilLMPage $page_object = null;
 
     public function __construct(
         ilObjLearningModule $a_content_obj,
@@ -52,7 +55,7 @@ class ilLMPageObject extends ilLMObject
         }
     }
 
-    public function read() : void
+    public function read(): void
     {
         parent::read();
         $this->page_object = new ilLMPage($this->id, 0);
@@ -62,7 +65,7 @@ class ilLMPageObject extends ilLMObject
         bool $a_upload = false,
         bool $a_omit_page_object_creation = false,
         int $a_layout_id = 0
-    ) : void {
+    ): void {
         parent::create($a_upload);
         if ($a_omit_page_object_creation) {
             return;
@@ -79,7 +82,7 @@ class ilLMPageObject extends ilLMObject
         }
     }
 
-    public function delete(bool $a_delete_meta_data = true) : void
+    public function delete(bool $a_delete_meta_data = true): void
     {
         parent::delete($a_delete_meta_data);
         $this->page_object->delete();
@@ -88,7 +91,7 @@ class ilLMPageObject extends ilLMObject
     // copy page
     public function copy(
         ilObjLearningModule $a_target_lm
-    ) : ilLMPageObject {
+    ): ilLMPageObject {
         // copy page
         $lm_page = new ilLMPageObject($a_target_lm);
         $lm_page->setTitle($this->getTitle());
@@ -141,7 +144,7 @@ class ilLMPageObject extends ilLMObject
     public function copyToOtherContObject(
         ilObjLearningModule $a_cont_obj,
         array &$a_copied_nodes
-    ) : ilLMPageObject {
+    ): ilLMPageObject {
         // copy page
         $lm_page = new ilLMPageObject($a_cont_obj);
         $lm_page->setTitle($this->getTitle());
@@ -165,137 +168,36 @@ class ilLMPageObject extends ilLMObject
 
         return $lm_page;
     }
-    
-    /**
-     * split page at hierarchical id
-     * the main reason for this method being static is that a lm page
-     * object is not available within ilPageContentGUI where this method
-     * is called
-     */
-    public static function _splitPage(
-        int $a_page_id,
-        string $a_pg_parent_type,
-        string $a_hier_id
-    ) : ilLMPageObject {
-        // get content object (learning module / digilib book)
-        $lm_id = ilLMObject::_lookupContObjID($a_page_id);
-        $type = ilObject::_lookupType($lm_id, false);
-        $cont_obj = new ilObjLearningModule($lm_id, false);
-        $source_lm_page = new ilLMPageObject($cont_obj, $a_page_id);
 
-        // create new page
-        $lm_page = new ilLMPageObject($cont_obj);
-        $lm_page->setTitle($source_lm_page->getTitle());
-        $lm_page->setLMId($source_lm_page->getLMId());
-        $lm_page->setType($source_lm_page->getType());
-        $lm_page->setDescription($source_lm_page->getDescription());
-        $lm_page->create(true);
-        
 
-        // copy complete content of source page to new page
-        $source_page = $source_lm_page->getPageObject();
-        $page = $lm_page->getPageObject();
-        $page->setXMLContent($source_page->copyXmlContent());
-        $page->buildDom(true);
-        $page->update();
-
-        // copy meta data
-        $md = new ilMD($source_lm_page->getLMId(), $a_page_id, $source_lm_page->getType());
-        $md->cloneMD($source_lm_page->getLMId(), $lm_page->getId(), $source_lm_page->getType());
-
-        // insert new page in tree (after original page)
-        $tree = new ilTree($cont_obj->getId());
-        $tree->setTableNames('lm_tree', 'lm_data');
-        $tree->setTreeTablePK("lm_id");
-        if ($tree->isInTree($source_lm_page->getId())) {
-            $parent_node = $tree->getParentNodeData($source_lm_page->getId());
-            $tree->insertNode($lm_page->getId(), $parent_node["child"], $source_lm_page->getId());
-        }
-
-        // remove all nodes < hierarchical id from new page (incl. update)
-        $page->addHierIDs();
-        $page->deleteContentBeforeHierId($a_hier_id);
-        //		$page->update();
-
-        // remove all nodes >= hierarchical id from source page
-        $source_page->buildDom();
-        $source_page->addHierIDs();
-        $source_page->deleteContentFromHierId($a_hier_id);
-                
-        return $lm_page;
-    }
-
-    /**
-     * split page to next page at hierarchical id
-     *
-     * the main reason for this method being static is that a lm page
-     * object is not available within ilPageContentGUI where this method
-     * is called
-     */
-    public static function _splitPageNext(
-        int $a_page_id,
-        string $a_pg_parent_type,
-        string $a_hier_id
-    ) : int {
-        // get content object (learning module / digilib book)
-        $lm_id = ilLMObject::_lookupContObjID($a_page_id);
-        $type = ilObject::_lookupType($lm_id, false);
-        $cont_obj = new ilObjLearningModule($lm_id, false);
-        $tree = new ilTree($cont_obj->getId());
-        $tree->setTableNames('lm_tree', 'lm_data');
-        $tree->setTreeTablePK("lm_id");
-
-        $source_lm_page = new ilLMPageObject($cont_obj, $a_page_id);
-        $source_page = $source_lm_page->getPageObject();
-        
-        // get next page
-        $succ = $tree->fetchSuccessorNode($a_page_id, "pg");
-        if ($succ["child"] > 0) {
-            $target_lm_page = new ilLMPageObject($cont_obj, $succ["child"]);
-            $target_page = $target_lm_page->getPageObject();
-            $target_page->buildDom();
-            $target_page->addHierIDs();
-            
-            // move nodes to target page
-            $source_page->buildDom();
-            $source_page->addHierIDs();
-            ilLMPage::_moveContentAfterHierId($source_page, $target_page, $a_hier_id);
-            //$source_page->deleteContentFromHierId($a_hier_id);
-            
-            return (int) $succ["child"];
-        }
-        return 0;
-    }
-
-    
     /**
      * assign page object
      */
-    public function assignPageObject(ilLMPage $a_page_obj) : void
+    public function assignPageObject(ilLMPage $a_page_obj): void
     {
         $this->page_object = $a_page_obj;
     }
 
-    
+
     /**
      * get assigned page object
      */
-    public function getPageObject() : ilLMPage
+    public function getPageObject(): ilLMPage
     {
         return $this->page_object;
     }
 
-    public function setId(int $a_id) : void
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public static function getPageList(int $lm_id) : array
+    public static function getPageList(int $lm_id): array
     {
         return ilLMObject::getObjectList($lm_id, "pg");
     }
@@ -306,12 +208,12 @@ class ilLMPageObject extends ilLMObject
     public static function getPagesWithLinksList(
         int $a_lm_id,
         string $a_par_type
-    ) : array {
+    ): array {
         $pages = ilLMPageObject::getPageList($a_lm_id);
         $linked_pages = ilLMPage::getPagesWithLinks($a_par_type, $a_lm_id);
         $result = array();
         foreach ($pages as $page) {
-            if (is_array($linked_pages[$page["obj_id"]])) {
+            if (isset($linked_pages[$page["obj_id"]])) {
                 $result[] = $page;
             }
         }
@@ -332,7 +234,7 @@ class ilLMPageObject extends ilLMObject
         int $a_lm_id = 0,
         string $a_lang = "-",
         bool $a_include_short = false
-    ) : string {
+    ): string {
         if ($a_mode == self::NO_HEADER && !$a_force_content) {
             return "";
         }
@@ -404,7 +306,7 @@ class ilLMPageObject extends ilLMObject
                             $active = true;
                         }
                     }
-                    
+
                     if ($child["type"] != "pg" || $active) {
                         $cnt++;
                     }
@@ -438,7 +340,7 @@ class ilLMPageObject extends ilLMObject
         ilXmlWriter $a_xml_writer,
         string $a_mode = "normal",
         int $a_inst = 0
-    ) : void {
+    ): void {
         $attrs = array();
         $a_xml_writer->xmlStartTag("PageObject", $attrs);
 
@@ -468,7 +370,7 @@ class ilLMPageObject extends ilLMObject
         ilXmlWriter $a_xml_writer,
         int $a_id,
         int $a_inst = 0
-    ) : void {
+    ): void {
         $attrs = array();
         $a_xml_writer->xmlStartTag("PageObject", $attrs);
 
@@ -482,7 +384,7 @@ class ilLMPageObject extends ilLMObject
 
     public function exportXMLMetaData(
         ilXmlWriter $a_xml_writer
-    ) : void {
+    ): void {
         $md2xml = new ilMD2XML($this->getLMId(), $this->getId(), $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
@@ -493,7 +395,7 @@ class ilLMPageObject extends ilLMObject
         string $a_tag,
         string $a_param,
         string $a_value
-    ) : string {
+    ): string {
         if ($a_tag == "Identifier" && $a_param == "Entry") {
             $a_value = "il_" . IL_INST_ID . "_pg_" . $this->getId();
         }
@@ -504,7 +406,7 @@ class ilLMPageObject extends ilLMObject
     public function exportXMLPageContent(
         ilXmlWriter $a_xml_writer,
         int $a_inst = 0
-    ) : void {
+    ): void {
         $this->page_object->buildDom();
         $this->page_object->insertInstIntoIDs($a_inst);
         $this->mobs_contained = $this->page_object->collectMediaObjects(false);
@@ -520,7 +422,7 @@ class ilLMPageObject extends ilLMObject
      * Get question ids
      * note: this method must be called afer exportXMLPageContent
      */
-    public function getQuestionIds() : array
+    public function getQuestionIds(): array
     {
         return ilPCQuestion::_getQuestionIdsForPage(
             $this->content_object->getType(),
@@ -532,7 +434,7 @@ class ilLMPageObject extends ilLMObject
      * get ids of all media objects within the page
      * note: this method must be called afer exportXMLPageContent
      */
-    public function getMediaObjectIds() : array
+    public function getMediaObjectIds(): array
     {
         return $this->mobs_contained;
     }
@@ -541,30 +443,11 @@ class ilLMPageObject extends ilLMObject
      * get ids of all file items within the page
      * note: this method must be called afer exportXMLPageContent
      */
-    public function getFileItemIds() : array
+    public function getFileItemIds(): array
     {
         return $this->files_contained;
     }
 
-    /**
-     * export page object to fo
-     */
-    public function exportFO(
-        ilXmlWriter $a_xml_writer
-    ) : void {
-        $title = ilLMPageObject::_getPresentationTitle($this->getId());
-        if ($title != "") {
-            $attrs = array();
-            $attrs["font-family"] = "Times";
-            $attrs["font-size"] = "14pt";
-            $a_xml_writer->xmlElement("fo:block", $attrs, $title);
-        }
-
-        // PageContent
-        $this->page_object->buildDom();
-        $fo = $this->page_object->getFO();
-        $a_xml_writer->appendXML($fo);
-    }
 
     /**
      * Get questions of learning module
@@ -575,7 +458,7 @@ class ilLMPageObject extends ilLMObject
         string $a_order_dir,
         int $a_offset,
         int $a_limit
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -624,7 +507,7 @@ class ilLMPageObject extends ilLMObject
         bool $first_child,
         int $layout_id,
         string $title = ""
-    ) : array {
+    ): array {
         global $DIC;
 
         $lng = $DIC->language();

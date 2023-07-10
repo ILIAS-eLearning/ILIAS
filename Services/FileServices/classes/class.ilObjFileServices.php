@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -32,12 +34,12 @@ class ilObjFileServices extends ilObject
         parent::__construct($id, $call_by_reference);
     }
 
-    public function getPresentationTitle() : string
+    public function getPresentationTitle(): string
     {
         return $this->lng->txt("file_services");
     }
 
-    public function getLongDescription() : string
+    public function getLongDescription(): string
     {
         return $this->lng->txt("file_services_description");
     }

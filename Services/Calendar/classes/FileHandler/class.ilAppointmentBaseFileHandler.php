@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -27,7 +29,7 @@ class ilAppointmentBaseFileHandler
         $this->appointment = $a_appointment;
     }
 
-    public function getCatId(int $a_entry_id) : int
+    public function getCatId(int $a_entry_id): int
     {
         return ilCalendarCategoryAssignments::_lookupCategory($a_entry_id);
     }
@@ -35,7 +37,7 @@ class ilAppointmentBaseFileHandler
     /**
      * @return array
      */
-    public function getCatInfo() : array
+    public function getCatInfo(): array
     {
         $cat_id = $this->getCatId($this->appointment['event']->getEntryId());
 

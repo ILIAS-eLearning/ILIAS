@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -13,7 +15,6 @@ use ILIAS\Data\Color;
  */
 class Factory
 {
-
     /**
      * Determine type of input and validate it, then build a color.
      * A Color can be constructed with an array of rgb-integers or from
@@ -22,7 +23,7 @@ class Factory
      * @param string|int[] $value
      * @throws \InvalidArgumentException
      */
-    public function build($value) : Color
+    public function build($value): Color
     {
         if (is_array($value)) {
             $this->checkRGB($value);
@@ -43,7 +44,7 @@ class Factory
     *
      * @throws \InvalidArgumentException
      */
-    private function checkHex(string $hex) : void
+    private function checkHex(string $hex): void
     {
         $hexpattern = '/^([a-f0-9]{6}|[a-f0-9]{3})$/i';
         if (!preg_match($hexpattern, $hex)) {
@@ -56,7 +57,7 @@ class Factory
     *
      * @throws \InvalidArgumentException
      */
-    private function checkRGB(array $rgb) : void
+    private function checkRGB(array $rgb): void
     {
         if (count($rgb) !== 3) {
             throw new \InvalidArgumentException("Array with three values (RGB) needed.", 1);
@@ -74,7 +75,7 @@ class Factory
     /**
      * Build a color from hex-value.
      */
-    private function fromHex(string $hex) : Color
+    private function fromHex(string $hex): Color
     {
         $hex = $this->unshorten($this->trimHash($hex));
         $chunks = str_split($hex, 2);
@@ -85,7 +86,7 @@ class Factory
     /**
      * Removes beginning '#' of a hex-value, if it is there.
      */
-    private function trimHash(string $hex) : string
+    private function trimHash(string $hex): string
     {
         if ($hex[0] === '#') {
             $hex = ltrim($hex, '#');
@@ -96,7 +97,7 @@ class Factory
     /**
      * Expand a shorthand notation of hex-color to longhand notation.
      */
-    private function unshorten(string $hex) : string
+    private function unshorten(string $hex): string
     {
         if (strlen($hex) === 3) {
             $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
@@ -109,7 +110,7 @@ class Factory
      *
      * @param int[] $rgb
      */
-    private function fromRGB(array $rgb) : Color
+    private function fromRGB(array $rgb): Color
     {
         return new Color($rgb[0], $rgb[1], $rgb[2]);
     }

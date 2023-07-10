@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use OrgUnit\PublicApi\OrgUnitUserService;
 use OrgUnit\User\ilOrgUnitUser;
@@ -44,18 +46,21 @@ abstract class ilMailTemplateContext
         $this->languageHelper = $languageHelper ?? new ilMailLanguageHelper();
     }
 
-    public function getLanguage() : ilLanguage
+    public function getLanguage(): ilLanguage
     {
         return $this->language ?? $this->languageHelper->getCurrentLanguage();
     }
 
-    abstract public function getId() : string;
+    abstract public function getId(): string;
 
-    abstract public function getTitle() : string;
+    abstract public function getTitle(): string;
 
-    abstract public function getDescription() : string;
+    abstract public function getDescription(): string;
 
-    private function getGenericPlaceholders() : array
+    /**
+     * @return array{mail_salutation: array{placeholder: string, label: string}, first_name: array{placeholder: string, label: string}, last_name: array{placeholder: string, label: string}, login: array{placeholder: string, label: string}, title: array{placeholder: string, label: string, supportsCondition: true}, firstname_last_name_superior: array{placeholder: string, label: string}, ilias_url: array{placeholder: string, label: string}, installation_name: array{placeholder: string, label: string}}
+     */
+    private function getGenericPlaceholders(): array
     {
         return [
             'mail_salutation' => [
@@ -87,14 +92,14 @@ abstract class ilMailTemplateContext
                 'placeholder' => 'ILIAS_URL',
                 'label' => $this->getLanguage()->txt('mail_nacc_ilias_url'),
             ],
-            'client_name' => [
-                'placeholder' => 'CLIENT_NAME',
-                'label' => $this->getLanguage()->txt('mail_nacc_client_name'),
+            'installation_name' => [
+                'placeholder' => 'INSTALLATION_NAME',
+                'label' => $this->getLanguage()->txt('mail_nacc_installation_name'),
             ],
         ];
     }
 
-    final public function getPlaceholders() : array
+    final public function getPlaceholders(): array
     {
         $placeholders = $this->getGenericPlaceholders();
         $specific = $this->getSpecificPlaceholders();
@@ -102,21 +107,21 @@ abstract class ilMailTemplateContext
         return array_merge($placeholders, $specific);
     }
 
-    abstract public function getSpecificPlaceholders() : array;
+    abstract public function getSpecificPlaceholders(): array;
 
     abstract public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
         ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string;
+    ): string;
 
     public function resolvePlaceholder(
         string $placeholder_id,
         array $context_parameters,
         ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string {
+    ): string {
         if ($recipient !== null) {
             $this->initLanguage($recipient);
         }
@@ -158,12 +163,10 @@ abstract class ilMailTemplateContext
                 break;
 
             case 'ilias_url' === $placeholder_id:
-                $resolved = $this->envHelper->getHttpPath()
-                    . '/login.php?client_id='
-                    . $this->envHelper->getClientId();
+                $resolved = $this->envHelper->getHttpPath() . ' ';
                 break;
 
-            case 'client_name' === $placeholder_id:
+            case 'installation_name' === $placeholder_id:
                 $resolved = $this->envHelper->getClientId();
                 break;
 
@@ -172,7 +175,7 @@ abstract class ilMailTemplateContext
                 foreach ($ouUsers as $ouUser) {
                     $superiors = $ouUser->getSuperiors();
 
-                    $superiorUsrIds = array_map(static function (ilOrgUnitUser $ouUser) : int {
+                    $superiorUsrIds = array_map(static function (ilOrgUnitUser $ouUser): int {
                         return $ouUser->getUserId();
                     }, $superiors);
 
@@ -200,13 +203,13 @@ abstract class ilMailTemplateContext
 
         return $resolved;
     }
-    
-    protected function initLanguage(ilObjUser $user) : void
+
+    protected function initLanguage(ilObjUser $user): void
     {
         $this->initLanguageByIso2Code($user->getLanguage());
     }
 
-    protected function initLanguageByIso2Code(string $isoCode) : void
+    protected function initLanguageByIso2Code(string $isoCode): void
     {
         $this->language = $this->languageHelper->getLanguageByIsoCode($isoCode);
         $this->language->loadLanguageModule('mail');

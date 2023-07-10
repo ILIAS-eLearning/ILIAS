@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
  * Explorer for ILIAS tree
@@ -24,16 +27,16 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     public const SEL_TYPE_CHECK = 1;
     public const SEL_TYPE_RADIO = 2;
 
-    private $server_id;
-    private $mid;
-    private $tree_id;
+    private int $server_id;
+    private int $mid;
+    private int $tree_id;
 
     private array $checked_items = array();
     private string $post_var = '';
     private array $form_items = array();
     private int $type;
 
-    public function __construct($a_target, $a_server_id, $a_mid, $a_tree_id)
+    public function __construct(string $a_target, int $a_server_id, int $a_mid, int $a_tree_id)
     {
         parent::__construct($a_target);
 
@@ -53,7 +56,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     /**
      * Set cms tree
      */
-    public function setTree(ilECSCmsTree $tree) : void
+    public function setTree(ilECSCmsTree $tree): void
     {
         $this->tree = $tree;
     }
@@ -61,7 +64,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     /**
      * no item is clickable
      */
-    public function isClickable(string $type, int $ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0): bool
     {
         return false;
     }
@@ -69,48 +72,48 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     /**
      * Add form item
      */
-    public function addFormItemForType($type) : void
+    public function addFormItemForType($type): void
     {
         $this->form_items[$type] = true;
     }
 
-    public function removeFormItemForType($type) : void
+    public function removeFormItemForType($type): void
     {
         $this->form_items[$type] = false;
     }
 
-    public function setCheckedItems($a_checked_items = array()) : void
+    public function setCheckedItems($a_checked_items = array()): void
     {
         $this->checked_items = $a_checked_items;
     }
 
-    public function isItemChecked($a_id) : bool
+    public function isItemChecked($a_id): bool
     {
         return in_array($a_id, $this->checked_items, true) ? true : false;
     }
 
-    public function setPostVar($a_post_var) : void
+    public function setPostVar($a_post_var): void
     {
         $this->post_var = $a_post_var;
     }
-    public function getPostVar() : string
+    public function getPostVar(): string
     {
         return $this->post_var;
     }
 
-    public function buildFormItem($a_node_id, $a_type) : string
+    public function buildFormItem($a_node_id, $a_type): string
     {
         if (!array_key_exists($a_type, $this->form_items) || !$this->form_items[$a_type]) {
             return '';
         }
-        
+
         $status = ilECSCmsData::lookupStatusByObjId(
             $this->server_id,
             $this->mid,
             $this->tree_id,
             $a_node_id
         );
-        
+
         if ($status === ilECSCmsData::MAPPING_DELETED) {
             return ilLegacyFormElementsUtil::formCheckbox(
                 $this->isItemChecked($a_node_id),
@@ -140,7 +143,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
         return '';
     }
 
-    public function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0) : void
+    public function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0): void
     {
         global $DIC;
         if (!isset($a_node_id) || !is_array($a_option)) {
@@ -268,7 +271,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     * @param	integer array options
     * @return	string
     */
-    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option): void
     {
         // custom icons
         $path = ilObject::_getIcon((int) $a_obj_id, "tiny", "root");
@@ -292,7 +295,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
         $tpl->setVariable('OBJ_TITLE', $this->buildTitle($title, $a_obj_id, ''));
     }
 
-    public function buildTitle(string $a_title, $a_id, string $a_type) : string
+    public function buildTitle(string $a_title, $a_id, string $a_type): string
     {
         $status = ilECSCmsData::lookupStatusByObjId(
             $this->server_id,
@@ -300,8 +303,8 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
             $this->tree_id,
             $a_id
         );
-        
-        
+
+
 
         switch ($status) {
             case ilECSCmsData::MAPPING_UNMAPPED:

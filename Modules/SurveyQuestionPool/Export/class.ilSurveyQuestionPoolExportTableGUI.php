@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -20,7 +23,7 @@ class ilSurveyQuestionPoolExportTableGUI extends ilTable2GUI
 {
     protected bool $confirmdelete;
     protected int $counter;
-    
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -37,7 +40,7 @@ class ilSurveyQuestionPoolExportTableGUI extends ilTable2GUI
         $this->ctrl = $ilCtrl;
         $this->confirmdelete = $confirmdelete;
         $this->counter = 0;
-        
+
         $this->setFormName('phrases');
         $this->setTitle($this->lng->txt('svy_export_files'));
         $this->setStyle('table', 'fullwidth');
@@ -61,7 +64,7 @@ class ilSurveyQuestionPoolExportTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("file");
         $this->setDefaultOrderDirection("asc");
-        
+
         if ($confirmdelete) {
             $this->disable('sort');
             $this->disable('select_all');
@@ -74,7 +77,7 @@ class ilSurveyQuestionPoolExportTableGUI extends ilTable2GUI
         $this->enable('header');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');
@@ -86,7 +89,7 @@ class ilSurveyQuestionPoolExportTableGUI extends ilTable2GUI
         }
         $this->tpl->parseCurrentBlock();
         $this->tpl->setVariable('CB_ID', $this->counter);
-        $this->tpl->setVariable("PHRASE", $a_set["phrase"]);
+        $this->tpl->setVariable("PHRASE", $a_set["phrase"] ?? "");
         $this->tpl->setVariable("FILENAME", ilLegacyFormElementsUtil::prepareFormOutput($a_set['file']));
         $this->tpl->setVariable("SIZE", $a_set["size"]);
         $this->tpl->setVariable("DATE", $a_set["date"]);

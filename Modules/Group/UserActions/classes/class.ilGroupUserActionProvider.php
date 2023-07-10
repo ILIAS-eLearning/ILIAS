@@ -1,13 +1,23 @@
-<?php declare(strict_types=1);
-
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
 
 /**
- * Group user actions (add to group)
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @ingroup ModulesGroup
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
 class ilGroupUserActionProvider extends ilUserActionProvider
 {
     protected static $grp_ops = [];
@@ -15,7 +25,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
     /**
      * @inheritdoc
      */
-    public function getComponentId() : string
+    public function getComponentId(): string
     {
         return "grp";
     }
@@ -23,7 +33,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
     /**
      * @inheritdoc
      */
-    public function getActionTypes() : array
+    public function getActionTypes(): array
     {
         $this->lng->loadLanguageModule("grp");
 
@@ -32,7 +42,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
         );
     }
 
-    public static function getCommandAccess(int $a_user_id) : array
+    public static function getCommandAccess(int $a_user_id): array
     {
         if (!isset(self::$grp_ops[$a_user_id])) {
             $ops = array();
@@ -52,13 +62,13 @@ class ilGroupUserActionProvider extends ilUserActionProvider
     /**
      * @inheritDoc
      */
-    public function collectActionsForTargetUser(int $a_target_user) : ilUserActionCollection
+    public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
         global $DIC;
 
         $ctrl = $DIC->ctrl();
         $this->lng->loadLanguageModule("grp");
-        $coll = ilUserActionCollection::getInstance();
+        $coll = new ilUserActionCollection();
 
         $commands = self::getCommandAccess($this->user_id);
         if (count($commands) == 0) {
@@ -82,8 +92,10 @@ class ilGroupUserActionProvider extends ilUserActionProvider
     /**
      * @inheritDoc
      */
-    public function getJsScripts(string $a_action_type) : array
+    public function getJsScripts(string $a_action_type): array
     {
+        global $DIC;
+        $gui = $DIC->repository()->internal()->gui();
         switch ($a_action_type) {
             case "add_to":
                 return array(

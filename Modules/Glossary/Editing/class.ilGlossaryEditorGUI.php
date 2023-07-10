@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * GUI class for Glossary Editor
@@ -52,26 +55,26 @@ class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
         $lng->loadLanguageModule("content");
 
         $DIC->globalScreen()->tool()->context()->claim()->repository();
-        
+
         // check write permission
         if (!$ilAccess->checkAccess("write", "", $this->requested_ref_id) &&
             !$ilAccess->checkAccess("edit_content", "", $this->requested_ref_id)) {
             throw new ilPermissionException($lng->txt("permission_denied"));
         }
-        
+
         $ilNavigationHistory->addItem(
             $this->requested_ref_id,
             "ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=" . $this->requested_ref_id,
             "glo"
         );
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {
-            $this->ctrl->setCmdClass("ilobjglossarygui");
-            $this->ctrl->setCmd("");
+            $this->ctrl->saveParameterByClass(ilObjGlossaryGUI::class, "ref_id");
+            $this->ctrl->redirectByClass(ilObjGlossaryGUI::class);
         }
 
         switch ($next_class) {

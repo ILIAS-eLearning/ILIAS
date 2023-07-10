@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilLMObjectFactory
@@ -25,7 +28,7 @@ class ilLMObjectFactory
         ilObjLearningModule $a_content_obj,
         int $a_id = 0,
         bool $a_halt = true
-    ) : ?ilLMObject {
+    ): ?ilLMObject {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -36,20 +39,22 @@ class ilLMObjectFactory
         $obj_rec = $ilDB->fetchAssoc($obj_set);
 
         $obj = null;
-        switch ($obj_rec["type"]) {
-            case "st":
-                $obj = new ilStructureObject($a_content_obj);
-                $obj->setId($obj_rec["obj_id"]);
-                $obj->setDataRecord($obj_rec);
-                $obj->read();
-                break;
+        if ($obj_rec) {
+            switch ($obj_rec["type"]) {
+                case "st":
+                    $obj = new ilStructureObject($a_content_obj);
+                    $obj->setId($obj_rec["obj_id"]);
+                    $obj->setDataRecord($obj_rec);
+                    $obj->read();
+                    break;
 
-            case "pg":
-                $obj = new ilLMPageObject($a_content_obj, 0, $a_halt);
-                $obj->setId($obj_rec["obj_id"]);
-                $obj->setDataRecord($obj_rec);
-                $obj->read();
-                break;
+                case "pg":
+                    $obj = new ilLMPageObject($a_content_obj, 0, $a_halt);
+                    $obj->setId($obj_rec["obj_id"]);
+                    $obj->setDataRecord($obj_rec);
+                    $obj->read();
+                    break;
+            }
         }
         return $obj;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,13 +17,13 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Persistence for Settings (like abstract, extro)
  */
 class ilLearningSequenceSettingsDB
 {
-    const TABLE_NAME = 'lso_settings';
+    public const TABLE_NAME = 'lso_settings';
 
     protected ilDBInterface $database;
     protected ilLearningSequenceFilesystem $ls_filesystem;
@@ -32,7 +34,7 @@ class ilLearningSequenceSettingsDB
         $this->ls_filesystem = $ls_filesystem;
     }
 
-    public function store(ilLearningSequenceSettings $settings) : void
+    public function store(ilLearningSequenceSettings $settings): void
     {
         $uploads = $settings->getUploads();
         foreach ($uploads as $pre => $info) {
@@ -59,7 +61,7 @@ class ilLearningSequenceSettingsDB
         $this->database->update(static::TABLE_NAME, $values, $where);
     }
 
-    public function delete(int $obj_id) : void
+    public function delete(int $obj_id): void
     {
         $settings = $this->getSettingsFor($obj_id);
 
@@ -75,7 +77,7 @@ class ilLearningSequenceSettingsDB
         $this->database->manipulate($query);
     }
 
-    public function getSettingsFor(int $lso_obj_id) : ilLearningSequenceSettings
+    public function getSettingsFor(int $lso_obj_id): ilLearningSequenceSettings
     {
         $data = $this->select($lso_obj_id);
 
@@ -99,7 +101,7 @@ class ilLearningSequenceSettingsDB
     /**
      * @return array<string, mixed>
      */
-    protected function select(int $obj_id) : array
+    protected function select(int $obj_id): array
     {
         $ret = [];
         $query =
@@ -125,7 +127,7 @@ class ilLearningSequenceSettingsDB
         string $abstract_image = null,
         string $extro_image = null,
         bool $gallery = false
-    ) : ilLearningSequenceSettings {
+    ): ilLearningSequenceSettings {
         return new ilLearningSequenceSettings(
             $obj_id,
             $abstract,
@@ -136,7 +138,7 @@ class ilLearningSequenceSettingsDB
         );
     }
 
-    protected function insert(ilLearningSequenceSettings $settings) : void
+    protected function insert(ilLearningSequenceSettings $settings): void
     {
         $values = [
             "obj_id" => ["integer", $settings->getObjId()],

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@
 class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
 {
     protected int $user_id;
-    protected array $group_ids = [];
+    protected ?array $group_ids = [];
     protected ilCalendarCategories $cats;
     protected ilObjUser $user;
 
@@ -19,7 +21,7 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
         global $DIC;
 
         $this->user_id = $a_user_id;
-        $this->group_ids = (array) $a_consultation_hour_group_ids;
+        $this->group_ids = $a_consultation_hour_group_ids;
         $this->cats = ilCalendarCategories::_getInstance();
         $this->user = $DIC->user();
     }
@@ -27,7 +29,7 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
     /**
      * @inheritDoc
      */
-    public function filterCategories(array $a_cats) : array
+    public function filterCategories(array $a_cats): array
     {
         return $a_cats;
     }
@@ -35,7 +37,7 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
     /**
      * @inheritDoc
      */
-    public function modifyEvent(ilCalendarEntry $a_event) : ?ilCalendarEntry
+    public function modifyEvent(ilCalendarEntry $a_event): ?ilCalendarEntry
     {
         $booking = new ilBookingEntry($a_event->getContextId());
         // do not show bookings of foreign users
@@ -62,7 +64,7 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
     /**
      * @inheritDoc
      */
-    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories) : array
+    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories): array
     {
         return [];
     }

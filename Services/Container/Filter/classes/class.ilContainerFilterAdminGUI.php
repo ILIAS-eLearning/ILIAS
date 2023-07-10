@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
@@ -49,7 +52,7 @@ class ilContainerFilterAdminGUI
         $this->container_filter_service = new ilContainerFilterService();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -67,7 +70,7 @@ class ilContainerFilterAdminGUI
     /**
      * Show table
      */
-    protected function show() : void
+    protected function show(): void
     {
         $main_tpl = $this->main_tpl;
         $ui = $this->ui;
@@ -94,7 +97,7 @@ class ilContainerFilterAdminGUI
         $main_tpl->setContent($table->getHTML());
     }
 
-    protected function selectFields() : void
+    protected function selectFields(): void
     {
         $main_tpl = $this->main_tpl;
         $ui = $this->ui;
@@ -103,7 +106,7 @@ class ilContainerFilterAdminGUI
         $main_tpl->setContent($r->render($form));
     }
 
-    protected function getFieldSelectionForm() : Standard
+    protected function getFieldSelectionForm(): Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -156,7 +159,7 @@ class ilContainerFilterAdminGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    protected function saveFields() : void
+    protected function saveFields(): void
     {
         $request = $this->request;
         $service = $this->container_filter_service;

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilFormFieldParser
 {
-    private ilCertificateXlstProcess $xlstProcess;
+    private readonly ilCertificateXlstProcess $xlstProcess;
 
     public function __construct(?ilCertificateXlstProcess $xlstProcess = null)
     {
@@ -31,7 +33,10 @@ class ilFormFieldParser
         $this->xlstProcess = $xlstProcess;
     }
 
-    public function fetchDefaultFormFields(string $content) : array
+    /**
+     * @return array{pageformat: string, pagewidth: mixed, pageheight: mixed, margin_body_top: mixed, margin_body_right: mixed, margin_body_bottom: mixed, margin_body_left: mixed, certificate_text: string}
+     */
+    public function fetchDefaultFormFields(string $content): array
     {
         $pagewidth = "21cm";
         if (preg_match("/page-width\=\"([^\"]+)\"/", $content, $matches)) {
@@ -70,7 +75,7 @@ class ilFormFieldParser
         if (preg_match("/fo:flow[^>]*margin\=\"([^\"]+)\"/", $content, $matches)) {
             // Backwards compatibility
             $marginbody = $matches[1];
-            if (preg_match_all("/([^\s]+)/", $marginbody, $matches)) {
+            if (preg_match_all("/([^\s]+)/", (string) $marginbody, $matches)) {
                 $marginBody_top = $matches[1][0];
                 $marginBody_right = $matches[1][1];
                 $marginBody_bottom = $matches[1][2];
@@ -78,7 +83,7 @@ class ilFormFieldParser
             }
         } elseif (preg_match("/fo:region-body[^>]*margin\=\"([^\"]+)\"/", $content, $matches)) {
             $marginbody = $matches[1];
-            if (preg_match_all("/([^\s]+)/", $marginbody, $matches)) {
+            if (preg_match_all("/([^\s]+)/", (string) $marginbody, $matches)) {
                 $marginBody_top = $matches[1][0];
                 $marginBody_right = $matches[1][1];
                 $marginBody_bottom = $matches[1][2];

@@ -32,11 +32,11 @@ include_once "./webservice/soap/classes/class.ilSoapStructureObjectFactory.php";
  */
 class ilSoapLMStructureReader extends ilSoapStructureReader
 {
-    public function _parseStructure() : void
+    public function _parseStructure(): void
     {
         /** @var ilObjLearningModule $obect */
         $obect = $this->object;
-        
+
         $ctree = $obect->getLMTree();
 
         $nodes = $ctree->getSubTree($ctree->getNodeData($ctree->getRootId()));
@@ -50,7 +50,6 @@ class ilSoapLMStructureReader extends ilSoapStructureReader
         $lastStructureObject = null;
         $lastNode = null;
         foreach ($nodes as $node) {
-
             // only pages and chapters
             if ($node["type"] === "st" || $node["type"] === "pg") {
                 // parent has changed, to build a tree

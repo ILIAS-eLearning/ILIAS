@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * A certicate template repository which caches results of query commands
  * List of cached results (other queries are not cached yet):
@@ -23,76 +25,76 @@
  */
 class ilCachedCertificateTemplateRepository implements ilCertificateTemplateRepository
 {
-    /** @var array<int, ilCertificateTemplate[]> */
+    /** @var array<string, ilCertificateTemplate[]> */
     protected static array $crs_certificates_without_lp = [];
 
-    private ilCertificateTemplateRepository $wrapped;
-
-    public function __construct(ilCertificateTemplateRepository $wrapped)
+    public function __construct(private readonly ilCertificateTemplateRepository $wrapped)
     {
-        $this->wrapped = $wrapped;
     }
 
-    public function save(ilCertificateTemplate $certificateTemplate) : void
+    public function save(ilCertificateTemplate $certificateTemplate): void
     {
         $this->wrapped->save($certificateTemplate);
     }
 
-    public function updateActivity(ilCertificateTemplate $certificateTemplate, bool $currentlyActive) : int
+    public function updateActivity(ilCertificateTemplate $certificateTemplate, bool $currentlyActive): int
     {
         return $this->wrapped->updateActivity($certificateTemplate, $currentlyActive);
     }
 
-    public function fetchTemplate(int $templateId) : ilCertificateTemplate
+    public function fetchTemplate(int $templateId): ilCertificateTemplate
     {
         return $this->wrapped->fetchTemplate($templateId);
     }
 
-    public function fetchCertificateTemplatesByObjId(int $objId) : array
+    public function fetchCertificateTemplatesByObjId(int $objId): array
     {
         return $this->wrapped->fetchCertificateTemplatesByObjId($objId);
     }
 
-    public function fetchCurrentlyUsedCertificate(int $objId) : ilCertificateTemplate
+    public function fetchCurrentlyUsedCertificate(int $objId): ilCertificateTemplate
     {
         return $this->wrapped->fetchCurrentlyUsedCertificate($objId);
     }
 
-    public function fetchCurrentlyActiveCertificate(int $objId) : ilCertificateTemplate
+    public function fetchCurrentlyActiveCertificate(int $objId): ilCertificateTemplate
     {
         return $this->wrapped->fetchCurrentlyActiveCertificate($objId);
     }
 
-    public function fetchPreviousCertificate(int $objId) : ilCertificateTemplate
+    public function fetchPreviousCertificate(int $objId): ilCertificateTemplate
     {
         return $this->wrapped->fetchPreviousCertificate($objId);
     }
 
-    public function deleteTemplate(int $templateId, int $objectId) : void
+    public function deleteTemplate(int $templateId, int $objectId): void
     {
         $this->wrapped->deleteTemplate($templateId, $objectId);
     }
 
-    public function activatePreviousCertificate(int $objId) : ilCertificateTemplate
+    public function activatePreviousCertificate(int $objId): ilCertificateTemplate
     {
         return $this->wrapped->activatePreviousCertificate($objId);
     }
 
     public function fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(
-        bool $isGlobalLpEnabled
-    ) : array {
-        $cache_key = (int) $isGlobalLpEnabled;
-        
+        bool $isGlobalLpEnabled,
+        ?int $forRefId = null
+    ): array {
+        $cache_key = (int) $isGlobalLpEnabled . '_' . (int) $forRefId;
+
         if (!array_key_exists($cache_key, self::$crs_certificates_without_lp)) {
             self::$crs_certificates_without_lp[$cache_key] =
                 $this->wrapped->fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(
-                    $isGlobalLpEnabled
+                    $isGlobalLpEnabled,
+                    $forRefId
                 );
         }
+
         return self::$crs_certificates_without_lp[$cache_key];
     }
 
-    public function fetchFirstCreatedTemplate(int $objId) : ilCertificateTemplate
+    public function fetchFirstCreatedTemplate(int $objId): ilCertificateTemplate
     {
         return $this->wrapped->fetchFirstCreatedTemplate($objId);
     }

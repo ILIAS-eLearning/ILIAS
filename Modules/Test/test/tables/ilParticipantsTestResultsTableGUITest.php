@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilParticipantsTestResultsTableGUITest
@@ -11,7 +27,7 @@ class ilParticipantsTestResultsTableGUITest extends ilTestBaseTestCase
     private ilParticipantsTestResultsTableGUI $tableGui;
     private ilParticipantsTestResultsGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -30,7 +46,6 @@ class ilParticipantsTestResultsTableGUITest extends ilTestBaseTestCase
         $component_factory = $this->createMock(ilComponentFactory::class);
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->setGlobalVariable("component.factory", $component_factory);
-        $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin($this->createMock(ilComponentRepository::class)));
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
 
         $this->parentObj_mock = $this->createMock(ilParticipantsTestResultsGUI::class);
@@ -45,12 +60,12 @@ class ilParticipantsTestResultsTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilParticipantsTestResultsTableGUI($this->parentObj_mock, "");
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilParticipantsTestResultsTableGUI::class, $this->tableGui);
     }
 
-    public function testAccessResultsCommandsEnabled() : void
+    public function testAccessResultsCommandsEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isAccessResultsCommandsEnabled());
         $this->tableGui->setAccessResultsCommandsEnabled(true);
@@ -60,7 +75,7 @@ class ilParticipantsTestResultsTableGUITest extends ilTestBaseTestCase
         $this->assertFalse($this->tableGui->isAccessResultsCommandsEnabled());
     }
 
-    public function testManageResultsCommandsEnabled() : void
+    public function testManageResultsCommandsEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isManageResultsCommandsEnabled());
         $this->tableGui->setManageResultsCommandsEnabled(true);
@@ -70,7 +85,7 @@ class ilParticipantsTestResultsTableGUITest extends ilTestBaseTestCase
         $this->assertFalse($this->tableGui->isManageResultsCommandsEnabled());
     }
 
-    public function testAnonymity() : void
+    public function testAnonymity(): void
     {
         $this->tableGui->setAnonymity(true);
         $this->assertTrue($this->tableGui->getAnonymity());
@@ -79,7 +94,7 @@ class ilParticipantsTestResultsTableGUITest extends ilTestBaseTestCase
         $this->assertFalse($this->tableGui->getAnonymity());
     }
 
-    public function testNumericOrdering() : void
+    public function testNumericOrdering(): void
     {
         $this->assertTrue($this->tableGui->numericOrdering("scored_pass"));
         $this->assertTrue($this->tableGui->numericOrdering("answered_questions"));

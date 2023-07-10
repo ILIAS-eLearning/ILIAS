@@ -1,5 +1,5 @@
 # Data Retrieval and Manipulation
-With release 5.2 ILIAS uses ```ilDBInterface``` to provide a database abstraction layer that gives full portability to run ILIAS on MySQL or PostgreSQL.
+With release 5.2 ILIAS uses ```ilDBInterface``` to provide a database abstraction layer that gives full portability to run ILIAS on MySQL or PostgreSQL (removed with ILIAS 8).
 
 ## Portability and Future Conventions
 ILIAS requires that all **table** and **field** names use lower case characters a-z, underscore "\_" and numbers 0-9. Multiple words should be separated by "\_", e.g. "user\_id".
@@ -160,66 +160,11 @@ $DIC->database()->update("table_name", array(
 ));
 ```
 
-## Database Update Script
-If you need to add, modify or rename tables or columns to the ILIAS database you need to add steps to the so called **database update script**. You find it in the directory **setup/sql**. It is called db\_update<nr>.php, the current one is always the one with the highest sequence number. The steps of this script are executed in the ILIAS setup in the database section of a client.
- 
-A typical DB update step looks like this:
+## Database Updates
 
-```php
-<#2950>
-<?php
-        $ilDB->modifyTableColumn('table_properties', 'value',
-                array("type" => "text", "length" => 4000, "notnull" => true));
-?>
-```
-
-The step starts with a sequential number <#Nr> and continues with a code block. It is important to understand that this **sequence of database update steps** is part of the **main ILIAS development branch**. You should never try to add steps in a "patched" version of ILIAS to this scripts, since these numbers identify a state of the database that must be given for all ILIAS installations (with the exception of plugins that add their own tables).
- 
-Core developers that add steps to this script must be subscribed to the ILIAS developer mailing list. We announced the creation of bug fix development branches and their relationship to the main development in this list, with a special focus on the database update script.
-
-### Hotfix Scripts (Bugfix Branches)
-When **stable bugfix branches** and **trunk** development in ILIAS go in parallel, only one branch can define new database steps in the database update script. This is usually the trunk development. However it may be necessary that tables or columns need to be added or modified for a bug fix within a stable branch.
- 
-For this purpose we have so called **hotfix scripts**. They work similar as the database update script, but have their **own numbering**. Their filename starts with the main release number, e.g. ```setup/sql/5_4_hotfixes.php``` for ILIAS **5.4.x**.
-
-```php
-<#3>
-<?php        
-        $ilDB->addTableColumn(
-                'export_options',
-                'pos',
-                array(
-                        'type'         => 'integer', 
-                        'length'         => 4,
-                        'notnull'        => true,
-                        'default'        => 0
-                )
-        );
-?>
-```
-
-Adding a step to the hotfix script is never enough. You must **ensure** that the **trunk database script is synchronized accordingly**. Add a new step that creates the same state, regardless of whether the hotfix has been applied to an installation or not (which we do not now):
-
-```php
-<#3205>
-<?php
-        if(!$ilDB->tableColumnExists('export_options','pos'))
-        {
-                $ilDB->addTableColumn(
-                        'export_options',
-                        'pos',
-                        array(
-                                'type'                 => 'integer', 
-                                'length'         => 4,
-                                'notnull'        => true,
-                                'default'        => 0
-                        )
-                );
-        }
-?>
-```
-
-Note the `if(!$ilDB->tableColumnExists(...))` statement above, which is very important for these cases. There is a `if(!$ilDB->tableExists('...'))` as well.
+Please have a look into [this document](../../docs/development/database-updates.md) for
+directions on database migrations and schema updates are to be integrated into the
+system.
 
 ## Creating, Modifying and Deleting Tables
 Since ILIAS 4.0 tables will are defined in an abstracted way in ILIAS. Only the following `$ilDB` methods may be used, to create, modify and delete tables in the database update script.
@@ -250,9 +195,9 @@ $fields = array(
         'type' => 'blob'
     )
 );
- 
+
 $ilDB->createTable("my_table", $fields);
- 
+
 ?>
 ```
 Renaming a table is done with `$ilDB->renameTable(...)`.
@@ -315,6 +260,33 @@ To drop an index use `dropIndex($a_table, $a_name = "indx")`.
 ```php
 $ilDB->dropIndex("my_table", "id_flag");
 ```
+
+## Foreign Keys
+To add a foreign key, use the `addForeignKey($foreign_key_name, $field_name, $table_name, $reference_field_name, $reference_table, $on_update = null, $on_delete = null)` method of `$ilDB`.
+
+```php
+$ilDB->addForeignKey('foreign_key', ['my_value'], 'my_table', ['other_value'], 'other_table');
+```
+
+The `addForeignKey` method also takes an `ilForeignKeyConstraints` for the `on_update` and `on_delete` arguments. But if you don't need these they can also set to `null`. If you want to use a constraint you have to choose one of the following:
+
+```php
+CASCADE, RESTRICT, SET_NULL, NO_ACTION, SET_DEFAULT
+```
+
+Before you add a new foreign key, you should always check if this key already exists. This is done by the `foreignKeyExists` method.
+
+```php
+$ilDB->foreignKeyExists('foreign_key', 'my_table');
+```
+
+To drop a foreign key, use function `dropForeignKey("foreign_key_name", "table_name")`.
+
+```php
+$ilDB->dropForeignKey('foreign_key', 'my_table');
+```
+Before you call this method you should also check if the foreign key exists, see `foreignKeyExists`.
+
 
 ## Sequences / Auto Increments
 To get rid of the MySQL specific auto_increment for unique ID's, ilDBInterface offeres sequences.
@@ -401,7 +373,7 @@ WHERE
 Currently there are 212 columns and 1 table in ILIAS, which are named with a reserved word.
 
 ## Conclusion
-The list of reserved words in ilDBInterface resp. the respective database classes (ilDBPdoMySQL, ilDBPdoPostgreSQL, ...) do not need to be maintained, in particular a list of reserved words per database system makes no sense, as a global list would be necessary.
+The list of reserved words in ilDBInterface resp. the respective database classes (ilDBPdoMySQL, ...) do not need to be maintained, in particular a list of reserved words per database system makes no sense, as a global list would be necessary.
 
 As the MySQL documentation describes, references to objects with reserved names only need to be quoted:
 

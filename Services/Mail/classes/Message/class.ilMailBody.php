@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,19 +16,21 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilMailBody
 {
-    private string $bodyContent;
+    private readonly string $bodyContent;
 
     public function __construct(string $content, ilMailBodyPurifier $purifier)
     {
         $this->bodyContent = $purifier->purify($content);
     }
 
-    public function getContent() : string
+    public function getContent(): string
     {
         return $this->bodyContent;
     }

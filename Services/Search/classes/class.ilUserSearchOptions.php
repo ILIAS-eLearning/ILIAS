@@ -1,25 +1,21 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class ilUserSearchOptions
@@ -32,6 +28,7 @@
 */
 class ilUserSearchOptions
 {
+    public const FIELD_TYPE_UDF_UNDEFINED = 0;
     public const FIELD_TYPE_UDF_SELECT = 1;
     public const FIELD_TYPE_UDF_TEXT = 2;
     public const FIELD_TYPE_SELECT = 3;
@@ -39,6 +36,7 @@ class ilUserSearchOptions
     // begin-patch lok
     public const FIELD_TYPE_MULTI = 5;
     // end-patch lok
+    public const FIELD_TYPE_UDF_WYSIWYG = 6;
 
 
     /**
@@ -46,7 +44,7 @@ class ilUserSearchOptions
      * @param bool $a_admin
      * @return array
      */
-    public static function getSelectableColumnInfo(bool $a_admin = false) : array
+    public static function getSelectableColumnInfo(bool $a_admin = false): array
     {
         $col_info = array();
         foreach (self::_getSearchableFieldsInfo($a_admin) as $field) {
@@ -65,7 +63,7 @@ class ilUserSearchOptions
         return $col_info;
     }
 
-    public static function _getSearchableFieldsInfo(bool $a_admin = false) : array
+    public static function _getSearchableFieldsInfo(bool $a_admin = false): array
     {
         global $DIC;
 
@@ -100,13 +98,13 @@ class ilUserSearchOptions
                 case 'second_email':
                     $fields[$counter]['autoComplete'] = true;
                     break;
-                
+
                 case 'title':
                     $fields[$counter]['lang'] = $lng->txt('person_title');
                     break;
-                
-                // SELECTS
-                
+
+                    // SELECTS
+
                 case 'gender':
                     $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
                     $fields[$counter]['values'] = array(
@@ -116,11 +114,11 @@ class ilUserSearchOptions
                         'm' => $lng->txt('gender_m'),
                     );
                     break;
-                
+
                 case 'sel_country':
                     $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
                     $fields[$counter]['values'] = array(0 => $lng->txt('please_choose'));
-                    
+
                     // #7843 -- see ilCountrySelectInputGUI
                     $lng->loadLanguageModule('meta');
                     foreach (ilCountry::getCountryCodes() as $c) {
@@ -128,29 +126,27 @@ class ilUserSearchOptions
                     }
                     asort($fields[$counter]['values']);
                     break;
-                    
+
                 case 'org_units':
                     $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
-
-                                        $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
-
+                    $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
                     $options[0] = $lng->txt('select_one');
                     foreach ($paths as $org_ref_id => $path) {
                         $options[$org_ref_id] = $path;
                     }
-                    
+
                     $fields[$counter]['values'] = $options;
                     break;
-                        
-                    
-                // begin-patch lok
+
+
+                    // begin-patch lok
                 case 'interests_general':
                 case 'interests_help_offered':
                 case 'interests_help_looking':
                     $fields[$counter]['type'] = self::FIELD_TYPE_MULTI;
                     break;
             }
-            
+
             ++$counter;
         }
         $fields = ilUserSearchOptions::__appendUserDefinedFields($fields, $counter);
@@ -158,7 +154,7 @@ class ilUserSearchOptions
         return $fields ?: array();
     }
 
-    public static function _getPossibleFields(bool $a_admin = false) : array
+    public static function _getPossibleFields(bool $a_admin = false): array
     {
         return array('gender',
                      'lastname',
@@ -185,12 +181,12 @@ class ilUserSearchOptions
         // end-patch lok
     }
 
-    public static function _isSearchable(string $a_key) : bool
+    public static function _isSearchable(string $a_key): bool
     {
         return in_array($a_key, ilUserSearchOptions::_getPossibleFields());
     }
 
-    public static function _isEnabled($a_key) : bool
+    public static function _isEnabled($a_key): bool
     {
         global $DIC;
 
@@ -203,7 +199,7 @@ class ilUserSearchOptions
         return (bool) $settings->get('search_enabled_' . $a_key);
     }
 
-    public static function _saveStatus(string $a_key, bool $a_enabled) : bool
+    public static function _saveStatus(string $a_key, bool $a_enabled): bool
     {
         global $DIC;
 
@@ -213,11 +209,9 @@ class ilUserSearchOptions
         return true;
     }
 
-    public static function __appendUserDefinedFields(array $fields, int $counter) : array
+    public static function __appendUserDefinedFields(array $fields, int $counter): array
     {
         $user_defined_fields = ilUserDefinedFields::_getInstance();
-
-        $fields = [];
         foreach ($user_defined_fields->getSearchableDefinitions() as $definition) {
             $fields[$counter]['values'] = ilUserSearchOptions::__prepareValues($definition['field_values']);
             $fields[$counter]['lang'] = $definition['field_name'];
@@ -231,13 +225,22 @@ class ilUserSearchOptions
                 case UDF_TYPE_SELECT:
                     $fields[$counter]['type'] = self::FIELD_TYPE_UDF_SELECT;
                     break;
+
+                case UDF_TYPE_WYSIWYG:
+                    $fields[$counter]['type'] = self::FIELD_TYPE_UDF_WYSIWYG;
+                    break;
+
+                default:
+                    // do not throw: udf plugin support
+                    $fields[$counter]['type'] = $definition['field_type'];
+                    break;
             }
             ++$counter;
         }
         return $fields;
     }
 
-    public static function __prepareValues(array $a_values) : array
+    public static function __prepareValues(array $a_values): array
     {
         global $DIC;
 

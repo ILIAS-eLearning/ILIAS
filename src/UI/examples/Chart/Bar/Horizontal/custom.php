@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Chart\Bar\Horizontal;
 
 use ILIAS\UI\Component\Chart\Bar\Bar;
@@ -73,7 +76,7 @@ function custom()
     $dataset = $dataset->withPoint(
         "Item 6",
         [
-            "Target" => [-0.01, 0.01],
+            "Target" => [0, 0.01],
             "Dataset 1" => 0,
             "Dataset 2" => 3,
             "Dataset 3" => 0.2

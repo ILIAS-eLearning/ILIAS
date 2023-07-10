@@ -25,17 +25,17 @@ class ilFileSystemConfigNotChangedObjective implements Setup\Objective
         $this->config = $config;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Config for Filesystems did not change.";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return false;
     }
@@ -43,7 +43,7 @@ class ilFileSystemConfigNotChangedObjective implements Setup\Objective
     /**
      * @return \ilFileSystemDirectoriesCreatedObjective[]|\ilIniFilesLoadedObjective[]
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -51,7 +51,7 @@ class ilFileSystemConfigNotChangedObjective implements Setup\Objective
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
 
@@ -71,7 +71,7 @@ class ilFileSystemConfigNotChangedObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
 

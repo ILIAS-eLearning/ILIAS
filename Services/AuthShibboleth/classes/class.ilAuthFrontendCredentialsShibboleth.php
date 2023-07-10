@@ -31,12 +31,12 @@ class ilAuthFrontendCredentialsShibboleth extends ilAuthFrontendCredentials
         $this->settings = $DIC->settings();
     }
 
-    protected function getSettings() : ilSetting
+    protected function getSettings(): ilSetting
     {
         return $this->settings;
     }
 
-    public function initFromRequest() : void
+    public function initFromRequest(): void
     {
         $this->setUsername($this->settings->get('shib_login', ''));
         $this->setPassword('');

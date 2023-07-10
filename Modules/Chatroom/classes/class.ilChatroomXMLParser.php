@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,19 +16,19 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilChatroomXMLParser
  */
 class ilChatroomXMLParser extends ilSaxParser
 {
-    protected ilObjChatroom $chat;
     protected ilChatroom $room;
     protected string $cdata = '';
     protected bool $in_sub_rooms = false;
     protected bool $in_messages = false;
     protected ?string $import_install_id = null;
     protected ?int $exportRoomId = 0;
-    protected ?int $exportSubRoomId = 0;
     protected ?int $owner = 0;
     protected ?int $closed = 0;
     protected ?int $public = 0;
@@ -37,14 +37,10 @@ class ilChatroomXMLParser extends ilSaxParser
     protected ?string $title = '';
     /** @var int[]  */
     protected array $userIds = [];
-    /** @var array<int, int>  */
-    protected array $subRoomIdMapping = [];
 
-    public function __construct(ilObjChatroom $chat, string $a_xml_data)
+    public function __construct(protected ilObjChatroom $chat, string $a_xml_data)
     {
         parent::__construct();
-
-        $this->chat = $chat;
 
         $room = ilChatroom::byObjectId($this->chat->getId());
         if ($room !== null) {
@@ -58,42 +54,36 @@ class ilChatroomXMLParser extends ilSaxParser
         $this->setXMLContent('<?xml version="1.0" encoding="utf-8"?>' . $a_xml_data);
     }
 
-    public function setImportInstallId(?string $id) : void
+    public function setImportInstallId(?string $id): void
     {
         $this->import_install_id = $id;
     }
 
-    public function getImportInstallId() : ?string
+    public function getImportInstallId(): ?string
     {
         return $this->import_install_id;
     }
 
-    private function isSameInstallation() : bool
-    {
-        return defined('IL_INST_ID') && IL_INST_ID > 0 && $this->getImportInstallId() == IL_INST_ID;
-    }
-
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, [$this, 'handlerBeginTag'], [$this, 'handlerEndTag']);
-        xml_set_character_data_handler($a_xml_parser, [$this, 'handlerCharacterData']);
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    /**
+     * @param array<string, string> $a_attribs
+     */
+    public function handlerBeginTag(XMLParser $a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
-            case 'SubRooms':
-                $this->in_sub_rooms = true;
-                break;
-
             case 'Messages':
                 $this->in_messages = true;
                 break;
         }
     }
 
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag(XMLParser $a_xml_parser, string $a_name): void
     {
         $this->cdata = trim($this->cdata);
 
@@ -130,10 +120,6 @@ class ilChatroomXMLParser extends ilSaxParser
                 $this->room->setSetting('restrict_history', (int) $this->cdata);
                 break;
 
-            case 'PrivateRoomsEnabled':
-                $this->room->setSetting('private_rooms_enabled', (int) $this->cdata);
-                break;
-
             case 'DisplayPastMessages':
                 $this->room->setSetting('display_past_msgs', (int) $this->cdata);
                 break;
@@ -144,10 +130,6 @@ class ilChatroomXMLParser extends ilSaxParser
 
             case 'RoomId':
                 $this->exportRoomId = (int) $this->cdata;
-                break;
-                
-            case 'SubRoomId':
-                $this->exportSubRoomId = (int) $this->cdata;
                 break;
 
             case 'Owner':
@@ -165,43 +147,10 @@ class ilChatroomXMLParser extends ilSaxParser
             case 'CreatedTimestamp':
                 $this->timestamp = (int) $this->cdata;
                 break;
-                
+
             case 'PrivilegedUserId':
                 $this->userIds[] = (int) $this->cdata;
                 break;
-
-            case 'SubRoom':
-                if ($this->exportRoomId > 0 && $this->isSameInstallation()) {
-                    $user = new ilObjUser();
-                    $user->setId((int) $this->owner);
-
-                    $chat_user = new ilChatroomUser($user, $this->room);
-                    $subRoomId = $this->room->addPrivateRoom(
-                        $this->title,
-                        $chat_user,
-                        [
-                            'public' => (bool) $this->public,
-                            'created' => (int) $this->timestamp,
-                            'closed' => (bool) $this->closed
-                        ]
-                    );
-
-                    foreach ($this->userIds as $userId) {
-                        $this->room->inviteUserToPrivateRoom($userId, $subRoomId);
-                    }
-
-                    $this->subRoomIdMapping[$this->exportSubRoomId] = $subRoomId;
-                }
-
-                $this->exportSubRoomId = 0;
-                $this->title = '';
-                $this->owner = 0;
-                $this->closed = 0;
-                $this->public = 0;
-                $this->timestamp = 0;
-                $this->userIds = [];
-                break;
-
             case 'SubRooms':
                 $this->in_sub_rooms = false;
                 break;
@@ -211,23 +160,6 @@ class ilChatroomXMLParser extends ilSaxParser
                 break;
 
             case 'Message':
-                if ($this->isSameInstallation()) {
-                    $message = json_decode($this->message, true, 512, JSON_THROW_ON_ERROR);
-                    if (
-                        is_array($message) &&
-                        (0 === $this->exportSubRoomId || array_key_exists($this->exportSubRoomId, $this->subRoomIdMapping))
-                    ) {
-                        $message['roomId'] = $this->room->getRoomId();
-                        $message['subRoomId'] = $this->exportSubRoomId ? $this->subRoomIdMapping[$this->exportSubRoomId] : 0;
-                        $message['sub'] = $message['subRoomId'];
-                        $message['timestamp'] = $this->timestamp;
-
-                        $this->room->addHistoryEntry($message);
-                    }
-                }
-
-                $this->timestamp = 0;
-                $this->exportSubRoomId = 0;
                 break;
 
             case 'Messages':
@@ -245,7 +177,7 @@ class ilChatroomXMLParser extends ilSaxParser
         $this->cdata = '';
     }
 
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData(XMLParser $a_xml_parser, string $a_data): void
     {
         if ($a_data !== "\n") {
             $this->cdata .= preg_replace("/\t+/", ' ', $a_data);

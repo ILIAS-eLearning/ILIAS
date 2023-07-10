@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,6 +20,8 @@
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * Class ilCourseContentGUI
@@ -44,6 +48,8 @@ class ilCourseContentGUI
     protected ilTree $tree;
     protected GlobalHttpState $http;
     protected Factory $refinery;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
     public function __construct(ilContainerGUI $container_gui_obj)
     {
@@ -62,11 +68,15 @@ class ilCourseContentGUI
         $this->tree = $DIC->repositoryTree();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
-        $this->__initCourseObject();
+        $this->container_gui = $container_gui_obj;
+        $this->container_obj = $this->container_gui->getObject();
+        $this->initCourseObject();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->access->checkAccess('read', '', $this->container_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->WARNING);
@@ -91,7 +101,7 @@ class ilCourseContentGUI
         }
     }
 
-    protected function initMemberIdFromQuery() : int
+    protected function initMemberIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('member_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -102,12 +112,12 @@ class ilCourseContentGUI
         return 0;
     }
 
-    public function getContainerObject() : ilContainer
+    public function getContainerObject(): ilContainer
     {
         return $this->container_obj;
     }
 
-    public function initStartObjects() : ?ilCourseStart
+    public function initStartObjects(): ?ilCourseStart
     {
         if ($this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
             return null;
@@ -119,7 +129,7 @@ class ilCourseContentGUI
         return null;
     }
 
-    public function showStartObjects(ilCourseStart $start_obj) : void
+    public function showStartObjects(ilCourseStart $start_obj): void
     {
         $this->tabs->setSubTabActive('crs_content');
 
@@ -231,7 +241,7 @@ class ilCourseContentGUI
     /**
      * Manage timings
      */
-    protected function manageTimings(array $failed_items = []) : void
+    protected function manageTimings(array $failed_items = []): void
     {
         if (!$this->access->checkAccess('write', '', $this->container_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
@@ -259,7 +269,7 @@ class ilCourseContentGUI
     /**
      * Manage personal timings
      */
-    protected function managePersonalTimings(array $failed = []) : void
+    protected function managePersonalTimings(array $failed = []): void
     {
         global $ilErr, $ilAccess;
 
@@ -291,7 +301,7 @@ class ilCourseContentGUI
     /**
      * Update personal timings
      */
-    protected function updatePersonalTimings() : bool
+    protected function updatePersonalTimings(): bool
     {
         if (!$this->access->checkAccess('read', '', $this->container_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
@@ -329,7 +339,7 @@ class ilCourseContentGUI
         }
     }
 
-    public function returnToMembers() : void
+    public function returnToMembers(): void
     {
         $this->ctrl->returnToParent($this);
     }
@@ -338,7 +348,7 @@ class ilCourseContentGUI
      * @deprecated
      * @todo
      */
-    public function showUserTimings() : void
+    public function showUserTimings(): void
     {
         $this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.crs_user_timings.html', 'Modules/Course');
         $this->tabs->clearSubTabs();
@@ -356,8 +366,12 @@ class ilCourseContentGUI
         $this->tpl->setVariable("BTN_TXT", $this->lng->txt("back"));
         $this->tpl->parseCurrentBlock();
 
-        $this->tpl->setVariable("HEADER_IMG", ilUtil::getImagePath('icon_usr.svg'));
-        $this->tpl->setVariable("HEADER_ALT", $this->lng->txt('obj_usr'));
+        $usr_icon = $this->ui_factory->symbol()->icon()->standard(
+            'usr',
+            $this->lng->txt('obj_usr'),
+            'large'
+        );
+        $this->tpl->setVariable("HEADER_IMG", $this->ui_renderer->render($usr_icon));
         $this->tpl->setVariable("TABLE_HEADER", $this->lng->txt('timings_of'));
         $name = ilObjUser::_lookupName($this->initMemberIdFromQuery());
         $this->tpl->setVariable("USER_NAME", $name['lastname'] . ', ' . $name['firstname']);
@@ -382,7 +396,7 @@ class ilCourseContentGUI
      * @deprecated
      * @todo
      */
-    public function __renderUserItem(array $item, int $level) : void
+    public function __renderUserItem(array $item, int $level): void
     {
         $this->lng->loadLanguageModule('meta');
 
@@ -410,7 +424,7 @@ class ilCourseContentGUI
             $item['title'] = ilSessionAppointment::_appointmentToString(
                 $app_info['start'],
                 $app_info['end'],
-                $app_info['fullday']
+                (bool) $app_info['fullday']
             );
         }
 
@@ -440,7 +454,7 @@ class ilCourseContentGUI
         }
     }
 
-    protected function updateManagedTimings() : bool
+    protected function updateManagedTimings(): bool
     {
         if (!$this->access->checkAccess('write', '', $this->container_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
@@ -454,12 +468,13 @@ class ilCourseContentGUI
             $item_obj = new ilObjectActivation();
             $item_obj->read($ref_id);
 
+            $data['active'] = $data['active'] ?? 0;
             $item_obj->setTimingType($data['active'] ? ilObjectActivation::TIMINGS_PRESETTING : ilObjectActivation::TIMINGS_DEACTIVATED);
-            $item_obj->toggleChangeable((bool) $data['change']);
+            $item_obj->toggleChangeable((bool) ($data['change'] ?? false));
 
             if ($this->course_obj->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE) {
-                $sug_start_dt = ilCalendarUtil::parseIncomingDate($data['sug_start']);
-                $sug_end_dt = ilCalendarUtil::parseIncomingDate($data['sug_end']);
+                $sug_start_dt = ilCalendarUtil::parseIncomingDate($data['sug_start'] ?? '');
+                $sug_end_dt = ilCalendarUtil::parseIncomingDate($data['sug_end'] ?? '');
 
                 if ($sug_start_dt instanceof ilDate && $sug_end_dt instanceof ilDate) {
                     if (ilDateTime::_after($sug_start_dt, $sug_end_dt)) {
@@ -506,14 +521,14 @@ class ilCourseContentGUI
         }
     }
 
-    public function __setSubTabs() : void
+    public function __setSubTabs(): void
     {
         if ($this->container_obj->getType() == 'crs') {
             $this->container_gui->setContentSubTabs();
         }
     }
 
-    public function __initCourseObject() : bool
+    public function initCourseObject(): bool
     {
         if ($this->container_obj instanceof ilObjCourse) {
             $this->course_obj = $this->container_obj;

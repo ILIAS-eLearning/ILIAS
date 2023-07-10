@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\In\Transformation;
 
 use ILIAS\Data\Result\Ok;
@@ -29,7 +31,7 @@ use UnexpectedValueException;
 
 class ParallelTest extends TestCase
 {
-    public function testParallelTransformation() : void
+    public function testParallelTransformation(): void
     {
         $parallel = new Parallel(
             [
@@ -44,7 +46,7 @@ class ParallelTest extends TestCase
     }
 
 
-    public function testParallelTransformationForApplyTo() : void
+    public function testParallelTransformationForApplyTo(): void
     {
         $parallel = new Parallel(
             [
@@ -58,7 +60,7 @@ class ParallelTest extends TestCase
         $this->assertEquals(['hello', 'hello'], $result->value());
     }
 
-    public function testParallelTransformationFailsBecauseOfInvalidType() : void
+    public function testParallelTransformationFailsBecauseOfInvalidType(): void
     {
         $this->expectNotToPerformAssertions();
         $parallel = new Parallel([new StringTransformation()]);
@@ -72,7 +74,7 @@ class ParallelTest extends TestCase
         $this->fail();
     }
 
-    public function testParallelApply() : void
+    public function testParallelApply(): void
     {
         $parallel = new Parallel(
             [
@@ -87,7 +89,7 @@ class ParallelTest extends TestCase
         $this->assertTrue($result->isError());
     }
 
-    public function testInvalidTransformationThrowsException() : void
+    public function testInvalidTransformationThrowsException(): void
     {
         $this->expectNotToPerformAssertions();
 

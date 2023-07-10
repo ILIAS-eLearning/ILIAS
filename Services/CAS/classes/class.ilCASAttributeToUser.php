@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -18,23 +20,13 @@
  * CAS user creation helper
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilCASAttributeToUser
 {
     private ilLogger $logger;
-
     private ilXmlWriter $writer;
-
     private ilCASSettings $settings;
 
-
-    /**
-     * Constructor
-     *
-     * @access public
-     *
-     */
     public function __construct(\ilCASSettings $settings)
     {
         global $DIC;
@@ -46,20 +38,13 @@ class ilCASAttributeToUser
         $this->settings = $settings;
     }
 
-    /**
-     * Create new ILIAS account
-     *
-     * @param string external username
-     */
-    public function create($a_username)
+    public function create(string $a_username): string
     {
         $this->writer->xmlStartTag('Users');
 
-        // Single users
-        // Required fields
-        // Create user
         $this->writer->xmlStartTag('User', array('Action' => 'Insert'));
-        $this->writer->xmlElement('Login', array(), $new_name = ilAuthUtils::_generateLogin($a_username));
+        $new_name = ilAuthUtils::_generateLogin($a_username);
+        $this->writer->xmlElement('Login', array(), $new_name);
 
         // Assign to role only for new users
         $this->writer->xmlElement(

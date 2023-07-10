@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author Jesús López <lopez@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
@@ -36,7 +36,7 @@ class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
         parent::__construct(self::STORAGE_WEB, true, $a_container_id);
     }
 
-    protected function init() : bool
+    protected function init(): bool
     {
         if (parent::init()) {
             if ($this->ass_id > 0) {
@@ -52,12 +52,12 @@ class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
         return true;
     }
 
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return 'exc';
     }
 
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return 'ilExercise';
     }
@@ -65,7 +65,7 @@ class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
 
     public function deleteUserSubmissionDirectory(
         int $user_id
-    ) : void {
+    ): void {
         $internal_dir = $this->submissions_path . "/" . $user_id;
 
         //remove first dot from (./data/client/ilExercise/3/exc_318/subm_21/6)
@@ -83,24 +83,26 @@ class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
      * Get assignment files
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getFiles() : array
+    public function getFiles(): array
     {
         $ass = new ilExAssignment($this->ass_id);
         $files_order = $ass->getInstructionFilesOrder();
-
         $files = array();
-        if (!is_dir($this->path)) {
+
+        $path = "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/" . $this->getPath();
+
+        if (!is_dir($path)) {
             return $files;
         }
 
-        $dp = opendir($this->path);
+        $dp = opendir($path);
         while ($file = readdir($dp)) {
-            if (!is_dir($this->path . '/' . $file)) {
+            if (!is_dir($path . '/' . $file)) {
                 $files[] = array(
                     'name' => $file,
-                    'size' => filesize($this->path . '/' . $file),
-                    'ctime' => filectime($this->path . '/' . $file),
-                    'fullpath' => $this->path . '/' . $file,
+                    'size' => filesize($path . '/' . $file),
+                    'ctime' => filectime($path . '/' . $file),
+                    'fullpath' => $path . '/' . $file,
                     'order' => $files_order[$file]["order_nr"] ?? 0
                     );
             }
@@ -111,7 +113,7 @@ class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
 
     public function getAssignmentFilePath(
         string $a_file
-    ) : string {
+    ): string {
         return $this->getAbsolutePath() . "/" . $a_file;
     }
 
@@ -120,7 +122,7 @@ class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
      */
     public function uploadAssignmentFiles(
         array $a_files
-    ) : void {
+    ): void {
         if (is_array($a_files["name"])) {
             foreach ($a_files["name"] as $k => $name) {
                 if ($name != "") {
@@ -128,7 +130,7 @@ class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
                     ilFileUtils::moveUploadedFile(
                         $tmp_name,
                         basename($name),
-                        $this->path . DIRECTORY_SEPARATOR . basename($name),
+                        $this->getAbsolutePath() . DIRECTORY_SEPARATOR . basename($name),
                         false
                     );
                 }

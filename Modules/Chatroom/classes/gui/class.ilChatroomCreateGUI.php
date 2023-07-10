@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilChatroomCreateGUI
  * @author  Jan Posselt <jposselt@databay.de>
@@ -25,7 +27,7 @@
  */
 class ilChatroomCreateGUI extends ilChatroomGUIHandler
 {
-    public function save() : void
+    public function save(): void
     {
         $formFactory = new ilChatroomFormFactory();
         $form = $formFactory->getCreationForm();
@@ -35,7 +37,7 @@ class ilChatroomCreateGUI extends ilChatroomGUIHandler
             $room = ilChatroom::byObjectId($roomObj->getId());
 
             $connector = $this->gui->getConnector();
-            $response = $connector->sendCreatePrivateRoom($room->getRoomId(), 0, $roomObj->getOwner(), $roomObj->getTitle());
+            $response = $connector->sendCreatePrivateRoom($room->getRoomId(), $roomObj->getOwner(), $roomObj->getTitle());
 
             $this->ilCtrl->setParameter($this->gui, 'ref_id', $this->gui->getRefId());
             $this->ilCtrl->redirect($this->gui, 'settings-general');
@@ -44,7 +46,7 @@ class ilChatroomCreateGUI extends ilChatroomGUIHandler
         }
     }
 
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->gui->switchToVisibleMode();
         $this->gui->createObject();

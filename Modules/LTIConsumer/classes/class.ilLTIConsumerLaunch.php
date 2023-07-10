@@ -1,20 +1,25 @@
-<?php declare(strict_types=1);
+<?php
 
-use ILIAS\LTIOAuth;
+declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\LTIOAuth;
+
 /**
  * Class ilObjLTIConsumerLaunch
  *
@@ -25,13 +30,11 @@ use ILIAS\LTIOAuth;
  */
 class ilLTIConsumerLaunch
 {
-    private static string $last_oauth_base_string = "";
     // protected $context = null;
     protected int $ref_id;
 
     /**
      * ilObjLTIConsumerLaunch constructor.
-     * @param int $a_ref_id
      */
     public function __construct(int $a_ref_id)
     {
@@ -46,7 +49,7 @@ class ilLTIConsumerLaunch
      * @param array|null $a_valid_types  list of valid types
      * @return array|null  context array ("ref_id", "title", "type")
      */
-    public function getContext(?array $a_valid_types = array('crs', 'grp', 'cat', 'root')) : ?array
+    public function getContext(?array $a_valid_types = array('crs', 'grp', 'cat', 'root')): ?array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $tree = $DIC->repositoryTree();
@@ -56,7 +59,7 @@ class ilLTIConsumerLaunch
 
             // check fromm inner to outer
             $path = array_reverse($tree->getPathFull($this->ref_id));
-            foreach ($path as $key => $row) {
+            foreach ($path as $row) {
                 if (in_array($row['type'], $a_valid_types)) {
                     // take an existing inner context outside a course
                     if (in_array($row['type'], array('cat', 'root')) && !empty($this->context)) {
@@ -77,27 +80,23 @@ class ilLTIConsumerLaunch
 
 
 
-    public static function getLTIContextType(string $a_type) : string
+    public static function getLTIContextType(string $a_type): string
     {
         switch ($a_type) {
             case "crs":
                 return "CourseOffering";
-                break;
             case "grp":
                 return "Group";
-                break;
             case "root":
                 return "urn:lti:context-type:ilias/RootNode";
-                break;
             case "cat":
             default:
                 return "urn:lti:context-type:ilias/Category";
-                break;
         }
     }
 
 
-    
+
     /**
      * sign request data with OAuth
      *
@@ -123,18 +122,18 @@ class ilLTIConsumerLaunch
 //            case "RSA_SHA1":
 //                $method = new ILIAS\LTIOAuth\OAuthSignatureMethod_RSA_SHA1();
 //                break;
-                
+
             default:
                 return "ERROR: unsupported signature method!";
         }
         $consumer = new ILIAS\LTIOAuth\OAuthConsumer($a_params["key"], $a_params["secret"], $a_params["callback"]);
         $request = ILIAS\LTIOAuth\OAuthRequest::from_consumer_and_token($consumer, $a_params["token"], $a_params["http_method"], $a_params["url"], $a_params["data"]);
         $request->sign_request($method, $consumer, $a_params["token"]);
-        
+
         // Pass this back up "out of band" for debugging
 //        self::$last_oauth_base_string = $request->get_signature_base_string();
         // die(self::$last_oauth_base_string);
-        
+
         return $request->get_parameters();
     }
 }

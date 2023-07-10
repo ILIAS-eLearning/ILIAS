@@ -1,0 +1,65 @@
+@use "sass:map";
+@use "../../../010-settings/" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_legacy-and-ui-tag" as *;
+@use "../../../050-layout/basics" as *;
+
+/* Services/Tags */
+
+.ilTagCloud {
+	font-size: $il-font-size-small;
+	padding: $il-padding-large-vertical 0;
+}
+.il-maincontrols-slate {
+	.ilTagCloud {
+		padding: $il-padding-large-vertical $il-padding-large-horizontal;
+  	}
+}
+.ilTag {
+	background-color: $il-btn-tag-bg;
+	/* background-color: lighten($brand-primary, 10%); */
+	color: map.get($tag-priority-text-colors, "veryhigh");
+	display: inline-block;
+	white-space: nowrap;
+	padding: 1px 5px;
+	margin: $il-padding-small-vertical $il-padding-small-horizontal $il-padding-small-vertical 0;
+	border-radius: $il-border-radius-secondary-small;
+
+	.ilTagRelVeryHigh {
+
+	}
+	.ilTagRelHigh {
+		background-color: map.get($tag-priority-bg-colors, "high");
+		color: map.get($tag-priority-text-colors, "high");
+	}
+	.ilTagRelMiddle {
+		background-color: map.get($tag-priority-bg-colors, "middle");
+		color: map.get($tag-priority-text-colors, "middle");
+	}
+	.ilTagRelLow {
+		background-color: map.get($tag-priority-bg-colors, "low");
+		color: map.get($tag-priority-text-colors, "low");
+	}
+	.ilTagRelVeryLow {
+		background-color: map.get($tag-priority-bg-colors, "verylow");
+		color: map.get($tag-priority-text-colors, "verylow");
+	}
+
+	&.ilHighlighted, &.ilHighlighted:hover {
+		background-color: map.get($tag-priority-bg-colors, "highlighted");
+		color: map.get($tag-priority-text-colors, "highlighted");
+
+		&:hover{
+			background-color: darken(map.get($tag-priority-bg-colors, "highlighted"), 5%);
+		}
+	}
+}
+
+a.ilTag:hover, a.ilTag:active {
+	text-decoration: none;
+	color: map.get($tag-priority-text-colors, "veryhigh");
+	background-color: map.get($tag-priority-bg-colors, "veryhigh");
+}
+
+#il_tags_modal textarea {
+	resize: vertical;
+}

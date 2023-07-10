@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -70,7 +72,7 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('appointments');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($a_set['deletable']) {
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
@@ -116,7 +118,7 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
      * set appointments
      * @param int[]
      */
-    public function setAppointments(array $a_apps) : void
+    public function setAppointments(array $a_apps): void
     {
         $cat = new ilCalendarCategory($this->cat_id);
 

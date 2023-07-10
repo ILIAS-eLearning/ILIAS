@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 // patch-begin svy_lp
 
@@ -10,12 +12,29 @@
  */
 class ilLPStatusSurveyFinished extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getNotAttempted(int $a_obj_id): array
+    {
+        $invited = self::getInvitations($a_obj_id);
+        if ($invited === []) {
+            return [];
+        }
+        $users = array_diff(
+            (array) $invited,
+            ilLPStatusWrapper::_getInProgress($a_obj_id)
+        );
+        $users = array_diff(
+            $users,
+            ilLPStatusWrapper::_getCompleted($a_obj_id)
+        );
+        return $users;
+    }
+
+    public static function _getInProgress(int $a_obj_id): array
     {
         return self::getParticipants($a_obj_id);
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         return self::getParticipants($a_obj_id, true);
     }
@@ -24,7 +43,7 @@ class ilLPStatusSurveyFinished extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         $survey_id = self::getSurveyId($a_obj_id);
         if (!$survey_id) {
             return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
@@ -41,7 +60,7 @@ class ilLPStatusSurveyFinished extends ilLPStatus
         return $status;
     }
 
-    protected static function getSurveyId(int $a_obj_id) : int
+    protected static function getSurveyId(int $a_obj_id): int
     {
         global $DIC;
 
@@ -51,13 +70,13 @@ class ilLPStatusSurveyFinished extends ilLPStatus
             " WHERE obj_fi = " . $ilDB->quote($a_obj_id)
         );
         $row = $ilDB->fetchAssoc($set);
-        return (int) $row["survey_id"];
+        return (int) ($row["survey_id"] ?? 0);
     }
 
     public static function getParticipants(
         int $a_obj_id,
         bool $a_only_finished = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -80,6 +99,24 @@ class ilLPStatusSurveyFinished extends ilLPStatus
         }
         return $res;
     }
-}
 
-// patch-end svy_lp
+    /**
+     * @param int $a_obj_id
+     * @return int[]
+     */
+    public static function getInvitations(int $a_obj_id): array
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        $query = 'select user_id from svy_invitation si ' .
+            'join svy_svy ss on ss.survey_id = si.survey_id ' .
+            'where obj_fi = ' . $db->quote($a_obj_id, ilDBConstants::T_INTEGER);
+        $res = $db->query($query);
+        $invited = [];
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $invited[] = (int) $row->user_id;
+        }
+        return $invited;
+    }
+}

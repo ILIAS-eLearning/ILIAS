@@ -1,10 +1,27 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Link;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Implementation\Render\TooltipRenderer;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
@@ -15,7 +32,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -31,37 +48,59 @@ class Renderer extends AbstractComponentRenderer
     protected function setStandardVars(
         string $tpl_name,
         Component\Link\Link $component
-    ) : Template {
+    ): Template {
         $tpl = $this->getTemplate($tpl_name, true, true);
         $action = $component->getAction();
         $label = $component->getLabel();
         if ($component->getOpenInNewViewport()) {
             $tpl->touchBlock("open_in_new_viewport");
         }
+        if (null !== $component->getContentLanguage()) {
+            $tpl->setVariable("CONTENT_LANGUAGE", $component->getContentLanguage());
+        }
+        if (null !== $component->getLanguageOfReferencedResource()) {
+            $tpl->setVariable("HREF_LANGUAGE", $component->getLanguageOfReferencedResource());
+        }
+
         $tpl->setVariable("LABEL", $label);
         $tpl->setVariable("HREF", $action);
         return $tpl;
     }
 
+    protected function maybeRenderWithTooltip(Component\Link\Link $component, Template $tpl): string
+    {
+        $tooltip_embedding = $this->getTooltipRenderer()->maybeGetTooltipEmbedding(...$component->getHelpTopics());
+        if (! $tooltip_embedding) {
+            $id = $this->bindJavaScript($component);
+            $tpl->setVariable("ID", $id);
+            return $tpl->get();
+        }
+        $component = $component->withAdditionalOnLoadCode($tooltip_embedding[1]);
+        $tooltip_id = $this->createId();
+        $tpl->setCurrentBlock("with_aria_describedby");
+        $tpl->setVariable("ARIA_DESCRIBED_BY", $tooltip_id);
+        $tpl->parseCurrentBlock();
+        $id = $this->bindJavaScript($component);
+        $tpl->setVariable("ID", $id);
+        return $tooltip_embedding[0]($tooltip_id, $tpl->get());
+    }
+
     protected function renderStandard(
         Component\Link\Standard $component
-    ) : string {
+    ): string {
         $tpl_name = "tpl.standard.html";
         $tpl = $this->setStandardVars($tpl_name, $component);
-        return $tpl->get();
+        return $this->maybeRenderWithTooltip($component, $tpl);
     }
 
     protected function renderBulky(
         Component\Link\Bulky $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl_name = "tpl.bulky.html";
         $tpl = $this->setStandardVars($tpl_name, $component);
         $renderer = $default_renderer->withAdditionalContext($component);
         $tpl->setVariable("SYMBOL", $renderer->render($component->getSymbol()));
-
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable("ID", $id);
 
         $aria_role = $component->getAriaRole();
         if ($aria_role != null) {
@@ -69,14 +108,13 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ARIA_ROLE", $aria_role);
             $tpl->parseCurrentBlock();
         }
-
-        return $tpl->get();
+        return $this->maybeRenderWithTooltip($component, $tpl);
     }
 
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return [
             Component\Link\Standard::class,

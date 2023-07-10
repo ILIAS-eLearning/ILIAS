@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup\CLI;
 
 use ILIAS\Setup;
@@ -24,7 +26,7 @@ use Seld\JsonLint\JsonParser;
 
 class ConfigReaderTest extends TestCase
 {
-    public function testReadConfigFile() : void
+    public function testReadConfigFile(): void
     {
         $filename = tempnam("/tmp", "ILIAS");
         $expected = [
@@ -40,7 +42,7 @@ class ConfigReaderTest extends TestCase
         $this->assertEquals($expected, $config);
     }
 
-    public function testBaseDir() : void
+    public function testBaseDir(): void
     {
         $filename = tempnam("/tmp", "ILIAS");
         $expected = [
@@ -57,7 +59,7 @@ class ConfigReaderTest extends TestCase
         $this->assertEquals($expected, $config);
     }
 
-    public function testTotalDir() : void
+    public function testTotalDir(): void
     {
         $filename = tempnam("/tmp", "ILIAS");
         $expected = [
@@ -74,9 +76,9 @@ class ConfigReaderTest extends TestCase
         $this->assertEquals($expected, $config);
     }
 
-    public function testApplyOverwrites() : void
+    public function testApplyOverwrites(): void
     {
-        $cr = new class(new JsonParser()) extends Setup\CLI\ConfigReader {
+        $cr = new class (new JsonParser()) extends Setup\CLI\ConfigReader {
             public function _applyOverwrites($j, $o)
             {
                 return $this->applyOverwrites($j, $o);
@@ -110,9 +112,9 @@ class ConfigReaderTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testApplyOverwritesToUnsetField() : void
+    public function testApplyOverwritesToUnsetField(): void
     {
-        $cr = new class(new JsonParser()) extends Setup\CLI\ConfigReader {
+        $cr = new class (new JsonParser()) extends Setup\CLI\ConfigReader {
             public function _applyOverwrites($j, $o)
             {
                 return $this->applyOverwrites($j, $o);

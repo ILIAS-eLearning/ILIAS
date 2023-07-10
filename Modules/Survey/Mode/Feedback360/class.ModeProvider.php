@@ -1,21 +1,27 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Mode\Feedback360;
 
 use ILIAS\Survey\Mode;
+use ILIAS\Survey\InternalGUIService;
 
 /**
  * Interface for modes
@@ -23,14 +29,13 @@ use ILIAS\Survey\Mode;
  */
 class ModeProvider implements Mode\ModeProvider
 {
+    use Mode\ModeProviderBase;
     public const ID = 1;
 
-    use Mode\ModeProviderBase;
-
-    public function __construct()
+    public function __construct(InternalGUIService $gui)
     {
         $this->feature_config = new FeatureConfig();
-        $this->ui_modifier = new UIModifier();
+        $this->ui_modifier = new UIModifier($gui);
         $this->id = self::ID;
     }
 }

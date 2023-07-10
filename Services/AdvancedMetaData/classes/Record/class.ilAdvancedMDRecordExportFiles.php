@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -44,7 +46,7 @@ class ilAdvancedMDRecordExportFiles
      * @access public
      * @return array array e.g array(records => 'ECS-Server',size => '123',created' => 121212)
      */
-    public function readFilesInfo() : array
+    public function readFilesInfo(): array
     {
         $file_info = array();
         foreach ($this->getFiles() as $name => $data) {
@@ -74,7 +76,7 @@ class ilAdvancedMDRecordExportFiles
      * Get files
      * @return array<int, array{type: string, size: string}>
      */
-    public function getFiles() : array
+    public function getFiles(): array
     {
         if (!is_dir($this->export_dir)) {
             return array();
@@ -89,22 +91,22 @@ class ilAdvancedMDRecordExportFiles
     /**
      * Create new export file from xml string
      */
-    public function create(string $a_xml) : void
+    public function create(string $a_xml): void
     {
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-    
+
         if (!$fp = fopen($this->export_dir . '/' . time() . '.xml', 'w+')) {
             $ilLog->write(__METHOD__ . ': Cannot open file ' . $this->export_dir . '/' . time() . '.xml');
             throw new ilException('Cannot write export file.');
         }
-    
+
         fwrite($fp, $a_xml);
         fclose($fp);
     }
 
-    public function deleteByFileId(int $a_timest) : bool
+    public function deleteByFileId(int $a_timest): bool
     {
         global $DIC;
 
@@ -117,7 +119,7 @@ class ilAdvancedMDRecordExportFiles
         return true;
     }
 
-    public function getAbsolutePathByFileId(int $a_file_basename) : string
+    public function getAbsolutePathByFileId(int $a_file_basename): string
     {
         global $DIC;
 
@@ -135,7 +137,7 @@ class ilAdvancedMDRecordExportFiles
      * init export directory
      * @access private
      */
-    private function init() : void
+    private function init(): void
     {
         if (!is_dir($this->export_dir)) {
             ilFileUtils::makeDirParents($this->export_dir);

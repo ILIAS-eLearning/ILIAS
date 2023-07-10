@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 
 use ILIAS\BackgroundTasks\Task\UserInteraction;
@@ -28,29 +28,28 @@ use ILIAS\BackgroundTasks\Value;
  */
 abstract class AbstractUserInteraction extends AbstractTask implements UserInteraction
 {
-    
     /**
      * @inheritDoc
      */
-    public function getMessage(array $input) : string
+    public function getMessage(array $input): string
     {
         return $message = "";
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function canBeSkipped(array $input) : bool
+    public function canBeSkipped(array $input): bool
     {
         return false;
     }
-    
-    public function getSkippedValue(array $input) : Value
+
+    public function getSkippedValue(array $input): Value
     {
         return $input[0];
     }
-    
-    public function isFinal() : bool
+
+    public function isFinal(): bool
     {
         return true;
     }

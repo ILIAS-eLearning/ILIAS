@@ -1,7 +1,22 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
 * Image map image preview creator
@@ -45,7 +60,6 @@ class ilImagemapPreview
             if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $this->imagemap_filename, $matches)) {
                 $extension = "." . $matches[1];
             }
-            include_once "./Services/Utilities/classes/class.ilUtil.php";
             $this->preview_filename = ilFileUtils::ilTempnam() . $extension;
         }
         $this->areas = array();
@@ -54,12 +68,12 @@ class ilImagemapPreview
         $this->linewidth_inner = 2;
     }
 
-    public function getAreaCount() : int
+    public function getAreaCount(): int
     {
         return count($this->areas);
     }
 
-    public function getPointCount() : int
+    public function getPointCount(): int
     {
         return count($this->points);
     }
@@ -75,7 +89,7 @@ class ilImagemapPreview
         $linecolor = "red",
         $bordercolor = "white",
         $fillcolor = "#FFFFFFA0"
-    ) {
+    ): void {
         if (ini_get("safe_mode")) {
             if ((strpos($fillcolor, "#") !== false) || (strpos($fillcolor, "rgb") !== false)) {
                 $fillcolor = str_replace("\"", "", $fillcolor);
@@ -84,7 +98,7 @@ class ilImagemapPreview
         $this->areas[$index] = array(
             "shape" => "$shape",
             "coords" => "$coords",
-            "title" => "$title",
+            "title" => htmlspecialchars($title),
             "href" => "$href",
             "target" => "$target",
             "linecolor" => '"' . $linecolor . '"',
@@ -101,7 +115,7 @@ class ilImagemapPreview
         $linecolor = "red",
         $bordercolor = "white",
         $fillcolor = "#FFFFFFA0"
-    ) {
+    ): void {
         $this->points[$index] = array(
             "coords" => "$coords",
             "linecolor" => '"' . $linecolor . '"',
@@ -111,7 +125,7 @@ class ilImagemapPreview
         );
     }
 
-    public function getAreaIdent() : string
+    public function getAreaIdent(): string
     {
         if (count($this->areas) + count($this->points) > 0) {
             $arr = array_merge(array_keys($this->areas), array_keys($this->points));
@@ -127,12 +141,11 @@ class ilImagemapPreview
         }
     }
 
-    public function createPreview()
+    public function createPreview(): void
     {
         if (count($this->areas) + count($this->points) == 0) {
             return;
         }
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         $convert_cmd = "-quality 100 ";
         foreach ($this->points as $point) {
             if ($point["visible"]) {
@@ -260,7 +273,7 @@ class ilImagemapPreview
     * get imagemap html code
     * note: html code should be placed in template files
     */
-    public function getImagemap($title) : string
+    public function getImagemap($title): string
     {
         $map = "<map name=\"$title\"> ";
         foreach ($this->areas as $area) {

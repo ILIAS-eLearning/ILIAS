@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * test result overview
  * @author            Stefan Meyer <smeyer.ilias@gmx.de>
@@ -41,13 +43,12 @@ class ilLOMemberTestResultGUI
         $this->tpl = $DIC->ui()->mainTemplate();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
-
             default:
                 if (!$cmd) {
                     $cmd = 'viewResult';
@@ -57,17 +58,17 @@ class ilLOMemberTestResultGUI
         }
     }
 
-    public function getParentObject() : ilObject
+    public function getParentObject(): ilObject
     {
         return $this->container;
     }
 
-    public function getParentGUI() : ilObjectGUI
+    public function getParentGUI(): ilObjectGUI
     {
         return $this->container_gui;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -75,7 +76,7 @@ class ilLOMemberTestResultGUI
     /**
      * View results
      */
-    protected function viewResult() : void
+    protected function viewResult(): void
     {
         $result_table = new ilLOMemberTestResultTableGUI($this, $this->getParentObject(), 'viewResult');
         $result_table->setUserId($this->getUserId());

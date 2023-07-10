@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -49,12 +51,12 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         $this->ui = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
 
-        $this->setId("sess_materials_" . $a_parent_obj->object->getId());
+        $this->setId("sess_materials_" . $a_parent_obj->getCurrentObject()->getId());
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->parent_ref_id = $this->tree->getParentId($a_parent_obj->object->getRefId());
-        $this->parent_object_id = $a_parent_obj->object->getId();
+        $this->parent_ref_id = $this->tree->getParentId($a_parent_obj->getCurrentObject()->getRefId());
+        $this->parent_object_id = $a_parent_obj->getCurrentObject()->getId();
 
         //$this->setEnableNumInfo(false);
         //$this->setLimit(100);
@@ -76,27 +78,27 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         $this->lng->loadLanguageModule('sess');
     }
 
-    public function setMaterialItems(array $a_set) : void
+    public function setMaterialItems(array $a_set): void
     {
         $this->material_items = $a_set;
     }
 
-    public function getMaterialItems() : array
+    public function getMaterialItems(): array
     {
         return $this->material_items;
     }
 
-    public function setContainerRefId(int $a_set) : void
+    public function setContainerRefId(int $a_set): void
     {
         $this->container_ref_id = $a_set;
     }
 
-    public function getContainerRefId() : int
+    public function getContainerRefId(): int
     {
         return $this->container_ref_id;
     }
 
-    public function getDataFromDb() : array
+    public function getDataFromDb(): array
     {
         $tree = $this->tree;
         $objDefinition = $this->objDefinition;
@@ -130,12 +132,12 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         return $materials;
     }
 
-    public function filterData(array $a_data) : array
+    public function filterData(array $a_data): array
     {
         $data_filtered = $a_data;
 
         //Filter by title
-        if ($this->filter["title"]) {
+        if (isset($this->filter["title"]) && $this->filter['title'] !== '') {
             foreach ($data_filtered as $key => $material) {
                 $title = $material["title"];
                 if (stripos($title, $this->filter["title"]) === false) {
@@ -145,7 +147,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         }
 
         //Filter by obj type
-        if ($this->filter['type']) {
+        if (isset($this->filter['type']) && $this->filter['type'] !== '') {
             foreach ($data_filtered as $key => $material) {
                 $type = $material["type"];
                 //types can be: file, exc
@@ -156,7 +158,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         }
 
         //Filter by status
-        if ($this->filter["status"]) {
+        if (isset($this->filter["status"]) && $this->filter['status'] !== '') {
             //items_ref = materials already assigned.
             $assigned_items = new ilEventItems($this->parent_object_id);
             $assigned_items = $assigned_items->getItems();
@@ -179,12 +181,12 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         return $data_filtered;
     }
 
-    public function setMaterials(array $a_materials) : void
+    public function setMaterials(array $a_materials): void
     {
         $this->setData($a_materials);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon(0, 'tiny', $a_set['type']));
         $this->tpl->setVariable('IMG_ALT', $this->lng->txt('obj_' . $a_set['type']));
@@ -194,11 +196,14 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("COLL_TITLE", $a_set['title']);
 
-        if (strlen($a_set['description'])) {
-            $this->tpl->setVariable("COLL_DESC", $a_set['description']);
+        if (strlen((string) $a_set['description'])) {
+            $this->tpl->setVariable("COLL_DESC", (string) $a_set['description']);
         }
         if (in_array($a_set['ref_id'], $this->getMaterialItems())) {
-            $ass_glyph = $this->ui->symbol()->glyph()->apply();
+            $ass_glyph = $this->ui->symbol()->icon()->custom(
+                ilUtil::getImagePath("icon_ok.svg"),
+                $this->lng->txt("assigned")
+            );
             $this->tpl->setVariable("ASSIGNED_IMG_OK", $this->renderer->render($ass_glyph));
         }
 
@@ -211,7 +216,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
     /**
      * Get object types available in this specific session.
      */
-    public function typesAvailable() : array
+    public function typesAvailable(): array
     {
         $items = $this->getDataFromDb();
 
@@ -222,7 +227,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         return array_values(array_unique($all_types));
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "title");

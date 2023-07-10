@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Refinery\Integer;
 
 use ILIAS\Data;
@@ -27,10 +29,10 @@ class GreaterThanOrEqual extends Constraint
     public function __construct(int $min, Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            static function ($value) use ($min) : bool {
+            static function ($value) use ($min): bool {
                 return $value >= $min;
             },
-            static function ($txt, $value) use ($min) : string {
+            static function ($txt, $value) use ($min): string {
                 return (string) $txt("not_greater_than_or_equal", $min);
             },
             $data_factory,

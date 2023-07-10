@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
@@ -25,7 +27,7 @@ class ObjectiveCollectionTest extends TestCase
 {
     use Helper;
 
-    public function testGetObjectives() : void
+    public function testGetObjectives(): void
     {
         $g1 = $this->newObjective();
         $g2 = $this->newObjective();
@@ -36,7 +38,7 @@ class ObjectiveCollectionTest extends TestCase
         $this->assertEquals([$g1, $g2, $g3], $c->getObjectives());
     }
 
-    public function testGetHash() : void
+    public function testGetHash(): void
     {
         $g1 = $this->newObjective();
         $g2 = $this->newObjective();
@@ -55,13 +57,13 @@ class ObjectiveCollectionTest extends TestCase
         $this->assertEquals($c1->getHash(), $c3->getHash());
     }
 
-    public function testGetLabel() : void
+    public function testGetLabel(): void
     {
         $c = new Setup\ObjectiveCollection("LABEL", false);
         $this->assertEquals("LABEL", $c->getLabel());
     }
 
-    public function testIsNotable() : void
+    public function testIsNotable(): void
     {
         $c1 = new Setup\ObjectiveCollection("", false);
         $c2 = new Setup\ObjectiveCollection("", true);
@@ -69,7 +71,7 @@ class ObjectiveCollectionTest extends TestCase
         $this->assertTrue($c2->isNotable());
     }
 
-    public function testGetPreconditions() : void
+    public function testGetPreconditions(): void
     {
         $g1 = $this->newObjective();
         $g2 = $this->newObjective();
@@ -84,7 +86,7 @@ class ObjectiveCollectionTest extends TestCase
     }
 
 
-    public function testAchieve() : void
+    public function testAchieve(): void
     {
         $g1 = $this->newObjective();
         $g2 = $this->newObjective();

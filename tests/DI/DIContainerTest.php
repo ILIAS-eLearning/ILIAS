@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\DI;
 
 use PHPUnit\Framework\TestCase;
@@ -21,23 +22,22 @@ use PHPUnit\Framework\TestCase;
  */
 class DIContainerTest extends TestCase
 {
-
     /**
      * @var Container
      */
     protected $DIC;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->DIC = new Container();
     }
 
-    public function testIsDependencyAvailableIfNotAvailable() : void
+    public function testIsDependencyAvailableIfNotAvailable(): void
     {
         $this->assertFalse($this->DIC->isDependencyAvailable("ctrl"));
     }
 
-    public function testIsDependencyAvailableIfAvailable() : void
+    public function testIsDependencyAvailableIfAvailable(): void
     {
         $this->DIC["ilCtrl"] = $this->getMockBuilder(\ilCtrl::class)
                                     ->disableOriginalConstructor()

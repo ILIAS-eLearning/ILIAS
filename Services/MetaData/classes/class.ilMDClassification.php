@@ -1,25 +1,22 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Meta Data class (element classification)
@@ -28,7 +25,6 @@
  */
 class ilMDClassification extends ilMDBase
 {
-
     private string $purpose = '';
     private string $description = '';
     private ?ilMDLanguageItem $description_language = null;
@@ -38,17 +34,13 @@ class ilMDClassification extends ilMDBase
     /**
      * @return int[]
      */
-    public function getTaxonPathIds() : array
+    public function getTaxonPathIds(): array
     {
-
-
         return ilMDTaxonPath::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_classification');
     }
 
-    public function getTaxonPath(int $a_taxon_path_id) : ?ilMDTaxonPath
+    public function getTaxonPath(int $a_taxon_path_id): ?ilMDTaxonPath
     {
-
-
         if (!$a_taxon_path_id) {
             return null;
         }
@@ -58,10 +50,8 @@ class ilMDClassification extends ilMDBase
         return $tax;
     }
 
-    public function addTaxonPath() : ilMDTaxonPath
+    public function addTaxonPath(): ilMDTaxonPath
     {
-
-
         $tax = new ilMDTaxonPath($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $tax->setParentId($this->getMetaId());
         $tax->setParentType('meta_classification');
@@ -69,17 +59,13 @@ class ilMDClassification extends ilMDBase
         return $tax;
     }
 
-    public function getKeywordIds() : ?array
+    public function getKeywordIds(): ?array
     {
-
-
         return ilMDKeyword::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_classification');
     }
 
-    public function getKeyword(int $a_keyword_id) : ?ilMDKeyword
+    public function getKeyword(int $a_keyword_id): ?ilMDKeyword
     {
-
-
         if (!$a_keyword_id) {
             return null;
         }
@@ -89,10 +75,8 @@ class ilMDClassification extends ilMDBase
         return $key;
     }
 
-    public function addKeyword() : ilMDKeyword
+    public function addKeyword(): ilMDKeyword
     {
-
-
         $key = new ilMDKeyword($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $key->setParentId($this->getMetaId());
         $key->setParentType('meta_classification');
@@ -101,7 +85,7 @@ class ilMDClassification extends ilMDBase
     }
 
     // SET/GET
-    public function setPurpose(string $a_purpose) : bool
+    public function setPurpose(string $a_purpose): bool
     {
         switch ($a_purpose) {
             case 'Discipline':
@@ -121,42 +105,39 @@ class ilMDClassification extends ilMDBase
         }
     }
 
-    public function getPurpose() : string
+    public function getPurpose(): string
     {
         return $this->purpose;
     }
 
-    public function setDescription(string $a_description) : void
+    public function setDescription(string $a_description): void
     {
         $this->description = $a_description;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setDescriptionLanguage(ilMDLanguageItem $lng_obj) : void
+    public function setDescriptionLanguage(ilMDLanguageItem $lng_obj): void
     {
-        if (is_object($lng_obj)) {
-            $this->description_language = $lng_obj;
-        }
+        $this->description_language = $lng_obj;
     }
 
-    public function getDescriptionLanguage() : ?ilMDLanguageItem
+    public function getDescriptionLanguage(): ?ilMDLanguageItem
     {
         return is_object($this->description_language) ? $this->description_language : null;
     }
 
-    public function getDescriptionLanguageCode() : string
+    public function getDescriptionLanguageCode(): string
     {
         return is_object($this->description_language) ? $this->description_language->getLanguageCode() : '';
     }
 
-    public function save() : int
+    public function save(): int
     {
-
-        $fields                           = $this->__getFields();
+        $fields = $this->__getFields();
         $fields['meta_classification_id'] = array('integer', $next_id = $this->db->nextId('il_meta_classification'));
 
         if ($this->db->insert('il_meta_classification', $fields)) {
@@ -166,28 +147,21 @@ class ilMDClassification extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
-
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_classification',
-                $this->__getFields(),
-                array("meta_classification_id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_classification',
+            $this->__getFields(),
+            ["meta_classification_id" => ['integer', $this->getMetaId()]]
+        );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
-
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_classification " .
                 "WHERE meta_classification_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res   = $this->db->manipulate($query);
+            $res = $this->db->manipulate($query);
 
             foreach ($this->getTaxonPathIds() as $id) {
                 $tax = $this->getTaxonPath($id);
@@ -206,22 +180,20 @@ class ilMDClassification extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
-            'rbac_id'              => array('integer', $this->getRBACId()),
-            'obj_id'               => array('integer', $this->getObjId()),
-            'obj_type'             => array('text', $this->getObjType()),
-            'purpose'              => array('text', $this->getPurpose()),
-            'description'          => array('text', $this->getDescription()),
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'obj_type' => array('text', $this->getObjType()),
+            'purpose' => array('text', $this->getPurpose()),
+            'description' => array('text', $this->getDescription()),
             'description_language' => array('text', $this->getDescriptionLanguageCode())
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
-
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_classification " .
                 "WHERE meta_classification_id = " . $this->db->quote($this->getMetaId(), 'integer');
@@ -231,20 +203,18 @@ class ilMDClassification extends ilMDBase
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
-                $this->setPurpose($row->purpose);
-                $this->setDescription($row->description);
-                $this->description_language = new ilMDLanguageItem($row->description_language);
+                $this->setPurpose($row->purpose ?? '');
+                $this->setDescription($row->description ?? '');
+                $this->description_language = new ilMDLanguageItem($row->description_language ?? '');
             }
         }
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag('Classification', array(
-            'Purpose' => $this->getPurpose()
-                ? $this->getPurpose()
-                : 'Idea'
+            'Purpose' => $this->getPurpose() ?: 'Idea'
         ));
 
         // Taxon Path
@@ -254,7 +224,6 @@ class ilMDClassification extends ilMDBase
             $tax->toXML($writer);
         }
         if (!count($taxs)) {
-
             $tax = new ilMDTaxonPath($this->getRBACId(), $this->getObjId());
             $tax->toXML($writer);
         }
@@ -263,9 +232,7 @@ class ilMDClassification extends ilMDBase
         $writer->xmlElement(
             'Description',
             array(
-                'Language' => $this->getDescriptionLanguageCode()
-                    ? $this->getDescriptionLanguageCode()
-                    : 'en'
+                'Language' => $this->getDescriptionLanguageCode() ?: 'en'
             ),
             $this->getDescription()
         );
@@ -277,21 +244,18 @@ class ilMDClassification extends ilMDBase
             $key->toXML($writer);
         }
         if (!count($keys)) {
-
             $key = new ilMDKeyword($this->getRBACId(), $this->getObjId());
             $key->toXML($writer);
         }
         $writer->xmlEndTag('Classification');
     }
 
-
-
     // STATIC
 
     /**
      * @return int[]
      */
-    public static function _getIds(int $a_rbac_id, int $a_obj_id) : array
+    public static function _getIds(int $a_rbac_id, int $a_obj_id): array
     {
         global $DIC;
 

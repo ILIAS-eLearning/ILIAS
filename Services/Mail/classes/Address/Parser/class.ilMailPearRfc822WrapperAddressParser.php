@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,13 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailPearRfc822WrapperAddressParser
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMailPearRfc822WrapperAddressParser extends ilBaseMailRfc822AddressParser
 {
-    protected function parseAddressString(string $addresses) : array
+    protected function parseAddressString(string $addresses): array
     {
         if ($addresses === '') {
             return [];
@@ -36,7 +38,7 @@ class ilMailPearRfc822WrapperAddressParser extends ilBaseMailRfc822AddressParser
             true
         );
 
-        return array_map(static function (stdClass $address) : ilMailAddress {
+        return array_map(static function (stdClass $address): ilMailAddress {
             return new ilMailAddress($address->mailbox, $address->host);
         }, $parsed_addresses);
     }

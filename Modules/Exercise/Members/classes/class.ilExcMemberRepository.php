@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * This should hold all accesses to exc_members table in the future
  * @author Alexander Killing <killing@leifos.de>
@@ -41,7 +41,7 @@ class ilExcMemberRepository
      */
     public function getExerciseIdsOfUser(
         int $user_id
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $set = $db->queryF(

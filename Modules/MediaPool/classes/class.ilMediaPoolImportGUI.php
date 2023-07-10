@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Import related features for media pools (currently used for translation imports)
@@ -39,8 +42,8 @@ class ilMediaPoolImportGUI
             ->gui()
             ->standardRequest();
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -50,8 +53,8 @@ class ilMediaPoolImportGUI
             $this->$cmd();
         }
     }
-    
-    public function showTranslationImportForm() : void
+
+    public function showTranslationImportForm(): void
     {
         $lng = $this->lng;
         $tpl = $this->tpl;
@@ -61,7 +64,7 @@ class ilMediaPoolImportGUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function initTranslationImportForm() : ilPropertyFormGUI
+    public function initTranslationImportForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -80,8 +83,8 @@ class ilMediaPoolImportGUI
         $ot = ilObjectTranslation::getInstance($this->mep->getId());
         $options = [];
         foreach ($ot->getLanguages() as $l) {
-            if ($l["lang_code"] != $ot->getMasterLanguage()) {
-                $options[$l["lang_code"]] = $lng->txt("meta_l_" . $l["lang_code"]);
+            if ($l->getLanguageCode() != $ot->getMasterLanguage()) {
+                $options[$l->getLanguageCode()] = $lng->txt("meta_l_" . $l->getLanguageCode());
             }
         }
         $si = new ilSelectInputGUI($lng->txt("mep_import_lang"), "import_lang");
@@ -95,7 +98,7 @@ class ilMediaPoolImportGUI
         return $form;
     }
 
-    public function importTranslation() : void
+    public function importTranslation(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

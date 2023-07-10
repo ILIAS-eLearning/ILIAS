@@ -183,7 +183,7 @@ var Conversation = function Conversation(id, participants)
 				return false;
 			}
 
-			if (typeof participant.getId !== 'function') {
+			if (typeof participant === "undefined" || typeof participant.getId !== 'function') {
 				Container.getLogger().warn(
 					"Invalid participant object: Type = %s / Variable = %s",
 					typeof participant,

@@ -33,7 +33,7 @@ class ilUIFilterServiceSessionGateway
     /**
      * Write session value for an input field
      */
-    public function writeValue(string $filter_id, string $input_id, $value) : void
+    public function writeValue(string $filter_id, string $input_id, $value): void
     {
         $session = ilSession::get("ui");
         $value = serialize($value);
@@ -51,14 +51,14 @@ class ilUIFilterServiceSessionGateway
         return null;
     }
 
-    public function writeRendered(string $filter_id, string $input_id, bool $value) : void
+    public function writeRendered(string $filter_id, string $input_id, bool $value): void
     {
         $session = ilSession::get("ui");
         $session["filter"][$filter_id][self::TYPE_RENDERED][$input_id] = $value;
         ilSession::set("ui", $session);
     }
 
-    public function isRendered(string $filter_id, string $input_id, bool $default) : bool
+    public function isRendered(string $filter_id, string $input_id, bool $default): bool
     {
         $session = ilSession::get("ui");
         if (isset($session["filter"][$filter_id][self::TYPE_RENDERED][$input_id])) {
@@ -71,28 +71,28 @@ class ilUIFilterServiceSessionGateway
     /**
      * Resets filter to its default state
      */
-    public function reset(string $filter_id) : void
+    public function reset(string $filter_id): void
     {
         $session = ilSession::get("ui");
         $session["filter"][$filter_id] = null;
         ilSession::set("ui", $session);
     }
 
-    public function writeActivated(string $filter_id, bool $value) : void
+    public function writeActivated(string $filter_id, bool $value): void
     {
         $session = ilSession::get("ui");
         $session["filter"][$filter_id][self::TYPE_ACTIVATED] = $value;
         ilSession::set("ui", $session);
     }
 
-    public function writeExpanded(string $filter_id, bool $value) : void
+    public function writeExpanded(string $filter_id, bool $value): void
     {
         $session = ilSession::get("ui");
         $session["filter"][$filter_id][self::TYPE_EXPANDED] = $value;
         ilSession::set("ui", $session);
     }
 
-    public function isActivated(string $filter_id, bool $default) : bool
+    public function isActivated(string $filter_id, bool $default): bool
     {
         $session = ilSession::get("ui");
         if (isset($session["filter"][$filter_id][self::TYPE_ACTIVATED])) {
@@ -102,7 +102,7 @@ class ilUIFilterServiceSessionGateway
         return $default;
     }
 
-    public function isExpanded(string $filter_id, bool $default) : bool
+    public function isExpanded(string $filter_id, bool $default): bool
     {
         $session = ilSession::get("ui");
         if (isset($session["filter"][$filter_id][self::TYPE_EXPANDED])) {

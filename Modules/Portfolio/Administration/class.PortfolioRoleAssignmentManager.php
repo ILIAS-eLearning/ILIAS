@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Portfolio\Administration;
 
@@ -35,7 +38,7 @@ class PortfolioRoleAssignmentManager
     public function add(
         int $template_ref_id,
         int $role_id
-    ) : void {
+    ): void {
         $this->repo->add(
             $template_ref_id,
             $role_id
@@ -45,7 +48,7 @@ class PortfolioRoleAssignmentManager
     public function delete(
         int $template_ref_id,
         int $role_id
-    ) : void {
+    ): void {
         $this->repo->delete(
             $template_ref_id,
             $role_id
@@ -54,11 +57,11 @@ class PortfolioRoleAssignmentManager
 
     public function getTemplatesForRoles(
         array $role_ids
-    ) : array {
+    ): array {
         return $this->repo->getTemplatesForRoles($role_ids);
     }
 
-    public function getAllAssignmentData() : array
+    public function getAllAssignmentData(): array
     {
         return $this->repo->getAllAssignmentData();
     }
@@ -66,7 +69,7 @@ class PortfolioRoleAssignmentManager
     /**
      * @return array<int,string>
      */
-    public function getAvailableRoles() : array
+    public function getAvailableRoles(): array
     {
         $rbacreview = $this->rbacreview;
         $global_roles = $rbacreview->getGlobalRoles();
@@ -78,7 +81,7 @@ class PortfolioRoleAssignmentManager
         return $roles;
     }
 
-    public function assignPortfoliosOnLogin(int $user_id) : void
+    public function assignPortfoliosOnLogin(int $user_id): void
     {
         $rbacreview = $this->rbacreview;
         // get roles of user

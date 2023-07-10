@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Importer class for files
@@ -39,7 +42,7 @@ class ilSurveyImporter extends ilXmlImporter
     }
 
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilSurveyDataSet();
         $this->ds->setDSPrefix("ds");
@@ -54,12 +57,12 @@ class ilSurveyImporter extends ilXmlImporter
      * since the survey import uses multiple input files being processed for every survey
      * and all of these need the current survey object (ilSurveyImporter is intantiated multiple times)
      */
-    public function setSurvey(ilObjSurvey $a_val) : void
+    public function setSurvey(ilObjSurvey $a_val): void
     {
         self::$survey = $a_val;
     }
 
-    public function getSurvey() : ilObjSurvey
+    public function getSurvey(): ilObjSurvey
     {
         return self::$survey;
     }
@@ -75,7 +78,7 @@ class ilSurveyImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         if ($a_entity === "svy") {
             // Container import => test object already created
             if (!($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id))) {    // case ii, non container
@@ -94,7 +97,12 @@ class ilSurveyImporter extends ilXmlImporter
             }
             $GLOBALS['ilLog']->write("getQuestionPoolID = " . $this->getImport()->getConfig("Modules/Survey")->getQuestionPoolID());
 
-            $import = new SurveyImportParser($this->getImport()->getConfig("Modules/Survey")->getQuestionPoolID(), $xml_file, true, $a_mapping);
+            $import = new SurveyImportParser(
+                $this->getImport()->getConfig("Modules/Survey")->getQuestionPoolID(),
+                $xml_file,
+                true,
+                $a_mapping
+            );
 
             $import->setSurveyObject($newObj);
             $import->startParsing();
@@ -166,18 +174,18 @@ class ilSurveyImporter extends ilXmlImporter
             );
         }
     }
-    
-    
+
+
     /**
      * Create qti and xml file name
      */
-    protected function parseXmlFileNames() : array
+    protected function parseXmlFileNames(): array
     {
         $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $this->getImportDirectory());
-        
+
         $basename = basename($this->getImportDirectory());
         $xml = $this->getImportDirectory() . '/' . $basename . '.xml';
-        
+
         return array($xml);
     }
 }

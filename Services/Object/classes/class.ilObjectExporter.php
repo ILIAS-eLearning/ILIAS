@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Exporter class for object related data (please note that title and description
  * are usually included in the specific object exporter classes, this class
@@ -27,7 +29,7 @@ class ilObjectExporter extends ilXmlExporter
 {
     private ilObjectDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilObjectDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -38,12 +40,12 @@ class ilObjectExporter extends ilXmlExporter
      * Get tail dependencies
      * @return array array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportTailDependencies(string $entity, string $target_release, array $ids) : array
+    public function getXmlExportTailDependencies(string $entity, string $target_release, array $ids): array
     {
         return array();
     }
 
-    public function getXmlRepresentation(string $entity, string $schema_version, string $id) : string
+    public function getXmlRepresentation(string $entity, string $schema_version, string $id): string
     {
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         return $this->ds->getXmlRepresentation($entity, $schema_version, [$id], "", true, true);
@@ -54,7 +56,7 @@ class ilObjectExporter extends ilXmlExporter
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
      */
-    public function getValidSchemaVersions(string $entity) : array
+    public function getValidSchemaVersions(string $entity): array
     {
         return [
             "5.4.0" => [

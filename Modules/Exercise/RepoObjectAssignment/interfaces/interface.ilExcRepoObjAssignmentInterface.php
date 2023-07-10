@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface for assignment types
  *
@@ -30,7 +30,7 @@ interface ilExcRepoObjAssignmentInterface
      * @param int $a_user_id user id
      * @return ilExcRepoObjAssignmentInfoInterface[]
      */
-    public function getAssignmentInfoOfObj(int $a_ref_id, int $a_user_id) : array;
+    public function getAssignmentInfoOfObj(int $a_ref_id, int $a_user_id): array;
 
     /**
      * Get assignment access info for a repository object
@@ -41,5 +41,5 @@ interface ilExcRepoObjAssignmentInterface
     public function getAccessInfo(
         int $a_ref_id,
         int $a_user_id
-    ) : ilExcRepoObjAssignmentAccessInfoInterface;
+    ): ilExcRepoObjAssignmentAccessInfoInterface;
 }

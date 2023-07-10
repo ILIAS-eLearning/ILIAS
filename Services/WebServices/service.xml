@@ -12,7 +12,8 @@
 		<event type="listen" id="Modules/Course" component="Services/WebServices/ECS" />
 		<event type="listen" id="Modules/Group" component="Services/WebServices/ECS" />
 		<event type="listen" id="Services/User" component="Services/WebServices/ECS" />
-                <event type="raise" id="newEcsEvent" />
+		<event type="listen" id="Services/Authentication" component="Services/WebServices/ECS" />
+		<event type="raise" id="newEcsEvent" />
 	</events>
 	<crons>
 		<cron id="ecs_task_handler" class="ilCronEcsTaskScheduler" />

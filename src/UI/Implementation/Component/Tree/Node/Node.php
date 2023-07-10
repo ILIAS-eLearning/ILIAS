@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
@@ -39,7 +55,7 @@ abstract class Node implements INode
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -47,7 +63,7 @@ abstract class Node implements INode
     /**
      * @inheritdoc
      */
-    public function withAdditionalSubnode(INode $node) : INode
+    public function withAdditionalSubnode(INode $node): INode
     {
         $this->subnodes[] = $node;
         return $this;
@@ -56,7 +72,7 @@ abstract class Node implements INode
     /**
      * @inheritdoc
      */
-    public function getSubnodes() : array
+    public function getSubnodes(): array
     {
         return $this->subnodes;
     }
@@ -64,7 +80,7 @@ abstract class Node implements INode
     /**
      * @inheritdoc
      */
-    public function withExpanded(bool $expanded) : INode
+    public function withExpanded(bool $expanded): INode
     {
         $clone = clone $this;
         $clone->expanded = $expanded;
@@ -74,7 +90,7 @@ abstract class Node implements INode
     /**
      * @inheritdoc
      */
-    public function isExpanded() : bool
+    public function isExpanded(): bool
     {
         return $this->expanded;
     }
@@ -82,7 +98,7 @@ abstract class Node implements INode
     /**
      * @inhertidoc
      */
-    public function withHighlighted(bool $highlighted) : INode
+    public function withHighlighted(bool $highlighted): INode
     {
         $clone = clone $this;
         $clone->highlighted = $highlighted;
@@ -92,7 +108,7 @@ abstract class Node implements INode
     /**
      * @inhertidoc
      */
-    public function isHighlighted() : bool
+    public function isHighlighted(): bool
     {
         return $this->highlighted;
     }
@@ -100,7 +116,7 @@ abstract class Node implements INode
     /**
      * @inhertidoc
      */
-    public function withOnClick(Signal $signal) : self
+    public function withOnClick(Signal $signal): self
     {
         return $this->withTriggeredSignal($signal, 'click');
     }
@@ -108,7 +124,7 @@ abstract class Node implements INode
     /**
      * @inhertidoc
      */
-    public function appendOnClick(Signal $signal) : self
+    public function appendOnClick(Signal $signal): self
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }
@@ -116,7 +132,7 @@ abstract class Node implements INode
     /**
      * Get the URI object that is added as link in the UI
      */
-    public function getLink() : ?URI
+    public function getLink(): ?URI
     {
         return $this->link;
     }

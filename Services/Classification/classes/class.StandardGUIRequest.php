@@ -35,7 +35,7 @@ class StandardGUIRequest
         );
     }
 
-    public function getRedraw() : bool
+    public function getRedraw(): bool
     {
         return (bool) $this->int("rdrw");
     }

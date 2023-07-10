@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class ilTestEvaluationData
@@ -14,6 +28,12 @@
 
 class ilTestEvaluationData
 {
+    public const FILTER_BY_NONE = '';
+    public const FILTER_BY_NAME = 'name';
+    public const FILTER_BY_GROUP = 'group';
+    public const FILTER_BY_COURSE = 'course';
+    public const FILTER_BY_ACTIVE_ID = 'active_id';
+
     /**
     * Question titles
     *
@@ -87,10 +107,7 @@ class ilTestEvaluationData
         }
     }
 
-    /**
-     * @return ilTestParticipantList
-     */
-    public function getAccessFilteredParticipantList()
+    public function getAccessFilteredParticipantList(): ?ilTestParticipantList
     {
         return $this->accessFilteredParticipantList;
     }
@@ -103,7 +120,7 @@ class ilTestEvaluationData
         $this->accessFilteredParticipantList = $accessFilteredParticipantList;
     }
 
-    protected function checkParticipantAccess($activeId) : bool
+    protected function checkParticipantAccess($activeId): bool
     {
         if ($this->getAccessFilteredParticipantList() === null) {
             return true;
@@ -112,7 +129,7 @@ class ilTestEvaluationData
         return $this->getAccessFilteredParticipantList()->isActiveIdInList($activeId);
     }
 
-    protected function loadRows() : array
+    protected function loadRows(): array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
@@ -123,7 +140,8 @@ class ilTestEvaluationData
 							usr_data.title,
 							usr_data.login,
 							tst_pass_result.*,
-							tst_active.submitted
+							tst_active.submitted,
+							tst_active.last_finished_pass
 			FROM			tst_pass_result, tst_active
 			LEFT JOIN		usr_data
 			ON				tst_active.user_fi = usr_data.usr_id
@@ -157,9 +175,6 @@ class ilTestEvaluationData
 
     public function generateOverview()
     {
-        include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
-        include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
-
         $this->participants = array();
 
         $pass = null;
@@ -183,6 +198,8 @@ class ilTestEvaluationData
                 $this->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
 
                 $this->getParticipant($row["active_fi"])->setSubmitted($row['submitted']);
+
+                $this->getParticipant($row["active_fi"])->setLastFinishedPass($row['last_finished_pass']);
             }
 
             if (!is_object($this->getParticipant($row["active_fi"])->getPass($row["pass"]))) {
@@ -212,7 +229,7 @@ class ilTestEvaluationData
         }
     }
 
-    public function getTest() : ilObjTest
+    public function getTest(): ilObjTest
     {
         return $this->test;
     }
@@ -227,7 +244,7 @@ class ilTestEvaluationData
         $this->datasets = $datasets;
     }
 
-    public function getDatasets() : int
+    public function getDatasets(): int
     {
         return $this->datasets;
     }
@@ -237,7 +254,7 @@ class ilTestEvaluationData
         $this->questionTitles[$question_id] = $question_title;
     }
 
-    public function getQuestionTitles() : array
+    public function getQuestionTitles(): array
     {
         return $this->questionTitles;
     }
@@ -253,11 +270,10 @@ class ilTestEvaluationData
 
     public function calculateStatistics()
     {
-        include_once "./Modules/Test/classes/class.ilTestStatistics.php";
         $this->statistics = new ilTestStatistics($this);
     }
 
-    public function getTotalFinishedParticipants() : int
+    public function getTotalFinishedParticipants(): int
     {
         $finishedParticipants = 0;
 
@@ -272,32 +288,30 @@ class ilTestEvaluationData
         return $finishedParticipants;
     }
 
-    public function getParticipants() : array
+    public function getParticipants(): array
     {
         if (is_array($this->arrFilter) && count($this->arrFilter) > 0) {
-            $filteredParticipants = array();
-            $courseids = array();
-            $groupids = array();
-            global $DIC;
-            $ilDB = $DIC['ilDB'];
-            if (array_key_exists('group', $this->arrFilter)) {
-                $ids = ilObject::_getIdsForTitle($this->arrFilter['group'], 'grp', true);
+            $filtered_participants = [];
+            $courseids = [];
+            $groupids = [];
+
+            if (array_key_exists(self::FILTER_BY_GROUP, $this->arrFilter)) {
+                $ids = ilObject::_getIdsForTitle($this->arrFilter[self::FILTER_BY_GROUP], 'grp', true);
                 $groupids = array_merge($groupids, $ids);
             }
-            if (array_key_exists('course', $this->arrFilter)) {
-                $ids = ilObject::_getIdsForTitle($this->arrFilter['course'], 'crs', true);
+            if (array_key_exists(self::FILTER_BY_COURSE, $this->arrFilter)) {
+                $ids = ilObject::_getIdsForTitle($this->arrFilter[self::FILTER_BY_COURSE], 'crs', true);
                 $courseids = array_merge($courseids, $ids);
             }
             foreach ($this->participants as $active_id => $participant) {
                 $remove = false;
-                if (array_key_exists('name', $this->arrFilter)) {
-                    if (!(strpos(strtolower($participant->getName()), strtolower($this->arrFilter['name'])) !== false)) {
+                if (array_key_exists(self::FILTER_BY_NAME, $this->arrFilter)) {
+                    if (!(strpos(strtolower($participant->getName()), strtolower((string) $this->arrFilter[self::FILTER_BY_NAME])) !== false)) {
                         $remove = true;
                     }
                 }
                 if (!$remove) {
-                    if (array_key_exists('group', $this->arrFilter)) {
-                        include_once "./Services/Membership/classes/class.ilParticipants.php";
+                    if (array_key_exists(self::FILTER_BY_GROUP, $this->arrFilter)) {
                         $groups = ilParticipants::_getMembershipByType($participant->getUserID(), ["grp"]);
                         $foundfilter = false;
                         if (count(array_intersect($groupids, $groups))) {
@@ -309,8 +323,7 @@ class ilTestEvaluationData
                     }
                 }
                 if (!$remove) {
-                    if (array_key_exists('course', $this->arrFilter)) {
-                        include_once "./Services/Membership/classes/class.ilParticipants.php";
+                    if (array_key_exists(self::FILTER_BY_COURSE, $this->arrFilter)) {
                         $courses = ilParticipants::_getMembershipByType($participant->getUserID(), ["crs"]);
                         $foundfilter = false;
                         if (count(array_intersect($courseids, $courses))) {
@@ -322,17 +335,17 @@ class ilTestEvaluationData
                     }
                 }
                 if (!$remove) {
-                    if (array_key_exists('active_id', $this->arrFilter)) {
-                        if ($active_id != $this->arrFilter['active_id']) {
+                    if (array_key_exists(self::FILTER_BY_ACTIVE_ID, $this->arrFilter)) {
+                        if ($active_id != $this->arrFilter[self::FILTER_BY_ACTIVE_ID]) {
                             $remove = true;
                         }
                     }
                 }
                 if (!$remove) {
-                    $filteredParticipants[$active_id] = $participant;
+                    $filtered_participants[$active_id] = $participant;
                 }
             }
-            return $filteredParticipants;
+            return $filtered_participants;
         } else {
             return $this->participants;
         }
@@ -346,12 +359,18 @@ class ilTestEvaluationData
     /*
     * Set an output filter for getParticipants
     *
-    * @param string $by name, course, group
+    * @param string $by name, course, group, active_id
     * @param string $text Filter text
     */
-    public function setFilter($by, $text)
+    public function setFilter(string $by, string $text): void
     {
-        $this->arrFilter = array($by => $text);
+        if (in_array(
+            $by,
+            [self::FILTER_BY_ACTIVE_ID, self::FILTER_BY_NAME, self::FILTER_BY_COURSE, self::FILTER_BY_GROUP],
+            true
+        )) {
+            $this->arrFilter = [$by => $text];
+        }
     }
 
     /*
@@ -373,12 +392,12 @@ class ilTestEvaluationData
      * @param integer $active_id
      * @return ilTestEvaluationUserData
      */
-    public function getParticipant($active_id) : ilTestEvaluationUserData
+    public function getParticipant($active_id): ilTestEvaluationUserData
     {
         return $this->participants[$active_id];
     }
 
-    public function participantExists($active_id) : bool
+    public function participantExists($active_id): bool
     {
         return array_key_exists($active_id, $this->participants);
     }
@@ -388,12 +407,12 @@ class ilTestEvaluationData
         unset($this->participants[$active_id]);
     }
 
-    public function getStatistics() : object
+    public function getStatistics(): object
     {
         return $this->statistics;
     }
 
-    public function getParticipantIds() : array
+    public function getParticipantIds(): array
     {
         return array_keys($this->participants);
     }

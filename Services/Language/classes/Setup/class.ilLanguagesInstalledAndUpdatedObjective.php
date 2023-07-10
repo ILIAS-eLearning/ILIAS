@@ -1,6 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\Setup;
 
@@ -9,17 +26,16 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     protected \ilSetupLanguage $il_setup_language;
 
     public function __construct(
-        ?\ilLanguageSetupConfig $config,
         \ilSetupLanguage $il_setup_language
     ) {
-        parent::__construct($config);
+        parent::__construct();
         $this->il_setup_language = $il_setup_language;
     }
 
     /**
      * @inheritDoc
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
@@ -27,29 +43,23 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     /**
      * Return installed languages
      */
-    protected function getInstallLanguages() : array
+    protected function getInstallLanguages(): array
     {
-        if (!is_null($this->config)) {
-            return $this->config->getInstallLanguages();
-        }
-        return $this->il_setup_language->getInstalledLanguages();
+        return $this->il_setup_language->getInstalledLanguages() ?: ['en'];
     }
 
     /**
      * Return installed local languages
      */
-    protected function getInstallLocalLanguages() : array
+    protected function getInstallLocalLanguages(): array
     {
-        if (!is_null($this->config)) {
-            return $this->config->getInstallLocalLanguages();
-        }
         return $this->il_setup_language->getInstalledLocalLanguages();
     }
 
     /**
      * @inheritDoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Install/Update languages " . implode(", ", $this->getInstallLanguages());
     }
@@ -57,7 +67,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
@@ -65,22 +75,15 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
-        if (is_null($this->config)) {
-            return [];
-        }
-
-        $db_config = $environment->getConfigFor("database");
-        return [
-            new ilDatabasePopulatedObjective($db_config)
-        ];
+        return [];
     }
 
     /**
      * @inheritDoc
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
 
@@ -103,7 +106,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return true;
     }

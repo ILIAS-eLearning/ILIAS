@@ -1,17 +1,20 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -27,7 +30,7 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
     private $inMetaDataTag;
     private $inMdGeneralTag;
     private bool $descriptionProcessed = false;
-    private string $cdata;
+    private string $cdata = "";
 
     /**
      * @param ilObjQuestionPool $poolOBJ
@@ -44,14 +47,14 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
         return parent::__construct($xmlFile);
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function handlerBeginTag($xmlParser, $tagName, $tagAttributes) : void
+    public function handlerBeginTag($xmlParser, $tagName, $tagAttributes): void
     {
         switch ($tagName) {
             case 'MetaData':
@@ -84,7 +87,7 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
         }
     }
 
-    public function handlerEndTag($xmlParser, $tagName) : void
+    public function handlerEndTag($xmlParser, $tagName): void
     {
         switch ($tagName) {
             case 'MetaData':
@@ -114,11 +117,6 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
                 $this->cdata = '';
                 break;
 
-            case 'NavTaxonomy':
-                $this->poolOBJ->setNavTaxonomyId((int) $this->cdata);
-                $this->cdata = '';
-                break;
-
             case 'SkillService':
                 $this->poolOBJ->setSkillServiceEnabled((bool) $this->cdata);
                 $this->cdata = '';
@@ -126,7 +124,7 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
         }
     }
 
-    public function handlerCharacterData($xmlParser, $charData) : void
+    public function handlerCharacterData($xmlParser, $charData): void
     {
         if ($charData != "\n") {
             // Replace multiple tabs with one space

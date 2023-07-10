@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Recommended content configuration for roles
@@ -52,7 +55,7 @@ class ilRecommendedContentRoleConfigGUI
         $this->requested_item_ref_ids = $request->getItemRefIds();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -68,7 +71,7 @@ class ilRecommendedContentRoleConfigGUI
         }
     }
 
-    public function listItems() : void
+    public function listItems(): void
     {
         $rbacreview = $this->rbacreview;
         $rbacsystem = $this->rbacsystem;
@@ -96,7 +99,7 @@ class ilRecommendedContentRoleConfigGUI
         }
     }
 
-    public function confirmRemoveItems() : void
+    public function confirmRemoveItems(): void
     {
         $this->checkPushPermission();
 
@@ -116,7 +119,7 @@ class ilRecommendedContentRoleConfigGUI
 
         foreach ($this->requested_item_ref_ids as $item_ref_id) {
             $confirmation_gui->addItem(
-                "item_ref_id[]",
+                "item_ref_ids[]",
                 (string) $item_ref_id,
                 ilObject::_lookupTitle(ilObject::_lookupObjectId($item_ref_id))
             );
@@ -125,10 +128,9 @@ class ilRecommendedContentRoleConfigGUI
         $main_tpl->setContent($confirmation_gui->getHTML());
     }
 
-    public function removeItems() : void
+    public function removeItems(): void
     {
         $this->checkPushPermission();
-
         if (count($this->requested_item_ref_ids) > 0) {
             foreach ($this->requested_item_ref_ids as $item_ref_id) {
                 $this->manager->removeRoleRecommendation($this->role_id, $item_ref_id);
@@ -138,7 +140,7 @@ class ilRecommendedContentRoleConfigGUI
         $this->listItems();
     }
 
-    protected function checkPushPermission() : void
+    protected function checkPushPermission(): void
     {
         $ctrl = $this->ctrl;
         $rbacsystem = $this->rbacsystem;
@@ -150,7 +152,7 @@ class ilRecommendedContentRoleConfigGUI
         }
     }
 
-    protected function selectItem() : void
+    protected function selectItem(): void
     {
         $this->checkPushPermission();
 
@@ -162,12 +164,13 @@ class ilRecommendedContentRoleConfigGUI
             "assignItem",
             "item_ref_id"
         );
+        $exp->setSkipRootNode(true);
         if (!$exp->handleCommand()) {
             $main_tpl->setContent($exp->getHTML());
         }
     }
 
-    protected function assignItem() : void
+    protected function assignItem(): void
     {
         $ctrl = $this->ctrl;
         $this->checkPushPermission();

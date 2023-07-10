@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Refinery\Random\Seed;
 
 class RandomSeed extends GivenSeed
@@ -25,7 +27,7 @@ class RandomSeed extends GivenSeed
         parent::__construct($this->createSeed());
     }
 
-    public function createSeed() : int
+    public function createSeed(): int
     {
         $array = explode(' ', microtime());
         $seed = ((int) $array[1]) + (((float) $array[0]) * 100000);

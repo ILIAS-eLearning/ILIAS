@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -10,13 +26,13 @@ class ilIndividualAssessmentMembersStorageDBWrapper extends ilIndividualAssessme
         ilObjIndividualAssessment $obj,
         ilObjUser $usr,
         array $record
-    ) : ilIndividualAssessmentMember {
+    ): ilIndividualAssessmentMember {
         return $this->createAssessmentMember($obj, $usr, $record);
     }
 
     // The access modifier is changed to public here to allow the actual test
     // to access this.
-    public function getActualDateTime() : string
+    public function getActualDateTime(): string
     {
         return "2021-12-02 12:55:33";
     }
@@ -24,12 +40,12 @@ class ilIndividualAssessmentMembersStorageDBWrapper extends ilIndividualAssessme
     /**
      * @param string|int $filter
      */
-    public function getWhereFromFilterWrapper($filter) : string
+    public function getWhereFromFilterWrapper($filter): string
     {
         return $this->getWhereFromFilter($filter);
     }
 
-    public function getOrderByFromSortWrapper(string $sort) : string
+    public function getOrderByFromSortWrapper(string $sort): string
     {
         return $this->getOrderByFromSort($sort);
     }
@@ -37,14 +53,14 @@ class ilIndividualAssessmentMembersStorageDBWrapper extends ilIndividualAssessme
 
 class ilIndividualAssessmentMembersStorageDBTest extends TestCase
 {
-    public function testCreateObject() : void
+    public function testCreateObject(): void
     {
         $db = $this->createMock(ilDBInterface::class);
         $obj = new ilIndividualAssessmentMembersStorageDB($db);
         $this->assertInstanceOf(ilIndividualAssessmentMembersStorageDB::class, $obj);
     }
 
-    public function test_loadMembers() : void
+    public function test_loadMembers(): void
     {
         $sql = "SELECT ex.firstname as " . ilIndividualAssessmentMembers::FIELD_EXAMINER_FIRSTNAME
             . "     , ex.lastname as " . ilIndividualAssessmentMembers::FIELD_EXAMINER_LASTNAME
@@ -98,7 +114,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         $this->assertInstanceOf(ilIndividualAssessmentMembers::class, $result);
     }
 
-    public function test_loadMembersAsSingleObjects() : void
+    public function test_loadMembersAsSingleObjects(): void
     {
         $sql = "SELECT "
             . "iassme.obj_id,"
@@ -116,7 +132,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
             . "iassme.file_name,"
             . "iassme.changer_id,"
             . "iassme.change_time,"
-            . "usr.lastname AS user_lastname,"
+            . "usr.login AS user_login,"
             . "ex.login AS examiner_login"
             . " FROM " . ilIndividualAssessmentMembersStorageDB::MEMBERS_TABLE . " iassme\n"
             . "	JOIN usr_data usr ON iassme.usr_id = usr.usr_id\n"
@@ -160,7 +176,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         $this->assertEmpty($result);
     }
 
-    public function test_loadMember_exception() : void
+    public function test_loadMember_exception(): void
     {
         $sql = "SELECT "
             . "iassme.obj_id,"
@@ -178,7 +194,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
             . "iassme.file_name,"
             . "iassme.changer_id,"
             . "iassme.change_time,"
-            . "usr.lastname AS user_lastname,"
+            . "usr.login AS user_login,"
             . "ex.login AS examiner_login"
             . " FROM " . ilIndividualAssessmentMembersStorageDB::MEMBERS_TABLE . " iassme\n"
             . "	JOIN usr_data usr ON iassme.usr_id = usr.usr_id\n"
@@ -230,7 +246,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         $obj->loadMember($iass, $usr);
     }
 
-    public function test_loadMember() : void
+    public function test_loadMember(): void
     {
         $sql = "SELECT "
             . "iassme.obj_id,"
@@ -248,7 +264,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
             . "iassme.file_name,"
             . "iassme.changer_id,"
             . "iassme.change_time,"
-            . "usr.lastname AS user_lastname,"
+            . "usr.login AS user_login,"
             . "ex.login AS examiner_login"
             . " FROM " . ilIndividualAssessmentMembersStorageDB::MEMBERS_TABLE . " iassme\n"
             . "	JOIN usr_data usr ON iassme.usr_id = usr.usr_id\n"
@@ -300,7 +316,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         $obj->loadMember($iass, $usr);
     }
 
-    public function test_createAssessmentMember() : void
+    public function test_createAssessmentMember(): void
     {
         $iass = $this->createMock(ilObjIndividualAssessment::class);
         $usr = $this->createMock(ilObjUser::class);
@@ -348,7 +364,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         $this->assertTrue($member->finalized());
     }
 
-    public function test_updateMember() : void
+    public function test_updateMember(): void
     {
         $timestamp = 1638431626;
         $date = (new DateTimeImmutable())->setTimestamp($timestamp);
@@ -459,7 +475,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         $obj->updateMember($member);
     }
 
-    public function test_deleteMembers() : void
+    public function test_deleteMembers(): void
     {
         $iass = $this->createMock(ilObjIndividualAssessment::class);
         $iass
@@ -487,7 +503,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         $obj->deleteMembers($iass);
     }
 
-    public function test_insertMembersRecord() : void
+    public function test_insertMembersRecord(): void
     {
         $timestamp = 1638431626;
 
@@ -522,14 +538,14 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
             "obj_id" => ["integer", 11],
             ilIndividualAssessmentMembers::FIELD_USR_ID => ["integer", 22],
             ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS => ["text", 33],
+            ilIndividualAssessmentMembers::FIELD_NOTIFY => ["integer", true],
+            ilIndividualAssessmentMembers::FIELD_FINALIZED => ["integer", 0],
+            ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS => ["integer", -1],
             ilIndividualAssessmentMembers::FIELD_EXAMINER_ID => ["integer", 44],
             ilIndividualAssessmentMembers::FIELD_RECORD => ["text", "record"],
             ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE => ["text", "internalNote"],
             ilIndividualAssessmentMembers::FIELD_PLACE => ["text", "place"],
             ilIndividualAssessmentMembers::FIELD_EVENTTIME => ["integer", $timestamp],
-            ilIndividualAssessmentMembers::FIELD_NOTIFY => ["integer", true],
-            ilIndividualAssessmentMembers::FIELD_FINALIZED => ["integer", 0],
-            ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS => ["integer", -1],
             ilIndividualAssessmentMembers::FIELD_FILE_NAME => ["text", "fileName"],
             ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE => ["integer", true],
             ilIndividualAssessmentMembers::FIELD_CHANGER_ID => ["integer", 55],
@@ -545,7 +561,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         $obj->insertMembersRecord($iass, $record);
     }
 
-    public function test_removeMembersRecord() : void
+    public function test_removeMembersRecord(): void
     {
         $iass = $this->createMock(ilObjIndividualAssessment::class);
         $iass
@@ -579,7 +595,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         $obj->removeMembersRecord($iass, $record);
     }
 
-    public function dataFor_getWhereFromFilter() : array
+    public function dataFor_getWhereFromFilter(): array
     {
         return [
             [
@@ -608,7 +624,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
     /**
      * @dataProvider dataFor_getWhereFromFilter
      */
-    public function test_getWhereFromFilter($filter, $result) : void
+    public function test_getWhereFromFilter($filter, $result): void
     {
         $db = $this->createMock(ilDBInterface::class);
         $obj = new ilIndividualAssessmentMembersStorageDBWrapper($db);
@@ -617,7 +633,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         $this->assertEquals($result, $res);
     }
 
-    public function test_getOrderByFromSort() : void
+    public function test_getOrderByFromSort(): void
     {
         $db = $this->createMock(ilDBInterface::class);
         $obj = new ilIndividualAssessmentMembersStorageDBWrapper($db);

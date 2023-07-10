@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ContentPage\GlobalSettings;
 
 /**
@@ -25,7 +27,7 @@ namespace ILIAS\ContentPage\GlobalSettings;
  */
 interface Storage
 {
-    public function getSettings() : Settings;
+    public function getSettings(): Settings;
 
-    public function store(Settings $settings) : void;
+    public function store(Settings $settings): void;
 }

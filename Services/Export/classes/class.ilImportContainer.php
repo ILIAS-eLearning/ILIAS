@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Import class
@@ -18,7 +34,7 @@ class ilImportContainer extends ilImport
         string $a_type,
         string $a_component = "",
         string $a_tmpdir = ""
-    ) : array {
+    ): array {
         $manifest_file = $dir . "/manifest.xml";
         if (!file_exists($manifest_file)) {
             return [];
@@ -54,7 +70,7 @@ class ilImportContainer extends ilImport
         return $ret;
     }
 
-    protected function createDummy(string $a_type) : ilObject
+    protected function createDummy(string $a_type): ilObject
     {
         $class_name = "ilObj" . $this->objDefinition->getClassName($a_type);
 

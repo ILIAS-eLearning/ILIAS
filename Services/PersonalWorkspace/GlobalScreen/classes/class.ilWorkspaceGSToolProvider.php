@@ -13,19 +13,19 @@ class ilWorkspaceGSToolProvider extends AbstractDynamicToolProvider
 {
     public const SHOW_WS_TREE = 'show_ws_tree';
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->desktop();
     }
 
-    public function getToolsForContextStack(CalledContexts $called_contexts) : array
+    public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
 
         $title = $this->dic->language()->txt("objs_fold");
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("fold", $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("fold", $title);
 
         if ($additional_data->is(self::SHOW_WS_TREE, true)) {
             $iff = function ($id) {
@@ -46,7 +46,7 @@ class ilWorkspaceGSToolProvider extends AbstractDynamicToolProvider
         return $tools;
     }
 
-    private function getTree() : string
+    private function getTree(): string
     {
         global $DIC;
 

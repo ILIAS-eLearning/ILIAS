@@ -1,10 +1,27 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Implementation\Render\TooltipRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -15,7 +32,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -35,7 +52,7 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) : string
+    protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer): string
     {
         $tpl_name = "";
         if ($component instanceof Component\Button\Primary) {
@@ -84,7 +101,7 @@ class Renderer extends AbstractComponentRenderer
             }
 
             if ($component instanceof Component\Button\LoadingAnimationOnClick && $component->hasLoadingAnimationOnClick()) {
-                $component = $component->withAdditionalOnLoadCode(fn($id) => "$('#$id').click(function(e) { il.UI.button.activateLoadingAnimation('$id')});");
+                $component = $component->withAdditionalOnLoadCode(fn ($id) => "$('#$id').click(function(e) { il.UI.button.activateLoadingAnimation('$id')});");
             }
         } else {
             $tpl->touchBlock("disabled");
@@ -114,6 +131,11 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
+        $tooltip_embedding = $this->getTooltipRenderer()->maybeGetTooltipEmbedding(...$component->getHelpTopics());
+        if ($tooltip_embedding) {
+            $component = $component->withAdditionalOnLoadCode($tooltip_embedding[1]);
+        }
+
         $this->maybeRenderId($component, $tpl);
 
         if ($component instanceof Component\Button\Tag) {
@@ -124,21 +146,30 @@ class Renderer extends AbstractComponentRenderer
             $this->additionalRenderBulky($component, $default_renderer, $tpl);
         }
 
-        return $tpl->get();
+        if (!$tooltip_embedding) {
+            return $tpl->get();
+        }
+
+        $tooltip_id = $this->createId();
+        $tpl->setCurrentBlock("with_aria_describedby");
+        $tpl->setVariable("ARIA_DESCRIBED_BY", $tooltip_id);
+        $tpl->parseCurrentBlock();
+
+        return $tooltip_embedding[0]($tooltip_id, $tpl->get());
     }
 
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Button/button.js');
-        $registry->register("./libs/bower/bower_components/moment/min/moment-with-locales.min.js");
-        $registry->register("./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
+        $registry->register("./node_modules/moment/min/moment-with-locales.min.js");
+        $registry->register("./node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
     }
 
-    protected function renderClose(Component\Button\Close $component) : string
+    protected function renderClose(Component\Button\Close $component): string
     {
         $tpl = $this->getTemplate("tpl.close.html", true, true);
         // This is required as the rendering seems to only create any output at all
@@ -149,7 +180,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderMinimize(Component\Button\Minimize $component) : string
+    protected function renderMinimize(Component\Button\Minimize $component): string
     {
         $tpl = $this->getTemplate("tpl.minimize.html", true, true);
         $tpl->setVariable("ARIA_LABEL", $this->txt("minimize"));
@@ -157,7 +188,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderToggle(Component\Button\Toggle $component) : string
+    protected function renderToggle(Component\Button\Toggle $component): string
     {
         $tpl = $this->getTemplate("tpl.toggle.html", true, true);
 
@@ -190,7 +221,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($component->isActive()) {
-            $component = $component->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
+            $component = $component->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
 						il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
 						return false; // stop event propagation
 				});");
@@ -217,11 +248,24 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ARIA_LABEL", $aria_label);
             $tpl->parseCurrentBlock();
         }
+
+        $tooltip_embedding = $this->getTooltipRenderer()->maybeGetTooltipEmbedding(...$component->getHelpTopics());
+        if ($tooltip_embedding) {
+            $component = $component->withAdditionalOnLoadCode($tooltip_embedding[1]);
+            $tooltip_id = $this->createId();
+            $tpl->setCurrentBlock("with_aria_describedby");
+            $tpl->setVariable("ARIA_DESCRIBED_BY", $tooltip_id);
+            $tpl->parseCurrentBlock();
+
+            $this->maybeRenderId($component, $tpl);
+            return $tooltip_embedding[0]($tooltip_id, $tpl->get());
+        }
+
         $this->maybeRenderId($component, $tpl);
         return $tpl->get();
     }
 
-    protected function maybeRenderId(Component\JavaScriptBindable $component, Template $tpl) : void
+    protected function maybeRenderId(Component\JavaScriptBindable $component, Template $tpl): void
     {
         $id = $this->bindJavaScript($component);
         if ($id !== null) {
@@ -231,7 +275,7 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function renderMonth(Component\Button\Month $component) : string
+    protected function renderMonth(Component\Button\Month $component): string
     {
         $def = $component->getDefault();
 
@@ -262,7 +306,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function additionalRenderTag(Component\Button\Tag $component, Template $tpl) : void
+    protected function additionalRenderTag(Component\Button\Tag $component, Template $tpl): void
     {
         $tpl->touchBlock('rel_' . $component->getRelevance());
 
@@ -285,7 +329,7 @@ class Renderer extends AbstractComponentRenderer
         Component\Button\Button $component,
         RendererInterface $default_renderer,
         Template $tpl
-    ) : void {
+    ): void {
         $renderer = $default_renderer->withAdditionalContext($component);
         $tpl->setVariable("ICON_OR_GLYPH", $renderer->render($component->getIconOrGlyph()));
         $label = $component->getLabel();
@@ -318,7 +362,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(Component\Button\Primary::class
         , Component\Button\Standard::class

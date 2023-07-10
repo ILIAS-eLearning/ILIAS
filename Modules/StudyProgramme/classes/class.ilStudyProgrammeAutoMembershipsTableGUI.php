@@ -1,10 +1,28 @@
-<?php declare(strict_types=1);
+<?php
 
- /**
- * Class ilStudyProgrammeAutoMembershipsTableGUI
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author: Nils Haagen <nils.haagen@concepts-and-training.de>
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+* Class ilStudyProgrammeAutoMembershipsTableGUI
+*
+* @author: Nils Haagen <nils.haagen@concepts-and-training.de>
+*/
 class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
 {
     public function __construct(
@@ -37,12 +55,12 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $this->addMultiCommand('deleteConfirmation', $this->lng->txt('delete'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
-        list($ams, $title, $usr, $actions) = $a_set;
+        [$ams, $title, $usr, $actions] = $a_set;
 
         $id = $ams->getSourceType() . '-' . $ams->getSourceId();
-        $status = $ams->isEnabled()  ? $this->lng->txt('active') : $this->lng->txt('inactive');
+        $status = $ams->isEnabled() ? $this->lng->txt('active') : $this->lng->txt('inactive');
         $date = $this->getDatePresentation($ams->getLastEdited()->getTimestamp());
 
         $this->tpl->setVariable("ID", $id);
@@ -54,7 +72,7 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ACTIONS", $actions);
     }
 
-    protected function getDatePresentation(int $timestamp) : string
+    protected function getDatePresentation(int $timestamp): string
     {
         $date = new ilDateTime($timestamp, IL_CAL_UNIX);
         return ilDatePresentation::formatDate($date) ?? "";

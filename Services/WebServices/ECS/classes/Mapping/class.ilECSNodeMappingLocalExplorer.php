@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
  * Explorer for ILIAS tree
@@ -24,25 +27,28 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     public const SEL_TYPE_CHECK = 1;
     public const SEL_TYPE_RADIO = 2;
 
-    private array $checked_items = array();
+    /**
+     * @var int[]
+     */
+    private array $checked_items = [];
     private string $post_var = '';
-    private array $form_items = array();
+    private array $form_items = [];
     private int $type;
-    
+
     private int $sid;
     private int $mid;
-    
-    private array $mappings = array();
 
-    public function __construct($a_target, $a_sid, $a_mid)
+    private array $mappings = [];
+
+    public function __construct(string $a_target, int $a_sid, int $a_mid)
     {
         parent::__construct($a_target);
-        
+
         $this->sid = $a_sid;
         $this->mid = $a_mid;
 
         $this->type = self::SEL_TYPE_RADIO;
-        
+
         $this->setRoot($this->tree->readRootId());
         $this->setOrderColumn('title');
 
@@ -58,16 +64,16 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
         $this->setFiltered(true);
         $this->setFilterMode(IL_FM_POSITIVE);
-        
+
         $this->initMappings();
     }
-    
-    public function getSid() : int
+
+    public function getSid(): int
     {
         return $this->sid;
     }
-    
-    public function getMid() : int
+
+    public function getMid(): int
     {
         return $this->mid;
     }
@@ -75,7 +81,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     /**
      * no item is clickable
      */
-    public function isClickable(string $type, int $ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0): bool
     {
         return false;
     }
@@ -83,41 +89,41 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     /**
      * Add form item
      */
-    public function addFormItemForType($type) : void
+    public function addFormItemForType($type): void
     {
         $this->form_items[$type] = true;
     }
 
-    public function removeFormItemForType($type) : void
+    public function removeFormItemForType($type): void
     {
         $this->form_items[$type] = false;
     }
 
-    public function setCheckedItems($a_checked_items = array()) : void
+    public function setCheckedItems($a_checked_items = array()): void
     {
         $this->checked_items = $a_checked_items;
     }
 
-    public function getCheckedItems() : array
+    public function getCheckedItems(): array
     {
         return $this->checked_items;
     }
 
-    public function isItemChecked($a_id) : bool
+    public function isItemChecked(int $a_id): bool
     {
         return in_array($a_id, $this->checked_items, true);
     }
 
-    public function setPostVar(string $a_post_var) : void
+    public function setPostVar(string $a_post_var): void
     {
         $this->post_var = $a_post_var;
     }
-    public function getPostVar() : string
+    public function getPostVar(): string
     {
         return $this->post_var;
     }
 
-    public function buildFormItem($a_node_id, $a_type) : string
+    public function buildFormItem($a_node_id, int $a_type): string
     {
         if (!array_key_exists($a_type, $this->form_items) || !$this->form_items[$a_type]) {
             return '';
@@ -141,7 +147,11 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         return '';
     }
 
-    public function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0) : void
+    /**
+     * @param int|string $a_node_id
+     * @throws ilTemplateException
+     */
+    public function formatObject(ilTemplate $tpl, $a_node_id, array $a_option, $a_obj_id = 0): void
     {
         if (!isset($a_node_id) || !is_array($a_option)) {
             $this->error->raiseError(get_class($this) . "::formatObject(): Missing parameter or wrong datatype! " .
@@ -153,6 +163,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
             if ($picture === 'plus') {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $this->lng->txt("expand"));
+                $this->setParamsGet([]);
                 $target = $this->createTarget('+', $a_node_id);
                 $tpl->setVariable("LINK_NAME", $a_node_id);
                 $tpl->setVariable("LINK_TARGET_EXPANDER", $target);
@@ -164,6 +175,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
             if ($picture === 'minus' && $this->show_minus) {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $this->lng->txt("collapse"));
+                $this->setParamsGet([]);
                 $target = $this->createTarget('-', $a_node_id);
                 $tpl->setVariable("LINK_NAME", $a_node_id);
                 $tpl->setVariable("LINK_TARGET_EXPANDER", $target);
@@ -189,13 +201,13 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
             $tpl->parseCurrentBlock();
         }
 
-        if ($formItem = ($this->buildFormItem($a_node_id, $a_option['type']) !== '')) {
+        if ($formItem = ($this->buildFormItem((int) $a_node_id, (int) $a_option['type']) !== '')) {
             $tpl->setCurrentBlock('check');
             $tpl->setVariable('OBJ_CHECK', $formItem);
             $tpl->parseCurrentBlock();
         }
 
-        if ($this->isClickable($a_option["type"], $a_node_id)) {	// output link
+        if ($this->isClickable($a_option["type"], (int) $a_node_id)) {	// output link
             $tpl->setCurrentBlock("link");
             //$target = (strpos($this->target, "?") === false) ?
             //	$this->target."?" : $this->target."&";
@@ -253,14 +265,10 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
 
 
-    /*
-    * overwritten method from base class
-    * @access	public
-    * @param	integer obj_id
-    * @param	integer array options
-    * @return	string
-    */
-    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
+    /**
+     * overwritten method from base class
+     */
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option): void
     {
         // custom icons
         $path = ilObject::_getIcon((int) $a_obj_id, "tiny", "root");
@@ -277,7 +285,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         $tpl->setVariable("TXT_ALT_IMG", $title);
         $tpl->parseCurrentBlock();
 
-        if (($formItem = $this->buildFormItem($a_obj_id, $a_option['type'])) !== '') {
+        if (($formItem = $this->buildFormItem((int) $a_obj_id, (int) $a_option['type'])) !== '') {
             $tpl->setCurrentBlock('check');
             $tpl->setVariable('OBJ_CHECK', $formItem);
             $tpl->parseCurrentBlock();
@@ -292,11 +300,11 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
             $tpl->setVariable('OBJ_TITLE', $title);
         }
     }
-    
+
     /**
      * Format title (bold for direct mappings, italic for child mappings)
      */
-    public function buildTitle(string $a_title, $a_id, string $a_type) : string
+    public function buildTitle(string $a_title, $a_id, string $a_type): string
     {
         if ($this->isMapped($a_id)) {
             return '<font style="font-weight: bold">' . $a_title . '</font>';
@@ -306,29 +314,29 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         }
         return $a_title;
     }
-    
+
     /**
      * Init (read) current mappings
      */
-    protected function initMappings() : bool
+    protected function initMappings(): bool
     {
         $mappings = array();
         foreach (ilECSCourseMappingRule::getRuleRefIds($this->getSid(), $this->getMid()) as $ref_id) {
-            $mappings[$ref_id] = array();
+            $mappings[$ref_id] = [];
         }
-        
-        foreach ($mappings as $ref_id) {
+
+        foreach (array_keys($mappings) as $ref_id) {
             $this->mappings[$ref_id] = $this->tree->getPathId($ref_id, 1);
         }
         return true;
     }
-    
-    protected function isMapped($a_ref_id) : bool
+
+    protected function isMapped($a_ref_id): bool
     {
         return array_key_exists($a_ref_id, $this->mappings);
     }
-    
-    protected function hasParentMapping($a_ref_id) : bool
+
+    protected function hasParentMapping($a_ref_id): bool
     {
         foreach ($this->mappings as $parent_nodes) {
             if (in_array($a_ref_id, $parent_nodes, true)) {

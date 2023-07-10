@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\BackgroundTasks\TaskManager;
@@ -26,21 +28,20 @@ use ILIAS\DI\Container;
  */
 class ilMassMailTaskProcessor
 {
-    private TaskManager $taskManager;
-    private TaskFactory $taskFactory;
-    private ilLanguage $language;
-    private ilLogger $logger;
-    private ilMailValueObjectJsonService $objectJsonService;
-    private int $anonymousUserId;
+    private readonly TaskManager $taskManager;
+    private readonly TaskFactory $taskFactory;
+    private readonly ilLanguage $language;
+    private readonly ilLogger $logger;
+    private readonly ilMailValueObjectJsonService $objectJsonService;
 
     public function __construct(
+        private readonly int $anonymousUserId = ANONYMOUS_USER_ID,
         TaskManager $taskManager = null,
         TaskFactory $taskFactory = null,
         ilLanguage $language = null,
         ilLogger $logger = null,
         Container $dic = null,
-        ilMailValueObjectJsonService $objectJsonService = null,
-        int $anonymousUserId = ANONYMOUS_USER_ID
+        ilMailValueObjectJsonService $objectJsonService = null
     ) {
         if (null === $dic) {
             global $DIC;
@@ -71,8 +72,6 @@ class ilMassMailTaskProcessor
             $objectJsonService = new ilMailValueObjectJsonService();
         }
         $this->objectJsonService = $objectJsonService;
-
-        $this->anonymousUserId = $anonymousUserId;
     }
 
     /**
@@ -81,7 +80,7 @@ class ilMassMailTaskProcessor
      * @param string $contextId - context ID of the Background task
      * @param array $contextParameters - context parameters for the background tasks
      * @param int $mailsPerTask - Defines how many mails will be added before a background task is executed
-     * @throws ilException
+     * @throws ilMailException
      */
     public function run(
         array $mailValueObjects,
@@ -89,15 +88,15 @@ class ilMassMailTaskProcessor
         string $contextId,
         array $contextParameters,
         int $mailsPerTask = 100
-    ) : void {
+    ): void {
         $objectsServiceSize = count($mailValueObjects);
 
         if ($objectsServiceSize <= 0) {
-            throw new ilException('First parameter must contain at least 1 array element');
+            throw new ilMailException('First parameter must contain at least 1 array element');
         }
 
         if ($mailsPerTask <= 0) {
-            throw new ilException(
+            throw new ilMailException(
                 sprintf(
                     'The mails per task MUST be a positive integer, "%s" given',
                     $mailsPerTask
@@ -107,11 +106,9 @@ class ilMassMailTaskProcessor
 
         foreach ($mailValueObjects as $mailValueObject) {
             if (!($mailValueObject instanceof ilMailValueObject)) {
-                throw new ilException('Array MUST contain ilMailValueObjects ONLY');
+                throw new ilMailException('Array MUST contain ilMailValueObjects ONLY');
             }
         }
-
-        $lastTask = null;
         $taskCounter = 0;
 
         $remainingObjects = [];
@@ -136,8 +133,7 @@ class ilMassMailTaskProcessor
         }
     }
 
-    
-    private function runTask(\ILIAS\BackgroundTasks\Task $task, int $userId) : void
+    private function runTask(\ILIAS\BackgroundTasks\Task $task, int $userId): void
     {
         $bucket = new BasicBucket();
         $bucket->setUserId($userId);
@@ -154,7 +150,7 @@ class ilMassMailTaskProcessor
         string $contextId,
         array $contextParameters,
         $remainingObjects
-    ) : ILIAS\BackgroundTasks\Task {
+    ): ILIAS\BackgroundTasks\Task {
         $jsonString = $this->objectJsonService->convertToJson($remainingObjects);
 
         $task = $this->taskFactory->createTask(ilMassMailDeliveryJob::class, [
@@ -164,9 +160,7 @@ class ilMassMailTaskProcessor
             serialize($contextParameters),
         ]);
 
-        if ($userId === $this->anonymousUserId) {
-            return $task;
-        }
+        // Important: Don't return the task (e.g. as an early return for anonymous user id) https://mantis.ilias.de/view.php?id=33618
 
         $parameters = [$task, $userId];
 

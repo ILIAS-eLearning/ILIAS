@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,6 +28,8 @@ class ilSkillAssignedObjectsTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
     protected ilTree $tree;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     public function __construct($a_parent_obj, string $a_parent_cmd, array $a_ass_objects)
     {
@@ -35,14 +39,14 @@ class ilSkillAssignedObjectsTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->tree = $DIC->repositoryTree();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $data = [];
-        foreach ($a_ass_objects as $obj) {
-            if (ilObject::_hasUntrashedReference($obj)) {
-                $data[] = array("obj_id" => $obj);
-            }
+        foreach ($a_ass_objects as $obj_id) {
+            $data[] = ["obj_id" => $obj_id];
         }
 
         $this->setData($data);
@@ -54,17 +58,17 @@ class ilSkillAssignedObjectsTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.skill_assigned_objects_row.html", "Services/Skill");
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $obj_type = ilObject::_lookupType($a_set["obj_id"]);
+        $icon = $this->ui_fac->symbol()->icon()->standard(
+            $obj_type,
+            $this->lng->txt("icon") . " " . $this->lng->txt($obj_type),
+            "medium"
+        );
         $this->tpl->setVariable(
             "OBJECT_IMG",
-            ilUtil::img(
-                ilObject::_getIcon(
-                    (int) $a_set["obj_id"]
-                ),
-                $this->lng->txt("icon") . " " . $this->lng->txt($obj_type)
-            )
+            $this->ui_ren->render($icon)
         );
         $this->tpl->setVariable("OBJECT_TITLE", ilObject::_lookupTitle($a_set["obj_id"]));
 

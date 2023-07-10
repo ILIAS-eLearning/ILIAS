@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Portfolio;
 
@@ -53,17 +56,17 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
             ->standardRequest();
     }
 
-    protected function withDeclarationOfAuthorship(
+    public function withDeclarationOfAuthorship(
         \ilPortfolioDeclarationOfAuthorship $decl,
         \ilObjUser $user
-    ) : self {
+    ): self {
         $c = clone $this;
         $c->declaration_of_authorship = $decl;
         $c->user = $user;
         return $c;
     }
 
-    public function getSelectionForm() : ?ilPropertyFormGUI
+    public function getSelectionForm(): ?ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -149,7 +152,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         return $form;
     }
 
-    public function getTemplateInjectors() : array
+    public function getTemplateInjectors(): array
     {
         $resource_collector = new COPage\ResourcesCollector(
             \ilPageObjectGUI::OFFLINE,
@@ -164,7 +167,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         ];
     }
 
-    public function getPages() : array
+    public function getPages(): array
     {
         $lng = $this->lng;
         $portfolio = $this->portfolio;

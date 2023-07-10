@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclTokenizer
@@ -7,26 +23,45 @@
  */
 class ilDclTokenizer
 {
-
     /**
      * Split expression by & (ignore escaped &-symbols with backslash)
      * @param string $expression Global expression to parse
-     * @return array
      */
-    public static function getTokens($expression)
+    public static function getTokens(string $expression): array
     {
         $expression = ltrim($expression, '=');
         $expression = trim($expression);
-        preg_match_all("/([^\\\\&]|\\\\&)*/ui", $expression, $matches);
 
-        $results = $matches[0];
+        $matches = [];
+        //Match all & inside [] (e.g. [[Metadaten & OER]])
+        preg_match_all("/\[\[[^\]]*&[^\]]*\]\]/ui", $expression, $matches);
+        $matches_inside_brackets = $matches[0];
+        $replace_random = sha1("replacement_string");
 
-        $return = array();
-        foreach ($results as $r) {
-            if (!$r) {
+
+        //Replace those & with a set of unprobable chars, to be ignored by the following selection of tokens
+        foreach ($matches_inside_brackets as $match) {
+            if (!$match) {
                 continue;
             }
-            $return[] = str_ireplace('\&', '&', $r);
+            $match_save = str_replace("&", $replace_random, $match);
+            $expression = str_replace($match, $match_save, $expression);
+        }
+
+        //var_dump($expression);
+        preg_match_all("/([^\\\\&]|\\\\&)*/ui", $expression, $matches);
+        $results = $matches[0];
+
+        $return = [];
+        foreach ($results as $result) {
+            if (!$result) {
+                continue;
+            }
+            $replace = str_ireplace('\&', '&', $result);
+
+            //Replace those & before replaced chars back
+            $return[] = str_replace($replace_random, "&", $replace);
+
         }
 
         return array_map('trim', $return);
@@ -35,9 +70,8 @@ class ilDclTokenizer
     /**
      * Generate tokens for a math expression
      * @param string $math_expression Expression of type math
-     * @return array
      */
-    public static function getMathTokens($math_expression)
+    public static function getMathTokens(string $math_expression): array
     {
         $operators = array_keys(ilDclExpressionParser::getOperators());
         $pattern = '#((^\[\[)[\d\.]+)|(\(|\)|\\' . implode("|\\", $operators) . ')#';

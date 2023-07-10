@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,30 +16,29 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ilObjForumAdministrationTest extends TestCase
 {
-    /**
-     * @var MockObject|ilLanguage
-     */
+    /** @var MockObject&ilLanguage */
     private $mockLanguage;
+    private ?Container $dic = null;
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
-        if (!defined('DEBUG')) {
-            define('DEBUG', false);
-        }
-
         $this->mockLanguage->expects(self::once())->method('loadLanguageModule')->with('forum');
-        $instance = new ilObjForumAdministration();
+        new ilObjForumAdministration();
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         global $DIC;
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
 
         $DIC = new Container();
 
@@ -51,5 +50,14 @@ class ilObjForumAdministrationTest extends TestCase
         $DIC['ilAppEventHandler'] = null;
         $DIC['objDefinition'] = null;
         $DIC['lng'] = ($this->mockLanguage = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock());
+    }
+
+    protected function tearDown(): void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 }

@@ -69,24 +69,7 @@
         text-align:left;
     }
 </style>
-<script type="text/javascript">
-    var ClozeSettings =
-    {
-        gaps_php            : {GAP_JSON},
-        gaps_combination    : {GAP_COMBINATION_JSON},
-        gap_backup          : [],
-        unused_gaps_comb    : [],
-        outofbound_text     : "{OUT_OF_BOUND}",
-        combination_error   : "{PLEASE_SELECT}",
-        combination_text    : "{GAP_COMBINATION}",
-        copy_of_combination : "{COPY} {GAP_COMBINATION}",
-        gap_in_more_than_one: "{GAP_IS_USED_MORE_THAN_ONE_COMB}",
-        gap_text            : "{GAP}",
-        ok_text             : "{OK}",
-        cancel_text         : "{CANCEL}"
-    };
-</script>
-<script type='text/javascript' src='./Modules/TestQuestionPool/templates/default/cloze_gap_builder.js'></script>
+
 {MY_MODAL}
 <div id="moveAway">
 <div class="prototype" id="gap_title">
@@ -124,7 +107,7 @@
                 </tr>
                 </thead>
                 <tbody id="table_body">
-                <tr class="form-group" id="inner_text">
+                <tr class="form-group row" id="inner_text">
                     <td>
                         <input type="text" size="25" class="text_field" maxlength="200"  value="">
                     </td>
@@ -132,8 +115,8 @@
                         <input type="text" style="text-align: right;" class="points_field" id="gap_points" size="5"  value="0">
                     </td>
                     <td style="vertical-align: top;">
-                        <button class="clone_fields_add btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></button>
-                        <button class="clone_fields_remove btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-minus"></span></button>
+                        <div class="clone_fields_add btn btn-link">{ADD_BUTTON}</div>
+                        <div class="clone_fields_remove btn btn-link">{REMOVE_BUTTON}</div>
                     </td>
                 </tr>
                 </tbody>
@@ -220,13 +203,13 @@
     </div>
     <div>
         <div id="error_answer_val">
-            <span class="prototype points form_error help-block alert alert-danger"><img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-"> {POINTS_ERROR}</br></span>
-            <span class="prototype value form_error help-block alert alert-danger"><img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-"> {MISSING_VALUE}</br></span>
-            <span class="prototype formula form_error help-block alert alert-danger"><img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-"> {NOT_A_FORMULA}</br></span>
-            <span class="prototype number form_error help-block alert alert-danger"><img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-"> {NOT_A_NUMBER}</br></span>
-            <span class="prototype wsB form_warning help-block alert alert-info"><img border="0" src="./templates/default/images/./icon_info.svg" alt="-alert-"> {WHITESPACE_FRONT}</br></span>
-            <span class="prototype wsA form_warning help-block alert alert-info"><img border="0" src="./templates/default/images/./icon_info.svg" alt="-alert-"> {WHITESPACE_BACK}</br></span>
-            <span class="prototype wsM form_warning help-block alert alert-info"><img border="0" src="./templates/default/images/./icon_info.svg" alt="-alert-"> {WHITESPACE_MULTIPLE}</br></span>
+            <span class="prototype points form_error help-block alert alert-danger">{POINTS_ERROR}</br></span>
+            <span class="prototype value form_error help-block alert alert-danger">{MISSING_VALUE}</br></span>
+            <span class="prototype formula form_error help-block alert alert-danger">{NOT_A_FORMULA}</br></span>
+            <span class="prototype number form_error help-block alert alert-danger">{NOT_A_NUMBER}</br></span>
+            <span class="prototype wsB form_warning help-block alert alert-info">{WHITESPACE_FRONT}</br></span>
+            <span class="prototype wsA form_warning help-block alert alert-info">{WHITESPACE_BACK}</br></span>
+            <span class="prototype wsM form_warning help-block alert alert-info">{WHITESPACE_MULTIPLE}</br></span>
         </div>
     </div>
 </div>
@@ -237,8 +220,6 @@
 <div class="prototype" id="gap_combination_header">
     <div>
         <h3 class="ilHeader">GAP_COMBINATION</h3><div class="help-block"></div>
-    </div>
-    <div>
     </div>
 </div>
 <div class="prototype" id="gap_combination_points_prototype">
@@ -253,7 +234,7 @@
     <div class="">
         <label for="">{GAP}</label>
     </div>
-    <div class="form-group">
+    <div class="form-group row">
         <select id="gap_id_select" class="form-control gap_combination" label="select"></select>
     </div>
 </div>
@@ -261,15 +242,14 @@
     <div class="">
         <label for="">{VALUES}</label>
     </div>
-    <div class="form-group">
+    <div class="form-group row">
         <div class="combination_labels"><table><tr class="first_row"><td>{POINTS}</td></tr><tr class="stretch_row"><td><input type="text" style="text-align: right;" class="gap_combination_points form-control small_hidden_input" size="5"></td></tr></table></div>
         <div class="value_container"><select id="gap_id_value" class="form-control gap_combination" label="value"></select></div>
     </div>
-  
 </div>
 <div class="prototype add_remove_buttons">
-    <button name="add_gap" class="clone_fields_add combination btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></button>
-    <button name="remove_gap" class="clone_fields_remove combination btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-minus"></span></button>
+    <div name="add_gap" class="clone_fields_add combination btn btn-link">{ADD_BUTTON}</div>
+    <div name="remove_gap" class="clone_fields_remove combination btn btn-link">{REMOVE_BUTTON}</div>
 </div>
 <span id="select_option_placeholder" class="prototype"><option value="none_selected_minus_one">{PLEASE_SELECT}</option></span>
 <div class="prototype gap_combination_spacer"></div>
@@ -291,4 +271,4 @@
         </select>
     </div>
 </div>
-</div> 
+</div>

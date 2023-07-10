@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,11 +16,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class for user password exception handling in ILIAS.
  * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
  */
-class ilPasswordException extends ilException
+final class ilPasswordException extends Exception
 {
 }

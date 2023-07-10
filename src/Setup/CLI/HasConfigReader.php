@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Config;
@@ -33,7 +33,7 @@ trait HasConfigReader
      */
     protected ConfigReader $config_reader;
 
-    protected function readAgentConfig(Agent $agent, InputInterface $input) : ?Config
+    protected function readAgentConfig(Agent $agent, InputInterface $input, string $use_config_field = null): ?Config
     {
         if (!($this->config_reader instanceof ConfigReader)) {
             throw new \LogicException("\$this->config_reader not properly initialized.");
@@ -44,6 +44,10 @@ trait HasConfigReader
         }
 
         $config_file = $input->getArgument("config");
+        if ($this->isConfigInRoot($config_file)) {
+            throw new \LogicException("Thou shall not put your config file in the webroot!!");
+        }
+
         $config_overwrites_raw = $input->getOption("config");
         $config_overwrites = [];
         foreach ($config_overwrites_raw as $o) {
@@ -55,6 +59,9 @@ trait HasConfigReader
         }
 
         $config_content = $this->config_reader->readConfigFile($config_file, $config_overwrites);
+        if ($use_config_field !== null) {
+            $config_content = $config_content[$use_config_field] ?? null;
+        }
 
         $trafo = $agent->getArrayToConfigTransformation();
         return $trafo->transform($config_content);
@@ -64,7 +71,7 @@ trait HasConfigReader
         Agent $agent,
         Config $config,
         Environment $environment
-    ) : Environment {
+    ): Environment {
         if ($agent instanceof AgentCollection) {
             foreach ($config->getKeys() as $k) {
                 $environment = $environment->withConfigFor($k, $config->getConfig($k));
@@ -72,5 +79,14 @@ trait HasConfigReader
         }
 
         return $environment;
+    }
+
+    protected function isConfigInRoot(string $config_file): bool
+    {
+        $webroot = realpath(__DIR__ . "/../../../");
+        $config_file = realpath($config_file);
+
+        $common_prefix = substr($config_file, 0, strlen($webroot));
+        return $webroot === $common_prefix;
     }
 }

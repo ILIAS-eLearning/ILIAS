@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for title/description translations
@@ -46,7 +49,7 @@ class ilMultilingualismTableGUI extends ilTable2GUI
         $this->master_lang = $a_master_lang;
 
         $this->setLimit(9999);
-        
+
         $this->addColumn("", "", "1");
         $this->addColumn($this->lng->txt("language"), "", "");
         $this->addColumn($this->lng->txt("default"), "", "");
@@ -55,7 +58,7 @@ class ilMultilingualismTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt("description"), "", "");
         }
         //		$this->addColumn($this->lng->txt("actions"), "", "");
-        
+
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.obj_translation2_row.html", "Services/Object");
@@ -64,8 +67,8 @@ class ilMultilingualismTableGUI extends ilTable2GUI
 
         $this->nr = 0;
     }
-    
-    protected function prepareOutput() : void
+
+    protected function prepareOutput(): void
     {
         $lng = $this->lng;
 
@@ -74,8 +77,8 @@ class ilMultilingualismTableGUI extends ilTable2GUI
             $this->addCommandButton("save" . $this->base_cmd . "s", $lng->txt("save"));
         }
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 
@@ -105,9 +108,9 @@ class ilMultilingualismTableGUI extends ilTable2GUI
             $this->tpl->setVariable("DNR", $this->nr);
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable("NR", $this->nr);
-        
+
         // lang selection
         $languages = ilMDLanguageItem::_getLanguages();
         $this->tpl->setVariable(

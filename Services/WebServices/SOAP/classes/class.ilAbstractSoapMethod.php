@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilAbstractSoapMethod
@@ -19,7 +21,7 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
     /**
      * @inheritdoc
      */
-    public function getServiceStyle() : string
+    public function getServiceStyle(): string
     {
         return 'rpc';
     }
@@ -27,7 +29,7 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
     /**
      * @inheritdoc
      */
-    public function getServiceUse() : string
+    public function getServiceUse(): string
     {
         return 'encoded';
     }
@@ -40,7 +42,7 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
      * @param string $session_id
      * @throws ilSoapPluginException
      */
-    protected function initIliasAndCheckSession(string $session_id) : void
+    protected function initIliasAndCheckSession(string $session_id): void
     {
         $this->initAuth($session_id);
         $this->initIlias();
@@ -55,7 +57,7 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
      * @param array $params
      * @throws ilSoapPluginException
      */
-    protected function checkParameters(array $params) : void
+    protected function checkParameters(array $params): void
     {
         for ($i = 0, $iMax = count($this->getInputParams()); $i < $iMax; $i++) {
             if (!isset($params[$i])) {

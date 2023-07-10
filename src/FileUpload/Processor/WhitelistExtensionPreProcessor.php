@@ -31,7 +31,6 @@ use Psr\Http\Message\StreamInterface;
  */
 final class WhitelistExtensionPreProcessor implements PreProcessor
 {
-
     /**
      * @var string[]
      */
@@ -65,7 +64,7 @@ final class WhitelistExtensionPreProcessor implements PreProcessor
     /**
      * @inheritDoc
      */
-    public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus
+    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
     {
         if ($this->isWhitelisted($metadata->getFilename())) {
             return new ProcessingStatus(ProcessingStatus::OK, 'Extension complies with whitelist.');
@@ -75,7 +74,7 @@ final class WhitelistExtensionPreProcessor implements PreProcessor
     }
 
 
-    private function isWhitelisted(string $filename) : bool
+    private function isWhitelisted(string $filename): bool
     {
         $extensions = explode('.', $filename);
 

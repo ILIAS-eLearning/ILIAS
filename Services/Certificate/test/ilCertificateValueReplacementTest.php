@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateValueReplacementTest extends ilCertificateBaseTestCase
 {
-    public function testReplace() : void
+    public function testReplace(): void
     {
         $replacement = new ilCertificateValueReplacement();
 
@@ -42,7 +44,7 @@ Hurray Peter you have received a fantastic prize
         $this->assertSame($expected, $replacedContent);
     }
 
-    public function testReplaceClientWebDir() : void
+    public function testReplaceClientWebDir(): void
     {
         $replacement = new ilCertificateValueReplacement();
 

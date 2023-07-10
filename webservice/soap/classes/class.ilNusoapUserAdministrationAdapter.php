@@ -1,25 +1,19 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * adapter class for nusoap server
@@ -68,21 +62,20 @@ class ilNusoapUserAdministrationAdapter
         $this->registerMethods();
     }
 
-    public function start() : void
+    public function start(): void
     {
         $postdata = file_get_contents("php://input");
         $this->server->service($postdata);
         exit();
     }
 
-    private function enableWSDL() : void
+    private function enableWSDL(): void
     {
         $this->server->configureWSDL(SERVICE_NAME, SERVICE_NAMESPACE);
     }
 
-    private function registerMethods() : void
+    private function registerMethods(): void
     {
-
         // Add useful complex types. E.g. array("a","b") or array(1,2)
         $this->server->wsdl->addComplexType(
             'intArray',
@@ -206,33 +199,6 @@ class ilNusoapUserAdministrationAdapter
             'ILIAS lookupUser(): check if username exists. Return usr_id or 0 if lookup fails.'
         );
 
-        // getUser()
-        $this->server->register(
-            'getUser',
-            array('sid' => 'xsd:string',
-                  'user_id' => 'xsd:int'
-            ),
-            array('user_data' => 'tns:ilUserData'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#getUser',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS getUser(): get complete set of user data. DEPRECATED with release 5.2, will be deleted with 5.3. Use searchUsers() instead.'
-        );
-
-        // deleteUser()
-        $this->server->register(
-            'deleteUser',
-            array('sid' => 'xsd:string',
-                  'user_id' => 'xsd:int'
-            ),
-            array('success' => 'xsd:boolean'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#deleteUser',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS deleteUser(). Deletes all user related data (Bookmarks, Mails ...). DEPRECATED: Use importUsers() for deletion of user data.'
-        );
 
         // addCourse()
         $this->server->register(
@@ -835,20 +801,6 @@ class ilNusoapUserAdministrationAdapter
             'Returns 0 => not assigned, 1 => group admin, 2 => group member'
         );
 
-        // ILIAS util functions
-        $this->server->register(
-            'distributeMails',
-            array('sid' => 'xsd:string',
-                  'mail_xml' => 'xsd:string'
-            ),
-            array('status' => 'xsd:boolean'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#sendMail',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS distributeMails(): Distribute ILIAS mails according according to the mail setting of the recipients as ' .
-            'ILIAS internal mail or as e-mail.'
-        );
 
         // Clone functions
         $this->server->register(
@@ -1557,7 +1509,7 @@ class ilNusoapUserAdministrationAdapter
     /**
      * Register any methods and types of SOAP plugins to the SOAP server
      */
-    protected function handleSoapPlugins() : void
+    protected function handleSoapPlugins(): void
     {
         // Note: We need a context that does not handle authentication at this point, because this is
         // handled by an actual SOAP request which always contains the session ID and client

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -44,7 +46,7 @@ class SkillUserService
         bool $a_self_eval = false,
         string $a_unique_identifier = "",
         float $a_next_level_fulfilment = 0.0
-    ) : void {
+    ): void {
         $user_id = $this->user_id;
         $this->manager_service->getUserLevelManager()->writeSkillLevel(
             $user_id,

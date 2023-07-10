@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -21,7 +24,7 @@ class ilWikiContributor
     public const STATUS_NOT_GRADED = 0;
     public const STATUS_PASSED = 1;
     public const STATUS_FAILED = 2;
-    
+
     /**
      * Lookup current success status (STATUS_NOT_GRADED|STATUS_PASSED|STATUS_FAILED)
      * @return ?int (if user is no member) or notgraded|passed|failed
@@ -29,7 +32,7 @@ class ilWikiContributor
     public static function _lookupStatus(
         int $a_obj_id,
         int $a_user_id
-    ) : ?int {
+    ): ?int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -49,7 +52,7 @@ class ilWikiContributor
     public static function _lookupStatusTime(
         int $a_obj_id,
         int $a_user_id
-    ) : ?string {
+    ): ?string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -73,7 +76,7 @@ class ilWikiContributor
         int $a_obj_id,
         int $a_user_id,
         int $a_status
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();

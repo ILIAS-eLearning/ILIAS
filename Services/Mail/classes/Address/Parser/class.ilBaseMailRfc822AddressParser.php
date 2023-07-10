@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilBaseMailRfc822AddressParser
  * @author Michael Jansen <mjansen@databay.de>
@@ -23,24 +25,16 @@
 abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
 {
     /**
-     * @var string A comma separated list of email addresses
-     */
-    protected string $addresses = '';
-    protected string $installationHost = '';
-
-    /**
      * @param string $addresses A comma separated list of email addresses
      */
-    public function __construct(string $addresses, string $installationHost = ilMail::ILIAS_HOST)
+    public function __construct(protected string $addresses, protected string $installationHost = ilMail::ILIAS_HOST)
     {
-        $this->addresses = $addresses;
-        $this->installationHost = $installationHost;
     }
 
     /**
      * @return string A comma separated list of email addresses
      */
-    public function getAddresses() : string
+    public function getAddresses(): string
     {
         return $this->addresses;
     }
@@ -49,9 +43,9 @@ abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
      * @param string $addresses A comma separated list of email addresses
      * @return ilMailAddress[]
      */
-    abstract protected function parseAddressString(string $addresses) : array;
+    abstract protected function parseAddressString(string $addresses): array;
 
-    public function parse() : array
+    public function parse(): array
     {
         $addresses = preg_replace('/;/', ',', trim($this->addresses));
 

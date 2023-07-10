@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,27 +16,21 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilBuddySystemLinkButton
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
 {
-    protected int $usrId;
     protected ilBuddyList $buddyList;
     protected ilLanguage $lng;
     protected ilObjUser $user;
 
-    /**
-     * ilBuddySystemLinkButton constructor.
-     * @param int $usrId
-     * @throws ilBuddySystemException
-     */
-    protected function __construct(int $usrId)
+    protected function __construct(protected int $usrId)
     {
         global $DIC;
-
-        $this->usrId = $usrId;
         $this->buddyList = ilBuddyList::getInstanceByGlobalUser();
 
         $this->user = $DIC['ilUser'];
@@ -44,26 +38,24 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
     }
 
     /**
-     * @param int $usrId
-     * @return ilBuddySystemLinkButton
      * @throws ilBuddySystemException
      */
-    public static function getInstanceByUserId(int $usrId) : self
+    public static function getInstanceByUserId(int $usrId): self
     {
         return new self($usrId);
     }
 
-    public function getUsrId() : int
+    public function getUsrId(): int
     {
         return $this->usrId;
     }
 
-    public function getBuddyList() : ilBuddyList
+    public function getBuddyList(): ilBuddyList
     {
         return $this->buddyList;
     }
 
-    public function getHtml() : string
+    public function getHtml(): string
     {
         $this->lng->loadLanguageModule('buddysystem');
 
@@ -76,7 +68,7 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
         // The ILIAS JF decided to add a new personal setting
         if (
             $relation->isUnlinked() &&
-            !ilUtil::yn2tf(ilObjUser::_lookupPref($this->getUsrId(), 'bs_allow_to_contact_me'))
+            !ilUtil::yn2tf((string) ilObjUser::_lookupPref($this->getUsrId(), 'bs_allow_to_contact_me'))
         ) {
             return '';
         }
@@ -96,7 +88,7 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
         );
         $buttonTemplate->setVariable('BUTTON_BUDDY_ID', $this->getUsrId());
         $buttonTemplate->setVariable('BUTTON_CSS_CLASS', 'ilBuddySystemLinkWidget');
-        $buttonTemplate->setVariable('BUTTON_CURRENT_STATE', get_class($relation->getState()));
+        $buttonTemplate->setVariable('BUTTON_CURRENT_STATE', $relation->getState()::class);
 
         return $buttonTemplate->get();
     }

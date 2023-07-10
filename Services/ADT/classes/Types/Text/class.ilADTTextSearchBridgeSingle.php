@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
@@ -7,14 +9,14 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
     public const SQL_LIKE_END = 3;
     public const SQL_LIKE_START = 4;
 
-    protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
+    protected function isValidADTDefinition(ilADTDefinition $a_adt_def): bool
     {
         return ($a_adt_def instanceof ilADTTextDefinition);
     }
 
     // table2gui / filter
 
-    public function loadFilter() : void
+    public function loadFilter(): void
     {
         $value = $this->readFilter();
         if ($value !== null) {
@@ -24,7 +26,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     // form
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         $text = new ilTextInputGUI($this->getTitle(), $this->getElementId());
         $text->setSize(20);
@@ -36,7 +38,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($text);
     }
 
-    public function importFromPost(array $a_post = null) : bool
+    public function importFromPost(array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 
@@ -59,7 +61,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     // db
 
-    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []): string
     {
         if (!$quotedWords) {
             if ($this->isNull() || !$this->isValid()) {
@@ -108,7 +110,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
         return '';
     }
 
-    public function isInCondition(ilADT $a_adt) : bool
+    public function isInCondition(ilADT $a_adt): bool
     {
         assert($a_adt instanceof ilADTText);
 
@@ -118,7 +120,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     //  import/export
 
-    public function getSerializedValue() : string
+    public function getSerializedValue(): string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getText()));
@@ -126,7 +128,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
         return '';
     }
 
-    public function setSerializedValue(string $a_value) : void
+    public function setSerializedValue(string $a_value): void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

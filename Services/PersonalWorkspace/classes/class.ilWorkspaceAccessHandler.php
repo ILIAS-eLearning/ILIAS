@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Access handler for personal workspace
@@ -44,19 +47,19 @@ class ilWorkspaceAccessHandler
         $lng = $DIC->language();
 
         $lng->loadLanguageModule("wsp");
-        
+
         if (!$a_tree) {
             $a_tree = new ilWorkspaceTree($ilUser->getId());
         }
         $this->tree = $a_tree;
     }
-    
+
     /**
      * Get workspace tree
      *
      * @return ilWorkspaceTree
      */
-    public function getTree() : ilTree
+    public function getTree(): ilTree
     {
         return $this->tree;
     }
@@ -66,7 +69,7 @@ class ilWorkspaceAccessHandler
         string $a_cmd,
         int $a_node_id,
         string $a_type = ""
-    ) : bool {
+    ): bool {
         $ilUser = $this->user;
         return $this->checkAccessOfUser($this->tree, $ilUser->getId(), $a_permission, $a_cmd, $a_node_id, $a_type);
     }
@@ -81,7 +84,7 @@ class ilWorkspaceAccessHandler
         string $a_cmd,
         int $a_node_id,
         string $a_type = ""
-    ) : bool {
+    ): bool {
         $rbacreview = $this->rbacreview;
         $ilUser = $this->user;
         $ilSetting = $this->settings;
@@ -99,12 +102,12 @@ class ilWorkspaceAccessHandler
                 return false;
             }
         }
-        
+
         // node owner has all rights
         if ($a_tree->lookupOwner($a_node_id) == $a_user_id) {
             return true;
         }
-        
+
         // other users can only read
         if ($a_permission == "read" || $a_permission == "visible") {
             // get all objects with explicit permission
@@ -115,7 +118,7 @@ class ilWorkspaceAccessHandler
                     switch ($obj_id) {
                         case ilWorkspaceAccessGUI::PERMISSION_ALL:
                             return true;
-                                
+
                         case ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD:
                             // check against input kept in session
                             if (self::getSharedNodePassword($a_node_id) == self::getSharedSessionPassword($a_node_id) ||
@@ -123,13 +126,13 @@ class ilWorkspaceAccessHandler
                                 return true;
                             }
                             break;
-                    
+
                         case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
                             if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                                 return true;
                             }
                             break;
-                        
+
                         default:
                             switch (ilObject::_lookupType($obj_id)) {
                                 case "grp":
@@ -165,14 +168,14 @@ class ilWorkspaceAccessHandler
                 }
             }
         }
-        
+
         return false;
     }
 
     /**
      * Set permissions after creating node/object
      */
-    public function setPermissions(int $a_parent_node_id, int $a_node_id) : void
+    public function setPermissions(int $a_parent_node_id, int $a_node_id): void
     {
         // nothing to do as owner has irrefutable rights to any workspace object
     }
@@ -184,7 +187,7 @@ class ilWorkspaceAccessHandler
         int $a_node_id,
         int $a_object_id,
         string $a_extended_data = null
-    ) : bool {
+    ): bool {
         $ilDB = $this->db;
         $ilUser = $this->user;
 
@@ -208,9 +211,9 @@ class ilWorkspaceAccessHandler
     public function removePermission(
         int $a_node_id,
         int $a_object_id = null
-    ) : int {
+    ): int {
         $ilDB = $this->db;
-        
+
         $query = "DELETE FROM acl_ws" .
             " WHERE node_id = " . $ilDB->quote($a_node_id, "integer");
 
@@ -225,16 +228,16 @@ class ilWorkspaceAccessHandler
      * Get all permissions of node
      * @return int[]
      */
-    public function getPermissions(int $a_node_id) : array
+    public function getPermissions(int $a_node_id): array
     {
         return self::_getPermissions($a_node_id);
     }
-    
+
     /**
      * Get all permissions to node
      * @return int[]
      */
-    public static function _getPermissions(int $a_node_id) : array // PHP8-Review: Method return type has no value type specified in iterable type array.
+    public static function _getPermissions(int $a_node_id): array // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         global $DIC;
 
@@ -256,7 +259,7 @@ class ilWorkspaceAccessHandler
         return $res;
     }
 
-    public function hasRegisteredPermission(int $a_node_id) : bool
+    public function hasRegisteredPermission(int $a_node_id): bool
     {
         $ilDB = $this->db;
 
@@ -266,7 +269,7 @@ class ilWorkspaceAccessHandler
         return (bool) $ilDB->numRows($set);
     }
 
-    public function hasGlobalPermission(int $a_node_id) : bool
+    public function hasGlobalPermission(int $a_node_id): bool
     {
         $ilDB = $this->db;
         $ilSetting = $this->settings;
@@ -281,7 +284,7 @@ class ilWorkspaceAccessHandler
         return (bool) $ilDB->numRows($set);
     }
 
-    public function hasGlobalPasswordPermission(int $a_node_id) : bool
+    public function hasGlobalPasswordPermission(int $a_node_id): bool
     {
         $ilDB = $this->db;
         $ilSetting = $this->settings;
@@ -296,7 +299,7 @@ class ilWorkspaceAccessHandler
         return (bool) $ilDB->numRows($set);
     }
 
-    public static function getPossibleSharedTargets() : array // PHP8-Review: Method return type has no value type specified in iterable type array.
+    public static function getPossibleSharedTargets(): array // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         global $DIC;
 
@@ -318,7 +321,7 @@ class ilWorkspaceAccessHandler
         return $obj_ids;
     }
 
-    public function getSharedOwners() : array // PHP8-Review: Method return type has no value type specified in iterable type array.
+    public function getSharedOwners(): array // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -345,7 +348,7 @@ class ilWorkspaceAccessHandler
         return $user_ids;
     }
 
-    public function getSharedObjects(int $a_owner_id) : array // PHP8-Review: Method return type has no value type specified in iterable type array.
+    public function getSharedObjects(int $a_owner_id): array // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         $ilDB = $this->db;
 
@@ -370,7 +373,7 @@ class ilWorkspaceAccessHandler
         array $a_filter = null,
         array $a_crs_ids = null,
         array $a_grp_ids = null
-    ) : array {
+    ): array {
         $ilDB = $this->db;
         $ilUser = $this->user;
         $obj_ids = [];
@@ -415,13 +418,13 @@ class ilWorkspaceAccessHandler
             " WHERE " . $ilDB->in("acl.object_id", $obj_ids, "", "integer") .
             " AND obj.owner <> " . $ilDB->quote($ilUser->getId(), "integer");
 
-        if ($a_filter["obj_type"]) {
+        if ($a_filter["obj_type"] ?? false) {
             $sql .= " AND obj.type = " . $ilDB->quote($a_filter["obj_type"], "text");
         }
-        if ($a_filter["title"] && strlen($a_filter["title"]) >= 3) {
+        if (($a_filter["title"]  ?? false) && strlen($a_filter["title"]) >= 3) {
             $sql .= " AND " . $ilDB->like("obj.title", "text", "%" . $a_filter["title"] . "%");
         }
-        if ($a_filter["user"] && strlen($a_filter["user"]) >= 3) {
+        if (($a_filter["user"]  ?? false) && strlen($a_filter["user"]) >= 3) {
             $usr_ids = array();
             $set = $ilDB->query("SELECT usr_id FROM usr_data" .
                 " WHERE (" . $ilDB->like("login", "text", "%" . $a_filter["user"] . "%") . " " .
@@ -437,13 +440,13 @@ class ilWorkspaceAccessHandler
             $sql .= " AND " . $ilDB->in("obj.owner", $usr_ids, "", "integer"); // PHP8-Review: Parameter #3 $negate of method ilDBInterface::in() expects bool, string given.
         }
 
-        if ($a_filter["acl_date"]) {
+        if ($a_filter["acl_date"] ?? false) {
             $dt = $a_filter["acl_date"]->get(IL_CAL_DATE);
             $dt = new ilDateTime($dt . " 00:00:00", IL_CAL_DATETIME);
             $sql .= " AND acl.tstamp > " . $ilDB->quote($dt->get(IL_CAL_UNIX), "integer");
         }
 
-        if ($a_filter["crsgrp"]) {
+        if ($a_filter["crsgrp"] ?? false) {
             $part = ilParticipants::getInstanceByObjId($a_filter['crsgrp']);
             $part = $part->getParticipants();
             if (!sizeof($part)) {
@@ -468,7 +471,7 @@ class ilWorkspaceAccessHandler
         return $res;
     }
 
-    public static function getSharedNodePassword(int $a_node_id) : string
+    public static function getSharedNodePassword(int $a_node_id): string
     {
         global $DIC;
 
@@ -484,22 +487,22 @@ class ilWorkspaceAccessHandler
         return "";
     }
 
-    public static function keepSharedSessionPassword(int $a_node_id, string $a_password) : void
+    public static function keepSharedSessionPassword(int $a_node_id, string $a_password): void
     {
         ilSession::set("ilshpw_" . $a_node_id, $a_password);
     }
 
-    public static function getSharedSessionPassword(int $a_node_id) : string
+    public static function getSharedSessionPassword(int $a_node_id): string
     {
         return ilSession::get("ilshpw_" . $a_node_id);
     }
 
-    public static function getGotoLink(int $a_node_id, int $a_obj_id, string $a_additional = "") : string
+    public static function getGotoLink(int $a_node_id, int $a_obj_id, string $a_additional = ""): string
     {
         return ilLink::_getStaticLink($a_node_id, ilObject::_lookupType($a_obj_id), true, $a_additional . "_wsp");
     }
 
-    public function getObjectsIShare() : array // PHP8-Review: Method return type has no value type specified in iterable type array.
+    public function getObjectsIShare(): array // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
@@ -518,7 +521,7 @@ class ilWorkspaceAccessHandler
         return $res;
     }
 
-    public static function getObjectDataFromNode(int $a_node_id) : ?array  // PHP8-Review: Method return type has no value type specified in iterable type array.
+    public static function getObjectDataFromNode(int $a_node_id): ?array  // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         global $DIC;
 

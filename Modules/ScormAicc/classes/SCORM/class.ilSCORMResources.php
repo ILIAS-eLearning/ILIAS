@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
-/******************************************************************************
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
 * SCORM Resources Element
 *
@@ -22,51 +27,38 @@
 */
 class ilSCORMResources extends ilSCORMObject
 {
-    public ?string $xml_base;
-
+    public ?string $xml_base = null;
 
     /**
     * Constructor
-    *
-    * @param	int		$a_id		Object ID
-    * @access	public
+    * @param int $a_id Object ID
     */
     public function __construct(int $a_id = 0)
     {
         global $DIC;
         $lng = $DIC->language();
-        
+
         parent::__construct($a_id);
         $this->setType('srs');
 
         $this->setTitle($lng->txt('cont_resources'));
     }
 
-    /**
-     * @return string|null
-     */
-    public function getXmlBase() : ?string
+    public function getXmlBase(): ?string
     {
         return $this->xml_base;
     }
 
-    /**
-     * @param string|null $a_xml_base
-     * @return void
-     */
-    public function setXmlBase(?string $a_xml_base) : void
+    public function setXmlBase(?string $a_xml_base): void
     {
         $this->xml_base = $a_xml_base;
     }
 
-    /**
-     * @return void
-     */
-    public function read() : void
+    public function read(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::read();
 
         $obj_set = $ilDB->queryF(
@@ -78,16 +70,13 @@ class ilSCORMResources extends ilSCORMObject
         $this->setXmlBase($obj_rec['xml_base']);
     }
 
-    /**
-     * @return void
-     */
-    public function create() : void
+    public function create(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::create();
-        
+
         $ilDB->manipulateF(
             'INSERT INTO sc_resources (obj_id, xml_base) VALUES (%s, %s)',
             array('integer', 'text'),
@@ -95,14 +84,11 @@ class ilSCORMResources extends ilSCORMObject
         );
     }
 
-    /**
-     * @return void
-     */
-    public function update() : void
+    public function update(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::update();
 
         $ilDB->manipulateF(
@@ -113,10 +99,7 @@ class ilSCORMResources extends ilSCORMObject
         );
     }
 
-    /**
-     * @return void
-     */
-    public function delete() : void
+    public function delete(): void
     {
         global $DIC;
         $ilDB = $DIC->database();

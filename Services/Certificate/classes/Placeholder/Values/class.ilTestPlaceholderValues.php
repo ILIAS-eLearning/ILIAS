@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,19 +16,21 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilTestPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateTestObjectHelper $testObjectHelper;
-    private ilCertificateUserObjectHelper $userObjectHelper;
-    private ilCertificateUtilHelper $utilHelper;
-    private ilCertificateLPStatusHelper $lpStatusHelper;
-    private ilCertificateDateHelper $dateHelper;
-    private ilLanguage $language;
+    private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateTestObjectHelper $testObjectHelper;
+    private readonly ilCertificateUserObjectHelper $userObjectHelper;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateLPStatusHelper $lpStatusHelper;
+    private readonly ilCertificateDateHelper $dateHelper;
+    private readonly ilLanguage $language;
 
     public function __construct(
         ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
@@ -89,15 +91,12 @@ class ilTestPlaceholderValues implements ilCertificatePlaceholderValues
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     * @param int $userId
-     * @param int $objId
-     * @return array - [PLACEHOLDER] => 'actual value'
      * @throws ilDatabaseException
      * @throws ilDateTimeException
      * @throws ilException
      * @throws ilObjectNotFoundException
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array
+    public function getPlaceholderValues(int $userId, int $objId): array
     {
         /** @var ilObjTest $testObject */
         $testObject = $this->objectHelper->getInstanceByObjId($objId);
@@ -152,11 +151,8 @@ class ilTestPlaceholderValues implements ilCertificatePlaceholderValues
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     * @param int $userId
-     * @param int $objId
-     * @return array
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 

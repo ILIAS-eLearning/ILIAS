@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class ilSearchGUI
@@ -45,7 +62,7 @@ abstract class ilAbstractSearch
         $this->search_result = new ilSearchResult();
     }
 
-    public function setFields(array $a_fields) : void
+    public function setFields(array $a_fields): void
     {
         $this->fields = $a_fields;
     }
@@ -53,17 +70,17 @@ abstract class ilAbstractSearch
     /**
     * @return string[] array of search fields. E.g. array(title,description)
     */
-    public function getFields() : array
+    public function getFields(): array
     {
         return $this->fields;
     }
 
-    public function setFilter(array $a_filter) : void
+    public function setFilter(array $a_filter): void
     {
         $this->object_types = $a_filter;
     }
 
-    public function setIdFilter(array $a_id_filter) : void
+    public function setIdFilter(array $a_id_filter): void
     {
         $this->id_filter = $a_id_filter;
     }
@@ -71,12 +88,12 @@ abstract class ilAbstractSearch
     /**
      * @return int[]
      */
-    public function getIdFilter() : array
+    public function getIdFilter(): array
     {
         return $this->id_filter;
     }
 
-    public function appendToFilter(string $a_type) : void
+    public function appendToFilter(string $a_type): void
     {
         if (!in_array($a_type, $this->object_types)) {
             $this->object_types[] = $a_type;
@@ -87,12 +104,12 @@ abstract class ilAbstractSearch
     /**
      * @param string[] Array of object types (e.g array('lm','st','pg','dbk'))
      */
-    public function getFilter() : array
+    public function getFilter(): array
     {
         return $this->object_types;
     }
 
-    public function __createLocateString() : string
+    public function __createLocateString(): string
     {
         if ($this->query_parser->getCombination() == ilQueryParser::QP_COMBINATION_OR) {
             return '';
@@ -110,16 +127,19 @@ abstract class ilAbstractSearch
         $counter = 0;
         $locate = '';
         foreach ($this->query_parser->getQuotedWords() as $word) {
+            $word = str_replace('\%', '%', $word);
+            $word = str_replace('\_', '_', $word);
+
             $locate .= ',';
             $locate .= $this->db->locate($this->db->quote($word, 'text'), $complete_str);
             $locate .= (' found' . $counter++);
             $locate .= ' ';
         }
-        
+
         return $locate;
     }
 
-    public function __prepareFound(object $row) : array
+    public function __prepareFound(object $row): array
     {
         if ($this->query_parser->getCombination() == 'or') {
             return array();
@@ -128,10 +148,10 @@ abstract class ilAbstractSearch
         $found = [];
         foreach ($this->query_parser->getQuotedWords() as $word) {
             $res_found = "found" . $counter++;
-            $found[] = $row->$res_found;
+            $found[] = (int) $row->$res_found;
         }
         return $found;
     }
 
-    abstract public function performSearch() : ilSearchResult;
+    abstract public function performSearch(): ?ilSearchResult;
 }

@@ -36,22 +36,22 @@ class ilSystemStyleMessage
         $this->setTypeId($type_id);
     }
 
-    public function getMessageOutput() : string
+    public function getMessageOutput(): string
     {
         return $this->message . '</br>';
     }
 
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function setMessage(string $message) : void
+    public function setMessage(string $message): void
     {
         $this->message = $message;
     }
 
-    public function getTypeId() : int
+    public function getTypeId(): int
     {
         return $this->type_id;
     }
@@ -59,7 +59,7 @@ class ilSystemStyleMessage
     /**
      * @throws ilSystemStyleMessageStackException
      */
-    public function setTypeId(int $type_id) : void
+    public function setTypeId(int $type_id): void
     {
         if ($this->isValidTypeId($type_id)) {
             $this->type_id = $type_id;
@@ -68,7 +68,7 @@ class ilSystemStyleMessage
         }
     }
 
-    protected function isValidTypeId(int $type_id) : bool
+    protected function isValidTypeId(int $type_id): bool
     {
         switch ($type_id) {
             case self::TYPE_ERROR:

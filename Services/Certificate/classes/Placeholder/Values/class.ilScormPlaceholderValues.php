@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,18 +16,20 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilLanguage $language;
-    private ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
-    private ilCertificateDateHelper $dateHelper;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateUtilHelper $utilHelper;
-    private ilCertificateObjectLPHelper $objectLPHelper;
-    private ilCertificateLPStatusHelper $lpStatusHelper;
+    private readonly ilLanguage $language;
+    private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
+    private readonly ilCertificateDateHelper $dateHelper;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateObjectLPHelper $objectLPHelper;
+    private readonly ilCertificateLPStatusHelper $lpStatusHelper;
 
     public function __construct(
         ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
@@ -82,15 +84,12 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     * @param int $userId
-     * @param int $objId
-     * @return array - [PLACEHOLDER] => 'actual value'
      * @throws ilDatabaseException
      * @throws ilDateTimeException
      * @throws ilException
      * @throws ilObjectNotFoundException
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array
+    public function getPlaceholderValues(int $userId, int $objId): array
     {
         $this->language->loadLanguageModule('certificate');
 
@@ -138,7 +137,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
         $olp = $this->objectLPHelper->getInstance($object->getId());
         $collection = $olp->getCollectionInstance();
 
-        if ($collection) {
+        if ($collection !== null) {
             $counter = 0;
             foreach ($collection->getPossibleItems() as $item_id => $sahs_item) {
                 if ($collection->isAssignedEntry($item_id)) {
@@ -189,11 +188,8 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     * @param int $userId
-     * @param int $objId
-     * @return array
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
@@ -223,7 +219,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
         $olp = $this->objectLPHelper->getInstance($objId);
         $collection = $olp->getCollectionInstance();
 
-        if ($collection) {
+        if ($collection !== null) {
             $counter = 0;
             foreach ($collection->getPossibleItems() as $item_id => $sahs_item) {
                 if ($collection->isAssignedEntry($item_id)) {

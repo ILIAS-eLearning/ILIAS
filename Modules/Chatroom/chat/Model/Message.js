@@ -13,17 +13,15 @@ var Message = function Message() {};
  * @param {string} type
  * @param {string} content
  * @param {number} roomId
- * @param {number} subRoomId
  *
- * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number}}
+ * @returns {{type: string, timestamp: number, content: string, roomId: number}}
  */
-Message.prototype.create = function(type, content, roomId, subRoomId) {
+Message.prototype.create = function(type, content, roomId) {
 	return {
 		type: type,
 		timestamp: Date.getTimestamp(),
 		content: content,
 		roomId: roomId,
-		subRoomId: subRoomId
 	};
 };
 

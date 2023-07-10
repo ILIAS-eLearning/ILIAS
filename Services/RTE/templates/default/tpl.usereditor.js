@@ -23,6 +23,7 @@ tinymce.init({
     content_style: 'html { overflow: initial; }',
     plugin_insertdate_dateFormat: "%d.%m.%Y",
     plugin_insertdate_timeFormat: "%H:%M:%S",
+    save_enablewhendirty: false,
     save_onsavecallback: "saveTextarea",
     resize: 'true',
     font_formats: "Arial=sans-serif;Courier=monospace;Times Roman=serif",

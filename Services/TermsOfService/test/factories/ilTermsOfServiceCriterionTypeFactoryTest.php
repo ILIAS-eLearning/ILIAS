@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,13 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceCriterionTypeFactoryTest
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
 {
-    public function testInstanceCanBeCreated() : ilTermsOfServiceCriterionTypeFactory
+    public function testInstanceCanBeCreated(): ilTermsOfServiceCriterionTypeFactory
     {
         $dataCache = $this
             ->getMockBuilder(ilObjectDataCache::class)
@@ -47,26 +49,24 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
      */
     public function testFactoryReturnsValidCriteriaWhenRequested(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
-    ) : void {
+    ): void {
         $this->assertCount(3, $criterionTypeFactory->getTypesByIdentMap());
     }
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
      */
     public function testKeysOfCriteriaCollectionMatchTheRespectiveTypeIdent(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
-    ) : void {
+    ): void {
         $criteria = $criterionTypeFactory->getTypesByIdentMap();
 
         $this->assertSame(
             array_keys($criteria),
-            array_values(array_map(static function (ilTermsOfServiceCriterionType $criterion) : string {
+            array_values(array_map(static function (ilTermsOfServiceCriterionType $criterion): string {
                 return $criterion->getTypeIdent();
             }, $criteria))
         );
@@ -74,11 +74,10 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
      */
     public function testCriterionIsReturnedIfRequestedByTypeIdent(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
-    ) : void {
+    ): void {
         foreach ($criterionTypeFactory->getTypesByIdentMap() as $criterion) {
             $this->assertSame($criterion, $criterionTypeFactory->findByTypeIdent($criterion->getTypeIdent()));
         }
@@ -86,11 +85,10 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
      */
     public function testExceptionIsRaisedIfUnsupportedCriterionIsRequested(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
-    ) : void {
+    ): void {
         $this->expectException(ilTermsOfServiceCriterionTypeNotFoundException::class);
 
         $criterionTypeFactory->findByTypeIdent('phpunit');
@@ -98,11 +96,10 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
      */
     public function testNullCriterionIsReturnedAsFallbackIfUnsupportedCriterionIsRequested(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
-    ) : void {
+    ): void {
         $this->assertInstanceOf(
             ilTermsOfServiceNullCriterion::class,
             $criterionTypeFactory->findByTypeIdent('phpunit', true)

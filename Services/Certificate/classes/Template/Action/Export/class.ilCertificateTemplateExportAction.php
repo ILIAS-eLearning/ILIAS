@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
@@ -26,26 +28,17 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateTemplateExportAction
 {
-    private int $objectId;
-    private string $certificatePath;
-    private ilCertificateTemplateRepository $templateRepository;
-    private Filesystem $filesystem;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateUtilHelper $utilHelper;
 
     public function __construct(
-        int $objectId,
-        string $certificatePath,
-        ilCertificateTemplateRepository $templateRepository,
-        Filesystem $filesystem,
+        private readonly int $objectId,
+        private readonly string $certificatePath,
+        private readonly ilCertificateTemplateRepository $templateRepository,
+        private readonly Filesystem $filesystem,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateUtilHelper $utilHelper = null
     ) {
-        $this->objectId = $objectId;
-        $this->certificatePath = $certificatePath;
-        $this->templateRepository = $templateRepository;
-        $this->filesystem = $filesystem;
-
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
         }
@@ -59,13 +52,11 @@ class ilCertificateTemplateExportAction
 
     /**
      * Creates a downloadable file via the browser
-     * @param string $rootDir
-     * @param string $installationId
      * @throws FileAlreadyExistsException
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public function export(string $rootDir = CLIENT_WEB_DIR, string $installationId = IL_INST_ID) : void
+    public function export(string $rootDir = CLIENT_WEB_DIR, string $installationId = IL_INST_ID): void
     {
         $time = time();
 
@@ -83,12 +74,12 @@ class ilCertificateTemplateExportAction
         $this->filesystem->put($exportPath . 'certificate.xml', $xslContent);
 
         $backgroundImagePath = $template->getBackgroundImagePath();
-        if ($backgroundImagePath !== '' && true === $this->filesystem->has($backgroundImagePath)) {
+        if ($backgroundImagePath !== '' && $this->filesystem->has($backgroundImagePath)) {
             $this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
         }
 
         $thumbnailImagePath = $template->getThumbnailImagePath();
-        if ($thumbnailImagePath !== '' && true === $this->filesystem->has($backgroundImagePath)) {
+        if ($thumbnailImagePath !== '' && $this->filesystem->has($backgroundImagePath)) {
             $this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
         }
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  +-----------------------------------------------------------------------------+
  | ILIAS open source                                                           |
@@ -59,7 +61,7 @@ class ilSoapAdministration
         $this->initAuthenticationObject();
     }
 
-    protected function checkSession(string $sid) : bool
+    protected function checkSession(string $sid): bool
     {
         global $DIC;
 
@@ -94,67 +96,71 @@ class ilSoapAdministration
             $set = new ilSetting();
             $this->setMessage('SOAP is not enabled in ILIAS administration for this client');
             $this->setMessageCode('Server');
-            return (int) $set->get("soap_user_administration", '0') === 1;
+            return ((int) $set->get("soap_user_administration", '0')) === 1;
         }
 
         return true;
     }
 
-    protected function explodeSid(string $sid) : array
+    protected function explodeSid(string $sid): array
     {
         $exploded = explode('::', $sid);
 
         return is_array($exploded) ? $exploded : array('sid' => '', 'client' => '');
     }
 
-    protected function setMessage(string $a_str) : void
+    protected function setMessage(string $a_str): void
     {
         $this->message = $a_str;
     }
 
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function appendMessage(string $a_str) : void
+    public function appendMessage(string $a_str): void
     {
         $this->message .= isset($this->message) ? ' ' : '';
         $this->message .= $a_str;
     }
 
-    public function setMessageCode(string $a_code) : void
+    public function setMessageCode(string $a_code): void
     {
         $this->message_code = $a_code;
     }
 
-    public function getMessageCode() : string
+    public function getMessageCode(): string
     {
         return $this->message_code;
     }
 
-    protected function initAuth(string $sid) : void
+    protected function initAuth(string $sid): void
     {
+        global $DIC;
+
         [$sid, $client] = $this->explodeSid($sid);
-        define('CLIENT_ID', $client);
-        $_COOKIE['ilClientId'] = $client;
-        $_COOKIE[session_name()] = $sid;
+
+        if (isset($DIC)) {
+            ilUtil::setCookie(session_name(), $sid);
+        } else {
+            $_COOKIE['ilClientId'] = $client;
+            $_COOKIE[session_name()] = $sid;
+        }
     }
 
-    protected function initIlias() : void
+    protected function initIlias(): void
     {
         if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
             try {
                 require_once("Services/Init/classes/class.ilInitialisation.php");
                 ilInitialisation::reinitILIAS();
             } catch (Exception $e) {
-                // #10608
-                // no need to do anything here, see __checkSession() below
             }
         }
     }
 
-    protected function initAuthenticationObject() : void
+    protected function initAuthenticationObject(): void
     {
         include_once './Services/Authentication/classes/class.ilAuthFactory.php';
         ilAuthFactory::setContext(ilAuthFactory::CONTEXT_SOAP);
@@ -176,7 +182,7 @@ class ilSoapAdministration
         return null;
     }
 
-    public function isFault($object) : bool
+    public function isFault($object): bool
     {
         switch ($this->error_method) {
             case self::NUSOAP:
@@ -237,7 +243,7 @@ class ilSoapAdministration
         return $type;
     }
 
-    public function getInstallationInfoXML() : string
+    public function getInstallationInfoXML(): string
     {
         include_once "Services/Context/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
@@ -259,8 +265,7 @@ class ilSoapAdministration
     }
 
     /**
-     * @param string $clientid
-     * @return string|soap_fault|SoapFault|null
+     * @return soap_fault|SoapFault|string|null
      */
     public function getClientInfoXML(string $clientid)
     {
@@ -276,7 +281,8 @@ class ilSoapAdministration
         $writer->start();
         if (!$writer->addClient($clientdir)) {
             return $this->raiseError(
-                'Client ID ' . $clientid . 'does not exist!', 'Client'
+                'Client ID ' . $clientid . 'does not exist!',
+                'Client'
             );
         }
         $writer->end();

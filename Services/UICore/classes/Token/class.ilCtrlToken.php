@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -30,7 +32,7 @@ class ilCtrlToken implements ilCtrlTokenInterface
     /**
      * @inheritDoc
      */
-    public function verifyWith(string $token) : bool
+    public function verifyWith(string $token): bool
     {
         return ($this->token === $token);
     }
@@ -38,7 +40,7 @@ class ilCtrlToken implements ilCtrlTokenInterface
     /**
      * @inheritDoc
      */
-    public function getToken() : string
+    public function getToken(): string
     {
         return $this->token;
     }

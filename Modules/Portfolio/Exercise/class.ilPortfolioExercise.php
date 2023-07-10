@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Exercise info for portfolios
@@ -34,7 +37,7 @@ class ilPortfolioExercise
         $this->obj_id = $a_obj_id;
     }
 
-    public function getAssignmentsOfPortfolio() : array
+    public function getAssignmentsOfPortfolio(): array
     {
         $user_id = $this->user_id;
         $obj_id = $this->obj_id;
@@ -44,8 +47,11 @@ class ilPortfolioExercise
 
         $exercises = ilExSubmission::findUserFiles($user_id, $obj_id);
         // #0022794
-        if (!$exercises) {
+        if (count($exercises) === 0) {
             $exercises = ilExSubmission::findUserFiles($user_id, $obj_id . ".sec");
+        }
+        if (count($exercises) === 0) {
+            $exercises = ilExSubmission::findUserFiles($user_id, $obj_id . ".zip");
         }
         if ($exercises) {
             foreach ($exercises as $exercise) {

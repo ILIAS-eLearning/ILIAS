@@ -1,6 +1,20 @@
 <?php
-
-/* Copyright (c) 2021 Richard Klees <richard.klees@concepts-and-training.de>, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
@@ -12,7 +26,7 @@ class ilPluginInfoTest extends TestCase
     protected ?ilPluginSlotInfo $pluginslot = null;
     protected ?ilPluginInfo $plugin = null;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->data_factory = new Data\Factory();
 
@@ -52,7 +66,7 @@ class ilPluginInfoTest extends TestCase
         );
     }
 
-    public function testGetter() : void
+    public function testGetter(): void
     {
         $this->assertEquals($this->pluginslot, $this->plugin->getPluginSlot());
         $this->assertEquals($this->component, $this->plugin->getComponent());
@@ -71,12 +85,12 @@ class ilPluginInfoTest extends TestCase
         $this->assertTrue($this->plugin->supportsCLISetup());
     }
 
-    public function testIsInstalled() : void
+    public function testIsInstalled(): void
     {
         $this->assertTrue($this->plugin->isInstalled());
     }
 
-    public function testIsNotInstalled() : void
+    public function testIsNotInstalled(): void
     {
         $this->plugin = new ilPluginInfo(
             $this->data_factory->version("6.5"),
@@ -99,12 +113,12 @@ class ilPluginInfoTest extends TestCase
         $this->assertFalse($this->plugin->isInstalled());
     }
 
-    public function testUpdateIsNotRequired() : void
+    public function testUpdateIsNotRequired(): void
     {
         $this->assertFalse($this->plugin->isUpdateRequired());
     }
 
-    public function testUpdateIsNotRequiredNotInstalled() : void
+    public function testUpdateIsNotRequiredNotInstalled(): void
     {
         $this->plugin = new ilPluginInfo(
             $this->data_factory->version("6.5"),
@@ -127,7 +141,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertFalse($this->plugin->isUpdateRequired());
     }
 
-    public function testUpdateIsRequired() : void
+    public function testUpdateIsRequired(): void
     {
         $this->plugin = new ilPluginInfo(
             $this->data_factory->version("6.5"),
@@ -150,7 +164,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertTrue($this->plugin->isUpdateRequired());
     }
 
-    public function testIsVersionOld() : void
+    public function testIsVersionOld(): void
     {
         $this->assertFalse($this->plugin->isVersionToOld());
 
@@ -196,7 +210,7 @@ class ilPluginInfoTest extends TestCase
     /**
      * @dataProvider versionCompliance
      */
-    public function testIsCompliantToILIAS(Data\Version $version, bool $is_compliant) : void
+    public function testIsCompliantToILIAS(Data\Version $version, bool $is_compliant): void
     {
         $plugin = new ilPluginInfo(
             $version,
@@ -218,7 +232,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertSame($is_compliant, $plugin->isCompliantToILIAS());
     }
 
-    public function versionCompliance() : array
+    public function versionCompliance(): array
     {
         $data_factory = new Data\Factory();
         return [
@@ -228,7 +242,7 @@ class ilPluginInfoTest extends TestCase
         ];
     }
 
-    public function testGetPath() : void
+    public function testGetPath(): void
     {
         $this->assertEquals(
             ilComponentRepository::PLUGIN_BASE_PATH . "/" . "Modules/Module1/Slot1/Plugin1",
@@ -236,7 +250,7 @@ class ilPluginInfoTest extends TestCase
         );
     }
 
-    public function testGetClassName() : void
+    public function testGetClassName(): void
     {
         $this->assertEquals(
             "ilPlugin1Plugin",
@@ -244,7 +258,7 @@ class ilPluginInfoTest extends TestCase
         );
     }
 
-    public function testGetConfigureClassName() : void
+    public function testGetConfigureClassName(): void
     {
         $this->assertEquals(
             "ilPlugin1ConfigGUI",
@@ -261,8 +275,8 @@ class ilPluginInfoTest extends TestCase
         bool $needs_update,
         bool $is_version_to_old,
         bool $is_activation_possible
-    ) : void {
-        $plugin = new class($is_installed, $supports_current_ilias, $needs_update, $is_version_to_old) extends ilPluginInfo {
+    ): void {
+        $plugin = new class ($is_installed, $supports_current_ilias, $needs_update, $is_version_to_old) extends ilPluginInfo {
             protected bool $is_installed;
             protected bool $supports_current_ilias;
             protected bool $needs_update;
@@ -280,22 +294,22 @@ class ilPluginInfoTest extends TestCase
                 $this->is_version_to_old = $is_version_to_old;
             }
 
-            public function isInstalled() : bool
+            public function isInstalled(): bool
             {
                 return $this->is_installed;
             }
 
-            public function isUpdateRequired() : bool
+            public function isUpdateRequired(): bool
             {
                 return $this->needs_update;
             }
 
-            public function isCompliantToILIAS() : bool
+            public function isCompliantToILIAS(): bool
             {
                 return $this->supports_current_ilias;
             }
 
-            public function isVersionToOld() : bool
+            public function isVersionToOld(): bool
             {
                 return $this->is_version_to_old;
             }
@@ -304,7 +318,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertEquals($is_activation_possible, $plugin->isActivationPossible());
     }
 
-    public function isActivationPossibleTruthTable() : array
+    public function isActivationPossibleTruthTable(): array
     {
         // is_installed, supports_current_ilias, needs_update, is_version_to_old => is_activation_possible
         return [
@@ -337,8 +351,8 @@ class ilPluginInfoTest extends TestCase
         bool $is_activated,
         bool $is_version_to_old,
         bool $is_activation_possible
-    ) : void {
-        $plugin = new class($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old) extends ilPluginInfo {
+    ): void {
+        $plugin = new class ($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old) extends ilPluginInfo {
             protected bool $is_installed;
             protected bool $supports_current_ilias;
             protected bool $needs_update;
@@ -359,27 +373,27 @@ class ilPluginInfoTest extends TestCase
                 $this->is_version_to_old = $is_version_to_old;
             }
 
-            public function isActivated() : bool
+            public function isActivated(): bool
             {
                 return $this->is_activated;
             }
 
-            public function isInstalled() : bool
+            public function isInstalled(): bool
             {
                 return $this->is_installed;
             }
 
-            public function isUpdateRequired() : bool
+            public function isUpdateRequired(): bool
             {
                 return $this->needs_update;
             }
 
-            public function isCompliantToILIAS() : bool
+            public function isCompliantToILIAS(): bool
             {
                 return $this->supports_current_ilias;
             }
 
-            public function isVersionToOld() : bool
+            public function isVersionToOld(): bool
             {
                 return $this->is_version_to_old;
             }
@@ -388,7 +402,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertEquals($is_activation_possible, $plugin->isActive());
     }
 
-    public function isActiveTruthTable() : array
+    public function isActiveTruthTable(): array
     {
         // is_installed, supports_current_ilias, needs_update, is_activated, is_version_to_old => is_active
         return [
@@ -439,8 +453,8 @@ class ilPluginInfoTest extends TestCase
         bool $is_activated,
         bool $is_version_to_old,
         string $inactivity_reason
-    ) : void {
-        $plugin = new class($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old) extends ilPluginInfo {
+    ): void {
+        $plugin = new class ($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old) extends ilPluginInfo {
             protected bool $is_installed;
             protected bool $supports_current_ilias;
             protected bool $needs_update;
@@ -461,32 +475,32 @@ class ilPluginInfoTest extends TestCase
                 $this->is_version_to_old = $is_version_to_old;
             }
 
-            public function isActivated() : bool
+            public function isActivated(): bool
             {
                 return $this->is_activated;
             }
 
-            public function isInstalled() : bool
+            public function isInstalled(): bool
             {
                 return $this->is_installed;
             }
 
-            public function isUpdateRequired() : bool
+            public function isUpdateRequired(): bool
             {
                 return $this->needs_update;
             }
 
-            public function isCompliantToILIAS() : bool
+            public function isCompliantToILIAS(): bool
             {
                 return $this->supports_current_ilias;
             }
 
-            public function getCurrentVersion() : ?Data\Version
+            public function getCurrentVersion(): ?Data\Version
             {
                 return $this->current_version;
             }
 
-            public function isVersionToOld() : bool
+            public function isVersionToOld(): bool
             {
                 return $this->is_version_to_old;
             }
@@ -495,16 +509,16 @@ class ilPluginInfoTest extends TestCase
         $this->assertEquals($inactivity_reason, $plugin->getReasonForInactivity());
     }
 
-    public function testGetReasonForInactivityThrowsOnActivePlugin() : void
+    public function testGetReasonForInactivityThrowsOnActivePlugin(): void
     {
         $this->expectException(LogicException::class);
 
-        $plugin = new class() extends ilPluginInfo {
+        $plugin = new class () extends ilPluginInfo {
             public function __construct()
             {
             }
 
-            public function isActive() : bool
+            public function isActive(): bool
             {
                 return true;
             }
@@ -513,7 +527,7 @@ class ilPluginInfoTest extends TestCase
         $plugin->getReasonForInactivity();
     }
 
-    public function inactivityReasonTable() : array
+    public function inactivityReasonTable(): array
     {
         // is_installed, supports_current_ilias, needs_update, is_activated, is_version_to_old => inactivity_reason
         return [

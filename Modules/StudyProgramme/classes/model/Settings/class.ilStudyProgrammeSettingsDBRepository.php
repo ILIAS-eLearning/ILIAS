@@ -1,28 +1,44 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-/* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRepository
 {
-    const TABLE = 'prg_settings';
+    private const TABLE = 'prg_settings';
 
-    const FIELD_OBJ_ID = 'obj_id';
-    const FIELD_SUBTYPE_ID = 'subtype_id';
-    const FIELD_STATUS = 'status';
-    const FIELD_LP_MODE = 'lp_mode';
-    const FIELD_POINTS = 'points';
-    const FIELD_LAST_CHANGED = 'last_change';
-    const FIELD_DEADLINE_PERIOD = 'deadline_period';
-    const FIELD_DEADLINE_DATE = 'deadline_date';
-    const FIELD_VALIDITY_QUALIFICATION_DATE = 'vq_date';
-    const FIELD_VALIDITY_QUALIFICATION_PERIOD = 'vq_period';
-    const FIELD_VQ_RESTART_PERIOD = 'vq_restart_period';
-    const FIELD_RM_NOT_RESTARTED_BY_USER_DAY = 'rm_nr_by_usr_days';
-    const FIELD_PROC_ENDS_NOT_SUCCESSFUL = 'proc_end_no_success';
-    const FIELD_SEND_RE_ASSIGNED_MAIL = "send_re_assigned_mail";
-    const FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL = "send_info_to_re_assign_mail";
-    const FIELD_SEND_RISKY_TO_FAIL_MAIL = "send_risky_to_fail_mail";
+    private const FIELD_OBJ_ID = 'obj_id';
+    private const FIELD_SUBTYPE_ID = 'subtype_id';
+    private const FIELD_STATUS = 'status';
+    private const FIELD_LP_MODE = 'lp_mode';
+    private const FIELD_POINTS = 'points';
+    private const FIELD_LAST_CHANGED = 'last_change';
+    private const FIELD_DEADLINE_PERIOD = 'deadline_period';
+    private const FIELD_DEADLINE_DATE = 'deadline_date';
+    private const FIELD_VALIDITY_QUALIFICATION_DATE = 'vq_date';
+    private const FIELD_VALIDITY_QUALIFICATION_PERIOD = 'vq_period';
+    private const FIELD_VQ_RESTART_PERIOD = 'vq_restart_period';
+    private const FIELD_VQ_RESTART_RECHECK = 'vq_restart_recheck';
+    private const FIELD_RM_NOT_RESTARTED_BY_USER_DAY = 'rm_nr_by_usr_days';
+    private const FIELD_PROC_ENDS_NOT_SUCCESSFUL = 'proc_end_no_success';
+    private const FIELD_SEND_RE_ASSIGNED_MAIL = "send_re_assigned_mail";
+    private const FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL = "send_info_to_re_assign_mail";
+    private const FIELD_SEND_RISKY_TO_FAIL_MAIL = "send_risky_to_fail_mail";
 
     protected static array $cache = [];
     protected ilDBInterface $db;
@@ -36,7 +52,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * @inheritdoc
      * @throws ilException
      */
-    public function createFor(int $obj_id) : ilStudyProgrammeSettings
+    public function createFor(int $obj_id): ilStudyProgrammeSettings
     {
         $type_settings = new ilStudyProgrammeTypeSettings(
             ilStudyProgrammeSettings::DEFAULT_SUBTYPE
@@ -47,7 +63,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         );
         $deadline_settings = new ilStudyProgrammeDeadlineSettings(null, null);
         $validity_of_achieved_qualification_settings =
-            new ilStudyProgrammeValidityOfAchievedQualificationSettings(null, null, null)
+            new \ilStudyProgrammeValidityOfAchievedQualificationSettings(null, null, null, false)
         ;
         $automail = new ilStudyProgrammeAutoMailSettings(false, null, null);
 
@@ -69,7 +85,11 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             (new DateTime())->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT),
             0,
             ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD,
-            ilStudyProgrammeSettings::NO_RESTART
+            ilStudyProgrammeSettings::NO_RESTART,
+            null,
+            null,
+            null,
+            null
         );
 
         $prg = $prg->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED);
@@ -81,9 +101,14 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * @inheritdoc
      * @throws ilException
      */
-    public function get(int $obj_id) : ilStudyProgrammeSettings
+    public function get(int $obj_id): ilStudyProgrammeSettings
     {
         if (!array_key_exists($obj_id, self::$cache)) {
+            $type = ilObject::_lookupType($obj_id);
+            if ($type === 'prgr') {
+                $prg_reference = new ilObjStudyProgrammeReference($obj_id, false);
+                $obj_id = $prg_reference->getReferencedObject()->getId();
+            }
             self::$cache[$obj_id] = $this->loadDB($obj_id);
         }
         return self::$cache[$obj_id];
@@ -92,7 +117,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     /**
      * @inheritdoc
      */
-    public function update(ilStudyProgrammeSettings $settings) : void
+    public function update(ilStudyProgrammeSettings $settings): void
     {
         $deadline_period = $settings->getDeadlineSettings()->getDeadlinePeriod();
         if (is_null($deadline_period)) {
@@ -134,6 +159,9 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             $settings->getAutoMailSettings()->getReminderNotRestartedByUserDays(),
             $settings->getAutoMailSettings()->getProcessingEndsNotSuccessfulDays(),
             $settings->getAutoMailSettings()->getSendReAssignedMail(),
+            false,
+            false,
+            $settings->getValidityOfQualificationSettings()->getRestartRecheck()
         );
         self::$cache[$settings->getObjId()] = $settings;
     }
@@ -141,7 +169,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     /**
      * @inheritdoc
      */
-    public function delete(ilStudyProgrammeSettings $settings) : void
+    public function delete(ilStudyProgrammeSettings $settings): void
     {
         unset(self::$cache[$settings->getObjId()]);
         $this->deleteDB($settings->getObjId());
@@ -151,7 +179,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * @inheritdoc
      * @throws ilException
      */
-    public function loadByType(int $type_id) : array
+    public function loadByType(int $type_id): array
     {
         $q = 'SELECT ' . self::FIELD_SUBTYPE_ID
             . '	,' . self::FIELD_STATUS
@@ -164,9 +192,12 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             . '	,' . self::FIELD_VALIDITY_QUALIFICATION_PERIOD
             . '	,' . self::FIELD_VALIDITY_QUALIFICATION_DATE
             . '	,' . self::FIELD_VQ_RESTART_PERIOD
+            . ', ' . self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY
+            . ', ' . self::FIELD_PROC_ENDS_NOT_SUCCESSFUL
             . ', ' . self::FIELD_SEND_RE_ASSIGNED_MAIL
             . ', ' . self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL
             . ', ' . self::FIELD_SEND_RISKY_TO_FAIL_MAIL
+            . ', ' . self::FIELD_VQ_RESTART_RECHECK
             . '	FROM ' . self::TABLE
             . '	WHERE ' . self::FIELD_SUBTYPE_ID . ' = ' . $this->db->quote($type_id, 'integer');
         $res = $this->db->query($q);
@@ -178,7 +209,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     }
 
 
-    public function loadIdsByType(int $type_id) : array
+    public function loadIdsByType(int $type_id): array
     {
         return [];
     }
@@ -199,8 +230,9 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         int $proc_end_no_success = null,
         bool $send_re_assigned_mail = false,
         bool $send_info_to_re_assign_mail = false,
-        bool $send_risky_to_fail_mail = false
-    ) : void {
+        bool $send_risky_to_fail_mail = false,
+        bool $vq_restart_recheck = false
+    ) {
         $this->db->insert(
             self::TABLE,
             [
@@ -219,7 +251,8 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
                 self::FIELD_PROC_ENDS_NOT_SUCCESSFUL => ['integer', $proc_end_no_success],
                 self::FIELD_SEND_RE_ASSIGNED_MAIL => ['integer', $send_re_assigned_mail],
                 self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL => ['integer', $send_info_to_re_assign_mail],
-                self::FIELD_SEND_RISKY_TO_FAIL_MAIL => ['integer', $send_risky_to_fail_mail]
+                self::FIELD_SEND_RISKY_TO_FAIL_MAIL => ['integer', $send_risky_to_fail_mail],
+                self::FIELD_VQ_RESTART_RECHECK => ['integer', $vq_restart_recheck]
             ]
         );
     }
@@ -228,7 +261,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * @throws ilException
      * @thorws LogicException
      */
-    protected function loadDB(int $obj_id) : ilStudyProgrammeSettings
+    protected function loadDB(int $obj_id): ilStudyProgrammeSettings
     {
         $rec = $this->db->fetchAssoc(
             $this->db->query(
@@ -248,6 +281,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
                 . ', ' . self::FIELD_SEND_RE_ASSIGNED_MAIL
                 . ', ' . self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL
                 . ', ' . self::FIELD_SEND_RISKY_TO_FAIL_MAIL
+                . ', ' . self::FIELD_VQ_RESTART_RECHECK
                 . '	FROM ' . self::TABLE
                 . '	WHERE ' . self::FIELD_OBJ_ID . ' = ' . $this->db->quote($obj_id, 'integer')
             )
@@ -261,7 +295,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     /**
      * @throws ilException
      */
-    protected function createByRow(array $row) : ilStudyProgrammeSettings
+    protected function createByRow(array $row): ilStudyProgrammeSettings
     {
         $type_settings = new ilStudyProgrammeTypeSettings(
             ilStudyProgrammeSettings::DEFAULT_SUBTYPE
@@ -272,9 +306,13 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         );
         $deadline_settings = new ilStudyProgrammeDeadlineSettings(null, null);
         $validity_of_achieved_qualification_settings =
-            new ilStudyProgrammeValidityOfAchievedQualificationSettings(null, null, null)
-        ;
-        $automail = new ilStudyProgrammeAutoMailSettings(false, null, null);
+            new \ilStudyProgrammeValidityOfAchievedQualificationSettings(
+                null,
+                null,
+                null,
+                (bool) $row[self::FIELD_VQ_RESTART_RECHECK]
+            );
+        $automail = new \ilStudyProgrammeAutoMailSettings(false, null, null);
 
         $prg = new ilStudyProgrammeSettings(
             (int) $row[self::FIELD_OBJ_ID],
@@ -303,14 +341,14 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
 
         $deadline = $return->getDeadlineSettings();
         if ($row[self::FIELD_DEADLINE_DATE] !== null) {
-            $deadline = $deadline->withDeadlineDate(DateTime::createFromFormat(
+            $deadline = $deadline->withDeadlineDate(DateTimeImmutable::createFromFormat(
                 ilStudyProgrammeSettings::DATE_TIME_FORMAT,
                 $row[self::FIELD_DEADLINE_DATE]
             ))
             ;
         } else {
             $deadline_period = (int) $row[self::FIELD_DEADLINE_PERIOD];
-            if ($deadline_period == -1) {
+            if ($deadline_period === ilStudyProgrammeSettings::NO_DEADLINE) {
                 $deadline_period = null;
             }
             $deadline = $deadline->withDeadlinePeriod($deadline_period);
@@ -320,23 +358,27 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         $vqs = $return->getValidityOfQualificationSettings();
         if ($row[self::FIELD_VALIDITY_QUALIFICATION_DATE] !== null) {
             $vqs = $vqs->withQualificationDate(
-                DateTime::createFromFormat(
+                DateTimeImmutable::createFromFormat(
                     ilStudyProgrammeSettings::DATE_TIME_FORMAT,
                     $row[self::FIELD_VALIDITY_QUALIFICATION_DATE]
                 )
             );
         } else {
             $qualification_period = (int) $row[self::FIELD_VALIDITY_QUALIFICATION_PERIOD];
-            if ($qualification_period == -1) {
+            if ($qualification_period === ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD) {
                 $qualification_period = null;
             }
             $vqs = $vqs->withQualificationPeriod($qualification_period);
         }
         $restart_period = (int) $row[self::FIELD_VQ_RESTART_PERIOD];
-        if ($restart_period == -1) {
+        if ($restart_period === ilStudyProgrammeSettings::NO_RESTART) {
             $restart_period = null;
         }
-        $vqs = $vqs->withRestartPeriod($restart_period);
+
+        $vqs = $vqs
+            ->withRestartPeriod($restart_period)
+            ->withRestartRecheck((bool) $row[self::FIELD_VQ_RESTART_RECHECK]);
+
         $return = $return->withValidityOfQualificationSettings($vqs);
 
         $rm_nr_by_usr_days = $row[self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY];
@@ -360,7 +402,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     /**
      * @throws LogicException
      */
-    protected function deleteDB(int $obj_id) : void
+    protected function deleteDB(int $obj_id): void
     {
         if (!$this->checkExists($obj_id)) {
             throw new LogicException('invaid obj_id to delete: ' . $obj_id);
@@ -390,8 +432,9 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         int $proc_end_no_success = null,
         bool $send_re_assigned_mail = false,
         bool $send_info_to_re_assign_mail = false,
-        bool $send_risky_to_fail_mail = false
-    ) : void {
+        bool $send_risky_to_fail_mail = false,
+        bool $vq_restart_recheck = false
+    ) {
         if (!$this->checkExists($obj_id)) {
             throw new LogicException('invalid obj_id to update: ' . $obj_id);
         }
@@ -462,13 +505,17 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             self::FIELD_SEND_RISKY_TO_FAIL_MAIL => [
                 'integer',
                 $send_risky_to_fail_mail
+            ],
+            self::FIELD_VQ_RESTART_RECHECK => [
+                'integer',
+                $vq_restart_recheck
             ]
         ];
 
         $this->db->update(self::TABLE, $values, $where);
     }
 
-    protected function checkExists(int $obj_id) : bool
+    protected function checkExists(int $obj_id): bool
     {
         $rec = $this->db->fetchAssoc(
             $this->db->query(
@@ -483,7 +530,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         return false;
     }
 
-    public static function clearCache() : void
+    public static function clearCache(): void
     {
         self::$cache = [];
     }
@@ -494,7 +541,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * completing the progress due to a deadline.
      * @return array <int id, int days_offset>
      */
-    public function getProgrammeIdsWithRiskyToFailSettings() : array
+    public function getProgrammeIdsWithRiskyToFailSettings(): array
     {
         $query = 'SELECT '
             . self::FIELD_OBJ_ID . ', '
@@ -516,7 +563,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * and have a setting to send mails for qualifications about to expire
      * @return array <int id, int days_offset>
      */
-    public function getProgrammeIdsWithMailsForExpiringValidity() : array
+    public function getProgrammeIdsWithMailsForExpiringValidity(): array
     {
         $query = 'SELECT '
             . self::FIELD_OBJ_ID . ', '
@@ -538,14 +585,14 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * and have a setting to reassign users when validity expires
      * @return array <int id, int days_offset>
      */
-    public function getProgrammeIdsWithReassignmentForExpiringValidity() : array
+    public function getProgrammeIdsWithReassignmentForExpiringValidity(): array
     {
         $query = 'SELECT '
             . self::FIELD_OBJ_ID . ', '
             . self::FIELD_VQ_RESTART_PERIOD
             . ' FROM ' . self::TABLE . PHP_EOL
             . ' WHERE ' . self::FIELD_STATUS . ' = ' . ilStudyProgrammeSettings::STATUS_ACTIVE
-            . ' AND ' . self::FIELD_VQ_RESTART_PERIOD . ' > 0';
+            . ' AND ' . self::FIELD_VQ_RESTART_PERIOD . ' >= 0';
 
         $return = [];
         $res = $this->db->query($query);

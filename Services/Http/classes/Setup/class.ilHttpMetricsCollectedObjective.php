@@ -20,7 +20,7 @@ class ilHttpMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
     /**
      * @return \ilIniFilesLoadedObjective[]|\ilSettingsFactoryExistsObjective[]
      */
-    public function getTentativePreconditions(Setup\Environment $environment) : array
+    public function getTentativePreconditions(Setup\Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -28,7 +28,7 @@ class ilHttpMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
         ];
     }
 
-    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage): void
     {
         $ilias_ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
 

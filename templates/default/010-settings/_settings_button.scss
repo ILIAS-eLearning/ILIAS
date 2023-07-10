@@ -1,0 +1,44 @@
+@use "./_settings_color-palette.scss" as s-color;
+@use "./_settings_typography.scss" as s-typo;
+@use "./settings_borders" as s-border;
+
+//== Buttons
+//
+
+//** Size of the font displayed inside a button
+$il-button-font-size: s-typo.$il-font-size-small !default;
+
+$il-button-font-weight: s-typo.$il-font-weight-base !default;
+
+//** Text color of the standard button (most button instances)
+$il-btn-standard-color: white !default;
+//** Background color of the standard button (most button instances)
+$il-btn-standard-bg: s-color.$il-main-color !default;
+//** Border color of the standard button (most button instances)
+$il-btn-standard-border: s-color.$il-main-color !default;
+
+//** Text color of the primary button (most important button on the screen)
+$il-btn-primary-color: white !default;
+//** Background color of the primary button (most important button on the screen)
+$il-btn-primary-bg: darken(s-color.$il-secondary-color, 10%) !default;
+//** Border color of the primary button (most important button on the screen)
+$il-btn-primary-border: darken(s-color.$il-secondary-color, 10%) !default;
+
+//** Colors of inactive buttons
+$il-disabled-btn-color: darken(s-color.$il-text-color, 20%) !default;
+$il-disabled-btn-bg: #b0b0b0 !default;
+$il-disabled-btn-border: #b0b0b0 !default;
+
+//** Tag Colors
+$il-btn-tag-bg: #75deea !default;
+$il-btn-tag-bg-highlighted: s-color.$il-warning-color !default;
+
+//** Width of the `border` for generating carets that indicate dropdowns.
+$il-caret-width-base:          4px !default;
+//** Carets increase slightly in size for larger components.
+$il-caret-width-large:         5px !default;
+
+// Allows for customizing button radius independently from global border radius
+$il-btn-border-radius-base:         s-border.$il-border-radius-base !default;
+$il-btn-border-radius-large:        s-border.$il-border-radius-large !default;
+$il-btn-border-radius-small:        s-border.$il-border-radius-small !default;

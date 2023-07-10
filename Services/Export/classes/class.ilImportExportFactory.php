@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Factory for importer/exporter implementers
@@ -10,7 +26,7 @@ class ilImportExportFactory
 {
     public const PLUGINS_DIR = "Plugins";
 
-    public static function getExporterClass(string $a_type) : string
+    public static function getExporterClass(string $a_type): string
     {
         /**
          * @var $objDefinition ilObjectDefinition
@@ -48,7 +64,7 @@ class ilImportExportFactory
         throw new InvalidArgumentException('Invalid exporter type given');
     }
 
-    public static function getComponentForExport(string $a_type) : string
+    public static function getComponentForExport(string $a_type): string
     {
         /**
          * @var $objDefinition ilObjectDefinition
@@ -69,7 +85,7 @@ class ilImportExportFactory
      * @return string    class name of the importer class (or empty if the importer should be ignored)
      * @throws    InvalidArgumentException    the importer class is not found but should not be ignored
      */
-    public static function getImporterClass(string $a_component) : string
+    public static function getImporterClass(string $a_component): string
     {
         /**
          * @var $objDefinition ilObjectDefinition

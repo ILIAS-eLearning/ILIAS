@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -51,7 +53,7 @@ class ilAdvancedMDFieldTranslations
         $this->read();
     }
 
-    public static function getInstanceByRecordId(int $record_id) : ilAdvancedMDFieldTranslations
+    public static function getInstanceByRecordId(int $record_id): ilAdvancedMDFieldTranslations
     {
         if (!isset(self::$instances[$record_id])) {
             self::$instances[$record_id] = new self($record_id);
@@ -59,12 +61,12 @@ class ilAdvancedMDFieldTranslations
         return self::$instances[$record_id];
     }
 
-    public function getRecordId() : int
+    public function getRecordId(): int
     {
         return $this->record_id;
     }
 
-    public function getDefaultLanguage() : string
+    public function getDefaultLanguage(): string
     {
         return $this->default_language;
     }
@@ -74,7 +76,7 @@ class ilAdvancedMDFieldTranslations
      * @param bool $with_default
      * @return array<int, string>
      */
-    public function getActivatedLanguages(int $field_id, bool $with_default = true) : array
+    public function getActivatedLanguages(int $field_id, bool $with_default = true): array
     {
         $activated = [];
         foreach ($this->getTranslations($field_id) as $language => $translation) {
@@ -86,7 +88,7 @@ class ilAdvancedMDFieldTranslations
         return $activated;
     }
 
-    public function isConfigured(int $field_id, string $lang_key) : bool
+    public function isConfigured(int $field_id, string $lang_key): bool
     {
         if (!$this->record_translations->isConfigured($lang_key)) {
             return false;
@@ -94,7 +96,7 @@ class ilAdvancedMDFieldTranslations
         return isset($this->translations[$field_id][$lang_key]);
     }
 
-    public function getTranslation(int $field_id, string $lang_key) : ?ilAdvancedMDFieldTranslation
+    public function getTranslation(int $field_id, string $lang_key): ?ilAdvancedMDFieldTranslation
     {
         if (!$this->isConfigured($field_id, $lang_key)) {
             return null;
@@ -105,7 +107,7 @@ class ilAdvancedMDFieldTranslations
     /**
      * @return array<string, ilAdvancedMDFieldTranslation>
      */
-    public function getTranslations(int $field_id) : array
+    public function getTranslations(int $field_id): array
     {
         if (isset($this->translations[$field_id])) {
             return $this->translations[$field_id];
@@ -116,7 +118,7 @@ class ilAdvancedMDFieldTranslations
     /**
      * @return ilAdvancedMDRecordTranslation | null
      */
-    public function getDefaultTranslation(int $field_id) : ?ilAdvancedMDFieldTranslation
+    public function getDefaultTranslation(int $field_id): ?ilAdvancedMDFieldTranslation
     {
         foreach ($this->getTranslations($field_id) as $translation) {
             if ($translation->getLangKey() == $this->default_language) {
@@ -126,7 +128,7 @@ class ilAdvancedMDFieldTranslations
         return null;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $query = 'select fi.field_id tfield, de.field_id ofield, fi.title, fi.description, ri.lang_code ' .
             'from adv_md_record_int ri join adv_mdf_definition de on ri.record_id = de.record_id ' .
@@ -155,7 +157,7 @@ class ilAdvancedMDFieldTranslations
         }
     }
 
-    public function getFormTranslationInfo(int $field_id, string $active_language) : string
+    public function getFormTranslationInfo(int $field_id, string $active_language): string
     {
         if (count($this->getTranslations($field_id)) <= 1) {
             return '';
@@ -178,7 +180,7 @@ class ilAdvancedMDFieldTranslations
         ilPropertyFormGUI $form,
         ilTextInputGUI $title,
         string $active_language
-    ) : void {
+    ): void {
         if (!strlen($active_language)) {
             return;
         }
@@ -197,7 +199,7 @@ class ilAdvancedMDFieldTranslations
         ilPropertyFormGUI $form,
         ilTextAreaInputGUI $description,
         string $active_language
-    ) : void {
+    ): void {
         if (!strlen($active_language)) {
             return;
         }
@@ -211,7 +213,7 @@ class ilAdvancedMDFieldTranslations
         }
     }
 
-    public function updateFromForm(int $field_id, string $active_language, ilPropertyFormGUI $form) : void
+    public function updateFromForm(int $field_id, string $active_language, ilPropertyFormGUI $form): void
     {
         $translation = $this->getTranslation($field_id, $active_language);
         if (!$translation instanceof ilAdvancedMDFieldTranslation) {
@@ -222,7 +224,7 @@ class ilAdvancedMDFieldTranslations
         $translation->update();
     }
 
-    public function getTitleForLanguage(int $field_id, string $language) : string
+    public function getTitleForLanguage(int $field_id, string $language): string
     {
         if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation(
             $field_id,
@@ -242,7 +244,7 @@ class ilAdvancedMDFieldTranslations
         return '';
     }
 
-    public function getDescriptionForLanguage(int $field_id, string $language) : string
+    public function getDescriptionForLanguage(int $field_id, string $language): string
     {
         if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation(
             $field_id,

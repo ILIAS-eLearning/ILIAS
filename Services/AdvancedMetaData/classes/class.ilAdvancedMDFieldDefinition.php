@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\GlobalHttpState;
@@ -80,7 +85,7 @@ abstract class ilAdvancedMDFieldDefinition
         ?int $a_field_id,
         ?int $a_type = null,
         string $language = ''
-    ) : ilAdvancedMDFieldDefinition {
+    ): ilAdvancedMDFieldDefinition {
         global $DIC;
 
         $db = $DIC->database();
@@ -100,7 +105,7 @@ abstract class ilAdvancedMDFieldDefinition
         throw new ilException("unknown type " . $a_type);
     }
 
-    public static function exists(int $a_field_id) : bool
+    public static function exists(int $a_field_id): bool
     {
         global $DIC;
 
@@ -117,7 +122,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Get instance by type string (used by import)
      */
-    public static function getInstanceByTypeString(string $a_type) : ?ilAdvancedMDFieldDefinition
+    public static function getInstanceByTypeString(string $a_type): ?ilAdvancedMDFieldDefinition
     {
         // see self::getTypeString()
         $map = array(
@@ -151,7 +156,7 @@ abstract class ilAdvancedMDFieldDefinition
         $a_record_id,
         $a_only_searchable = false,
         string $language = ''
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -177,7 +182,7 @@ abstract class ilAdvancedMDFieldDefinition
      * @param bool   $a_active_only
      * @return array<int, ilAdvancedMDFieldDefinition>
      */
-    public static function getInstancesByObjType($a_obj_type, $a_active_only = true) : array
+    public static function getInstancesByObjType($a_obj_type, $a_active_only = true): array
     {
         global $DIC;
 
@@ -201,7 +206,7 @@ abstract class ilAdvancedMDFieldDefinition
         return $defs;
     }
 
-    public static function getInstanceByImportId(string $a_import_id) : ?ilAdvancedMDFieldDefinition
+    public static function getInstanceByImportId(string $a_import_id): ?ilAdvancedMDFieldDefinition
     {
         global $DIC;
 
@@ -246,7 +251,7 @@ abstract class ilAdvancedMDFieldDefinition
      * @return ilADTGroup
      * @todo check return type array<string, ilADTDefinition> or array<string, ilADTDefinition>
      */
-    public static function getADTGroupForDefinitions(array $a_defs) : ilADT
+    public static function getADTGroupForDefinitions(array $a_defs): ilADT
     {
         $factory = ilADTFactory::getInstance();
         $group_def = $factory->getDefinitionInstanceByType("Group");
@@ -262,7 +267,7 @@ abstract class ilAdvancedMDFieldDefinition
         return $group;
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $this->setRequired(false);
         $this->setSearchable(false);
@@ -272,7 +277,7 @@ abstract class ilAdvancedMDFieldDefinition
      * Get all valid types
      * @return int[]
      */
-    public static function getValidTypes() : array
+    public static function getValidTypes(): array
     {
         return array(
             self::TYPE_TEXT,
@@ -289,7 +294,7 @@ abstract class ilAdvancedMDFieldDefinition
         );
     }
 
-    public static function isValidType(int $a_type) : bool
+    public static function isValidType(int $a_type): bool
     {
         return in_array($a_type, self::getValidTypes());
     }
@@ -297,12 +302,12 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Get type
      */
-    abstract public function getType() : int;
+    abstract public function getType(): int;
 
     /**
      * Get type as string
      */
-    protected static function getTypeString(int $a_type) : string
+    protected static function getTypeString(int $a_type): string
     {
         if (self::isValidType($a_type)) {
             $map = array(
@@ -326,7 +331,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Check if default language mode has to be used: no language given or language equals default language
      */
-    public function useDefaultLanguageMode(string $language) : bool
+    public function useDefaultLanguageMode(string $language): bool
     {
         if (!strlen($language)) {
             return true;
@@ -338,7 +343,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * @todo check udf usage
      */
-    public function getTypeTitle() : string
+    public function getTypeTitle(): string
     {
         return "udf_type_" . strtolower(self::getTypeString($this->getType()));
     }
@@ -346,13 +351,13 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Init adt instance
      */
-    abstract protected function initADTDefinition() : ilADTDefinition;
+    abstract protected function initADTDefinition(): ilADTDefinition;
 
     /**
      * Get ADT definition instance
      * @return ilADTDefinition
      */
-    public function getADTDefinition() : ilADTDefinition
+    public function getADTDefinition(): ilADTDefinition
     {
         if (!$this->adt_def instanceof ilADTDefinition) {
             $this->adt_def = $this->initADTDefinition();
@@ -360,7 +365,7 @@ abstract class ilAdvancedMDFieldDefinition
         return $this->adt_def;
     }
 
-    public function getADT() : ilADT
+    public function getADT(): ilADT
     {
         if (!$this->adt instanceof ilADT) {
             $this->adt = ilADTFactory::getInstance()->getInstanceByDefinition($this->getADTDefinition());
@@ -372,7 +377,7 @@ abstract class ilAdvancedMDFieldDefinition
      * Set ADT instance
      * @see self::getADTGroupForDefinitions()
      */
-    protected function setADT(ilADT $a_adt) : void
+    protected function setADT(ilADT $a_adt): void
     {
         if (!$this->adt instanceof ilADT) {
             $this->adt = $a_adt;
@@ -382,7 +387,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Set field_id
      */
-    protected function setFieldId(int $a_id) : void
+    protected function setFieldId(int $a_id): void
     {
         $this->field_id = $a_id;
     }
@@ -390,7 +395,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Get field_id
      */
-    public function getFieldId() : ?int
+    public function getFieldId(): ?int
     {
         return $this->field_id;
     }
@@ -398,7 +403,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Set record id
      */
-    public function setRecordId(int $a_id) : void
+    public function setRecordId(int $a_id): void
     {
         $this->record_id = $a_id;
     }
@@ -406,7 +411,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Get record id
      */
-    public function getRecordId() : int
+    public function getRecordId(): int
     {
         return $this->record_id;
     }
@@ -414,7 +419,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Set import id
      */
-    public function setImportId(string $a_id_string) : void
+    public function setImportId(string $a_id_string): void
     {
         if ($a_id_string !== null) {
             $a_id_string = trim($a_id_string);
@@ -425,7 +430,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Get import id
      */
-    public function getImportId() : string
+    public function getImportId(): string
     {
         return $this->import_id;
     }
@@ -433,7 +438,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Set position
      */
-    public function setPosition(int $a_pos) : void
+    public function setPosition(int $a_pos): void
     {
         $this->position = $a_pos;
     }
@@ -441,7 +446,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Get position
      */
-    public function getPosition() : int
+    public function getPosition(): int
     {
         return $this->position;
     }
@@ -449,7 +454,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Get title
      */
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         if ($a_title !== null) {
             $a_title = trim($a_title);
@@ -460,7 +465,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Get title
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -468,7 +473,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Set description
      */
-    public function setDescription(string $a_desc) : void
+    public function setDescription(string $a_desc): void
     {
         if ($a_desc !== null) {
             $a_desc = trim($a_desc);
@@ -479,7 +484,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Get description
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -487,7 +492,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Is search supported at all
      */
-    public function isSearchSupported() : bool
+    public function isSearchSupported(): bool
     {
         return true;
     }
@@ -495,7 +500,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Is search by filter supported
      */
-    public function isFilterSupported() : bool
+    public function isFilterSupported(): bool
     {
         return true;
     }
@@ -503,7 +508,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Toggle searchable
      */
-    public function setSearchable(bool $a_status) : void
+    public function setSearchable(bool $a_status): void
     {
         // see above
         if (!$this->isSearchSupported()) {
@@ -515,7 +520,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Is searchable
      */
-    public function isSearchable() : bool
+    public function isSearchable(): bool
     {
         return $this->searchable;
     }
@@ -523,7 +528,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Toggle required
      */
-    public function setRequired(bool $a_status) : void
+    public function setRequired(bool $a_status): void
     {
         $this->required = $a_status;
     }
@@ -531,7 +536,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Is required field
      */
-    public function isRequired() : bool
+    public function isRequired(): bool
     {
         return $this->required;
     }
@@ -539,14 +544,14 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Import (type-specific) field definition from DB
      */
-    protected function importFieldDefinition(array $a_def) : void
+    protected function importFieldDefinition(array $a_def): void
     {
     }
 
     /**
      * Get (type-specific) field definition
      */
-    protected function getFieldDefinition() : array
+    protected function getFieldDefinition(): array
     {
         return [];
     }
@@ -554,7 +559,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Parse properties for table gui
      */
-    public function getFieldDefinitionForTableGUI(string $content_language) : array
+    public function getFieldDefinitionForTableGUI(string $content_language): array
     {
         return [];
     }
@@ -566,7 +571,7 @@ abstract class ilAdvancedMDFieldDefinition
         ilPropertyFormGUI $a_form,
         bool $a_disabled = false,
         string $language = ''
-    ) : void {
+    ): void {
     }
 
     /**
@@ -576,13 +581,13 @@ abstract class ilAdvancedMDFieldDefinition
         ilPropertyFormGUI $a_form,
         ilAdvancedMDPermissionHelper $a_permissions,
         string $language = ''
-    ) : void {
+    ): void {
         global $DIC;
         $lng = $DIC['lng'];
 
         $perm = $a_permissions->hasPermissions(
             ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-            $this->getFieldId(),
+            (string) $this->getFieldId(),
             array(
                 array(ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
                       ilAdvancedMDPermissionHelper::SUBACTION_FIELD_TITLE
@@ -667,7 +672,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Import custom post values from definition form
      */
-    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '') : void
+    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = ''): void
     {
         // type-specific
     }
@@ -679,7 +684,7 @@ abstract class ilAdvancedMDFieldDefinition
         ilPropertyFormGUI $a_form,
         ilAdvancedMDPermissionHelper $a_permissions,
         string $active_language
-    ) : void {
+    ): void {
         $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->record_id);
         $is_translation = (($active_language !== '') && ($active_language != $record->getDefaultLanguage()));
         if (!$a_form->getItemByPostVar("title")->getDisabled() && !$is_translation) {
@@ -689,12 +694,12 @@ abstract class ilAdvancedMDFieldDefinition
             $this->setDescription($a_form->getInput("description"));
         }
         if (!$a_form->getItemByPostVar("searchable")->getDisabled()) {
-            $this->setSearchable($a_form->getInput("searchable"));
+            $this->setSearchable((bool) $a_form->getInput("searchable"));
         }
 
         if ($a_permissions->hasPermission(
             ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-            $this->getFieldId(),
+            (string) $this->getFieldId(),
             ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
             ilAdvancedMDPermissionHelper::SUBACTION_FIELD_PROPERTIES
         )) {
@@ -702,16 +707,16 @@ abstract class ilAdvancedMDFieldDefinition
         }
     }
 
-    public function importDefinitionFormPostValuesNeedsConfirmation() : bool
+    public function importDefinitionFormPostValuesNeedsConfirmation(): bool
     {
         return false;
     }
 
-    public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form) : void
+    public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form): void
     {
     }
 
-    public function prepareDefinitionFormConfirmation(ilPropertyFormGUI $a_form) : void
+    public function prepareDefinitionFormConfirmation(ilPropertyFormGUI $a_form): void
     {
         $a_form->getItemByPostVar("title")->setDisabled(true);
         $a_form->getItemByPostVar("description")->setDisabled(true);
@@ -730,7 +735,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Get last position of record
      */
-    protected function getLastPosition() : int
+    protected function getLastPosition(): int
     {
         $sql = "SELECT max(position) pos" .
             " FROM adv_mdf_definition" .
@@ -746,7 +751,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Generate unique record id
      */
-    public function generateImportId(int $a_field_id) : string
+    public function generateImportId(int $a_field_id): string
     {
         return 'il_' . IL_INST_ID . '_adv_md_field_' . $a_field_id;
     }
@@ -754,7 +759,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Get all definition properties for DB
      */
-    protected function getDBProperties() : array
+    protected function getDBProperties(): array
     {
         $fields = array(
             "field_type" => array("integer", $this->getType()),
@@ -777,7 +782,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Import from DB
      */
-    protected function import(array $a_data) : void
+    protected function import(array $a_data): void
     {
         $this->setFieldId((int) $a_data["field_id"]);
         $this->setRecordId((int) $a_data["record_id"]);
@@ -787,15 +792,18 @@ abstract class ilAdvancedMDFieldDefinition
         $this->setPosition((int) $a_data["position"]);
         $this->setSearchable((bool) $a_data["searchable"]);
         $this->setRequired((bool) $a_data["required"]);
-        if ($a_data["field_values"]) {
-            $this->importFieldDefinition(unserialize($a_data["field_values"]));
+        if (isset($a_data['field_values'])) {
+            $field_values = unserialize($a_data['field_values']);
+            if (is_array($field_values)) {
+                $this->importFieldDefinition($field_values);
+            }
         }
     }
 
     /**
      * Read field definition
      */
-    protected function read(?int $a_field_id) : void
+    protected function read(?int $a_field_id): void
     {
         if (!(int) $a_field_id) {
             return;
@@ -813,7 +821,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Create new field entry
      */
-    public function save(bool $a_keep_pos = false) : void
+    public function save(bool $a_keep_pos = false): void
     {
         if ($this->getFieldId()) {
             $this->update();
@@ -843,7 +851,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Update field entry
      */
-    public function update() : void
+    public function update(): void
     {
         if (!$this->getFieldId()) {
             $this->save();
@@ -860,7 +868,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Delete field entry
      */
-    public function delete() : void
+    public function delete(): void
     {
         if (!$this->getFieldId()) {
             return;
@@ -879,7 +887,7 @@ abstract class ilAdvancedMDFieldDefinition
      * This method writes only the subset Field
      * Use class.ilAdvancedMDRecordXMLWriter to generate a complete xml presentation.
      */
-    public function toXML(ilXmlWriter $a_writer) : void
+    public function toXML(ilXmlWriter $a_writer): void
     {
         $a_writer->xmlStartTag('Field', array(
             'id' => $this->generateImportId($this->getFieldId()),
@@ -894,11 +902,15 @@ abstract class ilAdvancedMDFieldDefinition
         $a_writer->xmlStartTag('FieldTranslations');
         foreach ($translations->getTranslations($this->getFieldId()) as $translation) {
             $a_writer->xmlStartTag('FieldTranslation', ['language' => $translation->getLangKey()]);
-            $a_writer->xmlElement('FieldTranslationTitle', [],
-                                  $translation->getTitle()
+            $a_writer->xmlElement(
+                'FieldTranslationTitle',
+                [],
+                $translation->getTitle()
             );
-            $a_writer->xmlElement('FieldTranslationDescription', [],
-                                  $translation->getDescription()
+            $a_writer->xmlElement(
+                'FieldTranslationDescription',
+                [],
+                $translation->getDescription()
             );
             $a_writer->xmlEndTag('FieldTranslation');
         }
@@ -913,7 +925,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Add (type-specific) properties to xml export
      */
-    protected function addPropertiesToXML(ilXmlWriter $a_writer) : void
+    protected function addPropertiesToXML(ilXmlWriter $a_writer): void
     {
         // type-specific properties
     }
@@ -921,25 +933,25 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Import property from XML
      */
-    public function importXMLProperty(string $a_key, string $a_value) : void
+    public function importXMLProperty(string $a_key, string $a_value): void
     {
     }
 
     /**
      * Parse ADT value for xml (export)
      */
-    abstract public function getValueForXML(ilADT $element) : string;
+    abstract public function getValueForXML(ilADT $element): string;
 
     /**
      * Import value from xml
      * @param string $a_cdata
      */
-    abstract public function importValueFromXML(string $a_cdata) : void;
+    abstract public function importValueFromXML(string $a_cdata): void;
 
     /**
      * Import meta data from ECS
      */
-    public function importFromECS(string $a_ecs_type, $a_value, string $a_sub_id) : bool
+    public function importFromECS(string $a_ecs_type, $a_value, string $a_sub_id): bool
     {
         return false;
     }
@@ -947,7 +959,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Prepare editor form elements
      */
-    public function prepareElementForEditor(ilADTFormBridge $a_bridge) : void
+    public function prepareElementForEditor(ilADTFormBridge $a_bridge): void
     {
         // type-specific
     }
@@ -958,12 +970,12 @@ abstract class ilAdvancedMDFieldDefinition
      * @return string
      * @todo check if string type is applicable
      */
-    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : string
+    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search): string
     {
         return '';
     }
 
-    public function getSearchValueSerialized(ilADTSearchBridge $a_adt_search) : string
+    public function getSearchValueSerialized(ilADTSearchBridge $a_adt_search): string
     {
         return $a_adt_search->getSerializedValue();
     }
@@ -971,7 +983,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Set value from search persistence
      */
-    public function setSearchValueSerialized(ilADTSearchBridge $a_adt_search, $a_value) : void
+    public function setSearchValueSerialized(ilADTSearchBridge $a_adt_search, $a_value): void
     {
         $a_adt_search->setSerializedValue($a_value);
     }
@@ -979,7 +991,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Add object-data needed for global search to AMD search results
      */
-    protected function parseSearchObjects(array $a_records, array $a_object_types) : array
+    protected function parseSearchObjects(array $a_records, array $a_object_types): array
     {
         $res = [];
         $obj_ids = [];
@@ -1000,7 +1012,7 @@ abstract class ilAdvancedMDFieldDefinition
         return $res;
     }
 
-    public function searchSubObjects(ilADTSearchBridge $a_adt_search, int $a_obj_id, string $sub_obj_type) : array
+    public function searchSubObjects(ilADTSearchBridge $a_adt_search, int $a_obj_id, string $sub_obj_type): array
     {
         $element_id = ilADTActiveRecordByType::SINGLE_COLUMN_NAME;
 
@@ -1041,7 +1053,7 @@ abstract class ilAdvancedMDFieldDefinition
         array $a_object_types,
         string $a_locate,
         string $a_search_type
-    ) : array {
+    ): array {
         // search type only supported/needed for text
         $condition = $a_adt_search->getSQLCondition(ilADTActiveRecordByType::SINGLE_COLUMN_NAME);
         if ($condition) {
@@ -1073,14 +1085,14 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Prepare search form elements
      */
-    public function prepareElementForSearch(ilADTSearchBridge $a_bridge) : void
+    public function prepareElementForSearch(ilADTSearchBridge $a_bridge): void
     {
     }
 
     /**
      * Clone field definition
      */
-    public function _clone(int $a_new_record_id) : self
+    public function _clone(int $a_new_record_id): self
     {
         $class = get_class($this);
         $obj = new $class();
@@ -1099,7 +1111,7 @@ abstract class ilAdvancedMDFieldDefinition
     // complex options
     //
 
-    public function hasComplexOptions() : bool
+    public function hasComplexOptions(): bool
     {
         return false;
     }
@@ -1109,7 +1121,7 @@ abstract class ilAdvancedMDFieldDefinition
      * @param string $parent_cmd
      * @return null
      */
-    public function getComplexOptionsOverview(object $a_parent_gui, string $parent_cmd) : ?string
+    public function getComplexOptionsOverview(object $a_parent_gui, string $parent_cmd): ?string
     {
         return null;
     }

@@ -1,7 +1,24 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\DI\Container;
 use ILIAS\MyStaff\ilMyStaffAccess;
+use ILIAS\Services\MyStaff\Utils\ListFetcherResult;
 
 /**
  * Class ilMStListCompetencesSkills
@@ -24,13 +41,12 @@ class ilMStListCompetencesSkills
      * @param int[] $options
      * @return ilMStListCompetencesSkill[]
      */
-    final public function getData(array $options)
+    final public function getData(array $options): ListFetcherResult
     {
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_VIEW_COMPETENCES;
 
-        $select = $options['count'] === true ?
-            'SELECT count(*)' : 'SELECT sktree.title as skill_title, skill_node_id, ulvl.trigger_obj_id, user_id, login, firstname, lastname, lvl.title as skill_level';
+        $select = 'SELECT sktree.title as skill_title, skill_node_id, ulvl.trigger_obj_id, user_id, login, firstname, lastname, email, lvl.title as skill_level';
 
         $query = $select .
             ' FROM skl_personal_skill sk ' .
@@ -41,33 +57,31 @@ class ilMStListCompetencesSkills
             ' INNER JOIN skl_level lvl ON lvl.id = ulvl.level_id ' .
             ' WHERE ';
 
-        $data = [];
         $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
 
         if (empty($users_per_position)) {
-            if ($options["count"]) {
-                return 0;
-            } else {
-                return [];
-            }
+            return new ListFetcherResult([], 0);
         }
 
         $arr_query = [];
         foreach ($users_per_position as $position_id => $users) {
-            $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(),
-                $operation_access);
-            $arr_query[] = $query . $this->dic->database()->in('ulvl.trigger_obj_id', $obj_ids, false,
-                    'integer') . " AND " . $this->dic->database()->in('sk.user_id ', $users, false, 'integer')
-                . $this->getAdditionalWhereStatement($options['filters']);
+            $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation(
+                $this->dic->user()->getId(),
+                $operation_access
+            );
+            $arr_query[] = $query . $this->dic->database()->in(
+                'ulvl.trigger_obj_id',
+                $obj_ids,
+                false,
+                'integer'
+            ) . " AND " . $this->dic->database()->in('sk.user_id ', $users, false, 'integer')
+                . $this->getAdditionalWhereStatement((array) $options['filters']);
         }
 
         $union_query = "SELECT * FROM ((" . implode(') UNION (', $arr_query) . ")) as a_table";
 
-        if ($options['count'] === true) {
-            $set = $this->dic->database()->query($union_query);
-
-            return $this->dic->database()->numRows($set);
-        }
+        $set = $this->dic->database()->query($union_query);
+        $numRows = $this->dic->database()->numRows($set);
 
         if ($options['sort']) {
             $union_query .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
@@ -82,19 +96,21 @@ class ilMStListCompetencesSkills
         $skills = [];
         while ($rec = $this->dic->database()->fetchAssoc($set)) {
             $skills[] = new ilMStListCompetencesSkill(
+                intval($rec['skill_node_id']),
                 $rec['skill_title'],
                 $rec['skill_level'],
                 $rec['login'],
                 $rec['lastname'],
                 $rec['firstname'],
-                $rec['user_id']
+                $rec['email'],
+                intval($rec['user_id'])
             );
         }
 
-        return $skills;
+        return new ListFetcherResult($skills, $numRows);
     }
 
-    protected function getAdditionalWhereStatement(array $filters) : string
+    protected function getAdditionalWhereStatement(array $filters): string
     {
         $wheres = [];
 
@@ -107,19 +123,29 @@ class ilMStListCompetencesSkills
         }
 
         if (!empty($filters['user'])) {
-            $wheres[] = "(" . $this->dic->database()->like("ud.login", "text",
-                    "%" . $filters['user'] . "%") . " " . "OR " . $this->dic->database()
-                                                                            ->like("ud.firstname", "text",
-                                                                                "%" . $filters['user'] . "%") . " " . "OR " . $this->dic->database()
-                                                                                                                                        ->like("ud.lastname",
+            $wheres[] = "(" . $this->dic->database()->like(
+                "ud.login",
+                "text",
+                "%" . $filters['user'] . "%"
+            ) . " " . "OR " . $this->dic->database()
+                                                                            ->like(
+                                                                                "ud.firstname",
+                                                                                "text",
+                                                                                "%" . $filters['user'] . "%"
+                                                                            ) . " " . "OR " . $this->dic->database()
+                                                                                                                                        ->like(
+                                                                                                                                            "ud.lastname",
                                                                                                                                             "text",
-                                                                                                                                            "%" . $filters['user'] . "%") . " " . "OR " . $this->dic->database()
-                                                                                                                                                                                                    ->like("ud.email",
+                                                                                                                                            "%" . $filters['user'] . "%"
+                                                                                                                                        ) . " " . "OR " . $this->dic->database()
+                                                                                                                                                                                                    ->like(
+                                                                                                                                                                                                        "ud.email",
                                                                                                                                                                                                         "text",
-                                                                                                                                                                                                        "%" . $filters['user'] . "%") . ") ";
+                                                                                                                                                                                                        "%" . $filters['user'] . "%"
+                                                                                                                                                                                                    ) . ") ";
         }
 
-        if (!empty($arr_filter['org_unit'])) {
+        if (!empty($filters['org_unit'])) {
             $wheres[] = 'ud.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' .
                 $this->dic->database()->quote($filters['org_unit'], 'integer') . ')';
         }

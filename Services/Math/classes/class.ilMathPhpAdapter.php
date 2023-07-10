@@ -119,7 +119,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * @inheritDoc
      */
-    public function mod($left_operand, $right_operand) : int
+    public function mod($left_operand, $right_operand): int
     {
         if ($right_operand == 0) {
             throw new ilMathDivisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));

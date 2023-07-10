@@ -1,91 +1,74 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImport.php';
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
  *
  * @package     Modules/TestQuestionPool
+ * @implements Iterator<ilAssQuestionSkillAssignmentImport>
  */
 class ilAssQuestionSkillAssignmentImportList implements Iterator
 {
-    /**
-     * @var array[ilAssQuestionSkillAssignmentImport]
-     */
-    protected $assignments;
-    
-    /**
-     * ilAssQuestionSkillAssignmentImportList constructor.
-     */
+    /** @var list<ilAssQuestionSkillAssignmentImport>  */
+    protected array $assignments;
+
     public function __construct()
     {
-        $this->assignments = array();
+        $this->assignments = [];
     }
-    
-    /**
-     * @param ilAssQuestionSkillAssignmentImport $assignment
-     */
-    public function addAssignment(ilAssQuestionSkillAssignmentImport $assignment)
+
+    public function addAssignment(ilAssQuestionSkillAssignmentImport $assignment): void
     {
         $this->assignments[] = $assignment;
     }
-    
-    public function assignmentsExist() : bool
+
+    public function assignmentsExist(): bool
     {
         return count($this->assignments) > 0;
     }
-    
-    /**
-     * @return ilAssQuestionSkillAssignmentImport
-     */
-    public function current() : ilAssQuestionSkillAssignmentImport
+
+    public function current(): ?ilAssQuestionSkillAssignmentImport
     {
-        return current($this->assignments);
+        $current = current($this->assignments);
+        return $current !== false ? $current : null;
     }
-    
-    /**
-     * @return ilAssQuestionSkillAssignmentImport
-     */
-    public function next() : ilAssQuestionSkillAssignmentImport
+
+    public function next(): void
     {
-        return next($this->assignments);
+        next($this->assignments);
     }
-    
-    /**
-     * @return integer|bool
-     */
-    public function key()
+
+    public function key(): ?int
     {
-        $res = key($this->assignments);
-        return $res;
+        return key($this->assignments);
     }
-    
-    /**
-     * @return bool
-     */
-    public function valid() : bool
+
+    public function valid(): bool
     {
         $res = key($this->assignments);
         return $res !== null;
     }
-    
-    /**
-     * @return ilAssQuestionSkillAssignmentImport|bool
-     */
-    public function rewind()
+
+    public function rewind(): void
     {
-        return reset($this->assignments);
-    }
-    
-    public function sleep()
-    {
-        // TODO: Implement __sleep() method.
-    }
-    
-    public function wakeup()
-    {
-        // TODO: Implement __wakeup() method.
+        reset($this->assignments);
     }
 }

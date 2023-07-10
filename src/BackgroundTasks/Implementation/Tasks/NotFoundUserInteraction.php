@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 
 use ILIAS\BackgroundTasks\Bucket;
@@ -35,25 +35,25 @@ class NotFoundUserInteraction extends AbstractUserInteraction
     /**
      * @return mixed[]
      */
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return [];
     }
-    
-    public function getOutputType() : Type
+
+    public function getOutputType(): Type
     {
         return new SingleType('none');
     }
-    
+
     /**
      * @return mixed[]
      */
-    public function getOptions(array $input) : array
+    public function getOptions(array $input): array
     {
         return [];
     }
-    
-    public function interaction(array $input, Option $user_selected_option, Bucket $bucket) : Value
+
+    public function interaction(array $input, Option $user_selected_option, Bucket $bucket): Value
     {
         return new BooleanValue();
     }

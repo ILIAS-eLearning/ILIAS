@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
-/******************************************************************************
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Description of class
  *
@@ -20,16 +25,10 @@
  */
 class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 {
-    private int $obj_id = 0;
+    private int $obj_id;
     private array $filter;
 
-    /**
-     * Constructor
-     * @param             $a_obj_id
-     * @param object|null $a_parent_obj
-     * @param string      $a_parent_cmd
-     */
-    public function __construct($a_obj_id, ?object $a_parent_obj, string $a_parent_cmd)
+    public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd)
     {
         $this->obj_id = $a_obj_id;
 
@@ -38,28 +37,23 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
         $this->initFilter();
     }
 
-    /**
-     * Get Obj id
-     * @return int
-     */
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
     /**
      * Parse table content
-     * @return void
      * @throws ilDateTimeException
      */
-    public function parse() : void
+    public function parse(): void
     {
         $this->initTable();
 
-        $users = $this->getParentObject()->object->getTrackedUsers((string) $this->filter['lastname']);
-        $attempts = $this->getParentObject()->object->getAttemptsForUsers();
-        $versions = $this->getParentObject()->object->getModuleVersionForUsers();
-        
+        $users = $this->getParentObject()->getObject()->getTrackedUsers((string) $this->filter['lastname']);
+        $attempts = $this->getParentObject()->getObject()->getAttemptsForUsers();
+        $versions = $this->getParentObject()->getObject()->getModuleVersionForUsers();
+
         $data = array();
         foreach ($users as $user) {
             $tmp = array();
@@ -88,20 +82,20 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
     }
 
     /**
-     * @return void
      * @throws Exception
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $item = $this->addFilterItemByMetaType("lastname", ilTable2GUI::FILTER_TEXT);
-        $this->filter["lastname"] = $item->getValue();
+        if ($item !== null) {
+            $this->filter["lastname"] = $item->getValue();
+        }
     }
 
     /**
      * Fill row template
-     * @param array $a_set
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -117,10 +111,7 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_VERSION', (string) $a_set['version']);
     }
 
-    /**
-     * Init table
-     */
-    protected function initTable() : void
+    protected function initTable(): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();

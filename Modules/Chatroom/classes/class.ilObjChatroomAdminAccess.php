@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjChatroomAdminAccess
  * Access class for chatroom objects.
@@ -25,7 +27,7 @@
  */
 class ilObjChatroomAdminAccess extends ilObjectAccess
 {
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = [];
         $commands[] = ['permission' => 'read', 'cmd' => 'view', 'lang_var' => 'enter', 'default' => true];
@@ -35,7 +37,7 @@ class ilObjChatroomAdminAccess extends ilObjectAccess
         return $commands;
     }
 
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 

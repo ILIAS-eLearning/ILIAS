@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -26,7 +29,7 @@ class ilECSCourseConnector extends ilECSConnector
     public function getCourse($course_id, $a_details = false)
     {
         $this->path_postfix = '/campusconnect/courses/' . (int) $course_id;
-        
+
         if ($a_details && $course_id) {
             $this->path_postfix .= '/details';
         }
@@ -41,14 +44,14 @@ class ilECSCourseConnector extends ilECSConnector
             }
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $res = $this->call();
-            
+
             if (strpos($res, 'http') === 0) {
                 $json = file_get_contents($res);
                 $ecs_result = new ilECSResult($json);
             } else {
                 $ecs_result = new ilECSResult($res);
             }
-            
+
             // Return ECSEContentDetails for details switch
             if ($a_details) {
                 $details = new ilECSEContentDetails();

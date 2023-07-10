@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks;
 
 /**
@@ -25,19 +25,19 @@ namespace ILIAS\BackgroundTasks;
  */
 interface BucketMeta
 {
-    public function getUserId() : int;
-    
-    public function setUserId(int $user_id) : void;
-    
-    public function getOverallPercentage() : int;
-    
-    public function setOverallPercentage(int $percentage) : void;
-    
-    public function setState(int $state) : void;
-    
-    public function getState() : int;
-    
-    public function getDescription() : string;
-    
-    public function getTitle() : string;
+    public function getUserId(): int;
+
+    public function setUserId(int $user_id): void;
+
+    public function getOverallPercentage(): int;
+
+    public function setOverallPercentage(int $percentage): void;
+
+    public function setState(int $state): void;
+
+    public function getState(): int;
+
+    public function getDescription(): string;
+
+    public function getTitle(): string;
 }

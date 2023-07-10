@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -18,7 +20,7 @@ class ClientIdTest extends TestCase
     /**
      *
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->f = new Data\Factory();
     }
@@ -26,7 +28,7 @@ class ClientIdTest extends TestCase
     /**
      * @return array[]
      */
-    public function clientIdProvider() : array
+    public function clientIdProvider(): array
     {
         return [
             'single letter' => ['c'],
@@ -45,7 +47,7 @@ class ClientIdTest extends TestCase
     /**
      * @return array[]
      */
-    public function invalidClientIdProvider() : array
+    public function invalidClientIdProvider(): array
     {
         return [
             'path traversal' => ['../../some/obscure/path'],
@@ -59,7 +61,7 @@ class ClientIdTest extends TestCase
      * @param string $value
      * @dataProvider clientIdProvider
      */
-    public function testValidArguments(string $value) : void
+    public function testValidArguments(string $value): void
     {
         $clientId = $this->f->clientId($value);
         $this->assertEquals($value, $clientId->toString());
@@ -69,7 +71,7 @@ class ClientIdTest extends TestCase
      * @param string $value
      * @dataProvider invalidClientIdProvider
      */
-    public function testInvalidArguments(string $value) : void
+    public function testInvalidArguments(string $value): void
     {
         try {
             $clientId = $this->f->clientId($value);
@@ -79,7 +81,7 @@ class ClientIdTest extends TestCase
         }
     }
 
-    public function testClientIdCannotBeCreatedByAnEmptyString() : void
+    public function testClientIdCannotBeCreatedByAnEmptyString(): void
     {
         $this->expectException(InvalidArgumentException::class);
 

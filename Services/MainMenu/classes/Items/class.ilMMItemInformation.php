@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -38,7 +56,7 @@ class ilMMItemInformation implements ItemInformation
     /**
      * @inheritDoc
      */
-    public function customTranslationForUser(hasTitle $item) : hasTitle
+    public function customTranslationForUser(hasTitle $item): hasTitle
     {
         /**
          * @var $item isItem
@@ -47,10 +65,17 @@ class ilMMItemInformation implements ItemInformation
         static $usr_language_key;
         static $default_language;
 
-        if (!$usr_language_key) {
+        // see https://mantis.ilias.de/view.php?id=32276
+        if (!isset($usr_language_key) && $DIC->user()->getId() === 0 || $DIC->user()->isAnonymous()) {
+            $usr_language_key = $DIC->http()->wrapper()->query()->has('lang')
+                ? $DIC->http()->wrapper()->query()->retrieve('lang', $DIC->refinery()->to()->string())
+                : null;
+        }
+
+        if (!isset($usr_language_key)) {
             $usr_language_key = $DIC->language()->getUserLanguage() ? $DIC->language()->getUserLanguage() : $DIC->language()->getDefaultLanguage();
         }
-        if (!$default_language) {
+        if (!isset($default_language)) {
             $default_language = ilMMItemTranslationStorage::getDefaultLanguage();
         }
         if ($item instanceof RepositoryLink && empty($item->getTitle())) {
@@ -72,12 +97,12 @@ class ilMMItemInformation implements ItemInformation
     /**
      * @inheritDoc
      */
-    public function customPosition(isItem $item) : isItem
+    public function customPosition(isItem $item): isItem
     {
         return $item->withPosition($this->getPosition($item));
     }
 
-    private function getPosition(isItem $item) : int
+    private function getPosition(isItem $item): int
     {
         if (isset($this->items[$item->getProviderIdentification()->serialize()]['position'])) {
             return (int) $this->items[$item->getProviderIdentification()->serialize()]['position'];
@@ -89,24 +114,23 @@ class ilMMItemInformation implements ItemInformation
     /**
      * @inheritDoc
      */
-    public function isItemActive(isItem $item) : bool
+    public function isItemActive(isItem $item): bool
     {
-        $serialize = $item->getProviderIdentification()->serialize();
-        if (isset($this->items[$serialize]['active'])) {
-            return $this->items[$serialize]['active'] === '1';
+        if (!isset($this->items[$item->getProviderIdentification()->serialize()]['active'])) {
+            return $item->isAvailable();
         }
-        return true;
+        return ((int) ($this->items[$item->getProviderIdentification()->serialize()]['active'] ?? 0) === 1);
     }
 
     /**
      * @inheritDoc
      */
-    public function getParent(isChild $item) : IdentificationInterface
+    public function getParent(isItem $item): IdentificationInterface
     {
         global $DIC;
-        $parent_string = $item->getProviderIdentification()->serialize();
-        if (isset($this->items[$parent_string]['parent_identification'])) {
-            return $DIC->globalScreen()->identification()->fromSerializedIdentification($this->items[$parent_string]['parent_identification']);
+        $serialized = $item->getProviderIdentification()->serialize();
+        if (isset($this->items[$serialized]['parent_identification'])) {
+            return $DIC->globalScreen()->identification()->fromSerializedIdentification($this->items[$serialized]['parent_identification']);
         }
 
         return $item->getParent();
@@ -115,7 +139,7 @@ class ilMMItemInformation implements ItemInformation
     /**
      * @inheritDoc
      */
-    public function customSymbol(hasSymbol $item) : hasSymbol
+    public function customSymbol(hasSymbol $item): hasSymbol
     {
         $id = $item->getProviderIdentification()->serialize();
         if (isset($this->items[$id][self::ICON_ID]) && strlen($this->items[$id][self::ICON_ID]) > 1) {
@@ -139,9 +163,9 @@ class ilMMItemInformation implements ItemInformation
                 $aria_label = $old_symbol->getLabel();
             } elseif ($item instanceof hasTitle) {
                 $aria_label = $item->getTitle();
-            } else {
-                $aria_label = 'Custom icon';
             }
+
+            $aria_label = empty($aria_label) ? $id : $aria_label;
 
             $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($src->getSrc(), $aria_label);
 

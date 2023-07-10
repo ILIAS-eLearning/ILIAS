@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ModulesCourse
@@ -105,7 +107,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
         $this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
 
-        $this->addColumn($this->lng->txt(''), 'optional');
+        $this->addColumn($this->lng->txt('actions'), 'optional', '', false, 'ilMembershipRowActionsHeader');
 
         $this->setRowTemplate("tpl.show_participants_row.html", "Modules/Course");
 
@@ -134,10 +136,11 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
+        $this->tpl->setVariable('SELECT_PARTICIPANT', $this->lng->txt("select") . ' ' . $a_set['lastname'] . ', ' . $a_set['firstname']);
 
         if (
             !$this->access->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) &&
@@ -164,7 +167,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     break;
 
                 case 'birthday':
-                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate(
+                    $a_set['birthday'] = ($a_set['birthday'] ?? false) ? ilDatePresentation::formatDate(new ilDate(
                         $a_set['birthday'],
                         IL_CAL_DATE
                     )) : $this->lng->txt('no_date');
@@ -205,13 +208,13 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
                 case 'odf_last_update':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) $a_set['odf_info_txt']);
+                    $this->tpl->setVariable('VAL_CUST', (string) ($a_set['odf_info_txt'] ?? ''));
                     $this->tpl->parseCurrentBlock();
                     break;
 
                 case 'roles':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) $a_set['roles_label']);
+                    $this->tpl->setVariable('VAL_CUST', (string) ($a_set['roles_label'] ?? ''));
                     $this->tpl->parseCurrentBlock();
                     break;
 
@@ -219,7 +222,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable(
                         'VAL_CUST',
-                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $a_set['usr_id'])
                     );
                     $this->tpl->parseCurrentBlock();
                     break;
@@ -237,27 +240,12 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         }
         if ($this->show_learning_progress) {
             $this->tpl->setCurrentBlock('lp');
-            switch ($a_set['progress']) {
-                case ilLPStatus::LP_STATUS_COMPLETED:
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/complete.svg'));
-                    break;
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+            $icon_rendered = $icons->renderIconForStatus($icons->lookupNumStatus($a_set['progress']));
 
-                case ilLPStatus::LP_STATUS_IN_PROGRESS:
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/incomplete.svg'));
-                    break;
+            $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
+            $this->tpl->setVariable('LP_STATUS_ICON', $icon_rendered);
 
-                case ilLPStatus::LP_STATUS_NOT_ATTEMPTED:
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/not_attempted.svg'));
-                    break;
-
-                case ilLPStatus::LP_STATUS_FAILED:
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/failed.svg'));
-                    break;
-            }
             $this->tpl->parseCurrentBlock();
         }
 
@@ -267,6 +255,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->setCurrentBlock('grade');
             $this->tpl->setVariable('VAL_PASSED_ID', $a_set['usr_id']);
             $this->tpl->setVariable('VAL_PASSED_CHECKED', ($a_set['passed'] ? 'checked="checked"' : ''));
+            $this->tpl->setVariable('PASSED_TITLE', $this->lng->txt('crs_member_passed'));
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setVariable('VAL_PASSED_TXT', ($a_set['passed']
@@ -282,12 +271,14 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->setCurrentBlock('with_contact');
             $this->tpl->setVariable('VAL_CONTACT_ID', $a_set['usr_id']);
             $this->tpl->setVariable('VAL_CONTACT_CHECKED', $a_set['contact'] ? 'checked="checked"' : '');
+            $this->tpl->setVariable('CONTACT_TITLE', $this->lng->txt('crs_mem_contact'));
             $this->tpl->parseCurrentBlock();
             // cognos-blu-patch: end
 
             $this->tpl->setCurrentBlock('with_notification');
             $this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
             $this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
+            $this->tpl->setVariable('NOTIFICATION_TITLE', $this->lng->txt('crs_notification_list_title'));
             $this->tpl->parseCurrentBlock();
         }
 
@@ -299,6 +290,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->setCurrentBlock('with_blocked');
             $this->tpl->setVariable('VAL_BLOCKED_ID', $a_set['usr_id']);
             $this->tpl->setVariable('VAL_BLOCKED_CHECKED', ($a_set['blocked'] ? 'checked="checked"' : ''));
+            $this->tpl->setVariable('BLOCKED_TITLE', $this->lng->txt('crs_blocked'));
             $this->tpl->parseCurrentBlock();
         }
 
@@ -329,7 +321,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         }
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $this->determineOffsetAndOrder(true);
 
@@ -391,12 +383,12 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $usr_ids = array();
         $local_roles = $this->getParentObject()->getLocalRoles();
         foreach ((array) $usr_data['set'] as $user) {
-            if ($this->current_filter['roles']) {
+            if ($this->current_filter['roles'] ?? false) {
                 if (!$this->rbacReview->isAssigned($user['usr_id'], $this->current_filter['roles'])) {
                     continue;
                 }
             }
-            if ($this->current_filter['org_units']) {
+            if ($this->current_filter['org_units'] ?? false) {
                 $org_unit = $this->current_filter['org_units'];
 
                 $assigned = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user['usr_id']);

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 {
-    public function testA() : void
+    public function testA(): void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -35,10 +37,6 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
                 'USER_FULLNAME' => 'SomeFullName',
                 'USER_FIRSTNAME' => 'SomeFirstName'
             ]);
-
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
 
         $user = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
@@ -106,13 +104,12 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
         $previewAction = new ilCertificateTemplatePreviewAction(
             $templateRepository,
             $placeholderValuesObject,
-            $logger,
+            'some/where/',
             $user,
             $utilHelper,
             $mathJaxHelper,
             $userDefinedFieldsHelper,
             $rpcClientFactoryHelper,
-            'some/where/',
             $pdfFileNameFactory
         );
 

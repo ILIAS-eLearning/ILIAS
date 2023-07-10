@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+/**
+ * @deprecated
+ */
 interface ilRendererConfig
 {
     /**
@@ -24,7 +29,7 @@ interface ilRendererConfig
      * @param string $purpose Purpose Title
      * @return void
      */
-    public function addConfigElementsToForm(ilPropertyFormGUI $form, string $service, string $purpose) : void;
+    public function addConfigElementsToForm(ilPropertyFormGUI $form, string $service, string $purpose): void;
 
     /**
      * @param ilPropertyFormGUI $form The config form for the administration
@@ -38,7 +43,7 @@ interface ilRendererConfig
         string $service,
         string $purpose,
         array $config
-    ) : void;
+    ): void;
 
     /**
      * @param ilPropertyFormGUI $form The config form for the administration
@@ -46,15 +51,15 @@ interface ilRendererConfig
      * @param string $purpose Purpose Title
      * @return bool True, if the form holds a valid config
      */
-    public function validateConfigInForm(ilPropertyFormGUI $form, string $service, string $purpose) : bool;
-    
+    public function validateConfigInForm(ilPropertyFormGUI $form, string $service, string $purpose): bool;
+
     /**
      * @param ilPropertyFormGUI $form The config form for the administration
      * @param string $service Service Title
      * @param string $purpose Purpose Title
      * @return array<string, mixed> KV-array with config
      */
-    public function getConfigFromForm(ilPropertyFormGUI $form, string $service, string $purpose) : array;
+    public function getConfigFromForm(ilPropertyFormGUI $form, string $service, string $purpose): array;
 
     /**
      * @param string $service Service Title

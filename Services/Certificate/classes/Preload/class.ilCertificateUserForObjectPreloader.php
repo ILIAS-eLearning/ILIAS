@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -23,35 +25,25 @@ class ilCertificateUserForObjectPreloader
 {
     /** @var array<int, int[]> */
     private static array $certificates = [];
-    private ilUserCertificateRepository $userCertificateRepository;
-    private ilCertificateActiveValidator $activeValidator;
 
-    public function __construct(
-        ilUserCertificateRepository $userCertificateRepository,
-        ilCertificateActiveValidator $activeValidator
-    ) {
-        $this->userCertificateRepository = $userCertificateRepository;
-        $this->activeValidator = $activeValidator;
+    public function __construct(private readonly ilUserCertificateRepository $userCertificateRepository, private readonly ilCertificateActiveValidator $activeValidator)
+    {
     }
 
-    public function preLoadDownloadableCertificates(int $objectId) : void
+    public function preLoadDownloadableCertificates(int $objectId): void
     {
-        if (true === $this->activeValidator->validate()) {
+        if ($this->activeValidator->validate()) {
             $objectIdsWithUserCertificate = $this->userCertificateRepository->fetchUserIdsWithCertificateForObject($objectId);
             self::$certificates[$objectId] = $objectIdsWithUserCertificate;
         }
     }
 
-    public function isPreloaded(int $objId, int $userId) : bool
+    public function isPreloaded(int $objId, int $userId): bool
     {
-        if (false === array_key_exists($objId, self::$certificates)) {
+        if (!array_key_exists($objId, self::$certificates)) {
             return false;
         }
 
-        if (true === in_array($userId, self::$certificates[$objId], true)) {
-            return true;
-        }
-
-        return false;
+        return in_array($userId, self::$certificates[$objId], true);
     }
 }

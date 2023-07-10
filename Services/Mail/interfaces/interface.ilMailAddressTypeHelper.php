@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,28 +16,30 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailAddressTypeHelper
  * @author Michael Jansen <mjansen@databay.de>
  */
 interface ilMailAddressTypeHelper
 {
-    public function doesGroupNameExists(string $name) : bool;
+    public function doesGroupNameExists(string $name): bool;
 
-    public function getGroupObjIdByTitle(string $title) : int;
+    public function getGroupObjIdByTitle(string $title): int;
 
-    public function getInstanceByRefId(int $refId) : ilObject;
+    public function getInstanceByRefId(int $refId): ilObject;
 
     /**
      * @return int[]
      */
-    public function getAllRefIdsForObjId(int $objId) : array;
+    public function getAllRefIdsForObjId(int $objId): array;
 
-    public function getUserIdByLogin(string $login) : int;
+    public function getUserIdByLogin(string $login): int;
 
-    public function getInstallationHost() : string;
+    public function getInstallationHost(): string;
 
-    public function getGlobalMailSystemId() : int;
+    public function getGlobalMailSystemId(): int;
 
-    public function receivesInternalMailsOnly(int $usrId) : bool;
+    public function receivesInternalMailsOnly(int $usrId): bool;
 }

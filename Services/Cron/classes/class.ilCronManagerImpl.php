@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Cron management
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -23,30 +27,17 @@
  */
 class ilCronManagerImpl implements ilCronManager
 {
-    private ilCronJobRepository $cronRepository;
-    private ilDBInterface $db;
-    private ilSetting $settings;
-    private ilLogger $logger;
-
-    public function __construct(
-        ilCronJobRepository $cronRepository,
-        ilDBInterface $db,
-        ilSetting $settings,
-        ilLogger $logger
-    ) {
-        $this->cronRepository = $cronRepository;
-        $this->db = $db;
-        $this->settings = $settings;
-        $this->logger = $logger;
+    public function __construct(private readonly ilCronJobRepository $cronRepository, private readonly ilDBInterface $db, private readonly ilSetting $settings, private readonly ilLogger $logger)
+    {
     }
 
-    private function getMicrotime() : float
+    private function getMicrotime(): float
     {
         [$usec, $sec] = explode(' ', microtime());
         return ((float) $usec + (float) $sec);
     }
 
-    public function runActiveJobs(ilObjUser $actor) : void
+    public function runActiveJobs(ilObjUser $actor): void
     {
         $this->logger->info('CRON - batch start');
 
@@ -90,7 +81,7 @@ class ilCronManagerImpl implements ilCronManager
         $this->logger->info('CRON - batch end');
     }
 
-    public function runJobManual(string $jobId, ilObjUser $actor) : bool
+    public function runJobManual(string $jobId, ilObjUser $actor): bool
     {
         $result = false;
 
@@ -114,14 +105,9 @@ class ilCronManagerImpl implements ilCronManager
 
     /**
      * Run single cron job (internal)
-     * @param ilCronJob $job
-     * @param ilObjUser $actor
-     * @param array|null $jobData
-     * @param bool $isManualExecution
-     * @return bool
      * @internal
      */
-    private function runJob(ilCronJob $job, ilObjUser $actor, ?array $jobData = null, bool $isManualExecution = false) : bool
+    private function runJob(ilCronJob $job, ilObjUser $actor, ?array $jobData = null, bool $isManualExecution = false): bool
     {
         $did_run = false;
 
@@ -154,7 +140,7 @@ class ilCronManagerImpl implements ilCronManager
         } // initiate run?
         elseif ($job->isDue(
             $jobData['job_result_ts'] ? new DateTimeImmutable('@' . $jobData['job_result_ts']) : null,
-            $jobData['schedule_type'] ? (int) $jobData['schedule_type'] : null,
+            is_numeric($jobData['schedule_type']) ? CronJobScheduleType::tryFrom((int) $jobData['schedule_type']) : null,
             $jobData['schedule_value'] ? (int) $jobData['schedule_value'] : null,
             $isManualExecution
         )) {
@@ -168,7 +154,9 @@ class ilCronManagerImpl implements ilCronManager
             } catch (Throwable $e) {
                 $result = new ilCronJobResult();
                 $result->setStatus(ilCronJobResult::STATUS_CRASHED);
-                $result->setMessage(sprintf('Exception: %s', $e->getMessage()));
+                $result->setMessage(
+                    ilStr::subStr(sprintf('Exception: %s / %s', $e->getMessage(), $e->getTraceAsString()), 0, 400)
+                );
 
                 $this->logger->error($e->getMessage());
                 $this->logger->error($e->getTraceAsString());
@@ -197,7 +185,7 @@ class ilCronManagerImpl implements ilCronManager
         return $did_run;
     }
 
-    public function resetJob(ilCronJob $job, ilObjUser $actor) : void
+    public function resetJob(ilCronJob $job, ilObjUser $actor): void
     {
         $result = new ilCronJobResult();
         $result->setStatus(ilCronJobResult::STATUS_RESET);
@@ -210,33 +198,33 @@ class ilCronManagerImpl implements ilCronManager
         $this->activateJob($job, $actor, true);
     }
 
-    public function activateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false) : void
+    public function activateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void
     {
         $this->cronRepository->activateJob($job, $actor, $wasManuallyExecuted);
         $job->activationWasToggled($this->db, $this->settings, true);
     }
 
-    public function deactivateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false) : void
+    public function deactivateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void
     {
         $this->cronRepository->deactivateJob($job, $actor, $wasManuallyExecuted);
         $job->activationWasToggled($this->db, $this->settings, false);
     }
 
-    public function isJobActive(string $jobId) : bool
+    public function isJobActive(string $jobId): bool
     {
         $jobs_data = $this->cronRepository->getCronJobData($jobId);
 
         return $jobs_data !== [] && $jobs_data[0]['job_status'];
     }
 
-    public function isJobInactive(string $jobId) : bool
+    public function isJobInactive(string $jobId): bool
     {
         $jobs_data = $this->cronRepository->getCronJobData($jobId);
 
         return $jobs_data !== [] && !((bool) $jobs_data[0]['job_status']);
     }
 
-    public function ping(string $jobId) : void
+    public function ping(string $jobId): void
     {
         $this->db->manipulateF(
             'UPDATE cron_job SET alive_ts = %s WHERE job_id = %s',

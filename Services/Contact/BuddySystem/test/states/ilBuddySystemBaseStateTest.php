@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
+declare(strict_types=1);
 
 /**
  * Class ilBuddySystemBaseStateTest
@@ -29,8 +29,10 @@ abstract class ilBuddySystemBaseStateTest extends ilBuddySystemBaseTest
 
     protected ilBuddySystemRelation $relation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
+        parent::setUp();
+
         $this->relation = new ilBuddySystemRelation(
             $this->getInitialState(),
             self::RELATION_OWNER_ID,
@@ -40,5 +42,5 @@ abstract class ilBuddySystemBaseStateTest extends ilBuddySystemBaseTest
         );
     }
 
-    abstract public function getInitialState() : ilBuddySystemRelationState;
+    abstract public function getInitialState(): ilBuddySystemRelationState;
 }

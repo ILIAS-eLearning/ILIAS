@@ -22,12 +22,12 @@ declare(strict_types=1);
  */
 class ilKSDocumentationGotoLink
 {
-    public function generateGotoLink(string $node_id, string $skin_id, string $style_id) : string
+    public function generateGotoLink(string $node_id, string $skin_id, string $style_id): string
     {
         return '_' . $node_id . '_' . $skin_id . '_' . $style_id;
     }
 
-    public function redirectWithGotoLink(string $ref_id, array $params, ilCtrl $ctrl) : void
+    public function redirectWithGotoLink(string $ref_id, array $params, ilCtrl $ctrl): void
     {
         $node_id = $params[2];
         $skin_id = $params[3];

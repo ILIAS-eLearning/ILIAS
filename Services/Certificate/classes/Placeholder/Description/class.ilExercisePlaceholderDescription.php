@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,13 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
-    private ilLanguage $language;
+    private readonly ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private readonly ilLanguage $language;
     private array $placeholder;
 
     public function __construct(
@@ -68,10 +70,9 @@ class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescri
     /**
      * This methods MUST return an array containing an array with
      * the the description as array value.
-     * @param ilTemplate|null $template
      * @return string - [PLACEHOLDER] => 'description'
      */
-    public function createPlaceholderHtmlDescription(?ilTemplate $template = null) : string
+    public function createPlaceholderHtmlDescription(?ilTemplate $template = null): string
     {
         if (null === $template) {
             $template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
@@ -94,7 +95,7 @@ class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescri
      * the the description as array value.
      * @return array - [PLACEHOLDER] => 'description'
      */
-    public function getPlaceholderDescriptions() : array
+    public function getPlaceholderDescriptions(): array
     {
         return $this->placeholder;
     }

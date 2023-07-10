@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Repository object assignment information
  *
@@ -57,12 +57,12 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
     }
 
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -70,7 +70,7 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
     /**
      * @return string[]
      */
-    public function getLinks() : array
+    public function getLinks(): array
     {
         $links = [];
         foreach ($this->ref_ids as $ref_id) {
@@ -79,17 +79,17 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
         return $links;
     }
 
-    public function isUserSubmission() : bool
+    public function isUserSubmission(): bool
     {
         return $this->is_user_submission;
     }
 
-    public function getExerciseId() : int
+    public function getExerciseId(): int
     {
         return $this->exc_id;
     }
 
-    public function getExerciseTitle() : string
+    public function getExerciseTitle(): string
     {
         return $this->exc_title;
     }
@@ -97,7 +97,7 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
     /**
      * @return int[]
      */
-    public function getReadableRefIds() : array
+    public function getReadableRefIds(): array
     {
         return $this->ref_ids;
     }
@@ -110,7 +110,7 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
      * @return ilExcRepoObjAssignmentInfo[]
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public static function getInfo(int $a_ref_id, int $a_user_id) : array
+    public static function getInfo(int $a_ref_id, int $a_user_id): array
     {
         global $DIC;
 
@@ -119,8 +119,9 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
         $ass_types = ilExAssignmentTypes::getInstance();
 
         $repos_ass_type_ids = $ass_types->getIdsForSubmissionType(ilExSubmission::TYPE_REPO_OBJECT);
-        $submissions = ilExSubmission::getSubmissionsForFilename($a_ref_id, $repos_ass_type_ids);
-
+        $submissions1 = ilExSubmission::getSubmissionsForFilename($a_ref_id, $repos_ass_type_ids);
+        $submissions2 = ilExSubmission::getSubmissionsForFilename($a_ref_id . ".zip", $repos_ass_type_ids);
+        $submissions = array_merge($submissions1, $submissions2);
         $ass_info = array();
         foreach ($submissions as $s) {
             //$ass_type = $ass_types->getById($s["type"]);

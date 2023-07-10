@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilLTIConsumerProviderSelectionFormGUI
  *
@@ -23,7 +28,6 @@
  */
 class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
 {
-
     /**
      * @var ilLTIConsumerProviderUsageTableGUI
      */
@@ -31,7 +35,6 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
 
     /**
      * ilLTIConsumerProviderUsageTableGUI constructor.
-     * @param ilLTIConsumerAdministrationGUI $a_parent_obj
      * @param $a_parent_cmd
      */
     public function __construct(ilLTIConsumerAdministrationGUI $a_parent_obj, string $a_parent_cmd)
@@ -48,13 +51,13 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
         $this->setDescription($DIC->language()->txt('tbl_provider_usage_header_info'));
     }
 
-    public function init() : void
+    public function init(): void
     {
         parent::determineSelectedColumns();
         $this->initColumns();
     }
 
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -64,7 +67,7 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
         $this->addColumn($DIC->language()->txt('tbl_lti_prov_used_by'), 'used_by');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         // TITLE
@@ -94,13 +97,9 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param int    $objId
-     * @param int    $refId
-     * @param string $title
-     * @param bool   $trashed
      * @return array<string, string>
      */
-    protected function buildLinkToUsedBy(int $objId, int $refId, string $title, bool $trashed) : array
+    protected function buildLinkToUsedBy(int $objId, int $refId, string $title, bool $trashed): array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -118,7 +117,7 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
         return ['endnode' => $endnode, 'tree' => implode(' > ', $treeNodes)];
     }
 
-    protected static function isTrashEnabled() : bool
+    protected static function isTrashEnabled(): bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         return (bool) ((int) $DIC->settings()->get('enable_trash', "0"));

@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\OrgUnit\Webservices\SOAP;
 
@@ -16,32 +32,38 @@ use ilSoapPluginException;
  */
 abstract class Base extends ilSoapAdministration implements ilSoapMethod
 {
-
     /**
      * @inheritdoc
      */
-    const TYPE_INT_ARRAY = 'tns:intArray';
-    const TYPE_STRING = 'xsd:string';
-    const TYPE_INT = 'xsd:int';
-    const TYPE_DOUBLE_ARRAY = 'tns:doubleArray';
-    const SID = 'sid';
-    const ORGU_REF_ID = 'orgu_ref_id';
-    const POSITION_ID = 'position_id';
-    const USR_IDS = 'usr_ids';
-    const USR_ID = 'usr_id';
+    public const TYPE_INT_ARRAY = 'tns:intArray';
+    public const TYPE_STRING = 'xsd:string';
+    public const TYPE_INT = 'xsd:int';
+    public const TYPE_DOUBLE_ARRAY = 'tns:doubleArray';
+    public const SID = 'sid';
+    public const ORGU_REF_ID = 'orgu_ref_id';
+    public const POSITION_ID = 'position_id';
+    public const USR_IDS = 'usr_ids';
+    public const USR_ID = 'usr_id';
+    protected \ilOrgUnitPositionDBRepository $positionRepo;
+    protected \ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
 
-    /**
-     * @inheritdoc
-     */
-    public function getServiceStyle() : string
+    public function __construct()
+    {
+        if (! isset($_GET["wsdl"])) {
+            $dic = \ilOrgUnitLocalDIC::dic();
+            $this->positionRepo = $dic["repo.Positions"];
+            $this->assignmentRepo = $dic["repo.UserAssignments"];
+        }
+
+        parent::__construct();
+    }
+
+    public function getServiceStyle(): string
     {
         return 'rpc';
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getServiceUse() : string
+    public function getServiceUse(): string
     {
         return 'encoded';
     }
@@ -53,7 +75,7 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
      * @param string $session_id
      * @throws ilSoapPluginException
      */
-    protected function initIliasAndCheckSession($session_id)
+    protected function initIliasAndCheckSession(string $session_id): void
     {
         $this->initAuth($session_id);
         $this->initIlias();
@@ -67,9 +89,9 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
      * @param array $params
      * @throws ilSoapPluginException
      */
-    protected function checkParameters(array $params)
+    protected function checkParameters(array $params): void
     {
-        for ($i = 0; $i < count($this->getInputParams()); $i++) {
+        for ($i = 0, $iMax = count($this->getInputParams()); $i < $iMax; $i++) {
             if (!isset($params[$i])) {
                 $names = implode(', ', array_keys($this->getInputParams()));
                 throw new ilSoapPluginException("Request is missing at least one of the following parameters: $names");
@@ -77,23 +99,14 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getServiceNamespace() : string
+    public function getServiceNamespace(): string
     {
         return 'urn:' . ilOrgUnitSOAPServicesPlugin::PLUGIN_NAME;
     }
 
-    /**
-     * @return array
-     */
-    abstract protected function getAdditionalInputParams();
+    abstract protected function getAdditionalInputParams(): array;
 
-    /**
-     * @inheritdoc
-     */
-    final public function getInputParams() : array
+    public function getInputParams(): array
     {
         return array_merge(
             array(
@@ -103,17 +116,8 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         );
     }
 
-    /**
-     * @param array $params
-     * @return mixed
-     */
     abstract protected function run(array $params);
 
-    /**
-     * @param array $params
-     * @return mixed
-     * @throws ilSoapPluginException
-     */
     public function execute(array $params)
     {
         $this->checkParameters($params);
@@ -123,7 +127,7 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         // Check Permissions
         global $DIC;
         if (!$DIC->access()->checkAccess('write', '', \ilObjOrgUnit::getRootOrgRefId())) {
-            $this->error('Permission denied');
+            $this->addError('Permission denied');
         }
 
         $clean_params = array();
@@ -137,19 +141,17 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     }
 
     /**
-     * @param $message
      * @throws \SoapFault
      */
-    protected function error($message)
+    public function addError(string $message)
     {
         throw $this->raiseError($message, 'ERROR');
     }
 
     /**
-     * @param $session_id
      * @throws ilSoapPluginException
      */
-    private function init($session_id)
+    private function init(string $session_id): void
     {
         $this->initIliasAndCheckSession($session_id); // Throws exception if session is not valid
     }

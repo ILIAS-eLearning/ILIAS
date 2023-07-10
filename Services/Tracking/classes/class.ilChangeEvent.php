@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -47,7 +49,7 @@ class ilChangeEvent
         int $usr_id,
         string $action,
         ?int $parent_obj_id = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -106,7 +108,7 @@ class ilChangeEvent
         bool $isCatchupWriteEvents = true,
         $a_ext_rc = null,
         $a_ext_time = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -127,8 +129,9 @@ class ilChangeEvent
         // read counter
         if ($a_ext_rc !== null) {
             $read_count = 'read_count = ' . $ilDB->quote(
-                    $a_ext_rc, "integer"
-                ) . ", ";
+                $a_ext_rc,
+                "integer"
+            ) . ", ";
             $read_count_init = max(1, (int) $a_ext_rc);
             $read_count_diff = max(1, (int) $a_ext_rc) - $row->read_count;
         } else {
@@ -144,7 +147,8 @@ class ilChangeEvent
                 $time = $ilDB->quote(
                     (time() - $row->last_access) <= $validTimeSpan
                         ? $row->spent_seconds + time() - $row->last_access
-                        : $row->spent_seconds, 'integer'
+                        : $row->spent_seconds,
+                    'integer'
                 );
 
                 // if we are in the valid interval, we do not
@@ -218,12 +222,13 @@ class ilChangeEvent
                     $obj2_type = ilObject::_lookupType($obj2_id);
                     //echo "<br>1-$obj2_type-$p-$obj2_id-";
                     if (($p != $a_ref_id) && (in_array(
-                            $obj2_type, array("crs",
+                        $obj2_type,
+                        array("crs",
                                               "fold",
                                               "grp",
                                               "lso"
                         )
-                        ))) {
+                    ))) {
                         $query = sprintf(
                             'SELECT * FROM read_event ' .
                             'WHERE obj_id = %s ' .
@@ -249,11 +254,13 @@ class ilChangeEvent
                             $aff = $ilDB->manipulate($query);
 
                             self::_recordObjStats(
-                                $obj2_id, null, null, (int) $time_diff,
+                                $obj2_id,
+                                null,
+                                null,
+                                (int) $time_diff,
                                 (int) $read_count_diff
                             );
                         } else {
-
                             // #10407
                             $ilDB->replace(
                                 'read_event',
@@ -280,7 +287,10 @@ class ilChangeEvent
                             self::$has_accessed[$obj2_id][$usr_id] = true;
 
                             self::_recordObjStats(
-                                $obj2_id, $time, 1, (int) $time_diff,
+                                $obj2_id,
+                                $time,
+                                1,
+                                (int) $time_diff,
                                 (int) $read_count_diff
                             );
                         }
@@ -301,7 +311,7 @@ class ilChangeEvent
         ?int $a_read_count,
         ?int $a_childs_spent_seconds = null,
         ?int $a_child_read_count = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -370,7 +380,6 @@ class ilChangeEvent
 
             $ilAtomQuery->addQueryCallable(
                 function (ilDBInterface $ilDB) use ($a_now, $a_minimum, &$ret) {
-
                     // if other process was transferring, we had to wait for the lock and
                     // the source table should now have less than minimum/needed entries
                     $set = $ilDB->query(
@@ -383,7 +392,8 @@ class ilChangeEvent
                             "INSERT INTO obj_stat_tmp" .
                             " SELECT * FROM obj_stat_log" .
                             " WHERE tstamp < " . $ilDB->quote(
-                                $a_now, "timestamp"
+                                $a_now,
+                                "timestamp"
                             )
                         );
 
@@ -391,7 +401,8 @@ class ilChangeEvent
                         $ilDB->query(
                             "DELETE FROM obj_stat_log" .
                             " WHERE tstamp < " . $ilDB->quote(
-                                $a_now, "timestamp"
+                                $a_now,
+                                "timestamp"
                             )
                         );
 
@@ -412,7 +423,6 @@ class ilChangeEvent
 
                 $ilAtomQuery->addQueryCallable(
                     function (ilDBInterface $ilDB) use ($a_now, $a_minimum) {
-
                         // process log data (timestamp is not needed anymore)
                         $sql = "SELECT obj_id, obj_type, yyyy, mm, dd, hh, SUM(read_count) AS read_count," .
                             " SUM(childs_read_count) AS childs_read_count, SUM(spent_seconds) AS spent_seconds," .
@@ -439,8 +449,9 @@ class ilChangeEvent
                             $where_sql = array();
                             foreach ($where as $field => $def) {
                                 $where_sql[] = $field . " = " . $ilDB->quote(
-                                        $def[1], $def[0]
-                                    );
+                                    $def[1],
+                                    $def[0]
+                                );
                             }
                             $where_sql = implode(" AND ", $where_sql);
 
@@ -512,7 +523,7 @@ class ilChangeEvent
         int $obj_id,
         int $usr_id,
         ?string $timestamp = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -552,7 +563,7 @@ class ilChangeEvent
     public static function _lookupUncaughtWriteEvents(
         int $obj_id,
         int $usr_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -605,7 +616,7 @@ class ilChangeEvent
      *                1 = object is new,
      *                2 = object has changed
      */
-    public static function _lookupChangeState(int $obj_id, int $usr_id) : int
+    public static function _lookupChangeState(int $obj_id, int $usr_id): int
     {
         global $DIC;
 
@@ -702,7 +713,7 @@ class ilChangeEvent
         return $events;
     }
 
-    public static function lookupUsersInProgress(int $a_obj_id) : array
+    public static function lookupUsersInProgress(int $a_obj_id): array
     {
         global $DIC;
 
@@ -724,7 +735,7 @@ class ilChangeEvent
     /**
      * Has accessed
      */
-    public static function hasAccessed(int $a_obj_id, int $a_usr_id) : bool
+    public static function hasAccessed(int $a_obj_id, int $a_usr_id): bool
     {
         global $DIC;
 
@@ -748,7 +759,7 @@ class ilChangeEvent
     /**
      * Activates change event tracking.
      */
-    public static function _activate() : bool
+    public static function _activate(): bool
     {
         if (ilChangeEvent::_isActive()) {
             return false;
@@ -802,7 +813,7 @@ class ilChangeEvent
     /**
      * Deactivates change event tracking.
      */
-    public static function _deactivate() : bool
+    public static function _deactivate(): bool
     {
         global $DIC;
 
@@ -814,7 +825,7 @@ class ilChangeEvent
     /**
      * Returns true, if change event tracking is active.
      */
-    public static function _isActive() : bool
+    public static function _isActive(): bool
     {
         global $DIC;
 
@@ -825,7 +836,7 @@ class ilChangeEvent
     /**
      * Delete object entries
      */
-    public static function _delete(int $a_obj_id) : bool
+    public static function _delete(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -844,7 +855,7 @@ class ilChangeEvent
         return true;
     }
 
-    public static function _deleteReadEvents(int $a_obj_id) : void
+    public static function _deleteReadEvents(int $a_obj_id): void
     {
         global $DIC;
 
@@ -859,7 +870,7 @@ class ilChangeEvent
     public static function _deleteReadEventsForUsers(
         int $a_obj_id,
         array $a_user_ids
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -871,7 +882,7 @@ class ilChangeEvent
         );
     }
 
-    public static function _getAllUserIds(int $a_obj_id) : array
+    public static function _getAllUserIds(int $a_obj_id): array
     {
         global $DIC;
 
@@ -897,7 +908,7 @@ class ilChangeEvent
         int $usr_id,
         int $i_last_access,
         string $t_first_access
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();

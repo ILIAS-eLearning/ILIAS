@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup;
 
 use PHPUnit\Framework\TestCase;
@@ -35,7 +37,7 @@ class ilSetupAgentTest extends TestCase
 {
     private ilSetupAgent $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $refinery = new Refinery(
             $this->createMock(DataFactory::class),
@@ -46,7 +48,7 @@ class ilSetupAgentTest extends TestCase
         $this->testObj = new ilSetupAgent($refinery, $this->createMock(DataFactory::class));
     }
 
-    public function testGetNamedObjectives() : void
+    public function testGetNamedObjectives(): void
     {
         $this->assertArrayHasKey(
             "registerNICKey",
@@ -54,7 +56,7 @@ class ilSetupAgentTest extends TestCase
         );
     }
 
-    public function testExecuteClosure() : void
+    public function testExecuteClosure(): void
     {
         $objectiveConstructor = $this->testObj->getNamedObjectives(new NullConfig())["registerNICKey"];
         $closureResult = $objectiveConstructor->create();

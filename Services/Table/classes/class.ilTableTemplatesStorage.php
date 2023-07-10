@@ -18,9 +18,10 @@
 
 /**
  * Saves (mostly asynchronously) user properties of tables (e.g. filter on/off)
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilTableTemplatesStorage:
+ *
+ * @deprecated 10
+ *
  */
 class ilTableTemplatesStorage
 {
@@ -40,7 +41,7 @@ class ilTableTemplatesStorage
         int $a_user_id,
         string $a_name,
         array $a_state
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         if ($a_context == "" || $a_name == "") {
@@ -66,7 +67,7 @@ class ilTableTemplatesStorage
         string $a_context,
         int $a_user_id,
         string $a_name
-    ) : ?array {
+    ): ?array {
         $ilDB = $this->db;
 
         if ($a_context == "" || $a_name == "") {
@@ -80,7 +81,7 @@ class ilTableTemplatesStorage
             " AND context = " . $ilDB->quote($a_context, "text")
         );
         $rec = $ilDB->fetchAssoc($set);
-        return unserialize($rec["value"]);
+        return unserialize((string) $rec["value"]);
     }
 
     /**
@@ -90,7 +91,7 @@ class ilTableTemplatesStorage
         string $a_context,
         int $a_user_id,
         string $a_name
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         if ($a_context == "" || $a_name == "") {
@@ -111,7 +112,7 @@ class ilTableTemplatesStorage
     public function getNames(
         string $a_context,
         int $a_user_id
-    ) : array {
+    ): array {
         $ilDB = $this->db;
 
         if ($a_context == "") {

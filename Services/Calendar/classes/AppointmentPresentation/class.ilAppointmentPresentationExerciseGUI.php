@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @author            Jesús López Reyes <lopez@leifos.com>
@@ -8,7 +10,7 @@
  */
 class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions() : void
+    public function collectPropertiesAndActions(): void
     {
         global $DIC;
 
@@ -94,7 +96,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
     /**
      * @inheritdoc
      */
-    protected function buildDirectLinkForAppointment(int $a_ref_id, ?array $a_appointment = null) : string
+    protected function buildDirectLinkForAppointment(int $a_ref_id, ?array $a_appointment = null): string
     {
         $ass_id = 0;
         if (is_array($a_appointment)) {

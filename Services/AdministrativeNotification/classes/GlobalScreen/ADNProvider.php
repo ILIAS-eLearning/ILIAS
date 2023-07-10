@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 namespace ILIAS\AdministrativeNotification\GlobalScreen;
 
 use ilADNNotification;
@@ -32,18 +34,27 @@ use ILIAS\DI\Container;
  */
 class ADNProvider extends AbstractNotificationProvider
 {
+    protected \ILIAS\Refinery\String\MarkdownFormattingToHTML $markdown;
     protected \ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures $access;
 
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
         $this->access = BasicAccessCheckClosuresSingleton::getInstance();
+        $this->markdown = $dic->refinery()->string()->markdown();
+    }
+
+    protected function getSummary(ilADNNotification|\ActiveRecord $item): string
+    {
+        return $this->markdown->toHTML()->transform(
+            $item->getBody()
+        );
     }
 
     /**
      * @inheritDoc
      */
-    public function getNotifications() : array
+    public function getNotifications(): array
     {
         return [];
     }
@@ -51,20 +62,22 @@ class ADNProvider extends AbstractNotificationProvider
     /**
      * @inheritDoc
      */
-    public function getAdministrativeNotifications() : array
+    public function getAdministrativeNotifications(): array
     {
         $adns = [];
 
-        $i = fn (string $id) : IdentificationInterface => $this->if->identifier($id);
+        $i = fn (string $id): IdentificationInterface => $this->if->identifier($id);
         /**
          * @var $item ilADNNotification
          * @var $adn  AdministrativeNotification
          */
         foreach (ilADNNotification::get() as $item) {
-            $adn = $this->notification_factory->administrative($i((string) $item->getId()))->withTitle($item->getTitle())->withSummary($item->getBody());
+            $adn = $this->notification_factory->administrative($i((string) $item->getId()))->withTitle($item->getTitle())->withSummary(
+                $this->getSummary($item)
+            );
             $adn = $this->handleDenotation($item, $adn);
 
-            $is_visible = static fn () : bool => true;
+            $is_visible = static fn (): bool => true;
 
             // is limited to roles
             if ($item->isLimitToRoles()) {
@@ -76,13 +89,13 @@ class ADNProvider extends AbstractNotificationProvider
 
             // is dismissale
             if ($item->getDismissable() && $this->access->isUserLoggedIn()()) {
-                $adn = $adn->withClosedCallable(function () use ($item) : void {
+                $adn = $adn->withClosedCallable(function () use ($item): void {
                     $item->dismiss($this->dic->user());
                 });
-                $is_visible = $this->combineClosure($is_visible, fn () : bool => !\ilADNDismiss::hasDimissed($this->dic->user(), $item));
+                $is_visible = $this->combineClosure($is_visible, fn (): bool => !\ilADNDismiss::hasDimissed($this->dic->user(), $item));
             }
 
-            $is_visible = $this->combineClosure($is_visible, fn () : bool => $item->isVisibleForUser($this->dic->user()));
+            $is_visible = $this->combineClosure($is_visible, fn (): bool => $item->isVisibleForUser($this->dic->user()));
 
             $adns[] = $adn->withVisibilityCallable($is_visible);
         }
@@ -92,8 +105,8 @@ class ADNProvider extends AbstractNotificationProvider
     private function handleDenotation(
         ilADNNotification $item,
         AdministrativeNotification $adn
-    ) : AdministrativeNotification {
-        $settype = static function (int $type, AdministrativeNotification $adn) : AdministrativeNotification {
+    ): AdministrativeNotification {
+        $settype = static function (int $type, AdministrativeNotification $adn): AdministrativeNotification {
             switch ($type) {
                 case ilADNNotification::TYPE_ERROR:
                     return $adn->withBreakingDenotation();
@@ -112,10 +125,10 @@ class ADNProvider extends AbstractNotificationProvider
         return $settype($item->getType(), $adn);
     }
 
-    private function combineClosure(Closure $closure, ?Closure $additional = null) : Closure
+    private function combineClosure(Closure $closure, ?Closure $additional = null): Closure
     {
         if ($additional instanceof Closure) {
-            return static fn () : bool => $additional() && $closure();
+            return static fn (): bool => $additional() && $closure();
         }
 
         return $closure;

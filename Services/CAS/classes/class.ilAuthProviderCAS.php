@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -16,30 +18,24 @@
 
 /**
  * CAS authentication provider
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
-class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterface
+class ilAuthProviderCAS extends ilAuthProvider
 {
     private ilCASSettings $settings;
 
-    /**
-     * ilAuthProviderCAS constructor.
-     */
     public function __construct(ilAuthCredentials $credentials)
     {
         parent::__construct($credentials);
         $this->settings = ilCASSettings::getInstance();
     }
 
-    protected function getSettings() : ilCASSettings
+    protected function getSettings(): ilCASSettings
     {
         return $this->settings;
     }
 
-
-    public function doAuthentication(\ilAuthStatus $status) : bool
+    public function doAuthentication(ilAuthStatus $status): bool
     {
         $this->getLogger()->debug('Starting cas authentication attempt... ');
 
@@ -49,7 +45,7 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
             phpCAS::client(
                 CAS_VERSION_2_0,
                 $this->getSettings()->getServer(),
-                (int) $this->getSettings()->getPort(),
+                $this->getSettings()->getPort(),
                 $this->getSettings()->getUri()
             );
 
@@ -61,7 +57,7 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
             return false;
         }
 
-        if (!strlen(phpCAS::getUser())) {
+        if (phpCAS::getUser() === '') {
             return $this->handleAuthenticationFail($status, 'err_wrong_login');
         }
         $this->getCredentials()->setUsername(phpCAS::getUser());
@@ -73,7 +69,7 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
 
         // Check account available
         $local_user = ilObjUser::_checkExternalAuthAccount("cas", $this->getCredentials()->getUsername());
-        if (strlen($local_user)) {
+        if ($local_user !== '' && $local_user !== null) {
             $this->getLogger()->debug('CAS authentication successful.');
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
             $status->setAuthenticatedUserId(ilObjUser::_lookupId($local_user));
@@ -89,7 +85,7 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
         $importer = new ilCASAttributeToUser($this->getSettings());
         $new_name = $importer->create($this->getCredentials()->getUsername());
 
-        if (!strlen($new_name)) {
+        if ($new_name === '') {
             $this->getLogger()->debug('User creation failed.');
             $this->handleAuthenticationFail($status, 'err_auth_cas_no_ilias_user');
             return false;
@@ -100,10 +96,7 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
         return true;
     }
 
-    /**
-     * Handle user data synchonization by ldap data source.
-     */
-    protected function handleLDAPDataSource(\ilAuthStatus $status) : bool
+    protected function handleLDAPDataSource(ilAuthStatus $status): bool
     {
         $server = ilLDAPServer::getInstanceByServerId(
             ilLDAPServer::getDataSource(ilAuthUtils::AUTH_CAS)
@@ -125,13 +118,7 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
         } catch (ilLDAPSynchronisationFailedException $e) {
             $this->handleAuthenticationFail($status, 'err_auth_ldap_failed');
             return false;
-        } catch (ilLDAPSynchronisationForbiddenException $e) {
-            // No syncronisation allowed => create Error
-            $this->getLogger()->warning('User creation disabled. No valid local account found');
-            $this->handleAuthenticationFail($status, 'err_auth_cas_no_ilias_user');
-            return false;
-        } catch (ilLDAPAccountMigrationRequiredException $e) {
-
+        } catch (ilLDAPSynchronisationForbiddenException|ilLDAPAccountMigrationRequiredException $e) {
             // No syncronisation allowed => create Error
             $this->getLogger()->warning('User creation disabled. No valid local account found');
             $this->handleAuthenticationFail($status, 'err_auth_cas_no_ilias_user');

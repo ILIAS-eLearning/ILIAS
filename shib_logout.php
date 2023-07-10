@@ -16,7 +16,7 @@
 require_once("libs/composer/vendor/autoload.php");
 global $DIC;
 $q = $DIC->http()->wrapper()->query();
-if(
+if (
     $q->has('return')
     && $q->has('action')
     && $q->retrieve('action', $DIC->refinery()->to()->string()) === 'logout'
@@ -125,7 +125,6 @@ WSDL;
 /// This function does the actual logout
 function LogoutNotification($SessionID)
 {
-
     // Delete session of user using $SessionID to locate the user's session file
     // on the file system or in the database
     // Then delete this entry or record to clear the session
@@ -147,7 +146,6 @@ function LogoutNotification($SessionID)
                 && array_key_exists('shibboleth_session_id', $user_session_entry)
                 && $user_session_entry['shibboleth_session_id'] == $SessionID
             ) {
-
                 // Delete this session entry
                 if (ilSession::_destroy($session_entry['session_id']) !== true) {
                     return new SoapFault('LogoutError', 'Could not delete session entry in database.');

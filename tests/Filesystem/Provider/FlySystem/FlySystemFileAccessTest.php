@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
 use ILIAS\Data\DataSize;
@@ -8,72 +24,58 @@ use ILIAS\Filesystem\Exception\IOException;
 use League\Flysystem\FileExistsException;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemAdapter;
+use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use League\Flysystem\AdapterInterface;
+use League\Flysystem\UnableToReadFile;
+use League\Flysystem\UnableToWriteFile;
+use League\Flysystem\UnableToRetrieveMetadata;
+use League\Flysystem\UnableToDeleteFile;
+use League\Flysystem\UnableToMoveFile;
+use League\Flysystem\UnableToCopyFile;
+use League\Flysystem\UnableToSetVisibility;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
- * Class FlySystemFileAccessTest
- * @package                Filesystem\Provider\FlySystem
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  */
 class FlySystemFileAccessTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
     private \ILIAS\Filesystem\Provider\FlySystem\FlySystemFileAccess $subject;
-    /**
-     * @var Filesystem | MockInterface
-     */
-    private $filesystemMock;
+    private \League\Flysystem\Filesystem|\Mockery\MockInterface $filesystemMock;
     /**
      * @var AdapterInterface|Mockery\LegacyMockInterface|MockInterface
      */
-    private $adapterMock;
+    private \Mockery\LegacyMockInterface $adapterMock;
 
     /**
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $this->filesystemMock = Mockery::mock(FilesystemInterface::class);
-        $this->adapterMock = Mockery::mock(AdapterInterface::class);
+        $this->filesystemMock = Mockery::mock(FilesystemOperator::class);
+        $this->adapterMock = Mockery::mock(FilesystemAdapter::class);
         $this->subject = new FlySystemFileAccess($this->filesystemMock);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testReadWhichShouldSucceed() : void
+    public function testReadWhichShouldSucceed(): void
     {
         $fileContent = 'Test file content.';
 
         $this->adapterMock->shouldReceive('read')
                           ->once()
-                          ->andReturn(['contents' => $fileContent]);
+                          ->andReturn($fileContent);
 
         $this->adapterMock->shouldReceive('has')
                           ->once()
@@ -87,11 +89,7 @@ class FlySystemFileAccessTest extends TestCase
         $this->assertSame($fileContent, $actualContent);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testReadWithGeneralFileAccessErrorWhichShouldFail() : void
+    public function testReadWithGeneralFileAccessErrorWhichShouldFail(): void
     {
         $path = 'path/to/your/file';
 
@@ -108,16 +106,12 @@ class FlySystemFileAccessTest extends TestCase
                              ->andReturn($this->adapterMock);
 
         $this->expectException(IOException::class);
-        $this->expectExceptionMessage("Could not access the file \"$path\".");
+        $this->expectExceptionMessage("File \"$path\" not found.");
 
         $this->subject->read($path);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testReadWithMissingFileWhichShouldFail() : void
+    public function testReadWithMissingFileWhichShouldFail(): void
     {
         $path = 'path/to/your/file';
 
@@ -135,14 +129,10 @@ class FlySystemFileAccessTest extends TestCase
         $this->subject->read('/' . $path);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testGetMimeTypeWhichShouldSucceed() : void
+    public function testGetMimeTypeWhichShouldSucceed(): void
     {
         $mimeType = 'image/jpeg';
-        $this->filesystemMock->shouldReceive('getMimetype')
+        $this->filesystemMock->shouldReceive('mimeType')
                              ->once()
                              ->andReturn($mimeType);
 
@@ -150,17 +140,13 @@ class FlySystemFileAccessTest extends TestCase
         $this->assertSame($mimeType, $actualMimeType);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testGetMimeTypeWithUnknownMimeTypeWhichShouldFail() : void
+    public function testGetMimeTypeWithUnknownMimeTypeWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
-        $this->filesystemMock->shouldReceive('getMimetype')
+        $this->filesystemMock->shouldReceive('mimeType')
                              ->with($path)
                              ->once()
-                             ->andReturn(false);
+                             ->andReturn('');
 
         $this->expectException(IOException::class);
         $this->expectExceptionMessage("Could not determine the MIME type of the file \"$path\".");
@@ -168,34 +154,27 @@ class FlySystemFileAccessTest extends TestCase
         $this->subject->getMimeType($path);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testGetMimeTypeWithMissingFileWhichShouldFail() : void
+    public function testGetMimeTypeWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
-        $this->filesystemMock->shouldReceive('getMimetype')
+        $this->filesystemMock->shouldReceive('mimeType')
                              ->once()
                              ->with($path)
-                             ->andThrow(FileNotFoundException::class);
+                             ->andThrow(UnableToRetrieveMetadata::class);
 
-        $this->expectException(\ILIAS\Filesystem\Exception\FileNotFoundException::class);
+        $this->expectException(IOException::class);
         $this->expectExceptionMessage("File \"$path\" not found.");
 
         $this->subject->getMimeType($path);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testGetTimestampWhichShouldSucceed() : void
+    public function testGetTimestampWhichShouldSucceed(): void
     {
-        $timestamp = '06.02.2012';
-        $this->filesystemMock->shouldReceive('getTimestamp')
-                             ->once()
-                             ->andReturn($timestamp);
+        $timestamp = strtotime('2012-02-06');
+        $this->filesystemMock
+            ->shouldReceive('lastModified')
+            ->once()
+            ->andReturn($timestamp);
 
         $actualTimestamp = $this->subject->getTimestamp('/path/to/your/file');
 
@@ -213,17 +192,14 @@ class FlySystemFileAccessTest extends TestCase
         $this->assertEquals(new \DateTime($timestamp), $actualTimestamp);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testGetTimestampWithUnknownErrorWhichShouldFail() : void
+    public function testGetTimestampWithUnknownErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
-        $this->filesystemMock->shouldReceive('getTimestamp')
-                             ->with($path)
-                             ->once()
-                             ->andReturn(false);
+        $this->filesystemMock
+            ->shouldReceive('lastModified')
+            ->with($path)
+            ->once()
+            ->andThrow(UnableToRetrieveMetadata::class);
 
         $this->expectException(IOException::class);
         $this->expectExceptionMessage("Could not lookup timestamp of the file \"$path\".");
@@ -231,83 +207,65 @@ class FlySystemFileAccessTest extends TestCase
         $this->subject->getTimestamp($path);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testGetTimestampWithMissingFileWhichShouldFail() : void
+    public function testGetTimestampWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
-        $this->filesystemMock->shouldReceive('getTimestamp')
-                             ->once()
-                             ->with($path)
-                             ->andThrow(FileNotFoundException::class);
+        $this->filesystemMock
+            ->shouldReceive('lastModified')
+            ->once()
+            ->with($path)
+            ->andThrow(UnableToReadFile::class);
 
-        $this->expectException(\ILIAS\Filesystem\Exception\FileNotFoundException::class);
+        $this->expectException(IOException::class);
         $this->expectExceptionMessage("File \"$path\" not found.");
 
         $this->subject->getTimestamp($path);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testGetSizeWhichShouldSucceed() : void
+    public function testGetSizeWhichShouldSucceed(): void
     {
         $rawSize = 1024;
-        $size = new DataSize($rawSize, DataSize::KiB);
-        $delta = 0.00001; //floating point is never that precise.
+        $size = new DataSize($rawSize, DataSize::KiB); //floating point is never that precise.
 
-        $this->filesystemMock->shouldReceive('getSize')
+        $this->filesystemMock->shouldReceive('fileSize')
                              ->once()
                              ->andReturn($rawSize);
 
         $actualSize = $this->subject->getSize('/path/to/your/file', DataSize::KiB);
-        $this->assertSame($size->getSize(), $actualSize->getSize(), '', $delta);
+        $this->assertSame($size->getSize(), $actualSize->getSize(), '');
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testGetSizeWithUnknownAdapterErrorWhichShouldFail() : void
+    public function testGetSizeWithUnknownAdapterErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
-        $this->filesystemMock->shouldReceive('getSize')
-                             ->with($path)
-                             ->once()
-                             ->andReturn(false);
+        $this->filesystemMock
+            ->shouldReceive('fileSize')
+            ->with($path)
+            ->once()
+            ->andThrow(UnableToRetrieveMetadata::class);
 
         $this->expectException(IOException::class);
-        $this->expectExceptionMessage("Could not calculate the file size of the file \"$path\".");
+        $this->expectExceptionMessage("File \"$path\" not found.");
 
         $this->subject->getSize($path, DataSize::MiB);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testGetSizeWithMissingFileWhichShouldFail() : void
+    public function testGetSizeWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
-        $this->filesystemMock->shouldReceive('getSize')
-                             ->once()
-                             ->with($path)
-                             ->andThrow(FileNotFoundException::class);
+        $this->filesystemMock
+            ->shouldReceive('fileSize')
+            ->once()
+            ->with($path)
+            ->andThrow(UnableToRetrieveMetadata::class);
 
-        $this->expectException(\ILIAS\Filesystem\Exception\FileNotFoundException::class);
+        $this->expectException(IOException::class);
         $this->expectExceptionMessage("File \"$path\" not found.");
 
         $this->subject->getSize($path, DataSize::GiB);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testSetVisibilityWhichShouldSucceed() : void
+    public function testSetVisibilityWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $visibility = "private";
@@ -326,11 +284,7 @@ class FlySystemFileAccessTest extends TestCase
         $this->assertTrue($operationSuccessful);
     }
 
-    /**
-     * @Test
-     * @small
-     */
-    public function testSetVisibilityThatFailedDueToAdapterFailureWhichShouldFail() : void
+    public function testSetVisibilityThatFailedDueToAdapterFailureWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $visibility = "private";
@@ -343,7 +297,7 @@ class FlySystemFileAccessTest extends TestCase
         $this->filesystemMock->shouldReceive('setVisibility')
                              ->once()
                              ->withArgs([$path, $visibility])
-                             ->andReturn(false);
+                             ->andThrow(UnableToSetVisibility::class);
 
         $operationSuccessful = $this->subject->setVisibility($path, $visibility);
         $this->assertFalse($operationSuccessful);
@@ -353,7 +307,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testSetVisibilityWithMissingFileWhichShouldFail() : void
+    public function testSetVisibilityWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $visibility = "private";
@@ -373,7 +327,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testSetVisibilityWithInvalidAccessModifierWhichShouldFail() : void
+    public function testSetVisibilityWithInvalidAccessModifierWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $visibility = "not valid";
@@ -393,7 +347,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetVisibilityWhichShouldSucceed() : void
+    public function testGetVisibilityWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $visibility = "private";
@@ -416,7 +370,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetVisibilityWithMissingFileWhichShouldFail() : void
+    public function testGetVisibilityWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
 
@@ -435,7 +389,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetVisibilityWithAdapterErrorWhichShouldFail() : void
+    public function testGetVisibilityWithAdapterErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
 
@@ -459,15 +413,20 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteWhichShouldSucceed() : void
+    public function testWriteWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
 
-        $this->filesystemMock->shouldReceive('write')
-                             ->once()
-                             ->withArgs([$path, $content])
-                             ->andReturn(true);
+        $this->filesystemMock
+            ->shouldReceive('has')
+            ->once()
+            ->with($path)
+            ->andReturn(false)
+            ->getMock()
+            ->shouldReceive('write')
+            ->once()
+            ->withArgs([$path, $content]);
 
         $this->subject->write($path, $content);
     }
@@ -476,15 +435,20 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteWithAlreadyExistingFileWhichShouldFail() : void
+    public function testWriteWithAlreadyExistingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
 
-        $this->filesystemMock->shouldReceive('write')
-                             ->once()
-                             ->withArgs([$path, $content])
-                             ->andThrow(FileExistsException::class);
+        $this->filesystemMock
+            ->shouldReceive('has')
+            ->once()
+            ->with($path)
+            ->andReturn(true)
+            ->shouldReceive('write')
+            ->never()
+            ->withArgs([$path, $content])
+            ->andThrow(UnableToWriteFile::class);
 
         $this->expectException(FileAlreadyExistsException::class);
         $this->expectExceptionMessage("File \"$path\" already exists.");
@@ -496,18 +460,26 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteWithAdapterErrorWhichShouldFail() : void
+    public function testWriteWithAdapterErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
 
-        $this->filesystemMock->shouldReceive('write')
-                             ->once()
-                             ->withArgs([$path, $content])
-                             ->andReturn(false);
+        $this->filesystemMock
+            ->shouldReceive('has')
+            ->once()
+            ->with($path)
+            ->andReturn(false)
+            ->getMock()
+            ->shouldReceive('write')
+            ->once()
+            ->withArgs([$path, $content])
+            ->andThrow(UnableToWriteFile::class);
 
         $this->expectException(IOException::class);
-        $this->expectExceptionMessage("Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable.");
+        $this->expectExceptionMessage(
+            "Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable."
+        );
 
         $this->subject->write($path, $content);
     }
@@ -516,12 +488,12 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateWhichShouldSucceed() : void
+    public function testUpdateWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
 
-        $this->filesystemMock->shouldReceive('update')
+        $this->filesystemMock->shouldReceive('write')
                              ->once()
                              ->withArgs([$path, $content])
                              ->andReturn(true);
@@ -533,18 +505,20 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateWithAdapterErrorWhichShouldFail() : void
+    public function testUpdateWithAdapterErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
 
-        $this->filesystemMock->shouldReceive('update')
+        $this->filesystemMock->shouldReceive('write')
                              ->once()
                              ->withArgs([$path, $content])
-                             ->andReturn(false);
+                             ->andThrow(UnableToWriteFile::class);
 
         $this->expectException(IOException::class);
-        $this->expectExceptionMessage("Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable.");
+        $this->expectExceptionMessage(
+            "Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable."
+        );
 
         $this->subject->update($path, $content);
     }
@@ -553,18 +527,21 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateWithMissingFileWhichShouldFail() : void
+    public function testUpdateWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
 
-        $this->filesystemMock->shouldReceive('update')
-                             ->once()
-                             ->withArgs([$path, $content])
-                             ->andThrow(FileNotFoundException::class);
+        $this->filesystemMock
+            ->shouldReceive('write')
+            ->once()
+            ->withArgs([$path, $content])
+            ->andThrow(UnableToWriteFile::class);
 
-        $this->expectException(\ILIAS\Filesystem\Exception\FileNotFoundException::class);
-        $this->expectExceptionMessage("File \"$path\" was not found update failed.");
+        $this->expectException(IOException::class);
+        $this->expectExceptionMessage(
+            "Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable."
+        );
 
         $this->subject->update($path, $content);
     }
@@ -573,7 +550,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testPutWhichShouldSucceed() : void
+    public function testPutWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
@@ -590,7 +567,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testPutWithAdapterErrorWhichShouldFail() : void
+    public function testPutWithAdapterErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
@@ -601,7 +578,9 @@ class FlySystemFileAccessTest extends TestCase
                              ->andReturn(false);
 
         $this->expectException(IOException::class);
-        $this->expectExceptionMessage("Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable.");
+        $this->expectExceptionMessage(
+            "Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable."
+        );
 
         $this->subject->put($path, $content);
     }
@@ -610,7 +589,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeleteWhichShouldSucceed() : void
+    public function testDeleteWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
 
@@ -626,17 +605,19 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeleteWithAdapterErrorWhichShouldFail() : void
+    public function testDeleteWithAdapterErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
 
         $this->filesystemMock->shouldReceive('delete')
                              ->once()
                              ->with($path)
-                             ->andReturn(false);
+                             ->andThrow(UnableToDeleteFile::class);
 
         $this->expectException(IOException::class);
-        $this->expectExceptionMessage("Could not delete file \"$path\" because a general IO error occurred. Please check that your target is writable.");
+        $this->expectExceptionMessage(
+            "Could not delete file \"$path\" because a general IO error occurred. Please check that your target is writable."
+        );
 
         $this->subject->delete($path);
     }
@@ -645,14 +626,14 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeleteWithMissingFileWhichShouldFail() : void
+    public function testDeleteWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
 
         $this->filesystemMock->shouldReceive('delete')
                              ->once()
                              ->with($path)
-                             ->andThrow(FileNotFoundException::class);
+                             ->andThrow(UnableToRetrieveMetadata::class);
 
         $this->expectException(\ILIAS\Filesystem\Exception\FileNotFoundException::class);
         $this->expectExceptionMessage("File \"$path\" was not found delete operation failed.");
@@ -665,7 +646,7 @@ class FlySystemFileAccessTest extends TestCase
      * @small
      * Maybe a useless test.
      */
-    public function testReadAndDeleteWhichShouldSucceed() : void
+    public function testReadAndDeleteWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $content = "awesome content";
@@ -690,13 +671,18 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testRenameWhichShouldSucceed() : void
+    public function testRenameWhichShouldSucceed(): void
     {
         $source = '/source/path';
         $destination = '/dest/path';
 
         $this->filesystemMock
-            ->shouldReceive('rename')
+            ->shouldReceive('has')
+            ->once()
+            ->with($destination)
+            ->andReturn(false)
+            ->getMock()
+            ->shouldReceive('move')
             ->once()
             ->withArgs([$source, $destination])
             ->andReturn(true);
@@ -708,16 +694,21 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testRenameWithMissingSourceWhichShouldFail() : void
+    public function testRenameWithMissingSourceWhichShouldFail(): void
     {
         $source = '/source/path';
         $destination = '/dest/path';
 
         $this->filesystemMock
-            ->shouldReceive('rename')
+            ->shouldReceive('has')
+            ->once()
+            ->with($destination)
+            ->andReturn(false)
+            ->getMock()
+            ->shouldReceive('move')
             ->once()
             ->withArgs([$source, $destination])
-            ->andThrow(FileNotFoundException::class);
+            ->andThrow(UnableToRetrieveMetadata::class);
 
         $this->expectException(\ILIAS\Filesystem\Exception\FileNotFoundException::class);
         $this->expectExceptionMessage("File \"$source\" not found.");
@@ -729,18 +720,23 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testRenameWithExistingDestinationWhichShouldFail() : void
+    public function testRenameWithExistingDestinationWhichShouldFail(): void
     {
         $source = '/source/path';
         $destination = '/dest/path';
 
         $this->filesystemMock
-            ->shouldReceive('rename')
+            ->shouldReceive('has')
             ->once()
+            ->with($destination)
+            ->andReturn(true)
+            ->getMock()
+            ->shouldReceive('move')
+            ->never()
             ->withArgs([$source, $destination])
-            ->andThrow(FileExistsException::class);
+            ->andThrow(UnableToMoveFile::class);
 
-        $this->expectException(FileAlreadyExistsException::class);
+        $this->expectException(IOException::class);
         $this->expectExceptionMessage("File \"$destination\" already exists.");
 
         $this->subject->rename($source, $destination);
@@ -750,16 +746,21 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testRenameWithGeneralErrorWhichShouldFail() : void
+    public function testRenameWithGeneralErrorWhichShouldFail(): void
     {
         $source = '/source/path';
         $destination = '/dest/path';
 
         $this->filesystemMock
-            ->shouldReceive('rename')
+            ->shouldReceive('has')
+            ->once()
+            ->with($destination)
+            ->andReturn(false)
+            ->getMock()
+            ->shouldReceive('move')
             ->once()
             ->withArgs([$source, $destination])
-            ->andReturn(false);
+            ->andThrow(UnableToMoveFile::class);
 
         $this->expectException(IOException::class);
         $this->expectExceptionMessage("Could not move file from \"$source\" to \"$destination\".");
@@ -771,15 +772,21 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyWhichShouldSucceed() : void
+    public function testCopyWhichShouldSucceed(): void
     {
         $sourcePath = '/path/to/your/source/file';
         $destinationPath = '/path/to/your/destination/file';
 
-        $this->filesystemMock->shouldReceive('copy')
-                             ->once()
-                             ->withArgs([$sourcePath, $destinationPath])
-                             ->andReturn(true);
+        $this->filesystemMock
+            ->shouldReceive('has')
+            ->once()
+            ->with($destinationPath)
+            ->andReturn(false)
+            ->getMock()
+            ->shouldReceive('copy')
+            ->once()
+            ->withArgs([$sourcePath, $destinationPath])
+            ->andReturn(true);
 
         $this->subject->copy($sourcePath, $destinationPath);
     }
@@ -788,18 +795,26 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyWithAdapterErrorWhichShouldFail() : void
+    public function testCopyWithAdapterErrorWhichShouldFail(): void
     {
         $sourcePath = '/path/to/your/source/file';
         $destinationPath = '/path/to/your/destination/file';
 
-        $this->filesystemMock->shouldReceive('copy')
-                             ->once()
-                             ->withArgs([$sourcePath, $destinationPath])
-                             ->andReturn(false);
+        $this->filesystemMock
+            ->shouldReceive('has')
+            ->once()
+            ->with($destinationPath)
+            ->andReturn(false)
+            ->getMock()
+            ->shouldReceive('copy')
+            ->once()
+            ->withArgs([$sourcePath, $destinationPath])
+            ->andThrow(UnableToCopyFile::class);
 
         $this->expectException(IOException::class);
-        $this->expectExceptionMessage("Could not copy file \"$sourcePath\" to destination \"$destinationPath\" because a general IO error occurred. Please check that your destination is writable.");
+        $this->expectExceptionMessage(
+            "Could not copy file \"$sourcePath\" to destination \"$destinationPath\" because a general IO error occurred. Please check that your destination is writable."
+        );
 
         $this->subject->copy($sourcePath, $destinationPath);
     }
@@ -808,15 +823,21 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyWithMissingFileWhichShouldFail() : void
+    public function testCopyWithMissingFileWhichShouldFail(): void
     {
         $sourcePath = '/path/to/your/source/file';
         $destinationPath = '/path/to/your/destination/file';
 
-        $this->filesystemMock->shouldReceive('copy')
-                             ->once()
-                             ->withArgs([$sourcePath, $destinationPath])
-                             ->andThrow(FileNotFoundException::class);
+        $this->filesystemMock
+            ->shouldReceive('has')
+            ->once()
+            ->with($destinationPath)
+            ->andReturn(false)
+            ->getMock()
+            ->shouldReceive('copy')
+            ->once()
+            ->withArgs([$sourcePath, $destinationPath])
+            ->andThrow(UnableToRetrieveMetadata::class);
 
         $this->expectException(\ILIAS\Filesystem\Exception\FileNotFoundException::class);
         $this->expectExceptionMessage("File source \"$sourcePath\" was not found copy failed.");
@@ -828,18 +849,24 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyWithExistingDestinationFileWhichShouldFail() : void
+    public function testCopyWithExistingDestinationFileWhichShouldFail(): void
     {
         $sourcePath = '/path/to/your/source/file';
         $destinationPath = '/path/to/your/destination/file';
 
-        $this->filesystemMock->shouldReceive('copy')
-                             ->once()
-                             ->withArgs([$sourcePath, $destinationPath])
-                             ->andThrow(FileExistsException::class);
+        $this->filesystemMock
+            ->shouldReceive('has')
+            ->once()
+            ->with($destinationPath)
+            ->andReturn(true)
+            ->getMock()
+            ->shouldReceive('copy')
+            ->never()
+            ->withArgs([$sourcePath, $destinationPath])
+            ->andThrow(UnableToCopyFile::class);
 
         $this->expectException(FileAlreadyExistsException::class);
-        $this->expectExceptionMessage("File destination \"$destinationPath\" already exists copy failed.");
+        $this->expectExceptionMessage("File \"$destinationPath\" already exists.");
 
         $this->subject->copy($sourcePath, $destinationPath);
     }

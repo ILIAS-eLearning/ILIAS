@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -45,7 +47,7 @@ class ilCtrlArrayClassPath extends ilCtrlAbstractPath
      * @throws ilCtrlException if classes within the classes array
      *                         are not related.
      */
-    private function getCidPathByArray(array $target_classes) : string
+    private function getCidPathByArray(array $target_classes): string
     {
         // abort if the provided targets are empty.
         if (empty($target_classes)) {

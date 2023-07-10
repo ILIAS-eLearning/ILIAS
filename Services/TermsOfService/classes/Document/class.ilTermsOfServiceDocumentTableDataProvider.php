@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,18 +16,22 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceDocumentTableDataProvider
  * @author Michael Jansen <mjansen@databay.de>
+ * @implements ilTermsOfServiceTableDataProvider<ilTermsOfServiceDocument>
  */
 class ilTermsOfServiceDocumentTableDataProvider implements ilTermsOfServiceTableDataProvider
 {
-    public function getList(array $params, array $filter) : array
+    public function getList(array $params, array $filter): array
     {
+        /** @var array<int, ilTermsOfServiceDocument> $items */
         $items = ilTermsOfServiceDocument::orderBy('sorting')->get();
 
         return [
-            'items' => $items,
+            'items' => array_values($items),
             'cnt' => count($items)
         ];
     }

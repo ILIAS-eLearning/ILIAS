@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -6,7 +8,7 @@ use ILIAS\DI\LoggingServices;
 
 class ilRandomTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(\ilRandom::class, new ilRandom());
     }
@@ -14,19 +16,19 @@ class ilRandomTest extends TestCase
     /**
      * @dataProvider intArguments
      */
-    public function testIntSuccessfully(int ...$arguments) : void
+    public function testIntSuccessfully(int ...$arguments): void
     {
         $this->expectNotToPerformAssertions();
 
         $random = new \ilRandom();
-         try {
-             $random->int(...$arguments);
+        try {
+            $random->int(...$arguments);
         } catch (Error $e) {
             $this->fail('Expected no exception.');
         }
     }
 
-    public function testIntWithInvalidArguments() : void
+    public function testIntWithInvalidArguments(): void
     {
         $this->expectException(Error::class);
         $random = new \ilRandom();
@@ -34,7 +36,7 @@ class ilRandomTest extends TestCase
         $random->int(10, 9);
     }
 
-    public function testLogIfPossible() : void
+    public function testLogIfPossible(): void
     {
         $this->expectException(Error::class);
 
@@ -46,7 +48,7 @@ class ilRandomTest extends TestCase
         $factory->expects(self::once())->method('getComponentLogger')->with('rnd')->willReturn($logger);
 
         $GLOBALS['DIC'] = new Container();
-        $GLOBALS['DIC']['ilLoggerFactory'] = static function () use ($factory) : ilLoggerFactory {
+        $GLOBALS['DIC']['ilLoggerFactory'] = static function () use ($factory): ilLoggerFactory {
             return $factory;
         };
         $random = new \ilRandom();
@@ -55,7 +57,7 @@ class ilRandomTest extends TestCase
         unset($GLOBALS['DIC']);
     }
 
-    public function intArguments() : array
+    public function intArguments(): array
     {
         return [
             'No arguments can be provided' => [],

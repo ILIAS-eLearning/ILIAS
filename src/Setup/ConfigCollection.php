@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 /**
@@ -33,7 +35,7 @@ class ConfigCollection implements Config
         $this->configs = $configs;
     }
 
-    public function getConfig(string $key) : Config
+    public function getConfig(string $key): Config
     {
         if (!isset($this->configs[$key])) {
             throw new \InvalidArgumentException(
@@ -43,7 +45,7 @@ class ConfigCollection implements Config
         return $this->configs[$key];
     }
 
-    public function maybeGetConfig(string $key) : ?Config
+    public function maybeGetConfig(string $key): ?Config
     {
         return $this->configs[$key] ?? null;
     }
@@ -51,7 +53,7 @@ class ConfigCollection implements Config
     /**
      * @return string[]
      */
-    public function getKeys() : array
+    public function getKeys(): array
     {
         return array_keys($this->configs);
     }

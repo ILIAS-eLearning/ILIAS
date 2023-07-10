@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilChatroomKickGUI
  * @author  Jan Posselt <jposselt@databay.de>
@@ -24,7 +26,7 @@
  */
 class ilChatroomKickGUI extends ilChatroomGUIHandler
 {
-    private function buildMessage(string $messageString, ilChatroomUser $chat_user) : stdClass
+    private function buildMessage(string $messageString, ilChatroomUser $chat_user): stdClass
     {
         $data = new stdClass();
 
@@ -36,7 +38,12 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
         return $data;
     }
 
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
+    {
+        $this->main();
+    }
+
+    public function main(): void
     {
         $this->redirectIfNoPermission(['read', 'moderate']);
 
@@ -44,29 +51,9 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
         $this->exitIfNoRoomExists($room);
 
         $userToKick = $this->getRequestValue('user', $this->refinery->kindlyTo()->int());
-        $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int(), 0);
 
         $connector = $this->gui->getConnector();
-        $response = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
-
-        if (!$subRoomId && $this->isSuccessful($response)) {
-            // 2013-09-11: Should already been done by the chat server
-            $room->disconnectUser($userToKick);
-        }
-
-        $this->sendResponse($response);
-    }
-
-    public function main() : void
-    {
-        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
-        $this->exitIfNoRoomExists($room);
-
-        $userToKick = $this->getRequestValue('user', $this->refinery->kindlyTo()->int());
-        $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
-
-        $connector = $this->gui->getConnector();
-        $response = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
+        $response = $connector->sendKick($room->getRoomId(), $userToKick);
 
         if ($this->isSuccessful($response)) {
             // 2013-09-11: Should already been done by the chat server
@@ -74,35 +61,5 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
         }
 
         $this->sendResponse($response);
-    }
-
-    /**
-     * Kicks user from subroom into mainroom
-     */
-    public function sub() : void
-    {
-        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
-        if ($room) {
-            $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
-            if (
-                !ilChatroom::checkUserPermissions(['read', 'moderate'], $this->gui->getRefId()) &&
-                !$room->isOwnerOfPrivateRoom(
-                    $this->ilUser->getId(),
-                    $subRoomId
-                )
-            ) {
-                $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
-                $this->ilCtrl->redirectByClass(ilRepositoryGUI::class);
-            }
-
-            $roomId = $room->getRoomId();
-
-            $userToKick = $this->getRequestValue('user', $this->refinery->kindlyTo()->int());
-            if ($room->userIsInPrivateRoom($subRoomId, $userToKick)) {
-                $connector = $this->gui->getConnector();
-                $response = $connector->sendKick($roomId, $subRoomId, $userToKick);
-                $this->sendResponse($response);
-            }
-        }
     }
 }

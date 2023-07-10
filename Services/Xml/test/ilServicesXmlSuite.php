@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -20,13 +22,13 @@ require_once 'libs/composer/vendor/autoload.php';
 
 class ilServicesXmlSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
-        
+
         require_once("./Services/Xml/test/ilServicesXmlTest.php");
         $suite->addTestSuite("ilServicesXmlTest");
-        
+
         return $suite;
     }
 }

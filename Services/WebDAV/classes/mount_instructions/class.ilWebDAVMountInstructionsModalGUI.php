@@ -1,26 +1,31 @@
-<?php declare(strict_types = 1);
+<?php
 
-use ILIAS\UI\Factory;
-use ILIAS\UI\Renderer;
-use ILIAS\UI\Component\Modal\Lightbox;
+declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Modal\Lightbox;
+
 class ilWebDAVMountInstructionsModalGUI
 {
     private const MOUNT_INSTRUCTIONS_CONTENT_ID = 'webdav_mount_instructions_content';
-    
+
     protected ilWebDAVMountInstructionsRepositoryImpl $repository;
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
@@ -45,25 +50,25 @@ class ilWebDAVMountInstructionsModalGUI
         $page = $this->ui_factory->modal()->lightboxTextPage($content_div, $title);
         $this->modal = $this->ui_factory->modal()->lightbox($page);
     }
-    
-    private function getRenderedModal() : string
+
+    private function getRenderedModal(): string
     {
         return $this->ui_renderer->render($this->modal);
     }
-    
-    private function getModalShowSignalId() : string
+
+    private function getModalShowSignalId(): string
     {
         return $this->modal->getShowSignal()->getId();
     }
-    
+
     private static bool $modal_already_rendered = false;
-    
-    public static function maybeRenderWebDAVModalInGlobalTpl() : void
+
+    public static function maybeRenderWebDAVModalInGlobalTpl(): void
     {
         if (self::$modal_already_rendered) {
             return;
         }
-        
+
         global $DIC;
         $repository = new ilWebDAVMountInstructionsRepositoryImpl($DIC->database());
         $instance = new ilWebDAVMountInstructionsModalGUI($repository, $DIC->ui()->factory(), $DIC->ui()->renderer(), $DIC->language());

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilLearningModuleNotification class
@@ -66,7 +69,7 @@ class ilLearningModuleNotification
     }
 
     // Generate notifications and send them if necessary
-    public function send() : void
+    public function send(): void
     {
         $lm_id = $this->learning_module->getId();
 
@@ -112,7 +115,7 @@ class ilLearningModuleNotification
         }
     }
 
-    protected function getLink() : string
+    protected function getLink(): string
     {
         // #15192 - should always be present
         if ($this->page_id) {
@@ -123,7 +126,7 @@ class ilLearningModuleNotification
         return ilLink::_getLink($this->lm_ref_id);
     }
 
-    protected function getPageTitle() : string
+    protected function getPageTitle(): string
     {
         return ilLMPageObject::_getPresentationTitle(
             $this->page_id,
@@ -136,7 +139,7 @@ class ilLearningModuleNotification
         );
     }
 
-    protected function getMailSubject(ilLanguage $ulng) : string
+    protected function getMailSubject(ilLanguage $ulng): string
     {
         if ($this->action == self::ACTION_COMMENT) {
             return sprintf($ulng->txt('cont_notification_comment_subject_lm'), $this->learning_module->getTitle(), $this->pg_title);
@@ -145,7 +148,7 @@ class ilLearningModuleNotification
         return sprintf($ulng->txt('cont_change_notification_subject_lm'), $this->learning_module->getTitle(), $this->pg_title);
     }
 
-    protected function getMailBody(ilLanguage $a_ulng, int $a_user_id) : string
+    protected function getMailBody(ilLanguage $a_ulng, int $a_user_id): string
     {
         $message = sprintf($a_ulng->txt('cont_change_notification_salutation'), ilObjUser::_lookupFullname($a_user_id)) . "\n\n";
         $message .= $a_ulng->txt('cont_notification_' . $this->action . "_lm") . ":\n\n";
@@ -164,7 +167,7 @@ class ilLearningModuleNotification
         return $message;
     }
 
-    protected function getPreviewText(ilLanguage $a_ulng) : string
+    protected function getPreviewText(ilLanguage $a_ulng): string
     {
         $page = new ilLMPageGUI($this->page_id);
         $page->setRawPageContent(true);

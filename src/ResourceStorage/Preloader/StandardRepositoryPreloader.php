@@ -1,28 +1,31 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace ILIAS\ResourceStorage\Preloader;
-
-use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
-use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\ResourceStorage\Preloader;
+
+use ILIAS\ResourceStorage\Repositories;
+use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
+
 /**
  * Class StandardRepositoryPreloader
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class StandardRepositoryPreloader implements RepositoryPreloader
 {
@@ -30,24 +33,23 @@ class StandardRepositoryPreloader implements RepositoryPreloader
     protected \ILIAS\ResourceStorage\Revision\Repository\RevisionRepository $revision_repository;
     protected \ILIAS\ResourceStorage\Information\Repository\InformationRepository $information_repository;
     protected \ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository $stakeholder_repository;
+    protected FlavourRepository $flavour_repository;
 
-    public function __construct(
-        ResourceRepository $resource_repository,
-        RevisionRepository $revision_repository,
-        InformationRepository $information_repository,
-        StakeholderRepository $stakeholder_repository
-    ) {
-        $this->resource_repository = $resource_repository;
-        $this->revision_repository = $revision_repository;
-        $this->information_repository = $information_repository;
-        $this->stakeholder_repository = $stakeholder_repository;
+    public function __construct(Repositories $repositories)
+    {
+        $this->resource_repository = $repositories->getResourceRepository();
+        $this->revision_repository = $repositories->getRevisionRepository();
+        $this->information_repository = $repositories->getInformationRepository();
+        $this->stakeholder_repository = $repositories->getStakeholderRepository();
+        $this->flavour_repository = $repositories->getFlavourRepository();
     }
 
-    public function preload(array $identification_strings) : void
+    public function preload(array $identification_strings): void
     {
         $this->resource_repository->preload($identification_strings);
         $this->revision_repository->preload($identification_strings);
         $this->information_repository->preload($identification_strings);
         $this->stakeholder_repository->preload($identification_strings);
+        $this->flavour_repository->preload($identification_strings);
     }
 }

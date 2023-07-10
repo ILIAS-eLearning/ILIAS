@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -45,7 +47,7 @@ abstract class ilADT
      * Get type (from class/instance)
      * @return string
      */
-    public function getType() : string
+    public function getType(): string
     {
         return $this->getDefinition()->getType();
     }
@@ -53,7 +55,7 @@ abstract class ilADT
     /**
      * Init property defaults
      */
-    public function reset() : void
+    public function reset(): void
     {
     }
 
@@ -67,14 +69,14 @@ abstract class ilADT
      * @param ilADTDefinition $a_def
      * @return bool
      */
-    abstract protected function isValidDefinition(ilADTDefinition $a_def) : bool;
+    abstract protected function isValidDefinition(ilADTDefinition $a_def): bool;
 
     /**
      * Set definition
      * @param ilADTDefinition $a_def
      * @throws ilException
      */
-    protected function setDefinition(ilADTDefinition $a_def) : void
+    protected function setDefinition(ilADTDefinition $a_def): void
     {
         if ($this->isValidDefinition($a_def)) {
             $this->definition = clone $a_def;
@@ -87,7 +89,7 @@ abstract class ilADT
      * Get definition
      * @return ilADTDefinition $a_def
      */
-    protected function getDefinition() : ilADTDefinition
+    protected function getDefinition(): ilADTDefinition
     {
         return $this->definition;
     }
@@ -96,7 +98,7 @@ abstract class ilADT
      * Get copy of definition
      * @return ilADTDefinition $a_def
      */
-    public function getCopyOfDefinition() : ilADTDefinition
+    public function getCopyOfDefinition(): ilADTDefinition
     {
         return (clone $this->definition);
     }
@@ -111,16 +113,16 @@ abstract class ilADT
      * @param ilADT $a_adt
      * @return bool|null
      */
-    abstract public function equals(ilADT $a_adt) : ?bool;
+    abstract public function equals(ilADT $a_adt): ?bool;
 
     /**
      * Check if given ADT is larger than self
      * @param ilADT $a_adt
      * @return bool
      */
-    abstract public function isLarger(ilADT $a_adt) : ?bool;
+    abstract public function isLarger(ilADT $a_adt): ?bool;
 
-    public function isLargerOrEqual(ilADT $a_adt) : ?bool
+    public function isLargerOrEqual(ilADT $a_adt): ?bool
     {
         if (!$this->getDefinition()->isComparableTo($a_adt)) {
             return null;
@@ -136,14 +138,14 @@ abstract class ilADT
      * @param ilADT $a_adt
      * @return bool | null
      */
-    abstract public function isSmaller(ilADT $a_adt) : ?bool;
+    abstract public function isSmaller(ilADT $a_adt): ?bool;
 
     /**
      * Check if given ADT is smaller or equal than self
      * @param ilADT $a_adt
      * @return bool | null
      */
-    public function isSmallerOrEqual(ilADT $a_adt) : ?bool
+    public function isSmallerOrEqual(ilADT $a_adt): ?bool
     {
         if (!$this->getDefinition()->isComparableTo($a_adt)) {
             return null;
@@ -160,7 +162,7 @@ abstract class ilADT
      * @param ilADT $a_adt_to
      * @return bool | null
      */
-    public function isInbetween(ilADT $a_adt_from, ilADT $a_adt_to) : ?bool
+    public function isInbetween(ilADT $a_adt_from, ilADT $a_adt_to): ?bool
     {
         if (
             !$this->getDefinition()->isComparableTo($a_adt_from) ||
@@ -180,7 +182,7 @@ abstract class ilADT
      * @param ilADT $a_adt_to
      * @return bool
      */
-    public function isInbetweenOrEqual(ilADT $a_adt_from, ilADT $a_adt_to) : ?bool
+    public function isInbetweenOrEqual(ilADT $a_adt_from, ilADT $a_adt_to): ?bool
     {
         if (
             !$this->getDefinition()->isComparableTo($a_adt_from) ||
@@ -205,9 +207,9 @@ abstract class ilADT
      * Is currently null
      * @return bool | null
      */
-    abstract public function isNull() : bool;
+    abstract public function isNull(): bool;
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         $this->validation_errors = [];
 
@@ -218,7 +220,7 @@ abstract class ilADT
         return true;
     }
 
-    protected function addValidationError(string $a_error_code) : void
+    protected function addValidationError(string $a_error_code): void
     {
         $this->validation_errors[] = $a_error_code;
     }
@@ -228,7 +230,7 @@ abstract class ilADT
      * @return string[]
      * @see isValid()
      */
-    public function getValidationErrors() : array
+    public function getValidationErrors(): array
     {
         if (
             is_array($this->validation_errors) &&
@@ -244,7 +246,7 @@ abstract class ilADT
      * @return string
      * @throws Exception
      */
-    public function translateErrorCode(string $a_code) : string
+    public function translateErrorCode(string $a_code): string
     {
         switch ($a_code) {
             case self::ADT_VALIDATION_ERROR_NULL_NOT_ALLOWED:
@@ -262,10 +264,9 @@ abstract class ilADT
             case self::ADT_VALIDATION_ERROR_MAX:
                 return $this->lng->txt("form_msg_value_too_high");
 
-            // :TODO: currently not used - see ilDateTimeInputGUI
+                // :TODO: currently not used - see ilDateTimeInputGUI
             case self::ADT_VALIDATION_DATE:
                 return $this->lng->txt("exc_date_not_valid");
-
         }
         throw new Exception("ADT unknown error code");
     }
@@ -274,17 +275,17 @@ abstract class ilADT
      * Get unique checksum
      * @return string | null
      */
-    abstract public function getCheckSum() : ?string;
+    abstract public function getCheckSum(): ?string;
 
     /**
      * Export value as stdClass
      * @return stdClass | null
      */
-    abstract public function exportStdClass() : ?stdClass;
+    abstract public function exportStdClass(): ?stdClass;
 
     /**
      * Import value from stdClass
      * @param stdClass | null $a_std
      */
-    abstract public function importStdClass(?stdClass $a_std) : void;
+    abstract public function importStdClass(?stdClass $a_std): void;
 }

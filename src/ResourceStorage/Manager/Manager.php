@@ -1,57 +1,65 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace ILIAS\ResourceStorage\Manager;
-
-use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\ResourceStorage\Resource\StorableResource;
-use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
-use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
-use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
-use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\ResourceStorage\Manager;
+
+use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\ResourceStorage\Collection\CollectionBuilder;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
+use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
+use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
+use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+
 /**
  * Class StorageManager
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class Manager
 {
-    protected \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
-    protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
+    protected ResourceBuilder $resource_builder;
+    protected CollectionBuilder $collection_builder;
+    protected RepositoryPreloader $preloader;
 
     /**
      * Manager constructor.
      */
     public function __construct(
-        ResourceBuilder $b,
-        RepositoryPreloader $l
+        ResourceBuilder $resource_builder,
+        CollectionBuilder $collection_builder,
+        RepositoryPreloader $preloader
     ) {
-        $this->resource_builder = $b;
-        $this->preloader = $l;
+        $this->resource_builder = $resource_builder;
+        $this->collection_builder = $collection_builder;
+        $this->preloader = $preloader;
     }
 
     public function upload(
         UploadResult $result,
         ResourceStakeholder $stakeholder,
         string $revision_title = null
-    ) : ResourceIdentification {
+    ): ResourceIdentification {
         if ($result->isOK()) {
             $info_resolver = new UploadInfoResolver(
                 $result,
@@ -76,7 +84,7 @@ class Manager
         FileStream $stream,
         ResourceStakeholder $stakeholder,
         string $revision_title = null
-    ) : ResourceIdentification {
+    ): ResourceIdentification {
         $info_resolver = new StreamInfoResolver(
             $stream,
             1,
@@ -95,7 +103,7 @@ class Manager
         return $resource->getIdentification();
     }
 
-    public function find(string $identification) : ?ResourceIdentification
+    public function find(string $identification): ?ResourceIdentification
     {
         $resource_identification = new ResourceIdentification($identification);
 
@@ -108,18 +116,22 @@ class Manager
 
     // Resources
 
-    public function getResource(ResourceIdentification $i) : StorableResource
+    public function getResource(ResourceIdentification $i): StorableResource
     {
         $this->preloader->preload([$i->serialize()]);
         return $this->resource_builder->get($i);
     }
 
-    public function remove(ResourceIdentification $identification, ResourceStakeholder $stakeholder) : void
+
+    public function remove(ResourceIdentification $identification, ResourceStakeholder $stakeholder): void
     {
         $this->resource_builder->remove($this->resource_builder->get($identification), $stakeholder);
+        if (!$this->resource_builder->has($identification)) {
+            $this->collection_builder->notififyResourceDeletion($identification);
+        }
     }
 
-    public function clone(ResourceIdentification $identification) : ResourceIdentification
+    public function clone(ResourceIdentification $identification): ResourceIdentification
     {
         $resource = $this->resource_builder->clone($this->resource_builder->get($identification));
 
@@ -133,10 +145,12 @@ class Manager
         UploadResult $result,
         ResourceStakeholder $stakeholder,
         string $revision_title = null
-    ) : Revision {
+    ): Revision {
         if ($result->isOK()) {
             if (!$this->resource_builder->has($identification)) {
-                throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+                throw new \LogicException(
+                    "Resource not found, can't append new version in: " . $identification->serialize()
+                );
             }
             $resource = $this->resource_builder->get($identification);
             $info_resolver = new UploadInfoResolver(
@@ -165,10 +179,12 @@ class Manager
         UploadResult $result,
         ResourceStakeholder $stakeholder,
         string $revision_title = null
-    ) : Revision {
+    ): Revision {
         if ($result->isOK()) {
             if (!$this->resource_builder->has($identification)) {
-                throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+                throw new \LogicException(
+                    "Resource not found, can't append new version in: " . $identification->serialize()
+                );
             }
             $resource = $this->resource_builder->get($identification);
             $info_resolver = new UploadInfoResolver(
@@ -196,9 +212,11 @@ class Manager
         FileStream $stream,
         ResourceStakeholder $stakeholder,
         string $revision_title = null
-    ) : Revision {
+    ): Revision {
         if (!$this->resource_builder->has($identification)) {
-            throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+            throw new \LogicException(
+                "Resource not found, can't append new version in: " . $identification->serialize()
+            );
         }
 
         $resource = $this->resource_builder->get($identification);
@@ -227,9 +245,11 @@ class Manager
         FileStream $stream,
         ResourceStakeholder $stakeholder,
         string $revision_title = null
-    ) : Revision {
+    ): Revision {
         if (!$this->resource_builder->has($identification)) {
-            throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+            throw new \LogicException(
+                "Resource not found, can't append new version in: " . $identification->serialize()
+            );
         }
 
         $resource = $this->resource_builder->get($identification);
@@ -253,19 +273,19 @@ class Manager
         return $resource->getCurrentRevision();
     }
 
-    public function getCurrentRevision(ResourceIdentification $identification) : Revision
+    public function getCurrentRevision(ResourceIdentification $identification): Revision
     {
         return $this->resource_builder->get($identification)->getCurrentRevision();
     }
 
-    public function updateRevision(Revision $revision) : bool
+    public function updateRevision(Revision $revision): bool
     {
         $this->resource_builder->storeRevision($revision);
 
         return true;
     }
 
-    public function rollbackRevision(ResourceIdentification $identification, int $revision_number) : bool
+    public function rollbackRevision(ResourceIdentification $identification, int $revision_number): bool
     {
         $resource = $this->resource_builder->get($identification);
         $this->resource_builder->appendFromRevision($resource, $revision_number);
@@ -274,7 +294,7 @@ class Manager
         return true;
     }
 
-    public function removeRevision(ResourceIdentification $identification, int $revision_number) : bool
+    public function removeRevision(ResourceIdentification $identification, int $revision_number): bool
     {
         $resource = $this->resource_builder->get($identification);
         $this->resource_builder->removeRevision($resource, $revision_number);

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,17 +16,19 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateLPStatusHelper
 {
-    public function lookupStatusChanged(int $objId, int $userId) : string
+    public function lookupStatusChanged(int $objId, int $userId): string
     {
         return (string) ilLPStatus::_lookupStatusChanged($objId, $userId);
     }
 
-    public function lookUpStatus(int $objectId, int $userId) : int
+    public function lookUpStatus(int $objectId, int $userId): int
     {
         return (int) ilLPStatus::_lookupStatus($objectId, $userId);
     }

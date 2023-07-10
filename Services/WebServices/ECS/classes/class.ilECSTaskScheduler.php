@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -20,19 +23,19 @@
 class ilECSTaskScheduler
 {
     public const MAX_TASKS = 30;
-    
+
     private static array $instances = array();
-    
+
     // Injected
     private ilLogger $log;
     private ilDBInterface $db;
     private ilAppEventHandler $eventHandler;
-    
+
     // Local
     private ilECSSetting $settings;
     private ?\ilECSEventQueueReader $event_reader = null;
     private array $mids = array();
-    
+
     /**
      * Singleton constructor
      */
@@ -43,7 +46,7 @@ class ilECSTaskScheduler
         $this->db = $DIC->database();
         $this->log = $DIC->logger()->wsrv();
         $this->eventHandler = $DIC->event();
-        
+
         $this->settings = $setting;
     }
 
@@ -53,7 +56,7 @@ class ilECSTaskScheduler
      * ilECSTaskScheduler::start() or
      * ilECSTaskScheduler::startTaskExecution
      */
-    public static function _getInstanceByServerId($a_server_id) : \ilECSTaskScheduler
+    public static function _getInstanceByServerId($a_server_id): \ilECSTaskScheduler
     {
         return self::$instances[$a_server_id] ?? (self::$instances[$a_server_id] =
                 new ilECSTaskScheduler(
@@ -65,7 +68,7 @@ class ilECSTaskScheduler
      * Get server setting
      * @return ilECSSetting
      */
-    public function getServer() : \ilECSSetting
+    public function getServer(): \ilECSSetting
     {
         return $this->settings;
     }
@@ -74,13 +77,13 @@ class ilECSTaskScheduler
     /**
      * Start Tasks
      */
-    public function startTaskExecution() : bool
+    public function startTaskExecution(): bool
     {
         try {
             $this->readMIDs();
             $this->readEvents();
             $this->handleEvents();
-            
+
             $this->handleDeprecatedAccounts();
         } catch (ilException $exc) {
             $this->log->warning('Cannot start ecs task execution: ' . $exc->getMessage());
@@ -88,31 +91,31 @@ class ilECSTaskScheduler
         }
         return true;
     }
-    
+
     /**
      * Read EContent
      */
-    private function readEvents() : void
+    private function readEvents(): void
     {
         $this->event_reader = new ilECSEventQueueReader($this->getServer());
         $this->event_reader->refresh();
     }
-    
+
     /**
      * Handle events
      */
-    private function handleEvents() : void
+    private function handleEvents(): void
     {
         for ($i = 0;$i < self::MAX_TASKS;$i++) {
             if (!$event = $this->event_reader->shift()) {
                 $this->log->info(__METHOD__ . ': No more pending events found. DONE');
                 break;
             }
-            
-            $this->log->info(print_r($event, true));
-            
+
+            $this->log->info("Eventdump" . print_r($event, true));
+
             // determine event handler
-            
+
             $event_ignored = false;
             switch ($event['type']) {
                 case ilECSEventQueueReader::TYPE_REMOTE_COURSE:
@@ -130,34 +133,34 @@ class ilECSTaskScheduler
                         $this->log->error("Could not get handler for :" . $event['type']);
                     }
                     break;
-                
+
                 case ilECSEventQueueReader::TYPE_DIRECTORY_TREES:
                     $this->log->debug('Handling new cms tree event.');
                     $handler = new ilECSCmsTreeCommandQueueHandler($this->getServer());
                     break;
-                
+
                 case ilECSEventQueueReader::TYPE_CMS_COURSES:
                     $handler = new ilECSCmsCourseCommandQueueHandler($this->getServer());
                     break;
-                
+
                 case ilECSEventQueueReader::TYPE_CMS_COURSE_MEMBERS:
                     $handler = new ilECSCmsCourseMemberCommandQueueHandler($this->getServer());
                     break;
-                
+
                 case ilECSEventQueueReader::TYPE_COURSE_URLS:
                     $this->log->info(__METHOD__ . ': Ignoring event type in queue ' . $event['type']);
                     $event_ignored = true;
                     break;
-                
+
                 case ilECSEventQueueReader::TYPE_ENROLMENT_STATUS:
                     $handler = new ilECSEnrolmentStatusCommandQueueHandler($this->getServer());
                     break;
 
                 default:
-                    
+
                     $this->log->warning('Unknown type in queue, raising new event handling event: ' . $event['type']);
                     $event_ignored = true;
-                    
+
                     $this->eventHandler->raise(
                         'Services/WebServices/ECS',
                         'newEcsEvent',
@@ -165,12 +168,12 @@ class ilECSTaskScheduler
                     );
                     break;
             }
-            
+
             if ($event_ignored) {
                 $this->event_reader->deleteEvent($event['event_id']);
                 continue;
             }
-            
+
             $res = false;
             if (isset($handler)) {
                 switch ($event['op']) {
@@ -208,11 +211,11 @@ class ilECSTaskScheduler
             }
         }
     }
-    
+
     /**
      * Delete deprecate ECS accounts
      */
-    private function handleDeprecatedAccounts() : void
+    private function handleDeprecatedAccounts(): void
     {
         $query = "SELECT usr_id FROM usr_data WHERE auth_mode = 'ecs' " .
             "AND time_limit_until < " . time() . " " .
@@ -225,11 +228,11 @@ class ilECSTaskScheduler
             $user_obj->delete();
         }
     }
-    
+
     /**
      * Read MID's of this installation
      */
-    private function readMIDs() : void
+    private function readMIDs(): void
     {
         $this->mids = array();
 

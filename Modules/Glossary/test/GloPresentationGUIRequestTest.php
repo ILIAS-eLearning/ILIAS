@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  */
 class GloPresentationGUIRequestTest extends TestCase
 {
-    protected function getRequest(array $get, array $post) : \ILIAS\Glossary\Presentation\PresentationGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\Glossary\Presentation\PresentationGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -23,7 +23,7 @@ class GloPresentationGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -38,22 +38,7 @@ class GloPresentationGUIRequestTest extends TestCase
         );
     }
 
-    public function testDefinitionId() : void
-    {
-        $request = $this->getRequest(
-            [
-                "def" => "7"
-            ],
-            []
-        );
-
-        $this->assertEquals(
-            7,
-            $request->getDefinitionId()
-        );
-    }
-
-    public function testLetter() : void
+    public function testLetter(): void
     {
         $request = $this->getRequest(
             [
@@ -68,7 +53,7 @@ class GloPresentationGUIRequestTest extends TestCase
         );
     }
 
-    public function testTermId() : void
+    public function testTermId(): void
     {
         $request = $this->getRequest(
             [
@@ -83,7 +68,7 @@ class GloPresentationGUIRequestTest extends TestCase
         );
     }
 
-    public function test() : void
+    public function test(): void
     {
         $request = $this->getRequest(
             [

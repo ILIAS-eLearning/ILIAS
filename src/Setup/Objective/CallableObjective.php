@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\Objective;
 
 use ILIAS\Setup;
@@ -50,7 +52,7 @@ class CallableObjective implements Setup\Objective
         $this->preconditions = $preconditions;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash(
             "sha256",
@@ -58,22 +60,22 @@ class CallableObjective implements Setup\Objective
         );
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return $this->is_notable;
     }
 
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return $this->preconditions;
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $res = call_user_func($this->callable, $environment);
         if ($res instanceof Setup\Environment) {
@@ -82,7 +84,7 @@ class CallableObjective implements Setup\Objective
         return $environment;
     }
 
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return true;
     }

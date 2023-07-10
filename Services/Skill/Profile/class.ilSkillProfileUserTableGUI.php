@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,8 +19,9 @@
  ********************************************************************
  */
 
-use ILIAS\Skill\Access\SkillTreeAccess;
-use ILIAS\Skill\Service\SkillAdminGUIRequest;
+use ILIAS\Skill\Access;
+use ILIAS\Skill\Service;
+use ILIAS\Skill\Profile;
 
 /**
  * TableGUI class for skill profile user assignment
@@ -28,15 +31,16 @@ use ILIAS\Skill\Service\SkillAdminGUIRequest;
 class ilSkillProfileUserTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
-    protected ilSkillProfile $profile;
-    protected SkillTreeAccess $skill_tree_access_manager;
-    protected SkillAdminGUIRequest $admin_gui_request;
+    protected Profile\SkillProfile $profile;
+    protected Access\SkillTreeAccess $tree_access_manager;
+    protected Profile\SkillProfileManager $profile_manager;
+    protected Service\SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_ref_id = 0;
 
     public function __construct(
         $a_parent_obj,
         string $a_parent_cmd,
-        ilSkillProfile $a_profile
+        Profile\SkillProfile $a_profile
     ) {
         global $DIC;
 
@@ -51,14 +55,28 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         $this->requested_ref_id = $this->admin_gui_request->getRefId();
 
-        $this->skill_tree_access_manager = $DIC->skills()->internal()->manager()->getTreeAccessManager($this->requested_ref_id);
+        $this->tree_access_manager = $DIC->skills()->internal()->manager()->getTreeAccessManager($this->requested_ref_id);
+        $this->profile_manager = $DIC->skills()->internal()->manager()->getProfileManager();
 
         $this->profile = $a_profile;
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->setData($this->profile->getAssignments());
+
+        // convert assignments to array structure, because tables can only handle arrays
+        $assignments = $this->profile_manager->getAssignments($this->profile->getId());
+        $assignments_array = [];
+        foreach ($assignments as $ass) {
+            $assignments_array[] = [
+                "type" => $ass->getType(),
+                "name" => $ass->getName(),
+                "id" => $ass->getId(),
+                "object_title" => ($ass instanceof Profile\SkillProfileRoleAssignment) ? $ass->getObjTitle() : ""
+            ];
+        }
+
+        $this->setData($assignments_array);
         $this->setTitle($lng->txt("skmg_assigned_users"));
 
-        if ($this->skill_tree_access_manager->hasManageProfilesPermission() && !$this->profile->getRefId() > 0) {
+        if ($this->tree_access_manager->hasManageProfilesPermission() && !$this->profile->getRefId() > 0) {
             $this->addColumn("", "", "1px", true);
             $this->setSelectAllCheckbox("id[]");
         }
@@ -70,20 +88,20 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.profile_user_row.html", "Services/Skill");
 
-        if ($this->skill_tree_access_manager->hasManageProfilesPermission() && !$this->profile->getRefId() > 0) {
+        if ($this->tree_access_manager->hasManageProfilesPermission() && !$this->profile->getRefId() > 0) {
             $this->addMultiCommand("confirmUserRemoval", $lng->txt("remove"));
         }
         //$this->addCommandButton("", $lng->txt(""));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 
-        $this->tpl->setVariable("TYPE", $a_set["type"]);
+        $this->tpl->setVariable("TYPE", $lng->txt($a_set["type"]));
         $this->tpl->setVariable("NAME", $a_set["name"]);
         $this->tpl->setVariable("OBJECT", $a_set["object_title"]);
-        if ($this->skill_tree_access_manager->hasManageProfilesPermission() && !$this->profile->getRefId() > 0) {
+        if ($this->tree_access_manager->hasManageProfilesPermission() && !$this->profile->getRefId() > 0) {
             $this->tpl->setCurrentBlock("checkbox");
             $this->tpl->setVariable("ID", $a_set["id"]);
             $this->tpl->parseCurrentBlock();

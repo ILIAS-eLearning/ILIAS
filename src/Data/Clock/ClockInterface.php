@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -20,5 +22,5 @@ use DateTimeImmutable;
 
 interface ClockInterface
 {
-    public function now() : DateTimeImmutable;
+    public function now(): DateTimeImmutable;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,17 +14,16 @@
 */
 class ilGroupImporter extends ilXmlImporter
 {
-
     private ?ilObjGroup $group = null;
 
     public function __construct()
     {
     }
 
-    public function init() : void
+    public function init(): void
     {
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -31,8 +32,7 @@ class ilGroupImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void
-    {
+    ): void {
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $refs = ilObject::_getAllReferences((int) $new_id);
             $ref_id = end($refs);

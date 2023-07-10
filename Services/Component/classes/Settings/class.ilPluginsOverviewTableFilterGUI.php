@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\UI\Component\Input\Container\Filter\Standard;
 
@@ -23,7 +38,7 @@ class ilPluginsOverviewTableFilterGUI
         $this->renderer = $DIC->ui()->renderer();
         $this->filter_service = $DIC->uiService()->filter();
         $field_factory = $DIC->ui()->factory()->input()->field();
-        $txt = static function (string $id) use ($DIC) : string {
+        $txt = static function (string $id) use ($DIC): string {
             return $DIC->language()->txt($id);
         };
 
@@ -60,17 +75,17 @@ class ilPluginsOverviewTableFilterGUI
         );
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         return $this->renderer->render($this->filter);
     }
 
-    public function getFilter() : Standard
+    public function getFilter(): Standard
     {
         return $this->filter;
     }
 
-    public function getData() : array
+    public function getData(): array
     {
         try {
             return $this->filter_service->getData($this->filter) ?? [];

@@ -31,7 +31,7 @@ class AgentDetermination
     protected string $user_agent;
     protected bool $is_mobile = false;
     protected bool $is_generic = false;
-    
+
     protected array $devices = [
         'android' => 'android.*mobile',
         'androidtablet' => 'android(?!.*mobile)',
@@ -44,7 +44,7 @@ class AgentDetermination
         'windowsphone' => 'windows phone os',
         'generic' => '(kindle|mobile|mmp|midp|o2|pda|pocket|psp|symbian|smartphone|treo|up.browser|up.link|vodafone|wap|opera mini)'
     ];
-    
+
     public function __construct()
     {
         $HTTP_USER_AGENT = $_SERVER['HTTP_USER_AGENT'] ?? 'undefined';
@@ -82,7 +82,7 @@ class AgentDetermination
             $this->agent_version = 0;
             $this->agent_name = 'OTHER';
         }
-        
+
         /*
             Determine platform
         */
@@ -99,11 +99,11 @@ class AgentDetermination
         } else {
             $this->agent_platform = 'Other';
         }
-        
+
         // Mobile detection
         $this->user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'undefined';
         $this->accept = $_SERVER['HTTP_ACCEPT'] ?? 'undefined';
-        
+
         if (isset($_SERVER['HTTP_X_WAP_PROFILE']) || isset($_SERVER['HTTP_PROFILE'])) {
             $this->is_mobile = true;
         } elseif (strpos($this->accept, 'text/vnd.wap.wml') > 0 || strpos(
@@ -119,13 +119,13 @@ class AgentDetermination
             }
         }
     }
-    
-    public function isMobile() : bool
+
+    public function isMobile(): bool
     {
         if ($this->is_mobile) {
             return true;
         }
-        
+
         if (preg_match(
             '/android.+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',
             $this->user_agent
@@ -138,7 +138,7 @@ class AgentDetermination
             return false;
         }
     }
-    
+
     /**
      * @param string $name
      * @param array  $arguments
@@ -155,13 +155,13 @@ class AgentDetermination
             throw new ilException('Method ' . $name . ' not defined');
         }*/
     }
-    
-    public function isIpad() : bool
+
+    public function isIpad(): bool
     {
         return $this->isDevice('ipad');
     }
-    
-    protected function isDevice(string $device) : bool
+
+    protected function isDevice(string $device): bool
     {
         $var = 'is' . ucfirst($device);
         $return = $this->{$var} ?? (bool) preg_match(
@@ -171,7 +171,7 @@ class AgentDetermination
         if ($device !== 'generic' && $return === true) {
             $this->is_generic = false;
         }
-        
+
         return $return;
     }
 }

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface for assignment types
  *
@@ -26,12 +26,12 @@ interface ilExcRepoObjAssignmentAccessInfoInterface
     /**
      * Is access granted due to exercise assignment conditions?
      */
-    public function isGranted() : bool;
+    public function isGranted(): bool;
 
     /**
      * Get reasons why access is not granted.
      *
      * @return string[]
      */
-    public function getNotGrantedReasons() : array;
+    public function getNotGrantedReasons(): array;
 }

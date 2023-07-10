@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
 /**
  * @ilCtrl_Calls ilForumPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilForumPageGUI: ilPublicUserProfileGUI, ilNoteGUI
@@ -22,18 +25,20 @@
  */
 class ilForumPageGUI extends ilPageObjectGUI implements ilForumObjectConstants
 {
-    protected bool $isEmbeddedMode = false;
     protected string $language = '-';
 
-    public function __construct(int $a_id = 0, int $a_old_nr = 0, bool $isEmbeddedMode = false, string $language = '')
-    {
+    public function __construct(
+        int $a_id = 0,
+        int $a_old_nr = 0,
+        protected bool $isEmbeddedMode = false,
+        string $language = ''
+    ) {
         parent::__construct(self::OBJ_TYPE, $a_id, $a_old_nr, false, $language);
         $this->setTemplateTargetVar('ADM_CONTENT');
         $this->setTemplateOutput(false);
-        $this->isEmbeddedMode = $isEmbeddedMode;
     }
 
-    public function getProfileBackUrl() : string
+    public function getProfileBackUrl(): string
     {
         if ($this->isEmbeddedMode) {
             return '';
@@ -42,12 +47,12 @@ class ilForumPageGUI extends ilPageObjectGUI implements ilForumObjectConstants
         return parent::getProfileBackUrl();
     }
 
-    public function finishEditing() : void
+    public function finishEditing(): void
     {
         $this->ctrl->redirectByClass(ilObjForumGUI::class, 'showThreads');
     }
 
-    public function setDefaultLinkXml() : void
+    public function setDefaultLinkXml(): void
     {
         parent::setDefaultLinkXml();
 
@@ -56,7 +61,7 @@ class ilForumPageGUI extends ilPageObjectGUI implements ilForumObjectConstants
 
             try {
                 $linkXml = str_replace('<LinkTargets></LinkTargets>', '', $linkXml);
-                
+
                 $domDoc = new DOMDocument();
                 $domDoc->loadXML('<?xml version="1.0" encoding="UTF-8"?>' . $linkXml);
 

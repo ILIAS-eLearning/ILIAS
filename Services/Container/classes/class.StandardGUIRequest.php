@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Container;
 
@@ -31,40 +36,39 @@ class StandardGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getItemRefId() : int
+    public function getItemRefId(): int
     {
         return $this->int("item_ref_id");
     }
 
-    public function getRedirectSource() : string
+    public function getRedirectSource(): string
     {
         return $this->str("redirectSource");
     }
 
-    public function getNewType() : string
+    public function getNewType(): string
     {
         return $this->str("new_type");
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->str("type");
     }
 
-    public function getBaseClass() : string
+    public function getBaseClass(): string
     {
         return $this->str("baseClass");
     }
 
     /** @return int [] */
-    public function getSelectedIds() : array
+    public function getSelectedIds(): array
     {
-        // initially these came per $_GET["item_ref_id"] or $_POST["id"];
         if ($this->int("item_ref_id") > 0) {
             $ids = [$this->int("item_ref_id")];
         } else {
@@ -73,58 +77,64 @@ class StandardGUIRequest
         return $ids;
     }
 
-    public function getCloneSource() : int
+    public function getCloneSource(): int
     {
         return $this->int("clone_source");
     }
 
-    public function getCmdRefId() : int
+    public function getCmdRefId(): int
     {
         return $this->int("cmdrefid");
     }
 
-    public function getChildRefId() : int
+    public function getChildRefId(): int
     {
         return $this->int("child_ref_id");
     }
 
-    public function getParentRefId() : int
+    public function getParentRefId(): int
     {
         return $this->int("parent_ref_id");
     }
 
-    public function getExpand() : int
+    public function getExpand(): int
     {
         return $this->int("expand");
     }
 
-    public function getBlockAction() : string
+    public function getBlockAction(): string
     {
         return $this->str("act");
     }
 
-    public function getBlockId() : string
+    public function getBlockId(): string
     {
         return $this->str("cont_block_id");
     }
 
-    public function getPreviousSession() : int
+    public function getPreviousSession(): ?int
     {
-        return $this->int("crs_prev_sess");
+        if ($this->http->wrapper()->query()->has('crs_prev_sess')) {
+            return $this->int("crs_prev_sess");
+        }
+        return null;
     }
 
-    public function getNextSession() : int
+    public function getNextSession(): ?int
     {
-        return $this->int("crs_next_sess");
+        if ($this->http->wrapper()->query()->has('crs_next_sess')) {
+            return $this->int("crs_next_sess");
+        }
+        return null;
     }
 
-    public function getObjectiveId() : int
+    public function getObjectiveId(): int
     {
         return $this->int("oobj");
     }
 
     /** @return int[] */
-    public function getNodes() : array
+    public function getNodes(): array
     {
         if ($this->int("node") > 0) {
             return [$this->int("node")];
@@ -132,27 +142,31 @@ class StandardGUIRequest
         return $this->intArray("nodes");
     }
 
-    public function getCopyOptions() : array
+    public function getCopyOptions(): array
     {
         return $this->arrayArray("cp_options");
     }
 
-    public function getPositions() : array
+    public function getPositions(): array
     {
-        return $this->arrayArray("position");
+        // note: the position parameter is currently
+        // quite unstructured typewise, array of array|string
+        $body = $this->http->request()->getParsedBody();
+        return $body["position"] ?? [];
+        //return $this->arrayArray("position");
     }
 
     /** @return int[] */
-    public function getTrashIds() : array
+    public function getTrashIds(): array
     {
         return $this->intArray("trash_id");
     }
 
     /** @return int[] */
-    public function getAlreadyRenderedRefIds() : array
+    public function getAlreadyRenderedRefIds(): array
     {
         $ids = $this->strArray("ids");
-        $ref_ids = array_map(static function (string $i) : int {
+        $ref_ids = array_map(static function (string $i): int {
             $parts = explode("_", $i);
             return (int) $parts[2];
         }, $ids);
@@ -160,14 +174,19 @@ class StandardGUIRequest
     }
 
     /** @return int[] */
-    public function getStartObjPositions() : array
+    public function getStartObjPositions(): array
     {
         return $this->intArray("pos");
     }
 
     /** @return int[] */
-    public function getStartObjIds() : array
+    public function getStartObjIds(): array
     {
         return $this->intArray("starter");
+    }
+
+    public function getCmdClass(): string
+    {
+        return $this->str("cmdClass");
     }
 }

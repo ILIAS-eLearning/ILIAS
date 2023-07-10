@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailMimeTransportNull
  */
 class ilMailMimeTransportNull implements ilMailMimeTransport
 {
-    public function send(ilMimeMail $mail) : bool
+    public function send(ilMimeMail $mail): bool
     {
         ilLoggerFactory::getLogger('mail')->debug(
             'Suppressed delegation of external email delivery according to global setting.'

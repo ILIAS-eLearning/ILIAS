@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 {
-    public function testDeleteTemplateAndUseOldThumbnail() : void
+    public function testDeleteTemplateAndUseOldThumbnail(): void
     {
         $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -39,7 +41,7 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
                 '[]',
                 1,
                 'v5.4.0',
-                1234567890,
+                1_234_567_890,
                 true,
                 'samples/background.jpg'
             ));
@@ -60,15 +62,15 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
         $action = new ilCertificateTemplateDeleteAction(
             $templateRepositoryMock,
             __DIR__,
+            'v5.4.0',
             $utilHelper,
-            $objectHelper,
-            'v5.4.0'
+            $objectHelper
         );
 
         $action->delete(100, 2000);
     }
 
-    public function testDeleteTemplateButNoThumbnailWillBeCopiedFromOldCertificate() : void
+    public function testDeleteTemplateButNoThumbnailWillBeCopiedFromOldCertificate(): void
     {
         $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -86,7 +88,7 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
                 '[]',
                 1,
                 'v5.4.0',
-                1234567890,
+                1_234_567_890,
                 true
             ));
 
@@ -106,9 +108,9 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
         $action = new ilCertificateTemplateDeleteAction(
             $templateRepositoryMock,
             __DIR__,
+            'v5.4.0',
             $utilHelper,
-            $objectHelper,
-            'v5.4.0'
+            $objectHelper
         );
 
         $action->delete(100, 2000);

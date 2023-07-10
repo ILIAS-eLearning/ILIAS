@@ -1,4 +1,18 @@
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 const ACTIONS = {
 
@@ -19,6 +33,7 @@ const ACTIONS = {
   ACTIVATE: "activate",   // activate content
   INSERT: "insert",   // generic insert component (after showing the generic insert form)
   UPDATE: "update",   // generic insert component (after showing the generic insert form)
+  LIST_EDIT_CMD: "list.edit.cmd",       // edit list item
 
   // editor actions (things happening in the editor client side)
   DND_DRAG: "dnd.drag",           // start dragging
@@ -44,6 +59,8 @@ const ACTIONS = {
   MULTI_ACTIVATE: "multi.activate",       // activate selection
   SWITCH_SINGLE: "switch.single",       // single mode: click selects single component for editing
   SWITCH_MULTI: "switch.multi",       // multi mode: click selects one or multiple components for multi actions
+  PAGE_EDITING: "page.editing",       // return to page editing, e.g. after an cmd has been finished server side
+  LIST_EDIT: "list.edit"       // edit list item
 
 };
 export default ACTIONS;

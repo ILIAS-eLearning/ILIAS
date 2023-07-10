@@ -1,20 +1,36 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Inform a user, that her qualification is about to expire
  */
 class ilPrgUserNotRestartedCronJob extends ilCronJob
 {
-    const ID = 'prg_user_not_restarted';
+    private const ID = 'prg_user_not_restarted';
 
-    /**
-     * @var mixed
-     */
-    protected $log;
+    protected ilComponentLogger $log;
     protected ilLanguage $lng;
-    protected Pimple\Container $dic;
+    protected ilPRGAssignmentDBRepository $assignment_repo;
+    protected ilPrgCronJobAdapter $adapter;
 
     public function __construct()
     {
@@ -23,51 +39,52 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
         $this->lng = $DIC['lng'];
         $this->lng->loadLanguageModule('prg');
 
-        $this->dic = ilStudyProgrammeDIC::dic();
+        $dic = ilStudyProgrammeDIC::dic();
+        $this->assignment_repo = $dic['repo.assignment'];
+        $this->adapter = $dic['cron.notRestarted'];
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('prg_user_not_restarted_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt('prg_user_not_restarted_desc');
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return true;
     }
-    public function hasFlexibleSchedule() : bool
+
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
-    
-    public function getDefaultScheduleType() : int
+
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_IN_DAYS;
+        return CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
     }
-    
-    public function getDefaultScheduleValue() : ?int
+
+    public function getDefaultScheduleValue(): ?int
     {
         return 1;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $result = new ilCronJobResult();
         $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
 
-        $programmes_to_send = $this->getSettingsRepository()
-            ->getProgrammeIdsWithMailsForExpiringValidity();
-
+        $programmes_to_send = $this->adapter->getRelevantProgrammeIds();
         if (count($programmes_to_send) == 0) {
             return $result;
         }
@@ -80,56 +97,34 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
             $programmes_and_due[$programme_obj_id] = $due;
         }
 
-        $progresses = $this->getProgressRepository()
-            ->getAboutToExpire($programmes_and_due);
-        
-        if (count($progresses) == 0) {
+        $assignments = $this->assignment_repo->getAboutToExpire($programmes_and_due, true);
+
+        if (count($assignments) == 0) {
             return $result;
         }
-
-        $events = $this->getEvents();
-        foreach ($progresses as $progress) {
+        foreach ($assignments as $ass) {
+            $pgs = $ass->getProgressTree();
             $this->log(
                 sprintf(
-                    'PRG, UserNotRestarted: user %s\'s qualification is about to expire at progress %s (prg obj_id %s)',
-                    $progress->getUserId(),
-                    $progress->getId(),
-                    $progress->getNodeId()
+                    'PRG, UserNotRestarted: user %s\'s qualification is about to expire at assignment %s (prg obj_id %s)',
+                    $ass->getUserId(),
+                    $ass->getId(),
+                    $pgs->getNodeId()
                 )
             );
-
-            $events->informUserByMailToRestart($progress);
+            $this->adapter->actOnSingleAssignment($ass);
+            $this->assignment_repo->storeExpiryInfoSentFor($ass);
         }
         $result->setStatus(ilCronJobResult::STATUS_OK);
         return $result;
     }
 
-    protected function getNow() : DateTimeImmutable
+    protected function getNow(): DateTimeImmutable
     {
         return new DateTimeImmutable();
     }
 
-    protected function getSettingsRepository() : ilStudyProgrammeSettingsDBRepository
-    {
-        return $this->dic['model.Settings.ilStudyProgrammeSettingsRepository'];
-    }
-
-    protected function getProgressRepository() : ilStudyProgrammeProgressDBRepository
-    {
-        return $this->dic['ilStudyProgrammeUserProgressDB'];
-    }
-
-    protected function getAssignmentRepository() : ilStudyProgrammeAssignmentDBRepository
-    {
-        return $this->dic['ilStudyProgrammeUserAssignmentDB'];
-    }
-    
-    protected function getEvents() : ilStudyProgrammeEvents
-    {
-        return $this->dic['ilStudyProgrammeEvents'];
-    }
-
-    protected function log(string $msg) : void
+    protected function log(string $msg): void
     {
         $this->log->write($msg);
     }

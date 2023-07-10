@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
  * @author Per Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de>
@@ -31,7 +34,7 @@ class ilECSParticipantSettingsRepository
     /**
      * Get participants which are enabled and export is allowed
      */
-    public function getExportableParticipants($a_type) : array
+    public function getExportableParticipants($a_type): array
     {
         $query = 'SELECT sid,mid,export_types FROM ecs_part_settings ep ' .
             'JOIN ecs_server es ON ep.sid = es.server_id ' .
@@ -44,8 +47,8 @@ class ilECSParticipantSettingsRepository
         $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if (in_array($a_type, (array) unserialize($row->export_types, ['allowed_classes' => true]), true)) {
-                $mids[$counter]['sid'] = $row->sid;
-                $mids[$counter]['mid'] = $row->mid;
+                $mids[$counter]['sid'] = (int)$row->sid;
+                $mids[$counter]['mid'] = (int)$row->mid;
                 $counter++;
             }
         }
@@ -55,7 +58,7 @@ class ilECSParticipantSettingsRepository
     /**
      * Get server ids which allow an export
      */
-    public function getServersContaingExports() : array
+    public function getServersContaingExports(): array
     {
         $query = 'SELECT DISTINCT(sid) FROM ecs_part_settings  ep ' .
             'JOIN ecs_server es ON ep.sid = es.server_id ' .
@@ -64,7 +67,7 @@ class ilECSParticipantSettingsRepository
         $res = $this->db->query($query);
         $sids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $sids[] = $row->sid;
+            $sids[] = (int) $row->sid;
         }
         return $sids;
     }

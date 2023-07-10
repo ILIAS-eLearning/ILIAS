@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -23,7 +25,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilUserCertificateApiGUITest extends ilCertificateBaseTestCase
 {
-    public function testCreationOfGuiClass() : void
+    public function testCreationOfGuiClass(): void
     {
         $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
@@ -35,7 +37,7 @@ class ilUserCertificateApiGUITest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 

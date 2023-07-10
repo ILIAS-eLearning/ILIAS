@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
 {
@@ -19,7 +37,7 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
     *
     * @return	boolean		true, if everything is ok
     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") : bool
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = ""): bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -40,23 +58,11 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
                 $target_ref_id = ilContainerReference::_lookupTargetRefId($a_obj_id);
                 $prg = ilObjStudyProgramme::getInstanceByRefId($target_ref_id);
                 $target_id = $prg->getId();
-                $progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
                 $parent = $tree->getParentNodeData($a_ref_id);
                 if ($parent["type"] === "prg" && !$parent["deleted"]) {
                     $parent = ilObjStudyProgramme::getInstanceByRefId($parent["ref_id"]);
-                    foreach ($parent->getProgresses() as $parent_progress
-                    ) {
-                        $progress = $progress_db->getByPrgIdAndAssignmentId(
-                            $target_id,
-                            $parent_progress->getAssignmentId()
-                        );
-                        
-                        if (!$progress) {
-                            continue;
-                        }
-                        if ($progress->isRelevant()) {
-                            return false;
-                        }
+                    if (! $parent->canBeRemoved()) {
+                        return false;
                     }
                 }
 
@@ -66,7 +72,7 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
         return true;
     }
 
-    public static function _getCommands(int $a_ref_id = null) : array
+    public static function _getCommands(int $a_ref_id = null): array
     {
         global $DIC;
         $ilAccess = $DIC->access();

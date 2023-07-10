@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\LearningModule\Presentation\PresentationGUIRequest;
 
@@ -26,21 +29,23 @@ class ilLMPageGUI extends ilPageObjectGUI
 {
     protected ilDBInterface $db;
     protected PresentationGUIRequest $pres_request;
+    protected ilComponentRepository $component_repository;
 
     public function __construct(
         int $a_id = 0,
         int $a_old_nr = 0,
         bool $a_prevent_get_id = false,
-        string $a_lang = ""
+        string $a_lang = "",
+        string $concrete_lang = ""
     ) {
         global $DIC;
-
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->db = $DIC->database();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
+        $this->component_repository = $DIC['component.repository'];
+
         $this->log = $DIC["ilLog"];
-        parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
+        parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang, $concrete_lang);
         $this->pres_request = $DIC
             ->learningModule()
             ->internal()
@@ -54,7 +59,7 @@ class ilLMPageGUI extends ilPageObjectGUI
     /**
      * On feedback editing forwarding
      */
-    public function onFeedbackEditingForwarding() : void
+    public function onFeedbackEditingForwarding(): void
     {
         $lng = $this->lng;
 
@@ -70,12 +75,12 @@ class ilLMPageGUI extends ilPageObjectGUI
     /**
      * Process answer
      */
-    public function processAnswer() : void
+    public function processAnswer(): void
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
         $lng = $this->lng;
-        $ilPluginAdmin = $this->plugin_admin;
+        $component_repository = $this->component_repository;
 
         parent::processAnswer();
 
@@ -95,7 +100,7 @@ class ilLMPageGUI extends ilPageObjectGUI
 
             $as = ilPageQuestionProcessor::getAnswerStatus($id, $ilUser->getId());
             // get question information
-            $qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
+            $qlist = new ilAssQuestionList($ilDB, $lng, $component_repository);
             $qlist->setParentObjId(0);
             $qlist->setJoinObjectData(false);
             $qlist->addFieldFilter("question_id", array($id));
@@ -117,7 +122,7 @@ class ilLMPageGUI extends ilPageObjectGUI
         }
     }
 
-    public function finishEditing() : void
+    public function finishEditing(): void
     {
         $lm_tree = new ilLMTree($this->getPageObject()->getParentId());
         if ($lm_tree->isInTree($this->getPageObject()->getId())) {

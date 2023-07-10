@@ -1,10 +1,29 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use PHPUnit\Framework\TestCase;
 
 class ilQTIAssessmentcontrolTest extends TestCase
 {
-    public function testConstruct() : ilQTIAssessmentcontrol
+    public function testConstruct(): ilQTIAssessmentcontrol
     {
         $instance = new ilQTIAssessmentcontrol();
 
@@ -16,7 +35,7 @@ class ilQTIAssessmentcontrolTest extends TestCase
     /**
      * @depends testConstruct
      */
-    public function testGetView(ilQTIAssessmentcontrol $instance) : void
+    public function testGetView(ilQTIAssessmentcontrol $instance): void
     {
         $this->assertEquals('All', $instance->getView());
     }
@@ -25,7 +44,7 @@ class ilQTIAssessmentcontrolTest extends TestCase
      * @dataProvider validViews
      * @depends testGetView
      */
-    public function testSetViewValid(string $view) : void
+    public function testSetViewValid(string $view): void
     {
         $instance = new ilQTIAssessmentcontrol();
         $instance->setView($view);
@@ -35,7 +54,7 @@ class ilQTIAssessmentcontrolTest extends TestCase
     /**
      * @depends testSetViewValid
      */
-    public function testSetViewInvalid() : void
+    public function testSetViewInvalid(): void
     {
         $instance = new ilQTIAssessmentcontrol();
         $instance->setView('Some random content.');
@@ -46,7 +65,7 @@ class ilQTIAssessmentcontrolTest extends TestCase
      * @dataProvider switches
      * @depends testConstruct
      */
-    public function testSwitchInitializeValue(string $suffix) : void
+    public function testSwitchInitializeValue(string $suffix): void
     {
         $instance = new ilQTIAssessmentcontrol();
         $get = 'get' . ucfirst($suffix);
@@ -58,7 +77,7 @@ class ilQTIAssessmentcontrolTest extends TestCase
      * @dataProvider switches
      * @depends testConstruct
      */
-    public function testSwitchValuesConsideredAsYes(string $suffix) : void
+    public function testSwitchValuesConsideredAsYes(string $suffix): void
     {
         $instance = new ilQTIAssessmentcontrol();
         $get = 'get' . ucfirst($suffix);
@@ -76,7 +95,7 @@ class ilQTIAssessmentcontrolTest extends TestCase
      * @dataProvider switches
      * @depends testConstruct
      */
-    public function testSwitchValuesConsideredAsNo(string $suffix) : void
+    public function testSwitchValuesConsideredAsNo(string $suffix): void
     {
         $instance = new ilQTIAssessmentcontrol();
         $get = 'get' . ucfirst($suffix);
@@ -86,7 +105,7 @@ class ilQTIAssessmentcontrolTest extends TestCase
         $this->assertEquals('No', $instance->$get());
     }
 
-    public function validViews() : array
+    public function validViews(): array
     {
         return [
             ['Administrator'],
@@ -101,7 +120,7 @@ class ilQTIAssessmentcontrolTest extends TestCase
         ];
     }
 
-    public function switches() : array
+    public function switches(): array
     {
         return [
             ['hintswitch'],

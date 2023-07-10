@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -38,7 +40,7 @@ class SkillTreeAccess
         $this->usr_id = $usr_id;
     }
 
-    public function hasVisibleTreePermission(int $a_usr_id = 0) : bool
+    public function hasVisibleTreePermission(int $a_usr_id = 0): bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
@@ -46,7 +48,7 @@ class SkillTreeAccess
         return $this->access->checkAccessOfUser($a_usr_id, "visible", $this->ref_id);
     }
 
-    public function hasReadTreePermission(int $a_usr_id = 0) : bool
+    public function hasReadTreePermission(int $a_usr_id = 0): bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
@@ -54,7 +56,7 @@ class SkillTreeAccess
         return $this->access->checkAccessOfUser($a_usr_id, "read", $this->ref_id);
     }
 
-    public function hasEditTreeSettingsPermission(int $a_usr_id = 0) : bool
+    public function hasEditTreeSettingsPermission(int $a_usr_id = 0): bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
@@ -62,7 +64,7 @@ class SkillTreeAccess
         return $this->access->checkAccessOfUser($a_usr_id, "write", $this->ref_id);
     }
 
-    public function hasEditTreePermissionsPermission(int $a_usr_id = 0) : bool
+    public function hasEditTreePermissionsPermission(int $a_usr_id = 0): bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
@@ -70,7 +72,7 @@ class SkillTreeAccess
         return $this->access->checkAccessOfUser($a_usr_id, "edit_permission", $this->ref_id);
     }
 
-    public function hasReadCompetencesPermission(int $a_usr_id = 0) : bool
+    public function hasReadCompetencesPermission(int $a_usr_id = 0): bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
@@ -78,7 +80,7 @@ class SkillTreeAccess
         return $this->access->checkAccessOfUser($a_usr_id, "read_comp", $this->ref_id);
     }
 
-    public function hasManageCompetencesPermission(int $a_usr_id = 0) : bool
+    public function hasManageCompetencesPermission(int $a_usr_id = 0): bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
@@ -86,7 +88,7 @@ class SkillTreeAccess
         return $this->access->checkAccessOfUser($a_usr_id, "manage_comp", $this->ref_id);
     }
 
-    public function hasManageCompetenceTemplatesPermission(int $a_usr_id = 0) : bool
+    public function hasManageCompetenceTemplatesPermission(int $a_usr_id = 0): bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
@@ -94,7 +96,7 @@ class SkillTreeAccess
         return $this->access->checkAccessOfUser($a_usr_id, "manage_comp_temp", $this->ref_id);
     }
 
-    public function hasReadProfilesPermission(int $a_usr_id = 0) : bool
+    public function hasReadProfilesPermission(int $a_usr_id = 0): bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
@@ -105,7 +107,7 @@ class SkillTreeAccess
         return $this->access->checkAccessOfUser($a_usr_id, "read_profiles", $this->ref_id);
     }
 
-    public function hasManageProfilesPermission(int $a_usr_id = 0) : bool
+    public function hasManageProfilesPermission(int $a_usr_id = 0): bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;

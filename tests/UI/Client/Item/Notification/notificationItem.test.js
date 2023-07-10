@@ -15,6 +15,10 @@ var getNotificationItemTest1 = function($,counterFactory){
 var getNotificationItemTest2 = function($,counterFactory){
 	return notificationItemFactory($,counterFactory).getNotificationItemObject($("#id_6"));
 };
+var getNotificationItemAggregate = function($,counterFactory){
+	return notificationItemFactory($,counterFactory).getNotificationItemObject($("#id_4"));
+};
+
 describe('Notification Item Factory', function() {
 	it('Notification Item Factory is here', function() {
 		expect(notificationItemFactory).to.not.be.undefined;
@@ -33,7 +37,6 @@ describe('Notification Item Factory', function() {
 describe('Notification Item Object', function() {
 	it('Get Close Button 1', function() {
 		var $button = getNotificationItemTest1($,counterFactory).getCloseButtonOfItem();
-		expect($button).to.be.instanceOf(jQuery);
 		expect($button.attr('id')).to.be.equal("id_3");
 	});
 	it('Get Counter if Any', function() {
@@ -80,6 +83,27 @@ describe('Notification Item Object', function() {
 
 		let fail = () => item.getItemPropertyValueAtPosition(1);
 		expect(fail).to.throw('No properties exist for in DOM for given Notification Item');
+	});
+
+	it('has Sibblings', function() {
+		expect(getNotificationItemTest2($,counterFactory).hasSibblings()).to.be.equal(true);
+		expect(getNotificationItemAggregate($,counterFactory).hasSibblings()).to.be.equal(false);
+	});
+
+	it('get nr Of Sibblings', function() {
+		expect(getNotificationItemTest2($,counterFactory).getNrOfSibblings()).to.be.equal(1);
+		expect(getNotificationItemAggregate($,counterFactory).getNrOfSibblings()).to.be.equal(0);
+	});
+
+	it('get Parent Item', function() {
+		expect(getNotificationItemTest2($,counterFactory).getParentItem()).to.be.equal(false);
+		var expected_item = getNotificationItemTest2($,counterFactory);
+		expect(getNotificationItemAggregate($,counterFactory).getParentItem().getNrOfSibblings()).to.be.equal(1);
+	});
+
+	it('is Aggregate', function() {
+		expect(getNotificationItemTest2($,counterFactory).isAggregate()).to.be.equal(false);
+		expect(getNotificationItemAggregate($,counterFactory).isAggregate()).to.be.equal(true);
 	});
 
 	//Note this needs to stay executed last, since it removes item 1 permanently from the DOM.

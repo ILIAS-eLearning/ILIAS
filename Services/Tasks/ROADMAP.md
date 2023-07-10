@@ -2,7 +2,7 @@
 
 ## Short Term
 
-...
+- Introduce a PRIVACY.md
 
 ## Mid Term
 

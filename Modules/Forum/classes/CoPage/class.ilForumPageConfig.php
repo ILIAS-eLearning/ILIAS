@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,9 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilForumPageConfig extends ilPageConfig
 {
-    public function init() : void
+    public function init(): void
     {
         $this->setEnableInternalLinks(true);
         $this->setIntLinkHelpDefaultType('RepositoryItem');

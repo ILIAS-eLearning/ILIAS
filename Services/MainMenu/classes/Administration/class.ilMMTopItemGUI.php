@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\DI\Container;
@@ -14,25 +32,23 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
 {
     use Hasher;
 
-    const CMD_VIEW_TOP_ITEMS = 'subtab_topitems';
-    const CMD_ADD = 'topitem_add';
-    const CMD_RESTORE = 'restore';
-    const CMD_CREATE = 'topitem_create';
-    const CMD_EDIT = 'topitem_edit';
-    const CMD_DELETE = 'delete';
-    const CMD_CONFIRM_DELETE = 'topitem_confirm_delete';
-    const CMD_TRANSLATE = 'topitem_translate';
-    const CMD_UPDATE = 'topitem_update';
-    const CMD_SAVE_TABLE = 'save_table';
-    const CMD_CANCEL = 'cancel';
-    const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
-    const CMD_CONFIRM_RESTORE = 'confirmRestore';
-    const CMD_UPLOAD = 'upload';
-    const CMD_SELECT_PARENT = 'selectParent';
-    const CMD_MOVE = 'move';
-    const CMD_FLUSH = 'flush';
+    public const CMD_VIEW_TOP_ITEMS = 'subtab_topitems';
+    public const CMD_ADD = 'topitem_add';
+    public const CMD_RESTORE = 'restore';
+    public const CMD_CREATE = 'topitem_create';
+    public const CMD_EDIT = 'topitem_edit';
+    public const CMD_DELETE = 'delete';
+    public const CMD_CONFIRM_DELETE = 'topitem_confirm_delete';
+    public const CMD_TRANSLATE = 'topitem_translate';
+    public const CMD_UPDATE = 'topitem_update';
+    public const CMD_SAVE_TABLE = 'save_table';
+    public const CMD_CANCEL = 'cancel';
+    public const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
+    public const CMD_UPLOAD = 'upload';
+    public const CMD_SELECT_PARENT = 'selectParent';
+    public const CMD_MOVE = 'move';
 
-    private function dispatchCommand(string $cmd) : string
+    private function dispatchCommand(string $cmd): string
     {
         global $DIC;
         switch ($cmd) {
@@ -66,11 +82,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
                 $this->saveTable();
 
                 break;
-            case self::CMD_CONFIRM_DELETE:
-                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
-                $this->access->checkAccessAndThrowException('write');
-
-                return $this->confirmDelete();
             case self::CMD_DELETE:
                 $this->access->checkAccessAndThrowException('write');
                 $this->delete();
@@ -78,10 +89,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
             case self::CMD_CANCEL:
                 $this->cancel();
                 break;
-            case self::CMD_CONFIRM_RESTORE:
-                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
-                $this->access->checkAccessAndThrowException('write');
-                return $this->confirmRestore();
             case self::CMD_RESTORE:
                 $this->access->checkAccessAndThrowException('write');
 
@@ -107,20 +114,20 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return "";
     }
 
-    private function saveTable() : void
+    private function saveTable(): void
     {
         global $DIC;
         $r = $DIC->http()->request()->getParsedBody();
         foreach ($r[self::IDENTIFIER] as $identification_string => $data) {
             $item = $this->repository->getItemFacadeForIdentificationString($this->unhash($identification_string));
-            $item->setPosition((int) $data['position']);
-            $item->setActiveStatus((bool) $data['active']);
+            $item->setPosition((int) ($data['position'] ?? 999));
+            $item->setActiveStatus((bool) ($data['active'] ?? false));
             $this->repository->updateItem($item);
         }
         $this->cancel();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
 
@@ -145,27 +152,38 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     /**
      * @return string
      */
-    private function index() : string
+    private function index(): string
     {
         if ($this->access->hasUserPermissionTo('write')) {
             // ADD NEW
-            $b = ilLinkButton::getInstance();
-            $b->setCaption($this->lng->txt(self::CMD_ADD), false);
-            $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
-            $this->toolbar->addButtonInstance($b);
+            $btn_add = $this->ui->factory()->button()->standard(
+                $this->lng->txt(self::CMD_ADD),
+                $this->ctrl->getLinkTarget($this, self::CMD_ADD)
+            );
+            $this->toolbar->addComponent($btn_add);
 
             // RESTORE
-            $b = ilLinkButton::getInstance();
-            $b->setCaption($this->lng->txt(self::CMD_RESTORE), false);
-            $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_CONFIRM_RESTORE));
-            $this->toolbar->addButtonInstance($b);
+            $restoration_modal = $this->ui->factory()->modal()->interruptive(
+                $this->lng->txt(self::CMD_RESTORE),
+                $this->lng->txt('msg_restore_confirm'),
+                $this->ctrl->getLinkTarget($this, self::CMD_RESTORE)
+            )->withActionButtonLabel($this->lng->txt('restore'));
+            $btn_restore = $this->ui->factory()->button()->standard(
+                $this->lng->txt(self::CMD_RESTORE),
+                ''
+            )->withOnClick(
+                $restoration_modal->getShowSignal()
+            );
+            $this->toolbar->addComponent($btn_restore);
+            $this->toolbar->addComponent($restoration_modal);
 
             // REMOVE LOST ITEMS
             if ($this->repository->hasLostItems()) {
-                $b = ilLinkButton::getInstance();
-                $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_FLUSH));
-                $b->setCaption($this->lng->txt(self::CMD_FLUSH), false);
-                $this->toolbar->addButtonInstance($b);
+                $btn_flush = $this->ui->factory()->button()->standard(
+                    $this->lng->txt(self::CMD_FLUSH),
+                    $this->ctrl->getLinkTarget($this, self::CMD_FLUSH)
+                );
+                $this->toolbar->addComponent($btn_flush);
             }
         }
 
@@ -176,12 +194,12 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $table->getHTML();
     }
 
-    private function cancel() : void
+    protected function cancel(): void
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_TOP_ITEMS);
     }
 
-    private function doubleCancel() : void
+    private function doubleCancel(): void
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_CANCEL);
     }
@@ -191,7 +209,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function add(Container $DIC) : string
+    private function add(Container $DIC): string
     {
         $f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->repository->getItemFacade(), $this->repository);
 
@@ -203,7 +221,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function create(Container $DIC) : string
+    private function create(Container $DIC): string
     {
         $f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->repository->getItemFacade(), $this->repository);
         if ($f->save()) {
@@ -218,7 +236,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function edit(Container $DIC) : string
+    private function edit(Container $DIC): string
     {
         $f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->getMMItemFromRequest(), $this->repository);
 
@@ -230,7 +248,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function update(Container $DIC) : string
+    private function update(Container $DIC): string
     {
         $item = $this->getMMItemFromRequest();
         if ($item->isEditable()) {
@@ -245,7 +263,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return "";
     }
 
-    private function delete() : void
+    private function delete(): void
     {
         $item = $this->getMMItemFromRequest();
         if ($item->isDeletable()) {
@@ -255,43 +273,8 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         $this->cancel();
     }
 
-    /**
-     * @return string
-     * @throws Throwable
-     */
-    private function confirmDelete() : string
-    {
-        $this->ctrl->saveParameterByClass(self::class, self::IDENTIFIER);
-        $i = $this->getMMItemFromRequest();
-        $c = new ilConfirmationGUI();
-        $c->addItem(self::IDENTIFIER, $this->hash($i->getId()), $i->getDefaultTitle());
-        $c->setFormAction($this->ctrl->getFormActionByClass(self::class));
-        $c->setConfirm($this->lng->txt(self::CMD_DELETE), self::CMD_DELETE);
-        $c->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-        $c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_DELETE));
 
-        return $c->getHTML();
-    }
-
-    private function confirmRestore() : string
-    {
-        $c = new ilConfirmationGUI();
-        $c->setFormAction($this->ctrl->getFormActionByClass(self::class));
-        $c->setConfirm($this->lng->txt(self::CMD_DELETE), self::CMD_RESTORE);
-        $c->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-        $c->setHeaderText($this->lng->txt('msg_restore_confirm'));
-
-        return $c->getHTML();
-    }
-
-    private function flush() : void
-    {
-        $this->repository->flushLostItems();
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_subitem_flushed"), true);
-        $this->cancel();
-    }
-
-    private function restore() : void
+    private function restore(): void
     {
         ilMMItemStorage::flushDB();
         ilMMCustomItemStorage::flushDB();
@@ -303,14 +286,14 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         $this->cancel();
     }
 
-    private function selectParent() : string
+    private function selectParent(): string
     {
         $form = $this->getMoveForm();
 
         return $this->ui->renderer()->render($form);
     }
 
-    private function move() : void
+    private function move(): void
     {
         $form = $this->getMoveForm();
         $form = $form->withRequest($this->http->request());
@@ -333,7 +316,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     /**
      * @return Standard
      */
-    private function getMoveForm() : Standard
+    private function getMoveForm(): Standard
     {
         $this->ctrl->saveParameter($this, self::IDENTIFIER);
         $f = $this->ui->factory();

@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-require_once 'Modules/Test/classes/class.ilTestPlayerNavButton.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -37,10 +49,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
      */
     private $questionTreeButtonEnabled = false;
 
-    /**
-     * @var bool
-     */
-    private $questionTreeVisible = false;
+    private bool $questionTreeVisible = false;
 
     /**
      * @var bool
@@ -51,7 +60,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
      * @var bool
      */
     private $finishTestButtonEnabled = false;
-    
+
     /**
      * @var string
      */
@@ -66,7 +75,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
      * @var bool
      */
     private $disabledStateEnabled = false;
-    
+
     /**
      * @param ilCtrl $ctrl
      * @param ilLanguage $lng
@@ -77,14 +86,14 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $this->ctrl = $ctrl;
         $this->lng = $lng;
         $this->playerGUI = $playerGUI;
-        
+
         parent::__construct();
     }
 
     /**
      * @return boolean
      */
-    public function isSuspendTestButtonEnabled() : bool
+    public function isSuspendTestButtonEnabled(): bool
     {
         return $this->suspendTestButtonEnabled;
     }
@@ -100,7 +109,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isQuestionListButtonEnabled() : bool
+    public function isQuestionListButtonEnabled(): bool
     {
         return $this->questionListButtonEnabled;
     }
@@ -116,7 +125,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isQuestionTreeButtonEnabled() : bool
+    public function isQuestionTreeButtonEnabled(): bool
     {
         return $this->questionTreeButtonEnabled;
     }
@@ -132,15 +141,12 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isQuestionTreeVisible() : bool
+    public function isQuestionTreeVisible(): bool
     {
         return $this->questionTreeVisible;
     }
 
-    /**
-     * @param boolean $questionTreeVisible
-     */
-    public function setQuestionTreeVisible($questionTreeVisible)
+    public function setQuestionTreeVisible(bool $questionTreeVisible): void
     {
         $this->questionTreeVisible = $questionTreeVisible;
     }
@@ -148,7 +154,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isQuestionSelectionButtonEnabled() : bool
+    public function isQuestionSelectionButtonEnabled(): bool
     {
         return $this->questionSelectionButtonEnabled;
     }
@@ -164,7 +170,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isFinishTestButtonEnabled() : bool
+    public function isFinishTestButtonEnabled(): bool
     {
         return $this->finishTestButtonEnabled;
     }
@@ -180,7 +186,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return string
      */
-    public function getFinishTestCommand() : string
+    public function getFinishTestCommand(): string
     {
         return $this->finishTestCommand;
     }
@@ -196,7 +202,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isFinishTestButtonPrimary() : bool
+    public function isFinishTestButtonPrimary(): bool
     {
         return $this->finishTestButtonPrimary;
     }
@@ -212,7 +218,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isDisabledStateEnabled() : bool
+    public function isDisabledStateEnabled(): bool
     {
         return $this->disabledStateEnabled;
     }
@@ -224,7 +230,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     {
         $this->disabledStateEnabled = $disabledStateEnabled;
     }
-    
+
     public function build()
     {
         if ($this->isQuestionTreeButtonEnabled()) {
@@ -247,7 +253,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
             $this->addFinishTestButton();
         }
     }
-    
+
     private function addSuspendTestButton()
     {
         $btn = ilTestPlayerNavButton::getInstance();
@@ -261,7 +267,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $btn->addCSSClass('ilTstNavElem');
         $this->addButtonInstance($btn);
     }
-    
+
     private function addQuestionListButton()
     {
         $btn = ilTestPlayerNavButton::getInstance();
@@ -275,7 +281,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $btn->addCSSClass('ilTstNavElem');
         $this->addButtonInstance($btn);
     }
-    
+
     private function addQuestionSelectionButton()
     {
         $btn = ilTestPlayerNavButton::getInstance();
@@ -289,7 +295,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $btn->addCSSClass('ilTstNavElem');
         $this->addButtonInstance($btn);
     }
-    
+
     private function addQuestionTreeButton()
     {
         $btn = ilTestPlayerNavButton::getInstance();

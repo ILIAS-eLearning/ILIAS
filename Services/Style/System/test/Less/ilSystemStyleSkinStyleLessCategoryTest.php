@@ -24,14 +24,14 @@ use PHPUnit\Framework\TestCase;
 
 class ilSystemStyleSkinStyleLessCategoryTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $category = new ilSystemStyleLessCategory('name', 'comment');
         $this->assertEquals('name', $category->getName());
         $this->assertEquals('comment', $category->getComment());
     }
 
-    public function testSetters() : void
+    public function testSetters(): void
     {
         $category = new ilSystemStyleLessCategory('name', 'comment');
 
@@ -42,7 +42,7 @@ class ilSystemStyleSkinStyleLessCategoryTest extends TestCase
         $this->assertEquals('newComment', $category->getComment());
     }
 
-    public function testToString() : void
+    public function testToString(): void
     {
         $category = new ilSystemStyleLessCategory('name', 'comment');
 

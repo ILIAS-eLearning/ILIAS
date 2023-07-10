@@ -1,24 +1,28 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\GlobalScreen\Client;
 
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ModeToggle
  * This is just for testing!!! And will be removed after
@@ -26,16 +30,16 @@ use ILIAS\HTTP\Cookies\CookieFactoryImpl;
  */
 class ModeToggle
 {
-    const GS_MODE = 'gs_mode';
-    const MODE1 = "all";
-    const MODE2 = "none";
-    
+    public const GS_MODE = 'gs_mode';
+    public const MODE1 = "all";
+    public const MODE2 = "none";
+
     protected WrapperFactory $wrapper;
     protected Factory $refinery;
     protected \ilCtrlInterface $ctrl;
     protected \ILIAS\GlobalScreen\Services $global_screen;
     protected \ILIAS\HTTP\Services $http;
-    
+
     public function __construct()
     {
         \ilInitialisation::initILIAS();
@@ -46,20 +50,20 @@ class ModeToggle
         $this->refinery = $DIC->refinery();
         $this->global_screen = $DIC->globalScreen();
     }
-    
-    public function getMode() : string
+
+    public function getMode(): string
     {
         return $this->wrapper->cookie()->has(self::GS_MODE)
             ? $this->wrapper->cookie()->retrieve(self::GS_MODE, $this->refinery->to()->string())
             : self::MODE1;
     }
-    
-    public function saveStateOfAll() : bool
+
+    public function saveStateOfAll(): bool
     {
         return $this->getMode() == ItemState::LEVEL_OF_TOOL;
     }
-    
-    public function toggle() : void
+
+    public function toggle(): void
     {
         $current_mode = $this->getMode();
         $new_mode = $current_mode == self::MODE1 ? self::MODE2 : self::MODE1;

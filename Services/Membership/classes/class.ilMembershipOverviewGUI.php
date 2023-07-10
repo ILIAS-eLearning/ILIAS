@@ -1,6 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-    
+declare(strict_types=1);
+
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,7 +18,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Membership overview
  * @ilCtrl_Calls ilMembershipOverviewGUI: ilPDMembershipBlockGUI
@@ -37,11 +39,12 @@ class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
         $this->main_tpl = $DIC->ui()->mainTemplate();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("show");
+        $this->main_tpl->setTitle($this->lng->txt("my_courses_groups"));
         switch ($next_class) {
             case "ilpdmembershipblockgui":
                 $ctrl->setReturn($this, "show");
@@ -60,7 +63,7 @@ class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
         $this->main_tpl->printToStdout();
     }
 
-    protected function show() : void
+    protected function show(): void
     {
         $main_tpl = $this->main_tpl;
         $lng = $this->lng;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,14 +27,16 @@ class ilVirusScannerAntiVir extends ilVirusScanner
         $this->scanZipFiles = true;
     }
 
-    public function scanFile(string $file_path, string $org_name = "") : string
+    public function scanFile(string $file_path, string $org_name = ""): string
     {
         $this->scanFilePath = $file_path;
         $this->scanFileOrigName = $org_name;
 
         // Call of antivir command
-        $cmd = $this->scanCommand . " " . $file_path . " ";
-        exec($cmd, $out, $ret);
+        $a_filepath = realpath($file_path);
+        $cmd = ilShellUtil::escapeShellCmd($this->scanCommand);
+        $args = ilShellUtil::escapeShellArg(" " . $a_filepath . " ");
+        $out = ilShellUtil::execQuoted($cmd, $args);
         $this->scanResult = implode("\n", $out);
 
         // sophie could be called

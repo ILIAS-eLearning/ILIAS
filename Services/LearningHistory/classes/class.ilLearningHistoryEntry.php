@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Learning history entry
@@ -42,22 +45,22 @@ class ilLearningHistoryEntry
         $this->ref_id = $ref_id;
     }
 
-    public function getTimestamp() : int
+    public function getTimestamp(): int
     {
         return $this->ts;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function getAchieveText() : string
+    public function getAchieveText(): string
     {
         return $this->achieve_text;
     }
@@ -65,12 +68,12 @@ class ilLearningHistoryEntry
     /**
      * Get "achieve in ..." text
      */
-    public function getAchieveInText() : string
+    public function getAchieveInText(): string
     {
         return $this->achieve_in_text;
     }
 
-    public function getIconPath() : string
+    public function getIconPath(): string
     {
         return $this->icon_path;
     }

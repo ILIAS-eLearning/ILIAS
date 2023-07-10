@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjGlossaryAccess
@@ -35,7 +38,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -67,8 +70,8 @@ class ilObjGlossaryAccess extends ilObjectAccess
 
         return true;
     }
-    
-    public static function _getCommands() : array
+
+    public static function _getCommands(): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "view", "lang_var" => "show",
@@ -77,7 +80,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
             array("permission" => "edit_content", "cmd" => "edit", "lang_var" => "edit_content"), // #11099
             array("permission" => "write", "cmd" => "properties", "lang_var" => "settings")
         );
-        
+
         return $commands;
     }
 
@@ -85,7 +88,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
     // access relevant methods
     //
 
-    public static function _lookupOnline(int $a_id) : bool
+    public static function _lookupOnline(int $a_id): bool
     {
         global $DIC;
 
@@ -100,7 +103,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
         return false;
     }
 
-    public static function _lookupOnlineStatus(array $a_ids) : array
+    public static function _lookupOnlineStatus(array $a_ids): array
     {
         global $DIC;
 
@@ -118,12 +121,12 @@ class ilObjGlossaryAccess extends ilObjectAccess
     }
 
 
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
+
         $t_arr = explode("_", $target);
 
         if (($t_arr[0] != "glo" && $t_arr[0] != "git") || ((int) $t_arr[1]) <= 0) {
@@ -138,11 +141,11 @@ class ilObjGlossaryAccess extends ilObjectAccess
         }
 
         if ($t_arr[0] == "git") {
-            if ($t_arr[2] > 0) {
+            if ((int) ($t_arr[2] ?? 0) > 0) {
                 $ref_ids = array($t_arr[2]);
             } else {
                 // determine learning object
-                $glo_id = ilGlossaryTerm::_lookGlossaryID($t_arr[1]);
+                $glo_id = ilGlossaryTerm::_lookGlossaryID((int) $t_arr[1]);
                 $ref_ids = ilObject::_getAllReferences($glo_id);
             }
             // check read permissions

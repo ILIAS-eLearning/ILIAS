@@ -12,21 +12,21 @@ class ImageMapEditSessionRepositoryTest extends TestCase
     //protected $backupGlobals = false;
     protected \ILIAS\MediaObjects\ImageMap\ImageMapEditSessionRepository $repo;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repo = new \ILIAS\MediaObjects\ImageMap\ImageMapEditSessionRepository();
         $this->repo->clear();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test clear
      */
-    public function testClear() : void
+    public function testClear(): void
     {
         $repo = $this->repo;
 
@@ -48,7 +48,7 @@ class ImageMapEditSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testTargetScript() : void
+    public function testTargetScript(): void
     {
         $repo = $this->repo;
         $repo->setTargetScript("ilias.php?a=1");
@@ -58,7 +58,7 @@ class ImageMapEditSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testLinkType() : void
+    public function testLinkType(): void
     {
         $repo = $this->repo;
         $repo->setLinkType("ext");
@@ -68,7 +68,7 @@ class ImageMapEditSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testAreaNr() : void
+    public function testAreaNr(): void
     {
         $repo = $this->repo;
         $repo->setAreaNr(4);
@@ -78,7 +78,7 @@ class ImageMapEditSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testCoords() : void
+    public function testCoords(): void
     {
         $repo = $this->repo;
         $repo->setCoords("7,8,9,2");
@@ -88,7 +88,7 @@ class ImageMapEditSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testAreaType() : void
+    public function testAreaType(): void
     {
         $repo = $this->repo;
         $repo->setAreaType("Rect");
@@ -98,7 +98,7 @@ class ImageMapEditSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testExternalLink() : void
+    public function testExternalLink(): void
     {
         $repo = $this->repo;
         $repo->setExternalLink("https://www.ilias.de");

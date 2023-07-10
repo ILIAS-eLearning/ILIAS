@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Refinery\To\Transformation;
 
@@ -33,7 +35,7 @@ class BooleanTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function transform($from) : bool
+    public function transform($from): bool
     {
         $this->check($from);
         return (bool) $from;
@@ -42,7 +44,7 @@ class BooleanTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function getError() : string
+    public function getError(): string
     {
         return 'The value MUST be of type boolean.';
     }
@@ -62,7 +64,7 @@ class BooleanTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function accepts($value) : bool
+    public function accepts($value): bool
     {
         return is_bool($value);
     }
@@ -70,7 +72,7 @@ class BooleanTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function problemWith($value) : ?string
+    public function problemWith($value): ?string
     {
         if (!$this->accepts($value)) {
             return $this->getErrorMessage($value);

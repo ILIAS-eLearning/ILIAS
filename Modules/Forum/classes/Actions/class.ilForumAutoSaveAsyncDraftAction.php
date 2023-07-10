@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,51 +16,36 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilForumSaveAsyncDraftAction
  * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilForumAutoSaveAsyncDraftAction
 {
-    private ilObjUser $actor;
-    private ilPropertyFormGUI $form;
-    private ilForumProperties $forumProperties;
-    private ilForumTopic $thread;
-    private ?ilForumPost $relatedPost;
     private Closure $subjectFormatterCallable;
-    private int $relatedDraftId;
-    private int $relatedForumId;
-    private string $action;
 
     public function __construct(
-        ilObjUser $actor,
-        ilPropertyFormGUI $form,
-        ilForumProperties $forumProperties,
-        ilForumTopic $thread,
-        ?ilForumPost $relatedPost,
+        private ilObjUser $actor,
+        private ilPropertyFormGUI $form,
+        private ilForumProperties $forumProperties,
+        private ilForumTopic $thread,
+        private ?ilForumPost $relatedPost,
         Closure $subjectFormatterCallable,
-        int $relatedDraftId,
-        int $relatedForumId,
-        string $action
+        private int $relatedDraftId,
+        private int $relatedForumId,
+        private string $action
     ) {
-        $this->actor = $actor;
-        $this->form = $form;
-        $this->forumProperties = $forumProperties;
-        $this->thread = $thread;
-        $this->relatedPost = $relatedPost;
         $this->subjectFormatterCallable = $subjectFormatterCallable;
-
-        $this->relatedDraftId = $relatedDraftId;
-        $this->relatedForumId = $relatedForumId;
-        $this->action = $action;
     }
 
-    public function executeAndGetResponseObject() : stdClass
+    public function executeAndGetResponseObject(): stdClass
     {
         $response = new stdClass();
         $response->draft_id = 0;
 
-        if ($this->actor->isAnonymous() || !($this->actor->getId() > 0)) {
+        if ($this->actor->isAnonymous() || $this->actor->getId() <= 0) {
             return $response;
         }
 
@@ -102,7 +87,7 @@ class ilForumAutoSaveAsyncDraftAction
                 $draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
                 $draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
                 $draftObj->setPostUserAlias($inputValues['alias']);
-                $draftObj->setNotificationStatus($inputValues['notify']);
+                $draftObj->setNotificationStatus((bool) $inputValues['notify']);
                 $draftObj->setUpdateUserId($this->actor->getId());
                 $draftObj->setPostAuthorId($this->actor->getId());
                 $draftObj->setPostDisplayUserId(($this->forumProperties->isAnonymized() ? 0 : $this->actor->getId()));
@@ -146,7 +131,7 @@ class ilForumAutoSaveAsyncDraftAction
             $draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
             $draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
             $draftObj->setPostUserAlias($inputValues['alias']);
-            $draftObj->setNotificationStatus($inputValues['notify']);
+            $draftObj->setNotificationStatus((bool) $inputValues['notify']);
             $draftObj->setPostAuthorId($this->actor->getId());
             $draftObj->setPostDisplayUserId(($this->forumProperties->isAnonymized() ? 0 : $this->actor->getId()));
             $draftObj->saveDraft();
@@ -170,8 +155,6 @@ class ilForumAutoSaveAsyncDraftAction
     }
 
     /**
-     * @param string $type
-     * @param int $draftId
      * @param int[] $uploadedObjects
      * @param int[] $oldMediaObjects
      * @param int[] $curMediaObjects
@@ -182,7 +165,7 @@ class ilForumAutoSaveAsyncDraftAction
         array $uploadedObjects,
         array $oldMediaObjects,
         array $curMediaObjects
-    ) : void {
+    ): void {
         foreach ($uploadedObjects as $mob) {
             ilObjMediaObject::_removeUsage($mob, 'frm~:html', $this->actor->getId());
             ilObjMediaObject::_saveUsage($mob, $type, $draftId);
@@ -197,18 +180,19 @@ class ilForumAutoSaveAsyncDraftAction
         }
     }
 
-    protected function getInputValuesFromForm() : array
+    /**
+     * @return array{subject: string, message: string, notify: int, alias: string}
+     */
+    protected function getInputValuesFromForm(): array
     {
-        $inputValues = [];
-
-        $inputValues['subject'] = $this->form->getInput('subject');
-        $inputValues['message'] = $this->form->getInput('message');
-        $inputValues['notify'] = (int) $this->form->getInput('notify');
-        $inputValues['alias'] = ilForumUtil::getPublicUserAlias(
-            $this->form->getInput('alias'),
-            $this->forumProperties->isAnonymized()
-        );
-
-        return $inputValues;
+        return [
+            'subject' => (string) $this->form->getInput('subject'),
+            'message' => (string) $this->form->getInput('message'),
+            'notify' => (int) $this->form->getInput('notify'),
+            'alias' => ilForumUtil::getPublicUserAlias(
+                $this->form->getInput('alias'),
+                $this->forumProperties->isAnonymized()
+            )
+        ];
     }
 }

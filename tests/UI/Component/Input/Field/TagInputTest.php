@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -20,16 +36,17 @@ class TagInputTest extends ILIAS_UI_TestBase
 {
     protected DefNamesource $name_source;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildFactory() : I\Input\Field\Factory
+    protected function buildFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
         return new I\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $df,
             new Refinery($df, $language),
@@ -40,7 +57,7 @@ class TagInputTest extends ILIAS_UI_TestBase
     /**
      * @doesNotPerformAssertions
      */
-    public function testImplementsFactoryInterface() : void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->buildFactory();
 
@@ -51,7 +68,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testRender() : void
+    public function testRender(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -63,8 +80,8 @@ class TagInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-3">label</label>
-            <div class="col-sm-9">
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
                 </div>
@@ -75,7 +92,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testRenderError() : void
+    public function testRenderError(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -88,9 +105,9 @@ class TagInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
         $expected = $this->brutallyTrimHTML('
            <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-3">label</label>
-            <div class="col-sm-9">
-                <div class="help-block alert alert-danger" role="alert">an_error</div>
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
+                <div class="help-block alert alert-danger" aria-describedby="id_1" role="alert">an_error</div>
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
                 </div>
@@ -101,7 +118,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testRenderNoByline() : void
+    public function testRenderNoByline(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -112,8 +129,8 @@ class TagInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-3">label</label>
-            <div class="col-sm-9">
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
                 </div>
@@ -123,7 +140,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testRenderRequired() : void
+    public function testRenderRequired(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -135,8 +152,8 @@ class TagInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-3">label<span class="asterisk">*</span></label>
-            <div class="col-sm-9">
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
                 </div>
@@ -147,7 +164,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testRenderDisabled() : void
+    public function testRenderDisabled(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -159,8 +176,8 @@ class TagInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-3">label</label>
-            <div class="col-sm-9">
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container disabled">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" readonly value=""/> 
                 </div>
@@ -171,7 +188,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testValueRequired() : void
+    public function testValueRequired(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -189,7 +206,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected_result, $value);
     }
 
-    public function testEmptyStringAsInputLeadToException() : void
+    public function testEmptyStringAsInputLeadToException(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -209,7 +226,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function testStringAsInputAsRequired() : void
+    public function testStringAsInputAsRequired(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -224,7 +241,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertEquals(['test'], $result->value());
     }
 
-    public function testNullValueLeadsToException() : void
+    public function testNullValueLeadsToException(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -237,7 +254,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($value2->isError());
     }
 
-    public function testUserCreatedNotAllowed() : void
+    public function testUserCreatedNotAllowed(): void
     {
         $this->markTestSkipped("This is supposed to work, but currently does not.");
 
@@ -267,7 +284,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($value1->isError());
     }
 
-    public function testMaxTagsOk() : void
+    public function testMaxTagsOk(): void
     {
         $f = $this->buildFactory();
 
@@ -278,7 +295,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($value->isOk());
     }
 
-    public function test_max_tags_not_ok() : void
+    public function test_max_tags_not_ok(): void
     {
         $f = $this->buildFactory();
 
@@ -290,7 +307,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testMaxTaglengthTagsOk() : void
+    public function testMaxTaglengthTagsOk(): void
     {
         $f = $this->buildFactory();
 
@@ -301,7 +318,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($value->isOk());
     }
 
-    public function testMaxTaglengthTagsNotOk() : void
+    public function testMaxTaglengthTagsNotOk(): void
     {
         $f = $this->buildFactory();
 

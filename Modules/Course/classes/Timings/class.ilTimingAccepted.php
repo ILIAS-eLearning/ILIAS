@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * class ilTimingAccepted
  * @author Stefan Meyer <meyer@leifos.com>
@@ -39,53 +41,53 @@ class ilTimingAccepted
         $this->__read();
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function getCourseId() : int
+    public function getCourseId(): int
     {
         return $this->obj_id;
     }
 
-    public function accept(bool $a_status) : void
+    public function accept(bool $a_status): void
     {
         $this->accepted = $a_status;
     }
 
-    public function isAccepted() : bool
+    public function isAccepted(): bool
     {
         return $this->accepted;
     }
 
-    public function setRemark(string $a_remark) : void
+    public function setRemark(string $a_remark): void
     {
         $this->remark = $a_remark;
     }
 
-    public function getRemark() : string
+    public function getRemark(): string
     {
         return $this->remark;
     }
 
-    public function setVisible(bool $a_visible) : void
+    public function setVisible(bool $a_visible): void
     {
         $this->visible = $a_visible;
     }
 
-    public function isVisible() : bool
+    public function isVisible(): bool
     {
         return $this->visible;
     }
 
-    public function update() : void
+    public function update(): void
     {
         ilTimingAccepted::_delete($this->getCourseId(), $this->getUserId());
         $this->create();
     }
 
-    public function create() : void
+    public function create(): void
     {
         $query = "INSERT INTO crs_timings_usr_accept (crs_id,usr_id,visible,accept,remark) " .
             "VALUES( " .
@@ -98,12 +100,12 @@ class ilTimingAccepted
         $res = $this->db->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         ilTimingAccepted::_delete($this->getCourseId(), $this->getUserId());
     }
 
-    public function _delete(int $a_crs_id, int $a_usr_id) : void
+    public function _delete(int $a_crs_id, int $a_usr_id): void
     {
         $query = "DELETE FROM crs_timings_usr_accept " .
             "WHERE crs_id = " . $this->db->quote($a_crs_id, 'integer') . " " .
@@ -111,14 +113,14 @@ class ilTimingAccepted
         $res = $this->db->manipulate($query);
     }
 
-    public function _deleteByCourse(int $a_crs_id) : void
+    public function _deleteByCourse(int $a_crs_id): void
     {
         $query = "DELETE FROM crs_timings_usr_accept " .
             "WHERE crs_id = " . $this->db->quote($a_crs_id, 'integer') . " ";
         $res = $this->db->manipulate($query);
     }
 
-    public static function _deleteByUser(int $a_usr_id) : void
+    public static function _deleteByUser(int $a_usr_id): void
     {
         global $DIC;
 
@@ -128,7 +130,7 @@ class ilTimingAccepted
         $res = $ilDB->manipulate($query);
     }
 
-    public function __read() : void
+    public function __read(): void
     {
         if ($this->obj_id <= 0 || $this->user_id <= 0) {
             return;

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Glossary\Export;
 
@@ -60,14 +63,14 @@ class GlossaryHtmlExport
             ->styleForRefId($glo->getRefId());
     }
 
-    protected function initDirectories() : void
+    protected function initDirectories(): void
     {
         // initialize temporary target directory
         ilFileUtils::delDir($this->target_dir);
         ilFileUtils::makeDir($this->target_dir);
     }
 
-    public function exportHTML() : string
+    public function exportHTML(): string
     {
         $this->initDirectories();
         $this->export_util->exportSystemStyle();
@@ -83,7 +86,7 @@ class GlossaryHtmlExport
         return $this->zipPackage();
     }
 
-    protected function zipPackage() : string
+    protected function zipPackage(): string
     {
         // zip it all
         $date = time();
@@ -94,7 +97,7 @@ class GlossaryHtmlExport
         return $zip_file;
     }
 
-    protected function getInitialisedTemplate() : \ilGlobalPageTemplate
+    protected function getInitialisedTemplate(): \ilGlobalPageTemplate
     {
         global $DIC;
 
@@ -113,7 +116,7 @@ class GlossaryHtmlExport
      * Init page
      * @throws \ilGlossaryException
      */
-    protected function initScreen(int $term_id) : \ilGlobalPageTemplate
+    protected function initScreen(int $term_id): \ilGlobalPageTemplate
     {
         $this->global_screen->layout()->meta()->reset();
 
@@ -146,7 +149,7 @@ class GlossaryHtmlExport
     /**
      * @throws \ilGlossaryException
      */
-    public function exportHTMLGlossaryTerms() : void
+    public function exportHTMLGlossaryTerms(): void
     {
         $tpl = $this->initScreen(0);
         $tpl->setTitle($this->glossary->getTitle());
@@ -170,10 +173,7 @@ class GlossaryHtmlExport
             fclose($fp);
 
             // store linked/embedded media objects of glosssary term
-            $defs = \ilGlossaryDefinition::getDefinitionList($term["id"]);
-            foreach ($defs as $def) {
-                $this->co_page_html_export->collectPageElements("gdf:pg", $def["id"], "");
-            }
+            $this->co_page_html_export->collectPageElements("term:pg", $term["id"], "");
         }
     }
 }

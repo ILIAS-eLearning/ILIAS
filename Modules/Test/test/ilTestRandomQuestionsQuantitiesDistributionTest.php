@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestRandomQuestionsQuantitiesDistributionTest
@@ -10,7 +26,7 @@ class ilTestRandomQuestionsQuantitiesDistributionTest extends ilTestBaseTestCase
 {
     private ilTestRandomQuestionsQuantitiesDistribution $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -21,12 +37,12 @@ class ilTestRandomQuestionsQuantitiesDistributionTest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionsQuantitiesDistribution::class, $this->testObj);
     }
 
-    public function testQuestionCollectionProvider() : void
+    public function testQuestionCollectionProvider(): void
     {
         $mock = $this->createMock(ilTestRandomSourcePoolDefinitionQuestionCollectionProvider::class);
 
@@ -34,7 +50,7 @@ class ilTestRandomQuestionsQuantitiesDistributionTest extends ilTestBaseTestCase
         $this->assertEquals($mock, $this->testObj->getQuestionCollectionProvider());
     }
 
-    public function testSourcePoolDefinitionList() : void
+    public function testSourcePoolDefinitionList(): void
     {
         $mock = $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionList::class);
 

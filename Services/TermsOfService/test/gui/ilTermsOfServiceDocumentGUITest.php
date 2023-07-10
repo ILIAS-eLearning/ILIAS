@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Refinery\Factory as Refinery;
@@ -32,43 +34,43 @@ use ILIAS\HTTP\GlobalHttpState;
  */
 class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
 {
-    /** @var MockObject|ilTermsOfServiceTableDataProviderFactory */
+    /** @var MockObject&ilTermsOfServiceTableDataProviderFactory */
     protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
-    /** @var MockObject|ilObjTermsOfService */
+    /** @var MockObject&ilObjTermsOfService */
     protected ilObjTermsOfService $tos;
-    /** @var MockObject|ilGlobalTemplateInterface */
+    /** @var MockObject&ilGlobalTemplateInterface */
     protected ilGlobalTemplateInterface $tpl;
-    /** @var MockObject|ilCtrlInterface */
+    /** @var MockObject&ilCtrlInterface */
     protected ilCtrlInterface $ctrl;
-    /** @var MockObject|ilLanguage */
+    /** @var MockObject&ilLanguage */
     protected ilLanguage $lng;
-    /** @var MockObject|ilRbacSystem */
+    /** @var MockObject&ilRbacSystem */
     protected ilRbacSystem $rbacsystem;
-    /** @var MockObject|ilErrorHandling */
+    /** @var MockObject&ilErrorHandling */
     protected ilErrorHandling $error;
-    /** @var MockObject|ilObjUser */
+    /** @var MockObject&ilObjUser */
     protected ilObjUser $user;
-    /** @var MockObject|ilLogger */
+    /** @var MockObject&ilLogger */
     protected ilLogger $log;
-    /** @var MockObject|Factory */
+    /** @var MockObject&Factory */
     protected Factory $uiFactory;
-    /** @var MockObject|Renderer */
+    /** @var MockObject&Renderer */
     protected Renderer $uiRenderer;
-    /** @var MockObject|GlobalHttpState */
+    /** @var MockObject&GlobalHttpState */
     protected GlobalHttpState $httpState;
-    /** @var MockObject|ilToolbarGUI */
+    /** @var MockObject&ilToolbarGUI */
     protected ilToolbarGUI $toolbar;
-    /** @var MockObject|FileUpload */
+    /** @var MockObject&FileUpload */
     protected FileUpload $fileUpload;
-    /** @var MockObject|Filesystems */
+    /** @var MockObject&Filesystems */
     protected Filesystems $fileSystems;
-    /** @var MockObject|ilTermsOfServiceCriterionTypeFactoryInterface */
+    /** @var MockObject&ilTermsOfServiceCriterionTypeFactoryInterface */
     protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
-    /** @var MockObject|ilHtmlPurifierInterface */
+    /** @var MockObject&ilHtmlPurifierInterface */
     protected ilHtmlPurifierInterface $documentPurifier;
     protected Refinery $refinery;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -90,12 +92,12 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $this->tableDataProviderFactory = $this->getMockBuilder(ilTermsOfServiceTableDataProviderFactory::class)->disableOriginalConstructor()->getMock();
         $this->documentPurifier = $this->getMockBuilder(ilHtmlPurifierInterface::class)->getMock();
         $this->refinery = new ILIAS\Refinery\Factory(
-            new \ILIAS\Data\Factory,
+            new \ILIAS\Data\Factory(),
             $this->lng
         );
     }
 
-    public function commandProvider() : array
+    public function commandProvider(): array
     {
         return [
             ['default_____read', [false]],
@@ -117,10 +119,9 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
 
     /**
      * @dataProvider commandProvider
-     * @param string $command
      * @param bool[] $accessResults
      */
-    public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing(string $command, array $accessResults) : void
+    public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing(string $command, array $accessResults): void
     {
         $this->ctrl
             ->expects($this->once())
@@ -131,7 +132,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $this->rbacsystem
             ->expects($this->exactly(count($accessResults)))
             ->method('checkAccess')
-            ->willReturnCallback(function () use ($accessResults, &$accessResultCounter) {
+            ->willReturnCallback(function () use ($accessResults, &$accessResultCounter): bool {
                 $result = $accessResults[$accessResultCounter];
 
                 $accessResultCounter++;
@@ -169,7 +170,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $gui->executeCommand();
     }
 
-    public function testLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce() : void
+    public function testLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce(): void
     {
         $this->setGlobalVariable('lng', clone $this->lng);
         $this->setGlobalVariable('ilUser', clone $this->user);
@@ -295,7 +296,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $gui->executeCommand();
     }
 
-    public function testNoLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce() : void
+    public function testNoLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce(): void
     {
         $this->setGlobalVariable('lng', clone $this->lng);
         $this->setGlobalVariable('ilUser', clone $this->user);

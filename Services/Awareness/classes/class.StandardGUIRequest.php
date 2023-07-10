@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Awareness;
 
@@ -20,7 +23,7 @@ use ILIAS\Repository;
 class StandardGUIRequest
 {
     use Repository\BaseGUIRequest;
-    
+
     public function __construct(
         \ILIAS\HTTP\Services $http,
         \ILIAS\Refinery\Factory $refinery,
@@ -35,12 +38,12 @@ class StandardGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getFilter() : string
+    public function getFilter(): string
     {
         return $this->str("filter");
     }

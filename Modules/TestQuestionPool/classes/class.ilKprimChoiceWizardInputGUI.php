@@ -1,9 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssKprimChoiceAnswer.php';
-require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -13,7 +24,7 @@ require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
  */
 class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
-    const CUSTOM_UPLOAD_ERR = 99;
+    public const CUSTOM_UPLOAD_ERR = 99;
 
     /**
      * @var ilTemplate
@@ -24,50 +35,53 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
      * @var assKprimChoice
      */
     protected $qstObject;
-    
+
     private $files;
-    
+
     private $ignoreMissingUploadsEnabled;
-    
+
     public function __construct($a_title = "", $a_postvar = "")
     {
         parent::__construct($a_title, $a_postvar);
-        
+
         global $DIC;
         $lng = $DIC['lng'];
         $tpl = $DIC['tpl'];
-        
+
         $this->lng = $lng;
         $this->tpl = $tpl;
-        
-        $this->files = array();
+
+        $this->files = [];
 
         $this->ignoreMissingUploadsEnabled = false;
     }
 
-    public function setFiles($files)
+    public function setFiles($files): void
     {
         $this->files = $files;
     }
 
-    public function getFiles() : array
+    public function getFiles(): array
     {
         return $this->files;
     }
 
-    public function setIgnoreMissingUploadsEnabled($ignoreMissingUploadsEnabled)
+    public function setIgnoreMissingUploadsEnabled($ignoreMissingUploadsEnabled): void
     {
         $this->ignoreMissingUploadsEnabled = $ignoreMissingUploadsEnabled;
     }
 
-    public function isIgnoreMissingUploadsEnabled() : bool
+    public function isIgnoreMissingUploadsEnabled(): bool
     {
         return $this->ignoreMissingUploadsEnabled;
     }
-    
-    public function setValue($a_value) : void
+
+    public function setValue($value): void
     {
-        $this->values = array();
+        $this->values = [];
+
+        $is_rte = isset($_POST["answer_type"]) && $_POST["answer_type"] == "multiLine";
+        $a_value = $this->cleanupAnswerText($value, $is_rte);
 
         if (is_array($a_value) && is_array($a_value['answer'])) {
             foreach ($a_value['answer'] as $index => $value) {
@@ -76,10 +90,10 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $answer->setPosition($index);
                 $answer->setAnswertext($value);
                 if (isset($a_value['imagename'])) {
-                    $answer->setImageFile($a_value['imagename'][$index]);
+                    $answer->setImageFile($a_value['imagename'][$index] ?? '');
                 }
-                
-                if (strlen($a_value['correctness'][$index])) {
+
+                if (isset($a_value['correctness']) && isset($a_value['correctness'][$index]) && strlen($a_value['correctness'][$index])) {
                     $answer->setCorrectness((bool) $a_value['correctness'][$index]);
                 }
 
@@ -94,35 +108,33 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         #vd($this->values);
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
 
-        include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
+            $foundvalues = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],
                 false,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
             );
+        } else {
+            $foundvalues = $_POST[$this->getPostVar()];
         }
-        
-        $foundvalues = $_POST[$this->getPostVar()];
-        
-        #vd($foundvalues);
-        
+
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && (strlen($foundvalues['imagename'][$aidx]) == 0)) {
+                    $hasImage = isset($foundvalues['imagename']) ? true : false;
+                    if (((strlen($answervalue)) == 0) && !$hasImage) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
                 }
             }
-            
+
             // check correctness
             if (!isset($foundvalues['correctness']) || count($foundvalues['correctness']) < count($foundvalues['answer'])) {
                 $this->setAlert($lng->txt("msg_input_is_required"));
@@ -143,7 +155,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
     /**
      * @param $a_tpl ilTemplate
      */
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $tpl = new ilTemplate("tpl.prop_kprimchoicewizardinput.html", true, true, "Modules/TestQuestionPool");
 
@@ -151,18 +163,19 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             /**
              * @var ilAssKprimChoiceAnswer $value
              */
-            
+
             if ($this->getSingleline()) {
                 if (!$this->hideImages) {
-                    if (strlen($value->getImageFile())) {
+                    if ($value->getImageFile() !== null
+                        && $value->getImageFile() !== '') {
                         $imagename = $value->getImageWebPath();
-                        
+
                         if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {
                             if (@file_exists($value->getThumbFsPath())) {
                                 $imagename = $value->getThumbWebPath();
                             }
                         }
-                        
+
                         $tpl->setCurrentBlock('image');
                         $tpl->setVariable('SRC_IMAGE', $imagename);
                         $tpl->setVariable('IMAGE_NAME', $value->getImageFile());
@@ -187,7 +200,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->setCurrentBlock("prop_text_propval");
                 $tpl->setVariable(
                     "PROPERTY_VALUE",
-                    ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
+                    ilLegacyFormElementsUtil::prepareFormOutput(htmlspecialchars_decode((string) $value->getAnswertext()))
                 );
                 $tpl->parseCurrentBlock();
 
@@ -217,21 +230,23 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             }
             if ($this->getAllowMove()) {
                 $tpl->setCurrentBlock("move");
-                $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][{$value->getPosition()}]");
-                $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][{$value->getPosition()}]");
                 $tpl->setVariable("UP_ID", "up_{$this->getPostVar()}[{$value->getPosition()}]");
                 $tpl->setVariable("DOWN_ID", "down_{$this->getPostVar()}[{$value->getPosition()}]");
-                $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
-                $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable("UP_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->up()->withAction('#')
+                ));
+                $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->down()->withAction('#')
+                ));
                 $tpl->parseCurrentBlock();
             }
-            
+
             $tpl->setCurrentBlock("row");
-            
+
             $tpl->setVariable("POST_VAR", $this->getPostVar());
             $tpl->setVariable("ROW_NUMBER", $value->getPosition());
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][{$value->getPosition()}]");
-            
+
             $tpl->setVariable(
                 "CORRECTNESS_TRUE_ID",
                 $this->getPostVar() . "[correctness][{$value->getPosition()}][true]"
@@ -250,11 +265,11 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     $tpl->setVariable('CORRECTNESS_FALSE_SELECTED', ' checked="checked"');
                 }
             }
-            
+
             if ($this->getDisabled()) {
                 $tpl->setVariable("DISABLED_CORRECTNESS", " disabled=\"disabled\"");
             }
-            
+
             $tpl->parseCurrentBlock();
         }
 
@@ -277,12 +292,12 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->parseCurrentBlock();
             }
         }
-        
+
         foreach ($this->qstObject->getValidOptionLabels() as $optionLabel) {
             if ($this->qstObject->isCustomOptionLabel($optionLabel)) {
                 continue;
             }
-            
+
             $tpl->setCurrentBlock('option_label_translations');
             $tpl->setVariable('OPTION_LABEL', $optionLabel);
             $tpl->setVariable('TRANSLATION_TRUE', $this->qstObject->getTrueOptionLabelTranslation($this->lng, $optionLabel));
@@ -294,24 +309,19 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $tpl->setVariable("DELETE_IMAGE_HEADER", $this->lng->txt('delete_image_header'));
         $tpl->setVariable("DELETE_IMAGE_QUESTION", $this->lng->txt('delete_image_question'));
         $tpl->setVariable("ANSWER_TEXT", $this->lng->txt('answer_text'));
-        
+
         $tpl->setVariable("OPTIONS_TEXT", $this->lng->txt('options'));
-        
-        // winzards input column label values will be updated on document ready js
-        //$tpl->setVariable("TRUE_TEXT", $this->qstObject->getTrueOptionLabelTranslation($this->lng, $this->qstObject->getOptionLabel()));
-        //$tpl->setVariable("FALSE_TEXT", $this->qstObject->getFalseOptionLabelTranslation($this->lng, $this->qstObject->getOptionLabel()));
 
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
 
-        include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-        $this->tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-        $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/kprimchoicewizard.js");
+        $this->tpl->addJavascript("Modules/TestQuestionPool/templates/default/answerwizardinput.js");
+        $this->tpl->addJavascript("Modules/TestQuestionPool/templates/default/kprimchoicewizard.js");
         $this->tpl->addJavascript('Modules/TestQuestionPool/js/ilAssKprimChoice.js');
     }
-    
-    public function checkUploads($foundvalues) : bool
+
+    public function checkUploads($foundvalues): bool
     {
         if (is_array($_FILES) && count($_FILES) && $this->getSingleline()) {
             if (!$this->hideImages) {
@@ -333,7 +343,8 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
                                 case UPLOAD_ERR_NO_FILE:
                                     if ($this->getRequired() && !$this->isIgnoreMissingUploadsEnabled()) {
-                                        if (isset($foundvalues['imagename']) && (!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
+                                        $has_image = isset($foundvalues['imagename'][$index]) ? true : false;
+                                        if (!$has_image && (!strlen($foundvalues['answer'][$index]))) {
                                             $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
                                             return false;
                                         }
@@ -422,11 +433,11 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 }
             }
         }
-        
+
         return true;
     }
-    
-    public function collectValidFiles()
+
+    public function collectValidFiles(): void
     {
         foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $err) {
             if ($err > 0) {
@@ -441,5 +452,30 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 'size' => $_FILES[$this->getPostVar()]['size']['image'][$index]
             );
         }
+    }
+
+    /**
+     * sk - 12.05.2023: This is one more of those that we need, but don't want.
+     * @deprecated
+     */
+    private function cleanupAnswerText(array $answer_text, bool $is_rte): array
+    {
+        if (!is_array($answer_text)) {
+            return [];
+        }
+
+        if ($is_rte) {
+            return ilArrayUtil::stripSlashesRecursive(
+                $answer_text,
+                false,
+                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+            );
+        }
+
+        return ilArrayUtil::stripSlashesRecursive(
+            $answer_text,
+            true,
+            assQuestionGUI::ALLOWED_PLAIN_TEXT_TAGS
+        );
     }
 }

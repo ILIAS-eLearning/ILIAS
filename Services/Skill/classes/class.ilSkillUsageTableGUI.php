@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,7 +29,7 @@ use ILIAS\Skill\Tree;
 class ilSkillUsageTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected ilSkillTreeRepository $tree_repo;
     protected Tree\SkillTreeFactory $tree_factory;
     protected Tree\SkillTreeManager $tree_manager;
     protected int $skill_id = 0;
@@ -47,8 +49,8 @@ class ilSkillUsageTableGUI extends ilTable2GUI
         $this->tree_manager = $DIC->skills()->internal()->manager()->getTreeManager();
 
         $id_parts = explode(":", $a_cskill_id);
-        $this->skill_id = $id_parts[0];
-        $this->tref_id = $id_parts[1];
+        $this->skill_id = (int) $id_parts[0];
+        $this->tref_id = (int) $id_parts[1];
 
         $data = [];
         foreach ($a_usage as $k => $v) {
@@ -78,10 +80,10 @@ class ilSkillUsageTableGUI extends ilTable2GUI
         $this->setEnableNumInfo(false);
 
         //		$this->addMultiCommand("", $lng->txt(""));
-//		$this->addCommandButton("", $lng->txt(""));
+        //		$this->addCommandButton("", $lng->txt(""));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $this->tpl->setVariable("TYPE_INFO", ilSkillUsage::getTypeInfoString($a_set["type"]));

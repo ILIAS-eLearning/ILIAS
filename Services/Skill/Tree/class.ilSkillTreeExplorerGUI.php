@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -58,17 +60,17 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
     /**
      * @inheritdoc
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $lng = $this->lng;
-        
+
         $a_parent_id_parts = explode(":", $a_node["id"]);
-        $a_parent_skl_tree_id = $a_parent_id_parts[0];
-        $a_parent_skl_template_tree_id = $a_parent_id_parts[1];
-        
+        $a_parent_skl_tree_id = (int) $a_parent_id_parts[0];
+        $a_parent_skl_template_tree_id = isset($a_parent_id_parts[1]) ? (int) $a_parent_id_parts[1] : 0;
+
         // title
         $title = $a_node["title"];
-        
+
         // root?
         if ($a_node["type"] == "skrt") {
             $tree_obj = $this->skill_tree_manager->getTree($a_node["skl_tree_id"]);
@@ -78,7 +80,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
                 $tid = ilSkillTemplateReference::_lookupTemplateId($a_parent_skl_tree_id);
                 $title .= " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
             }
-            
+
             // @todo: fix this if possible for skill/tref_id combination
             if (ilSkillTreeNode::_lookupSelfEvaluation($a_parent_skl_tree_id)) {
                 if ($a_parent_skl_template_tree_id == 0 || $a_node["type"] == "sktr") {
@@ -93,17 +95,17 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 
         return $title;
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         $a_parent_id_parts = explode(":", $a_node["id"]);
-        $a_parent_skl_tree_id = $a_parent_id_parts[0];
-        $a_parent_skl_template_tree_id = $a_parent_id_parts[1];
+        $a_parent_skl_tree_id = (int) $a_parent_id_parts[0];
+        $a_parent_skl_template_tree_id = isset($a_parent_id_parts[1]) ? (int) $a_parent_id_parts[1] : 0;
 
-        
+
         // root?
         if ($a_node["type"] == "skrt") {
             $icon = ilUtil::getImagePath("icon_scat.svg");
@@ -112,25 +114,25 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
                 $a_parent_skl_tree_id,
                 $a_node["type"],
                 "",
-                ($this->vtree->isDraft($a_node["id"]) || $this->vtree->isOutdated($a_node["id"]))
+                (int) ($this->vtree->isDraft($a_node["id"]) || $this->vtree->isOutdated($a_node["id"]))
             );
         } else {
             $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");
         }
-        
+
         return $icon;
     }
 
     /**
      * @inheritdoc
      */
-    public function isNodeHighlighted($a_node) : bool
+    public function isNodeHighlighted($a_node): bool
     {
         $id_parts = explode(":", $a_node["id"]);
-        if ($id_parts[1] == 0) {
+        if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             // skill in main tree
             $skill_id = $id_parts[0];
-            $tref_id = $id_parts[1];
+            $tref_id = 0;
         } else {
             // skill in template
             $tref_id = $id_parts[0];
@@ -140,26 +142,26 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         if ($this->requested_skill_node_id == "" && $a_node["type"] == "skrt") {
             return true;
         }
-        
+
         if ($skill_id == $this->requested_skill_node_id &&
             ($this->requested_tref_id == $tref_id)) {
             return true;
         }
         return false;
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         $ilCtrl = $this->ctrl;
 
         $id_parts = explode(":", $a_node["id"]);
-        if ($id_parts[1] == 0) {
+        if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             // skill in main tree
             $skill_id = $id_parts[0];
-            $tref_id = $id_parts[1];
+            $tref_id = 0;
         } else {
             // skill in template
             $tref_id = $id_parts[0];
@@ -174,7 +176,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
             "sktp" => "ilbasicskilltemplategui",
             "sctp" => "ilskilltemplatecategorygui"
         );
-        
+
         $cmd = array(
             "skrt" => "listSkills",
             "scat" => "listItems",
@@ -183,10 +185,10 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
             "sktp" => "edit",
             "sctp" => "listItems"
         );
-        
+
         $gui_class = $gui_class[$a_node["type"]];
         $cmd = $cmd[$a_node["type"]];
-        
+
         $ilCtrl->setParameterByClass($gui_class, "tref_id", $tref_id);
         $ilCtrl->setParameterByClass($gui_class, "node_id", $skill_id);
         $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI",
@@ -200,7 +202,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
     /**
      * @inheritdoc
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         return true;
     }

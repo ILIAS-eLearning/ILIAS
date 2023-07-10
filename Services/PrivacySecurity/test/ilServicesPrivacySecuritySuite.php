@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -6,7 +8,7 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesPrivacySecuritySuite extends TestSuite
 {
-    public static function suite() : ilServicesPrivacySecuritySuite
+    public static function suite(): ilServicesPrivacySecuritySuite
     {
         $suite = new ilServicesPrivacySecuritySuite();
 

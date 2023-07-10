@@ -29,7 +29,7 @@
  */
 class ilSoapStructureObjectFactory
 {
-    public function getInstanceForObject(ilObject $object) : ?ilSoapStructureObject
+    public function getInstanceForObject(ilObject $object): ?ilSoapStructureObject
     {
         $classname = $this->_getClassnameForType($object->getType());
         if ($classname !== null) {
@@ -55,7 +55,7 @@ class ilSoapStructureObjectFactory
         string $title,
         string $description,
         int $parentRefId
-    ) : ?ilSoapStructureObject {
+    ): ?ilSoapStructureObject {
         $classname = $this->_getClassnameForType($type);
         if ($classname === null) {
             return null;
@@ -64,7 +64,7 @@ class ilSoapStructureObjectFactory
         return new $classname($objId, $type, $title, $description, $parentRefId);
     }
 
-    public function _getClassnameForType(string $type) : ?string
+    public function _getClassnameForType(string $type): ?string
     {
         switch ($type) {
             case "glo":
@@ -80,10 +80,9 @@ class ilSoapStructureObjectFactory
             case "git":
                 include_once "./webservice/soap/classes/class.ilSoapGLOTermStructureObject.php";
                 return "ilSoapGLOTermStructureObject";
-            case "gdf":
+            case "term":
                 include_once "./webservice/soap/classes/class.ilSoapGLOTermDefinitionStructureObject.php";
                 return "ilSoapGLOTermDefinitionStructureObject";
-
         }
 
         return null;

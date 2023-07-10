@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ContentPage\PageMetrics\Command;
 
 /**
@@ -25,21 +27,16 @@ namespace ILIAS\ContentPage\PageMetrics\Command;
  */
 final class GetPageMetricsCommand
 {
-    private int $contentPageId;
-    private string $language;
-
-    public function __construct(int $contentPageId, string $language)
+    public function __construct(private readonly int $contentPageId, private readonly string $language)
     {
-        $this->contentPageId = $contentPageId;
-        $this->language = $language;
     }
 
-    public function getContentPageId() : int
+    public function getContentPageId(): int
     {
         return $this->contentPageId;
     }
 
-    public function getLanguage() : string
+    public function getLanguage(): string
     {
         return $this->language;
     }

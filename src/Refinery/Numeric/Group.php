@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Refinery\Numeric;
 
@@ -33,7 +35,7 @@ class Group
         $this->language = $language;
     }
 
-    public function isNumeric() : Constraint
+    public function isNumeric(): Constraint
     {
         return new IsNumeric($this->dataFactory, $this->language);
     }

@@ -1,7 +1,6 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,55 +11,53 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Notifications\Model;
-
-use ilNotification;
-use ilObjUser;
 
 /**
  * @author Jan Posselt <jposselt@databay.de>
  */
 class ilNotificationLink
 {
-    /**
-     * @var string|ilNotificationParameter
-     */
-    private $title;
-    private string $url;
+    private string $title = '';
 
-    public function __construct($title, string $url)
+    public function __construct(private ilNotificationParameter $title_parameter, private string $url)
     {
-        $this->title = $title;
-        $this->url = $url;
+        $this->title = $title_parameter->getName();
     }
 
-    /**
-     * @return  string|ilNotificationParameter
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string|ilNotificationParameter $title
-     */
-    public function setTitle($title) : void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    public function getUrl() : string
+    public function getTitleParameter(): ilNotificationParameter
+    {
+        return $this->title_parameter;
+    }
+
+    public function setTitleParameter(ilNotificationParameter $title_parameter): void
+    {
+        $this->title_parameter = $title_parameter;
+    }
+
+    public function getUrl(): string
     {
         return $this->url;
     }
 
-    public function setUrl(string $url) : void
+    public function setUrl(string $url): void
     {
         $this->url = $url;
     }

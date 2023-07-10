@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -25,9 +27,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTest
 {
     /**
-     * @return MockObject|ilRbacReview
+     * @return MockObject&ilRbacReview
      */
-    protected function getRbacReviewMock() : ilRbacReview
+    protected function getRbacReviewMock(): ilRbacReview
     {
         $rbacReview = $this
             ->getMockBuilder(ilRbacReview::class)
@@ -43,50 +45,44 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
     }
 
     /**
-     * @return MockObject|ilObjectDataCache
+     * @return MockObject&ilObjectDataCache
      */
-    protected function getObjectDataCacheMock() : ilObjectDataCache
+    protected function getObjectDataCacheMock(): ilObjectDataCache
     {
-        $objectDataCache = $this
+        return $this
             ->getMockBuilder(ilObjectDataCache::class)
             ->disableOriginalConstructor()
             ->getMock();
-
-        return $objectDataCache;
     }
 
     /**
-     * @return MockObject|ilRadioGroupInputGUI
+     * @return MockObject&ilRadioGroupInputGUI
      */
-    protected function getRadioGroupMock() : ilRadioGroupInputGUI
+    protected function getRadioGroupMock(): ilRadioGroupInputGUI
     {
-        $radioGroup = $this
+        return $this
             ->getMockBuilder(ilRadioGroupInputGUI::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getPostVar'])
             ->getMock();
-
-        return $radioGroup;
     }
 
     /**
-     * @return MockObject|ilPropertyFormGUI
+     * @return MockObject&ilPropertyFormGUI
      */
-    protected function getFormMock() : ilPropertyFormGUI
+    protected function getFormMock(): ilPropertyFormGUI
     {
-        $form = $this
+        return $this
             ->getMockBuilder(ilPropertyFormGUI::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getInput'])
             ->getMock();
-
-        return $form;
     }
 
     /**
-     * @return MockObject|ilObjUser
+     * @return MockObject&ilObjUser
      */
-    protected function getUserMock() : ilObjUser
+    protected function getUserMock(): ilObjUser
     {
         $user = $this
             ->getMockBuilder(ilObjUser::class)

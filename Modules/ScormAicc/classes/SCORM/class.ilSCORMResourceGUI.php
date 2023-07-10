@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
-/******************************************************************************
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
 * GUI class for SCORM Resource element
 *
@@ -22,9 +27,6 @@
 */
 class ilSCORMResourceGUI extends ilSCORMObjectGUI
 {
-    /**
-     * @param int $a_id
-     */
     public function __construct(int $a_id)
     {
         parent::__construct();
@@ -33,10 +35,9 @@ class ilSCORMResourceGUI extends ilSCORMObjectGUI
     }
 
     /**
-     * @return void
      * @throws ilTemplateException
      */
-    public function view() : void
+    public function view(): void
     {
         $this->tpl = new ilGlobalTemplate("tpl.main.html", true, true);
         $this->tpl->addBlockFile("CONTENT", "content", "tpl.scorm_obj.html", "Modules/ScormAicc");
@@ -66,10 +67,10 @@ class ilSCORMResourceGUI extends ilSCORMObjectGUI
 
         // files
         $files = &$this->sc_object->getFiles();
-        for ($i = 0; $i < count($files); $i++) {
+        foreach ($files as $value) {
             $this->displayParameter(
                 $this->lng->txt("cont_href"),
-                $files[$i]->getHRef()
+                $value->getHRef()
             );
         }
         $this->tpl->setCurrentBlock("partable");
@@ -78,10 +79,10 @@ class ilSCORMResourceGUI extends ilSCORMObjectGUI
 
         // dependencies
         $deps = &$this->sc_object->getDependencies();
-        for ($i = 0; $i < count($deps); $i++) {
+        foreach ($deps as $value) {
             $this->displayParameter(
                 $this->lng->txt("cont_id_ref"),
-                $deps[$i]->getIdentifierRef()
+                $value->getIdentifierRef()
             );
         }
         $this->tpl->setCurrentBlock("partable");

@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class CompositeBuilder
  *
  * Date: 27.03.13
@@ -9,7 +25,6 @@
  */
 class ilAssLacCompositeBuilder
 {
-
     /**
      * This array defines the weights and direction of operators.<br />
      * It is required to build the composite tree with the correct depth structure
@@ -19,24 +34,29 @@ class ilAssLacCompositeBuilder
     protected $operators = array('<=','<','=','>=','>','<>','&','|');
 
     /**
-     * Construct requirements
-     */
-    public function __construct()
-    {
-        include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Factory/ilAssLacOperationManufacturer.php';
-        include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Factory/ilAssLacExpressionManufacturer.php';
-    }
-
-    /**
-     * @param array $nodes
+     * Creates a composite tree structure from a nodes tree.
+     * <p>
+     * May fail on malformed input, e.g. because not all operators could be
+     * handled. So ensure only to call this function with well-formed input data
+     * or be prepared to handle type exceptions.
      *
-     * @return array
+     * @param array $nodes  an array structure of parsed nodes as returned by
+     *         ilAssLacConditionParser#createNodeArray(), with type 'group'.
+     *
+     * @return ilAssLacAbstractComposite
+     *
+     * @throws ilAssLacCompositeBuilderException in some cases of invalid input.
+     *
+     * @see ilAssLacConditionParser#createNodeArray() for details on the
+     * expected input structure.
      */
-    public function create($nodes) : array
+    public function create(array $nodes): ilAssLacAbstractComposite
     {
         if ($nodes['type'] == 'group') {
             foreach ($nodes['nodes'] as $key => $child) {
-                $nodes['nodes'][$key] = $this->create($child);
+                if ($child['type'] == 'group') {
+                    $nodes['nodes'][$key] = $this->create($child);
+                }
             }
 
             foreach ($this->operators as $next_operator) {
@@ -64,7 +84,9 @@ class ilAssLacCompositeBuilder
             }
             return $nodes['nodes'][0];
         }
-        return $nodes;
+        throw new ilAssLacCompositeBuilderException(
+            'need node structure with type group as input'
+        );
     }
 
     /**

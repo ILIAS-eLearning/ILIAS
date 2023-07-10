@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,22 +16,19 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailDiffAddressList
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMailDiffAddressList implements ilMailAddressList
 {
-    protected ilMailAddressList $left;
-    protected ilMailAddressList $right;
-
-    public function __construct(ilMailAddressList $left, ilMailAddressList $right)
+    public function __construct(protected ilMailAddressList $left, protected ilMailAddressList $right)
     {
-        $this->left = $left;
-        $this->right = $right;
     }
 
-    public function value() : array
+    public function value(): array
     {
         $leftAddresses = $this->left->value();
         $rightAddresses = $this->right->value();

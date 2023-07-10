@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,12 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Cron for booking manager notification
@@ -23,6 +24,7 @@
  */
 class ilBookCronNotification extends ilCronJob
 {
+    protected \ILIAS\BookingManager\InternalRepoService $repo;
     protected ilLanguage $lng;
     protected ilAccessHandler $access;
     protected ilLogger $book_log;
@@ -37,50 +39,53 @@ class ilBookCronNotification extends ilCronJob
         }
 
         $this->book_log = ilLoggerFactory::getLogger("book");
+        $this->repo = $DIC->bookingManager()
+            ->internal()
+            ->repo();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "book_notification";
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("book");
         return $lng->txt("book_notification");
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("book");
         return $lng->txt("book_notification_info");
     }
-    
-    public function getDefaultScheduleType() : int
+
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
-    
-    public function getDefaultScheduleValue() : ?int
+
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
-    
-    public function hasAutoActivation() : bool
+
+    public function hasAutoActivation(): bool
     {
         return false;
     }
-    
-    public function hasFlexibleSchedule() : bool
+
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
-    
-    public function run() : ilCronJobResult
+
+    public function run(): ilCronJobResult
     {
         $status = ilCronJobResult::STATUS_NO_ACTION;
 
@@ -89,14 +94,14 @@ class ilBookCronNotification extends ilCronJob
         if ($count > 0) {
             $status = ilCronJobResult::STATUS_OK;
         }
-        
+
         $result = new ilCronJobResult();
         $result->setStatus($status);
-        
+
         return $result;
     }
 
-    protected function sendNotifications() : int
+    protected function sendNotifications(): int
     {
         $log = $this->book_log;
 
@@ -137,8 +142,7 @@ class ilBookCronNotification extends ilCronJob
 
 
             if ($to_ts > $from_ts) {
-                $f = new ilBookingReservationDBRepositoryFactory();
-                $repo = $f->getRepo();
+                $repo = $this->repo->reservation();
                 $res = $repo->getListByDate(true, null, [
                     "from" => $from_ts,
                     "to" => $to_ts
@@ -151,12 +155,10 @@ class ilBookCronNotification extends ilCronJob
 
             // get subscriber of pool id
             $user_ids = ilNotification::getNotificationsForObject(ilNotification::TYPE_BOOK, $p["booking_pool_id"]);
-
             $log->debug("users: " . count($user_ids));
 
             // group by user, type, pool
             foreach ($res as $r) {
-
                 // users
                 $log->debug("check notification of user id: " . $r["user_id"]);
                 if (in_array($r["user_id"], $user_ids)) {
@@ -179,8 +181,6 @@ class ilBookCronNotification extends ilCronJob
             ilObjBookingPool::writeLastReminderTimestamp($p["booking_pool_id"], $to_ts);
         }
 
-        $log->debug("notifications to users: " . count($notifications));
-
         // send mails
         $this->sendMails($notifications);
 
@@ -189,14 +189,14 @@ class ilBookCronNotification extends ilCronJob
 
     protected function sendMails(
         array $notifications
-    ) : void {
+    ): void {
         foreach ($notifications as $uid => $n) {
             $ntf = new ilSystemNotification();
             $lng = $ntf->getUserLanguage($uid);
             $lng->loadLanguageModule("book");
 
             $txt = "";
-            if (is_array($n["personal"])) {
+            if (is_array($n["personal"] ?? null)) {
                 $txt .= "\n" . $lng->txt("book_your_reservations") . "\n";
                 $txt .= "-----------------------------------------\n";
                 foreach ($n["personal"] as $obj_id => $reservs) {
@@ -209,7 +209,7 @@ class ilBookCronNotification extends ilCronJob
                 }
             }
 
-            if (is_array($n["admin"])) {
+            if (is_array($n["admin"] ?? null)) {
                 $txt .= "\n" . $lng->txt("book_reservation_overview") . "\n";
                 $txt .= "-----------------------------------------\n";
                 foreach ($n["admin"] as $obj_id => $reservs) {
@@ -218,16 +218,20 @@ class ilBookCronNotification extends ilCronJob
                         $txt .= "- " . $r["title"] . " (" . $r["counter"] . "), " . $r["user_name"] . ", " .
                             ilDatePresentation::formatDate(new ilDate($r["date"], IL_CAL_DATE)) . ", " .
                             $r["slot"] . "\n";
+                        if ($r["message"] != "") {
+                            $txt .= "  " . $lng->txt("book_message") .
+                                ": " . $r["message"];
+                        }
                     }
                 }
             }
-
             $ntf->setLangModules(array("book"));
             $ntf->setSubjectLangId("book_booking_reminders");
             $ntf->setIntroductionLangId("book_rem_intro");
             $ntf->addAdditionalInfo("", $txt);
             $ntf->setReasonLangId("book_rem_reason");
-            $ntf->sendMail(array($uid));
+            $this->book_log->debug("send Mail: " . $uid);
+            $ntf->sendMailAndReturnRecipients([$uid]);
         }
     }
 
@@ -237,7 +241,7 @@ class ilBookCronNotification extends ilCronJob
         string $perm,
         int $uid,
         int $obj_id
-    ) : bool {
+    ): bool {
         $access = $this->access;
         foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
             if ($access->checkAccessOfUser($uid, $perm, "", $ref_id)) {

@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilSCORM2004TrackingItemsPerScoFilterGUI
  *
@@ -27,10 +32,7 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
 
     public ilPropertyFormGUI $form;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(ilObjSCORM2004LearningModuleGUI $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
@@ -42,13 +44,9 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
     }
 
     /**
-     * @param string  $scoSelected
-     * @param string $report
-     * @param array  $reports
-     * @return void
      * @throws ilCtrlException
      */
-    public function parse(string $scoSelected, string $report, array $reports) : void
+    public function parse(string $scoSelected, string $report, array $reports): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -67,8 +65,8 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
         $this->form->addItem($si);
 
         $options = array("choose" => $lng->txt("please_choose"));
-        for ($i = 0;$i < count($reports);$i++) {
-            $options[$reports[$i]] = $lng->txt(strtolower($reports[$i]));
+        foreach ($reports as $value) {
+            $options[$value] = $lng->txt(strtolower($value));
         }
         $si = new ilSelectInputGUI($lng->txt("report"), "report");
         $si->setOptions($options);

@@ -25,7 +25,6 @@ namespace ILIAS\HTTP;
  */
 interface StatusCode
 {
-
     // [Informational 1xx]
 
     public const HTTP_CONTINUE = 100;

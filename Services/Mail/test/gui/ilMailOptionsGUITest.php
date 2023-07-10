@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\ServerRequestInterface;
@@ -33,8 +35,8 @@ class ilMailOptionsGUITest extends ilMailBaseTest
     protected function getMailOptionsGUI(
         GlobalHttpState $httpState,
         ilCtrlInterface $ctrl,
-        ilSetting $settings
-    ) : ilMailOptionsGUI {
+        ilMailOptions $mail_options
+    ): ilMailOptionsGUI {
         $tpl = $this->getMockBuilder(ilGlobalTemplateInterface::class)->disableOriginalConstructor()->getMock();
         $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
@@ -42,11 +44,11 @@ class ilMailOptionsGUITest extends ilMailBaseTest
         return new ilMailOptionsGUI(
             $tpl,
             $ctrl,
-            $settings,
             $lng,
             $user,
             $httpState,
-            new Factory(new \ILIAS\Data\Factory(), $lng)
+            new Factory(new \ILIAS\Data\Factory(), $lng),
+            $mail_options
         );
     }
 
@@ -54,13 +56,11 @@ class ilMailOptionsGUITest extends ilMailBaseTest
      * @doesNotPerformAssertions
      * @throws ReflectionException
      */
-    public function testMailOptionsAreAccessibleIfGlobalAccessIsNotDenied() : void
+    public function testMailOptionsAreAccessibleIfGlobalAccessIsNotDenied(): void
     {
         $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
         $form = $this->getMockBuilder(ilMailOptionsFormGUI::class)->disableOriginalConstructor()->getMock();
 
-        $settings->method('get')->with('show_mail_settings')->willReturn('1');
         $ctrl->method('getCmd')->willReturn('showOptions');
 
         $request = $this->getMockBuilder(ServerRequestInterface::class)->disableOriginalConstructor()->getMock();
@@ -70,7 +70,24 @@ class ilMailOptionsGUITest extends ilMailBaseTest
         $http = $this->getMockBuilder(GlobalHttpState::class)->getMock();
         $http->method('wrapper')->willReturn($wrapper);
 
-        $gui = $this->getMailOptionsGUI($http, $ctrl, $settings);
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getMock();
+        $settings->method('get')->willReturnCallback(static function (string $key, ?string $default = null) {
+            if ($key === 'show_mail_settings') {
+                return '1';
+            }
+
+            return $default;
+        });
+
+        $options = new ilMailOptions(
+            0,
+            null,
+            $this->createMock(\ILIAS\Data\Clock\ClockInterface::class),
+            $settings,
+            $this->createMock(ilDBInterface::class)
+        );
+
+        $gui = $this->getMailOptionsGUI($http, $ctrl, $options);
         $gui->setForm($form);
         $gui->executeCommand();
     }
@@ -78,13 +95,11 @@ class ilMailOptionsGUITest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testMailOptionsAreNotAccessibleIfGlobalAccessIsDeniedAndUserWillBeRedirectedToMailSystem() : void
+    public function testMailOptionsAreNotAccessibleIfGlobalAccessIsDeniedAndUserWillBeRedirectedToMailSystem(): void
     {
         $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
         $form = $this->getMockBuilder(ilMailOptionsFormGUI::class)->disableOriginalConstructor()->getMock();
 
-        $settings->method('get')->with('show_mail_settings')->willReturn('0');
         $ctrl->method('getCmd')->willReturn('showOptions');
 
         $request = $this->getMockBuilder(ServerRequestInterface::class)->disableOriginalConstructor()->getMock();
@@ -96,7 +111,24 @@ class ilMailOptionsGUITest extends ilMailBaseTest
 
         $ctrl->expects($this->once())->method('redirectByClass')->with(ilMailGUI::class);
 
-        $gui = $this->getMailOptionsGUI($http, $ctrl, $settings);
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getMock();
+        $settings->method('get')->willReturnCallback(static function (string $key, ?string $default = null) {
+            if ($key === 'show_mail_settings') {
+                return '0';
+            }
+
+            return $default;
+        });
+
+        $options = new ilMailOptions(
+            0,
+            null,
+            $this->createMock(\ILIAS\Data\Clock\ClockInterface::class),
+            $settings,
+            $this->createMock(ilDBInterface::class)
+        );
+
+        $gui = $this->getMailOptionsGUI($http, $ctrl, $options);
         $gui->setForm($form);
         $gui->executeCommand();
     }
@@ -104,21 +136,28 @@ class ilMailOptionsGUITest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testMailOptionsAreNotAccessibleIfGlobalAccessIsDeniedAndUserWillBeRedirectedToPersonalSettings() : void
+    public function testMailOptionsAreNotAccessibleIfGlobalAccessIsDeniedAndUserWillBeRedirectedToPersonalSettings(): void
     {
         $this->expectException(ilCtrlException::class);
 
         $request = $this->getMockBuilder(ServerRequestInterface::class)->disableOriginalConstructor()->getMock();
         $ctrl = $this->createMock(ilCtrlInterface::class);
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
         $form = $this->getMockBuilder(ilMailOptionsFormGUI::class)->disableOriginalConstructor()->getMock();
 
-        $settings->method('get')->with('show_mail_settings')->willReturn('0');
         $ctrl->method('getCmd')->willReturn('showOptions');
 
         $ctrl->expects($this->once())->method('redirectByClass')->with(ilPersonalSettingsGUI::class)->willThrowException(
             new ilCtrlException('Script terminated')
         );
+
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getMock();
+        $settings->method('get')->willReturnCallback(static function (string $key, ?string $default = null) {
+            if ($key === 'show_mail_settings') {
+                return '0';
+            }
+
+            return $default;
+        });
 
         $request = $this->getMockBuilder(ServerRequestInterface::class)->disableOriginalConstructor()->getMock();
         $request->method('getQueryParams')->willReturn([
@@ -129,7 +168,15 @@ class ilMailOptionsGUITest extends ilMailBaseTest
         $http = $this->getMockBuilder(GlobalHttpState::class)->getMock();
         $http->method('wrapper')->willReturn($wrapper);
 
-        $gui = $this->getMailOptionsGUI($http, $ctrl, $settings);
+        $options = new ilMailOptions(
+            0,
+            null,
+            $this->createMock(\ILIAS\Data\Clock\ClockInterface::class),
+            $settings,
+            $this->createMock(ilDBInterface::class)
+        );
+
+        $gui = $this->getMailOptionsGUI($http, $ctrl, $options);
         $gui->setForm($form);
         $gui->executeCommand();
     }

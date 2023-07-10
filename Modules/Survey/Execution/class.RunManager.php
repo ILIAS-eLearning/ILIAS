@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Execution;
 
@@ -28,6 +33,7 @@ use ILIAS\Survey\Mode;
  */
 class RunManager
 {
+    protected \ilLanguage $lng;
     protected \ILIAS\Survey\Code\CodeManager $code_manager;
     protected RunSessionRepo $session_repo;
     protected RunDBRepository $repo;
@@ -36,12 +42,14 @@ class RunManager
     protected InternalDomainService $domain_service;
     protected \ilObjSurvey $survey;
     protected int $current_user_id;
+    protected int $appraisee_id;
 
     public function __construct(
         InternalRepoService $repo_service,
         InternalDomainService $domain_service,
         \ilObjSurvey $survey,
-        int $current_user_id
+        int $current_user_id,
+        int $appraisee_id = 0
     ) {
         $this->repo = $repo_service->execution()->run();
 
@@ -50,20 +58,32 @@ class RunManager
         $this->feature_config = $domain_service->modeFeatureConfig($survey->getMode());
         $this->domain_service = $domain_service;
         $this->current_user_id = $current_user_id;
+        $this->appraisee_id = $appraisee_id;
         $this->session_repo = $repo_service->execution()->runSession();
         $this->code_manager = $domain_service->code($survey, $current_user_id);
+        $this->lng = $domain_service->lng();
     }
 
-    public function getCurrentRunId(int $appraisee = 0) : int
+    protected function codeNeeded(): bool
+    {
+        return !$this->survey->isAccessibleWithoutCode();
+    }
+
+    public function getCurrentRunId(): int
     {
         $repo = $this->repo;
         $survey_id = $this->survey_id;
         $user_id = $this->current_user_id;
         $code = $this->getCode();
 
-        $this->checkUserParameters($user_id, $code, $appraisee);
+        $this->checkUserParameters($user_id, $code);
 
-        $run_id = $repo->getCurrentRunId($survey_id, $user_id, $code, $appraisee);
+        // code needed, no code given -> no run
+        if ($code === "" && $this->codeNeeded()) {
+            return 0;
+        }
+
+        $run_id = $repo->getCurrentRunId($survey_id, $user_id, $code, $this->appraisee_id);
         return (int) $run_id;
     }
 
@@ -74,43 +94,46 @@ class RunManager
      */
     protected function checkUserParameters(
         int $user_id,
-        string $code = "",
-        int $appraisee = 0
-    ) : void {
-        if ($this->feature_config->usesAppraisees() && $appraisee === 0) {
+        string $code = ""
+    ): void {
+        if ($this->feature_config->usesAppraisees() && $this->appraisee_id === 0) {
             throw new \ilSurveyException("No appraisee specified");
         }
 
-        if (!$this->feature_config->usesAppraisees() && $appraisee > 0) {
-            throw new \ilSurveyException("Appraisee ID given, but appraisees not supported");
+        if (!$this->feature_config->usesAppraisees() && $this->appraisee_id > 0) {
+            // self eval currently uses current user as appraisee id
+            if ($this->survey->getMode() !== \ilObjSurvey::MODE_SELF_EVAL || $user_id !== $this->appraisee_id) {
+                throw new \ilSurveyException("Appraisee ID given, but appraisees not supported");
+            }
         }
 
+        /* this fails on the info screen
         if ($user_id === ANONYMOUS_USER_ID && $code === "") {
             throw new \ilSurveyException("Code missing for anonymous user.");
-        }
+        }*/
     }
 
 
     // Get state of current run
-    protected function getCurrentState(int $appraisee = 0) : int
+    protected function getCurrentState(): int
     {
         $repo = $this->repo;
-        $run_id = $this->getCurrentRunId($appraisee);
+        $run_id = $this->getCurrentRunId();
         return $repo->getState($run_id);
     }
 
-    public function hasStarted(int $appraisee = 0) : bool
+    public function hasStarted(int $appraisee = 0): bool
     {
         return in_array(
-            $this->getCurrentState($appraisee),
+            $this->getCurrentState(),
             [RunDBRepository::STARTED_NOT_FINISHED, RunDBRepository::FINISHED],
             true
         );
     }
 
-    public function hasFinished(int $appraisee = 0) : bool
+    public function hasFinished(): bool
     {
-        return ($this->getCurrentState($appraisee) ===
+        return ($this->getCurrentState() ===
             RunDBRepository::FINISHED);
     }
 
@@ -119,10 +142,9 @@ class RunManager
      * Note: this method acts on the current user, but accepts the passed code
      * and does not retrieve the code from the session.
      */
-    public function isCodeOfCurrentUnfinishedRun(
-        string $code,
-        int $appraisee_id = 0
-    ) : bool {
+    public function belongsToFinishedRun(
+        string $code
+    ): bool {
         $repo = $this->repo;
         $code_manager = $this->domain_service->code($this->survey, $this->current_user_id);
 
@@ -131,11 +153,11 @@ class RunManager
                 $this->survey_id,
                 $this->current_user_id,
                 $code,
-                $appraisee_id
+                $this->appraisee_id
             );
             if ($run_id > 0) {
                 $state = $repo->getState($run_id);
-                if ($state !== RunDBRepository::FINISHED) {
+                if ($state === RunDBRepository::FINISHED) {
                     return true;
                 }
             }
@@ -149,11 +171,11 @@ class RunManager
     public function getRunsForUser(
         int $user_id,
         string $code = ""
-    ) : array {
+    ): array {
         return $this->repo->getRunsForUser($this->survey->getSurveyId(), $user_id, $code);
     }
 
-    public function getById(int $run_id) : ?Run
+    public function getById(int $run_id): ?Run
     {
         $run = $this->repo->getById($run_id);
         if (!is_null($run) && $run->getSurveyId() !== $this->survey->getSurveyId()) {
@@ -167,7 +189,10 @@ class RunManager
      */
     public function start(
         int $appraisee_id = 0
-    ) : void {
+    ): void {
+        $appraisee_id = ($appraisee_id > 0)
+            ? $appraisee_id
+            : $this->appraisee_id;
         $code = $this->getCode();
         $user_id = $this->current_user_id;
         $survey = $this->survey;
@@ -180,7 +205,7 @@ class RunManager
 
     public function initSession(
         string $requested_code = ""
-    ) : void {
+    ): void {
         $user_id = $this->current_user_id;
         $survey = $this->survey;
         $session_repo = $this->session_repo;
@@ -190,7 +215,7 @@ class RunManager
         $anonymous_code = $requested_code;
         if ($anonymous_code !== "") {
             $code_input = true;
-            if (!$this->isCodeOfCurrentUnfinishedRun($anonymous_code)) { // #15031 - valid as long survey is not finished
+            if ($this->belongsToFinishedRun($anonymous_code)) { // #15031 - valid as long survey is not finished
                 $anonymous_code = "";
             } else {
                 // #15860
@@ -227,7 +252,8 @@ class RunManager
             $code_input && // #11346
             (!$anonymous_code || !$this->code_manager->exists($anonymous_code))) {
             $anonymous_code = "";
-            throw new \ilWrongSurveyCodeException("Wrong Survey Code used.");
+            $this->clearCode();
+            throw new \ilWrongSurveyCodeException($this->lng->txt("svy_wrong_or_expired_code"));
         }
         $this->session_repo->setCode($survey->getId(), $anonymous_code);
     }
@@ -235,12 +261,12 @@ class RunManager
     /**
      * Get current valid code
      */
-    public function getCode() : string
+    public function getCode(): string
     {
         return $this->session_repo->getCode($this->survey->getId());
     }
 
-    public function clearCode() : void
+    public function clearCode(): void
     {
         $this->session_repo->clearCode($this->survey->getId());
     }
@@ -250,14 +276,14 @@ class RunManager
      */
     public function setStartTime(
         int $first_question
-    ) : void {
+    ): void {
         $run_id = $this->getCurrentRunId();
         $time = time();
         $this->session_repo->setPageEnter($time);
         $this->repo->addTime($run_id, $time, $first_question);
     }
 
-    public function setEndTime() : void
+    public function setEndTime(): void
     {
         $run_id = $this->getCurrentRunId();
         $time = time();
@@ -265,57 +291,57 @@ class RunManager
         $this->session_repo->clearPageEnter();
     }
 
-    public function getPageEnter() : int
+    public function getPageEnter(): int
     {
         return $this->session_repo->getPageEnter();
     }
 
-    public function setPreviewData(int $question_id, array $data) : void
+    public function setPreviewData(int $question_id, array $data): void
     {
         $this->session_repo->setPreviewData($this->survey_id, $question_id, $data);
     }
 
-    public function getPreviewData(int $question_id) : array
+    public function getPreviewData(int $question_id): array
     {
         return $this->session_repo->getPreviewData($this->survey_id, $question_id);
     }
 
-    public function clearPreviewData(int $question_id) : void
+    public function clearPreviewData(int $question_id): void
     {
         $this->session_repo->clearPreviewData($this->survey_id, $question_id);
     }
 
-    public function clearAllPreviewData() : void
+    public function clearAllPreviewData(): void
     {
         $this->session_repo->clearAllPreviewData($this->survey_id);
     }
 
-    public function setErrors(array $errors) : void
+    public function setErrors(array $errors): void
     {
         $this->session_repo->setErrors($errors);
     }
 
-    public function getErrors() : array
+    public function getErrors(): array
     {
         return $this->session_repo->getErrors();
     }
 
-    public function clearErrors() : void
+    public function clearErrors(): void
     {
         $this->session_repo->clearErrors();
     }
 
-    public function setPostData(array $data) : void
+    public function setPostData(array $data): void
     {
         $this->session_repo->setPostData($data);
     }
 
-    public function getPostData() : array
+    public function getPostData(): array
     {
         return $this->session_repo->getPostData();
     }
 
-    public function clearPostData() : void
+    public function clearPostData(): void
     {
         $this->session_repo->clearPostData();
     }

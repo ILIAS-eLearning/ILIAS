@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,21 +16,20 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilCronServicesImpl implements ilCronServices
 {
-    private \ILIAS\DI\Container $dic;
-
-    public function __construct(\ILIAS\DI\Container $dic)
+    public function __construct(private readonly \ILIAS\DI\Container $dic)
     {
-        $this->dic = $dic;
     }
 
-    public function manager() : ilCronManager
+    public function manager(): ilCronManager
     {
         return $this->dic['cron.manager'];
     }
 
-    public function repository() : ilCronJobRepository
+    public function repository(): ilCronJobRepository
     {
         return $this->dic['cron.repository'];
     }

@@ -1,102 +1,149 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage;
 
+use ILIAS\ResourceStorage\Collection\CollectionBuilder;
+use ILIAS\ResourceStorage\Collection\Collections;
 use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
 use ILIAS\ResourceStorage\Consumer\Consumers;
-use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
-use ILIAS\ResourceStorage\Manager\Manager;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
+use ILIAS\ResourceStorage\Consumer\InlineSrcBuilder;
+use ILIAS\ResourceStorage\Consumer\SrcBuilder;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\TokenFactory;
+use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
+use ILIAS\ResourceStorage\Flavour\Flavours;
+use ILIAS\ResourceStorage\Flavour\Machine\Factory;
+use ILIAS\ResourceStorage\Identification\UniqueIDCollectionIdentificationGenerator;
 use ILIAS\ResourceStorage\Lock\LockHandler;
+use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\FileNamePolicyStack;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
+use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class Services
  * @public
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class Services
 {
     protected \ILIAS\ResourceStorage\Manager\Manager $manager;
     protected \ILIAS\ResourceStorage\Consumer\Consumers $consumers;
+    protected \ILIAS\ResourceStorage\Collection\Collections $collections;
+    protected \ILIAS\ResourceStorage\Flavour\Flavours $flavours;
     protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
-
 
     /**
      * Services constructor.
-     * @param StorageHandler        $storage_handler_factory
      */
     public function __construct(
         StorageHandlerFactory $storage_handler_factory,
-        RevisionRepository $revision_repository,
-        ResourceRepository $resource_repository,
-        InformationRepository $information_repository,
-        StakeholderRepository $stakeholder_repository,
+        Repositories $repositories,
+        Artifacts $artifacts,
         LockHandler $lock_handler,
         FileNamePolicy $file_name_policy,
+        StreamAccess $stream_access,
+        SrcBuilder $src_builder = null,
         RepositoryPreloader $preloader = null
     ) {
+        $src_builder ??= new InlineSrcBuilder();
         $file_name_policy_stack = new FileNamePolicyStack();
         $file_name_policy_stack->addPolicy($file_name_policy);
-
-        $b = new ResourceBuilder(
+        $resource_builder = new ResourceBuilder(
             $storage_handler_factory,
-            $revision_repository,
-            $resource_repository,
-            $information_repository,
-            $stakeholder_repository,
+            $repositories,
             $lock_handler,
+            $stream_access,
             $file_name_policy_stack
         );
-        $this->preloader = $preloader ?? new StandardRepositoryPreloader(
-            $resource_repository,
-            $revision_repository,
-            $information_repository,
-            $stakeholder_repository
+        $collection_builder = new CollectionBuilder(
+            $repositories->getCollectionRepository(),
+            new UniqueIDCollectionIdentificationGenerator(),
+            $lock_handler
         );
-
-        $this->manager = new Manager($b, $this->preloader);
+        $this->preloader = $preloader ?? new StandardRepositoryPreloader($repositories);
+        $this->manager = new Manager(
+            $resource_builder,
+            $collection_builder,
+            $this->preloader
+        );
         $this->consumers = new Consumers(
             new ConsumerFactory(
-                $storage_handler_factory,
+                $stream_access,
                 $file_name_policy_stack
             ),
-            $b
+            $resource_builder,
+            $collection_builder,
+            $src_builder
+        );
+        $this->collections = new Collections(
+            $resource_builder,
+            $collection_builder,
+            $this->preloader
+        );
+
+        $machine_factory = new Factory(
+            new \ILIAS\ResourceStorage\Flavour\Engine\Factory(),
+            $artifacts->getFlavourMachines()
+        );
+
+        $flavour_builder = new FlavourBuilder(
+            $repositories->getFlavourRepository(),
+            $machine_factory,
+            $resource_builder,
+            $storage_handler_factory,
+            $stream_access
+        );
+
+        $this->flavours = new Flavours(
+            $flavour_builder,
+            $resource_builder
         );
     }
 
-    public function manage() : Manager
+    public function manage(): Manager
     {
         return $this->manager;
     }
 
-    public function consume() : Consumers
+    public function consume(): Consumers
     {
         return $this->consumers;
     }
 
-    public function preload(array $identification_strings) : void
+    public function collection(): Collections
+    {
+        return $this->collections;
+    }
+
+    public function flavours(): Flavours
+    {
+        return $this->flavours;
+    }
+
+    public function preload(array $identification_strings): void
     {
         $this->preloader->preload($identification_strings);
     }

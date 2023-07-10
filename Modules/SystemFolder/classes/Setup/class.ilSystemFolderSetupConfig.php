@@ -108,72 +108,72 @@ class ilSystemFolderSetupConfig implements Setup\Config
         $this->contact_email = trim($contact_email);
     }
 
-    public function getClientName() : ?string
+    public function getClientName(): ?string
     {
         return $this->client_name;
     }
 
-    public function getClientDescription() : ?string
+    public function getClientDescription(): ?string
     {
         return $this->client_description;
     }
 
-    public function getClientInstitution() : ?string
+    public function getClientInstitution(): ?string
     {
         return $this->client_institution;
     }
 
-    public function getContactFirstname() : string
+    public function getContactFirstname(): string
     {
         return $this->contact_firstname;
     }
 
-    public function getContactLastname() : string
+    public function getContactLastname(): string
     {
         return $this->contact_lastname;
     }
 
-    public function getContactTitle() : ?string
+    public function getContactTitle(): ?string
     {
         return $this->contact_title;
     }
 
-    public function getContactPosition() : ?string
+    public function getContactPosition(): ?string
     {
         return $this->contact_position;
     }
 
-    public function getContactInstitution() : ?string
+    public function getContactInstitution(): ?string
     {
         return $this->contact_institution;
     }
 
-    public function getContactStreet() : ?string
+    public function getContactStreet(): ?string
     {
         return $this->contact_street;
     }
 
-    public function getContactZipcode() : ?string
+    public function getContactZipcode(): ?string
     {
         return $this->contact_zipcode;
     }
 
-    public function getContactCity() : ?string
+    public function getContactCity(): ?string
     {
         return $this->contact_city;
     }
 
-    public function getContactCountry() : ?string
+    public function getContactCountry(): ?string
     {
         return $this->contact_country;
     }
 
-    public function getContactPhone() : ?string
+    public function getContactPhone(): ?string
     {
         return $this->contact_phone;
     }
 
-    public function getContactEMail() : string
+    public function getContactEMail(): string
     {
         return $this->contact_email;
     }

@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestSkillLevelThreshold.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -42,7 +55,7 @@ class ilTestSkillLevelThresholdList
     /**
      * @return int
      */
-    public function getTestId() : int
+    public function getTestId(): int
     {
         return $this->testId;
     }
@@ -69,7 +82,7 @@ class ilTestSkillLevelThresholdList
             $this->addThreshold($threshold);
         }
     }
-    
+
     /**
      */
     public function saveToDb()
@@ -81,7 +94,7 @@ class ilTestSkillLevelThresholdList
             }
         }
     }
-    
+
     /**
      * @param ilTestSkillLevelThreshold $threshold
      */
@@ -90,12 +103,12 @@ class ilTestSkillLevelThresholdList
         $skillKey = $threshold->getSkillBaseId() . ':' . $threshold->getSkillTrefId();
         $this->thresholds[$skillKey][$threshold->getSkillLevelId()] = $threshold;
     }
-    
+
     /**
      * @param array $data
      * @return ilTestSkillLevelThreshold
      */
-    private function buildSkillLevelThresholdByArray($data) : ilTestSkillLevelThreshold
+    private function buildSkillLevelThresholdByArray($data): ilTestSkillLevelThreshold
     {
         $threshold = new ilTestSkillLevelThreshold($this->db);
 
@@ -107,29 +120,29 @@ class ilTestSkillLevelThresholdList
 
         return $threshold;
     }
-    
+
     /**
      * @param $skillBaseId
      * @param $skillTrefId
      * @param $skillLevelId
      * @return ilTestSkillLevelThreshold
      */
-    public function getThreshold($skillBaseId, $skillTrefId, $skillLevelId, $forceObject = false) : ?ilTestSkillLevelThreshold
+    public function getThreshold($skillBaseId, $skillTrefId, $skillLevelId, $forceObject = false): ?ilTestSkillLevelThreshold
     {
         $skillKey = $skillBaseId . ':' . $skillTrefId;
 
         if (isset($this->thresholds[$skillKey]) && isset($this->thresholds[$skillKey][$skillLevelId])) {
             return $this->thresholds[$skillKey][$skillLevelId];
         }
-        
+
         if ($forceObject) {
             $threshold = new ilTestSkillLevelThreshold($this->db);
-            
+
             $threshold->setTestId($this->getTestId());
             $threshold->setSkillBaseId($skillBaseId);
             $threshold->setSkillTrefId($skillTrefId);
             $threshold->setSkillLevelId($skillLevelId);
-            
+
             return $threshold;
         }
 
@@ -141,10 +154,10 @@ class ilTestSkillLevelThresholdList
         foreach ($this->thresholds as $skillKey => $data) {
             foreach ($data as $levelId => $threshold) {
                 /* @var ilTestSkillLevelThreshold $threshold */
-                
+
                 $threshold->setTestId($testId);
                 $threshold->saveToDb();
-                
+
                 $threshold->setTestId($this->getTestId());
             }
         }

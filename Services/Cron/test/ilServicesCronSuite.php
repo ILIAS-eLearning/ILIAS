@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,9 +16,9 @@
  *
  *********************************************************************/
 
-use PHPUnit\Framework\TestSuite;
+declare(strict_types=1);
 
-require_once __DIR__ . '/bootstrap.php';
+use PHPUnit\Framework\TestSuite;
 
 /**
  * Class ilServicesCronSuite
@@ -27,10 +27,9 @@ require_once __DIR__ . '/bootstrap.php';
 class ilServicesCronSuite extends TestSuite
 {
     /**
-     * @return self
      * @throws ReflectionException
      */
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
 

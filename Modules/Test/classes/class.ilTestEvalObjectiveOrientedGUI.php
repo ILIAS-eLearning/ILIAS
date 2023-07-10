@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -17,15 +30,14 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
     public function executeCommand()
     {
         $this->ctrl->saveParameter($this, "active_id");
-        
+
         switch ($this->ctrl->getNextClass($this)) {
             case 'ilassquestionpagegui':
-                require_once 'Modules/Test/classes/class.ilAssQuestionPageCommandForwarder.php';
                 $forwarder = new ilAssQuestionPageCommandForwarder();
                 $forwarder->setTestObj($this->object);
                 $forwarder->forward();
                 break;
-            
+
             default:
                 $cmd = $this->ctrl->getCmd('showVirtualPass') . 'Cmd';
                 $this->$cmd();
@@ -49,7 +61,7 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
         $tableGUI->resetFilter();
         $this->showVirtualPassCmd();
     }
-    
+
     private function showVirtualPassCmd()
     {
         $testSession = $this->testSessionFactory->getSession();
@@ -62,27 +74,17 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
             }
         }
 
-        // prepare generation before contents are processed (for mathjax)
-        if ($this->isPdfDeliveryRequest()) {
-            ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
-        }
-
         $toolbar = $this->buildUserTestResultsToolbarGUI();
-        $this->ctrl->setParameter($this, 'pdf', '1');
-        $toolbar->setPdfExportLinkTarget($this->ctrl->getLinkTarget($this, 'showVirtualPass'));
-        $this->ctrl->setParameter($this, 'pdf', '');
         $toolbar->build();
-        
+
         $virtualSequence = $this->service->buildVirtualSequence($testSession);
         $userResults = $this->service->getVirtualSequenceUserResults($virtualSequence);
-        
-        require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
+
         $objectivesAdapter = ilLOTestQuestionAdapter::getInstance($testSession);
 
         $objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $virtualSequence);
         $objectivesList->loadObjectivesTitles();
 
-        require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
         $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $this->objCache);
 
         $testResultHeaderLabelBuilder->setObjectiveOrientedContainerId($testSession->getObjectiveOrientedContainerId());
@@ -92,14 +94,14 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
         $testResultHeaderLabelBuilder->initObjectiveOrientedMode();
 
         $tpl = new ilTemplate('tpl.il_as_tst_virtual_pass_details.html', false, false, 'Modules/Test');
-        
+
         $command_solution_details = "";
         if ($this->object->getShowSolutionDetails()) {
             $command_solution_details = "outCorrectSolution";
         }
 
         $questionAnchorNav = $listOfAnswers = $this->object->canShowSolutionPrintview();
-        
+
         if ($listOfAnswers) {
             $list_of_answers = $this->getPassListOfAnswers(
                 $userResults,
@@ -118,7 +120,7 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 
         foreach ($objectivesList->getObjectives() as $loId => $loTitle) {
             $userResultsForLO = $objectivesList->filterResultsByObjective($userResults, $loId);
-            
+
             $overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
                 $userResultsForLO,
                 $testSession->getActiveId(),
@@ -136,12 +138,11 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
                 )
             );
 
-            require_once 'Modules/Test/classes/class.ilTestLearningObjectivesStatusGUI.php';
             $loStatus = new ilTestLearningObjectivesStatusGUI($this->lng);
             $loStatus->setCrsObjId($this->getObjectiveOrientedContainer()->getObjId());
             $loStatus->setUsrId($testSession->getUserId());
             $lostatus = $loStatus->getHTML($loId);
-            
+
             $tpl->setCurrentBlock('pass_details');
             $tpl->setVariable("PASS_DETAILS", $overviewTableGUI->getHTML());
             $tpl->setVariable("LO_STATUS", $lostatus);

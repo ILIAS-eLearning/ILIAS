@@ -11,11 +11,11 @@ class PWspStandardGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\PersonalWorkspace\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\PersonalWorkspace\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -32,7 +32,7 @@ class PWspStandardGUIRequestTest extends TestCase
     /**
      * Test ref id
      */
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -50,7 +50,7 @@ class PWspStandardGUIRequestTest extends TestCase
     /**
      * Test no ref id
      */
-    public function testNoRefId() : void
+    public function testNoRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -67,7 +67,7 @@ class PWspStandardGUIRequestTest extends TestCase
     /**
      * Test share id
      */
-    public function testShareId() : void
+    public function testShareId(): void
     {
         $request = $this->getRequest(
             [
@@ -85,7 +85,7 @@ class PWspStandardGUIRequestTest extends TestCase
     /**
      * Test node
      */
-    public function testNode() : void
+    public function testNode(): void
     {
         $request = $this->getRequest(
             [

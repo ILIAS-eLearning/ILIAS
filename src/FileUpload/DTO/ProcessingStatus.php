@@ -1,22 +1,25 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\FileUpload\DTO;
 
 use ILIAS\FileUpload\ScalarTypeCheckAware;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ProcessingStatus
  *
@@ -36,11 +39,15 @@ final class ProcessingStatus
     /**
      * Upload is ok
      */
-    const OK = 1;
+    public const OK = 1;
     /**
      * Upload got rejected by a processor
      */
-    const REJECTED = 2;
+    public const REJECTED = 2;
+    /**
+     * Upload got denied by a processor, the upload will be removed immediately
+     */
+    public const DENIED = 4;
     private int $code;
     private string $message;
 
@@ -62,7 +69,7 @@ final class ProcessingStatus
         $this->intTypeCheck($code, 'code');
         $this->stringTypeCheck($reason, 'reason');
 
-        if ($code !== self::OK && $code !== self::REJECTED) {
+        if ($code !== self::OK && $code !== self::REJECTED && $code !== self::DENIED) {
             throw new \InvalidArgumentException('Invalid upload status code received. The code must be OK or REJECTED.');
         }
 
@@ -74,7 +81,7 @@ final class ProcessingStatus
     /**
      * @since 5.3
      */
-    public function getCode() : int
+    public function getCode(): int
     {
         return $this->code;
     }
@@ -83,7 +90,7 @@ final class ProcessingStatus
     /**
      * @since 5.3
      */
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,27 +16,25 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Factory for creating purifier instances
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilHtmlPurifierFactory
+final class ilHtmlPurifierFactory
 {
-    public static function getInstanceByType(string $type) : ilHtmlPurifierInterface
+    public static function getInstanceByType(string $type): ilHtmlPurifierInterface
     {
         global $DIC;
 
-        switch ($type) {
-            case 'frm_post':
-                return new ilHtmlForumPostPurifier();
-
-            case 'qpl_usersolution':
-                return new ilAssHtmlUserSolutionPurifier();
-        }
-
-        throw new ilHtmlPurifierNotFoundException(sprintf(
-            $DIC->language()->txt('frm_purifier_not_implemented_for_type_x'),
-            $type
-        ));
+        return match ($type) {
+            'frm_post' => new ilHtmlForumPostPurifier(),
+            'qpl_usersolution' => new ilAssHtmlUserSolutionPurifier(),
+            default => throw new ilHtmlPurifierNotFoundException(sprintf(
+                $DIC->language()->txt('frm_purifier_not_implemented_for_type_x'),
+                $type
+            )),
+        };
     }
 }

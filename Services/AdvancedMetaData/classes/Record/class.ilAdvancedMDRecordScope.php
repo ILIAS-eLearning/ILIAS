@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -27,37 +29,37 @@ class ilAdvancedMDRecordScope
         $this->read();
     }
 
-    public function setRecordId(int $a_record_id) : void
+    public function setRecordId(int $a_record_id): void
     {
         $this->record_id = $a_record_id;
     }
 
-    public function getRecordId() : int
+    public function getRecordId(): int
     {
         return $this->record_id;
     }
 
-    public function setScopeId(int $a_scope_id) : void
+    public function setScopeId(int $a_scope_id): void
     {
         $this->scope_id = $a_scope_id;
     }
 
-    public function getScopeId() : int
+    public function getScopeId(): int
     {
         return $this->scope_id;
     }
 
-    public function setRefId(int $a_ref_id) : void
+    public function setRefId(int $a_ref_id): void
     {
         $this->ref_id = $a_ref_id;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function save() : void
+    public function save(): void
     {
         // create
         $this->scope_id = $this->db->nextId('adv_md_record_scope');
@@ -70,7 +72,7 @@ class ilAdvancedMDRecordScope
         $this->db->manipulate($query);
     }
 
-    public function update() : void
+    public function update(): void
     {
         $this->logger->debug('Update entry.');
         // update (update of record ids not supported)
@@ -80,14 +82,14 @@ class ilAdvancedMDRecordScope
         $this->db->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM adv_md_record_scope ' .
             'WHERE scope_id = ' . $this->db->quote($this->scope_id, 'integer');
         $this->db->manipulate($query);
     }
 
-    public static function deleteByRecordId(int $a_record_id) : void
+    public static function deleteByRecordId(int $a_record_id): void
     {
         global $DIC;
         $db = $DIC->database();
@@ -97,7 +99,7 @@ class ilAdvancedMDRecordScope
         $db->manipulate($query);
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         if (!$this->scope_id) {
             return;

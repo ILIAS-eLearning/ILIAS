@@ -3,7 +3,8 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	{META_DATA}
 
 	<!-- BEGIN for_ui_examples_only -->
 	<!-- ATTENTION: This only exists to provide an example of the complete page.     -->
@@ -13,6 +14,11 @@
 	<!-- END for_ui_examples_only -->
 
 	<title>{SHORT_TITLE}: {VIEW_TITLE}</title>
+	<link rel="icon" href="{FAVICON_PATH}" type="image/x-icon">
+
+	<!-- This is the safest place for now to initialize our global namespace which is -->
+	<!-- used by several scripts included on the way to expose their business logic.  -->
+	<script type="application/javascript">var il = il ||{}; window.il = il;</script>
 
 	<style>
 		{CSS_INLINE}
@@ -21,9 +27,6 @@
 	<!-- BEGIN css_file -->
 	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" />
 	<!-- END css_file -->
-    <!-- BEGIN meta_datum -->
-    <meta name="{META_KEY}" content="{META_VALUE}" />
-    <!-- END meta_datum -->
 </head>
 <body>
 	<!-- BEGIN mode_info -->
@@ -39,7 +42,7 @@
 			<div class="header-inner">
 				<div class="il-logo">
 					<span class="hidden-xs">{LOGO}</span>
-					<span class="visible-xs">{RESPONSIVE_LOGO}</span>
+					<span class="visible-xs-block">{RESPONSIVE_LOGO}</span>
 					<div class="il-pagetitle">
 						{TITLE}
 					</div>
@@ -64,15 +67,13 @@
 
 		<!-- html5 main-tag is not supported in IE / div is needed -->
 		<main class="il-layout-page-content">
-			<div>
-				<!-- BEGIN content_breadcrumbs -->
-				<div class="breadcrumbs">
-					{BREADCRUMBS}
-				</div>
-				<!-- END content_breadcrumbs -->
-
-				{CONTENT}
+			<!-- BEGIN content_breadcrumbs -->
+			<div class="breadcrumbs">
+				{BREADCRUMBS}
 			</div>
+			<!-- END content_breadcrumbs -->
+
+			{CONTENT}
 
 			<!-- BEGIN pagefooter -->
 			<footer role="contentinfo">

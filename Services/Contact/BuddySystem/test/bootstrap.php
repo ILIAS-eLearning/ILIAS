@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,4 +16,6 @@
  *
  *********************************************************************/
 
-require_once 'libs/composer/vendor/autoload.php';
+declare(strict_types=1);
+
+require_once __DIR__ . '/../../../../libs/composer/vendor/autoload.php';

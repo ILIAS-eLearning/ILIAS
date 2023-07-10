@@ -1,5 +1,24 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Purge trash by cron
@@ -21,58 +40,58 @@ class ilSCCronTrash extends ilCronJob
         $this->lng->loadLanguageModule('sysc');
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return 'sysc_trash';
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('sysc_cron_empty_trash');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt('sysc_cron_empty_trash_desc');
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_WEEKLY;
+        return CronJobScheduleType::SCHEDULE_TYPE_WEEKLY;
     }
 
-    public function getValidScheduleTypes() : array
+    public function getValidScheduleTypes(): array
     {
-        return array(
-            self::SCHEDULE_TYPE_DAILY,
-            self::SCHEDULE_TYPE_WEEKLY,
-            self::SCHEDULE_TYPE_MONTHLY,
-            self::SCHEDULE_TYPE_QUARTERLY,
-            self::SCHEDULE_TYPE_YEARLY
-        );
+        return [
+            CronJobScheduleType::SCHEDULE_TYPE_DAILY,
+            CronJobScheduleType::SCHEDULE_TYPE_WEEKLY,
+            CronJobScheduleType::SCHEDULE_TYPE_MONTHLY,
+            CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY,
+            CronJobScheduleType::SCHEDULE_TYPE_YEARLY
+        ];
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return 1;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function hasCustomSettings() : bool
+    public function hasCustomSettings(): bool
     {
         return true;
     }
 
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
         $this->lng->loadLanguageModule('sysc');
 
@@ -80,6 +99,7 @@ class ilSCCronTrash extends ilCronJob
 
         // limit number
         $num = new ilNumberInputGUI($this->lng->txt('sysc_trash_limit_num'), 'number');
+        $num->allowDecimals(false);
         $num->setInfo($this->lng->txt('purge_count_limit_desc'));
         $num->setSize(10);
         $num->setMinValue(1);
@@ -87,6 +107,7 @@ class ilSCCronTrash extends ilCronJob
         $a_form->addItem($num);
 
         $age = new ilNumberInputGUI($this->lng->txt('sysc_trash_limit_age'), 'age');
+        $age->allowDecimals(false);
         $age->setInfo($this->lng->txt('purge_age_limit_desc'));
         $age->setSize(4);
         $age->setMinValue(1);
@@ -102,7 +123,7 @@ class ilSCCronTrash extends ilCronJob
         $types = new ilSelectInputGUI($this->lng->txt('sysc_trash_limit_type'), 'types');
         $sub_objects = $this->tree->lookupTrashedObjectTypes();
 
-        $options = array();
+        $options = [];
         $options[0] = '';
         foreach ($sub_objects as $obj_type) {
             if (!$this->objDefinition->isRBACObject($obj_type) || !$this->objDefinition->isAllowedInRepository($obj_type)) {
@@ -116,18 +137,32 @@ class ilSCCronTrash extends ilCronJob
         $a_form->addItem($types);
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
         $settings = new ilSetting('sysc');
 
-        $settings->set('num', $a_form->getInput('number'));
-        $settings->set('age', $a_form->getInput('age'));
-        $settings->set('types', $a_form->getInput('types'));
+        if ((string) $a_form->getInput('number') === '') {
+            $settings->delete('num');
+        } else {
+            $settings->set('num', (string) ((int) $a_form->getInput('number')));
+        }
+
+        if ((string) $a_form->getInput('age') === '') {
+            $settings->delete('age');
+        } else {
+            $settings->set('age', (string) ((int) $a_form->getInput('age')));
+        }
+
+        if ($a_form->getInput('types') === '') {
+            $settings->delete('types');
+        } else {
+            $settings->set('types', $a_form->getInput('types'));
+        }
 
         return true; // #18579
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $trash = new ilSystemCheckTrash();
         $trash->setMode(ilSystemCheckTrash::MODE_TRASH_REMOVE);
@@ -135,7 +170,7 @@ class ilSCCronTrash extends ilCronJob
         $settings = new ilSetting('sysc');
 
         $trash->setNumberLimit((int) $settings->get('num', '0'));
-        $trash->setTypesLimit((array) $settings->get('types'));
+        $trash->setTypesLimit(array_filter([$settings->get('types', '')]));
 
         $age = (int) $settings->get('age', '0');
         if ($age) {

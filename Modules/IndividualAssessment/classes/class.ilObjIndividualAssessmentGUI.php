@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 - Denis Klöpfer <denis.kloepfer@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * For the purpose of streamlining the grading and learning-process status definition
@@ -17,15 +33,15 @@
  * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilExportGUI
  * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilObjectMetaDataGUI
  */
-class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
+class ilObjIndividualAssessmentGUI extends ilObjectGUI
 {
-    const TAB_SETTINGS = 'settings';
-    const TAB_INFO = 'info_short';
-    const TAB_PERMISSION = 'perm_settings';
-    const TAB_MEMBERS = 'members';
-    const TAB_LP = 'learning_progress';
-    const TAB_EXPORT = 'export';
-    const TAB_META_DATA = "meta_data";
+    public const TAB_SETTINGS = 'settings';
+    public const TAB_INFO = 'info_short';
+    public const TAB_PERMISSION = 'perm_settings';
+    public const TAB_MEMBERS = 'members';
+    public const TAB_LP = 'learning_progress';
+    public const TAB_EXPORT = 'export';
+    public const TAB_META_DATA = "meta_data";
 
     protected ilNavigationHistory $ilNavigationHistory;
     protected ilObjUser $usr;
@@ -52,7 +68,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
     }
 
-    protected function addLocatorItems() : void
+    protected function addLocatorItems(): void
     {
         if (is_object($this->object)) {
             $this->locator->addItem(
@@ -64,7 +80,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         }
     }
 
-    protected function recordIndividualAssessmentRead() : void
+    protected function recordIndividualAssessmentRead(): void
     {
         ilChangeEvent::_recordReadEvent(
             $this->object->getType(),
@@ -74,7 +90,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         );
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -101,7 +117,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
                 $this->ctrl->forwardCommand($info);
                 break;
             case 'illearningprogressgui':
-                if (!$this->object->accessHandler()->mayViewObject()) {
+                if (!$this->object->accessHandler()->mayReadObject()) {
                     $this->handleAccessViolation();
                 }
                 $this->tabs_gui->activateTab(self::TAB_LP);
@@ -143,10 +159,10 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
                 }
                 $cmd .= 'Object';
                 $this->$cmd();
-            }
+        }
     }
 
-    public function viewObject() : void
+    public function viewObject(): void
     {
         $this->tabs_gui->activateTab(self::TAB_INFO);
         $this->ctrl->setCmd('showSummary');
@@ -156,14 +172,14 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         $this->recordIndividualAssessmentRead();
     }
 
-    public function membersObject() : void
+    public function membersObject(): void
     {
         $this->tabs_gui->activateTab(self::TAB_MEMBERS);
         $gui = $this->object->getMembersGUI();
         $this->ctrl->forwardCommand($gui);
     }
 
-    protected function buildInfoScreen() : ilInfoScreenGUI
+    protected function buildInfoScreen(): ilInfoScreenGUI
     {
         $info = new ilInfoScreenGUI($this);
         if ($this->object) {
@@ -182,7 +198,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         return $info;
     }
 
-    protected function addMemberDataToInfo(ilInfoScreenGUI $info) : ilInfoScreenGUI
+    protected function addMemberDataToInfo(ilInfoScreenGUI $info): ilInfoScreenGUI
     {
         $member = $this->object->membersStorage()->loadMember($this->object, $this->usr);
         $info->addSection($this->txt('grading_info'));
@@ -202,15 +218,17 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         return $info;
     }
 
-    protected function downloadFileObject() : void
+    protected function downloadFileObject(): void
     {
         $member = $this->object->membersStorage()->loadMember($this->object, $this->usr);
         $file_storage = $this->object->getFileStorage();
         $file_storage->setUserId($this->usr->getId());
-        ilFileDelivery::deliverFileLegacy($file_storage->getFilePath(), $member->fileName());
+        $filepath = $file_storage->getAbsolutePath();
+        $filename = $member->fileName();
+        ilFileDelivery::deliverFileLegacy($filepath . "/" . $filename, $filename);
     }
 
-    protected function addGeneralDataToInfo(ilInfoScreenGUI $info) : ilInfoScreenGUI
+    protected function addGeneralDataToInfo(ilInfoScreenGUI $info): ilInfoScreenGUI
     {
         $content = $this->object->getSettings()->getContent();
         if ($content !== null && $content !== '') {
@@ -220,7 +238,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         return $info;
     }
 
-    protected function addContactDataToInfo(ilInfoScreenGUI $info) : ilInfoScreenGUI
+    protected function addContactDataToInfo(ilInfoScreenGUI $info): ilInfoScreenGUI
     {
         $info_settings = $this->object->getInfoSettings();
         if ($this->shouldShowContactInfo($info_settings)) {
@@ -234,7 +252,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         return $info;
     }
 
-    protected function shouldShowContactInfo(ilIndividualAssessmentInfoSettings $info_settings) : bool
+    protected function shouldShowContactInfo(ilIndividualAssessmentInfoSettings $info_settings): bool
     {
         $val = $info_settings->getContact();
         if ($val !== null && $val !== '') {
@@ -259,21 +277,48 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         return false;
     }
 
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
-        if ($this->object->accessHandler()->mayViewObject()) {
+        if ($this->object->accessHandler()->mayEditMembers()
+            || $this->object->accessHandler()->mayGradeAnyUser()
+            || $this->object->accessHandler()->mayAmendAllUsers()
+            || $this->object->accessHandler()->mayViewAnyUser()) {
+            $this->tabs_gui->addTab(
+                self::TAB_MEMBERS,
+                $this->txt('il_iass_members'),
+                $this->getLinkTarget('members')
+            );
+        }
+
+        if ($this->object->accessHandler()->mayReadObject()) {
             $this->tabs_gui->addTab(
                 self::TAB_INFO,
                 $this->txt('info_short'),
                 $this->getLinkTarget('info')
             );
         }
+
         if ($this->object->accessHandler()->mayEditObject()) {
             $this->tabs_gui->addTab(
                 self::TAB_SETTINGS,
                 $this->txt('settings'),
                 $this->getLinkTarget('settings')
             );
+        }
+
+        if (($this->object->accessHandler()->mayViewAllUsers()
+            || $this->object->accessHandler()->mayGradeAllUsers()
+            || ($this->object->loadMembers()->userAllreadyMember($this->usr)
+            && $this->object->isActiveLP()))
+            && ilObjUserTracking::_enabledLearningProgress()) {
+            $this->tabs_gui->addTab(
+                self::TAB_LP,
+                $this->txt('learning_progress'),
+                $this->ctrl->getLinkTargetByClass('illearningprogressgui')
+            );
+        }
+
+        if ($this->object->accessHandler()->mayEditObject()) {
             $mdgui = new ilObjectMetaDataGUI($this->object);
             $mdtab = $mdgui->getTab();
             if ($mdtab) {
@@ -283,27 +328,6 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
                     $mdtab
                 );
             }
-        }
-        if ($this->object->accessHandler()->mayEditMembers()
-            || $this->object->accessHandler()->mayGradeUser()
-            || $this->object->accessHandler()->mayAmendGradeUser()
-            || $this->object->accessHandler()->mayViewUser()) {
-            $this->tabs_gui->addTab(
-                self::TAB_MEMBERS,
-                $this->txt('il_iass_members'),
-                $this->getLinkTarget('members')
-            );
-        }
-        if (($this->object->accessHandler()->mayViewUser()
-            || $this->object->accessHandler()->mayGradeUser()
-            || ($this->object->loadMembers()->userAllreadyMember($this->usr)
-            && $this->object->isActiveLP()))
-            && ilObjUserTracking::_enabledLearningProgress()) {
-            $this->tabs_gui->addTab(
-                self::TAB_LP,
-                $this->txt('learning_progress'),
-                $this->ctrl->getLinkTargetByClass('illearningprogressgui')
-            );
         }
 
         if ($this->object->accessHandler()->mayEditObject()) {
@@ -326,7 +350,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         parent::getTabs();
     }
 
-    protected function getLinkTarget(string $cmd) : string
+    protected function getLinkTarget(string $cmd): string
     {
         if ($cmd == 'settings') {
             return $this->ctrl->getLinkTargetByClass('ilindividualassessmentsettingsgui', 'edit');
@@ -340,23 +364,23 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         return $this->ctrl->getLinkTarget($this, $cmd);
     }
 
-    public function editObject() : void
+    public function editObject(): void
     {
         $link = $this->getLinkTarget('settings');
         $this->ctrl->redirectToURL($link);
     }
 
-    public function getBaseEditForm() : ilPropertyFormGUI
+    public function getBaseEditForm(): ilPropertyFormGUI
     {
         return $this->initEditForm();
     }
 
-    public function handleAccessViolation() : void
+    public function handleAccessViolation(): void
     {
         $this->error_object->raiseError($this->txt("msg_no_perm_read"), $this->error_object->WARNING);
     }
 
-    public static function _goto($a_target, $a_add = '') : void
+    public static function _goto(int $a_target, string $a_add = ''): void
     {
         global $DIC;
         if ($DIC['ilAccess']->checkAccess('write', '', $a_target)) {
@@ -367,7 +391,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         }
     }
 
-    protected function getEntryForStatus(int $status) : string
+    protected function getEntryForStatus(int $status): string
     {
         switch ($status) {
             case ilIndividualAssessmentMembers::LP_IN_PROGRESS:
@@ -381,7 +405,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         }
     }
 
-    protected function afterSave(ilObject $new_object) : void
+    protected function afterSave(ilObject $new_object): void
     {
         $this->tpl->setOnScreenMessage("success", $this->txt("iass_added"), true);
         $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
@@ -394,10 +418,10 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         ));
     }
 
-    public function addToNavigationHistory() : void
+    public function addToNavigationHistory(): void
     {
         if (!$this->getCreationMode()) {
-            if ($this->object->accessHandler()->mayViewObject()) {
+            if ($this->object->accessHandler()->mayReadObject()) {
                 $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
                 $link = ilLink::_getLink($ref_id, "iass");
                 $this->ilNavigationHistory->addItem($ref_id, $link, 'iass');
@@ -405,7 +429,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         }
     }
 
-    protected function txt(string $code) : string
+    protected function txt(string $code): string
     {
         return $this->lng->txt($code);
     }

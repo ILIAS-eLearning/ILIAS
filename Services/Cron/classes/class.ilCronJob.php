@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,22 +16,55 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 abstract class ilCronJob
 {
-    public const SCHEDULE_TYPE_DAILY = 1;
-    public const SCHEDULE_TYPE_IN_MINUTES = 2;
-    public const SCHEDULE_TYPE_IN_HOURS = 3;
-    public const SCHEDULE_TYPE_IN_DAYS = 4;
-    public const SCHEDULE_TYPE_WEEKLY = 5;
-    public const SCHEDULE_TYPE_MONTHLY = 6;
-    public const SCHEDULE_TYPE_QUARTERLY = 7;
-    public const SCHEDULE_TYPE_YEARLY = 8;
-
-    protected ?int $schedule_type = null;
+    protected ?CronJobScheduleType $schedule_type = null;
     protected ?int $schedule_value = null;
     protected ?Closure $date_time_provider = null;
 
-    private function checkSchedule(?DateTimeImmutable $last_run, ?int $schedule_type, ?int $schedule_value) : bool
+    private function checkWeeklySchedule(DateTimeImmutable $last_run, DateTimeImmutable $now): bool
+    {
+        $last_year = (int) $last_run->format('Y');
+        $now_year = (int) $now->format('Y');
+
+        if ($last_year > $now_year) {
+            // Should never happen, don't execute otherwise
+            return false;
+        }
+
+        $last_week = $last_run->format('W');
+        $now_week = $now->format('W');
+
+        if ($last_week !== $now_week) {
+            // Week differs, always execute the job
+            return true;
+        }
+
+        // For all following cases, the week number is always identical
+
+        $last_month = (int) $last_run->format('m');
+        $now_month = (int) $now->format('m');
+
+        $is_within_same_week_in_same_year = ($last_year . '-' . $last_week) === ($now_year . '-' . $now_week);
+        if ($is_within_same_week_in_same_year) {
+            // Same week in same year, only execute if the month differs (2022-52 is valid for January and December)
+            return $last_month !== $now_month && $now->diff($last_run)->d > 7;
+        }
+
+        if ($now_year - $last_year > 1) {
+            // Always execute if the difference of years is greater than 1
+            return true;
+        }
+
+        // Execute for week number 52 in 2022 (last run) and week number 52 in December of 2022 (now), but not for week number 52 in January of 2022 (now)
+        return $last_month === $now_month;
+    }
+
+    private function checkSchedule(?DateTimeImmutable $last_run, ?CronJobScheduleType $schedule_type, ?int $schedule_value): bool
     {
         if (null === $schedule_type) {
             return false;
@@ -47,40 +80,38 @@ abstract class ilCronJob
         }
 
         switch ($schedule_type) {
-            case self::SCHEDULE_TYPE_DAILY:
+            case CronJobScheduleType::SCHEDULE_TYPE_DAILY:
                 $last = $last_run->format('Y-m-d');
                 $ref = $now->format('Y-m-d');
                 return ($last !== $ref);
 
-            case self::SCHEDULE_TYPE_WEEKLY:
-                $last = $last_run->format('Y-W');
-                $ref = $now->format('Y-W');
-                return ($last !== $ref);
+            case CronJobScheduleType::SCHEDULE_TYPE_WEEKLY:
+                return $this->checkWeeklySchedule($last_run, $now);
 
-            case self::SCHEDULE_TYPE_MONTHLY:
+            case CronJobScheduleType::SCHEDULE_TYPE_MONTHLY:
                 $last = $last_run->format('Y-n');
                 $ref = $now->format('Y-n');
                 return ($last !== $ref);
 
-            case self::SCHEDULE_TYPE_QUARTERLY:
+            case CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY:
                 $last = $last_run->format('Y') . '-' . ceil(((int) $last_run->format('n')) / 3);
                 $ref = $now->format('Y') . '-' . ceil(((int) $now->format('n')) / 3);
                 return ($last !== $ref);
 
-            case self::SCHEDULE_TYPE_YEARLY:
+            case CronJobScheduleType::SCHEDULE_TYPE_YEARLY:
                 $last = $last_run->format('Y');
                 $ref = $now->format('Y');
                 return ($last !== $ref);
 
-            case self::SCHEDULE_TYPE_IN_MINUTES:
+            case CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES:
                 $diff = floor(($now->getTimestamp() - $last_run->getTimestamp()) / 60);
                 return ($diff >= $schedule_value);
 
-            case self::SCHEDULE_TYPE_IN_HOURS:
+            case CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS:
                 $diff = floor(($now->getTimestamp() - $last_run->getTimestamp()) / (60 * 60));
                 return ($diff >= $schedule_value);
 
-            case self::SCHEDULE_TYPE_IN_DAYS:
+            case CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS:
                 $diff = floor(($now->getTimestamp() - $last_run->getTimestamp()) / (60 * 60 * 24));
                 return ($diff >= $schedule_value);
         }
@@ -88,10 +119,7 @@ abstract class ilCronJob
         return false;
     }
 
-    /**
-     * @param Closure|null $date_time_provider
-     */
-    public function setDateTimeProvider(?Closure $date_time_provider) : void
+    public function setDateTimeProvider(?Closure $date_time_provider): void
     {
         if ($date_time_provider !== null) {
             $r = new ReflectionFunction($date_time_provider);
@@ -121,10 +149,10 @@ abstract class ilCronJob
 
     public function isDue(
         ?DateTimeImmutable $last_run,
-        ?int $schedule_type,
+        ?CronJobScheduleType $schedule_type,
         ?int $schedule_value,
         bool $is_manually_executed = false
-    ) : bool {
+    ): bool {
         if ($is_manually_executed) {
             return true;
         }
@@ -139,9 +167,8 @@ abstract class ilCronJob
 
     /**
      * Get current schedule type (if flexible)
-     * @return int|null
      */
-    public function getScheduleType() : ?int
+    public function getScheduleType(): ?CronJobScheduleType
     {
         if ($this->schedule_type && $this->hasFlexibleSchedule()) {
             return $this->schedule_type;
@@ -152,9 +179,8 @@ abstract class ilCronJob
 
     /**
      * Get current schedule value (if flexible)
-     * @return int|null
      */
-    public function getScheduleValue() : ?int
+    public function getScheduleValue(): ?int
     {
         if ($this->schedule_value && $this->hasFlexibleSchedule()) {
             return $this->schedule_value;
@@ -165,10 +191,8 @@ abstract class ilCronJob
 
     /**
      * Update current schedule (if flexible)
-     * @param int|null $a_type
-     * @param int|null $a_value
      */
-    public function setSchedule(?int $a_type, ?int $a_value) : void
+    public function setSchedule(?CronJobScheduleType $a_type, ?int $a_value): void
     {
         if (
             $a_value &&
@@ -182,94 +206,81 @@ abstract class ilCronJob
 
     /**
      * Get all available schedule types
-     * @return int[]
+     * @return list<CronJobScheduleType>
      */
-    public function getAllScheduleTypes() : array
+    public function getAllScheduleTypes(): array
     {
-        return [
-            self::SCHEDULE_TYPE_DAILY,
-            self::SCHEDULE_TYPE_WEEKLY,
-            self::SCHEDULE_TYPE_MONTHLY,
-            self::SCHEDULE_TYPE_QUARTERLY,
-            self::SCHEDULE_TYPE_YEARLY,
-            self::SCHEDULE_TYPE_IN_MINUTES,
-            self::SCHEDULE_TYPE_IN_HOURS,
-            self::SCHEDULE_TYPE_IN_DAYS,
-        ];
+        return CronJobScheduleType::cases();
     }
 
     /**
-     * @return int[]
+     * @return list<CronJobScheduleType>
      */
-    public function getScheduleTypesWithValues() : array
+    public function getScheduleTypesWithValues(): array
     {
         return [
-            self::SCHEDULE_TYPE_IN_MINUTES,
-            self::SCHEDULE_TYPE_IN_HOURS,
-            self::SCHEDULE_TYPE_IN_DAYS,
+            CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES,
+            CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS,
+            CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS,
         ];
     }
 
     /**
      * Returns a collection of all valid schedule types for a specific job
-     * @return int[]
+     * @return list<CronJobScheduleType>
      */
-    public function getValidScheduleTypes() : array
+    public function getValidScheduleTypes(): array
     {
         return $this->getAllScheduleTypes();
     }
 
-    public function isManuallyExecutable() : bool
+    public function isManuallyExecutable(): bool
     {
         return true;
     }
 
-    public function hasCustomSettings() : bool
+    public function hasCustomSettings(): bool
     {
         return false;
     }
 
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
         return true;
     }
 
-    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active) : void
+    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active): void
     {
     }
 
     /**
      * Important: This method is (also) called from the setup process, where the constructor of an ilCronJob ist NOT executed.
      * Furthermore only few dependencies may be available in the $DIC.
-     * @param ilDBInterface $db
-     * @param ilSetting $setting
-     * @param bool $a_currently_active
-     * @return void
      */
-    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active) : void
+    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active): void
     {
     }
 
-    abstract public function getId() : string;
+    abstract public function getId(): string;
 
-    abstract public function getTitle() : string;
+    abstract public function getTitle(): string;
 
-    abstract public function getDescription() : string;
+    abstract public function getDescription(): string;
 
     /**
      * Is to be activated on "installation", does only work for ILIAS core cron jobs
      */
-    abstract public function hasAutoActivation() : bool;
+    abstract public function hasAutoActivation(): bool;
 
-    abstract public function hasFlexibleSchedule() : bool;
+    abstract public function hasFlexibleSchedule(): bool;
 
-    abstract public function getDefaultScheduleType() : int;
+    abstract public function getDefaultScheduleType(): CronJobScheduleType;
 
-    abstract public function getDefaultScheduleValue() : ?int;
+    abstract public function getDefaultScheduleValue(): ?int;
 
-    abstract public function run() : ilCronJobResult;
+    abstract public function run(): ilCronJobResult;
 }

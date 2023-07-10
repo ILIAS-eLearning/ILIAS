@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,27 +14,29 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Component\Input\Field\FileUpload;
 use ILIAS\UI\Component\Droppable;
+use ILIAS\UI\Component\Triggerable;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Modal\RoundTrip;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface File extends FileUpload, Form, Droppable
+interface File extends RoundTrip, Droppable
 {
-    /**
-     * Get a dropzone like this, but showing a custom title in the appearing modal.
-     */
-    public function withTitle(string $title) : File;
-
     /**
      * Get the custom title if set.
      */
-    public function getTitle() : string;
+    public function getTitle(): string;
+
+    /**
+     * Returns a signal that can be used to clear the current file queue.
+     */
+    public function getClearSignal(): Signal;
 }

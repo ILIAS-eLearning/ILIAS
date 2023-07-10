@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\DateTime;
 
 use ILIAS\Refinery\DateTime\Group;
@@ -26,18 +28,18 @@ class GroupTest extends TestCase
 {
     private Group $group;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->group = new Group();
     }
 
-    public function testChangeTimezone() : void
+    public function testChangeTimezone(): void
     {
         $instance = $this->group->changeTimezone('Europe/Berlin');
         $this->assertInstanceOf(ChangeTimezone::class, $instance);
     }
 
-    public function testChangeTimezoneWrongConstruction() : void
+    public function testChangeTimezoneWrongConstruction(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $instance = $this->group->changeTimezone('MiddleEarth/Minas_Morgul');

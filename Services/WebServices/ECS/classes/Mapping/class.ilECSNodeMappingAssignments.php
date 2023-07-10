@@ -1,29 +1,31 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilECSNodeMappingAssignments
 {
-
     /**
      * Check if there is any assignment for a cms tree
      */
-    public static function hasAssignments(int $a_server_id, int $a_mid, int $a_tree_id) : bool
+    public static function hasAssignments(int $a_server_id, int $a_mid, int $a_tree_id): bool
     {
         global $DIC;
 
@@ -31,7 +33,7 @@ class ilECSNodeMappingAssignments
          * @var ilDBInterface $ilDB
          */
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'SELECT ref_id FROM ecs_node_mapping_a ' .
             'WHERE server_id = ' . $ilDB->quote($a_server_id, 'integer') . ' ' .
             'AND mid = ' . $ilDB->quote($a_mid, 'integer') . ' ' .
@@ -40,7 +42,7 @@ class ilECSNodeMappingAssignments
         $res = $ilDB->query($query);
         return $res->rowCount() > 0;
     }
-    
+
     /**
      * Lookup Settings
      *
@@ -51,18 +53,18 @@ class ilECSNodeMappingAssignments
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'SELECT title_update, position_update, tree_update FROM ecs_node_mapping_a ' .
             'WHERE server_id = ' . $ilDB->quote($a_server_id, 'integer') . ' ' .
             'AND mid = ' . $ilDB->quote($a_mid, 'integer') . ' ' .
             'AND cs_root = ' . $ilDB->quote($a_tree_id, 'integer') . ' ' .
             'AND cs_id = ' . $ilDB->quote($a_node_id, 'integer');
         $res = $ilDB->query($query);
-        
+
         if (!$res->numRows()) {
             return false;
         }
-        
+
         $settings = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $settings['title_update'] = $row->title_update;
@@ -71,23 +73,23 @@ class ilECSNodeMappingAssignments
         }
         return $settings;
     }
-    
+
     /**
      * Lookup assignments
      */
-    public static function lookupAssignmentIds(int $a_server_id, int $a_mid, int $a_tree_id) : array
+    public static function lookupAssignmentIds(int $a_server_id, int $a_mid, int $a_tree_id): array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'SELECT cs_id FROM ecs_node_mapping_a ' .
             'WHERE server_id = ' . $ilDB->quote($a_server_id, 'integer') . ' ' .
             'AND mid = ' . $ilDB->quote($a_mid, 'integer') . ' ' .
             'AND cs_root = ' . $ilDB->quote($a_tree_id, 'integer') . ' ' .
             'AND ref_id > 0';
         $res = $ilDB->query($query);
-        
+
         $assignments = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $assignments[] = $row->cs_id;
@@ -98,7 +100,7 @@ class ilECSNodeMappingAssignments
     /**
      * Lookup assignments
      */
-    public static function lookupAssignmentsByRefId(int $a_server_id, int $a_mid, int $a_tree_id, int $a_ref_id) : array
+    public static function lookupAssignmentsByRefId(int $a_server_id, int $a_mid, int $a_tree_id, int $a_ref_id): array
     {
         global $DIC;
 
@@ -122,7 +124,7 @@ class ilECSNodeMappingAssignments
     /**
      * Check if whole tree is mapped
      */
-    public static function isWholeTreeMapped(int $a_server_id, int $a_mid, int $a_tree_id) : bool
+    public static function isWholeTreeMapped(int $a_server_id, int $a_mid, int $a_tree_id): bool
     {
         global $DIC;
 
@@ -143,7 +145,7 @@ class ilECSNodeMappingAssignments
     /**
      * Lookup default title update setting
      */
-    public static function lookupDefaultTitleUpdate($a_server_id, $a_mid, $a_tree_id) : bool
+    public static function lookupDefaultTitleUpdate($a_server_id, $a_mid, $a_tree_id): bool
     {
         global $DIC;
 
@@ -164,7 +166,7 @@ class ilECSNodeMappingAssignments
     /**
      * Get cs ids for ref_id
      */
-    public static function lookupMappedItemsForRefId(int $a_server_id, int $a_mid, int $a_tree_id, int $a_ref_id) : array
+    public static function lookupMappedItemsForRefId(int $a_server_id, int $a_mid, int $a_tree_id, int $a_ref_id): array
     {
         global $DIC;
 
@@ -187,7 +189,7 @@ class ilECSNodeMappingAssignments
     /**
      * Delete mappings
      */
-    public static function deleteMappingsByCsId(int $a_server_id, int $a_mid, int $a_tree_id, array $cs_ids) : bool
+    public static function deleteMappingsByCsId(int $a_server_id, int $a_mid, int $a_tree_id, array $cs_ids): bool
     {
         global $DIC;
 
@@ -205,7 +207,7 @@ class ilECSNodeMappingAssignments
     /**
      * Delete mappings
      */
-    public static function deleteMappings(int $a_server_id, int $a_mid, int $a_tree_id) : bool
+    public static function deleteMappings(int $a_server_id, int $a_mid, int $a_tree_id): bool
     {
         global $DIC;
 
@@ -222,7 +224,7 @@ class ilECSNodeMappingAssignments
     /**
      * delete disconnectable mappings
      */
-    public static function deleteDisconnectableMappings(int $a_server_id, int $a_mid, int $a_tree_id, int $a_ref_id) : void
+    public static function deleteDisconnectableMappings(int $a_server_id, int $a_mid, int $a_tree_id, int $a_ref_id): void
     {
         $toDelete = array();
         foreach (self::lookupAssignmentsByRefId($a_server_id, $a_mid, $a_tree_id, $a_ref_id) as $assignment) {
@@ -238,7 +240,6 @@ class ilECSNodeMappingAssignments
 
                 case ilECSCmsData::MAPPING_PENDING_NOT_DISCONNECTABLE:
                     break;
-
             }
         }
         self::deleteMappingsByCsId($a_server_id, $a_mid, $a_tree_id, $toDelete);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Tagging\Provider;
 
@@ -29,11 +31,10 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
  */
 class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
     /**
      * @inheritDoc
      */
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
@@ -42,10 +43,10 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $title = $this->dic->language()->txt("mm_tags");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::TAGS, $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::TAGS, $title);
 
         return [
             $this->mainmenu->complex($this->if->identifier('tags'))

@@ -1,36 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generator: Adobe Illustrator 26.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-<g>
-	<defs>
-		<rect id="SVGID_1_" width="32" height="32"/>
-	</defs>
-	<clipPath id="SVGID_2_">
-		<use xlink:href="#SVGID_1_"  overflow="visible"/>
-	</clipPath>
-	
-		<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-121.0938" y1="162.4375" x2="-120.0938" y2="162.4375" gradientTransform="matrix(32 0 0 -32 3875 5214)">
-		<stop  offset="0" style="stop-color:#4C6585"/>
-		<stop  offset="1.983430e-02" style="stop-color:#4C6585"/>
-		<stop  offset="1" style="stop-color:#5A789F"/>
-	</linearGradient>
-	<rect clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="32" height="32"/>
-</g>
-<polygon fill="#FFFFFF" points="26,24.4 26,24.4 26,26 6,26 6,24.4 "/>
-<g>
-	<defs>
-		<rect id="SVGID_4_" width="32" height="32"/>
-	</defs>
-	<clipPath id="SVGID_5_">
-		<use xlink:href="#SVGID_4_"  overflow="visible"/>
-	</clipPath>
-	<path clip-path="url(#SVGID_5_)" fill="#FFFFFF" d="M24.8,23.1v-0.8c0-0.4-0.4-0.4-0.4-0.4h-1.3c0,0,0,0,0-0.1v-7.8
-		c0,0,0-0.4-0.4-0.4h-2.5c0,0-0.4,0-0.4,0.4v7.8c0,0,0,0,0,0.1h-2.1c0,0,0,0,0-0.1v-7.8c0,0,0-0.4-0.4-0.4h-2.5c0,0-0.4,0-0.4,0.4
-		v7.8c0,0,0,0,0,0.1h-2.1c0,0,0,0,0-0.1v-7.8c0,0,0-0.4-0.4-0.4H9.3c0,0-0.4,0-0.4,0.4v7.8c0,0,0,0,0,0.1H7.7
-		c-0.4,0-0.4,0.4-0.4,0.4v0.8c0,0.4,0.4,0.4,0.4,0.4h16.7C24.8,23.5,24.8,23.1,24.8,23.1"/>
-	<path clip-path="url(#SVGID_5_)" fill="#FFFFFF" d="M6.9,12.7c0,0-1,0-0.2-0.6l8.4-5.6c0,0,0.8-0.6,1.7,0l8.4,5.6
-		c0,0,0.8,0.6-0.2,0.6H6.9z"/>
-</g>
+	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#4C6586;}
+</style>
+<path class="st0" d="M205,129.2h-25v89.9h25V129.2z M140,129.2h-25v89.9h25V129.2z M67,114.2h186L164.7,61c-2.4-1.4-7-1.4-9.4,0
+	L67,114.2z M281.8,122.2c-0.7,2.6-3.2,7-11.8,7h-25v89.9h15c0,0,5,0,5,5v10c0,0,0,5-5,5H60c0,0-5,0-5-5v-10c0,0,0-5,5-5h15v-89.9H50
+	c-8.6,0-11.1-4.4-11.8-7c-0.7-2.6-0.8-7.7,6.5-12.1l102.9-61.9c7.1-4.3,17.8-4.3,24.9,0l102.9,61.9
+	C282.6,114.5,282.5,119.5,281.8,122.2 M40,259.1c0-2.8,2.2-5,5-5h230c2.8,0,5,2.2,5,5v10c0,2.8-2.2,5-5,5H45c-2.8,0-5-2.2-5-5V259.1
+	z M320,0H0v320h320V0z"/>
 </svg>

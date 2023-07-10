@@ -7,6 +7,8 @@ described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 **Table of Contents**
 * [ilCronJobResult](#ilCronJobResult)
+* [Cron Job Execution](#cron-job-execution)
+* [Permission Context](#permission-context)
 
 ## ilCronJobResult
 
@@ -64,3 +66,22 @@ public function run() : ilCronJobResult
 
 A message SHOULD be added additionally.
 If given, this message will be displayed in the cron job overview table.
+
+
+# Cron Job Execution
+
+In order to execute the cron job manager, the following command MUST be used:
+
+```shell
+/usr/bin/php [PATH_TO_ILIAS]/cron/cron.php run-jobs <user> <client_id>
+```
+
+The `<user>` MUST be a valid (but arbitrary) user account of the ILIAS installation.
+The `<client_id>` MUST be the client id of the ILIAS installation.
+
+## Permission Context
+
+Implementations of `ilCronJob` MUST NOT rely on specific permissions (e.g. RBAC).
+Generally said, there MUST NOT be any expectations regarding given permissions
+at all in the context of a cron job. Please keep this in mind when you structure
+your code layers.

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestParticipantDataTest
@@ -10,7 +26,7 @@ class ilTestParticipantDataTest extends ilTestBaseTestCase
 {
     private ilTestParticipantData $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -20,12 +36,12 @@ class ilTestParticipantDataTest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestParticipantData::class, $this->testObj);
     }
 
-    public function testParticipantAccessFilter() : void
+    public function testParticipantAccessFilter(): void
     {
         $callback = static function () {
             return "Hello";
@@ -35,7 +51,7 @@ class ilTestParticipantDataTest extends ilTestBaseTestCase
         $this->assertEquals($callback, $this->testObj->getParticipantAccessFilter());
     }
 
-    public function testScoredParticipantsFilterEnabled() : void
+    public function testScoredParticipantsFilterEnabled(): void
     {
         $this->testObj->setScoredParticipantsFilterEnabled(false);
         $this->assertFalse($this->testObj->isScoredParticipantsFilterEnabled());
@@ -44,7 +60,7 @@ class ilTestParticipantDataTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isScoredParticipantsFilterEnabled());
     }
 
-    public function testGetScoredParticipantsFilterExpression() : void
+    public function testGetScoredParticipantsFilterExpression(): void
     {
         $this->assertEquals("1 = 1", $this->testObj->getScoredParticipantsFilterExpression());
 
@@ -55,21 +71,21 @@ class ilTestParticipantDataTest extends ilTestBaseTestCase
         );
     }
 
-    public function testActiveIdsFilter() : void
+    public function testActiveIdsFilter(): void
     {
         $expected = [1, 125, 1290];
         $this->testObj->setActiveIdsFilter($expected);
         $this->assertEquals($expected, $this->testObj->getActiveIdsFilter());
     }
 
-    public function testUserIdsFilter() : void
+    public function testUserIdsFilter(): void
     {
         $expected = [1, 125, 1290];
         $this->testObj->setUserIdsFilter($expected);
         $this->assertEquals($expected, $this->testObj->getUserIdsFilter());
     }
 
-    public function testAnonymousIdsFilter() : void
+    public function testAnonymousIdsFilter(): void
     {
         $expected = [1, 125, 1290];
         $this->testObj->setAnonymousIdsFilter($expected);

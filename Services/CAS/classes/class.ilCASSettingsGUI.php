@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -15,13 +17,13 @@
  *****************************************************************************/
 
 /**
-* @author Stefan Meyer <meyer@leifos.com>
-*/
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilCASSettingsGUI
 {
-    const SYNC_DISABLED = 0;
-    const SYNC_CAS = 1;
-    const SYNC_LDAP = 2;
+    public const SYNC_DISABLED = 0;
+    public const SYNC_CAS = 1;
+    public const SYNC_LDAP = 2;
 
     private ilCASSettings $settings;
 
@@ -29,49 +31,39 @@ class ilCASSettingsGUI
 
     private \ilGlobalTemplateInterface $tpl;
     private ilCtrl $ctrl;
-    private ilTabsGUI $tabs_gui;
     private ilLanguage $lng;
     private ilRbacSystem $rbacSystem;
     private ilRbacReview $rbacReview;
     private ilErrorHandling $ilErr;
-    
-    /**
-     * Constructor
-     *
-     * @param int object auth ref_id
-     *
-     */
+
     public function __construct(int $a_auth_ref_id)
     {
         global $DIC;
         $this->tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
-        $this->tabs_gui = $DIC->tabs();
         $this->rbacSystem = $DIC->rbac()->system();
+        $this->rbacReview = $DIC->rbac()->review();
         $this->ilErr = $DIC['ilErr'];
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('registration');
         $this->lng->loadLanguageModule('auth');
-        
+
         $this->ref_id = $a_auth_ref_id;
 
         $this->settings = ilCASSettings::getInstance();
     }
 
-    protected function getSettings() : ilCASSettings
+    protected function getSettings(): ilCASSettings
     {
         return $this->settings;
     }
-    
-    /**
-     * Execute command
-     */
-    public function executeCommand() : bool
+
+    public function executeCommand(): bool
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("settings");
-        
+
         if (!$this->rbacSystem->checkAccess("visible,read", $this->ref_id)) {
             $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->WARNING);
         }
@@ -87,14 +79,9 @@ class ilCASSettingsGUI
         return true;
     }
 
-
-    /**
-     * Init cas settings
-     */
-    protected function initFormSettings() : ilPropertyFormGUI
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('auth');
-        $this->lng->loadLanguageModule('radius');
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -104,7 +91,7 @@ class ilCASSettingsGUI
 
         // Form checkbox
         $check = new ilCheckboxInputGUI($this->lng->txt("active"), 'active');
-        $check->setChecked($this->getSettings()->isActive() ? true : false);
+        $check->setChecked($this->getSettings()->isActive());
         $check->setValue("1");
         $form->addItem($check);
 
@@ -140,7 +127,6 @@ class ilCASSettingsGUI
         // 2: LDAP
         $sync = new ilRadioGroupInputGUI($this->lng->txt('auth_sync'), 'sync');
         $sync->setRequired(true);
-        #$sync->setInfo($this->lng->txt('auth_radius_sync_info'));
         $form->addItem($sync);
 
         // Disabled
@@ -149,7 +135,6 @@ class ilCASSettingsGUI
             (string) self::SYNC_DISABLED,
             ''
         );
-        #$dis->setInfo($this->lng->txt('auth_radius_sync_disabled_info'));
         $sync->addOption($dis);
 
         // CAS
@@ -167,17 +152,16 @@ class ilCASSettingsGUI
         $rad->addSubItem($select);
 
 
-
         // LDAP
         $server_ids = ilLDAPServer::getAvailableDataSources(ilAuthUtils::AUTH_CAS);
 
         if (count($server_ids)) {
             $ldap = new ilRadioOption(
-                $this->lng->txt('auth_radius_ldap'),
+                $this->lng->txt('auth_css_ldap'),
                 (string) ilCASSettings::SYNC_LDAP,
                 ''
             );
-            $ldap->setInfo($this->lng->txt('auth_radius_ldap_info'));
+            $ldap->setInfo($this->lng->txt('auth_cas_ldap_info'));
             $sync->addOption($ldap);
 
             $ldap_server_select = new ilSelectInputGUI($this->lng->txt('auth_ldap_server_ds'), 'ldap_sid');
@@ -195,12 +179,12 @@ class ilCASSettingsGUI
         }
 
         if (ilLDAPServer::isDataSourceActive(ilAuthUtils::AUTH_CAS)) {
-            $sync->setValue(ilCASSettings::SYNC_LDAP);
+            $sync->setValue((string) ilCASSettings::SYNC_LDAP);
         } else {
             $sync->setValue(
                 $this->getSettings()->isUserCreationEnabled() ?
-                  (string) ilCASSettings::SYNC_CAS :
-                  (string) ilCASSettings::SYNC_DISABLED
+                    (string) ilCASSettings::SYNC_CAS :
+                    (string) ilCASSettings::SYNC_DISABLED
             );
         }
 
@@ -212,7 +196,7 @@ class ilCASSettingsGUI
 
         $create = new ilCheckboxInputGUI($this->lng->txt('auth_allow_local'), 'local');
         $create->setInfo($this->lng->txt('auth_cas_allow_local_desc'));
-        $create->setChecked($this->getSettings()->isLocalAuthenticationEnabled() ? true : false);
+        $create->setChecked($this->getSettings()->isLocalAuthenticationEnabled());
         $create->setValue("1");
         $form->addItem($create);
 
@@ -222,20 +206,14 @@ class ilCASSettingsGUI
 
         return $form;
     }
-    
-    /**
-     * Show settings
-     */
-    public function settings() : void
+
+    public function settings(): void
     {
         $form = $this->initFormSettings();
         $this->tpl->setContent($form->getHTML());
     }
-    
-    /**
-     * Save
-     */
-    public function save() : void
+
+    public function save(): void
     {
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
@@ -246,40 +224,37 @@ class ilCASSettingsGUI
             $this->getSettings()->setDefaultRole((int) $form->getInput('role'));
             $this->getSettings()->enableLocalAuthentication((bool) $form->getInput('local'));
             $this->getSettings()->setLoginInstruction($form->getInput('instruction'));
-            $this->getSettings()->enableUserCreation((int) $form->getInput('sync') == ilCASSettings::SYNC_CAS ? true : false);
+            $this->getSettings()->enableUserCreation((int) $form->getInput('sync') === ilCASSettings::SYNC_CAS);
             $this->getSettings()->save();
 
             switch ((int) $form->getInput('sync')) {
+                case ilCASSettings::SYNC_CAS:
                 case ilCASSettings::SYNC_DISABLED:
                     ilLDAPServer::disableDataSourceForAuthMode(ilAuthUtils::AUTH_CAS);
                     break;
 
-                case ilCASSettings::SYNC_CAS:
-                    ilLDAPServer::disableDataSourceForAuthMode(ilAuthUtils::AUTH_CAS);
-                    break;
-
                 case ilCASSettings::SYNC_LDAP:
-                    if (!(int) $_REQUEST['ldap_sid']) {
+                    if (!(int) $form->getInput('ldap_sid')) {
                         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
                         $this->settings();
                         //TODO do we need return false?
                         return;
                     }
 
-                    ilLDAPServer::toggleDataSource((int) $_REQUEST['ldap_sid'], ilAuthUtils::AUTH_CAS, true);
+                    ilLDAPServer::toggleDataSource((int) $form->getInput('ldap_sid'), ilAuthUtils::AUTH_CAS, 1);
                     break;
             }
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');
         }
-        
+
         $form->setValuesByPost();
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_ceck_input'));
         $this->tpl->setContent($form->getHTML());
     }
-    
-    private function prepareRoleSelection() : array
+
+    private function prepareRoleSelection(): array
     {
         $global_roles = ilUtil::_sortIds(
             $this->rbacReview->getGlobalRoles(),
@@ -287,12 +262,12 @@ class ilCASSettingsGUI
             'title',
             'obj_id'
         );
-        
+
         $select[0] = $this->lng->txt('links_select_one');
         foreach ($global_roles as $role_id) {
             $select[$role_id] = ilObject::_lookupTitle((int) $role_id);
         }
-        
+
         return $select;
     }
 }

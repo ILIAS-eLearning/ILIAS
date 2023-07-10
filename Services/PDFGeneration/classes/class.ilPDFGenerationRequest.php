@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+/**
+ * @deprecated
+ */
 class ilPDFGenerationRequest
 {
     private ILIAS\Refinery\Factory $refinery;
@@ -27,13 +32,13 @@ class ilPDFGenerationRequest
         $this->http = $http;
     }
 
-    public function securedString(string $parameter, bool $cast_null_to_string = true) : string
+    public function securedString(string $parameter, bool $cast_null_to_string = true): string
     {
-        $as_sanizited_string = $this->refinery->custom()->transformation(static function (string $value) : string {
+        $as_sanizited_string = $this->refinery->custom()->transformation(static function (string $value): string {
             return ilUtil::stripSlashes($value);
         });
 
-        $null_to_empty_string = $this->refinery->custom()->transformation(static function ($value) : string {
+        $null_to_empty_string = $this->refinery->custom()->transformation(static function ($value): string {
             if ($value === null) {
                 return '';
             }
@@ -63,10 +68,10 @@ class ilPDFGenerationRequest
 
         return $string;
     }
-    
-    public function int(string $parameter, bool $cast_null_to_int = true) : int
+
+    public function int(string $parameter, bool $cast_null_to_int = true): int
     {
-        $null_to_zero = $this->refinery->custom()->transformation(static function ($value) : int {
+        $null_to_zero = $this->refinery->custom()->transformation(static function ($value): int {
             if ($value === null) {
                 return 0;
             }
@@ -94,9 +99,9 @@ class ilPDFGenerationRequest
         return $int;
     }
 
-    public function bool(string $parameter, bool $cast_null_to_false = true) : bool
+    public function bool(string $parameter, bool $cast_null_to_false = true): bool
     {
-        $null_to_false = $this->refinery->custom()->transformation(static function ($value) : bool {
+        $null_to_false = $this->refinery->custom()->transformation(static function ($value): bool {
             if ($value === null) {
                 return false;
             }
@@ -124,9 +129,9 @@ class ilPDFGenerationRequest
         return $bool;
     }
 
-    public function float(string $parameter, bool $cast_null_to_zero = true) : float
+    public function float(string $parameter, bool $cast_null_to_zero = true): float
     {
-        $null_to_zero = $this->refinery->custom()->transformation(static function ($value) : float {
+        $null_to_zero = $this->refinery->custom()->transformation(static function ($value): float {
             if ($value === null) {
                 return 0.0;
             }

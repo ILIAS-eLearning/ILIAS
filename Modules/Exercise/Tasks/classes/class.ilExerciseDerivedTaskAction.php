@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Action class for derived tasks, mostly getting user reponsibilities
  * by respecting permissions as well.
@@ -24,6 +24,7 @@
  */
 class ilExerciseDerivedTaskAction
 {
+    protected \ILIAS\Exercise\Submission\SubmissionDBRepository $submission_repo;
     protected ilExcMemberRepository $exc_mem_repo;
     protected ilExcAssMemberStateRepository $state_repo;
     protected ilExcTutorRepository $tutor_repo;
@@ -31,11 +32,13 @@ class ilExerciseDerivedTaskAction
     public function __construct(
         ilExcMemberRepository $exc_mem_repo,
         ilExcAssMemberStateRepository $state_repo,
-        ilExcTutorRepository $tutor_repo
+        ilExcTutorRepository $tutor_repo,
+        \ILIAS\Exercise\Submission\SubmissionDBRepository $submission_repo
     ) {
         $this->exc_mem_repo = $exc_mem_repo;
         $this->state_repo = $state_repo;
         $this->tutor_repo = $tutor_repo;
+        $this->submission_repo = $submission_repo;
     }
 
     /**
@@ -43,12 +46,19 @@ class ilExerciseDerivedTaskAction
      * @throws ilExcUnknownAssignmentTypeException
      * @return \ilExAssignment[]
      */
-    public function getOpenAssignmentsOfUser(int $user_id) : array
+    public function getOpenAssignmentsOfUser(int $user_id): array
     {
         $user_exc_ids = $this->exc_mem_repo->getExerciseIdsOfUser($user_id);
         $assignments = [];
-        foreach ($this->state_repo->getSubmitableAssignmentIdsOfUser($user_exc_ids, $user_id) as $ass_id) {
-            $assignments[] = new ilExAssignment($ass_id);
+
+        $submission_states = $this->submission_repo->getUserSubmissionState(
+            $user_id,
+            $this->state_repo->getSubmitableAssignmentIdsOfUser($user_exc_ids, $user_id)
+        );
+        foreach ($submission_states as $ass_id => $submitted) {
+            if (!$submitted) {
+                $assignments[] = new ilExAssignment($ass_id);
+            }
             // to do: permission check
         }
         return $assignments;
@@ -60,7 +70,7 @@ class ilExerciseDerivedTaskAction
      * @return ilExAssignment[]
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getOpenPeerReviewsOfUser(int $user_id) : array
+    public function getOpenPeerReviewsOfUser(int $user_id): array
     {
         $user_exc_ids = $this->exc_mem_repo->getExerciseIdsOfUser($user_id);
         $assignments = [];
@@ -77,7 +87,7 @@ class ilExerciseDerivedTaskAction
      * @return ilExAssignment[]
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getOpenGradingsOfUser(int $user_id) : array
+    public function getOpenGradingsOfUser(int $user_id): array
     {
         $user_exc_ids = $this->tutor_repo->getExerciseIdsBeingTutor($user_id);
         $assignments = [];

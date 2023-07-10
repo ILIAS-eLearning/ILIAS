@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilUnitCategoryTableGUI
@@ -10,7 +22,6 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 {
-
     /**
      * @param ilUnitConfigurationGUI $controller
      * @param string                 $cmd
@@ -22,7 +33,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
          */
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         $this->setId('ucats_' . $controller->getUniqueId());
 
         parent::__construct($controller, $cmd);
@@ -33,11 +44,19 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderDirection('category');
         $this->setDefaultOrderDirection('ASC');
-
-        if ($this->getParentObject()->isCRUDContext()) {
-            $this->addMultiCommand('confirmDeleteCategories', $this->lng->txt('delete'));
+        $ref_id = $DIC->testQuestionPool()->internal()->request()->getRefId();
+        $type = ilObject::_lookupType($ref_id, true);
+        if ($type === 'assf') {
+            $hasAccess = $DIC->rbac()->system()->checkAccess('edit', $ref_id);
         } else {
-            $this->addMultiCommand('confirmImportGlobalCategories', $this->lng->txt('import'));
+            $hasAccess = $DIC->access()->checkAccess('edit', $cmd, $ref_id);
+        }
+        if ($hasAccess) {
+            if ($this->getParentObject()->isCRUDContext()) {
+                $this->addMultiCommand('confirmDeleteCategories', $this->lng->txt('delete'));
+            } else {
+                $this->addMultiCommand('confirmImportGlobalCategories', $this->lng->txt('import'));
+            }
         }
 
         $this->populateTitle();
@@ -47,22 +66,19 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.unit_category_row.html', 'Modules/TestQuestionPool');
     }
 
-    /**
-     *
-     */
-    abstract protected function populateTitle();
+    abstract protected function populateTitle(): void;
 
     /**
      * @param array $row
      */
-    public function fillRow(array $row) : void
+    public function fillRow(array $row): void
     {
         /**
          * @var $ilCtrl ilCtrl
          */
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         $row['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'category_ids[]', $row['category_id']);
 
         $action = new ilAdvancedSelectionListGUI();
@@ -71,9 +87,19 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $action->setListTitle($this->lng->txt('actions'));
         $ilCtrl->setParameter($this->getParentObject(), 'category_id', $row['category_id']);
         $action->addItem($this->lng->txt('un_show_units'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitsOfCategory'));
+        $ref_id = $DIC->testQuestionPool()->internal()->request()->getRefId();
+        $type = ilObject::_lookupType($ref_id, true);
+        if ($type === 'assf') {
+            $hasAccess = $DIC->rbac()->system()->checkAccess('edit', $ref_id);
+        } else {
+            $hasAccess = $DIC->access()->checkAccess('edit', 'showUnitCategoryModificationForm', $ref_id) &&
+            $DIC->access()->checkAccess('edit', 'confirmDeleteCategory', $ref_id);
+        }
         if ($this->getParentObject()->isCRUDContext()) {
-            $action->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitCategoryModificationForm'));
-            $action->addItem($this->lng->txt('delete'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmDeleteCategory'));
+            if ($hasAccess) {
+                $action->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitCategoryModificationForm'));
+                $action->addItem($this->lng->txt('delete'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmDeleteCategory'));
+            }
         } else {
             $action->addItem($this->lng->txt('import'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmImportGlobalCategory'));
         }

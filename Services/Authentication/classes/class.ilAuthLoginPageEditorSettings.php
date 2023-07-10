@@ -1,18 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Storage of editor settings
@@ -38,7 +42,7 @@ class ilAuthLoginPageEditorSettings
     {
         global $DIC;
         $this->lng = $DIC->language();
-        
+
         $this->storage = new ilSetting('login_editor');
         $this->read();
     }
@@ -47,7 +51,7 @@ class ilAuthLoginPageEditorSettings
      * Get singelton instance
      * @return ilAuthLoginPageEditorSettings
      */
-    public static function getInstance() : ilAuthLoginPageEditorSettings
+    public static function getInstance(): ilAuthLoginPageEditorSettings
     {
         if (self::$instance) {
             return self::$instance;
@@ -58,18 +62,18 @@ class ilAuthLoginPageEditorSettings
     /**
      * @return ilSetting
      */
-    protected function getStorage() : ilSetting
+    protected function getStorage(): ilSetting
     {
         return $this->storage;
     }
 
-    public function setMode(int $a_mode) : void
+    public function setMode(int $a_mode): void
     {
         //TODO check for proper mode
         $this->mode = $a_mode;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
@@ -79,7 +83,7 @@ class ilAuthLoginPageEditorSettings
      * @param string $a_langkey
      * @return string
      */
-    public function getIliasEditorLanguage(string $a_langkey) : string
+    public function getIliasEditorLanguage(string $a_langkey): string
     {
         if ($this->mode !== self::MODE_IPE) {
             return '';
@@ -96,7 +100,7 @@ class ilAuthLoginPageEditorSettings
     /**
      * Enable editor for language
      */
-    public function enableIliasEditor(string $a_langkey, bool $a_status) : void
+    public function enableIliasEditor(string $a_langkey, bool $a_status): void
     {
         $this->languages[$a_langkey] = $a_status;
     }
@@ -104,7 +108,7 @@ class ilAuthLoginPageEditorSettings
     /**
      * Check if ilias editor is enabled for a language
      */
-    public function isIliasEditorEnabled(string $a_langkey) : bool
+    public function isIliasEditorEnabled(string $a_langkey): bool
     {
         return $this->languages[$a_langkey] ?? false;
     }
@@ -112,7 +116,7 @@ class ilAuthLoginPageEditorSettings
     /**
      * Update settings
      */
-    public function update() : void
+    public function update(): void
     {
         $this->getStorage()->set('mode', (string) $this->getMode());
 
@@ -124,7 +128,7 @@ class ilAuthLoginPageEditorSettings
     /**
      * Read settings
      */
-    public function read() : void
+    public function read(): void
     {
         $this->setMode((int) $this->getStorage()->get('mode', (string) self::MODE_RTE));
 

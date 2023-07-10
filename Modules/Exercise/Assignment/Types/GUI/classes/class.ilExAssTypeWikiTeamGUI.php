@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Team wiki type gui implementations
  *
@@ -27,31 +27,13 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     use ilExAssignmentTypeGUIBase;
 
     public const MODE_OVERVIEW = "overview";
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected \ILIAS\Exercise\InternalGUIService $gui;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilTree $tree;
+    protected ilAccessHandler $access;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -61,12 +43,15 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
         $this->ctrl = $DIC->ctrl();
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
+        $this->gui = $DIC->exercise()
+            ->internal()
+            ->gui();
     }
 
     /**
      * Execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -84,7 +69,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function addEditFormCustomProperties(ilPropertyFormGUI $form) : void
+    public function addEditFormCustomProperties(ilPropertyFormGUI $form): void
     {
         $lng = $this->lng;
 
@@ -116,7 +101,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form) : void
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form): void
     {
         $ar = new ilExAssWikiTeamAR();
         $ar->setId($ass->getId());
@@ -131,7 +116,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function getFormValuesArray(ilExAssignment $ass) : array
+    public function getFormValuesArray(ilExAssignment $ass): array
     {
         $values = [];
 
@@ -146,7 +131,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
         return $values;
     }
 
-    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
+    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission): void
     {
         $this->ctrl->getHTML($this, array("mode" => self::MODE_OVERVIEW, "info" => $a_info, "submission" => $a_submission));
     }
@@ -156,7 +141,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
      *
      * @param array $par parameter
      */
-    public function getHTML(array $par) : string
+    public function getHTML(array $par): string
     {
         switch ($par["mode"]) {
             case self::MODE_OVERVIEW:
@@ -169,7 +154,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * Render overview content
      */
-    protected function renderOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
+    protected function renderOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission): void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -199,16 +184,15 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
             // remove invalid resource if no upload yet (see download below)
             elseif (substr($selected_wiki["filename"], -1) == "/") {
                 // #16887
-                $a_submission->deleteResourceObject($selected_wiki["returned_id"]);
+                $a_submission->deleteResourceObject();
             }
         }
         if ($a_submission->canSubmit()) {
             if (!$valid_wiki && $team_available) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("exc_create_wiki");
-                $button->setUrl($ctrl->getLinkTarget($this, "createWiki"));
-
-                $files_str .= $button->render();
+                $files_str .= $this->gui->button(
+                    $lng->txt("exc_create_wiki"),
+                    $ctrl->getLinkTarget($this, "createWiki")
+                )->render();
             }
         }
         if ($files_str) {
@@ -219,11 +203,10 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
             $dl_link = $ctrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "download");
             $ctrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", "");
 
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("download");
-            $button->setUrl($dl_link);
-
-            $a_info->addProperty($lng->txt("exc_files_returned"), $button->render());
+            $a_info->addProperty($lng->txt("exc_files_returned"), $this->gui->button(
+                $lng->txt("download"),
+                $dl_link
+            )->render());
         }
     }
 
@@ -231,7 +214,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * Create wiki for assignment
      */
-    protected function createWiki() : void
+    protected function createWiki(): void
     {
         $access = $this->access;
         $lng = $this->lng;

@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * System support contacts
@@ -9,6 +23,7 @@
  */
 class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
 {
+    protected \ILIAS\DI\UIServices $ui;
     /**
      * @var ilTemplate
      */
@@ -35,6 +50,7 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
         $this->lng = $lng;
+        $this->ui = $DIC->ui();
     }
 
 
@@ -57,8 +73,6 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
         $this->lng->loadLanguageModule("adm");
         $this->tpl->loadStandardTemplate();
         $this->tpl->setTitle($this->lng->txt("adm_support_contacts"));
-        $panel = ilPanelGUI::getInstance();
-        $panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
 
         $html = "";
         foreach (ilSystemSupportContacts::getValidSupportContactIds() as $c) {
@@ -68,13 +82,18 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
             $html .= $pgui->getHTML();
         }
 
-        $panel->setBody($html);
+        $f = $this->ui->factory();
+        $r = $this->ui->renderer();
+        $p = $f->panel()->standard(
+            $this->lng->txt("adm_support_contacts"),
+            $f->legacy($html)
+        );
 
-        $this->tpl->setContent($panel->getHTML());
+        $this->tpl->setContent($r->render($p));
         $this->tpl->printToStdout();
     }
 
-    
+
     /**
      * Get footer link
      *
@@ -86,14 +105,14 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
 
         $ilCtrl = $DIC->ctrl();
         $ilUser = $DIC->user();
-        
+
         $users = ilSystemSupportContacts::getValidSupportContactIds();
         if (count($users) > 0) {
             // #17847 - we cannot use a proper GUI on the login screen
             if (!$ilUser->getId() || $ilUser->getId() == ANONYMOUS_USER_ID) {
                 return "mailto:" . ilLegacyFormElementsUtil::prepareFormOutput(
-                        ilSystemSupportContacts::getMailsToAddress()
-                    );
+                    ilSystemSupportContacts::getMailsToAddress()
+                );
             } else {
                 return $ilCtrl->getLinkTargetByClass("ilsystemsupportcontactsgui", "", "", false, false);
             }

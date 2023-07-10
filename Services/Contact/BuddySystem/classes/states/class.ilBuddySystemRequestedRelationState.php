@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,23 +16,25 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilBuddySystemRequestedRelationState
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilBuddySystemRequestedRelationState extends ilAbstractBuddySystemRelationState
 {
-    public function getName() : string
+    public function getName(): string
     {
         return 'Requested';
     }
 
-    public function getAction() : string
+    public function getAction(): string
     {
         return 'request';
     }
 
-    public function getPossibleTargetStates() : ilBuddySystemRelationStateCollection
+    public function getPossibleTargetStates(): ilBuddySystemRelationStateCollection
     {
         return new ilBuddySystemRelationStateCollection([
             new ilBuddySystemLinkedRelationState(),
@@ -41,17 +43,17 @@ class ilBuddySystemRequestedRelationState extends ilAbstractBuddySystemRelationS
         ]);
     }
 
-    public function unlink(ilBuddySystemRelation $relation) : void
+    public function unlink(ilBuddySystemRelation $relation): void
     {
         $relation->setState(new ilBuddySystemUnlinkedRelationState());
     }
 
-    public function ignore(ilBuddySystemRelation $relation) : void
+    public function ignore(ilBuddySystemRelation $relation): void
     {
         $relation->setState(new ilBuddySystemIgnoredRequestRelationState());
     }
 
-    public function link(ilBuddySystemRelation $relation) : void
+    public function link(ilBuddySystemRelation $relation): void
     {
         $relation->setState(new ilBuddySystemLinkedRelationState());
     }

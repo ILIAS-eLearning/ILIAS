@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,33 +16,28 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ilForumNotificationTest extends TestCase
 {
-    /**
-     * @var MockObject|ilDBInterface
-     */
+    /** @var MockObject&ilDBInterface */
     private $database;
-
-    /**
-     * @var MockObject|ilObjUser
-     */
+    /** @var MockObject&ilObjUser */
     private $user;
-
-    /**
-     * @var MockObject|ilTree
-     */
+    /** @var MockObject&ilTree */
     private $tree;
+    private ?Container $dic = null;
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilForumNotification::class, new ilForumNotification(938));
     }
 
-    public function testGetterAndSetter() : void
+    public function testGetterAndSetter(): void
     {
         $instance = new ilForumNotification(940);
         $instance->setNotificationId(1);
@@ -65,12 +60,12 @@ class ilForumNotificationTest extends TestCase
         $this->assertSame(7, $instance->getUserIdNoti());
     }
 
-    public function testIsAdminForceNotification() : void
+    public function testIsAdminForceNotification(): void
     {
         $forumId = 745;
         $userId = 271;
 
-        $mockStatement = $this->mock(ilDBStatement::class);
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             '
 			SELECT admin_force_noti FROM frm_notification
@@ -89,12 +84,12 @@ class ilForumNotificationTest extends TestCase
         $this->assertTrue($instance->isAdminForceNotification());
     }
 
-    public function testIsAdminForceNotificationFailed() : void
+    public function testIsAdminForceNotificationFailed(): void
     {
         $forumId = 745;
         $userId = 271;
 
-        $mockStatement = $this->mock(ilDBStatement::class);
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             '
 			SELECT admin_force_noti FROM frm_notification
@@ -113,12 +108,12 @@ class ilForumNotificationTest extends TestCase
         $this->assertFalse($instance->isAdminForceNotification());
     }
 
-    public function testIsUserToggleNotification() : void
+    public function testIsUserToggleNotification(): void
     {
         $forumId = 745;
         $userId = 271;
 
-        $mockStatement = $this->mock(ilDBStatement::class);
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             '
 			SELECT user_toggle_noti FROM frm_notification
@@ -137,12 +132,12 @@ class ilForumNotificationTest extends TestCase
         $this->assertTrue($instance->isUserToggleNotification());
     }
 
-    public function testIsUserToggleNotificationFailed() : void
+    public function testIsUserToggleNotificationFailed(): void
     {
         $forumId = 745;
         $userId = 271;
 
-        $mockStatement = $this->mock(ilDBStatement::class);
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             '
 			SELECT user_toggle_noti FROM frm_notification
@@ -161,7 +156,7 @@ class ilForumNotificationTest extends TestCase
         $this->assertFalse($instance->isUserToggleNotification());
     }
 
-    public function testInsertAdminForce() : void
+    public function testInsertAdminForce(): void
     {
         $userToggle = true;
         $adminForce = false;
@@ -198,7 +193,7 @@ class ilForumNotificationTest extends TestCase
         $instance->insertAdminForce();
     }
 
-    public function testDeleteAdminForce() : void
+    public function testDeleteAdminForce(): void
     {
         $userId = 739;
         $forumId = 48849;
@@ -221,7 +216,7 @@ class ilForumNotificationTest extends TestCase
         $instance->deleteAdminForce();
     }
 
-    public function testDeleteUserToggle() : void
+    public function testDeleteUserToggle(): void
     {
         $forumId = 3877;
         $userId = 3839;
@@ -243,7 +238,7 @@ class ilForumNotificationTest extends TestCase
         $instance->deleteUserToggle();
     }
 
-    public function testupdateUserToggle() : void
+    public function testupdateUserToggle(): void
     {
         $userToggle = true;
         $forumId = 3877;
@@ -262,7 +257,7 @@ class ilForumNotificationTest extends TestCase
         $instance->updateUserToggle();
     }
 
-    public function testCheckForumsExistsInsert() : void
+    public function testCheckForumsExistsInsert(): void
     {
         $nodeData = [];
         $userId = 927;
@@ -281,7 +276,7 @@ class ilForumNotificationTest extends TestCase
         ilForumNotification::checkForumsExistsInsert($refId, $userId);
     }
 
-    public function testUpdate() : void
+    public function testUpdate(): void
     {
         $forumId = 1122;
         $userId = 484;
@@ -311,7 +306,7 @@ class ilForumNotificationTest extends TestCase
         $instance->update();
     }
 
-    public function testDeleteNotificationAllUsers() : void
+    public function testDeleteNotificationAllUsers(): void
     {
         $forumId = 490;
         $this->database->expects(self::once())->method('manipulateF')->with(
@@ -327,7 +322,7 @@ class ilForumNotificationTest extends TestCase
     }
 
 
-    public function testRead() : void
+    public function testRead(): void
     {
         $forumId = 4859;
         $row = [
@@ -339,7 +334,7 @@ class ilForumNotificationTest extends TestCase
             'user_toggle_noti' => 90,
             'interested_events' => 8,
         ];
-        $mockStatement = $this->mock(ilDBStatement::class);
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::exactly(2))->method('fetchAssoc')->willReturn(
             $row,
             null
@@ -358,15 +353,15 @@ class ilForumNotificationTest extends TestCase
         ], $instance->read());
     }
 
-    public function testMergeThreadNotifications() : void
+    public function testMergeThreadNotifications(): void
     {
         $srcRow = ['user_id' => 47349];
         $mismatchUserIdRow = ['user_id' => 37, 'notification_id' => 48];
         $matchUserIdRow = ['user_id' => $srcRow['user_id'], 'notification_id' => 380];
         $targetId = 840;
         $srcId = 5749;
-        $srcStatement = $this->mock(ilDBStatement::class);
-        $targetStatement = $this->mock(ilDBStatement::class);
+        $srcStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $targetStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::exactly(2))->method('queryF')->withConsecutive(
             [
                 'SELECT notification_id, user_id FROM frm_notification WHERE frm_id = %s AND  thread_id = %s ORDER BY user_id ASC',
@@ -400,13 +395,13 @@ class ilForumNotificationTest extends TestCase
         ilForumNotification::mergeThreadNotifications($srcId, $targetId);
     }
 
-    public function testExistsNotification() : void
+    public function testExistsNotification(): void
     {
         $adminForce = false;
         $forumId = 7332;
         $userId = 5758;
 
-        $statement = $this->mock(ilDBStatement::class);
+        $statement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             'SELECT user_id FROM frm_notification WHERE user_id = %s AND frm_id = %s AND admin_force_noti = %s',
             ['integer', 'integer', 'integer'],
@@ -422,20 +417,26 @@ class ilForumNotificationTest extends TestCase
         $this->assertTrue($instance->existsNotification());
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         global $DIC;
 
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
         $DIC = new Container();
 
-        $DIC['ilDB'] = ($this->database = $this->mock(ilDBInterface::class));
-        $DIC['ilUser'] = ($this->user = $this->mock(ilObjUser::class));
-        $DIC['ilObjDataCache'] = $this->mock(ilObjectDataCache::class);
-        $DIC['tree'] = ($this->tree = $this->mock(ilTree::class));
+        $DIC['ilDB'] = ($this->database = $this->createMock(ilDBInterface::class));
+        $DIC['ilUser'] = ($this->user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock());
+        $DIC['ilObjDataCache'] = $this->getMockBuilder(ilObjectDataCache::class)->disableOriginalConstructor()->getMock();
+        $DIC['tree'] = ($this->tree = $this->getMockBuilder(ilTree::class)->disableOriginalConstructor()->getMock());
     }
 
-    private function mock(string $className) : MockObject
+    protected function tearDown(): void
     {
-        return $this->getMockBuilder($className)->disableOriginalConstructor()->getMock();
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 }

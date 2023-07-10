@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ require_once __DIR__ . '/bootstrap.php';
  */
 class ilTinyMCETest extends ilRTEBaseTest
 {
-    public function testAddPlugin() : void
+    public function testAddPlugin(): void
     {
         $tinymce = new ilTinyMCE();
         $tinymce->addPlugin('a_new_test_plugin');
@@ -32,17 +34,17 @@ class ilTinyMCETest extends ilRTEBaseTest
         $this->assertContains('a_new_test_plugin', $plugins);
     }
 
-    public function testTiny3xCodeHasbeenRemoved() : void
+    public function testTiny3xCodeHasbeenRemoved(): void
     {
         $this->assertDirectoryDoesNotExist('./Services/RTE/tiny_mce_3_4_7');
         $this->assertDirectoryDoesNotExist('./Services/RTE/tiny_mce_3_5_11');
     }
 
-    public function testRemovePlugin() : void
+    public function testRemovePlugin(): void
     {
         $tinymce = new ilTinyMCE();
         $plugins_before_empty_removal = $tinymce->getPlugins();
-        
+
         $tinymce->removePlugin('');//empty name for the plugin
         $this->assertEquals($plugins_before_empty_removal, $tinymce->getPlugins());
         $tinymce->removePlugin('link');

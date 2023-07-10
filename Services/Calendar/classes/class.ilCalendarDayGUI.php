@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Presentation day view
@@ -22,7 +38,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         parent::__construct($seed_date, ilCalendarViewGUI::CAL_PRESENTATION_DAY);
     }
 
-    public function initialize(int $a_calendar_presentation_type) : void
+    public function initialize(int $a_calendar_presentation_type): void
     {
         global $DIC;
 
@@ -35,14 +51,14 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
             case "ilcalendarappointmentpresentationgui":
                 $this->ctrl->setReturn($this, "");
                 $this->logger->debug("-ExecCommand - representation of ilDate: this->seed->get(IL_CAL_DATE) = " . $this->seed->get(IL_CAL_DATE));
-                $gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $this->getCurrentApp());
+                $gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, (array) $this->getCurrentApp());
                 $this->ctrl->forwardCommand($gui);
                 break;
             case 'ilcalendarappointmentgui':
@@ -51,7 +67,6 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
                 // initial date for new calendar appointments
                 $idate = new ilDate($this->initInitialDateFromQuery(), IL_CAL_DATE);
-
                 $app = new ilCalendarAppointmentGUI($this->seed, $idate, $this->initAppointmentIdFromQuery());
                 $this->ctrl->forwardCommand($app);
                 break;
@@ -68,7 +83,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
      * fill data section
      * @access protected
      */
-    protected function show() : void
+    protected function show(): void
     {
         // config
         $raster = 15;
@@ -238,7 +253,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         }
     }
 
-    protected function showFulldayAppointment(array $a_app) : void
+    protected function showFulldayAppointment(array $a_app): void
     {
         $event_tpl = new ilTemplate('tpl.day_event_view.html', true, true, 'Services/Calendar');
 
@@ -294,7 +309,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         $this->num_appointments++;
     }
 
-    protected function showAppointment(array $a_app) : void
+    protected function showAppointment(array $a_app): void
     {
         $event_tpl = new ilTemplate('tpl.day_event_view.html', true, true, 'Services/Calendar');
         $event_tpl->setCurrentBlock('app');
@@ -348,7 +363,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
     /**
      * calculate overlapping hours
      */
-    protected function parseInfoIntoRaster(array $daily_apps, int $morning_aggr, int $evening_aggr, int $raster) : array
+    protected function parseInfoIntoRaster(array $daily_apps, int $morning_aggr, int $evening_aggr, int $raster): array
     {
         $hours = array();
         for ($i = $morning_aggr; $i <= $evening_aggr; $i += $raster) {
@@ -361,26 +376,36 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                         $hours[$i]['txt'] = sprintf('%02d:00', 0) . ' - ' .
                             sprintf('%02d:00', ceil(($i + 1) / 60));
                     } else {
-                        $hours[$i]['txt'] .= sprintf('%02d:%02d', floor($i / 60), $i % 60);
+                        if (!isset($hours[$i]['txt'])) {
+                            $hours[$i]['txt'] = sprintf('%02d:%02d', floor($i / 60), $i % 60);
+                        } else {
+                            $hours[$i]['txt'] .= sprintf('%02d:%02d', floor($i / 60), $i % 60);
+                        }
                     }
                     if ($evening_aggr < 23 * 60 && $i == $evening_aggr) {
-                        $hours[$i]['txt'] .= ' - ' . sprintf('%02d:00', 0);
+                        if (!isset($hours[$i]['txt'])) {
+                            $hours[$i]['txt'] = ' - ' . sprintf('%02d:00', 0);
+                        } else {
+                            $hours[$i]['txt'] .= ' - ' . sprintf('%02d:00', 0);
+                        }
                     }
                     break;
 
                 case ilCalendarSettings::TIME_FORMAT_12:
-
                     $this->logger->notice('Morning: ' . $morning_aggr . ' and $i:' . $i);
-
                     if ($morning_aggr > 0 && $i == $morning_aggr) {
                         $hours[$i]['txt'] =
                             date('h a', mktime(0, 0, 0, 1, 1, 2000)) . ' - ' .
                             date('h a', mktime($this->user_settings->getDayStart(), 0, 0, 1, 1, 2000));
                     } else {
-                        $hours[$i]['txt'] = date('h a', mktime(floor($i / 60), $i % 60, 0, 1, 1, 2000));
+                        $hours[$i]['txt'] = date('h a', mktime((int) floor($i / 60), $i % 60, 0, 1, 1, 2000));
                     }
                     if ($evening_aggr < 23 * 60 && $i == $evening_aggr) {
-                        $hours[$i]['txt'] .= ' - ' . date('h a', mktime(0, 0, 0, 1, 1, 2000));
+                        if (!isset($hours[$i]['txt'])) {
+                            $hours[$i]['txt'] = ' - ' . date('h a', mktime(0, 0, 0, 1, 1, 2000));
+                        } else {
+                            $hours[$i]['txt'] .= ' - ' . date('h a', mktime(0, 0, 0, 1, 1, 2000));
+                        }
                     }
                     break;
             }
@@ -443,7 +468,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         return $hours;
     }
 
-    protected function calculateColspan(array $hours) : int
+    protected function calculateColspan(array $hours): int
     {
         $colspan = 1;
         foreach ($hours as $hour) {

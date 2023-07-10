@@ -1,25 +1,30 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Stakeholder;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class AbstractResourceStakeholder
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 abstract class AbstractResourceStakeholder implements ResourceStakeholder
 {
@@ -28,7 +33,7 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function getFullyQualifiedClassName() : string
+    public function getFullyQualifiedClassName(): string
     {
         return static::class;
     }
@@ -36,15 +41,21 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function isResourceInUse(ResourceIdentification $identification) : bool
+    public function isResourceInUse(ResourceIdentification $identification): bool
     {
         return false;
     }
 
+    public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool
+    {
+        return true;
+    }
+
+
     /**
      * @inheritDoc
      */
-    public function resourceHasBeenDeleted(ResourceIdentification $identification) : bool
+    public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
     {
         return true;
     }
@@ -52,7 +63,7 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function getOwnerOfResource(ResourceIdentification $identification) : int
+    public function getOwnerOfResource(ResourceIdentification $identification): int
     {
         return 6;
     }
@@ -60,7 +71,7 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function getConsumerNameForPresentation() : string
+    public function getConsumerNameForPresentation(): string
     {
         if ($this->provider_name_cache !== '' && is_string($this->provider_name_cache)) {
             return $this->provider_name_cache;
@@ -71,8 +82,15 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
 
         preg_match($re, str_replace("\\", "/", $reflector->getFileName()), $matches);
 
-        $this->provider_name_cache = isset($matches[1]) ? is_string($matches[1]) ? $matches[1] : self::class : self::class;
+        $this->provider_name_cache = isset($matches[1]) ? is_string(
+            $matches[1]
+        ) ? $matches[1] : self::class : self::class;
 
         return $this->provider_name_cache;
+    }
+
+    public function getLocationURIForResourceUsage(ResourceIdentification $identification): ?string
+    {
+        return null;
     }
 }

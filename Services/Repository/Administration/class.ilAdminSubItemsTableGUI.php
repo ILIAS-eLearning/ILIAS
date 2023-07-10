@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Repository\Clipboard\ClipboardManager;
 
@@ -55,16 +58,16 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
             ->clipboard();
 
         $this->ref_id = $a_ref_id;
-        
+
         $this->setId('recf_' . $a_ref_id);
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setSelectAllCheckbox("id[]");
-        
+
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("type"), "", "1");
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("last_change"), "last_update", "25%");
-        
+
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.admin_sub_items_row.html", "Services/Repository");
@@ -72,7 +75,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
-        
+
         // TODO: Needs other solution
         if (ilObject::_lookupType($a_ref_id, true) === 'chac') {
             $this->getItems();
@@ -100,18 +103,18 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         }
         $this->getItems();
     }
-    
-    public function isEditable() : bool
+
+    public function isEditable(): bool
     {
         return $this->editable;
     }
-    
-    public function getItems() : void
+
+    public function getItems(): void
     {
         $rbacsystem = $this->rbacsystem;
         $objDefinition = $this->obj_definition;
         $tree = $this->tree;
-        
+
         $items = [];
         $childs = $tree->getChilds($this->ref_id);
         foreach ($childs as $key => $val) {
@@ -119,12 +122,12 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
             if (!$rbacsystem->checkAccess("visible", $val["ref_id"])) {
                 continue;
             }
-            
+
             // hide object types in devmode
             if ($objDefinition->getDevMode($val["type"])) {
                 continue;
             }
-            
+
             // don't show administration in root node list
             if ($val["type"] === "adm") {
                 continue;
@@ -136,8 +139,8 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         }
         $this->setData($items);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $objDefinition = $this->obj_definition;
@@ -161,7 +164,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $ilCtrl->setParameterByClass($class, "ref_id", $a_set["ref_id"]);
         $this->tpl->setVariable("HREF_TITLE", $ilCtrl->getLinkTargetByClass($class, "view"));
         $ilCtrl->setParameterByClass($class, "ref_id", $this->ref_id);
-                    
+
         // TODO: broken! fix me
         $title = $a_set["title"];
         if ($this->clipboard->hasEntries() && in_array($a_set["ref_id"], $this->clipboard->getRefIds())) {
@@ -173,7 +176,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
                 case "copy":
                     $title = "<font color=\"green\">+</font>  " . $title;
                     break;
-                        
+
                 case "link":
                     $title = "<font color=\"black\"><</font> " . $title;
                     break;
@@ -185,6 +188,9 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $alt = ($objDefinition->isPlugin($a_set["type"]))
             ? $lng->txt("icon") . " " . ilObjectPlugin::lookupTxtById($a_set["type"], "obj_" . $a_set["type"])
             : $lng->txt("icon") . " " . $lng->txt("obj_" . $a_set["type"]);
-        $this->tpl->setVariable("IMG_TYPE", ilUtil::img(ilObject::_getIcon((int) $a_set["obj_id"], "small"), $alt));
+        $this->tpl->setVariable(
+            "IMG_TYPE",
+            ilUtil::img(ilObject::_getIcon((int) $a_set["obj_id"], "small"), $alt, "", "", "", "", "ilIcon")
+        );
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -35,9 +37,9 @@ class ilMDLanguageItem
         $this->language_code = $a_code;
     }
 
-    public function getLanguageCode() : string
+    public function getLanguageCode(): string
     {
-        $lang = ilMDLanguageItem::_getPossibleLanguageCodes();
+        $lang = self::_getPossibleLanguageCodes();
         if (in_array($this->language_code, $lang)) {
             return $this->language_code;
         }
@@ -47,7 +49,7 @@ class ilMDLanguageItem
     /**
      * @return string[]
      */
-    public static function _getPossibleLanguageCodes() : array
+    public static function _getPossibleLanguageCodes(): array
     {
         return array(
             "aa",
@@ -195,7 +197,7 @@ class ilMDLanguageItem
     /**
      * @return array<string, string>
      */
-    public static function _getLanguages() : array
+    public static function _getLanguages(): array
     {
         global $DIC;
 
@@ -204,7 +206,7 @@ class ilMDLanguageItem
         $lng->loadLanguageModule("meta");
 
         $langs = array();
-        foreach (ilMDLanguageItem::_getPossibleLanguageCodes() as $lngcode) {
+        foreach (self::_getPossibleLanguageCodes() as $lngcode) {
             $langs[$lngcode] = $lng->txt("meta_l_" . $lngcode);
         }
         asort($langs);

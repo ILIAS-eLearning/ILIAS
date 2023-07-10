@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
@@ -16,7 +32,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -47,6 +63,8 @@ class Renderer extends AbstractComponentRenderer
             }
             if ($component instanceof Node\Bylined && null !== $component->getByline()) {
                 $tpl->setVariable('BYLINE_LINKED', $component->getByline());
+            } elseif ($component instanceof Node\KeyValue && null !== $component->getValue()) {
+                $tpl->setVariable('VALUE_LINKED', $component->getValue());
             }
         } else {
             $tpl->setCurrentBlock("node_without_link");
@@ -56,6 +74,8 @@ class Renderer extends AbstractComponentRenderer
             }
             if ($component instanceof Node\Bylined && null !== $component->getByline()) {
                 $tpl->setVariable('BYLINE', $component->getByline());
+            } elseif ($component instanceof Node\KeyValue && null !== $component->getValue()) {
+                $tpl->setVariable('VALUE', $component->getValue());
             }
         }
 
@@ -64,7 +84,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         /**
-         * @var $component Node\Simple|Node\Bylined
+         * @var $component Node\Simple|Node\Bylined|Node\KeyValue
          */
         $triggered_signals = $component->getTriggeredSignals();
         if (count($triggered_signals) > 0) {
@@ -107,7 +127,7 @@ class Renderer extends AbstractComponentRenderer
     protected function triggerFurtherSignals(
         Node\Node $component,
         array $triggered_signals
-    ) : Component\JavaScriptBindable {
+    ): Component\JavaScriptBindable {
         $signals = [];
         foreach ($triggered_signals as $s) {
             /**
@@ -121,7 +141,7 @@ class Renderer extends AbstractComponentRenderer
         }
         $signals = json_encode($signals);
 
-        return $component->withAdditionalOnLoadCode(fn($id) => "
+        return $component->withAdditionalOnLoadCode(fn ($id) => "
 			$('#$id > span').click(function(e){
 				var node = $('#$id'),
 					signals = $signals;
@@ -138,11 +158,12 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(
             Node\Simple::class,
-            Node\Bylined::class
+            Node\Bylined::class,
+            Node\KeyValue::class
         );
     }
 }

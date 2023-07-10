@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilObjContentPageAdministration extends ilObject2
 {
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
@@ -23,7 +25,7 @@ class ilObjContentPageAdministration extends ilObject2
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = 'cpad';
     }

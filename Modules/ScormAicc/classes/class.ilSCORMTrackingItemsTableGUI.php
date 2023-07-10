@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
-/******************************************************************************
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilSCORMTrackingItemsTableGUI
  *
@@ -20,25 +25,21 @@
  */
 class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 {
-    private int $obj_id = 0;
+    private int $obj_id;
     private int $user_id = 0;
     private bool $bySCO = false;
-    private array $scosSelected = array();
-    private array $userSelected = array();
+    private array $scosSelected;
+    private array $userSelected;
     private bool $allowExportPrivacy = false;
     private string $lmTitle = "";
+    private string $report;
 
     /**
-     * Constructor
-     * @param             $a_obj_id
-     * @param object|null $a_parent_obj
-     * @param string      $a_parent_cmd
-     * @param array       $a_userSelected
-     * @param array       $a_scosSelected
-     * @param             $a_report
      * @throws ilCtrlException
+     * @param mixed[] $a_userSelected
+     * @param mixed[] $a_scosSelected
      */
-    public function __construct($a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, array $a_userSelected, array $a_scosSelected, $a_report)
+    public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, array $a_userSelected, array $a_scosSelected, string $a_report)
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -47,15 +48,17 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         $rbacsystem = $DIC->rbac();
         $lng->loadLanguageModule("scormtrac");
-    
+
         $this->obj_id = $a_obj_id;
         $this->report = $a_report;
         $this->scosSelected = $a_scosSelected;
         $this->userSelected = $a_userSelected;
-        if ($a_parent_cmd == "showTrackingItemsBySco") {
+        if ($a_parent_cmd === "showTrackingItemsBySco") {
             $this->bySCO = true;
         }
-        $this->lmTitle = $a_parent_obj->object->getTitle();
+        if ($a_parent_obj !== null) {
+            $this->lmTitle = $a_parent_obj->getObject()->getTitle();
+        }
 
         $this->setId('AICC' . $this->report);
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -77,13 +80,13 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
                 // $l =
             }
             $s = $this->lng->txt($l);
-            if (substr($l, 0, 14) == "interaction_id") {
+            if (substr($l, 0, 14) === "interaction_id") {
                 $s = $this->lng->txt(substr($l, 0, 14)) . ' ' . substr($l, 14);
             }
-            if (substr($l, 0, 17) == "interaction_value") {
+            if (substr($l, 0, 17) === "interaction_value") {
                 $s = sprintf($this->lng->txt(substr($l, 0, 17)), substr($l, 17, (strpos($l, ' ') - 17))) . substr($l, strpos($l, ' '));
             }
-            if (substr($l, 0, 23) == "interaction_description") {
+            if (substr($l, 0, 23) === "interaction_description") {
                 $s = $this->lng->txt(substr($l, 0, 23)) . ' ' . substr($l, 23);
             }
             $this->addColumn($s, $c);
@@ -107,57 +110,49 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     }
 
     /**
-     * Get selectable columns
-     * @return array
+     * @return array<string, array<string, mixed>>
      */
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         // default fields
         $cols = array();
-        
+
         switch ($this->report) {
             case "exportSelectedCore":
                 $cols = ilSCORMTrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
-            break;
+                break;
             case "exportSelectedRaw":
                 $cols = ilSCORMTrackingItems::exportSelectedRawColumns();
-            break;
+                break;
             case "exportSelectedInteractions":
                 $cols = ilSCORMTrackingItems::exportSelectedInteractionsColumns();
-            break;
+                break;
             case "exportSelectedObjectives":
                 $cols = ilSCORMTrackingItems::exportSelectedObjectivesColumns();
-            break;
-//            case "tracInteractionItem":
-//                $cols = ilSCORMTrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
-//            break;
-//            case "tracInteractionUser":
-//                $cols = ilSCORMTrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
-//            break;
-//            case "tracInteractionUserAnswers":
-//                $cols = ilSCORMTrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
-//            break;
+                break;
+                //            case "tracInteractionItem":
+                //                $cols = ilSCORMTrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
+                //            break;
+                //            case "tracInteractionUser":
+                //                $cols = ilSCORMTrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
+                //            break;
+                //            case "tracInteractionUserAnswers":
+                //                $cols = ilSCORMTrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+                //            break;
             case "exportSelectedSuccess":
                 $cols = ilSCORMTrackingItems::exportSelectedSuccessColumns();
-            break;
+                break;
         }
-        
+
         return $cols;
     }
 
-    /**
-     * Get Obj id
-     * @return int
-     */
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    /**
-     * @return void
-     */
-    public function getItems() : void
+    public function getItems(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -169,30 +164,30 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         switch ($this->report) {
             case "exportSelectedCore":
                 $tr_data = $ilSCORMTrackingItems->exportSelectedCore($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "exportSelectedRaw":
                 $tr_data = $ilSCORMTrackingItems->exportSelectedRaw($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "exportSelectedInteractions":
                 $tr_data = $ilSCORMTrackingItems->exportSelectedInteractions($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "exportSelectedObjectives":
                 $tr_data = $ilSCORMTrackingItems->exportSelectedObjectives($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "tracInteractionItem":
                 $tr_data = $ilSCORMTrackingItems->tracInteractionItem($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "tracInteractionUser":
                 $tr_data = $ilSCORMTrackingItems->tracInteractionUser($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "tracInteractionUserAnswers":
                 $tr_data = $ilSCORMTrackingItems->tracInteractionUserAnswers($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "exportSelectedSuccess":
                 $tr_data = $ilSCORMTrackingItems->exportSelectedSuccess($this->userSelected, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
         }
-//        $this->setMaxCount($tr_data["cnt"]);
+        //        $this->setMaxCount($tr_data["cnt"]);
         if (ilUtil::stripSlashes($this->getOrderField()) != "") {
             $tr_data = ilArrayUtil::stableSortArray(
                 $tr_data,
@@ -205,38 +200,35 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param string $id
      * @param string|float|int|null $value
-     * @param string $type
-     * @return float|mixed|string
+     * @return string|float|int|null
      */
     protected function parseValue(string $id, $value, string $type)
     {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("trac");
-        if ($id == "status") {
-            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
-            $text = ilLearningProgressBaseGUI::_getStatusText((integer) $value);
+        if ($id === "status") {
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM);
+            $path = $icons->getImagePathForStatus((int) $value);
+            $text = ilLearningProgressBaseGUI::_getStatusText((int) $value);
             $value = ilUtil::img($path, $text);
         }
         //BLUM round
-        if ($id == "launch_data" || $id == "suspend_data") {
+        if ($id === "launch_data" || $id === "suspend_data") {
             return $value;
         }
         if (is_numeric($value)) {
-            return round($value, 2);
+            return round((float)$value, 2);
         }
         return $value;
     }
 
     /**
      * Fill table row
-     * @param array $a_set
-     * @return void
      * @throws ilTemplateException
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -249,12 +241,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param ilExcel $a_excel
-     * @param int     $a_row
-     * @return void
-     */
-    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void
     {
         $labels = $this->getSelectableColumns();
         $cnt = 0;
@@ -264,20 +251,14 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param ilExcel $a_excel
-     * @param int     $a_row
-     * @param array   $a_set
-     * @return void
-     */
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
     {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("trac");
         $cnt = 0;
         foreach ($this->getSelectedColumns() as $c) {
-            if ($c != 'status') {
+            if ($c !== 'status') {
                 $val = $this->parseValue($c, $a_set[$c], "user");
             } else {
                 $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);
@@ -287,11 +268,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param ilCSVWriter $a_csv
-     * @return void
-     */
-    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
+    protected function fillHeaderCSV(ilCSVWriter $a_csv): void
     {
         $labels = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $c) {
@@ -301,25 +278,20 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    /**
-     * @param ilCSVWriter $a_csv
-     * @param array       $a_set
-     * @return void
-     */
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("trac");
         foreach ($this->getSelectedColumns() as $c) {
-            if ($c != 'status') {
+            if ($c !== 'status') {
                 $val = $this->parseValue($c, $a_set[$c], "user");
             } else {
                 $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);
             }
             $a_csv->addColumn($val);
         }
-        
+
         $a_csv->addRow();
     }
 }

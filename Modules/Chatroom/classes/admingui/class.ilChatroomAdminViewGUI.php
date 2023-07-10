@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilChatroomAdminViewGUI
@@ -37,12 +39,12 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $this->commonSettings = new ilSetting('common');
     }
 
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->ilCtrl->redirect($this->gui, 'view-clientsettings');
     }
 
-    private function defaultActions() : void
+    private function defaultActions(): void
     {
         $chatSettings = new ilSetting('chatroom');
         if ($chatSettings->get('chat_enabled', '0')) {
@@ -50,7 +52,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         }
     }
 
-    public function forcePublicRoom() : void
+    public function forcePublicRoom(): void
     {
         $ref_id = ilObjChatroom::_getPublicRefId();
         if (!$ref_id) {
@@ -78,13 +80,13 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         ilChatroomInstaller::ensureCorrectPublicChatroomTreeLocation($ref_id);
     }
 
-    public function createPublicRoom() : void
+    public function createPublicRoom(): void
     {
         ilChatroomInstaller::createDefaultPublicRoom(true);
         $this->mainTpl->setOnScreenMessage('success', $this->ilLng->txt('public_chat_created'), true);
     }
 
-    protected function checkServerConnection(array $serverSettings) : void
+    protected function checkServerConnection(array $serverSettings): void
     {
         if (
             isset($serverSettings['port'], $serverSettings['address']) &&
@@ -94,7 +96,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         }
     }
 
-    protected function createSettingTemplate(ilPropertyFormGUI $form) : ilTemplate
+    protected function createSettingTemplate(ilPropertyFormGUI $form): ilTemplate
     {
         $furtherInformation = sprintf($this->ilLng->txt('server_further_information'), $this->getReadmePath());
         $serverTpl = new ilTemplate('tpl.chatroom_serversettings.html', true, true, 'Modules/Chatroom');
@@ -104,12 +106,12 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         return $serverTpl;
     }
 
-    protected function getReadmePath() : string
+    protected function getReadmePath(): string
     {
         return ilUtil::_getHttpPath() . self::CHATROOM_README_PATH;
     }
 
-    public function saveClientSettings() : void
+    public function saveClientSettings(): void
     {
         $this->redirectIfNoPermission('write');
 
@@ -130,7 +132,6 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
             'enable_browser_notifications' => (bool) $form->getInput('enable_browser_notifications'),
             'conversation_idle_state_in_minutes' => $convIdleStateTime,
             'chat_enabled' => (bool) $form->getInput('chat_enabled'),
-            'enable_smilies' => (bool) $form->getInput('enable_smilies'),
             'auth' => $form->getInput('auth')
         ];
 
@@ -154,7 +155,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $this->ilCtrl->redirect($this->gui, 'view-clientsettings');
     }
 
-    public function clientsettings(ilPropertyFormGUI $form = null) : void
+    public function clientsettings(ilPropertyFormGUI $form = null): void
     {
         $this->redirectIfNoPermission(['visible','read']);
 

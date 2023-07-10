@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestSuite;
 
 require_once __DIR__ . '/bootstrap.php';
@@ -27,10 +29,9 @@ require_once __DIR__ . '/bootstrap.php';
 class ilModulesChatroomSuite extends TestSuite
 {
     /**
-     * @return self
      * @throws ReflectionException
      */
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
 
@@ -42,6 +43,12 @@ class ilModulesChatroomSuite extends TestSuite
 
         require_once __DIR__ . '/class.ilChatroomServerSettingsTest.php';
         $suite->addTestSuite(ilChatroomServerSettingsTest::class);
+
+        require_once __DIR__ . '/class.ilObjChatroomAdminAccessTest.php';
+        $suite->addTestSuite(ilObjChatroomAdminAccessTest::class);
+
+        require_once __DIR__ . '/class.ilObjChatroomAccessTest.php';
+        $suite->addTestSuite(ilObjChatroomAccessTest::class);
 
         require_once __DIR__ . '/class.ilChatroomUserTest.php';
         $suite->addTestSuite(ilChatroomUserTest::class);

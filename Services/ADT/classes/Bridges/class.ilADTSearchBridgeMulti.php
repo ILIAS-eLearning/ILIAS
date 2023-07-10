@@ -1,11 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilADTSearchBridgeMulti
  */
 abstract class ilADTSearchBridgeMulti extends ilADTSearchBridgeSingle
 {
-    protected function setDefinition(ilADTDefinition $a_adt_def) : void
+    protected function setDefinition(ilADTDefinition $a_adt_def): void
     {
         if ($this->isValidADTDefinition($a_adt_def)) {
             $def = $this->convertADTDefinitionToMulti($a_adt_def);
@@ -15,5 +17,5 @@ abstract class ilADTSearchBridgeMulti extends ilADTSearchBridgeSingle
         throw new InvalidArgumentException('ilADTSearchBridge type mismatch.');
     }
 
-    abstract protected function convertADTDefinitionToMulti(ilADTDefinition $a_adt_def) : ilADTDefinition;
+    abstract protected function convertADTDefinitionToMulti(ilADTDefinition $a_adt_def): ilADTDefinition;
 }

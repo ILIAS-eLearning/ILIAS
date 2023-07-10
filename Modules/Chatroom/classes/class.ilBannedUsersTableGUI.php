@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilBannedUsersTableGUI
@@ -47,7 +49,7 @@ class ilBannedUsersTableGUI extends ilTable2GUI
         $this->addMultiCommand('ban-delete', $this->lng->txt('unban'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if (is_numeric($a_set['timestamp']) && $a_set['timestamp'] > 0) {
             $a_set['timestamp'] = ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX));

@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
 * Class ilObjSCORMLearningModuleGUI
 *
@@ -29,6 +34,7 @@
 */
 class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 {
+    private ilPropertyFormGUI $form;
     protected \ILIAS\DI\Container $dic;
 
     protected int $refId;
@@ -36,10 +42,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
     * Constructor
-    *
-    * @access	public
     */
-    public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+    public function __construct($data, int $id, bool $call_by_reference, bool $prepare_output = true) //missing typehint because mixed
     {
         global $DIC;
         $this->dic = $DIC;
@@ -53,37 +57,35 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $this->refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
 
         $this->type = "sahs";
-        parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+        parent::__construct($data, $id, $call_by_reference, false);
     }
 
     /**
      * assign scorm object to scorm gui object
-     * @return void
      */
-    protected function assignObject() : void
+    protected function assignObject(): void
     {
         if ($this->id != 0) {
             if ($this->call_by_reference) {
-                $this->object = new ilObjSCORMLearningModule((integer) $this->id, true);
+                $this->object = new ilObjSCORMLearningModule((int) $this->id, true);
             } else {
-                $this->object = new ilObjSCORMLearningModule((integer) $this->id, false);
+                $this->object = new ilObjSCORMLearningModule((int) $this->id, false);
             }
         }
     }
 
     /**
     * scorm module properties
-     * @return void
     */
-    public function properties() : void
+    public function properties(): void
     {
         global $DIC;
         $ilToolbar = $DIC->toolbar();
         $ilTabs = $DIC->tabs();
 
-//        $lng->loadLanguageModule("style");
+        //        $lng->loadLanguageModule("style");
 
-        ilObjSAHSLearningModuleGUI::setSettingsSubTabs();
+        $this->setSettingsSubTabs();
         $ilTabs->setSubTabActive('cont_settings');
 
         // view
@@ -97,9 +99,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
      * Init properties form
-     * @return void
      */
-    public function initPropertiesForm() : void
+    public function initPropertiesForm(): void
     {
         $obj_service = $this->object_service;
         $this->form = new ilPropertyFormGUI();
@@ -236,7 +237,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $ni = new ilNumberInputGUI($this->lng->txt("cont_mastery_score_12"), "mastery_score");
             $ni->setMaxLength(3);
             $ni->setSize(3);
-            $ni->setInfo($this->lng->txt("cont_mastery_score_12_info") . $this->object->getMasteryScoreValues());
+            $ni->setInfo($this->lng->txt("cont_mastery_score_12_info") . ' ' . $this->object->getMasteryScoreValues());
             $this->form->addItem($ni);
         }
 
@@ -335,9 +336,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
      * Get values for properties form
-     * @return void
      */
-    public function getPropertiesFormValues() : void
+    public function getPropertiesFormValues(): void
     {
         $values = array();
         $values["Fobject_title"] = $this->object->getTitle();
@@ -345,7 +345,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         if (!$this->object->getOfflineStatus()) {
             $values["cobj_online"] = true;
         }
-//        $values["cobj_offline_mode"] = $this->object->getOfflineMode();
+        //        $values["cobj_offline_mode"] = $this->object->getOfflineMode();
         $values["open_mode"] = $this->object->getOpenMode();
         $values["width_0"] = $this->object->getWidth();
         $values["width_1"] = $this->object->getWidth();
@@ -371,13 +371,12 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
     * upload new version of module
-     * @return void
     */
-    public function newModuleVersion() : void
+    public function newModuleVersion(): void
     {
         global $DIC;
         $ilTabs = $DIC->tabs();
-        ilObjSAHSLearningModuleGUI::setSettingsSubTabs();
+        $this->setSettingsSubTabs();
         $ilTabs->setSubTabActive('cont_sc_new_version');
 
         $obj_id = ilObject::_lookupObjectId($this->refId);
@@ -429,10 +428,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $DIC['tpl']->setContent($this->form->getHTML());
     }
 
-    /**
-     * @return string
-     */
-    public function getMaxFileSize() : string
+    public function getMaxFileSize(): string
     {
         // get the value for the maximal uploadable filesize from the php.ini (if available)
         $umf = get_cfg_var("upload_max_filesize");
@@ -464,11 +460,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     }
 
     /**
-     * @return void
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    public function newModuleVersionUpload() : void
+    public function newModuleVersionUpload(): void
     {
         global $DIC;
         $rbacsystem = $DIC->access();
@@ -483,7 +478,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         } elseif ($_FILES["scormfile"]["name"]) {
             // check if file was uploaded
             $source = $_FILES["scormfile"]["tmp_name"];
-            if (($source == 'none') || (!$source)) {
+            if (($source === 'none') || (!$source)) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt("upload_error_file_not_found"), true);
                 $this->newModuleVersion();
                 return;
@@ -536,7 +531,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         //do testing for converted versions as well as earlier ILIAS version messed up utf8 conversion
         if (strcmp($new_manifest, $old_manifest) == 0 || strcmp(utf8_encode($new_manifest), $old_manifest) == 0 ||
             strcmp($reload_manifest, $old_manifest) == 0 || strcmp(utf8_encode($reload_manifest), $old_manifest) == 0) {
-
             //get exisiting module version
             $module_version = $this->object->getModuleVersion() + 1;
 
@@ -571,21 +565,20 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_new_module_added"), true);
             ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=" . $this->refId);
             exit;
-        } else {
-            if ($source_is_copy) {
-                unlink($source);
-            }
-
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_invalid_new_module"), true);
-            $this->newModuleVersion();
         }
+
+        if ($source_is_copy) {
+            unlink($source);
+        }
+
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_invalid_new_module"), true);
+        $this->newModuleVersion();
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
-    public function saveProperties() : void
+    public function saveProperties(): void
     {
         $obj_service = $this->object_service;
         $this->initPropertiesForm();
@@ -593,16 +586,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $this->object->setTitle($this->dic->http()->wrapper()->post()->retrieve('Fobject_title', $this->dic->refinery()->kindlyTo()->string()));
             $this->object->setDescription($this->dic->http()->wrapper()->post()->retrieve('Fobject_description', $this->dic->refinery()->kindlyTo()->string()));
 
-            //check if OfflineMode-Zip has to be created
-//            $tmpOfflineMode = ilUtil::yn2tf($_POST["cobj_offline_mode"]);
-//            if ($tmpOfflineMode == true) {
-//                if ($this->object->getOfflineMode() == false) {
-//                    $this->object->zipLmForOfflineMode();
-//                }
-//            }
             if ($this->dic->http()->wrapper()->post()->has('mastery_score')) {
-                $this->object->setMasteryScore($this->dic->http()->wrapper()->post()->retrieve('mastery_score', $this->dic->refinery()->kindlyTo()->int()));
-                // $this->object->updateMasteryScoreValues();
+                $sMasteryScore = $this->dic->http()->wrapper()->post()->retrieve('mastery_score', $this->dic->refinery()->kindlyTo()->string());
+                if ($sMasteryScore !== "") {
+                    $this->object->setMasteryScore((int) $sMasteryScore);
+                } else {
+                    $this->object->setMasteryScore(null);
+                }
             }
 
             $t_height = $this->object->getHeight();
@@ -622,13 +612,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             }
 
             $this->object->setOfflineStatus(!($this->dic->http()->wrapper()->post()->has('cobj_online')));
-//            $this->object->setOfflineMode($tmpOfflineMode);
+            //            $this->object->setOfflineMode($tmpOfflineMode);
             $this->object->setOpenMode($this->dic->http()->wrapper()->post()->retrieve('open_mode', $this->dic->refinery()->kindlyTo()->int()));
             $this->object->setWidth($t_width);
             $this->object->setHeight($t_height);
             $this->object->setAuto_last_visited($this->dic->http()->wrapper()->post()->has('cobj_auto_last_visited'));
             $this->object->setAutoContinue($this->dic->http()->wrapper()->post()->has('auto_continue'));
-//            $this->object->setMaxAttempt((int) $_POST["max_attempt"]);
+            //            $this->object->setMaxAttempt((int) $_POST["max_attempt"]);
             $this->object->setDefaultLessonMode($this->dic->http()->wrapper()->post()->retrieve('lesson_mode', $this->dic->refinery()->kindlyTo()->string()));
             $this->object->setCreditMode($this->dic->http()->wrapper()->post()->retrieve('credit_mode', $this->dic->refinery()->kindlyTo()->string()));
             $this->object->setAutoReview(ilUtil::yn2tf($this->dic->http()->wrapper()->post()->retrieve('auto_review', $this->dic->refinery()->kindlyTo()->string())));
@@ -651,37 +641,42 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     }
 
     /**
-     * @return bool
      * @throws ilCtrlException
      */
-    protected function showTrackingItemsBySco() : bool
+    protected function showTrackingItemsBySco(): bool
     {
         global $DIC;
         $ilTabs = $DIC->tabs();
 
-        ilObjSCORMLearningModuleGUI::setSubTabs();
+        $this->setSubTabs();
         $ilTabs->setTabActive("cont_tracking_data");
         $ilTabs->setSubTabActive("cont_tracking_bysco");
 
         $reports = array('exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportSelectedRaw');//,'tracInteractionItem','tracInteractionUser','tracInteractionUserAnswers'
         $scoSelected = "all";
+        if ($this->dic->http()->wrapper()->query()->has('scoSelected')) {
+            $scoSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string()));
+        }
         if ($this->dic->http()->wrapper()->post()->has('scoSelected')) {
             $scoSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string()));
         }
         $this->ctrl->setParameter($this, 'scoSelected', $scoSelected);
 
         $report = "choose";
+        if ($this->dic->http()->wrapper()->query()->has('report')) {
+            $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
+        }
         if ($this->dic->http()->wrapper()->post()->has('report')) {
             $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
         }
         $this->ctrl->setParameter($this, 'report', $report);
         $filter = new ilSCORMTrackingItemsPerScoFilterGUI($this, 'showTrackingItemsBySco');
         $filter->parse($scoSelected, $report, $reports);
-        if ($report == "choose") {
+        if ($report === "choose") {
             $this->tpl->setContent($filter->form->getHTML());
         } else {
             $scosSelected = array();
-            if ($scoSelected != "all") {
+            if ($scoSelected !== "all") {
                 $scosSelected[] = $scoSelected;
             } else {
                 $scos = $this->object->getTrackedItems();
@@ -698,10 +693,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
      * Show tracking table
-     * @return bool
      * @throws ilCtrlException
      */
-    public function showTrackingItems() : bool
+    public function showTrackingItems(): bool
     {
         global $DIC;
         $ilTabs = $DIC->tabs();
@@ -710,35 +704,41 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $ilTabs->setTabActive('cont_tracking_data');
 
         if ($ilAccess->checkAccess("read_learning_progress", "", $this->refId)) {
-            ilObjSCORMLearningModuleGUI::setSubTabs();
+            $this->setSubTabs();
             $ilTabs->setSubTabActive('cont_tracking_byuser');
 
             $reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportSelectedRaw');
 
             $userSelected = "all";
+            if ($this->dic->http()->wrapper()->query()->has('userSelected')) {
+                $userSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string()));
+            }
             if ($this->dic->http()->wrapper()->post()->has('userSelected')) {
                 $userSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string()));
             }
             $this->ctrl->setParameter($this, 'userSelected', $userSelected);
 
             $report = "choose";
+            if ($this->dic->http()->wrapper()->query()->has('report')) {
+                $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
+            }
             if ($this->dic->http()->wrapper()->post()->has('report')) {
                 $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
             }
             $this->ctrl->setParameter($this, 'report', $report);
             $filter = new ilSCORMTrackingItemsPerUserFilterGUI($this, 'showTrackingItems');
             $filter->parse($userSelected, $report, $reports);
-            if ($report == "choose") {
+            if ($report === "choose") {
                 $this->tpl->setContent($filter->form->getHTML());
             } else {
                 $usersSelected = array();
-                if ($userSelected != "all") {
+                if ($userSelected !== "all") {
                     $usersSelected[] = $userSelected;
                 } else {
                     $users = ilTrQuery::getParticipantsForObject($this->ref_id);
                     foreach ($users as $user) {
-                        if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
-                            $usersSelected[] = $user;
+                        if (ilObject::_exists((int) $user) && ilObject::_lookUpType((int) $user) === 'usr') {
+                            $usersSelected[] = (int) $user;
                         }
                     }
                 }
@@ -757,10 +757,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
-    protected function modifyTrackingItems() : void
+    protected function modifyTrackingItems(): void
     {
         global $DIC;
         $ilAccess = $DIC->access();
@@ -783,7 +782,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 $this->ctrl->getLinkTarget($this, 'exportAll')
             );
 
-            ilObjSCORMLearningModuleGUI::setSubTabs();
+            $this->setSubTabs();
             $ilTabs->setTabActive('cont_tracking_data');
             $ilTabs->setSubTabActive('cont_tracking_modify');
             $tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
@@ -793,10 +792,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
-    protected function applyUserTableFilter() : void
+    protected function applyUserTableFilter(): void
     {
         $tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
         $tbl->writeFilterToSession();
@@ -806,10 +804,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
      * Reset table filter
-     * @return void
      * @throws ilCtrlException
      */
-    protected function resetUserTableFilter() : void
+    protected function resetUserTableFilter(): void
     {
         $tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
         $tbl->resetFilter();
@@ -819,10 +816,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
      * display deletion confirmation screen
-     * @return void
      * @throws ilCtrlException
      */
-    public function deleteTrackingForUser() : void
+    public function deleteTrackingForUser(): void
     {
         global $DIC;
         $ilErr = $DIC["ilErr"];
@@ -837,17 +833,14 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $cgui->setHeaderText($this->lng->txt("info_delete_sure"));
         $cgui->setCancel($this->lng->txt("cancel"), "cancelDeleteTracking");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDeleteTracking");
-
-        foreach ($_POST["user"] as $id) {
-            if (ilObject::_exists((int) $id) && ilObject::_lookUpType((int) $id) == "usr") {
+        foreach ($DIC->http()->wrapper()->post()->retrieve('user', $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int())) as $id) {
+            if (ilObject::_exists((int) $id) && ilObject::_lookUpType((int) $id) === "usr") {
                 $user = new ilObjUser((int) $id);
 
-                $caption = ilUtil::getImageTagByType("sahs", (string) $this->tpl->tplPath) .
-                    " " . $this->lng->txt("cont_tracking_data") .
-                    ": " . $user->getLastname() . ", " . $user->getFirstname();
+                //was ilUtil::getImageTagByType("sahs", (string) $this->tpl->getValue("TPLPATH")) .
+                $caption = $this->lng->txt("cont_tracking_data") . ": " . $user->getLastname() . ", " . $user->getFirstname();
 
-
-                $cgui->addItem("user[]", $id, $caption);
+                $cgui->addItem("user[]", (string) $id, $caption);
             }
         }
 
@@ -856,31 +849,28 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
      * cancel deletion of export files
-     * @return void
      * @throws ilCtrlException
      */
-    public function cancelDeleteTracking() : void
+    public function cancelDeleteTracking(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, "modifyTrackingItems");
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
-    public function confirmedDeleteTracking() : void
+    public function confirmedDeleteTracking(): void
     {
-        $this->object->deleteTrackingDataOfUsers($_POST["user"]);
+        $this->object->deleteTrackingDataOfUsers($this->post_wrapper->retrieve('user', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())));
         $this->ctrl->redirect($this, "modifyTrackingItems");
     }
 
     /**
      * overwrite..jump back to trackingdata not parent
-     * @return void
      * @throws ilCtrlException
      */
-    public function cancel() : void
+    public function cancel(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, "properties");
@@ -888,10 +878,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
      * gui functions for GUI export
-     * @return void
      * @throws ilCtrlException
      */
-    protected function import() : void
+    protected function import(): void
     {
         $form = $this->initImportForm("");
         if ($form->checkInput()) {
@@ -915,10 +904,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
      * Show import form
-     * @return void
      * @throws ilCtrlException
      */
-    protected function importForm() : void
+    protected function importForm(): void
     {
         global $DIC;
         $ilTabs = $DIC->tabs();
@@ -932,11 +920,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
      * Init import form
-     * @param $a_new_type
-     * @return ilPropertyFormGUI
      * @throws ilCtrlException
      */
-    protected function initImportForm($a_new_type) : ilPropertyFormGUI
+    protected function initImportForm(string $new_type): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -954,35 +940,33 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
      * Show export section for all users
-     * @return void
      */
-    protected function exportAll() : void
+    protected function exportAll(): void
     {
         $this->object->exportSelected(true);
     }
 
     /**
      * Export selection for selected users
-     * @return void
      * @throws ilCtrlException
      */
-    protected function exportSelectionUsers() : void
+    protected function exportSelectionUsers(): void
     {
-        if (!count((array) $_POST['user'])) {
+        if (!$this->post_wrapper->has('user')) {
+            //was if (!count((array) $_POST['user'])) {
             //ilUtil::sendFailure($this->lng->txt('select_one'),true);
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'modifyTrackingItems');
         } else {
-            $this->object->exportSelected(false, $_POST["user"]);
+            $this->object->exportSelected(false, $this->post_wrapper->retrieve('user', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())));
         }
     }
 
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
-    public function setSubTabs() : void
+    public function setSubTabs(): void
     {
         global $DIC;
         $lng = $DIC->language();

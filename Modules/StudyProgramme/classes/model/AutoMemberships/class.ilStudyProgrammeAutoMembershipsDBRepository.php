@@ -1,19 +1,37 @@
-<?php declare(strict_types=1);
+<?php
 
- /**
- * Class ilStudyProgrammeAutoMembershipsDBRepository
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+* Class ilStudyProgrammeAutoMembershipsDBRepository
+*
+* @author Nils Haagen <nils.haagen@concepts-and-training.de>
+*/
 class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAutoMembershipsRepository
 {
-    const TABLE = 'prg_auto_membership';
-    const FIELD_PRG_OBJ_ID = 'prg_obj_id';
-    const FIELD_SOURCE_TYPE = 'source_type';
-    const FIELD_SOURCE_ID = 'source_id';
-    const FIELD_ENABLED = 'enabled';
-    const FIELD_EDITOR_ID = 'last_usr_id';
-    const FIELD_LAST_EDITED = 'last_edited';
+    private const TABLE = 'prg_auto_membership';
+    private const FIELD_PRG_OBJ_ID = 'prg_obj_id';
+    private const FIELD_SOURCE_TYPE = 'source_type';
+    private const FIELD_SOURCE_ID = 'source_id';
+    private const FIELD_ENABLED = 'enabled';
+    private const FIELD_EDITOR_ID = 'last_usr_id';
+    private const FIELD_LAST_EDITED = 'last_edited';
 
     protected ilDBInterface $db;
     protected int$current_usr_id;
@@ -27,7 +45,7 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
     /**
      * @inheritdoc
      */
-    public function getFor(int $prg_obj_id) : array
+    public function getFor(int $prg_obj_id): array
     {
         $query = 'SELECT '
             . self::FIELD_PRG_OBJ_ID . ','
@@ -61,7 +79,7 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
         bool $enabled,
         int $last_edited_usr_id = null,
         DateTimeImmutable $last_edited = null
-    ) : ilStudyProgrammeAutoMembershipSource {
+    ): ilStudyProgrammeAutoMembershipSource {
         if (is_null($last_edited_usr_id)) {
             $last_edited_usr_id = $this->current_usr_id;
         }
@@ -81,7 +99,7 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
     /**
      * @inheritdoc
      */
-    public function update(ilStudyProgrammeAutoMembershipSource $ams) : void
+    public function update(ilStudyProgrammeAutoMembershipSource $ams): void
     {
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(self::TABLE);
@@ -114,7 +132,7 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
     /**
      * @inheritdoc
      */
-    public function delete(int $prg_obj_id, string $source_type, int $source_id) : void
+    public function delete(int $prg_obj_id, string $source_type, int $source_id): void
     {
         $query = 'DELETE FROM ' . self::TABLE
             . PHP_EOL . 'WHERE prg_obj_id = ' . $this->db->quote($prg_obj_id, 'integer')
@@ -127,7 +145,7 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
     /**
      * @inheritdoc
      */
-    public function deleteFor(int $prg_obj_id) : void
+    public function deleteFor(int $prg_obj_id): void
     {
         $query = 'DELETE FROM ' . self::TABLE
             . PHP_EOL . 'WHERE prg_obj_id = ' . $this->db->quote($prg_obj_id, 'integer');
@@ -137,7 +155,7 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
     /**
      * @inheritdoc
      */
-    public static function getProgrammesFor(string $source_type, int $source_id) : array
+    public static function getProgrammesFor(string $source_type, int $source_id): array
     {
         global $ilDB;
         $query = 'SELECT ' . self::FIELD_PRG_OBJ_ID

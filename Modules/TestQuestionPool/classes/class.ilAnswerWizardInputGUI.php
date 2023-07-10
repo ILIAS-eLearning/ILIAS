@@ -1,7 +1,23 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 
 /**
 * This class represents a single choice wizard property in a property form.
@@ -20,6 +36,9 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     protected $minvalue = false;
     protected $minvalueShouldBeGreater = false;
 
+    protected GlyphFactory $glyph_factory;
+    protected Renderer $renderer;
+
     /**
     * Constructor
     *
@@ -29,17 +48,21 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     public function __construct($a_title = "", $a_postvar = "")
     {
         parent::__construct($a_title, $a_postvar);
+
+        global $DIC;
+        $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
+        $this->renderer = $DIC->ui()->renderer();
+
         $this->setSize('25');
         $this->validationRegexp = "";
     }
 
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         $this->values = array();
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
                     $answer = new ASS_AnswerBinaryStateImage($value, $a_value['points'][$index], $index, 1, -1);
                     if (isset($a_value['imagename'][$index])) {
                         $answer->setImage($a_value['imagename'][$index]);
@@ -55,7 +78,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_value	Value
     */
-    public function setValues($a_values)
+    public function setValues($a_values): void
     {
         $this->values = $a_values;
     }
@@ -65,7 +88,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Values
     */
-    public function getValues() : array
+    public function getValues(): array
     {
         return $this->values;
     }
@@ -75,7 +98,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_value	Value
     */
-    public function setSingleline($a_value)
+    public function setSingleline($a_value): void
     {
         $this->singleline = $a_value;
     }
@@ -85,7 +108,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Value
     */
-    public function getSingleline() : bool
+    public function getSingleline(): bool
     {
         return $this->singleline;
     }
@@ -95,7 +118,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     *
     * @param	object	$a_value	test object
     */
-    public function setQuestionObject($a_value)
+    public function setQuestionObject($a_value): void
     {
         $this->qstObject = &$a_value;
     }
@@ -105,7 +128,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     *
     * @return	object	Value
     */
-    public function getQuestionObject() : ?object
+    public function getQuestionObject(): ?object
     {
         return $this->qstObject;
     }
@@ -115,7 +138,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_allow_move Allow move
     */
-    public function setAllowMove($a_allow_move)
+    public function setAllowMove($a_allow_move): void
     {
         $this->allowMove = $a_allow_move;
     }
@@ -125,7 +148,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Allow move
     */
-    public function getAllowMove() : bool
+    public function getAllowMove(): bool
     {
         return $this->allowMove;
     }
@@ -133,7 +156,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     /**
      * @return bool
      */
-    public function isAddRemoveAllowed() : bool
+    public function isAddRemoveAllowed(): bool
     {
         return $this->allowAddRemove;
     }
@@ -141,7 +164,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     /**
      * @param bool $allowAddRemove
      */
-    public function setAllowAddRemove($allowAddRemove)
+    public function setAllowAddRemove($allowAddRemove): void
     {
         $this->allowAddRemove = $allowAddRemove;
     }
@@ -151,7 +174,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
      *
      * @param	boolean	$a_bool	true if the minimum value should be greater than minvalue
      */
-    public function setMinvalueShouldBeGreater($a_bool)
+    public function setMinvalueShouldBeGreater($a_bool): void
     {
         $this->minvalueShouldBeGreater = $a_bool;
     }
@@ -161,7 +184,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
      *
      * @return	boolean	true if the minimum value should be greater than minvalue
      */
-    public function minvalueShouldBeGreater() : bool
+    public function minvalueShouldBeGreater(): bool
     {
         return $this->minvalueShouldBeGreater;
     }
@@ -170,7 +193,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
      *
      * @param	float	$a_minvalue	Minimum Value
      */
-    public function setMinValue($a_minvalue)
+    public function setMinValue($a_minvalue): void
     {
         $this->minvalue = $a_minvalue;
     }
@@ -188,13 +211,14 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $this->sanitizeSuperGlobalSubmitValue();
+
         $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
+            $foundvalues = ilArrayUtil::stripSlashesRecursive($foundvalues);
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
@@ -242,15 +266,15 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
-        
+
         return $this->checkSubItemsInput();
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $tpl = new ilTemplate($this->getTemplate(), true, true, "Modules/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
@@ -303,8 +327,12 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
                 $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-                $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
-                $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable("UP_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->up()->withAction('#')
+                ));
+                $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->down()->withAction('#')
+                ));
                 $tpl->parseCurrentBlock();
             }
             $tpl->setCurrentBlock("row");
@@ -316,8 +344,12 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
                 $tpl->setVariable("ADD_REMOVE_ID", $this->getPostVar() . "[$i]");
                 $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
-                $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-                $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+                $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->add()->withAction('#')
+                ));
+                $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->remove()->withAction('#')
+                ));
             }
             if ($this->getDisabled()) {
                 $tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
@@ -334,10 +366,10 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
-        
+
         global $DIC;
         $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
         $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizard.js");
     }
 
@@ -362,15 +394,8 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     /**
      * @return string
      */
-    protected function getTemplate() : string
+    protected function getTemplate(): string
     {
         return "tpl.prop_answerwizardinput.html";
-    }
-    
-    protected function sanitizeSuperGlobalSubmitValue()
-    {
-        if (isset($_POST[$this->getPostVar()]) && is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
-        }
     }
 }

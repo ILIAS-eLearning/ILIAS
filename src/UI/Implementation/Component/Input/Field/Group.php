@@ -1,6 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -41,7 +56,7 @@ class Group extends Input implements C\Input\Field\Group
         ilLanguage $lng,
         array $inputs,
         string $label,
-        string $byline = null
+        ?string $byline = null
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
         $this->checkArgListElements("inputs", $inputs, InputInternal::class);
@@ -49,31 +64,44 @@ class Group extends Input implements C\Input\Field\Group
         $this->lng = $lng;
     }
 
-    public function withDisabled(bool $is_disabled) : C\Input\Field\Input
+    public function withDisabled(bool $is_disabled): C\Input\Field\Input
     {
         $clone = parent::withDisabled($is_disabled);
-        $clone->inputs = array_map(fn($i) => $i->withDisabled($is_disabled), $this->inputs);
+        $clone->inputs = array_map(fn ($i) => $i->withDisabled($is_disabled), $this->inputs);
         return $clone;
     }
 
-    public function withRequired(bool $is_required) : C\Input\Field\Input
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): C\Input\Field\Input
     {
-        $clone = parent::withRequired($is_required);
-        $clone->inputs = array_map(fn($i) => $i->withRequired($is_required), $this->inputs);
+        $clone = parent::withRequired($is_required, $requirement_constraint);
+        $clone->inputs = array_map(fn ($i) => $i->withRequired($is_required, $requirement_constraint), $this->inputs);
         return $clone;
     }
 
-    public function withOnUpdate(Signal $signal) : C\OnUpdateable
+    public function isRequired(): bool
+    {
+        if ($this->is_required) {
+            return true;
+        }
+        foreach ($this->getInputs() as $input) {
+            if ($input->isRequired()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function withOnUpdate(Signal $signal)
     {
         $clone = parent::withOnUpdate($signal);
-        $clone->inputs = array_map(fn($i) => $i->withOnUpdate($signal), $this->inputs);
+        $clone->inputs = array_map(fn ($i) => $i->withOnUpdate($signal), $this->inputs);
         return $clone;
     }
 
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         if (!is_array($value)) {
             return false;
@@ -99,7 +127,7 @@ class Group extends Input implements C\Input\Field\Group
      */
     public function getValue()
     {
-        return array_map(fn($i) => $i->getValue(), $this->inputs);
+        return array_map(fn ($i) => $i->getValue(), $this->inputs);
     }
 
 
@@ -110,7 +138,7 @@ class Group extends Input implements C\Input\Field\Group
      * @param   mixed
      * @throws  InvalidArgumentException    if value does not fit client side input
      */
-    public function withValue($value) : C\Input\Field\Input
+    public function withValue($value): C\Input\Field\Input
     {
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
         $clone = clone $this;
@@ -126,7 +154,7 @@ class Group extends Input implements C\Input\Field\Group
      *
      * @inheritdoc
      */
-    public function withInput(InputData $input) : C\Input\Field\Input
+    public function withInput(InputData $input): C\Input\Field\Input
     {
         if (sizeof($this->getInputs()) === 0) {
             return $this;
@@ -165,15 +193,16 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source) : C\Input\Field\Input
+    public function withNameFrom(NameSource $source, ?string $parent_name = null): C\Input\Field\Input
     {
-        $clone = parent::withNameFrom($source);
+        $clone = parent::withNameFrom($source, $parent_name);
+
         /**
          * @var $clone Group
          */
         $named_inputs = [];
         foreach ($this->getInputs() as $key => $input) {
-            $named_inputs[$key] = $input->withNameFrom($source);
+            $named_inputs[$key] = $input->withNameFrom($source, $clone->getName());
         }
 
         $clone->inputs = $named_inputs;
@@ -184,7 +213,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @return Input[]
      */
-    public function getInputs() : array
+    public function getInputs(): array
     {
         return $this->inputs;
     }
@@ -192,7 +221,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         return null;
     }
@@ -200,7 +229,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
         return function () {
             /*
@@ -213,7 +242,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    public function getContent() : Result
+    public function getContent(): Result
     {
         if (0 === count($this->getInputs())) {
             return new Ok([]);

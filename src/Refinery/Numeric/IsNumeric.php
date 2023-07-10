@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Refinery\Numeric;
 
 use ILIAS\Refinery\Custom\Constraint;
@@ -27,10 +29,10 @@ class IsNumeric extends Constraint
     public function __construct(Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            static function ($value) : bool {
+            static function ($value): bool {
                 return is_numeric($value);
             },
-            static function ($txt, $value) : string {
+            static function ($txt, $value): string {
                 if ('' === $value) {
                     return (string) $txt("not_numeric_empty_string");
                 }

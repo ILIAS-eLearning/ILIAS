@@ -31,11 +31,11 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapUserAdministration extends ilSoapAdministration
 {
-    private ?php4DOMDocument $dom = null;
-
     public const USER_FOLDER_ID = 7;
 
-
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function login(string $client, string $username, string $password)
     {
         unset($_COOKIE[session_name()]);
@@ -87,7 +87,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
     }
 
     /**
-     * Logout user destroy session
+     * @return bool|soap_fault|SoapFault|null
      */
     public function logout(string $sid)
     {
@@ -104,6 +104,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return int|soap_fault|SoapFault|null
+     */
     public function lookupUser(string $sid, string $user_name)
     {
         $this->initAuth($sid);
@@ -140,129 +143,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
         return $user_id;
     }
 
-    public function getUser(string $sid, int $user_id)
-    {
-        $this->initAuth($sid);
-        $this->initIlias();
-
-        if (!$this->checkSession($sid)) {
-            return $this->raiseError($this->getMessage(), $this->getMessageCode());
-        }
-
-        global $DIC;
-
-        $access = $DIC->access();
-        $ilUser = $DIC->user();
-
-        if (
-        !$access->checkAccess(
-            'read_users',
-            '',
-            self::USER_FOLDER_ID
-        )
-        ) {
-            return $this->raiseError('Check access failed.', 'Server');
-        }
-
-        if ($ilUser->getLoginByUserId($user_id)) {
-            /** @var ilObjUser $tmp_user */
-            $tmp_user = ilObjectFactory::getInstanceByObjId($user_id);
-            $usr_data = $this->readUserData($tmp_user);
-
-            return $usr_data;
-        }
-        return $this->raiseError('User does not exist', 'Client');
-    }
-
-    public function deleteUser(string $sid, int $user_id)
-    {
-        $this->initAuth($sid);
-        $this->initIlias();
-
-        if (!$this->checkSession($sid)) {
-            return $this->raiseError($this->getMessage(), $this->getMessageCode());
-        }
-
-        if (!isset($user_id)) {
-            return $this->raiseError('No user_id given. Aborting', 'Client');
-        }
-
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilUser = $DIC['ilUser'];
-        $log = $DIC['log'];
-
-        if (!$rbacsystem->checkAccess('delete', self::USER_FOLDER_ID)) {
-            return $this->raiseError('Check access failed.', 'Server');
-        }
-
-        if (!$ilUser->getLoginByUserId($user_id)) {
-            return $this->raiseError('User id: ' . $user_id . ' is not a valid identifier. Aborting', 'Client');
-        }
-        if ($ilUser->getId() === $user_id) {
-            return $this->raiseError('Cannot delete myself. Aborting', 'Client');
-        }
-        if ($user_id === SYSTEM_USER_ID) {
-            return $this->raiseError('Cannot delete root account. Aborting', 'Client');
-        }
-        // Delete him
-        $log->write('SOAP: deleteUser()');
-        $delete_user = ilObjectFactory::getInstanceByObjId($user_id, false);
-        $delete_user->delete();
-
-        return true;
-    }
-
-    private function readUserData(\ilObjUser $usr_obj) : array
-    {
-        $usr_data['usr_id'] = $usr_obj->getId();
-        $usr_data['login'] = $usr_obj->getLogin();
-        $usr_data['passwd'] = $usr_obj->getPasswd();
-        $usr_data['passwd_type'] = $usr_obj->getPasswdType();
-        $usr_data['firstname'] = $usr_obj->getFirstname();
-        $usr_data['lastname'] = $usr_obj->getLastname();
-        $usr_data['title'] = $usr_obj->getUTitle();
-        $usr_data['gender'] = $usr_obj->getGender();
-        $usr_data['email'] = $usr_obj->getEmail();
-        $usr_data['second_email'] = $usr_obj->getSecondEmail();
-        $usr_data['institution'] = $usr_obj->getInstitution();
-        $usr_data['street'] = $usr_obj->getStreet();
-        $usr_data['city'] = $usr_obj->getCity();
-        $usr_data['zipcode'] = $usr_obj->getZipcode();
-        $usr_data['country'] = $usr_obj->getCountry();
-        $usr_data['phone_office'] = $usr_obj->getPhoneOffice();
-        $usr_data['last_login'] = $usr_obj->getLastLogin();
-        $usr_data['last_update'] = $usr_obj->getLastUpdate();
-        $usr_data['create_date'] = $usr_obj->getCreateDate();
-        $usr_data['hobby'] = $usr_obj->getHobby();
-        $usr_data['department'] = $usr_obj->getDepartment();
-        $usr_data['phone_home'] = $usr_obj->getPhoneHome();
-        $usr_data['phone_mobile'] = $usr_obj->getPhoneMobile();
-        $usr_data['fax'] = $usr_obj->getFax();
-        $usr_data['time_limit_owner'] = $usr_obj->getTimeLimitOwner();
-        $usr_data['time_limit_unlimited'] = $usr_obj->getTimeLimitUnlimited();
-        $usr_data['time_limit_from'] = $usr_obj->getTimeLimitFrom();
-        $usr_data['time_limit_until'] = $usr_obj->getTimeLimitUntil();
-        $usr_data['time_limit_message'] = $usr_obj->getTimeLimitMessage();
-        $usr_data['referral_comment'] = $usr_obj->getComment();
-        $usr_data['matriculation'] = $usr_obj->getMatriculation();
-        $usr_data['active'] = $usr_obj->getActive();
-        $usr_data['approve_date'] = $usr_obj->getApproveDate();
-        $usr_data['user_skin'] = $usr_obj->getPref('skin');
-        $usr_data['user_style'] = $usr_obj->getPref('style');
-        $usr_data['user_language'] = $usr_obj->getLanguage();
-        $usr_data['auth_mode'] = $usr_obj->getAuthMode();
-        $usr_data['accepted_agreement'] = !$usr_obj->hasToAcceptTermsOfService();
-        $usr_data['import_id'] = $usr_obj->getImportId();
-
-        return $usr_data;
-    }
-
     /**
-     * define ("IL_FAIL_ON_CONFLICT", 1);
-     * define ("IL_UPDATE_ON_CONFLICT", 2);
-     * define ("IL_IGNORE_ON_CONFLICT", 3);
+     * @return soap_fault|SoapFault|string|null
      */
     public function importUsers(string $sid, int $folder_id, string $usr_xml, int $conflict_rule, bool $send_account_mail)
     {
@@ -290,7 +172,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $error = false;
 
         // validate to prevent wrong XMLs
-        $this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_PARSING, $error);
+        @domxml_open_mem($usr_xml, DOMXML_LOAD_PARSING, $error);
         if ($error) {
             $msg = array();
             if (is_array($error)) {
@@ -546,7 +428,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
     }
 
     /**
-     * return list of users following dtd users_3_7
+     * @return ilObject|mixed|soap_fault|SoapFault|string|null
      */
     public function getUsersForContainer(string $sid, int $ref_id, bool $attachRoles, int $active)
     {
@@ -590,16 +472,16 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 $data = ilObjUser::_getUsersForFolder($ref_id, $active);
                 break;
             case "crs":
-            {
-                // GET ALL MEMBERS
-                $roles = $object->__getLocalRoles();
+                {
+                    // GET ALL MEMBERS
+                    $roles = $object->__getLocalRoles();
 
-                foreach ($roles as $role_id) {
-                    $data = array_merge($rbacreview->assignedUsers($role_id), $data);
+                    foreach ($roles as $role_id) {
+                        $data = array_merge($rbacreview->assignedUsers($role_id), $data);
+                    }
+
+                    break;
                 }
-
-                break;
-            }
             case "grp":
                 $member_ids = $object->getGroupMemberIds();
                 $data = ilObjUser::_getUsersForGroup($member_ids, $active);
@@ -631,6 +513,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
         return '';
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function getUserForRole(string $sid, int $role_id, bool $attachRoles, int $active)
     {
         $this->initAuth($sid);
@@ -706,7 +591,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
     /**
      *    Create XML ResultSet
      **/
-    private function getImportProtocolAsXML(array $a_array) : string
+    private function getImportProtocolAsXML(array $a_array): string
     {
         include_once './webservice/soap/classes/class.ilXMLResultSet.php';
         include_once './webservice/soap/classes/class.ilXMLResultSetWriter.php';
@@ -782,6 +667,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
      * @param array $a_keyValues  values separated by space, at least 3 chars per search term
      * @param bool
      * @param int
+     * @return soap_fault|SoapFault|null|string
      */
     public function searchUser(
         string $sid,
@@ -859,11 +745,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
     /**
      * create search term according to parameters
-     * @param array of string $a_keyfields
-     * @param string $queryOperator
-     * @param array of string $a_keyValues
      */
-    private function buildSearchQuery(array $a_keyfields, string $queryOperator, array $a_keyvalues) : string
+    private function buildSearchQuery(array $a_keyfields, string $queryOperator, array $a_keyvalues): string
     {
         global $DIC;
 
@@ -903,10 +786,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
     }
 
     /**
-     *    return user xmls for given user ids (csv separated ids) as xml based on usr dtd.
-     * @param string sid    session id
-     * @param array a_userids array of user ids, may be numeric or ilias ids
-     * @param bool attachRoles    if true, role assignments will be attached, nothing will be done otherwise
+     * @return soap_fault|SoapFault|string|null
      */
     public function getUserXML(string $sid, array $a_user_ids, bool $attach_roles)
     {
@@ -967,6 +847,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
         return ilMailGlobalServices::getNewMailsData($ilUser)['count'] > 0;
     }
 
+    /**
+     * @return int|soap_fault|SoapFault|null
+     */
     public function getUserIdBySid(string $sid)
     {
         $this->initAuth($sid);
@@ -989,7 +872,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
         if (!(int) $data['usr_id']) {
             $this->raiseError('User does not exist', 'Client');
         }
-
         return (int) $data['usr_id'];
     }
 }

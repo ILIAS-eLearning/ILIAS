@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Refinery;
 
 use ILIAS\Data\Result;
@@ -26,7 +28,7 @@ trait DeriveTransformFromApplyTo
     /**
      * @inheritDoc
      */
-    abstract public function applyTo(Result $result) : Result;
+    abstract public function applyTo(Result $result): Result;
 
     /**
      * @inheritDoc

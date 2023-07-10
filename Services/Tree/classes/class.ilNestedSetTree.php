@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -23,7 +25,7 @@ class ilNestedSetTree implements ilTreeImplementation
         $this->db = $DIC->database();
     }
 
-    public function getTree() : \ilTree
+    public function getTree(): \ilTree
     {
         return $this->tree;
     }
@@ -32,7 +34,7 @@ class ilNestedSetTree implements ilTreeImplementation
      * Get subtree ids
      * @retutn int[]
      */
-    public function getSubTreeIds(int $a_node_id) : array
+    public function getSubTreeIds(int $a_node_id): array
     {
         $query = 'SELECT s.child FROM ' .
             $this->getTree()->getTreeTable() . ' s, ' .
@@ -62,7 +64,7 @@ class ilNestedSetTree implements ilTreeImplementation
         array $a_types,
         bool $a_force_join_reference = true,
         array $a_fields = []
-    ) : string {
+    ): string {
         $type_str = '';
         if (is_array($a_types)) {
             if ($a_types) {
@@ -107,7 +109,7 @@ class ilNestedSetTree implements ilTreeImplementation
         array $a_types = [],
         bool $a_force_join_reference = true,
         array $a_fields = []
-    ) : string {
+    ): string {
         $type_str = '';
         if (count($a_types)) {
             if ($a_types) {
@@ -150,7 +152,7 @@ class ilNestedSetTree implements ilTreeImplementation
     /**
      * @inheritdoc
      */
-    public function getRelation(array $a_node_a, array $a_node_b) : int
+    public function getRelation(array $a_node_a, array $a_node_b): int
     {
         if ($a_node_a['child'] == $a_node_b['child']) {
             return ilTree::RELATION_EQUALS;
@@ -169,7 +171,7 @@ class ilNestedSetTree implements ilTreeImplementation
         return ilTree::RELATION_NONE;
     }
 
-    public function getPathIds(int $a_endnode, int $a_startnode = 0) : array
+    public function getPathIds(int $a_endnode, int $a_startnode = 0): array
     {
         return $this->getPathIdsUsingAdjacencyMap($a_endnode, $a_startnode);
     }
@@ -177,9 +179,9 @@ class ilNestedSetTree implements ilTreeImplementation
     /**
      * @inheritdoc
      */
-    public function insertNode(int $a_node_id, int $a_parent_id, int $a_pos) : void
+    public function insertNode(int $a_node_id, int $a_parent_id, int $a_pos): void
     {
-        $insert_node_callable = function (ilDBInterface $db) use ($a_node_id, $a_parent_id, $a_pos) : void {
+        $insert_node_callable = function (ilDBInterface $db) use ($a_node_id, $a_parent_id, $a_pos): void {
             switch ($a_pos) {
                 case ilTree::POS_FIRST_NODE:
 
@@ -323,7 +325,6 @@ class ilNestedSetTree implements ilTreeImplementation
                         }
                     } // Treatment for trees without gaps
                     else {
-
                         // get right value of parent
                         if ($this->getTree()->__isMainTree()) {
                             $query = sprintf(
@@ -425,7 +426,6 @@ class ilNestedSetTree implements ilTreeImplementation
                     }
 
                     break;
-
             }
 
             // get depth
@@ -458,10 +458,9 @@ class ilNestedSetTree implements ilTreeImplementation
     /**
      * @inheritdoc
      */
-    public function deleteTree(int $a_node_id) : void
+    public function deleteTree(int $a_node_id): void
     {
-        $delete_tree_callable = function (ilDBInterface $db) use ($a_node_id) : void {
-
+        $delete_tree_callable = function (ilDBInterface $db) use ($a_node_id): void {
             // Fetch lft, rgt directly (without fetchNodeData) to avoid unnecessary table locks
             // (object_reference, object_data)
             $query = 'SELECT *  FROM ' . $this->getTree()->getTreeTable() . ' ' .
@@ -538,9 +537,9 @@ class ilNestedSetTree implements ilTreeImplementation
     /**
      * @inheritdoc
      */
-    public function moveToTrash(int $a_node_id) : void
+    public function moveToTrash(int $a_node_id): void
     {
-        $move_to_trash_callable = function (ilDBInterface $db) use ($a_node_id) : void {
+        $move_to_trash_callable = function (ilDBInterface $db) use ($a_node_id): void {
             $node = $this->getTree()->getNodeTreeData($a_node_id);
 
             $query = 'UPDATE ' . $this->getTree()->getTreeTable() . ' ' .
@@ -575,7 +574,7 @@ class ilNestedSetTree implements ilTreeImplementation
      *
      * @return int[]
      */
-    protected function getPathIdsUsingAdjacencyMap(int $a_endnode_id, int $a_startnode_id = 0) : array
+    protected function getPathIdsUsingAdjacencyMap(int $a_endnode_id, int $a_startnode_id = 0): array
     {
         // The adjacency map algorithm is harder to implement than the nested sets algorithm.
         // This algorithms performs an index search for each of the path element.
@@ -709,7 +708,7 @@ class ilNestedSetTree implements ilTreeImplementation
      * if startnode is not given the rootnode is startnode
      * @return int[]
      */
-    public function getPathIdsUsingNestedSets(int $a_endnode_id, int $a_startnode_id = 0) : array
+    public function getPathIdsUsingNestedSets(int $a_endnode_id, int $a_startnode_id = 0): array
     {
         // The nested sets algorithm is very easy to implement.
         // Unfortunately it always does a full table space scan to retrieve the path
@@ -753,9 +752,9 @@ class ilNestedSetTree implements ilTreeImplementation
     /**
      * @inheritdoc
      */
-    public function moveTree(int $a_source_id, int $a_target_id, int $a_position) : void
+    public function moveTree(int $a_source_id, int $a_target_id, int $a_position): void
     {
-        $move_tree_callable = function (ilDBInterface $ilDB) use ($a_source_id, $a_target_id, $a_position) : void {
+        $move_tree_callable = function (ilDBInterface $ilDB) use ($a_source_id, $a_target_id, $a_position): void {
             // Receive node infos for source and target
             $query = 'SELECT * FROM ' . $this->getTree()->getTreeTable() . ' ' .
                 'WHERE ( child = %s OR child = %s ) ' .
@@ -916,7 +915,7 @@ class ilNestedSetTree implements ilTreeImplementation
      * @param int $a_endnode_id
      * @return array<int, array{lft: int, rgt: int, child: int, type: string}>
      */
-    public function getSubtreeInfo(int $a_endnode_id) : array
+    public function getSubtreeInfo(int $a_endnode_id): array
     {
         $query = "SELECT t2.lft lft, t2.rgt rgt, t2.child child, type " .
             "FROM " . $this->getTree()->getTreeTable() . " t1 " .
@@ -950,7 +949,7 @@ class ilNestedSetTree implements ilTreeImplementation
      * @todo add unit test; check failure result
      * @fixme fix $row access
      */
-    public function validateParentRelations() : array
+    public function validateParentRelations(): array
     {
         $query = 'select child from ' . $this->getTree()->getTreeTable() . ' child where not exists ' .
             '( ' .

@@ -15,7 +15,7 @@
 
 class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockViewGUI
 {
-    public function getGroups() : array
+    public function getGroups(): array
     {
         if ($this->viewSettings->isSortedByLocation()) {
             return $this->groupItemsByLocation();
@@ -28,27 +28,27 @@ class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockVie
         return $this->groupItemsByType();
     }
 
-    public function getScreenId() : string
+    public function getScreenId(): string
     {
         return 'crs_grp';
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('my_courses_groups');
     }
 
-    public function supportsSelectAll() : bool
+    public function supportsSelectAll(): bool
     {
         return false;
     }
 
-    public function mayRemoveItem($refId) : bool
+    public function mayRemoveItem($refId): bool
     {
         return $this->accessHandler->checkAccess('leave', $refId);
     }
 
-    public function getIntroductionHtml() : string
+    public function getIntroductionHtml(): string
     {
         $tpl = new ilTemplate('tpl.dashboard_my_memberships_intro.html', true, true, 'Services/Dashboard');
         $tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon(0, 'big', 'pd'));

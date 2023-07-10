@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\Factory;
 
@@ -18,9 +36,11 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     protected array $js_conf;
 
     /**
-     * @var array stored js onload codes
+     * @var array<int, string> stored js onload codes
      */
-    protected static array $js_on_load_added = array();
+    protected static array $js_on_load_added = [];
+
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
 
     /**
      * @param $target string url for the onclick event of a node
@@ -38,7 +58,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * Adds the javascript to template
      */
-    public static function addJavascript() : void
+    public static function addJavascript(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -49,7 +69,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * Creates the onclick function call
      */
-    public function buildOnClick($node_id, string $type, string $title) : string
+    public function buildOnClick($node_id, string $type, string $title): string
     {
         $result = "";
         $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
@@ -69,7 +89,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * Sets the href-value to a void js call
      */
-    public function buildLinkTarget($node_id, string $type) : string
+    public function buildLinkTarget($node_id, string $type): string
     {
         return "javascript:void(0);";
     }
@@ -77,9 +97,9 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * Returns the explorer html and adds the javascript to the template
      */
-    public function getOutput() : string
+    public function getOutput(): string
     {
-        self::initJs();
+        $this->initJs();
 
         return parent::getOutput();
     }
@@ -88,18 +108,21 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
      * Initializes the js
      * Adds the on load code for the async explorer
      */
-    public function initJs() : void
+    public function initJs(): void
     {
-        self::addOnLoadCode(
+        $this->addOnLoadCode(
             'explorer',
-            '$("#' . $this->getId() . '").study_programme_async_explorer(' . json_encode($this->js_conf) . ');'
+            '$("#' . $this->getId() . '").study_programme_async_explorer(' . json_encode(
+                $this->js_conf,
+                JSON_THROW_ON_ERROR
+            ) . ');'
         );
     }
 
     /**
      * Adds onload code to the template
      */
-    protected function addOnLoadCode(string $id, string $content) : void
+    protected function addOnLoadCode(string $id, string $content): void
     {
         if (!isset(self::$js_on_load_added[$id])) {
             $this->tpl->addOnLoadCode($content);
@@ -110,7 +133,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * Adds additional js to the onload code of the async explorer
      */
-    public function addJsConf(string $key, string $value) : void
+    public function addJsConf(string $key, string $value): void
     {
         $this->js_conf[$key] = $value;
     }
@@ -118,7 +141,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * Returns a certain setting of the additional configuration
      */
-    public function getJsConf(string $key) : string
+    public function getJsConf(string $key): string
     {
         return $this->js_conf[$key];
     }

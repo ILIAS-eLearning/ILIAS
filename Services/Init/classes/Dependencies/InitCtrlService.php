@@ -1,8 +1,25 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\DI\Container;
+use ILIAS\Services\Help\ScreenId\HelpScreenIdObserver;
 
 /**
  * Class InitCtrlService wraps the initialization of ilCtrl.
@@ -20,7 +37,7 @@ final class InitCtrlService
      * @param Container $dic
      * @throws ilCtrlException if the initialization fails.
      */
-    public function init(Container $dic) : void
+    public function init(Container $dic): void
     {
         $this->abortIfMissingDependencies($dic);
         $ilias_path = dirname(__FILE__, 5) . '/';
@@ -54,7 +71,8 @@ final class InitCtrlService
             $dic->http()->wrapper()->post(),
             $dic->http()->wrapper()->query(),
             $dic->refinery(),
-            $dic["component.factory"]
+            $dic["component.factory"],
+            new ilCtrlSubject(),
         );
 
         // add helper function to DI container that
@@ -71,7 +89,7 @@ final class InitCtrlService
      * @throws ilCtrlException if a necessary dependency is not yet
      *                         initialized.
      */
-    private function abortIfMissingDependencies(Container $dic) : void
+    private function abortIfMissingDependencies(Container $dic): void
     {
         if (!$dic->offsetExists('http')) {
             throw new ilCtrlException("Cannot initialize ilCtrl if HTTP Services are not yet available.");

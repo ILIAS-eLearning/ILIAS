@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,7 +41,7 @@ class ilSessionAppEventListener implements ilAppEventListener
         $this->logger = $logger;
     }
 
-    public function withComponent(string $component) : ilSessionAppEventListener
+    public function withComponent(string $component): ilSessionAppEventListener
     {
         $clone = clone $this;
 
@@ -48,7 +50,7 @@ class ilSessionAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    public function withEvent(string $event) : ilSessionAppEventListener
+    public function withEvent(string $event): ilSessionAppEventListener
     {
         $clone = clone $this;
 
@@ -57,7 +59,7 @@ class ilSessionAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    public function withParameters(array $parameters) : ilSessionAppEventListener
+    public function withParameters(array $parameters): ilSessionAppEventListener
     {
         $clone = clone $this;
 
@@ -66,14 +68,14 @@ class ilSessionAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         global $DIC;
 
         $listener = new static(
             $DIC->database(),
             $DIC['ilObjDataCache'],
-            $DIC->logger()->root()
+            $DIC->logger()->sess()
         );
 
         $listener
@@ -83,8 +85,18 @@ class ilSessionAppEventListener implements ilAppEventListener
             ->handle();
     }
 
-    public function handle() : void
+    public function handle(): void
     {
+        if ($this->component === 'Services/AccessControl') {
+            if ($this->event === 'deassignUser') {
+                $session = ilObjectFactory::getInstanceByObjId($this->parameters['obj_id'], false);
+                if ($session instanceof ilObjSession) {
+                    $session->handleAutoFill();
+                }
+            }
+        }
+
+
         if ('Modules/Session' !== $this->component) {
             return;
         }
@@ -102,28 +114,25 @@ class ilSessionAppEventListener implements ilAppEventListener
         }
     }
 
-    private function handleRegisterEvent() : void
+    private function handleRegisterEvent(): void
     {
         $type = ilSessionMembershipMailNotification::TYPE_REGISTER_NOTIFICATION;
-
         $this->sendMail($type);
     }
 
-    private function handleEnteredEvent() : void
+    private function handleEnteredEvent(): void
     {
         $type = ilSessionMembershipMailNotification::TYPE_ENTER_NOTIFICATION;
-
         $this->sendMail($type);
     }
 
-    private function handleUnregisterEvent() : void
+    private function handleUnregisterEvent(): void
     {
         $type = ilSessionMembershipMailNotification::TYPE_UNREGISTER_NOTIFICATION;
-
         $this->sendMail($type);
     }
 
-    private function fetchRecipientParticipants() : array
+    private function fetchRecipientParticipants(): array
     {
         $object = new ilEventParticipants((int) $this->parameters['obj_id']);
 
@@ -138,7 +147,7 @@ class ilSessionAppEventListener implements ilAppEventListener
         return $recipients;
     }
 
-    private function sendMail(int $type) : void
+    private function sendMail(int $type): void
     {
         $recipients = $this->fetchRecipientParticipants();
         if (!empty($recipients)) {
@@ -146,7 +155,6 @@ class ilSessionAppEventListener implements ilAppEventListener
             $notification->setRecipients($recipients);
             $notification->setType($type);
             $notification->setRefId($this->parameters['ref_id']);
-
             $notification->send((int) $this->parameters['usr_id']);
         }
     }

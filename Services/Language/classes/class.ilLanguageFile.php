@@ -1,25 +1,23 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * Class ilLanguageFile
@@ -46,7 +44,7 @@ class ilLanguageFile
     private array $values;
     private array $comments;
     private string $error_message = "";
-    
+
     /**
     * Constructor
     * $a_file      language file path and name
@@ -67,13 +65,13 @@ class ilLanguageFile
 
         // initialize the header of a blank file
         $this->header = $this->file_start;
-        
+
         // Set the default parameters to be written in a new file.
         // This ensures the correct order of parameters
-        
+
         $this->params["module"] = "language file";
         $this->params["modulegroup"] = "language";
-        
+
         if ($this->scope === "local") {
             $this->params["based_on"] = "";
         } else {
@@ -91,11 +89,11 @@ class ilLanguageFile
     * Read a language file
     * Return true, if reading successful. Otherwise return false
     */
-    public function read() : bool
+    public function read(): bool
     {
         global $DIC;
         $lng = $DIC->language();
-        
+
         $this->header = '';
         $this->params = array();
         $this->values = array();
@@ -141,7 +139,7 @@ class ilLanguageFile
             } else {
                 // separate the lang file entry
                 $separated = explode($this->separator, trim($line));
-                
+
                 // not a valid line with module, identifier and value?
                 if (count($separated) !== 3) {
                     $this->error_message =
@@ -158,7 +156,7 @@ class ilLanguageFile
                     if ($pos !== false) {
                         $this->comments[$key]
                             = substr($value, $pos + strlen($this->comment_separator));
-                            
+
                         $value = substr($value, 0, $pos);
                     }
                     $this->values[$key] = $value;
@@ -173,13 +171,13 @@ class ilLanguageFile
 
         return true;
     }
-    
+
     /**
     * Write a language file
     *
     * $a_header      (optional) fixed header for the new file
     */
-    public function write(string $a_header = "") : void
+    public function write(string $a_header = ""): void
     {
         $fp = fopen($this->lang_file, 'wb');
         fwrite($fp, $this->build($a_header));
@@ -191,7 +189,7 @@ class ilLanguageFile
     *
     * $a_header     (optional) fixed header for the new file
     */
-    public function build(string $a_header = '') : string
+    public function build(string $a_header = ''): string
     {
         global $DIC;
         $ilUser = $DIC->user();
@@ -211,7 +209,7 @@ class ilLanguageFile
             // build the header
             $tpl = new ilTemplate("tpl.lang_file_header.html", true, true, "Services/Language");
             foreach ($this->getAllParams() as $name => $value) {
-                $tabs = ceil((20 - 3 - strlen($name)) / 4);
+                $tabs = intval(ceil((20 - 3 - strlen($name)) / 4));
                 $tabs = $tabs > 0 ? $tabs : 1;
 
                 $tpl->setCurrentBlock("param");
@@ -240,18 +238,18 @@ class ilLanguageFile
 
             $content .= $key . $this->separator . $value;
 
-            if ($this->comments[$key]) {
+            if (isset($this->comments[$key])) {
                 $content .= $this->comment_separator . $this->comments[$key];
             }
         }
         return $content;
     }
-    
-    
+
+
     /**
     * Get the error message of the last read/write operation
     */
-    public function getErrorMessage() : string
+    public function getErrorMessage(): string
     {
         return $this->error_message;
     }
@@ -260,17 +258,17 @@ class ilLanguageFile
     /**
     * Get the header of the original file
     */
-    public function getHeader() : string
+    public function getHeader(): string
     {
         return $this->header;
     }
 
-    
+
     /**
     * Get array of all parameters
     * Return array     [name => value]
     */
-    public function getAllParams() : array
+    public function getAllParams(): array
     {
         return $this->params;
     }
@@ -279,7 +277,7 @@ class ilLanguageFile
     * Get array of all values
     * Return array     [module.separator.identifier => value]
     */
-    public function getAllValues() : array
+    public function getAllValues(): array
     {
         return $this->values;
     }
@@ -288,7 +286,7 @@ class ilLanguageFile
     * Get array of all comments
     * Return array     [module.separator.identifier => comment]
     */
-    public function getAllComments() : array
+    public function getAllComments(): array
     {
         return $this->comments;
     }
@@ -297,7 +295,7 @@ class ilLanguageFile
     * Get a single parameter
     * $a_name    parameter name
     */
-    public function getParam(string $a_name) : string
+    public function getParam(string $a_name): string
     {
         return $this->params[$a_name];
     }
@@ -307,7 +305,7 @@ class ilLanguageFile
     * $a_module      module name
     * $a_identifier      indentifier
     */
-    public function getValue(string $a_module, string $a_identifier) : string
+    public function getValue(string $a_module, string $a_identifier): string
     {
         return $this->values[$a_module . $this->separator . $a_identifier];
     }
@@ -317,7 +315,7 @@ class ilLanguageFile
     * $a_module      module name
     * $a_identifier      indentifier
     */
-    public function getComment(string $a_module, string $a_identifier) : string
+    public function getComment(string $a_module, string $a_identifier): string
     {
         return $this->comments[$a_module . $this->separator . $a_identifier];
     }
@@ -327,7 +325,7 @@ class ilLanguageFile
     * $a_name    parameter name
     * $a_value   parameter value
     */
-    public function setParam(string $a_name, string $a_value) : void
+    public function setParam(string $a_name, string $a_value): void
     {
         $this->params[$a_name] = $a_value;
     }
@@ -338,7 +336,7 @@ class ilLanguageFile
     * $a_identifier      indentifier
     * $a_value      value
     */
-    public function setValue(string $a_module, string $a_identifier, string $a_value) : void
+    public function setValue(string $a_module, string $a_identifier, string $a_value): void
     {
         $this->values[$a_module . $this->separator . $a_identifier] = $a_value;
     }
@@ -347,7 +345,7 @@ class ilLanguageFile
     * Set all values
     * $a_values       [module.separator.identifier => value]
     */
-    public function setAllValues(array $a_values) : void
+    public function setAllValues(array $a_values): void
     {
         $this->values = $a_values;
     }
@@ -356,7 +354,7 @@ class ilLanguageFile
     * Set all comments
     * $a_comments       [module.separator.identifier => comment]
     */
-    public function setAllComments(array $a_comments) : void
+    public function setAllComments(array $a_comments): void
     {
         $this->comments = $a_comments;
     }
@@ -368,11 +366,11 @@ class ilLanguageFile
     * $a_identifier      indentifier
     * $a_comment      comment
     */
-    public function setComment(string $a_module, string $a_identifier, string $a_comment) : string
+    public function setComment(string $a_module, string $a_identifier, string $a_comment): string
     {
         return $this->comments[$a_module . $this->separator . $a_identifier] = $a_comment;
     }
-    
+
     /**
     * Read and get a global language file as a singleton object
     * $a_lang_key     language key
@@ -382,7 +380,7 @@ class ilLanguageFile
     {
         global $DIC;
         $lng = $DIC->language();
-        
+
         if (!isset(self::$global_file_objects[$a_lang_key])) {
             $file_object = new ilLanguageFile(
                 $lng->lang_path . "/ilias_" . $a_lang_key . ".lang",
@@ -390,10 +388,10 @@ class ilLanguageFile
                 "global"
             );
             $file_object->read();
-            
+
             self::$global_file_objects[$a_lang_key] = $file_object;
         }
-        
+
         return self::$global_file_objects[$a_lang_key];
     }
 }

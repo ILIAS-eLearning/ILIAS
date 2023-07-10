@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjObjectFolderGUI
  *
@@ -38,7 +40,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
     /**
     * list children of current object
     */
-    public function viewObject() : void
+    public function viewObject(): void
     {
         if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
@@ -70,7 +72,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
         $this->displayList();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -93,7 +95,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
         }
     }
 
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(

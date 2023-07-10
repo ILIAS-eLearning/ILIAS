@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
@@ -86,7 +88,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
     /**
      * find groups in course, exclude groups in groups
      */
-    public function initGroups() : void
+    public function initGroups(): void
     {
         $parent_node = $this->tree->getNodeData($this->ref_id);
         $groups = $this->tree->getSubTree($parent_node, true, ['grp']);
@@ -139,7 +141,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
     /**
      * Init filter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $item = $this->addFilterItemByMetaType("name", ilTable2GUI::FILTER_TEXT);
         $this->filter["name"] = $item->getValue();
@@ -151,7 +153,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
         }
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         if ($this->groups) {
             $part = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
@@ -197,7 +199,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
 

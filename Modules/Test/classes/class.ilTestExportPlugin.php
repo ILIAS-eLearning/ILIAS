@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Component/classes/class.ilPlugin.php';
-require_once 'Modules/Test/classes/class.ilTestExportFilename.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Abstract parent class for all event hook plugin classes.
@@ -21,7 +33,7 @@ abstract class ilTestExportPlugin extends ilPlugin
      * @var int
      */
     protected $timestmap = -1;
-    
+
     /**
      * @var array
      */
@@ -51,7 +63,7 @@ abstract class ilTestExportPlugin extends ilPlugin
     /**
      * @return ilObjTest
      */
-    final protected function getTest() : ilObjTest
+    final protected function getTest(): ilObjTest
     {
         return $this->test;
     }
@@ -67,16 +79,16 @@ abstract class ilTestExportPlugin extends ilPlugin
     /**
      * @return int
      */
-    public function getTimestmap() : int
+    public function getTimestmap(): int
     {
         return $this->timestmap;
     }
-    
+
     /**
      * @return string
      * @throws ilException
      */
-    final public function getFormat() : string
+    final public function getFormat(): string
     {
         $format_id = $this->getFormatIdentifier();
 
@@ -146,11 +158,11 @@ abstract class ilTestExportPlugin extends ilPlugin
      *
      * @return string
      */
-    abstract protected function getFormatIdentifier() : string;
+    abstract protected function getFormatIdentifier(): string;
 
     /**
      * This method should return a human readable label for your export
      * @return string
      */
-    abstract public function getFormatLabel() : string;
+    abstract public function getFormatLabel(): string;
 }

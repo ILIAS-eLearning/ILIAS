@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Object data set class
  *
@@ -27,20 +29,20 @@
  */
 class ilObjectDataSet extends ilDataSet
 {
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("4.4.0", "5.1.0", "5.2.0", "5.4.0");
     }
-    
-    protected function getXmlNamespace(string $entity, string $schema_version) : string
+
+    protected function getXmlNamespace(string $entity, string $schema_version): string
     {
         return "http://www.ilias.de/xml/Services/Object/" . $entity;
     }
-    
+
     /**
      * Get field types for entity
      */
-    protected function getTypes(string $entity, string $version) : array
+    protected function getTypes(string $entity, string $version): array
     {
         if ($entity == "transl_entry") {
             switch ($version) {
@@ -109,10 +111,11 @@ class ilObjectDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $entity, string $version, array $ids) : void
+    public function readData(string $entity, string $version, array $ids): void
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-                
+
         if ($entity == "transl_entry") {
             switch ($version) {
                 case "4.4.0":
@@ -164,8 +167,8 @@ class ilObjectDataSet extends ilDataSet
                             $settings[] = ilObjectServiceSettingsGUI::USE_NEWS;
                         }
                         foreach ($settings as $s) {
-                            $val = ilContainer::_lookupContainerSetting((int) $id, $s);
-                            if ($val) {
+                            if (ilContainer::_hasContainerSetting((int) $id, $s)) {
+                                $val = ilContainer::_lookupContainerSetting((int) $id, $s);
                                 $this->data[] = [
                                     "ObjId" => $id,
                                     "Setting" => $s,
@@ -188,10 +191,14 @@ class ilObjectDataSet extends ilDataSet
         }
         // tile images
         if ($entity == "tile") {
-            $cs = $DIC->object()->commonSettings();
             $this->data = [];
             foreach ($ids as $id) {
-                $ti = $cs->tileImage()->getByObjId((int) $id);
+                $ti = new ilObjectTileImage(
+                    $DIC->filesystem()->web(),
+                    $DIC->upload(),
+                    (int) $id
+                );
+
                 if ($ti->exists()) {
                     $this->data[] = [
                         "ObjId" => $id,
@@ -228,33 +235,30 @@ class ilObjectDataSet extends ilDataSet
         string $version,
         ?array $rec = null,
         ?array $ids = null
-    ) : array {
+    ): array {
         $rec["ObjId"] = $rec["ObjId"] ?? null;
         switch ($entity) {
-            case "common":
+            case 'common':
                 return [
-                    "transl" => ["ids" => $rec["ObjId"]],
-                    "service_settings" => ["ids" => $rec["ObjId"]],
-                    "tile" => ["ids" => $rec["ObjId"]],
-                    "icon" => ["ids" => $rec["ObjId"]]
-                ];
-
-            case "transl":
-                return [
-                    "transl_entry" => ["ids" => $rec["ObjId"]]
+                    'transl' => ['ids' => $rec['ObjId']],
+                    'transl_entry' => ['ids' => $rec['ObjId']],
+                    'service_settings' => ['ids' => $rec['ObjId']],
+                    'tile' => ['ids' => $rec['ObjId']],
+                    'icon' => ['ids' => $rec['ObjId']]
                 ];
         }
 
         return [];
     }
-    
+
     public function importRecord(
         string $entity,
         array $types,
         array $rec,
         ilImportMapping $mapping,
         string $schema_version
-    ) : void {
+    ): void {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         switch ($entity) {
@@ -266,7 +270,7 @@ class ilObjectDataSet extends ilDataSet
                         $rec["LangCode"],
                         $rec["Title"],
                         $rec["Description"],
-                        $rec["LangDefault"],
+                        (bool) $rec["LangDefault"],
                         true
                     );
                     $transl->save();
@@ -308,7 +312,6 @@ class ilObjectDataSet extends ilDataSet
                 if ($dir != "" && $this->getImportDirectory() != "") {
                     $source_dir = $this->getImportDirectory() . "/" . $dir;
 
-                    /** @var ilObjectCustomIconFactory $customIconFactory */
                     $customIconFactory = $DIC['object.customicons.factory'];
                     $customIcon = $customIconFactory->getByObjId($new_id, ilObject::_lookupType($new_id));
                     $customIcon->createFromImportDir($source_dir);
@@ -320,21 +323,24 @@ class ilObjectDataSet extends ilDataSet
                 $dir = str_replace("..", "", $rec["Dir"]);
                 if ($new_id > 0 && $dir != "" && $this->getImportDirectory() != "") {
                     $source_dir = $this->getImportDirectory() . "/" . $dir;
-                    $cs = $DIC->object()->commonSettings();
-                    $ti = $cs->tileImage()->getByObjId($new_id);
+                    $ti = new ilObjectTileImage(
+                        $DIC->filesystem()->web(),
+                        $DIC->upload(),
+                        $new_id
+                    );
                     $ti->createFromImportDir($source_dir, $rec["Extension"]);
                 }
                 break;
         }
     }
 
-    public function getNewObjId(ilImportMapping $mapping, string $old_id) : int
+    public function getNewObjId(ilImportMapping $mapping, string $old_id): int
     {
         global $DIC;
-        
+
         /** @var ilObjectDefinition $objDefinition */
         $objDefinition = $DIC["objDefinition"];
-        
+
         $new_id = $mapping->getMapping('Services/Container', 'objs', $old_id);
         if (!$new_id) {
             $new_id = $mapping->getMapping('Services/Object', 'objs', $old_id);

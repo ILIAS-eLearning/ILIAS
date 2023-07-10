@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilGroupNameAsMailValidatorTest
  * @author Niels Theen <ntheen@databay.de>
@@ -23,18 +25,18 @@
  */
 class ilGroupNameAsMailValidatorTest extends ilMailBaseTest
 {
-    public function testGroupIsDetectedIfGroupNameExists() : void
+    public function testGroupIsDetectedIfGroupNameExists(): void
     {
-        $validator = new ilGroupNameAsMailValidator('someHost', static function (string $groupName) : bool {
+        $validator = new ilGroupNameAsMailValidator('someHost', static function (string $groupName): bool {
             return true;
         });
 
         $this->assertTrue($validator->validate(new ilMailAddress('phpunit', 'someHost')));
     }
 
-    public function testGroupIsNotDetectedIfGroupNameDoesNotExists() : void
+    public function testGroupIsNotDetectedIfGroupNameDoesNotExists(): void
     {
-        $validator = new ilGroupNameAsMailValidator('someHost', static function (string $groupName) : bool {
+        $validator = new ilGroupNameAsMailValidator('someHost', static function (string $groupName): bool {
             return false;
         });
 

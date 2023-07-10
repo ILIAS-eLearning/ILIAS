@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Style\Content\Object\ObjectFacade;
@@ -37,32 +39,17 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
     public const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
 
     protected string $presentationMode = self::PRESENTATION_MODE_EDITING;
-    protected ilCtrlInterface $ctrl;
-    protected ilLanguage $lng;
-    protected ilTabsGUI $tabs;
-    protected ilObjForum $parentObject;
     protected string $backUrl = '';
-    protected ilObjUser $actor;
-    protected GlobalHttpState $http;
-    protected ObjectFacade $content_style_domain;
 
     public function __construct(
-        GlobalHttpState $http,
-        ilCtrlInterface $ctrl,
-        ilTabsGUI $tabs,
-        ilLanguage $lng,
-        ilObjForum $parentObject,
-        ilObjUser $actor,
-        ObjectFacade $content_style_domain
+        protected GlobalHttpState $http,
+        protected ilCtrlInterface $ctrl,
+        protected ilTabsGUI $tabs,
+        protected ilLanguage $lng,
+        protected ilObjForum $parentObject,
+        protected ilObjUser $actor,
+        protected ObjectFacade $content_style_domain
     ) {
-        $this->http = $http;
-        $this->ctrl = $ctrl;
-        $this->tabs = $tabs;
-        $this->lng = $lng;
-        $this->parentObject = $parentObject;
-        $this->actor = $actor;
-        $this->content_style_domain = $content_style_domain;
-
         $this->lng->loadLanguageModule('content');
 
         $this->backUrl = '';
@@ -78,28 +65,36 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
     /**
      * @param array<string, mixed> $parameters
      */
-    public function onPageUpdate(array $parameters) : void
+    public function onPageUpdate(array $parameters): void
     {
     }
 
-    protected function getPageObjectGUI(string $language, bool $isEmbedded = false) : ilForumPageGUI
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    public function updateForumOnPageUpdate(array $parameters): void
+    {
+        $this->parentObject->update();
+    }
+
+    protected function getPageObjectGUI(string $language, bool $isEmbedded = false): ilForumPageGUI
     {
         $pageObjectGUI = new ilForumPageGUI($this->parentObject->getId(), 0, $isEmbedded, $language);
         $pageObjectGUI->setStyleId(
             $this->content_style_domain->getEffectiveStyleId()
         );
 
-        $pageObjectGUI->obj->addUpdateListener($this->parentObject, 'update');
+        $pageObjectGUI->obj->addUpdateListener($this, 'updateForumOnPageUpdate', []);
 
         return $pageObjectGUI;
     }
 
-    protected function doesPageExistsForLanguage(string $language) : bool
+    protected function doesPageExistsForLanguage(string $language): bool
     {
         return ilForumPage::_exists($this->parentObject->getType(), $this->parentObject->getId(), $language);
     }
 
-    protected function ensurePageObjectExists(string $language) : void
+    protected function ensurePageObjectExists(string $language): void
     {
         if (!$this->doesPageExistsForLanguage($language)) {
             $pageObject = new ilForumPage();
@@ -110,7 +105,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
         }
     }
 
-    protected function setBackLinkTab() : void
+    protected function setBackLinkTab(): void
     {
         $backUrl = $this->ctrl->getLinkTargetByClass(ilObjForumGUI::class, 'showThreads');
         if ($this->backUrl !== '') {
@@ -126,7 +121,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
         $this->tabs->setBackTarget($this->lng->txt('back'), $backUrl);
     }
 
-    protected function buildEditingPageObjectGUI(string $language) : ilForumPageGUI
+    protected function buildEditingPageObjectGUI(string $language): ilForumPageGUI
     {
         $this->tabs->clearTargets();
 
@@ -143,7 +138,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
         return $pageObjectGUI;
     }
 
-    protected function buildPresentationPageObjectGUI(string $language) : ilForumPageGUI
+    protected function buildPresentationPageObjectGUI(string $language): ilForumPageGUI
     {
         $this->ensurePageObjectExists($language);
 
@@ -156,7 +151,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
         return $pageObjectGUI;
     }
 
-    protected function buildEmbeddedPresentationPageObjectGUI(string $language) : ilForumPageGUI
+    protected function buildEmbeddedPresentationPageObjectGUI(string $language): ilForumPageGUI
     {
         $this->ensurePageObjectExists($language);
 
@@ -169,18 +164,16 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
         return $pageObjectGUI;
     }
 
-    public function setPresentationMode(string $presentationMode) : void
+    public function setPresentationMode(string $presentationMode): void
     {
         $this->presentationMode = $presentationMode;
     }
 
     /**
-     * @param string $ctrlLink
-     * @return string
      * @throws ilCtrlException
      * @throws ilException
      */
-    public function forward(string $ctrlLink = '') : string
+    public function forward(string $ctrlLink = ''): string
     {
         switch ($this->presentationMode) {
             case self::PRESENTATION_MODE_EDITING:

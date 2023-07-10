@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -37,24 +39,24 @@ class ilMD2XML extends ilXmlWriter
         parent::__construct();
     }
 
-    public function setExportMode(bool $a_export_mode = true) : void
+    public function setExportMode(bool $a_export_mode = true): void
     {
         $this->export_mode = $a_export_mode;
     }
 
-    public function getExportMode() : bool
+    public function getExportMode(): bool
     {
         return $this->export_mode;
     }
 
-    public function startExport() : void
+    public function startExport(): void
     {
         // Starts the xml export and calls all element classes
         $this->md_obj->setExportMode($this->getExportMode());
         $this->md_obj->toXML($this);
     }
 
-    public function getXML() : string
+    public function getXML(): string
     {
         return $this->xmlDumpMem(false);
     }

@@ -1,114 +1,99 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitOperationQueries
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @deprecated Please use OrgUnitOperationRepository
  */
 class ilOrgUnitOperationQueries
 {
+    protected static ilOrgUnitOperationDBRepository $operationRepo;
+
+    protected static function getOperationRepo()
+    {
+        if (!isset(self::$operationRepo)) {
+            $dic = ilOrgUnitLocalDIC::dic();
+            self::$operationRepo = $dic["repo.Operations"];
+        }
+
+        return self::$operationRepo;
+    }
 
     /**
-     * @param        $operation_name
-     * @param        $description
-     * @param string $context ilOrgUnitOperationContext::CONTEXT_OBJECT will provide this new
-     *                        operation to all contexts such as
-     *                        ilOrgUnitOperationContext::CONTEXT_GRP or
-     *                        ilOrgUnitOperationContext::CONTEXT_CRS
-     *                        use a more specific for your object type but the related context must
-     *                        exist. Register a new context using
-     *                        ilOrgUnitOperationContext::registerNewContext() for plugins
-     * @throws \ilException
+     * @deprecated Please use get() from OrgUnitOperationRepository
      */
     public static function registerNewOperation(
-        $operation_name,
-        $description,
-        $context = ilOrgUnitOperationContext::CONTEXT_OBJECT
-    ) {
-        $contextList = ilOrgUnitOperationContext::where(array('context' => $context));
-        if (!$contextList->hasSets()) {
-            throw new ilException('Context does not exist! register context first using ilOrgUnitOperationContext::registerNewContext()');
-        }
-        /**
-         * @var $ilOrgUnitOperationContext \ilOrgUnitOperationContext
-         */
-        $ilOrgUnitOperationContext = $contextList->first();
-
-        if (ilOrgUnitOperation::where(array(
-            'context_id' => $ilOrgUnitOperationContext->getId(),
-            'operation_string' => $operation_name,
-        ))->hasSets()
-        ) {
-            throw new ilException('This operation in this context has already been registered.');
-        }
-        $operation = new ilOrgUnitOperation();
-        $operation->setOperationString($operation_name);
-        $operation->setContextId($ilOrgUnitOperationContext->getId());
-        $operation->setDescription($description);
-        $operation->create();
+        string $operation_name,
+        string $description,
+        string $context = ilOrgUnitOperationContext::CONTEXT_OBJECT
+    ): void {
+        self::getOperationRepo()->get($operation_name, $description, [$context]);
     }
 
     /**
-     * @param       $operation_name
-     * @param       $description
-     * @param array $contexts
-     * @see registerNewOperation
+     * @deprecated Please use get() from OrgUnitOperationRepository
      */
-    public static function registerNewOperationForMultipleContexts($operation_name, $description, array $contexts)
-    {
-        foreach ($contexts as $context) {
-            self::registerNewOperation($operation_name, $description, $context);
-        }
+    public static function registerNewOperationForMultipleContexts(
+        string $operation_name,
+        string $description,
+        array $contexts
+    ): void {
+        self::getOperationRepo()->get($operation_name, $description, $contexts);
     }
 
     /**
-     * @param $context_name
+     * @deprecated Please use getOperationsByContextName() from OrgUnitOperationRepository
      * @return ilOrgUnitOperation[]
      */
-    public static function getOperationsForContextName($context_name)
+    public static function getOperationsForContextName(string $context_name): array
     {
-        /**
-         * @var $context ilOrgUnitOperationContext
-         */
-        $context = ilOrgUnitOperationContextQueries::findByName($context_name);
-
-        return ilOrgUnitOperation::where(array('context_id' => $context->getPopulatedContextIds()))
-                                 ->get();
+        return self::getOperationRepo()->getOperationsByContextName($context_name);
     }
 
     /**
-     * @param $context_id
-     * @return \ilOrgUnitOperation[]
+     * @deprecated Please use getOperationsByContextId() from OrgUnitOperationRepository
+     * @return ilOrgUnitOperation[]
      */
-    public static function getOperationsForContextId($context_id)
+    public static function getOperationsForContextId(string $context_id): array
     {
-        /**
-         * @var $context ilOrgUnitOperationContext
-         */
-        $context = ilOrgUnitOperationContextQueries::findById($context_id);
-
-        return ilOrgUnitOperation::where(array('context_id' => $context->getPopulatedContextIds()))
-                                 ->get();
+        return self::getOperationRepo()->getOperationsByContextId($context_id);
     }
 
     /**
-     * @param int $operation_id
-     * @return \ilOrgUnitOperation
+     * @@deprecated Please use get() from OrgUnitOperationRepository for operation name
+     * Operations should not be referenced by Id
      */
-    public static function findById($operation_id)
+    public static function findById(int $operation_id): ?ilOrgUnitOperation
     {
-        return ilOrgUnitOperation::findOrFail($operation_id);
+        return self::getOperationRepo()->getById($operation_id);
     }
 
     /**
-     * @param string $operation_string
-     * @return \ilOrgUnitOperation
+     * @@deprecated Please use find() from OrgUnitOperationRepository
      */
-    public static function findByOperationString($operation_string, $context_name)
-    {
-        $context = ilOrgUnitOperationContextQueries::findByName($context_name);
-
-        return ilOrgUnitOperation::where(['operation_string' => $operation_string,
-                                          'context_id' => $context->getId()
-        ])->first();
+    public static function findByOperationString(
+        string $operation_string,
+        string $context_name
+    ): ?ilOrgUnitOperation {
+        return self::getOperationRepo()->find(
+            $operation_string,
+            $context_name
+        );
     }
 }

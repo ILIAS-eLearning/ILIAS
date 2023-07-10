@@ -52,9 +52,10 @@
 	</td>
 	<td class="ilHFormInput">
 	<!-- BEGIN text --><input id="inp{TNODE_ID}" class="form-control" name="title[{TNODE_ID}]" {CLASS} type="text" maxlength="200" value="{VAL_TITLE}" /><!-- END text -->
+		<!-- BEGIN node_info --><div class="subtitle">{NODE_INFO}</div><!-- END node_info -->
 	</td>
 	<td class="ilHFormItemCmd"><!-- BEGIN node_cmd --><a class="il_ContainerItemCommand2" href="{HREF_NODE_CMD}">{TXT_NODE_CMD}</a><!-- END node_cmd -->
-	<!-- BEGIN node_info --><div class="subtitle">{NODE_INFO}</div><!-- END node_info -->
+
 	</td>
 </tr>
 <tr>
@@ -64,14 +65,3 @@
 <!-- END list_item -->
 <!-- END element -->
 </table>
-<!-- BEGIN focus -->
-<script>
-window.setTimeout(function() {
-	function ilHFormFocus()
-	{
-		document.getElementById("inp{FNODE_ID}").focus();
-	}
-	il.Util.addOnLoad(ilHFormFocus);
-}, 0);
-</script>
-<!-- END focus -->

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/ContainerReference/classes/class.ilContainerReferenceXmlWriter.php';
@@ -11,7 +12,6 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceXm
  */
 class ilCourseReferenceXmlWriter extends ilContainerReferenceXmlWriter
 {
-
     /**
     * constructor
     * @param	string	xml version
@@ -28,7 +28,7 @@ class ilCourseReferenceXmlWriter extends ilContainerReferenceXmlWriter
     /**
      * Start writing xml
      */
-    public function export(bool $a_with_header = true) : void
+    public function export(bool $a_with_header = true): void
     {
         if ($this->getMode() == self::MODE_EXPORT) {
             if ($a_with_header) {
@@ -56,7 +56,7 @@ class ilCourseReferenceXmlWriter extends ilContainerReferenceXmlWriter
      * @return void
      *@global <type> $ilSetting
      */
-    protected function buildHeader() : void
+    protected function buildHeader(): void
     {
         global $ilSetting;
 

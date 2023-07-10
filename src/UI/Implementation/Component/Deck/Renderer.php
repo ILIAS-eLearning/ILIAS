@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Deck;
 
@@ -14,7 +30,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $tpl_card = $this->getTemplate("tpl.deck_card.html", true, true);
         $tpl_row = $this->getTemplate("tpl.deck_row.html", true, true);
@@ -34,7 +50,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl_row->get();
     }
 
-    protected function parseRow(Template $tpl_row, string $content) : void
+    protected function parseRow(Template $tpl_row, string $content): void
     {
         $tpl_row->setCurrentBlock("row");
         $tpl_row->setVariable("CARDS", $content);
@@ -44,7 +60,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(Component\Deck\Deck::class);
     }

@@ -1,5 +1,22 @@
-<?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=0);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjUserTrackingGUI
@@ -26,9 +43,11 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 );
 
                 $this->__setSubTabs(self::LP_ACTIVE_PROGRESS);
-                $this->__setCmdClass('illplistofprogressgui');
+                $this->__setCmdClass(ilLPListOfProgressGUI::class);
                 $lop_gui = new ilLPListOfProgressGUI(
-                    $this->getMode(), $this->getRefId(), $this->getUserId()
+                    $this->getMode(),
+                    $this->getRefId(),
+                    $this->getUserId()
                 );
                 $this->ctrl->forwardCommand($lop_gui);
                 break;
@@ -36,7 +55,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
             case 'illplistofobjectsgui':
                 if ($this->getRefId() &&
                     !ilLearningProgressAccess::checkPermission(
-                        'read_learning_progress', $this->getRefId()
+                        'read_learning_progress',
+                        $this->getRefId()
                     )) {
                     return;
                 }
@@ -49,25 +69,28 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     $this->__setSubTabs(self::LP_ACTIVE_OBJECTS);
                 }
                 $loo_gui = new ilLPListOfObjectsGUI(
-                    $this->getMode(), $this->getRefId()
+                    $this->getMode(),
+                    $this->getRefId()
                 );
-                $this->__setCmdClass('illplistofobjectsgui');
+                $this->__setCmdClass(ilLPListOfObjectsGUI::class);
                 $this->ctrl->forwardCommand($loo_gui);
                 break;
 
             case 'illplistofsettingsgui':
                 if ($this->getRefId() &&
                     !ilLearningProgressAccess::checkPermission(
-                        'edit_learning_progress', $this->getRefId()
+                        'edit_learning_progress',
+                        $this->getRefId()
                     )) {
                     return;
                 }
 
                 $this->__setSubTabs(self::LP_ACTIVE_SETTINGS);
                 $los_gui = new ilLPListOfSettingsGUI(
-                    $this->getMode(), $this->getRefId()
+                    $this->getMode(),
+                    $this->getRefId()
                 );
-                $this->__setCmdClass('illplistofsettingsgui');
+                $this->__setCmdClass(ilLPListOfSettingsGUI::class);
                 $this->ctrl->forwardCommand($los_gui);
                 break;
 
@@ -81,9 +104,11 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 } else {
                     $this->__setSubTabs(self::LP_ACTIVE_OBJSTATADMIN);
                 }
-                $this->__setCmdClass('illpobjectstatisticsgui');
+                $this->__setCmdClass(ilLPObjectStatisticsGUI::class);
+                $this->tabs_gui->activateTab('statistics');
                 $ost_gui = new ilLPObjectStatisticsGUI(
-                    $this->getMode(), $this->getRefId()
+                    $this->getMode(),
+                    $this->getRefId()
                 );
                 $this->ctrl->forwardCommand($ost_gui);
                 break;
@@ -102,16 +127,15 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         $this->__buildFooter();
     }
 
-    public function __setCmdClass(string $a_class) : void
+    public function __setCmdClass(string $a_class): void
     {
-        // If cmd class == 'illearningprogressgui' the cmd class is set to the the new forwarded class
-        // otherwise e.g illplistofprogressgui tries to forward (back) to illearningprogressgui.
-        if ($this->ctrl->getCmdClass() == strtolower(get_class($this))) {
-            $this->ctrl->setCmdClass(strtolower($a_class));
+        if (strcasecmp(ilLearningProgressGUI::class, $this->ctrl->getCmdClass()) === 0) {
+            $this->ctrl->setCmdClass($a_class);
         }
+        //$this->ctrl->setCmdClass($a_class);
     }
 
-    public function __getNextClass() : string
+    public function __getNextClass(): string
     {
         // #9857
         if (!ilObjUserTracking::_enabledLearningProgress()) {
@@ -131,7 +155,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
             case self::LP_CONTEXT_REPOSITORY:
                 $cmd = $this->ctrl->getCmd();
                 if (in_array(
-                    $cmd, array("editManual", "updatemanual", "showtlt")
+                    $cmd,
+                    array("editManual", "updatemanual", "showtlt")
                 )) {
                     return "";
                 }
@@ -143,7 +168,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 if (!$olp->isActive()) {
                     if (!($olp instanceof ilPluginLP) &&
                         ilLearningProgressAccess::checkPermission(
-                            'edit_learning_progress', $this->getRefId()
+                            'edit_learning_progress',
+                            $this->getRefId()
                         )) {
                         return 'illplistofsettingsgui';
                     } else {
@@ -153,13 +179,15 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
                 if (!$this->anonymized &&
                     ilLearningProgressAccess::checkPermission(
-                        'read_learning_progress', $this->getRefId()
+                        'read_learning_progress',
+                        $this->getRefId()
                     )) {
                     return 'illplistofobjectsgui';
                 }
                 if (
                 ilLearningProgressAccess::checkPermission(
-                    'edit_learning_progress', $this->getRefId()
+                    'edit_learning_progress',
+                    $this->getRefId()
                 )) {
                     return 'illplistofsettingsgui';
                 }
@@ -219,7 +247,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
     /**
      * Show progress screen for "edit manual"
      */
-    protected function editManual() : void
+    protected function editManual(): void
     {
         if (ilLearningProgressAccess::checkAccess($this->getRefId())) {
             $olp = ilObjectLP::getInstance(
@@ -233,7 +261,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         }
     }
 
-    protected function initCollectionManualForm() : ilPropertyFormGUI
+    protected function initCollectionManualForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "updatemanual"));
@@ -266,9 +294,12 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         }
 
         $class = ilLPStatusFactory::_getClassById(
-            $this->getObjId(), ilLPObjSettings::LP_MODE_COLLECTION_MANUAL
+            $this->getObjId(),
+            ilLPObjSettings::LP_MODE_COLLECTION_MANUAL
         );
         $lp_data = $class::_getObjectStatus($this->getObjId(), $this->usr_id);
+
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
 
         $grp = new ilCheckboxGroupInputGUI($subitem_title, "sids");
         $grp->setInfo($subitem_info);
@@ -288,8 +319,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
             if (isset($lp_data[$item_id])) {
                 $changed = new ilDateTime($lp_data[$item_id][1], IL_CAL_UNIX);
                 $info = $this->lng->txt(
-                        "trac_collection_manual_learner_changed_ts"
-                    ) . ": " .
+                    "trac_collection_manual_learner_changed_ts"
+                ) . ": " .
                     ilDatePresentation::formatDate($changed);
 
                 if ($lp_data[$item_id][0]) {
@@ -298,12 +329,11 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 }
             }
 
-            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-            $text = ilLearningProgressBaseGUI::_getStatusText($status);
-            $icon = ilUtil::img($path, $text);
+            $icon = $icons->renderIconForStatus($status);
 
             $opt = new ilCheckboxOption(
-                $icon . " " . $possible_items[$item_id]["title"], $item_id
+                $icon . " " . $possible_items[$item_id]["title"],
+                $item_id
             );
             if ($info) {
                 $opt->setInfo($info);
@@ -320,7 +350,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         return $form;
     }
 
-    protected function updateManual() : void
+    protected function updateManual(): void
     {
         if (ilLearningProgressAccess::checkAccess($this->getRefId())) {
             $olp = ilObjectLP::getInstance(
@@ -335,14 +365,17 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                         ilLPObjSettings::LP_MODE_COLLECTION_MANUAL
                     );
                     $class::_setObjectStatus(
-                        $this->getObjId(), $this->usr_id,
+                        $this->getObjId(),
+                        $this->usr_id,
                         $form->getInput("sids")
                     );
 
                     $this->tpl->setOnScreenMessage(
-                        'success', $this->lng->txt(
-                        "settings_saved"
-                    ), true
+                        'success',
+                        $this->lng->txt(
+                            "settings_saved"
+                        ),
+                        true
                     );
                 }
 
@@ -373,9 +406,12 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         }
 
         $class = ilLPStatusFactory::_getClassById(
-            $this->getObjId(), ilLPObjSettings::LP_MODE_COLLECTION_TLT
+            $this->getObjId(),
+            ilLPObjSettings::LP_MODE_COLLECTION_TLT
         );
         $info = $class::_getStatusInfo($this->getObjId(), true);
+
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
 
         foreach ($coll_items as $item_id) {
             // #16599 - deleted items should not be displayed
@@ -392,13 +428,12 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
             } elseif (isset($info["in_progress"][$item_id]) &&
                 in_array(
-                    $this->user->getId(), $info["in_progress"][$item_id]
+                    $this->user->getId(),
+                    $info["in_progress"][$item_id]
                 )) {
                 $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
             }
-            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-            $text = ilLearningProgressBaseGUI::_getStatusText($status);
-            $field->setHtml(ilUtil::img($path, $text));
+            $field->setHtml($icons->renderIconForStatus($status));
 
             // stats
             $spent = 0;

@@ -1,16 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilRegistrationCode
@@ -26,11 +32,11 @@ class ilRegistrationCode
         int $role,
         int $stamp,
         array $local_roles,
-        string $limit,
-        array $limit_date,
+        ?string $limit,
+        ?string $limit_date,
         bool $reg_type,
         bool $ext_type
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -43,33 +49,29 @@ class ilRegistrationCode
             $code = self::generateRandomCode();
             $chk = $ilDB->queryF(
                 "SELECT code_id FROM " . self::DB_TABLE . " WHERE code = %s",
-                array("text"),
-                array($code)
+                ["text"],
+                [$code]
             );
             $found = (bool) $ilDB->numRows($chk);
         }
 
-        if ($limit === "relative" && is_array($limit_date)) {
-            $limit_date = serialize($limit_date); //TODO-PHP8-REVIEW please don't override variables with different types
-        }
-
-        $data = array(
-            'code_id' => array('integer', $id),
-            'code' => array('text', $code),
-            'generated_on' => array('integer', $stamp),
-            'role' => array('integer', $role),
-            'role_local' => array('text', implode(";", $local_roles)),
-            'alimit' => array('text', $limit),
-            'alimitdt' => array('text', $limit_date),
-            'reg_enabled' => array('integer', $reg_type),
-            'ext_enabled' => array('integer', $ext_type)
-        );
+        $data = [
+            'code_id' => ['integer', $id],
+            'code' => ['text', $code],
+            'generated_on' => ['integer', $stamp],
+            'role' => ['integer', $role],
+            'role_local' => ['text', implode(";", $local_roles)],
+            'alimit' => ['text', $limit],
+            'alimitdt' => ['text', $limit_date],
+            'reg_enabled' => ['integer', $reg_type],
+            'ext_enabled' => ['integer', $ext_type]
+        ];
 
         $ilDB->insert(self::DB_TABLE, $data);
         return $id;
     }
 
-    protected static function generateRandomCode() : string
+    protected static function generateRandomCode(): string
     {
         // missing : 01iloO
         $map = "23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -91,7 +93,7 @@ class ilRegistrationCode
         int $filter_role,
         string $filter_generated,
         string $filter_access_limitation
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -117,15 +119,15 @@ class ilRegistrationCode
         // set query
         $ilDB->setLimit($limit, $offset);
         $set = $ilDB->query($sql);
-        $result = array();
+        $result = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $rec['generated'] = $rec['generated_on'];
             $result[] = $rec;
         }
-        return array("cnt" => $cnt, "set" => $result);
+        return ["cnt" => $cnt, "set" => $result];
     }
 
-    public static function loadCodesByIds(array $ids) : array
+    public static function loadCodesByIds(array $ids): array
     {
         global $DIC;
 
@@ -137,14 +139,14 @@ class ilRegistrationCode
             false,
             "integer"
         ));
-        $result = array();
+        $result = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $result[] = $rec;
         }
         return $result;
     }
 
-    public static function deleteCodes(array $ids) : bool
+    public static function deleteCodes(array $ids): bool
     {
         global $DIC;
 
@@ -160,31 +162,31 @@ class ilRegistrationCode
         return false;
     }
 
-    public static function getGenerationDates() : array
+    public static function getGenerationDates(): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         $set = $ilDB->query("SELECT DISTINCT(generated_on) genr FROM " . self::DB_TABLE . " ORDER BY genr");
-        $result = array();
+        $result = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $result[] = $rec["genr"];
         }
         return $result;
     }
 
-    protected static function filterToSQL(
+    private static function filterToSQL(
         string $filter_code,
-        int $filter_role,
+        ?int $filter_role,
         string $filter_generated,
         string $filter_access_limitation
-    ) : string {
+    ): string {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        $where = array();
+        $where = [];
         if ($filter_code) {
             $where[] = $ilDB->like("code", "text", "%" . $filter_code . "%");
         }
@@ -206,10 +208,10 @@ class ilRegistrationCode
 
     public static function getCodesForExport(
         string $filter_code,
-        int $filter_role,
+        ?int $filter_role,
         string $filter_generated,
         string $filter_access_limitation
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -219,14 +221,14 @@ class ilRegistrationCode
 
         // set query
         $set = $ilDB->query("SELECT code FROM " . self::DB_TABLE . $where . " ORDER BY code_id");
-        $result = array();
+        $result = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $result[] = $rec["code"];
         }
         return $result;
     }
 
-    public static function isUnusedCode(string $code) : bool
+    public static function isUnusedCode(string $code): bool
     {
         global $DIC;
 
@@ -237,7 +239,7 @@ class ilRegistrationCode
         return $set && !$set["used"];
     }
 
-    public static function isValidRegistrationCode(string $a_code) : bool
+    public static function isValidRegistrationCode(string $a_code): bool
     {
         global $DIC;
 
@@ -252,19 +254,32 @@ class ilRegistrationCode
         return (bool) $res->numRows();
     }
 
-    public static function useCode(string $code) : bool
+    public static function getCodeValidUntil(string $code): string
+    {
+        $code_data = self::getCodeData($code);
+
+        if ($code_data["alimit"]) {
+            switch ($code_data["alimit"]) {
+                case "absolute":
+                    return $code_data['alimitdt'];
+            }
+        }
+        return "0";
+    }
+
+    public static function useCode(string $code): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         return (bool) $ilDB->update(
             self::DB_TABLE,
-            array("used" => array("timestamp", time())),
-            array("code" => array("text", $code))
+            ["used" => ["timestamp", time()]],
+            ["code" => ["text", $code]]
         );
     }
 
-    public static function getCodeRole(string $code) : int
+    public static function getCodeRole(string $code): int
     {
         global $DIC;
 
@@ -277,7 +292,7 @@ class ilRegistrationCode
         return 0;
     }
 
-    public static function getCodeData(string $code) : array
+    public static function getCodeData(string $code): array
     {
         global $DIC;
 
@@ -286,5 +301,85 @@ class ilRegistrationCode
             " FROM " . self::DB_TABLE .
             " WHERE code = " . $ilDB->quote($code, "text"));
         return $ilDB->fetchAssoc($set);
+    }
+
+    public static function applyRoleAssignments(
+        ilObjUser $user,
+        string $code
+    ): bool {
+        $recommended_content_manager = new ilRecommendedContentManager();
+
+        $grole = self::getCodeRole($code);
+        if ($grole) {
+            $GLOBALS['DIC']['rbacadmin']->assignUser($grole, $user->getId());
+        }
+        $code_data = self::getCodeData($code);
+        if ($code_data["role_local"]) {
+            $code_local_roles = explode(";", $code_data["role_local"]);
+            foreach ($code_local_roles as $role_id) {
+                $GLOBALS['DIC']['rbacadmin']->assignUser($role_id, $user->getId());
+
+                // patch to remove for 45 due to mantis 21953
+                $role_obj = $GLOBALS['DIC']['rbacreview']->getObjectOfRole($role_id);
+                switch (ilObject::_lookupType($role_obj)) {
+                    case 'crs':
+                    case 'grp':
+                        $role_refs = ilObject::_getAllReferences($role_obj);
+                        $role_ref = end($role_refs);
+                        // deactivated for now, see discussion at
+                        // https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
+                        //$recommended_content_manager->addObjectRecommendation($user->getId(), $role_ref);
+                        break;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static function applyAccessLimits(
+        ilObjUser $user,
+        string $code
+    ): void {
+        $code_data = self::getCodeData($code);
+
+        if ($code_data["alimit"]) {
+            switch ($code_data["alimit"]) {
+                case "absolute":
+                    $end = new ilDateTime($code_data['alimitdt'], IL_CAL_DATE);
+                    //$user->setTimeLimitFrom(time());
+                    $user->setTimeLimitUntil($end->get(IL_CAL_UNIX));
+                    $user->setTimeLimitUnlimited(false);
+                    break;
+
+                case "relative":
+
+                    $rel = unserialize($code_data["alimitdt"], ["allowed_classes" => false]);
+
+                    $end = new ilDateTime(time(), IL_CAL_UNIX);
+
+                    if ($rel['y'] > 0) {
+                        $end->increment(IL_CAL_YEAR, $rel['y']);
+                    }
+
+                    if ($rel['m'] > 0) {
+                        $end->increment(IL_CAL_MONTH, $rel['m']);
+                    }
+
+                    if ($rel['d'] > 0) {
+                        $end->increment(IL_CAL_DAY, $rel['d']);
+                    }
+
+                    //$user->setTimeLimitFrom(time());
+                    $user->setTimeLimitUntil($end->get(IL_CAL_UNIX));
+                    $user->setTimeLimitUnlimited(false);
+                    break;
+
+                case 'unlimited':
+                    $user->setTimeLimitUnlimited(true);
+                    break;
+            }
+        } else {
+            $user->setTimeLimitUnlimited(true);
+        }
     }
 }

@@ -41,17 +41,17 @@ class ilUIServiceDependencies
         $this->session = $session ?? new ilUIFilterServiceSessionGateway();
     }
 
-    public function ui() : UIServices
+    public function ui(): UIServices
     {
         return $this->ui;
     }
 
-    public function getRequest() : ilUIFilterRequestAdapter
+    public function getRequest(): ilUIFilterRequestAdapter
     {
         return $this->request_adapter;
     }
 
-    public function getSession() : ilUIFilterServiceSessionGateway
+    public function getSession(): ilUIFilterServiceSessionGateway
     {
         return $this->session;
     }

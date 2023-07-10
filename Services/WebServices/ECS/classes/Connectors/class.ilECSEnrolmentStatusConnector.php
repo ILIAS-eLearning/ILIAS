@@ -1,19 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
+declare(strict_types=1);
 /**
  * Connector for course member ressource
  *
@@ -42,14 +44,14 @@ class ilECSEnrolmentStatusConnector extends ilECSConnector
             }
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $res = $this->call();
-            
+
             if (strpos($res, 'http') === 0) {
                 $json = file_get_contents($res);
                 $ecs_result = new ilECSResult($json);
             } else {
                 $ecs_result = new ilECSResult($res);
             }
-            
+
             // Return ECSEContentDetails for details switch
             if ($a_details) {
                 $details = new ilECSEContentDetails();
@@ -64,8 +66,8 @@ class ilECSEnrolmentStatusConnector extends ilECSConnector
             throw new ilECSConnectorException('Error calling ECS service: ' . $e->getMessage());
         }
     }
-    
-    
+
+
     /**
      * Add new enrolment status
      */
@@ -74,7 +76,7 @@ class ilECSEnrolmentStatusConnector extends ilECSConnector
         $this->logger->info('Add new enrolment status');
 
         $this->path_postfix = '/campusconnect/member_status';
-        
+
         try {
             $this->prepareConnection();
 
@@ -89,7 +91,7 @@ class ilECSEnrolmentStatusConnector extends ilECSConnector
             $ret = $this->call();
 
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
-    
+
             $this->logger->debug(': Checking HTTP status...');
             if ($info !== self::HTTP_CODE_CREATED) {
                 $this->logger->debug(': Cannot create auth resource, did not receive HTTP 201. ');

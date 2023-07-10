@@ -1,30 +1,47 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
+use ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder;
 
 /**
  * Class ilOrgUnitUserAssignmentTableGUI
  */
 class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
 {
+    protected ilOrgUnitPosition $ilOrgUnitPosition;
+    protected DropdownBuilder $dropdownbuilder;
+    protected \ilAccess $access;
+    protected int $ref_id;
 
-    /**
-     * @var ilOrgUnitPosition
-     */
-    protected $ilOrgUnitPosition;
-
-    /**
-     * ilOrgUnitUserAssignmentTableGUI constructor.
-     * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_obj
-     * @param string                                       $parent_cmd
-     * @param \ilOrgUnitPosition                           $position
-     */
-    public function __construct(BaseCommands $parent_obj, $parent_cmd, ilOrgUnitPosition $position)
+    public function __construct(BaseCommands $parent_obj, string $parent_cmd, ilOrgUnitPosition $position)
     {
+        $dic = ilOrgUnitLocalDIC::dic();
+        $this->dropdownbuilder = $dic['dropdownbuilder'];
         $this->parent_obj = $parent_obj;
         $this->ilOrgUnitPosition = $position;
-        $this->ctrl = $GLOBALS["DIC"]->ctrl();
+        $this->ctrl = $dic['ctrl'];
+        $this->access = $dic['access'];
+        $to_int = $dic['refinery']->kindlyTo()->int();
+        $this->ref_id = $dic['query']->retrieve('ref_id', $to_int);
+
         $this->setPrefix("il_orgu_" . $position->getId());
         $this->setFormName('il_orgu_' . $position->getId());
         $this->setId("il_orgu_" . $position->getId());
@@ -44,7 +61,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-    protected function setTableHeaders()
+    private function setTableHeaders(): void
     {
         $this->addColumn($this->lng->txt("login"), "login");
         $this->addColumn($this->lng->txt("firstname"), "first_name");
@@ -52,90 +69,68 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
     }
 
-    public function parseData()
+    public function parseData(): void
     {
         $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()
-                                                 ->getAssignements($_GET["ref_id"], $this->ilOrgUnitPosition));
-
+            ->getAssignedUsers([(int) $_GET["ref_id"]], $this->ilOrgUnitPosition->getId()));
         $this->setData($data);
     }
 
     /**
-     * @param $user_ids
-     * @return array
+     * @param int[] $user_ids
      */
-    protected function parseRows($user_ids)
+    private function parseRows(array $user_ids): array
     {
         $data = array();
         foreach ($user_ids as $user_id) {
-            $set = array();
-            $this->setRowForUser($set, $user_id);
-            $data[] = $set;
+            $data[] = $this->getRowForUser($user_id);
         }
-
         return $data;
     }
 
-    /**
-     * @param $set
-     * @param $user_id
-     */
-    protected function setRowForUser(&$set, $user_id)
+    private function getRowForUser(int $user_id): array
     {
         $user = new ilObjUser($user_id);
+        $set = [];
         $set["login"] = $user->getLogin();
         $set["first_name"] = $user->getFirstname();
         $set["last_name"] = $user->getLastname();
         $set["user_object"] = $user;
         $set["user_id"] = $user_id;
+        return $set;
     }
 
-    /**
-     * @param array $a_set
-     */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
         $this->tpl->setVariable("LOGIN", $a_set["login"]);
         $this->tpl->setVariable("FIRST_NAME", $a_set["first_name"]);
         $this->tpl->setVariable("LAST_NAME", $a_set["last_name"]);
-        //		$this->ctrl->setParameterByClass(ilLearningProgressGUI::class, "obj_id", $set["user_id"]);
-        //		$this->ctrl->setParameterByClass(ilObjOrgUnitGUI::class, "obj_id", $set["user_id"]);
-        $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'usr_id', $a_set["user_id"]);
-        $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'position_id',
-            $this->ilOrgUnitPosition->getId());
-        $selection = new ilAdvancedSelectionListGUI();
-        $selection->setListTitle($lng->txt("Actions"));
-        $selection->setId("selection_list_user_lp_" . $a_set["user_id"]);
 
-        if ($ilAccess->checkAccess("view_learning_progress", "", $_GET["ref_id"])
-            && ilObjUserTracking::_enabledLearningProgress()
-            && ilObjUserTracking::_enabledUserRelatedData()
-        ) {
-            $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'obj_id', $a_set["user_id"]);
-            $selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress",
-                $this->ctrl->getLinkTargetByClass(array(
+        $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'usr_id', $a_set["user_id"]);
+        $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'position_id', $this->ilOrgUnitPosition->getId());
+        $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'obj_id', $a_set["user_id"]);
+        $dropdownbuilder = $this->dropdownbuilder
+            ->withItem(
+                'show_learning_progress',
+                $this->ctrl->getLinkTargetByClass([
                     ilAdministrationGUI::class,
                     ilObjOrgUnitGUI::class,
                     ilLearningProgressGUI::class,
-                ), ""));
-        }
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
-            $this->addActions($selection);
-        }
-        $this->tpl->setVariable("ACTIONS", $selection->getHTML());
-    }
+                    ], ""),
+                $this->access->checkAccess("view_learning_progress", "", $this->ref_id)
+                    && ilObjUserTracking::_enabledLearningProgress()
+                    && ilObjUserTracking::_enabledUserRelatedData()
+            )
+            ->withItem(
+                'remove',
+                $this->ctrl->getLinkTargetByClass(
+                    ilOrgUnitUserAssignmentGUI::class,
+                    ilOrgUnitUserAssignmentGUI::CMD_CONFIRM
+                ),
+                $this->access->checkAccess("write", "", $this->ref_id)
+            )
+            ->get();
 
-    /**
-     * @param $selection ilAdvancedSelectionListGUI
-     */
-    protected function addActions(&$selection)
-    {
-        $selection->addItem($this->lng->txt("remove"), "delete_from_employees",
-            $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class,
-                ilOrgUnitUserAssignmentGUI::CMD_CONFIRM));
+        $this->tpl->setVariable("ACTIONS", $dropdownbuilder);
     }
 }

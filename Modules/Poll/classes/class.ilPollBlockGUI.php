@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,6 +22,7 @@
 use ILIAS\Container\Content\ViewManager;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\Notes\Note;
 
 /**
  * BlockGUI class for polls.
@@ -30,6 +33,7 @@ use ILIAS\Refinery\Factory;
 class ilPollBlockGUI extends ilBlockGUI
 {
     public static string $block_type = "poll";
+    protected \ILIAS\Notes\Service $notes;
     protected ilPollBlock $poll_block;
     public static bool $js_init = false;
     protected ViewManager $container_view_manager;
@@ -62,9 +66,10 @@ class ilPollBlockGUI extends ilBlockGUI
             ->view();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->notes = $DIC->notes();
     }
 
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
@@ -72,23 +77,23 @@ class ilPollBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return true;
     }
 
-    protected function getRepositoryObjectGUIName() : string
+    protected function getRepositoryObjectGUIName(): string
     {
         return "ilobjpollgui";
     }
 
-    public function setBlock(ilPollBlock $a_block) : void
+    public function setBlock(ilPollBlock $a_block): void
     {
         $this->setBlockId((string) $a_block->getId());
         $this->poll_block = $a_block;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
         $cmd = $this->ctrl->getCmd("getHTML");
@@ -100,7 +105,7 @@ class ilPollBlockGUI extends ilBlockGUI
         }
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         // todo: Refactoring needed
         $a_set = $a_set[0];
@@ -231,7 +236,7 @@ class ilPollBlockGUI extends ilBlockGUI
                         // pie chart
                         if ($this->poll_block->showResultsAs() === ilObjPoll::SHOW_RESULTS_AS_PIECHART) {
                             $chart = ilChart::getInstanceByType(ilChart::TYPE_PIE, "poll_results_pie_" . $this->getRefId());
-                            $chart->setSize(400, 200);
+                            $chart->setSize("400", "200");
                             $chart->setAutoResize(true);
 
                             $chart_data = $chart->getDataInstance();
@@ -345,7 +350,7 @@ class ilPollBlockGUI extends ilBlockGUI
         }
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $this->poll_block->setRefId($this->getRefId());
         $may_write = $this->access->checkAccess("write", "", $this->getRefId());
@@ -414,7 +419,7 @@ class ilPollBlockGUI extends ilBlockGUI
     /**
      * Builds JavaScript Call to open CommentLayer via html link
      */
-    private function commentJSCall() : string
+    private function commentJSCall(): string
     {
         $refId = $this->getRefId();
         $objectId = ilObject2::_lookupObjectId($refId);
@@ -430,7 +435,7 @@ class ilPollBlockGUI extends ilBlockGUI
         return ilNoteGUI::getListCommentsJSCall($ajaxHash, "ilPoll.redrawComments(" . $refId . ");");
     }
 
-    public function getNumberOfCommentsForRedraw() : void
+    public function getNumberOfCommentsForRedraw(): void
     {
         global $DIC;
 
@@ -453,19 +458,14 @@ class ilPollBlockGUI extends ilBlockGUI
         exit();
     }
 
-    public function getNumberOfComments(int $ref_id) : int
+    public function getNumberOfComments(int $ref_id): int
     {
         $obj_id = ilObject2::_lookupObjectId($ref_id);
-        $number = ilNote::_countNotesAndComments($obj_id);
-
-        if (count($number) === 0) {
-            return 0;
-        }
-
-        return (int) $number[$obj_id][ilNote::PUBLIC];
+        $context = $this->notes->data()->context($obj_id, 0, "poll");
+        return $this->notes->domain()->getNrOfCommentsForContext($context);
     }
 
-    public function fillDataSection() : void
+    public function fillDataSection(): void
     {
         $this->setDataSection($this->getLegacyContent());
     }
@@ -477,7 +477,7 @@ class ilPollBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getLegacyContent() : string
+    protected function getLegacyContent(): string
     {
         $this->tpl = new ilTemplate(
             $this->getRowTemplateName(),

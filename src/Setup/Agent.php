@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 use ILIAS\Refinery\Transformation;
@@ -29,7 +31,7 @@ interface Agent
     /**
      * Does this agent require a configuration?
      */
-    public function hasConfig() : bool;
+    public function hasConfig(): bool;
 
     /**
      * Agents must be able to tell how to create a configuration from a
@@ -37,7 +39,7 @@ interface Agent
      *
      * @throw LogicException if Agent has no Config
      */
-    public function getArrayToConfigTransformation() : Transformation;
+    public function getArrayToConfigTransformation(): Transformation;
 
     /**
      * Get the goals the agent wants to achieve on setup.
@@ -47,7 +49,7 @@ interface Agent
      *
      * @throw InvalidArgumentException if Config does not match the Agent..
      */
-    public function getInstallObjective(Config $config = null) : Objective;
+    public function getInstallObjective(Config $config = null): Objective;
 
     /**
      * Get the goal the agent wants to achieve on update.
@@ -65,14 +67,14 @@ interface Agent
      *
      * @throw InvalidArgumentException if Config does not match the Agent..
      */
-    public function getUpdateObjective(Config $config = null) : Objective;
+    public function getUpdateObjective(Config $config = null): Objective;
 
     /**
      * Get the goal the agent wants to achieve to build artifacts.
      *
      * @throw InvalidArgumentException if Config does not match the Agent.
      */
-    public function getBuildArtifactObjective() : Objective;
+    public function getBuildArtifactObjective(): Objective;
 
     /**
      * Get the objective to be achieved when status is requested.
@@ -84,7 +86,7 @@ interface Agent
      *
      * This is supposed to inform about any kind of metrics regarding the component.
      */
-    public function getStatusObjective(Metrics\Storage $storage) : Objective;
+    public function getStatusObjective(Metrics\Storage $storage): Objective;
 
     /**
      * Get a named map of migrations available for this Agent.
@@ -93,7 +95,7 @@ interface Agent
      *
      * @return array<string,Migration>|Migration[]
      */
-    public function getMigrations() : array;
+    public function getMigrations(): array;
 
     /**
      * Gets all named objectives
@@ -104,5 +106,5 @@ interface Agent
      * @param Config|null $config
      * @return array<string|int, ObjectiveConstructor>
      */
-    public function getNamedObjectives(?Config $config = null) : array;
+    public function getNamedObjectives(?Config $config = null): array;
 }

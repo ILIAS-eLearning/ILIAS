@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilCmiXapiScoringGUI
  *
@@ -24,36 +29,28 @@
  */
 class ilCmiXapiScoringGUI
 {
-    const PART_FILTER_ACTIVE_ONLY = 1;
-    const PART_FILTER_INACTIVE_ONLY = 2;
-    const PART_FILTER_ALL_USERS = 3; // default
-    const PART_FILTER_MANSCORING_DONE = 4;
-    const PART_FILTER_MANSCORING_NONE = 5;
+    public const PART_FILTER_ACTIVE_ONLY = 1;
+    public const PART_FILTER_INACTIVE_ONLY = 2;
+    public const PART_FILTER_ALL_USERS = 3; // default
+    public const PART_FILTER_MANSCORING_DONE = 4;
+    public const PART_FILTER_MANSCORING_NONE = 5;
     //const PART_FILTER_MANSCORING_PENDING	= 6;
 
-
-    /**
-     * @var ilObjCmiXapi
-     */
     public ilObjCmiXapi $object;
 
-    /**
-     * @var ilCmiXapiAccess
-     */
     protected ilCmiXapiAccess $access;
 
     private array $tableData;
     private string $tableHtml = '';
-    private ?int $userRank;
+    private ?int $userRank = null;
     private \ilGlobalTemplateInterface $main_tpl;
 
+    private \ILIAS\DI\Container $dic;
 
-    /**
-     * @param ilObjCmiXapi $object
-     */
     public function __construct(ilObjCmiXapi $object)
     {
         global $DIC;
+        $this->dic = $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
 
@@ -63,22 +60,20 @@ class ilCmiXapiScoringGUI
     /**
      * @throws ilCmiXapiException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
         if (!$this->access->hasHighscoreAccess()) {
             throw new ilCmiXapiException('access denied!');
         }
 
-        switch ($DIC->ctrl()->getNextClass($this)) {
+        switch ($this->dic->ctrl()->getNextClass($this)) {
             default:
-                $cmd = $DIC->ctrl()->getCmd('show') . 'Cmd';
+                $cmd = $this->dic->ctrl()->getCmd('show') . 'Cmd';
                 $this->{$cmd}();
         }
     }
 
-    protected function resetFilterCmd() : void
+    protected function resetFilterCmd(): void
     {
         $table = $this->buildTableGUI("");
         $table->resetFilter();
@@ -86,7 +81,7 @@ class ilCmiXapiScoringGUI
         $this->showCmd();
     }
 
-    protected function applyFilterCmd() : void
+    protected function applyFilterCmd(): void
     {
         $table = $this->buildTableGUI("");
         $table->writeFilterToSession();
@@ -94,10 +89,8 @@ class ilCmiXapiScoringGUI
         $this->showCmd();
     }
 
-    protected function showCmd() : void
+    protected function showCmd(): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
         try {
             $this->initTableData()
                 ->initHighScoreTable()
@@ -113,17 +106,14 @@ class ilCmiXapiScoringGUI
             $this->tableHtml = $table->getHTML();
         }
 
-        $DIC->ui()->mainTemplate()->setContent($this->tableHtml);
+        $this->dic->ui()->mainTemplate()->setContent($this->tableHtml);
     }
 
-    /**
-     * @return $this
-     */
-    protected function initTableData() : self
+    protected function initTableData(): self
     {
         $filter = new ilCmiXapiStatementsReportFilter();
         $filter->setActivityId($this->object->getActivityId());
-    
+
         $linkBuilder = new ilCmiXapiHighscoreReportLinkBuilder(
             $this->object->getId(),
             $this->object->getLrsType()->getLrsEndpointStatementsAggregationLink(),
@@ -143,14 +133,10 @@ class ilCmiXapiScoringGUI
         return $this;
     }
 
-    /**
-     * @param bool $scopeUserRank
-     * @return array
-     */
-    private function getTableDataRange(bool $scopeUserRank = false) : array
+    private function getTableDataRange(bool $scopeUserRank = false): array
     {
         if (false === $scopeUserRank) {
-            return array_slice($this->tableData, 0, (int) $this->object->getHighscoreTopNum());
+            return array_slice($this->tableData, 0, $this->object->getHighscoreTopNum());
         } else {
             $offset = $this->userRank - 2 < 0 ? 0 : $this->userRank - 2;
             $length = 5;
@@ -158,7 +144,7 @@ class ilCmiXapiScoringGUI
         }
     }
 
-    protected function initHighScoreTable() : self
+    protected function initHighScoreTable(): self
     {
         if (!$this->object->getHighscoreTopTable() || !$this->object->getHighscoreEnabled()) {
             $this->tableHtml .= '';
@@ -170,7 +156,7 @@ class ilCmiXapiScoringGUI
         return $this;
     }
 
-    protected function initUserRankTable() : self
+    protected function initUserRankTable(): self
     {
         if (!$this->object->getHighscoreOwnTable() || !$this->object->getHighscoreEnabled()) {
             $this->tableHtml .= '';
@@ -182,20 +168,15 @@ class ilCmiXapiScoringGUI
         return $this;
     }
 
-    /**
-     * @param string $tableId
-     * @return ilCmiXapiScoringTableGUI
-     */
-    protected function buildTableGUI(string $tableId) : ilCmiXapiScoringTableGUI
+    protected function buildTableGUI(string $tableId): ilCmiXapiScoringTableGUI
     {
         $isMultiActorReport = $this->access->hasOutcomesAccess();
-        $table = new ilCmiXapiScoringTableGUI(
+        return new ilCmiXapiScoringTableGUI(
             $this,
             'show',
             $isMultiActorReport,
             $tableId,
             $this->access->hasOutcomesAccess()
         );
-        return $table;
     }
 }

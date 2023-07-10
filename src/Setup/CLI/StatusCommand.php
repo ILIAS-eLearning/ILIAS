@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\AgentFinder;
@@ -43,23 +45,23 @@ class StatusCommand extends Command
         $this->agent_finder = $agent_finder;
     }
 
-    protected function configure() : void
+    protected function configure(): void
     {
         $this->setDescription("Collect and show status information about the installation.");
         $this->configureCommandForPlugins();
     }
 
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $agent = $this->getRelevantAgent($input);
 
         $output->write($this->getMetrics($agent)->toYAML() . "\n");
-        
+
         return 0;
     }
 
-    public function getMetrics(Agent $agent) : Metrics\Metric
+    public function getMetrics(Agent $agent): Metrics\Metric
     {
         // ATTENTION: Don't do this (in general), please have a look at the comment
         // in ilIniFilesLoadedObjective.

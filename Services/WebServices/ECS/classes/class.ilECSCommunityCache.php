@@ -1,25 +1,29 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
 */
 class ilECSCommunityCache
 {
-    protected static $instance;
+    /** @var array<int, array<int, self>>  */
+    protected static array $instance = [];
 
     protected int $server_id = 0;
     protected int $community_id = 0;
@@ -28,7 +32,7 @@ class ilECSCommunityCache
     protected array $mids = array();
 
     protected bool $entryExists = false;
-    
+
     private ilDBInterface $db;
 
     /**
@@ -54,7 +58,7 @@ class ilECSCommunityCache
      * @param int $a_community_id
      * @return ilECSCommunityCache
      */
-    public static function getInstance(int $a_server_id, int $a_community_id) : ilECSCommunityCache
+    public static function getInstance(int $a_server_id, int $a_community_id): ilECSCommunityCache
     {
         return self::$instance[$a_server_id][$a_community_id] ??
             (self::$instance[$a_server_id][$a_community_id] = new ilECSCommunityCache(
@@ -65,42 +69,42 @@ class ilECSCommunityCache
 
 
 
-    public function getServerId() : int
+    public function getServerId(): int
     {
         return $this->server_id;
     }
 
-    public function getCommunityId() : int
+    public function getCommunityId(): int
     {
         return $this->community_id;
     }
 
-    public function setOwnId(int $a_id) : void
+    public function setOwnId(int $a_id): void
     {
         $this->own_id = $a_id;
     }
 
-    public function getOwnId() : int
+    public function getOwnId(): int
     {
         return $this->own_id;
     }
 
-    public function setCommunityName(string $a_name) : void
+    public function setCommunityName(string $a_name): void
     {
         $this->cname = $a_name;
     }
 
-    public function getCommunityName() : string
+    public function getCommunityName(): string
     {
         return $this->cname;
     }
 
-    public function setMids(array $a_mids) : void
+    public function setMids(array $a_mids): void
     {
         $this->mids = $a_mids;
     }
 
-    public function getMids() : array
+    public function getMids(): array
     {
         return $this->mids;
     }
@@ -108,7 +112,7 @@ class ilECSCommunityCache
     /**
      * Create or update ecs community
      */
-    public function update() : bool
+    public function update(): bool
     {
         if (!$this->entryExists) {
             return $this->create();
@@ -129,7 +133,7 @@ class ilECSCommunityCache
     /**
      * Create new dataset
      */
-    protected function create() : bool
+    protected function create(): bool
     {
         $query = 'INSERT INTO ecs_community (sid,cid,own_id,cname,mids) ' .
             'VALUES( ' .
@@ -146,7 +150,7 @@ class ilECSCommunityCache
     /**
      * Read dataset
      */
-    private function read() : void
+    private function read(): void
     {
         $this->entryExists = false;
 
@@ -161,14 +165,14 @@ class ilECSCommunityCache
             $this->setMids(unserialize($row->mids, ['allowed_classes' => true]));
         }
     }
-    
+
     /**
      * @todo move function into CommunityCacheRepository
      *
      * @param int $a_server_id
      * @return bool
      */
-    public function deleteByServerId(int $a_server_id) : bool
+    public function deleteByServerId(int $a_server_id): bool
     {
         $query = 'DELETE FROM ecs_community' .
             ' WHERE sid = ' . $this->db->quote($a_server_id, 'integer');

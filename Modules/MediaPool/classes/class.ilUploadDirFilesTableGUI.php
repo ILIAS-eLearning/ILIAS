@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Upload dir files table
@@ -61,28 +64,27 @@ class ilUploadDirFilesTableGUI extends ilTable2GUI
     /**
      * Get files
      */
-    public function getFiles(array $a_files) : array
+    public function getFiles(array $a_files): array
     {
         $files = array();
         foreach ($a_files as $f) {
             if (is_file($this->upload_dir . "/" . $f)) {
-                $files[] = $f;
+                $files[] = ["file" => $f];
             } elseif (is_dir($this->upload_dir . "/" . $f)) {
                 $dir = ilFileUtils::getDir($this->upload_dir . "/" . $f, true);
                 foreach ($dir as $d) {
                     if ($d["type"] === "file") {
-                        $files[] = $f . $d["subdir"] . "/" . $d["entry"];
+                        $files[] = ["file" => $f . $d["subdir"] . "/" . $d["entry"]];
                     }
                 }
             }
         }
-
         return $files;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable("TXT_FILE", $a_set);
-        $this->tpl->setVariable("VAL_FILE", $a_set);
+        $this->tpl->setVariable("TXT_FILE", $a_set["file"]);
+        $this->tpl->setVariable("VAL_FILE", $a_set["file"]);
     }
 }

@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilCertificateSettingsLTIConsumerFormRepository
  *
@@ -58,26 +63,21 @@ class ilCertificateSettingsLTIConsumerFormRepository implements ilCertificateFor
         $this->settingsFormRepository = $settingsFormRepository;
     }
 
-    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
+    public function createForm(ilCertificateGUI $certificateGUI): ilPropertyFormGUI
     {
-        $form = $this->settingsFormRepository->createForm($certificateGUI);
-
-        return $form;
+        return $this->settingsFormRepository->createForm($certificateGUI);
     }
 
 
-    public function save(array $formFields) : void
+    public function save(array $formFields): void
     {
     }
 
     /**
-     * @param string $content
-     * @return array
+     * @return array<string, mixed>
      */
-    public function fetchFormFieldData(string $content) : array
+    public function fetchFormFieldData(string $content): array
     {
-        $formFields = $this->settingsFormRepository->fetchFormFieldData($content);
-
-        return $formFields;
+        return $this->settingsFormRepository->fetchFormFieldData($content);
     }
 }

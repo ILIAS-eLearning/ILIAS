@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestParticipant
@@ -16,67 +30,67 @@ class ilTestParticipant
      * @var string
      */
     protected $activeId;
-    
+
     /**
      * @var string
      */
     protected $anonymousId;
-    
+
     /**
      * @var string
      */
     protected $usrId;
-    
+
     /**
      * @var string
      */
     protected $login;
-    
+
     /**
      * @var string
      */
     protected $lastname;
-    
+
     /**
      * @var string
      */
     protected $firstname;
-    
+
     /**
      * @var string
      */
     protected $matriculation;
-    
+
     /**
      * @var bool
      */
     protected $activeStatus;
-    
+
     /**
      * @var string
      */
     protected $clientIp;
-    
+
     /**
      * @var integer
      */
     protected $finishedTries;
-    
+
     /**
      * @var bool
      */
     protected $testFinished;
-    
+
     /**
      * @var bool
      */
     protected $unfinishedPasses;
-    
+
     /**
      * @var ilTestParticipantScoring
      */
     protected $scoring;
-    
+
     /**
      * ilTestParticipant constructor.
      * @param string $activeId
@@ -106,15 +120,15 @@ class ilTestParticipant
         $this->testFinished = null;
         $this->unfinishedPasses = null;
     }
-    
+
     /**
      * @return string
      */
-    public function getActiveId() : ?string
+    public function getActiveId(): ?string
     {
         return $this->activeId;
     }
-    
+
     /**
      * @param string $activeId
      */
@@ -122,15 +136,15 @@ class ilTestParticipant
     {
         $this->activeId = $activeId;
     }
-    
+
     /**
      * @return string
      */
-    public function getAnonymousId() : ?string
+    public function getAnonymousId(): ?string
     {
         return $this->anonymousId;
     }
-    
+
     /**
      * @param string $anonymousId
      */
@@ -138,15 +152,15 @@ class ilTestParticipant
     {
         $this->anonymousId = $anonymousId;
     }
-    
+
     /**
      * @return string
      */
-    public function getUsrId() : ?string
+    public function getUsrId(): ?string
     {
         return $this->usrId;
     }
-    
+
     /**
      * @param string $usrId
      */
@@ -154,15 +168,15 @@ class ilTestParticipant
     {
         $this->usrId = $usrId;
     }
-    
+
     /**
      * @return string
      */
-    public function getLogin() : ?string
+    public function getLogin(): ?string
     {
         return $this->login;
     }
-    
+
     /**
      * @param string $login
      */
@@ -170,15 +184,15 @@ class ilTestParticipant
     {
         $this->login = $login;
     }
-    
+
     /**
      * @return string
      */
-    public function getLastname() : ?string
+    public function getLastname(): ?string
     {
         return $this->lastname;
     }
-    
+
     /**
      * @param string $lastname
      */
@@ -186,15 +200,15 @@ class ilTestParticipant
     {
         $this->lastname = $lastname;
     }
-    
+
     /**
      * @return string
      */
-    public function getFirstname() : ?string
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
-    
+
     /**
      * @param string $firstname
      */
@@ -202,15 +216,15 @@ class ilTestParticipant
     {
         $this->firstname = $firstname;
     }
-    
+
     /**
      * @return string
      */
-    public function getMatriculation() : ?string
+    public function getMatriculation(): ?string
     {
         return $this->matriculation;
     }
-    
+
     /**
      * @param string $matriculation
      */
@@ -218,15 +232,15 @@ class ilTestParticipant
     {
         $this->matriculation = $matriculation;
     }
-    
+
     /**
      * @return bool
      */
-    public function isActiveStatus() : ?bool
+    public function isActiveStatus(): ?bool
     {
         return $this->activeStatus;
     }
-    
+
     /**
      * @param bool $activeStatus
      */
@@ -234,15 +248,15 @@ class ilTestParticipant
     {
         $this->activeStatus = $activeStatus;
     }
-    
+
     /**
      * @return string
      */
-    public function getClientIp() : ?string
+    public function getClientIp(): ?string
     {
         return $this->clientIp;
     }
-    
+
     /**
      * @param string $clientIp
      */
@@ -250,15 +264,15 @@ class ilTestParticipant
     {
         $this->clientIp = $clientIp;
     }
-    
+
     /**
      * @return int
      */
-    public function getFinishedTries() : ?int
+    public function getFinishedTries(): ?int
     {
         return $this->finishedTries;
     }
-    
+
     /**
      * @param int $finishedTries
      */
@@ -266,15 +280,15 @@ class ilTestParticipant
     {
         $this->finishedTries = $finishedTries;
     }
-    
+
     /**
      * @return bool
      */
-    public function isTestFinished() : ?bool
+    public function isTestFinished(): ?bool
     {
         return $this->testFinished;
     }
-    
+
     /**
      * @param bool $testFinished
      */
@@ -282,15 +296,15 @@ class ilTestParticipant
     {
         $this->testFinished = $testFinished;
     }
-    
+
     /**
      * @return bool
      */
-    public function hasUnfinishedPasses() : ?bool
+    public function hasUnfinishedPasses(): ?bool
     {
         return $this->unfinishedPasses;
     }
-    
+
     /**
      * @param bool $unfinishedPasses
      */
@@ -298,15 +312,15 @@ class ilTestParticipant
     {
         $this->unfinishedPasses = $unfinishedPasses;
     }
-    
+
     /**
      * @return ilTestParticipantScoring
      */
-    public function getScoring() : ilTestParticipantScoring
+    public function getScoring(): ilTestParticipantScoring
     {
         return $this->scoring;
     }
-    
+
     /**
      * @param ilTestParticipantScoring $scoring
      */
@@ -314,8 +328,8 @@ class ilTestParticipant
     {
         $this->scoring = $scoring;
     }
-    
-    public function hasScoring() : bool
+
+    public function hasScoring(): bool
     {
         return $this->scoring instanceof ilTestParticipantScoring;
     }

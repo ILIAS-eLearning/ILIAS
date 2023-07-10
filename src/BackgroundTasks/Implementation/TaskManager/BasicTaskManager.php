@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 
 use ILIAS\BackgroundTasks\Bucket;
@@ -45,16 +45,16 @@ use ILIAS\BackgroundTasks\Value;
 abstract class BasicTaskManager implements TaskManager
 {
     protected Persistence $persistence;
-    
+
     public function __construct(Persistence $persistence)
     {
         $this->persistence = $persistence;
     }
-    
+
     /**
      * @throws UserInteractionSkippedException|UserInteractionRequiredException|Exception
      */
-    public function executeTask(Task $task, Observer $observer) : Value
+    public function executeTask(Task $task, Observer $observer): Value
     {
         $observer->notifyState(State::RUNNING);
         /** @var Value[] $values */
@@ -68,11 +68,11 @@ abstract class BasicTaskManager implements TaskManager
             }
             $final_values[] = $value;
         }
-        
+
         if ($replace_thunk_values) {
             $task->setInput($final_values);
         }
-        
+
         if (is_a($task, Task\Job::class)) {
             /** @var Task\Job $job */
             $job = $task;
@@ -85,33 +85,33 @@ abstract class BasicTaskManager implements TaskManager
                     . $value->getType());
             }
             $observer->notifyPercentage($job, 100);
-            
+
             return $value;
         }
-        
+
         if (is_a($task, Task\UserInteraction::class)) {
             /** @var Task\UserInteraction $user_interaction */
             $user_interaction = $task;
-            
+
             if ($user_interaction->canBeSkipped($final_values)) {
                 if ($task->isFinal()) {
                     throw new UserInteractionSkippedException('Final interaction skipped');
                 }
                 return $task->getSkippedValue($task->getInput());
             }
-            
+
             $observer->notifyCurrentTask($user_interaction);
             $observer->notifyState(State::USER_INTERACTION);
             throw new UserInteractionRequiredException("User interaction required.");
         }
-        
+
         throw new Exception("You need to execute a Job or a UserInteraction.");
     }
-    
+
     /**
      * Continue a task with a given option.
      */
-    public function continueTask(Bucket $bucket, Option $option) : void
+    public function continueTask(Bucket $bucket, Option $option): void
     {
         // We do the user interaction
         $bucket->userInteraction($option);
@@ -121,11 +121,11 @@ abstract class BasicTaskManager implements TaskManager
             $this->persistence->deleteBucket($bucket);
         }
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function quitBucket(Bucket $bucket) : void
+    public function quitBucket(Bucket $bucket): void
     {
         $this->persistence->deleteBucket($bucket);
     }

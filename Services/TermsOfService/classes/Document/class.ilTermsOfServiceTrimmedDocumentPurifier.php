@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,25 +16,24 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceTrimmedDocumentPurifier
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTermsOfServiceTrimmedDocumentPurifier implements ilHtmlPurifierInterface
 {
-    protected ilHtmlPurifierInterface $inner;
-
-    public function __construct(ilHtmlPurifierInterface $inner)
+    public function __construct(protected ilHtmlPurifierInterface $inner)
     {
-        $this->inner = $inner;
     }
 
-    public function purify(string $html) : string
+    public function purify(string $html): string
     {
         return trim($this->inner->purify($html));
     }
 
-    public function purifyArray(array $htmlCollection) : array
+    public function purifyArray(array $htmlCollection): array
     {
         foreach ($htmlCollection as $key => $html) {
             $htmlCollection[$key] = $this->purify($html);

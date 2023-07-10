@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 /**
  * Data holding class LSItem .
  */
@@ -29,6 +31,7 @@ class LSItem
     protected int $order_number;
     protected ilLSPostCondition $post_condition;
     protected int $ref_id;
+    protected int $lp_mode;
 
     public function __construct(
         string $type,
@@ -38,7 +41,8 @@ class LSItem
         bool $is_online,
         int $order_number,
         ilLSPostCondition $post_condition,
-        int $ref_id
+        int $ref_id,
+        int $lp_mode
     ) {
         $this->type = $type;
         $this->title = $title;
@@ -48,63 +52,69 @@ class LSItem
         $this->order_number = $order_number;
         $this->post_condition = $post_condition;
         $this->ref_id = $ref_id;
+        $this->lp_mode = $lp_mode;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getIconPath() : string
+    public function getIconPath(): string
     {
         return $this->icon_path;
     }
 
-    public function isOnline() : bool
+    public function isOnline(): bool
     {
         return $this->is_online;
     }
 
-    public function getOrderNumber() : int
+    public function getOrderNumber(): int
     {
         return $this->order_number;
     }
 
-    public function getPostCondition() : ilLSPostCondition
+    public function getPostCondition(): ilLSPostCondition
     {
         return $this->post_condition;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function withOnline(bool $online) : LSItem
+    public function getLPMode(): int
+    {
+        return $this->lp_mode;
+    }
+
+    public function withOnline(bool $online): LSItem
     {
         $clone = clone $this;
         $clone->is_online = $online;
         return $clone;
     }
 
-    public function withOrderNumber(int $order_number) : LSItem
+    public function withOrderNumber(int $order_number): LSItem
     {
         $clone = clone $this;
         $clone->order_number = $order_number;
         return $clone;
     }
 
-    public function withPostCondition(ilLSPostCondition $post_condition) : LSItem
+    public function withPostCondition(ilLSPostCondition $post_condition): LSItem
     {
         $clone = clone $this;
         $clone->post_condition = $post_condition;

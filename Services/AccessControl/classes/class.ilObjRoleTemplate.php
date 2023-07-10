@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjRoleTemplate
  * @author     Stefan Meyer <meyer@leifos.com>
@@ -28,7 +30,24 @@ class ilObjRoleTemplate extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function delete() : bool
+    public function getPresentationTitle(): string
+    {
+        $r = ilObjRole::_getTranslation($this->getTitle());
+
+        if ($r === $this->getUntranslatedTitle()) {
+            return $r;
+        }
+
+        return $r . ' (' . $this->getUntranslatedTitle() . ')';
+    }
+
+    /**
+    * delete role template and all related data
+    *
+    * @access	public
+    * @return	boolean	true if all object data were removed; false if only a references were removed
+    */
+    public function delete(): bool
     {
         // put here role template specific stuff
         // delete rbac permissions
@@ -38,7 +57,7 @@ class ilObjRoleTemplate extends ilObject
         return parent::delete();
     }
 
-    public function isInternalTemplate() : bool
+    public function isInternalTemplate(): bool
     {
         if (substr($this->getTitle(), 0, 3) == "il_") {
             return true;
@@ -47,7 +66,7 @@ class ilObjRoleTemplate extends ilObject
         return false;
     }
 
-    public function getFilterOfInternalTemplate() : array
+    public function getFilterOfInternalTemplate(): array
     {
         $filter = [];
         switch ($this->getTitle()) {

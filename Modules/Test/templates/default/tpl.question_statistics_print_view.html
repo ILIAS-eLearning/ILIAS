@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="{META_CONTENT_LANGUAGE}" dir="{LANGUAGE_DIRECTION}" style="overflow:visible;">
+<head>
+	<title>{WINDOW_TITLE} {PAGETITLE}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!-- BEGIN css_file -->
+	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" />
+	<!-- END css_file -->
+</head><!-- BEGIN tree_icons --><!-- END tree_icons -->
+<body style="overflow: visible;">
+    <h1>{QUESTION_TITLE}</h1>
+    {QUESTION_CONTENT}
+</body>
+<!-- BEGIN js_file -->
+        <script type="text/javascript" src="{JS_FILE}"></script>
+<!-- END js_file -->
+<!-- BEGIN on_load_code -->
+<script type="text/javascript">
+  il.Util.addOnLoad(function() {
+    <!-- BEGIN on_load_code_inner -->{OLCODE}
+    <!-- END on_load_code_inner -->
+  });
+</script>
+<!-- END on_load_code -->
+</html>

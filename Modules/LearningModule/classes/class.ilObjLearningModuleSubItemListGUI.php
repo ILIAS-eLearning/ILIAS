@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -19,7 +22,7 @@
 class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 {
     protected ilObjUser $user;
-    
+
     public function __construct(string $a_cmd_class)
     {
         global $DIC;
@@ -28,8 +31,8 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
         $this->user = $DIC->user();
     }
 
-    
-    public function getHTML() : string
+
+    public function getHTML(): string
     {
         $lng = $this->lng;
 
@@ -42,11 +45,11 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
             $this->tpl->setCurrentBlock('subitem');
 
             $this->tpl->setVariable('SEPERATOR', ':');
-            
-            
+
+
             switch (ilLMObject::_lookupType($sub_item, $this->getObjId())) {
                 case 'pg':
-                    $this->getItemListGUI()->setChildId($sub_item);
+                    $this->getItemListGUI()->setChildId((string) $sub_item);
                     $this->tpl->setVariable("SUBITEM_TYPE", $lng->txt('obj_pg'));
                     $link = $this->getItemListGUI()->getCommandLink('page');
                     $link .= ('&srcstring=1');
@@ -54,10 +57,10 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
                     $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame('page'));
                     $this->tpl->setVariable('TITLE', ilLMObject::_lookupTitle($sub_item));
                     break;
-                    
+
                 case 'st':
-                    
-                    $this->getItemListGUI()->setChildId($sub_item);
+
+                    $this->getItemListGUI()->setChildId((string) $sub_item);
                     $this->tpl->setVariable("SUBITEM_TYPE", $lng->txt('obj_st'));
                     $link = $this->getItemListGUI()->getCommandLink('page');
                     $link .= ('&srcstring=1');
@@ -71,7 +74,7 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
                     if (ilObject::_lookupType($sub_item) != 'file') {
                         return '';
                     }
-                    
+
                     $this->getItemListGUI()->setChildId('il__file_' . $sub_item);
                     $this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('obj_file'));
                     $link = $this->getItemListGUI()->getCommandLink('downloadFile');
@@ -83,12 +86,12 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
             if (count($this->getSubItemIds(true)) > 1) {
                 $this->parseRelevance($sub_item);
             }
-            
+
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->showDetailsLink();
-        
+
         return $this->tpl->get();
     }
 }

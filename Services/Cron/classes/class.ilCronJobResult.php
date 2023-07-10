@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,28 +16,30 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilCronJobResult
 {
-    public const STATUS_INVALID_CONFIGURATION = 1;
-    public const STATUS_NO_ACTION = 2;
-    public const STATUS_OK = 3;
-    public const STATUS_CRASHED = 4;
-    public const STATUS_RESET = 5;
-    public const STATUS_FAIL = 6;
+    final public const STATUS_INVALID_CONFIGURATION = 1;
+    final public const STATUS_NO_ACTION = 2;
+    final public const STATUS_OK = 3;
+    final public const STATUS_CRASHED = 4;
+    final public const STATUS_RESET = 5;
+    final public const STATUS_FAIL = 6;
 
-    public const CODE_NO_RESULT = 'job_no_result';
-    public const CODE_MANUAL_RESET = 'job_manual_reset';
-    public const CODE_SUPPOSED_CRASH = 'job_auto_deactivation_time_limit';
-    
+    final public const CODE_NO_RESULT = 'job_no_result';
+    final public const CODE_MANUAL_RESET = 'job_manual_reset';
+    final public const CODE_SUPPOSED_CRASH = 'job_auto_deactivation_time_limit';
+
     protected int $status = self::STATUS_NO_ACTION;
     protected string $message = '';
-    protected string $code = self::CODE_NO_RESULT;
+    protected ?string $code = null;
     protected string $duration = '0';
 
     /**
      * @return string[]
      */
-    public static function getCoreCodes() : array
+    public static function getCoreCodes(): array
     {
         return [
             self::CODE_NO_RESULT,
@@ -45,23 +47,29 @@ class ilCronJobResult
             self::CODE_SUPPOSED_CRASH,
         ];
     }
-    
-    public function getStatus() : int
+
+    public function getStatus(): int
     {
         return $this->status;
     }
-    
-    public function setStatus(int $a_value) : void
+
+    public function setStatus(int $a_value): void
     {
-        if (in_array($a_value, $this->getValidStatus(), true)) {
-            $this->status = $a_value;
+        if (!in_array($a_value, $this->getValidStatus(), true)) {
+            throw new InvalidArgumentException(sprintf(
+                'The passed status "%s" is not valid, must be of one of: %s',
+                $a_value,
+                implode(', ', $this->getValidStatus())
+            ));
         }
+
+        $this->status = $a_value;
     }
 
     /**
      * @return int[]
      */
-    protected function getValidStatus() : array
+    protected function getValidStatus(): array
     {
         return [
             self::STATUS_INVALID_CONFIGURATION,
@@ -69,36 +77,45 @@ class ilCronJobResult
             self::STATUS_OK,
             self::STATUS_CRASHED,
             self::STATUS_FAIL,
+            self::STATUS_RESET,
         ];
     }
-    
-    public function getMessage() : string
+
+    public function getMessage(): string
     {
         return $this->message;
     }
-    
-    public function setMessage(string $a_value) : void
+
+    public function setMessage(string $a_value): void
     {
         $this->message = trim($a_value);
     }
-    
-    public function getCode() : string
+
+    public function getCode(): ?string
     {
         return $this->code;
     }
-    
-    public function setCode(string $a_value) : void
+
+    public function setCode(string $a_value): void
     {
+        if (!in_array($a_value, self::getCoreCodes(), true)) {
+            throw new InvalidArgumentException(sprintf(
+                'The passed code "%s" is not valid, must be of one of: %s',
+                $a_value,
+                implode(', ', self::getCoreCodes())
+            ));
+        }
+
         $this->code = $a_value;
     }
-    
-    public function getDuration() : float
+
+    public function getDuration(): float
     {
         return (float) $this->duration;
     }
-    
-    public function setDuration(float $a_value) : void
+
+    public function setDuration(float $a_value): void
     {
-        $this->duration = number_format($a_value, 3, ".", "");
+        $this->duration = number_format($a_value, 3, '.', '');
     }
 }

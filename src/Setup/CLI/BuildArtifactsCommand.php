@@ -1,4 +1,6 @@
-<?php  declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Agent;
@@ -44,14 +46,14 @@ class BuildArtifactsCommand extends Command
         $this->agent_finder = $agent_finder;
     }
 
-    protected function configure() : void
+    protected function configure(): void
     {
         $this->setDescription("Build static artifacts from source");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the setup.");
         $this->configureCommandForPlugins();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();

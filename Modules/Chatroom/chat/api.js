@@ -68,11 +68,10 @@ function app() {
 	 * Creates a roomId which is used in the chat server.
 	 *
 	 * @param {number} roomId
-	 * @param {number} subRoomId
 	 * @returns {string}
 	 */
-	app.createServerRoomId = function(roomId, subRoomId) {
-		return roomId + '_' + subRoomId;
+	app.createServerRoomId = function(roomId) {
+		return roomId + '_0';
 	};
 
 	var index_bindNamespaces = function() {

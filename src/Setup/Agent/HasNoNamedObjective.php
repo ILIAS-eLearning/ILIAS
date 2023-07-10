@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\Agent;
 
 use ILIAS\Setup\Objective;
@@ -23,7 +25,7 @@ use ILIAS\Setup\Config;
 
 trait HasNoNamedObjective
 {
-    public function getNamedObjectives(?Config $config = null) : array
+    public function getNamedObjectives(?Config $config = null): array
     {
         return [];
     }

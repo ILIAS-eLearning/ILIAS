@@ -41,22 +41,22 @@ class ilSoapRepositoryStructureObject extends ilSoapStructureObject
         $this->setRefId($refId);
     }
 
-    public function setRefId(int $value) : void
+    public function setRefId(int $value): void
     {
         $this->ref_id = $value;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function getInternalLink() : string
+    public function getInternalLink(): string
     {
         return "[iln " . $this->getType() . "=\"" . $this->getRefId() . "\"]" . $this->getTitle() . "[/iln]";
     }
 
-    public function getGotoLink() : string
+    public function getGotoLink(): string
     {
         return ILIAS_HTTP_PATH . "/" . "goto.php?target=" . $this->getType() . "_" . $this->getRefId() . "&client_id=" . CLIENT_ID;
     }
@@ -64,7 +64,7 @@ class ilSoapRepositoryStructureObject extends ilSoapStructureObject
     /**
      * @return array{type: string, ref_id: int, obj_id: int}
      */
-    public function _getXMLAttributes() : array
+    public function _getXMLAttributes(): array
     {
         return [
             'type' => $this->getType(),
@@ -73,7 +73,7 @@ class ilSoapRepositoryStructureObject extends ilSoapStructureObject
         ];
     }
 
-    public function _getTagName() : string
+    public function _getTagName(): string
     {
         return "RepositoryObject";
     }

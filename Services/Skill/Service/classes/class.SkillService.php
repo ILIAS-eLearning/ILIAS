@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -39,30 +41,55 @@ class SkillService implements SkillServiceInterface
 
         $this->repository_tree = $DIC->repositoryTree();
         $skmg_obj = current(\ilObject::_getObjectsByType("skmg"));
-        $this->skmg_ref_id = (int) current(\ilObject::_getAllReferences($skmg_obj["obj_id"]));
+        $this->skmg_ref_id = (int) current(\ilObject::_getAllReferences((int) $skmg_obj["obj_id"]));
         $this->rbac_system = $DIC->rbac()->system();
         $this->usr_id = $DIC->user()->getId();
     }
 
-    public function user(int $id) : SkillUserService
+    /**
+     * External user service facade
+     */
+    public function user(int $id): SkillUserService
     {
         return new SkillUserService($id);
     }
 
-    public function ui() : SkillUIService
+    /**
+     * External ui service facade
+     */
+    public function ui(): SkillUIService
     {
         return new SkillUIService();
     }
 
-    public function tree() : SkillTreeService
+    /**
+     * External tree service facade
+     */
+    public function tree(): SkillTreeService
     {
         return new SkillTreeService($this->internal());
     }
 
     /**
+     * External profile service facade
+     */
+    public function profile(): SkillProfileService
+    {
+        return new SkillProfileService($this->internal());
+    }
+
+    /**
+     * External personal service facade
+     */
+    public function personal(): SkillPersonalService
+    {
+        return new SkillPersonalService($this->internal());
+    }
+
+    /**
      * @inheritDoc
      */
-    public function internal() : SkillInternalService
+    public function internal(): SkillInternalService
     {
         return new SkillInternalService(
             $this->skmg_ref_id,

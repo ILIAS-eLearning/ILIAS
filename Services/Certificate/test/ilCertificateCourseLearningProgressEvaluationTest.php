@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBaseTestCase
 {
-    public function testOnlyOneCourseIsCompletedOnLPChange() : void
+    public function testOnlyOneCourseIsCompletedOnLPChange(): void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -36,7 +38,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '[]',
                         1,
                         'v5.4.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/some/where/background.jpg',
                         '/some/where/thumbnail.svg',
@@ -50,7 +52,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '[]',
                         1,
                         'v5.4.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/some/where/background.jpg',
                         '/some/where/thumbnail.svg',
@@ -120,7 +122,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $this->assertSame(5, $completedCourses[0]->getObjId());
     }
 
-    public function testAllCoursesAreCompletedOnLPChange() : void
+    public function testAllCoursesAreCompletedOnLPChange(): void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -135,7 +137,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '[]',
                         1,
                         'v5.4.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/some/where/background.jpg',
                         '/some/where/thumbnail.svg',
@@ -149,7 +151,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '[]',
                         1,
                         'v5.4.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/some/where/background.jpg',
                         '/some/where/thumbnail.svg',
@@ -220,7 +222,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $this->assertSame(6, $completedCourses[1]->getObjId());
     }
 
-    public function testNoSubitemDefinedForEvaluation() : void
+    public function testNoSubitemDefinedForEvaluation(): void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -235,7 +237,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '[]',
                         1,
                         'v5.4.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/some/where/background.jpg',
                         '/some/where/thumbnail.svg',
@@ -249,7 +251,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '[]',
                         1,
                         'v5.4.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/some/where/background.jpg',
                         '/some/where/thumbnail.svg',
@@ -295,8 +297,8 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $this->assertSame([], $completedCourses);
     }
-    
-    public function globalLearningProgressStateProvder() : array
+
+    public function globalLearningProgressStateProvder(): array
     {
         return [
             'LP globally enabled' => [true, []],
@@ -310,7 +312,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                     'template_values' => '[]',
                     'version' => 1,
                     'ilias_version' => 'v5.4.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => true,
                     'background_image_path' => '/some/where/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -324,7 +326,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                     'template_values' => '[]',
                     'version' => 55,
                     'ilias_version' => 'v5.3.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => false,
                     'background_image_path' => '/some/where/else/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -335,23 +337,22 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
     /**
      * @dataProvider globalLearningProgressStateProvder
-     * @param bool                    $isGlobalLpEnabled
-     * @param ilCertificateTemplate[] $template_recods
+     * @param array[] $template_recods
      */
     public function testRetrievingCertificateTemplatesForCoursesWorksAsExpectedWhenUsingNonCachingRepository(
         bool $isGlobalLpEnabled,
         array $template_recods
-    ) : void {
+    ): void {
         $statement = $database = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $i = 0;
-        $database->method('fetch')->willReturnCallback(static function () use (&$i, $template_recods) {
+        $database->method('fetch')->willReturnCallback(static function () use (&$i, $template_recods): ?array {
             $result = $template_recods[$i] ?? null;
             ++$i;
 
             return $result;
         });
-        
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+
+        $database = $this->createMock(ilDBInterface::class);
         $database->expects($this->once())->method('queryF')->with(
             $isGlobalLpEnabled
                 ? $this->logicalAnd(
@@ -389,13 +390,13 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $this->assertCount(count($template_recods), $templates);
     }
 
-    public function testRetrievingCertificateTemplatesForCoursesWillBeCachedWhenCachingRepositoryIsUsed() : void
+    public function testRetrievingCertificateTemplatesForCoursesWillBeCachedWhenCachingRepositoryIsUsed(): void
     {
         $wrappedTemplateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
         $wrappedTemplateRepository
             ->expects($this->exactly(2))
             ->method('fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress')
-            ->willReturnCallback(static function (bool $isGlobalLpEnabled) : array {
+            ->willReturnCallback(static function (bool $isGlobalLpEnabled): array {
                 if ($isGlobalLpEnabled) {
                     return [];
                 }
@@ -409,7 +410,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '[]',
                         1,
                         'v5.4.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/some/where/background.jpg',
                         '/some/where/thumbnail.svg',
@@ -423,7 +424,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '[]',
                         1,
                         'v5.4.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/some/where/background.jpg',
                         '/some/where/thumbnail.svg',

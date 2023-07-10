@@ -1,4 +1,5 @@
 <?php
+
 require_once('class.ilOrgUnitTypeException.php');
 
 /**
@@ -10,23 +11,22 @@ require_once('class.ilOrgUnitTypeException.php');
  */
 class ilOrgUnitTypePluginException extends ilObjOrgUnitException
 {
-
     /**
      * Contains plugin objects causing this exception
      * @var array[ilOrgUnitTypeHookPlugin]
      */
     protected $plugins = array();
 
-    public function __construct($a_message, $plugins = array())
+    public function __construct(string $message, $plugins = array())
     {
-        parent::__construct($a_message);
+        parent::__construct($message);
         $this->plugins = $plugins;
     }
 
     /**
-     * @param array $plugins
+     * @param string[] $plugins
      */
-    public function setPlugins($plugins)
+    public function setPlugins(array $plugins)
     {
         $this->plugins = $plugins;
     }
@@ -34,7 +34,7 @@ class ilOrgUnitTypePluginException extends ilObjOrgUnitException
     /**
      * @return array
      */
-    public function getPlugins()
+    public function getPlugins(): array
     {
         return $this->plugins;
     }

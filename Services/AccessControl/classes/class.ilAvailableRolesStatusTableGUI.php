@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Table for Available Roles in Permission > Permission of User
  * @author  Fabian Wolf <wolf@leifos.com>
@@ -23,19 +25,28 @@
  */
 class ilAvailableRolesStatusTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\UI\Renderer $renderer;
+    protected \ILIAS\UI\Factory $ui_factory;
+
     /**
      * Constructor
      */
     public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
+        global $DIC;
+
         $this->setId('available_roles' . $a_parent_obj->user->getId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
+
         $this->setEnableHeader(true);
         $this->disable('numinfo');
         $this->setLimit(100);
         $this->setRowTemplate("tpl.available_roles_status_row.html", "Services/AccessControl");
 
-        $this->addColumn("", "status", "5%");
+        $this->addColumn($this->lng->txt("status"), "status", "5%");
         $this->addColumn($this->lng->txt("role"), "role", "32%");
         $this->addColumn(
             str_replace(" ", "&nbsp;", $this->lng->txt("info_permission_source")),
@@ -48,7 +59,7 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($a_set["img"] == ilObjectPermissionStatusGUI::IMG_OK) {
             $img_path = ilUtil::getImagePath("icon_ok.svg");
@@ -57,8 +68,9 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
             $img_path = ilUtil::getImagePath("icon_not_ok.svg");
             $img_info = $this->lng->txt("info_not_assigned");
         }
-        $this->tpl->setVariable("IMG_PATH", $img_path);
-        $this->tpl->setVariable("IMG_INFO", $img_info);
+        $this->tpl->setVariable("ICON", $this->renderer->render(
+            $this->ui_factory->symbol()->icon()->custom($img_path, $img_info)
+        ));
 
         $link = $this->ctrl->getLinkTargetByClass(array('ilpermissiongui'), 'perm', '', true);
         $this->tpl->setVariable("ROLE_LINK", $link);

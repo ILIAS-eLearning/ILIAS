@@ -27,17 +27,17 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
         parent::__construct();
     }
 
-    public function setObjects(array $roles) : void
+    public function setObjects(array $roles): void
     {
         $this->roles = $roles;
     }
 
-    public function setType(string $type) : void
+    public function setType(string $type): void
     {
         $this->role_type = $type;
     }
 
-    public function start() : bool
+    public function start(): bool
     {
         global $DIC;
 
@@ -100,12 +100,12 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
         return true;
     }
 
-    public function getXML() : string
+    public function getXML(): string
     {
         return $this->xmlDumpMem(false);
     }
 
-    private function buildHeader() : void
+    private function buildHeader(): void
     {
         $this->xmlSetDtdDef("<!DOCTYPE Roles PUBLIC \"-//ILIAS//DTD ILIAS Roles//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_role_object_3_10.dtd\">");
         $this->xmlSetGenCmt("Roles information of ilias system");
@@ -113,7 +113,7 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
         $this->xmlStartTag('Roles');
     }
 
-    private function buildFooter() : void
+    private function buildFooter(): void
     {
         $this->xmlEndTag('Roles');
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * TableGUI for question assignments of course objectives
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -73,12 +75,12 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
         $this->initQuestionAssignments();
     }
 
-    public function getSettings() : ilLOSettings
+    public function getSettings(): ilLOSettings
     {
         return $this->settings;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         foreach ($a_set['sub'] as $sub_data) {
             if ($sub_data['description']) {
@@ -126,7 +128,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
         }
     }
 
-    public function parse(array $a_assignable) : void
+    public function parse(array $a_assignable): void
     {
         $a_assignable = $this->getTestNode();
         $tests = array();
@@ -161,7 +163,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
         $this->setData($tests);
     }
 
-    protected function getTestNode() : array
+    protected function getTestNode(): array
     {
         if ($this->mode == ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT) {
             $tst_ref_id = $this->getSettings()->getInitialTest();
@@ -180,12 +182,12 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 
     // end-patch lok
 
-    protected function initQuestionAssignments() : void
+    protected function initQuestionAssignments(): void
     {
         $this->objective_qst_obj = new ilCourseObjectiveQuestion($this->objective_id);
     }
 
-    protected function sortQuestions(array $a_qst_ids) : array
+    protected function sortQuestions(array $a_qst_ids): array
     {
         return ilArrayUtil::sortArray($a_qst_ids, 'title', 'asc');
     }

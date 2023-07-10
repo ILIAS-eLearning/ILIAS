@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,25 +16,27 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Interface ilBuddySystemRelationState
  * @author Michael Jansen <mjansen@databay.de>
  */
 interface ilBuddySystemRelationState
 {
-    public function isInitial() : bool;
+    public function isInitial(): bool;
 
-    public function getName() : string;
+    public function getName(): string;
 
-    public function getAction() : string;
+    public function getAction(): string;
 
-    public function getPossibleTargetStates() : ilBuddySystemRelationStateCollection;
+    public function getPossibleTargetStates(): ilBuddySystemRelationStateCollection;
 
-    public function link(ilBuddySystemRelation $relation) : void;
+    public function link(ilBuddySystemRelation $relation): void;
 
-    public function unlink(ilBuddySystemRelation $relation) : void;
+    public function unlink(ilBuddySystemRelation $relation): void;
 
-    public function request(ilBuddySystemRelation $relation) : void;
+    public function request(ilBuddySystemRelation $relation): void;
 
-    public function ignore(ilBuddySystemRelation $relation) : void;
+    public function ignore(ilBuddySystemRelation $relation): void;
 }

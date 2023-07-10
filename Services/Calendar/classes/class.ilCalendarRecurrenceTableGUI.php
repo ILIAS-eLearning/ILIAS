@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilCalendarRecurrenceTableGUI
@@ -20,7 +22,7 @@ class ilCalendarRecurrenceTableGUI extends ilTable2GUI
         $this->entry = $entry;
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
         $this->setFormName('appointments');
@@ -44,13 +46,13 @@ class ilCalendarRecurrenceTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(false);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('TITLE', $a_set['title']);
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $calculator = new ilCalendarRecurrenceCalculator(
             $this->entry,

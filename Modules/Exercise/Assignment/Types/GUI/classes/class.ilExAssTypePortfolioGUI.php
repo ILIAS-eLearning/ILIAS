@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Portfolio type gui implementations
  *
@@ -43,7 +43,7 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function addEditFormCustomProperties(ilPropertyFormGUI $form) : void
+    public function addEditFormCustomProperties(ilPropertyFormGUI $form): void
     {
         $lng = $this->lng;
 
@@ -55,7 +55,7 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
         $repo = new ilRepositorySelector2InputGUI($lng->txt("exc_portfolio_template"), "template_id");
         $repo->setRequired(true);
         $repo->getExplorerGUI()->setSelectableTypes(array("prtt"));
-        $repo->getExplorerGUI()->setTypeWhiteList(array("root", "prtt", "cat", "crs", "grp"));
+        $repo->getExplorerGUI()->setTypeWhiteList(array("root", "prtt", "cat", "crs", "grp", "fold"));
         $radio_with_template->addSubItem($repo);
 
         $rd_template->addOption($radio_no_template);
@@ -66,7 +66,7 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form) : void
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form): void
     {
         $ass->setPortfolioTemplateId(0);
         if ($form->getInput("template_id") && $form->getInput("template")) {
@@ -89,7 +89,7 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
         return $values;
     }
 
-    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
+    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission): void
     {
     }
 }

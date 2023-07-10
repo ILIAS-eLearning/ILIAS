@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjFileBasedLMListGUI
@@ -19,7 +22,7 @@
  */
 class ilObjFileBasedLMListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -30,22 +33,27 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         $this->type = "htlm";
         $this->gui_class_name = "ilobjfilebasedlmgui";
         $this->enableLearningProgress(true);
-        
+
         // general commands array
         $this->commands = ilObjFileBasedLMAccess::_getCommands();
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         $ilCtrl = $this->ctrl;
-        
+
         switch ($cmd) {
             case "view":
                 $cmd_link = "ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=" . $this->ref_id;
                 break;
 
             case "edit":
-                $cmd_link = "ilias.php?baseClass=ilHTLMEditorGUI&ref_id=" . $this->ref_id;
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+                $cmd_link = $ilCtrl->getLinkTargetByClass(
+                    ["ilrepositorygui", "ilObjFileBasedLMGUI", "ilFileSystemGUI"],
+                    "listFiles"
+                );
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
                 break;
 
             default:
@@ -58,7 +66,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         switch ($cmd) {
             case "view":
@@ -77,7 +85,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         return $frame;
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
@@ -98,12 +106,12 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getInfoScreenStatus() : bool
+    public function getInfoScreenStatus(): bool
     {
         return ilObjFileBasedLMAccess::isInfoEnabled($this->obj_id);
     }
 
-    public function checkInfoPageOnAsynchronousRendering() : bool
+    public function checkInfoPageOnAsynchronousRendering(): bool
     {
         return true;
     }

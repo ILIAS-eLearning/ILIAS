@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Refinery\ConstraintViolationException;
@@ -26,7 +28,7 @@ class FloatTransformationTest extends TestCase
 {
     private FloatTransformation $transformation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new FloatTransformation();
     }
@@ -36,7 +38,7 @@ class FloatTransformationTest extends TestCase
      * @param mixed $originVal
      * @param float $expectedVal
      */
-    public function testFloatTransformation($originVal, float $expectedVal) : void
+    public function testFloatTransformation($originVal, float $expectedVal): void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsFloat($transformedValue);
@@ -47,7 +49,7 @@ class FloatTransformationTest extends TestCase
      * @dataProvider FailingTransformationDataProvider
      * @param mixed $failingVal
      */
-    public function testFailingTransformations($failingVal) : void
+    public function testFailingTransformations($failingVal): void
     {
         $this->expectNotToPerformAssertions();
         try {
@@ -58,7 +60,7 @@ class FloatTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function FailingTransformationDataProvider() : array
+    public function FailingTransformationDataProvider(): array
     {
         return [
             'null' => [null],
@@ -79,7 +81,7 @@ class FloatTransformationTest extends TestCase
         ];
     }
 
-    public function FloatTestDataProvider() : array
+    public function FloatTestDataProvider(): array
     {
         return [
             'some_float' => [1.0, 1.0],

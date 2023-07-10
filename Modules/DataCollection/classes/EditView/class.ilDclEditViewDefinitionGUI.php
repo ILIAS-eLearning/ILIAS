@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclEditViewDefinitionGUI
@@ -9,37 +24,29 @@
  */
 class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
 {
-    /**
-     * @var ilDclTableView
-     */
-    public $tableview;
-    /**
-     * @var ilDclEditViewTableGUI
-     */
-    protected $table_gui;
+    public ilDclTableView $tableview;
+    protected ilDclEditViewTableGUI $table_gui;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
+    protected int $tableview_id;
 
-    /**
-     * @param     $tableview_id
-     * @param int $a_definition_id
-     */
-    public function __construct($tableview_id, $a_definition_id = 0)
+    public function __construct(int $tableview_id)
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        /**
-         * @var $ilCtrl ilCtrl
-         */
-        $this->ctrl = $ilCtrl;
+        $this->tableview_id = $tableview_id;
         $this->tableview = ilDclTableView::findOrGetInstance($tableview_id);
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         // we always need a page object - create on demand
         if (!ilPageObject::_exists('dclf', $tableview_id)) {
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
             $viewdef = new ilDclEditViewDefinition();
             $viewdef->setId($tableview_id);
-            $viewdef->setParentId(ilObject2::_lookupObjectId($_GET['ref_id']));
+            $viewdef->setParentId(ilObject2::_lookupObjectId($ref_id));
             $viewdef->setActive(false);
-            $viewdef->create(false);
+            $viewdef->create();
         }
 
         parent::__construct("dclf", $tableview_id);
@@ -49,10 +56,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    /**
-     * execute command
-     */
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -79,10 +83,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         }
     }
 
-    /**
-     *
-     */
-    protected function activate()
+    protected function activate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(true);
@@ -90,10 +91,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    /**
-     *
-     */
-    protected function deactivate()
+    protected function deactivate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(false);
@@ -101,10 +99,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    /**
-     * confirmDelete
-     */
-    public function confirmDelete()
+    public function confirmDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -115,7 +110,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $conf->setFormAction($ilCtrl->getFormAction($this));
         $conf->setHeaderText($lng->txt('dcl_confirm_delete_detailed_view_title'));
 
-        $conf->addItem('tableview', (int) $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
+        $conf->addItem('tableview', $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
 
         $conf->setConfirm($lng->txt('delete'), 'deleteView');
         $conf->setCancel($lng->txt('cancel'), 'cancelDelete');
@@ -123,10 +118,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-    /**
-     * cancelDelete
-     */
-    public function cancelDelete()
+    public function cancelDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -134,10 +126,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirect($this, "edit");
     }
 
-    /**
-     *
-     */
-    public function deleteView()
+    public function deleteView(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -158,7 +147,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
      * Release page lock
      * overwrite to redirect properly
      */
-    public function releasePageLock() : void
+    public function releasePageLock(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -174,7 +163,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
      * @param string $a_output
      * @return string
      */
-    public function postOutputProcessing(string $a_output) : string
+    public function postOutputProcessing(string $a_output): string
     {
         // You can use this to parse placeholders and the like before outputting
 
@@ -208,9 +197,8 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
     /**
      * Save table entries
      */
-    public function saveTable()
+    public function saveTable(): void
     {
-        // die(var_dump($_POST));
         /**
          * @var ilDclTableViewFieldSetting $setting
          */
@@ -220,7 +208,10 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
                 // Radio Inputs
                 foreach (array("RadioGroup") as $attribute) {
                     $selection_key = $attribute . '_' . $setting->getField();
-                    $selection = $_POST[$selection_key];
+                    $selection = $this->http->wrapper()->post()->retrieve(
+                        $selection_key,
+                        $this->refinery->kindlyTo()->string()
+                    );
                     $selected_radio_attribute = explode("_", $selection)[0];
 
                     foreach (array("LockedEdit", "RequiredEdit", "VisibleEdit", "NotVisibleEdit") as $radio_attribute) {
@@ -237,7 +228,16 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
                 // Text Inputs
                 foreach (array("DefaultValue") as $attribute) {
                     $key = $attribute . '_' . $setting->getField();
-                    $setting->{'set' . $attribute}($_POST[$key]);
+                    if ($this->http->wrapper()->post()->has($key)) {
+                        $attribute_value = $this->http->wrapper()->post()->retrieve(
+                            $key,
+                            $this->refinery->kindlyTo()->string()
+                        );
+                    } else {
+                        $attribute_value = "";
+                    }
+
+                    $setting->{'set' . $attribute}($attribute_value);
                 }
 
                 $setting->update();

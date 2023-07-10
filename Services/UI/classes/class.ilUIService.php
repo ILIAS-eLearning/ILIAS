@@ -35,7 +35,7 @@ class ilUIService
         $this->_deps = new ilUIServiceDependencies($ui, new ilUIFilterRequestAdapter($request));
     }
 
-    public function filter() : ilUIFilterService
+    public function filter(): ilUIFilterService
     {
         return new ilUIFilterService($this, $this->_deps);
     }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Interface ilTermsOfServiceDocumentCriteriaEvaluation
  * @author Michael Jansen <mjansen@databay.de>
@@ -24,15 +26,11 @@ interface ilTermsOfServiceDocumentCriteriaEvaluation
 {
     /**
      * Evaluates a document for the context given by the concrete implementation
-     * @param ilTermsOfServiceSignableDocument $document
-     * @return bool
      */
-    public function evaluate(ilTermsOfServiceSignableDocument $document) : bool;
+    public function evaluate(ilTermsOfServiceSignableDocument $document): bool;
 
     /**
      * Returns a criteria evaluator like this with the passed context user
-     * @param ilObjUser $user
-     * @return ilTermsOfServiceDocumentCriteriaEvaluation
      */
-    public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentCriteriaEvaluation;
+    public function withContextUser(ilObjUser $user): ilTermsOfServiceDocumentCriteriaEvaluation;
 }

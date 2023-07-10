@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,25 +16,24 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilBuddySystemRelation
  * @author Michael Jansen <mjansen@databay.de>
  */
 abstract class ilBuddySystemRelationStateFilterRule
 {
-    protected ilBuddySystemRelation $relation;
-
-    public function __construct(ilBuddySystemRelation $relation)
+    public function __construct(protected ilBuddySystemRelation $relation)
     {
-        $this->relation = $relation;
     }
 
-    public function getStates() : ilBuddySystemRelationStateCollection
+    public function getStates(): ilBuddySystemRelationStateCollection
     {
         return $this->relation->getState()->getPossibleTargetStates()->filter($this);
     }
 
-    abstract public function matches() : bool;
+    abstract public function matches(): bool;
 
-    abstract public function __invoke(ilBuddySystemRelationState $state) : bool;
+    abstract public function __invoke(ilBuddySystemRelationState $state): bool;
 }

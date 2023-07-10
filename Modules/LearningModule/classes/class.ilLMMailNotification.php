@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -31,23 +34,23 @@ class ilLMMailNotification extends ilMailNotification
         $this->user = $DIC->user();
     }
 
-    public function setQuestionId(int $a_val) : void
+    public function setQuestionId(int $a_val): void
     {
         $this->question_id = $a_val;
     }
 
-    public function getQuestionId() : int
+    public function getQuestionId(): int
     {
         return $this->question_id;
     }
 
-    public function send() : bool
+    public function send(): bool
     {
         $ilUser = $this->user;
-    
+
         switch ($this->getType()) {
             case self::TYPE_USER_BLOCKED:
-                
+
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $this->initMail();
@@ -88,12 +91,11 @@ class ilLMMailNotification extends ilMailNotification
                     $this->sendMail(array($rcp));
                 }
                 break;
-
         }
         return true;
     }
-    
-    protected function initLanguage(int $a_usr_id) : void
+
+    protected function initLanguage(int $a_usr_id): void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('content');

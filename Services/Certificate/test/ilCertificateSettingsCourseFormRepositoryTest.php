@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testSaveSettings() : void
+    public function testSaveSettings(): void
     {
         $object = $this->getMockBuilder(ilObjCourse::class)
             ->disableOriginalConstructor()
@@ -36,7 +38,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -49,10 +51,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->getMock();
 
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $leaningProgressObject = $this->getMockBuilder(ilObjectLP::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -102,7 +100,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             $access,
             $toolbar,
             $placeholderDescriptionObject,
-            $leaningProgressObject,
             $settingsFormFactory,
             $trackingHelper,
             $objectHelper,
@@ -114,7 +111,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
         $repository->save(['subitems' => [1, 2, 3]]);
     }
 
-    public function testFetchFormFieldData() : void
+    public function testFetchFormFieldData(): void
     {
         $object = $this->getMockBuilder(ilObjCourse::class)
             ->disableOriginalConstructor()
@@ -129,7 +126,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -142,10 +139,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->getMock();
 
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $leaningProgressObject = $this->getMockBuilder(ilObjectLP::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -197,7 +190,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             $access,
             $toolbar,
             $placeholderDescriptionObject,
-            $leaningProgressObject,
             $settingsFormFactory,
             $trackingHelper,
             $objectHelper,

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\Numeric;
 
 use ILIAS\Data\Factory as DataFactory;
@@ -30,7 +32,7 @@ class GroupTest extends TestCase
     private DataFactory $dataFactory;
     private ilLanguage $language;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->dataFactory = new DataFactory();
         $this->language = $this->getMockBuilder(ilLanguage::class)
@@ -40,7 +42,7 @@ class GroupTest extends TestCase
         $this->group = new NumericGroup($this->dataFactory, $this->language);
     }
 
-    public function testIsNumericGroup() : void
+    public function testIsNumericGroup(): void
     {
         $instance = $this->group->isNumeric();
         $this->assertInstanceOf(IsNumeric::class, $instance);

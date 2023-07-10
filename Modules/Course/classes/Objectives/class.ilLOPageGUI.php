@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * (Course) learning objective page GUI class
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -29,5 +31,10 @@ class ilLOPageGUI extends ilPageObjectGUI
     public function __construct(int $a_id = 0, int $a_old_nr = 0, string $a_lang = "")
     {
         parent::__construct("lobj", $a_id, $a_old_nr, false, $a_lang);
+    }
+
+    public function finishEditing(): void
+    {
+        $this->ctrl->returnToParent($this);
     }
 }

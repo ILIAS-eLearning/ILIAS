@@ -1,19 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilTestExpressPage
 {
+    public function __construct()
+    {
+        global $DIC;
+        $this->testrequest = $DIC->test()->internal()->request();
+    }
+
     public static function getReturnToPageLink($q_id = null)
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        $q_id = $q_id ? $q_id : $_REQUEST['q_id'];
+        $q_id = $q_id ?: $DIC->test()->internal()->request()->raw('q_id');
         $refId = self::fetchTargetRefIdParameter();
 
-        if ($_REQUEST['q_id']) {
-            $q_id = $q_id ? $q_id : ($_REQUEST['prev_qid'] ?? $_REQUEST['q_id']);
+        if ($DIC->test()->internal()->request()->raw('q_id')) {
+            $q_id = $q_id ?: ($DIC->test()->internal()->request()->raw('prev_qid') ?? $DIC->test()->internal()->request()->raw('q_id'));
 
             $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'test_express_mode', 1);
             $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'ref_id', $refId);
@@ -40,12 +60,13 @@ class ilTestExpressPage
      */
     private static function fetchTargetRefIdParameter()
     {
-        if ($_REQUEST['calling_test']) {
-            return $_REQUEST['calling_test'];
-        } elseif ($_REQUEST['test_ref_id']) {
-            return $_REQUEST['test_ref_id'];
+        global $DIC;
+        if ($DIC->test()->internal()->request()->raw('calling_test')) {
+            return $DIC->test()->internal()->request()->raw('calling_test');
+        } elseif ($DIC->test()->internal()->request()->raw('test_ref_id')) {
+            return $DIC->test()->internal()->request()->raw('test_ref_id');
         }
 
-        return $_REQUEST['ref_id'];
+        return $DIC->test()->internal()->request()->raw('ref_id');
     }
 }

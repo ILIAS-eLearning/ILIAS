@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilObjMainMenuAccess
@@ -10,7 +12,7 @@ class ilObjMainMenuAccess extends ilObjectAccess implements ilMainMenuAccess
     private ilRbacSystem $rbacsystem;
     private ilRbacReview $rbacreview;
     private ?int $ref_id;
-    
+
     /**
      * ilObjMainMenuAccess constructor.
      */
@@ -24,55 +26,55 @@ class ilObjMainMenuAccess extends ilObjectAccess implements ilMainMenuAccess
             ? $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int())
             : null;
     }
-    
+
     /**
      * @param string $permission
      * @throws ilException
      */
-    public function checkAccessAndThrowException(string $permission) : void
+    public function checkAccessAndThrowException(string $permission): void
     {
         if (!$this->hasUserPermissionTo($permission)) {
             throw new ilException('Permission denied');
         }
     }
-    
+
     /**
      * @param string $permission
      * @return bool
      */
-    public function hasUserPermissionTo(string $permission) : bool
+    public function hasUserPermissionTo(string $permission): bool
     {
         if ($this->ref_id === null) {
             return false;
         }
         return $this->rbacsystem->checkAccess($permission, $this->ref_id);
     }
-    
+
     /**
      * @return array
      */
-    public function getGlobalRoles() : array
+    public function getGlobalRoles(): array
     {
         $global_roles = $this->rbacreview->getRolesForIDs(
             $this->rbacreview->getGlobalRoles(),
             false
         );
-        
+
         $roles = [];
         foreach ($global_roles as $global_role) {
             $roles[$global_role['rol_id']] = $global_role['title'];
         }
-        
+
         return $roles;
     }
-    
+
     /**
      * @param ilMMCustomItemStorage $item
      * @return Closure
      */
-    public function isCurrentUserAllowedToSeeCustomItem(ilMMCustomItemStorage $item) : Closure
+    public function isCurrentUserAllowedToSeeCustomItem(ilMMCustomItemStorage $item): Closure
     {
-        return function () use ($item) : bool {
+        return function () use ($item): bool {
             $roles_of_current_user = $this->rbacreview->assignedGlobalRoles($this->user->getId());
             if (!$item->hasRoleBasedVisibility()) {
                 return true;

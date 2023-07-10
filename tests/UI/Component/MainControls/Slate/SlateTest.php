@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -15,11 +31,11 @@ use ILIAS\UI\Component\Signal;
  */
 class TestGenericSlate extends Slate implements C\MainControls\Slate\Slate
 {
-    public function getContents() : array
+    public function getContents(): array
     {
         return [];
     }
-    public function withMappedSubNodes(callable $f) : C\MainControls\Slate\Slate
+    public function withMappedSubNodes(callable $f): C\MainControls\Slate\Slate
     {
         return $this;
     }
@@ -34,14 +50,14 @@ class SlateTest extends ILIAS_UI_TestBase
     protected I\Button\Factory $button_factory;
     protected I\Symbol\Icon\Factory $icon_factory;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->sig_gen = new I\SignalGenerator();
         $this->button_factory = new I\Button\Factory();
         $this->icon_factory = new I\Symbol\Icon\Factory();
     }
 
-    public function testConstruction() : TestGenericSlate
+    public function testConstruction(): TestGenericSlate
     {
         $name = 'name';
         $icon = $this->icon_factory->custom('', '');
@@ -60,7 +76,7 @@ class SlateTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testWithEngaged(Slate $slate) : void
+    public function testWithEngaged(Slate $slate): void
     {
         $slate = $slate->withEngaged(true);
         $this->assertTrue($slate->getEngaged());
@@ -69,7 +85,7 @@ class SlateTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testWithAriaRole(Slate $slate) : void
+    public function testWithAriaRole(Slate $slate): void
     {
         try {
             $slate = $slate->withAriaRole(Slate::MENU);
@@ -82,7 +98,7 @@ class SlateTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testWithAriaRoleIncorrect(Slate $slate) : void
+    public function testWithAriaRoleIncorrect(Slate $slate): void
     {
         try {
             $slate->withAriaRole("loremipsum");
@@ -95,7 +111,7 @@ class SlateTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testSignals(Slate $slate) : array
+    public function testSignals(Slate $slate): array
     {
         $signals = [
             $slate->getToggleSignal(),
@@ -111,7 +127,7 @@ class SlateTest extends ILIAS_UI_TestBase
     /**
      * @depends testSignals
      */
-    public function testDifferentSignals(array $signals) : void
+    public function testDifferentSignals(array $signals): void
     {
         $this->assertEquals(
             $signals,

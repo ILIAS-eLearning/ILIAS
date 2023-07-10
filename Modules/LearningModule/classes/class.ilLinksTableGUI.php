@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for (broken) links in learning module
@@ -35,9 +38,9 @@ class ilLinksTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->addColumn($lng->txt("pg"), "", "");
         $this->addColumn($lng->txt("cont_internal_links"), "", "");
         $this->setEnableHeader(true);
@@ -49,17 +52,17 @@ class ilLinksTableGUI extends ilTable2GUI
         $this->lm_id = $a_lm_id;
         $this->lm_type = $a_lm_type;
         $this->getLinks();
-        
+
         $this->setTitle($lng->txt("cont_internal_links"));
     }
-    
-    public function getLinks() : void
+
+    public function getLinks(): void
     {
         $pages = ilLMPageObject::getPagesWithLinksList($this->lm_id, $this->lm_type);
         $this->setData($pages);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -74,18 +77,18 @@ class ilLinksTableGUI extends ilTable2GUI
             "HREF_PAGE",
             $ilCtrl->getLinkTargetByClass("illmpageobjectgui", "edit")
         );
-        
+
         $page_object = new ilLMPage($a_set["obj_id"]);
         $page_object->buildDom();
         $int_links = $page_object->getInternalLinks();
-        
+
         foreach ($int_links as $link) {
             $target = $link["Target"];
             if (substr($target, 0, 4) == "il__") {
                 $target_arr = explode("_", $target);
                 $target_id = $target_arr[count($target_arr) - 1];
                 $type = $link["Type"];
-                
+
                 switch ($type) {
                     case "PageObject":
                         $this->tpl->setCurrentBlock("link");
@@ -107,7 +110,7 @@ class ilLinksTableGUI extends ilTable2GUI
                         }
                         $this->tpl->parseCurrentBlock();
                         break;
-                        
+
                     case "StructureObject":
                         $this->tpl->setCurrentBlock("link");
                         $this->tpl->setVariable("TXT_LINK_TYPE", $lng->txt("st"));
@@ -183,11 +186,10 @@ class ilLinksTableGUI extends ilTable2GUI
                         }
                         $this->tpl->parseCurrentBlock();
                         break;
-
                 }
             } else {
                 $type = $link["Type"];
-                
+
                 switch ($type) {
                     case "PageObject":
                         $this->tpl->setVariable("TXT_LINK_TYPE", $lng->txt("pg"));
@@ -205,7 +207,7 @@ class ilLinksTableGUI extends ilTable2GUI
                         $this->tpl->setVariable("TXT_LINK_TYPE", $lng->txt("cont_repository_item"));
                         break;
                 }
-                
+
                 $this->tpl->setCurrentBlock("link");
                 $this->tpl->setVariable(
                     "TXT_MISSING",

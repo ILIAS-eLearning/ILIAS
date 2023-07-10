@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Importer class for media pools
@@ -23,7 +26,7 @@ class ilMediaPoolImporter extends ilXmlImporter
     protected ilImportConfig $config;
     protected ilMediaPoolDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilMediaPoolDataSet();
         $this->ds->setDSPrefix("ds");
@@ -50,7 +53,7 @@ class ilMediaPoolImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $parser = new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),
@@ -62,7 +65,7 @@ class ilMediaPoolImporter extends ilXmlImporter
 
     public function finalProcessing(
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $pg_map = $a_mapping->getMappingsOfEntity("Modules/MediaPool", "pg");
 
         foreach ($pg_map as $pg_id) {

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for recent changes in wiki
@@ -33,10 +36,10 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->wiki_id = $a_wiki_id;
-        
+
         $this->addColumn($lng->txt("wiki_last_changed"), "", "33%");
         $this->addColumn($lng->txt("wiki_page"), "", "33%");
         $this->addColumn($lng->txt("wiki_last_changed_by"), "", "67%");
@@ -47,21 +50,21 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
             "Modules/Wiki"
         );
         $this->getRecentChanges();
-        
+
         $this->setShowRowsSelector(true);
-        
+
         $this->setTitle($lng->txt("wiki_recent_changes"));
     }
-    
-    public function getRecentChanges() : void
+
+    public function getRecentChanges(): void
     {
         $changes = ilWikiPage::getRecentChanges("wpg", $this->wiki_id);
         $this->setDefaultOrderField("date");
         $this->setDefaultOrderDirection("desc");
         $this->setData($changes);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -72,7 +75,7 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
             ilDatePresentation::formatDate(new ilDateTime($a_set["date"], IL_CAL_DATETIME))
         );
         $ilCtrl->setParameterByClass("ilwikipagegui", "page", rawurlencode($title));
-        $ilCtrl->setParameterByClass("ilwikipagegui", "old_nr", $a_set["nr"]);
+        $ilCtrl->setParameterByClass("ilwikipagegui", "old_nr", $a_set["nr"] ?? "");
         $this->tpl->setVariable(
             "HREF_PAGE",
             $ilCtrl->getLinkTargetByClass("ilwikipagegui", "preview")

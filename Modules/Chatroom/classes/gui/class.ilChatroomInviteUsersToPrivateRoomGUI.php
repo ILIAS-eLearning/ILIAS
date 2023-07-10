@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilChatroomInviteUsersToPrivateRoomGUI
  * @author  Jan Posselt <jposselt@databay.de>
@@ -24,18 +26,18 @@
  */
 class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
 {
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->byLogin();
     }
 
-    public function byLogin() : void
+    public function byLogin(): void
     {
         $user = $this->getRequestValue('user', $this->refinery->kindlyTo()->string());
         $this->inviteById((int) ilObjUser::_lookupId($user));
     }
 
-    private function inviteById(int $invited_id) : void
+    private function inviteById(int $invited_id): void
     {
         $this->redirectIfNoPermission('read');
 
@@ -43,32 +45,28 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
         $this->exitIfNoRoomExists($room);
 
         $chat_user = new ilChatroomUser($this->ilUser, $room);
-        $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
-        $this->exitIfNoRoomModeratePermission($room, $subRoomId, $chat_user);
-
-        if (!$this->isMainRoom($subRoomId)) {
-            $room->inviteUserToPrivateRoom($invited_id, $subRoomId);
-        }
 
         $connector = $this->gui->getConnector();
         $response = $connector->sendInviteToPrivateRoom(
             $room->getRoomId(),
-            $subRoomId,
             $chat_user->getUserId(),
             $invited_id
         );
 
-        $room->sendInvitationNotification($this->gui, $chat_user, $invited_id, $subRoomId);
+        $room->sendInvitationNotification($this->gui, $chat_user, $invited_id);
 
-        $this->sendResponse($response);
+        if ('asynch' === $this->getRequestValue('cmdMode', $this->refinery->kindlyTo()->string())) {
+            $this->sendResponse($response);
+        }
+        $this->ilCtrl->redirect($this->gui, 'view');
     }
 
-    public function byId() : void
+    public function byId(): void
     {
         $this->inviteById($this->getRequestValue('user', $this->refinery->kindlyTo()->int()));
     }
 
-    public function getUserList() : void
+    public function getUserList(): void
     {
         $auto = new ilUserAutoComplete();
         $auto->setUser($this->ilUser);
@@ -76,7 +74,7 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
         if ($this->ilUser->isAnonymous()) {
             $auto->setSearchType(ilUserAutoComplete::SEARCH_TYPE_EQUALS);
         }
-        
+
         $query = ilUtil::stripSlashes(
             $this->getRequestValue('q', $this->refinery->kindlyTo()->string(), '')
         );

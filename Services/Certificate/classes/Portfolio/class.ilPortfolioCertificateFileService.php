@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\IOException;
@@ -26,12 +28,11 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
  */
 class ilPortfolioCertificateFileService
 {
-    private Filesystem $filesystem;
-    private ilLogger $logger;
+    private readonly Filesystem $filesystem;
     private const PERSISTENT_CERTIFICATES_DIRECTORY = 'PersistentCertificates/';
     private const CERTIFICATE_FILENAME = 'certificate.pdf';
 
-    public function __construct(?Filesystem $filesystem = null, ?ilLogger $logger = null)
+    public function __construct(?Filesystem $filesystem = null)
     {
         global $DIC;
 
@@ -39,32 +40,25 @@ class ilPortfolioCertificateFileService
             $filesystem = $DIC->filesystem()->storage();
         }
         $this->filesystem = $filesystem;
-
-        if (null === $logger) {
-            $logger = $DIC->logger()->root();
-        }
-        $this->logger = $logger;
     }
 
     /**
-     * @param int $userId
-     * @param int $objectId
      * @throws FileAlreadyExistsException
      * @throws IOException
      * @throws ilException
      */
-    public function createCertificateFile(int $userId, int $objectId) : void
+    public function createCertificateFile(int $userId, int $objectId): void
     {
         $userCertificateRepository = new ilUserCertificateRepository();
 
         $userCertificate = $userCertificateRepository->fetchActiveCertificate($userId, $objectId);
 
         $dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId . '/' . $objectId;
-        if (false === $this->filesystem->hasDir($dirPath)) {
+        if (!$this->filesystem->hasDir($dirPath)) {
             $this->filesystem->createDir($dirPath);
         }
 
-        $pdfGenerator = new ilPdfGenerator($userCertificateRepository, $this->logger);
+        $pdfGenerator = new ilPdfGenerator($userCertificateRepository);
 
         $pdfScalar = $pdfGenerator->generate($userCertificate->getId());
 
@@ -77,12 +71,10 @@ class ilPortfolioCertificateFileService
     }
 
     /**
-     * @param int $userId
-     * @param int $objectId
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    public function deliverCertificate(int $userId, int $objectId) : void
+    public function deliverCertificate(int $userId, int $objectId): void
     {
         $dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId . '/' . $objectId;
         $fileName = $objectId . '_' . self::CERTIFICATE_FILENAME;
@@ -102,25 +94,22 @@ class ilPortfolioCertificateFileService
     }
 
     /**
-     * @param int $userId
      * @throws IOException
      */
-    public function deleteUserDirectory(int $userId) : void
+    public function deleteUserDirectory(int $userId): void
     {
         $dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId;
 
-        if (true === $this->filesystem->hasDir($dirPath)) {
+        if ($this->filesystem->hasDir($dirPath)) {
             $this->filesystem->deleteDir($dirPath);
         }
     }
 
     /**
-     * @param int $userId
-     * @param int $objectId
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public function deleteCertificateFile(int $userId, int $objectId) : void
+    public function deleteCertificateFile(int $userId, int $objectId): void
     {
         $dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId;
 
@@ -132,12 +121,9 @@ class ilPortfolioCertificateFileService
     }
 
     /**
-     * @param int $userId
-     * @param int $objectId
-     * @return string
      * @throws ilException
      */
-    public function createCertificateFilePath(int $userId, int $objectId) : string
+    public function createCertificateFilePath(int $userId, int $objectId): string
     {
         $dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId . '/' . $objectId . '/';
         $fileName = $objectId . '_' . self::CERTIFICATE_FILENAME;

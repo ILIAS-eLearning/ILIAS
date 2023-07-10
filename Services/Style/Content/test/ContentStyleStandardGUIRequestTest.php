@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\Style\Content\StandardGUIRequest;
@@ -11,11 +13,11 @@ use ILIAS\Data\Factory;
  */
 class ContentStyleStandardGUIRequestTest extends TestCase
 {
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : StandardGUIRequest
+    protected function getRequest(array $get, array $post): StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -29,7 +31,7 @@ class ContentStyleStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -45,7 +47,7 @@ class ContentStyleStandardGUIRequestTest extends TestCase
     }
 
 
-    public function testTemplateId() : void
+    public function testTemplateId(): void
     {
         $request = $this->getRequest(
             [
@@ -60,7 +62,7 @@ class ContentStyleStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testCharacteristics() : void
+    public function testCharacteristics(): void
     {
         $request = $this->getRequest(
             [

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,7 +36,7 @@
 
 class ilLikeObjectSearch extends ilObjectSearch
 {
-    public function __createWhereCondition() : string
+    public function __createWhereCondition(): string
     {
         $concat = $this->db->concat(
             array(
@@ -47,7 +49,7 @@ class ilLikeObjectSearch extends ilObjectSearch
             if ($counter++) {
                 $where .= "OR";
             }
-            
+
             $where .= $this->db->like($concat, 'text', '%' . $word . '%');
         }
         $where .= ') ';

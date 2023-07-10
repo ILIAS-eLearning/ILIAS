@@ -21,12 +21,12 @@ interface ilCtrlIteratorInterface extends Iterator
      *
      * @return string
      */
-    public function current() : ?string;
+    public function current(): ?string;
 
     /**
      * @inheritDoc
      *
      * @return string
      */
-    public function key() : ?string;
+    public function key(): ?string;
 }

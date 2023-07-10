@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface for assignment types
  *
@@ -45,7 +45,7 @@ interface ilExAssignmentTypeGUIInterface
     /**
      * Add overview content of submission to info screen object
      */
-    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void;
+    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission): void;
 
     /**
      * Set submission

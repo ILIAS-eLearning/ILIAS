@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,7 +19,7 @@
 
 class ilObjCloud extends ilObject2
 {
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = 'cld';
     }

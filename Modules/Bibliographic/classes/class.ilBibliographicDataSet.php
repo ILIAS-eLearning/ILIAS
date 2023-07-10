@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
@@ -35,7 +35,6 @@ use ILIAS\Filesystem\Stream\Streams;
  */
 class ilBibliographicDataSet extends ilDataSet
 {
-
     /**
      * @var \ILIAS\ResourceStorage\Services
      */
@@ -67,13 +66,13 @@ class ilBibliographicDataSet extends ilDataSet
     }
 
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array('4.5.0');
     }
 
 
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    public function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return 'http://www.ilias.de/xml/Modules/Bibliographic/' . $a_entity;
     }
@@ -85,7 +84,7 @@ class ilBibliographicDataSet extends ilDataSet
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case 'bibl':
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
@@ -115,7 +114,7 @@ class ilBibliographicDataSet extends ilDataSet
     /**
      * Map XML attributes of entities to datatypes (text, integer...)
      */
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         switch ($a_entity) {
             case 'bibl':
@@ -141,12 +140,12 @@ class ilBibliographicDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         return [];
     }
 
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $this->data = array();
         if (!is_array($a_ids)) {
@@ -159,7 +158,7 @@ class ilBibliographicDataSet extends ilDataSet
     /**
      * Build data array, data is read from cache except bibl object itself
      */
-    protected function _readData(string $a_entity, array $a_ids) : void
+    protected function _readData(string $a_entity, array $a_ids): void
     {
         switch ($a_entity) {
             case 'bibl':
@@ -182,7 +181,7 @@ class ilBibliographicDataSet extends ilDataSet
     }
 
 
-    public function exportLibraryFile(int $a_id) : void
+    public function exportLibraryFile(int $a_id): void
     {
         $obj = new ilObjBibliographic($a_id);
         $fileAbsolutePath = $obj->getLegacyAbsolutePath();
@@ -193,7 +192,7 @@ class ilBibliographicDataSet extends ilDataSet
     /**
      * @param ilImportMapping $a_mapping (what's it for?)
      */
-    public function importLibraryFile(\ilImportMapping $a_mapping) : void
+    public function importLibraryFile(\ilImportMapping $a_mapping): void
     {
         $bib_id = $this->import_bib_object->getId();
         $filename = $this->import_bib_object->getFilename();

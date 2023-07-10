@@ -15,14 +15,13 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Dependencies\DependencyMap;
 
 use ILIAS\DI\Container;
 
 interface DependencyMap
 {
-    
     /**
      * @param Container $DIC                      The DIC to take the dependencies from.
      * @param string    $fullyQualifiedDomainName What domain name is requested?
@@ -31,7 +30,7 @@ interface DependencyMap
      * @return mixed
      */
     public function getDependency(Container $DIC, string $fullyQualifiedDomainName, string $for);
-    
+
     /**
      * @param Container $DIC                      The DIC to take the dependencies from.
      * @param string    $fullyQualifiedDomainName What domain name is requested?

@@ -1,31 +1,55 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\LTI\ToolProvider\Service;
+
+use ILIAS\LTI\ToolProvider\Platform;
+use ILIAS\LTI\ToolProvider\Context;
+use ILIAS\LTI\ToolProvider\ResourceLink;
 
 /**
  * Class to implement the Tool Settings service
  *
- * @author  Stephen P Vickers <svickers@imsglobal.org>
- * @copyright  IMS Global Learning Consortium Inc
- * @date  2016
- * @version 3.0.0
- * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @author  Stephen P Vickers <stephen@spvsoftwareproducts.com>
+ * @copyright  SPV Software Products
+ * @license  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3
  */
 class ToolSettings extends Service
 {
+    /**
+     * Settings at current level mode.
+     */
+    public const MODE_CURRENT_LEVEL = 1;
 
-/**
- * Settings at current level mode.
- */
-    const MODE_CURRENT_LEVEL = 1;
     /**
      * Settings at all levels mode.
      */
-    const MODE_ALL_LEVELS = 2;
+    public const MODE_ALL_LEVELS = 2;
+
     /**
      * Settings with distinct names at all levels mode.
      */
-    const MODE_DISTINCT_NAMES = 3;
+    public const MODE_DISTINCT_NAMES = 3;
+
+    /**
+     * Access scope.
+     */
+    public static string $SCOPE = 'https://purl.imsglobal.org/spec/lti-ts/scope/toolsetting';
 
     /**
      * Names of LTI parameters to be retained in the consumer settings property.
@@ -37,37 +61,39 @@ class ToolSettings extends Service
                                               'LtiLink' => 'link');
 
     /**
-     * The object to which the settings apply (ResourceLink, Context or ToolConsumer).
+     * The object to which the settings apply (ResourceLink, Context or Platform).
      *
-     * @var object  $source
+     * @var Platform|Context|ResourceLink  $source
      */
-    private object $source;
+    private $source;
+
     /**
      * Whether to use the simple JSON format.
      *
-     * @var boolean  $simple
+     * @var bool $simple
      */
     private bool $simple;
 
     /**
      * Class constructor.
-     * @param object  $source   The object to which the settings apply (ResourceLink, Context or ToolConsumer)
-     * @param string  $endpoint Service endpoint
-     * @param boolean $simple   True if the simple media type is to be used (optional, default is true)
+     * @param Platform|Context|ResourceLink $source   The object to which the settings apply (ResourceLink, Context or Platform)
+     * @param string                        $endpoint Service endpoint
+     * @param bool                          $simple   True if the simple media type is to be used (optional, default is true)
      */
     public function __construct($source, string $endpoint, bool $simple = true)
     {
-        if (is_a($source, 'IMSGlobal\LTI\ToolProvider\ToolConsumer')) {
-            $consumer = $source;
+        if (is_a($source, 'ceLTIc\LTI\Platform')) {
+            $platform = $source;
         } else {
-            $consumer = $source->getConsumer();
+            $platform = $source->getPlatform();
         }
+        parent::__construct($platform, $endpoint);
+        $this->scope = self::$SCOPE;
         if ($simple) {
-            $mediaType = 'application/vnd.ims.lti.v2.toolsettings.simple+json';
+            $this->mediaType = 'application/vnd.ims.lti.v2.toolsettings.simple+json';
         } else {
-            $mediaType = 'application/vnd.ims.lti.v2.toolsettings+json';
+            $this->mediaType = 'application/vnd.ims.lti.v2.toolsettings+json';
         }
-        parent::__construct($consumer, $endpoint, $mediaType);
         $this->source = $source;
         $this->simple = $simple;
     }
@@ -77,7 +103,7 @@ class ToolSettings extends Service
      * @param int $mode Mode for request (optional, default is current level only)
      * @return mixed The array of settings if successful, otherwise false
      */
-    public function get(int $mode = self::MODE_CURRENT_LEVEL) : mixed
+    public function get(int $mode = self::MODE_CURRENT_LEVEL)
     {
         $parameter = array();
         if ($mode === self::MODE_ALL_LEVELS) {
@@ -105,14 +131,14 @@ class ToolSettings extends Service
     /**
      * Set the tool settings.
      * @param array $settings An associative array of settings (optional, default is null)
-     * @return \ILIAS\LTI\HTTPMessage HTTP object containing request and response details
+     * @return bool True if request was successful
      */
-    public function set(array $settings) : \ILIAS\LTI\HTTPMessage
+    public function set(array $settings): bool
     {
         if (!$this->simple) {
-            if (is_a($this->source, 'ToolConsumer')) {
+            if (is_a($this->source, 'Platform')) {
                 $type = 'ToolProxy';
-            } elseif (is_a($this->source, 'ToolConsumer')) {
+            } elseif (is_a($this->source, 'Context')) {
                 $type = 'ToolProxyBinding';
             } else {
                 $type = 'LtiLink';
@@ -132,7 +158,6 @@ class ToolSettings extends Service
 
         $response = parent::send('PUT', null, $body);
 
-        return $response;
-//        return $response->ok;
+        return $response->ok;
     }
 }

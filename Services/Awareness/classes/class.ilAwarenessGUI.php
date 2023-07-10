@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Awareness\InternalDataService;
 use ILIAS\Awareness\InternalDomainService;
@@ -25,6 +28,7 @@ use ILIAS\DI\UIServices;
  */
 class ilAwarenessGUI implements ilCtrlBaseClassInterface
 {
+    protected InternalGUIService $gui;
     protected ilGlobalTemplateInterface $main_tpl;
     protected int $ref_id;
     protected \ILIAS\Awareness\StandardGUIRequest $request;
@@ -34,13 +38,21 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
     protected UIServices $ui;
     protected ilLanguage $lng;
     protected InternalDataService $data_service;
-    
+    protected ilUserActionGUI $user_action_gui;
+
     public function __construct(
-        InternalDataService $data_service,
-        InternalDomainService $domain_service,
-        InternalGUIService $gui_service
+        InternalDataService $data_service = null,
+        InternalDomainService $domain_service = null,
+        InternalGUIService $gui_service = null
     ) {
-        $this->data_service = $data_service;
+        global $DIC;
+
+        $this->data_service = $data_service
+            ?? $DIC->awareness()->internal()->data();
+        $domain_service = $domain_service
+            ?? $DIC->awareness()->internal()->domain();
+        $gui_service = $gui_service
+            ?? $DIC->awareness()->internal()->gui();
         $this->user = $domain_service->user();
         $this->lng = $domain_service->lng();
         $this->ui = $gui_service->ui();
@@ -55,9 +67,20 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
             $this->user->getId(),
             $this->ref_id
         );
+        $this->gui = $DIC->awareness()->internal()->gui();
+        $this->user_action_gui = new ilUserActionGUI(
+            new ilUserActionProviderFactory(),
+            new ilAwarenessUserActionContext(),
+            $DIC['tpl'],
+            $this->ui->factory(),
+            $this->ui->renderer(),
+            $this->lng,
+            $DIC['ilDB'],
+            $this->user->getId()
+        );
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -66,7 +89,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    public function initJS() : void
+    public function initJS(): void
     {
         $ilUser = $this->user;
         // init js
@@ -82,9 +105,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
         $this->main_tpl->addOnLoadCode("il.Awareness.setLoaderSrc('" . ilUtil::getImagePath("loader.svg") . "');");
         $this->main_tpl->addOnLoadCode("il.Awareness.init();");
 
-        // include user action js
-        $ua_gui = ilUserActionGUI::getInstance(new ilAwarenessUserActionContext(), $GLOBALS["tpl"], $ilUser->getId());
-        $ua_gui->init();
+        $this->user_action_gui->init();
     }
 
     /**
@@ -92,7 +113,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
      * @return ?array<string,string>
      * @throws ilWACException
      */
-    public function getAwarenessList(bool $return = false) : ?array
+    public function getAwarenessList(bool $return = false): ?array
     {
         $filter = $this->request->getFilter();
 
@@ -164,7 +185,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
         }
 
         $tpl->setCurrentBlock("filter");
-        $tpl->setVariable("GL_FILTER", ilGlyphGUI::get(ilGlyphGUI::FILTER));
+        $tpl->setVariable("GL_FILTER", $this->gui->symbol()->glyph("filter")->render());
         $tpl->setVariable("FILTER_INPUT_LABEL", $this->lng->txt("awrn_filter"));
         $tpl->parseCurrentBlock();
 

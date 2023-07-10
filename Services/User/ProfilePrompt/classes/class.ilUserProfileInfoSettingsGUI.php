@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * User profile info settings UI class
@@ -37,7 +40,7 @@ class ilUserProfileInfoSettingsGUI
         $this->prompt_settings = $this->user_prompt->data()->getSettings();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("show");
@@ -50,7 +53,7 @@ class ilUserProfileInfoSettingsGUI
         }
     }
 
-    public function show() : void
+    public function show(): void
     {
         $tpl = $this->tpl;
 
@@ -58,7 +61,7 @@ class ilUserProfileInfoSettingsGUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function initForm() : ilPropertyFormGUI
+    public function initForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -126,6 +129,8 @@ class ilUserProfileInfoSettingsGUI
         $ti = new ilNumberInputGUI($lng->txt("days"), "days_repeat");
         $ti->setMaxLength(4);
         $ti->setSize(4);
+        $ti->setRequired(true);
+        $ti->setMinValue(1);
         $ti->setValue($prompt_settings->getDays());
         $op3->addSubItem($ti);
 
@@ -154,7 +159,7 @@ class ilUserProfileInfoSettingsGUI
         return $form;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -171,8 +176,8 @@ class ilUserProfileInfoSettingsGUI
                 $prompt_text[$l] = $form->getInput("user_profile_prompt_text_" . $l);
             }
             $this->user_prompt->data()->saveSettings($this->user_prompt->settings(
-                $form->getInput("prompt_mode"),
-                $days,
+                (int) $form->getInput("prompt_mode"),
+                (int) $days,
                 $info_text,
                 $prompt_text
             ));

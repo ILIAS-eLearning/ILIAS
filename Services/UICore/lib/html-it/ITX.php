@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 // +----------------------------------------------------------------------+
 // | Copyright (c) 1997-2005 Ulf Wendel, Pierre-Alain Joye                |
@@ -90,7 +92,7 @@ class HTML_Template_ITX extends HTML_Template_IT
         parent::__construct($root);
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $this->free();
         $this->buildFunctionlist();
@@ -116,7 +118,7 @@ class HTML_Template_ITX extends HTML_Template_IT
      * @param bool $keep_content true if the new block inherits the content of the old block
      * @throws ilTemplateException
      */
-    public function replaceBlock(string $block, string $template, bool $keep_content = false) : bool
+    public function replaceBlock(string $block, string $template, bool $keep_content = false): bool
     {
         if (!isset($this->blocklist[$block])) {
             throw new ilTemplateException("The block " . "'$block'" . " does not exist in the template and thus it can't be replaced.");
@@ -168,7 +170,7 @@ class HTML_Template_ITX extends HTML_Template_IT
      * produce an error.
      * @throws ilTemplateException
      */
-    public function addBlock(string $placeholder, string $blockname, string $template) : bool
+    public function addBlock(string $placeholder, string $blockname, string $template): bool
     {
         // Don't trust any user even if it's a programmer or yourself...
         if ($placeholder === '') {
@@ -230,7 +232,7 @@ class HTML_Template_ITX extends HTML_Template_IT
      * placeholder to a block placeholder.
      * @throws ilTemplateException
      */
-    public function addBlockfile(string $placeholder, string $blockname, string $filename) : bool
+    public function addBlockfile(string $placeholder, string $blockname, string $filename): bool
     {
         return $this->addBlock($placeholder, $blockname, $this->getFile($filename));
     }
@@ -238,7 +240,7 @@ class HTML_Template_ITX extends HTML_Template_IT
     /**
      * Recursively removes all data assiciated with a block, including all inner blocks
      */
-    public function removeBlockData(string $block) : void
+    public function removeBlockData(string $block): void
     {
         if (isset($this->blockinner[$block])) {
             foreach ($this->blockinner[$block] as $inner) {
@@ -259,7 +261,7 @@ class HTML_Template_ITX extends HTML_Template_IT
     /**
      * Checks wheter a block exists.
      */
-    public function blockExists(string $blockname) : bool
+    public function blockExists(string $blockname): bool
     {
         return isset($this->blocklist[$blockname]);
     }
@@ -267,7 +269,7 @@ class HTML_Template_ITX extends HTML_Template_IT
     /**
      * Builds a functionlist from the template.
      */
-    public function buildFunctionlist() : void
+    public function buildFunctionlist(): void
     {
         $this->functions = [];
 
@@ -312,7 +314,7 @@ class HTML_Template_ITX extends HTML_Template_IT
      * $delimiter but ignores $delimiter enclosed by " or '.
      * @param array|string $delimiter
      */
-    public function getValue(string $code, $delimiter) : string
+    public function getValue(string $code, $delimiter): string
     {
         if ($code === '') {
             return '';
@@ -359,7 +361,7 @@ class HTML_Template_ITX extends HTML_Template_IT
      * @param array|string $variables Name of one variable or array of variables
      *                                ( array ( name => true ) ) to be stripped.
      */
-    public function deleteFromBlockvariablelist(string $block, $variables) : void
+    public function deleteFromBlockvariablelist(string $block, $variables): void
     {
         if (!is_array($variables)) {
             $variables = [$variables => true];
@@ -376,7 +378,7 @@ class HTML_Template_ITX extends HTML_Template_IT
     /**
      * Updates the variable list of a block.
      */
-    public function updateBlockvariablelist(string $block) : void
+    public function updateBlockvariablelist(string $block): void
     {
         preg_match_all(
             $this->variablesRegExp,
@@ -411,7 +413,7 @@ class HTML_Template_ITX extends HTML_Template_IT
      * Returns an array of blocknames where the given variable
      * placeholder is used.
      */
-    public function findPlaceholderBlocks(string $variable) : array
+    public function findPlaceholderBlocks(string $variable): array
     {
         $parents = [];
         reset($this->blocklist);
@@ -431,7 +433,7 @@ class HTML_Template_ITX extends HTML_Template_IT
      * Handles warnings, saves them to $warn and prints them or
      * calls die() depending on the flags
      */
-    public function warning(string $message, string $file = '', int $line = 0) : void
+    public function warning(string $message, string $file = '', int $line = 0): void
     {
         $message = sprintf(
             'HTML_Template_ITX Warning: %s [File: %s, Line: %d]',

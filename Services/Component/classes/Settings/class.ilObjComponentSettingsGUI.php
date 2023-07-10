@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -8,7 +24,7 @@ use ILIAS\UI\Renderer;
 /**
  * @ilCtrl_Calls ilObjComponentSettingsGUI: ilPermissionGUI
  */
-class ilObjComponentSettingsGUI extends ilObjectGUI
+class ilObjComponentSettingsGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 {
     private const TYPE = 'cmps';
 
@@ -67,7 +83,22 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule(self::TYPE);
     }
 
-    public function executeCommand() : void
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            self::CMD_UPDATE_PLUGIN,
+            self::CMD_ACTIVATE_PLUGIN,
+            self::CMD_DEACTIVATE_PLUGIN,
+            self::CMD_REFRESH_LANGUAGES,
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
+    }
+
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -116,8 +147,10 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         }
     }
 
-    protected function forwardConfigGUI(string $name) : void
+    protected function forwardConfigGUI(string $name): void
     {
+        $name = $this->ctrl->lookupOriginalClassName($name);
+
         if (!class_exists($name)) {
             throw new Exception("class $name not found!");
         }
@@ -129,7 +162,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->ctrl->forwardCommand($gui);
     }
 
-    protected function installPlugin() : void
+    protected function installPlugin(): void
     {
         $pl = $this->getPlugin();
 
@@ -137,7 +170,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->update($pl);
     }
 
-    protected function update(ilPlugin $plugin) : void
+    protected function update(ilPlugin $plugin): void
     {
         try {
             $plugin->update();
@@ -149,7 +182,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->ctrl->redirectByClass(ilAdministrationGUI::class, self::CMD_JUMP_TO_PLUGIN_SLOT);
     }
 
-    protected function refreshLanguages() : void
+    protected function refreshLanguages(): void
     {
         try {
             $plugin_name = $this->request_wrapper->retrieve(self::P_PLUGIN_NAME, $this->refinery->kindlyTo()->string());
@@ -163,7 +196,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-    protected function activatePlugin() : void
+    protected function activatePlugin(): void
     {
         $pl = $this->getPlugin();
 
@@ -177,7 +210,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-    protected function deactivatePlugin() : void
+    protected function deactivatePlugin(): void
     {
         $pl = $this->getPlugin();
 
@@ -191,13 +224,13 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-    protected function updatePlugin() : void
+    protected function updatePlugin(): void
     {
         $pl = $this->getPlugin();
         $this->update($pl);
     }
 
-    protected function confirmUninstallPlugin() : void
+    protected function confirmUninstallPlugin(): void
     {
         $pl = $this->getPlugin();
 
@@ -233,7 +266,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($this->renderer->render($this->ui->messageBox()->confirmation($question)->withButtons($buttons)));
     }
 
-    protected function uninstallPlugin() : void
+    protected function uninstallPlugin(): void
     {
         $pl = $this->getPlugin();
 
@@ -247,7 +280,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-    protected function getPlugin() : ilPlugin
+    protected function getPlugin(): ilPlugin
     {
         $plugin_name = $this->request_wrapper->retrieve(self::P_PLUGIN_NAME, $this->refinery->kindlyTo()->string());
         return $this->component_factory->getPlugin(
@@ -255,7 +288,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         );
     }
 
-    protected function listPlugins() : void
+    protected function listPlugins(): void
     {
         $this->tabs->activateTab(self::TAB_PLUGINS);
 
@@ -280,7 +313,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($filters->getHTML() . $table);
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(

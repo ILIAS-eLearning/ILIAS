@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class for global mail information (e.g. in main menu).
  * This class should only contain methods for fetching data which is necessary in global parts of ILIAS,
@@ -26,11 +28,12 @@
  */
 class ilMailGlobalServices
 {
-    public const CACHE_TYPE_REF_ID = 0;
-    public const CACHE_TYPE_NEW_MAILS = 1;
+    final public const CACHE_TYPE_REF_ID = 0;
+    final public const CACHE_TYPE_NEW_MAILS = 1;
+
     protected static array $global_mail_services_cache = [];
 
-    public static function getMailObjectRefId() : int
+    public static function getMailObjectRefId(): int
     {
         global $DIC;
 
@@ -64,11 +67,9 @@ class ilMailGlobalServices
     }
 
     /**
-     * @param ilObjUser $user
-     * @param int $leftInterval
      * @return array{count: int, max_time: string}
      */
-    public static function getNewMailsData(ilObjUser $user, int $leftInterval = 0) : array
+    public static function getNewMailsData(ilObjUser $user, int $leftInterval = 0): array
     {
         global $DIC;
 

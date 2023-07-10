@@ -1,0 +1,127 @@
+@use "../../../010-settings/"as *;
+@use "../../../050-layout/basics"as *;
+
+//== Toggle Buttons
+//
+//##
+
+//** main color variables
+$il-btn-toggle-border-color: rgba(0, 0, 0, 0.1);
+$il-btn-toggle-switch-border-color: rgba(0, 0, 0, 0.2);
+$il-enabled-btn-toggle-switch-color: $il-main-color;
+$il-disabled-btn-toggle-switch-color: #808080;
+
+//** The Toggle Button without the Switch
+$il-btn-toggle-height: 24px;
+$il-btn-toggle-padding: 27px;
+$il-btn-toggle-border: 1px solid;
+$il-btn-toggle-border-radius: 40px;
+$il-enabled-btn-toggle-bg: lighten($il-enabled-btn-toggle-switch-color, 30%);
+$il-disabled-btn-toggle-bg: lighten($il-disabled-btn-toggle-switch-color, 30%);
+
+//** The Switch of the Toggle Button
+$il-btn-toggle-switch-position-top: 2px;
+$il-btn-toggle-switch-size: 18px;
+$il-btn-toggle-switch-transition: all 0.25s ease-in-out;
+$il-enabled-btn-toggle-switch-position-left: 63%;
+$il-disabled-btn-toggle-switch-position-left: 4%;
+
+//** The ON/OFF Label of the Toggle Button
+$il-btn-toggle-label-position-top:3px;
+$il-btn-toggle-label-on-position-left: 9px;
+$il-btn-toggle-label-off-position-left: 24px;
+$il-btn-toggle-label-font-weight: $il-font-weight-bold;
+$il-btn-toggle-label-font-size: $il-font-size-small;
+$il-btn-toggle-label-on-color: $il-main-bg;
+
+//** on
+$il-btn-toggle-bg-color-on: $il-secondary-color;
+$il-btn-toggle-border-color-on: $il-secondary-color;
+$il-btn-toggle-switch-bg-color-on: $il-main-bg;
+$il-btn-toggle-switch-border-color-on: $il-main-bg;
+
+//** off
+$il-btn-toggle-bg-color-off: $il-main-border-color;
+$il-btn-toggle-border-color-off: $il-main-border-color;
+$il-btn-toggle-switch-bg-color-off: $il-main-bg;
+$il-btn-toggle-switch-border-color-off: $il-main-bg;
+
+//** unavailable
+$il-btn-toggle-bg-color-unavailable: $il-neutral-light-color;
+$il-btn-toggle-border-color-unavailable: $il-neutral-light-color;
+$il-btn-toggle-switch-bg-color-unavailable: $il-neutral-color;
+$il-btn-toggle-switch-border-color-unavailable: $il-neutral-color;
+
+.il-toggle-button {
+  position: relative;
+  display: inline-block;
+  height: $il-btn-toggle-height;
+  padding-left: $il-btn-toggle-padding;
+  padding-right: $il-btn-toggle-padding;
+  border-radius: $il-btn-toggle-border-radius;
+    cursor: pointer;
+}
+
+.il-toggle-button .il-toggle-switch {
+  position: absolute;
+  top: $il-btn-toggle-switch-position-top;
+  left: $il-disabled-btn-toggle-switch-position-left;
+  width: $il-btn-toggle-switch-size;
+  height: $il-btn-toggle-switch-size;
+  border-radius: $il-btn-toggle-border-radius;
+  -webkit-transition: $il-btn-toggle-switch-transition; /* Safari */
+  transition: $il-btn-toggle-switch-transition;
+}
+
+.il-toggle-button {
+  &.on {
+    background: $il-btn-toggle-bg-color-on;
+    border: $il-btn-toggle-border $il-btn-toggle-border-color-on;
+    .il-toggle-label-on {
+      position: absolute;
+      top: $il-btn-toggle-label-position-top;
+      left: $il-btn-toggle-label-on-position-left;
+      font-weight: $il-btn-toggle-label-font-weight;
+      font-size: $il-btn-toggle-label-font-size;
+      color: $il-btn-toggle-label-on-color;
+    }
+    .il-toggle-switch {
+      left: $il-enabled-btn-toggle-switch-position-left;
+      background: $il-btn-toggle-switch-bg-color-on;
+      border: $il-btn-toggle-border $il-btn-toggle-switch-border-color-on;
+    }
+  }
+  &.off {
+    background: $il-btn-toggle-bg-color-off;
+    border: $il-btn-toggle-border $il-btn-toggle-border-color-off;
+    .il-toggle-label-off {
+      position: absolute;
+      top: $il-btn-toggle-label-position-top;
+      left: $il-btn-toggle-label-off-position-left;
+      font-weight: $il-btn-toggle-label-font-weight;
+      font-size: $il-btn-toggle-label-font-size;
+    }
+    .il-toggle-switch {
+      background: $il-btn-toggle-switch-bg-color-off;
+      border: $il-btn-toggle-border $il-btn-toggle-switch-border-color-off;
+    }
+  }
+  &.unavailable {
+    background: $il-btn-toggle-bg-color-unavailable;
+    border: $il-btn-toggle-border $il-btn-toggle-border-color-unavailable;
+    .il-toggle-switch {
+      background: $il-btn-toggle-switch-bg-color-unavailable;
+      border: $il-btn-toggle-border $il-btn-toggle-switch-border-color-unavailable;
+    }
+  }
+}
+
+//Currently special case since toolbar is not yet in UI Components, see: https://mantis.ilias.de/view.php?id=30471
+.ilToolbar{
+  .il-toggle-button {
+    bottom: $il-padding-base-vertical;
+  }
+  label{
+    font-size: $il-font-size-small;
+  }
+}

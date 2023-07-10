@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,13 +17,13 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 /**
  * Signals that a necessary confirmation from the admin is missing.
  */
-class NoConfirmationException extends \RuntimeException
+class NoConfirmationException extends NotExecutableException
 {
     protected string $confirmation;
 
@@ -31,7 +33,7 @@ class NoConfirmationException extends \RuntimeException
         $this->confirmation = $confirmation;
     }
 
-    public function getRequestedConfirmation() : string
+    public function getRequestedConfirmation(): string
     {
         return $this->confirmation;
     }

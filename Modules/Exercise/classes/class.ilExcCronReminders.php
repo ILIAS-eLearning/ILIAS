@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Cron for exercise reminders
  *
@@ -33,12 +35,12 @@ class ilExcCronReminders extends ilCronJob
         $this->lng = $DIC->language();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "exc_reminders";
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
 
@@ -47,7 +49,7 @@ class ilExcCronReminders extends ilCronJob
         return $lng->txt("exc_reminders_cron");
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         $lng = $this->lng;
 
@@ -56,22 +58,22 @@ class ilExcCronReminders extends ilCronJob
         return $lng->txt("exc_reminders_cron_info");
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
@@ -79,7 +81,7 @@ class ilExcCronReminders extends ilCronJob
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $log = ilLoggerFactory::getLogger("exc");
         $log->debug("--- Start Exercise Reminders Cron");
@@ -100,8 +102,7 @@ class ilExcCronReminders extends ilCronJob
         $cron_result->setStatus($cron_status);
 
         if ($message != "") {
-            $cron_result->setMessage($message . " " . $num_reminders);
-            $cron_result->setCode("#" . $num_reminders);
+            $cron_result->setMessage($message . " " . $num_reminders . ' / ' . "#" . $num_reminders);
         }
 
         return $cron_result;

@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
@@ -22,7 +40,7 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
     /**
      * @inheritDoc
      */
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main();
     }
@@ -31,7 +49,7 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
      * @inheritDoc
      * No meta bar in HTML exports
      */
-    public function getMetaBarModification(CalledContexts $called_contexts) : ?MetaBarModification
+    public function getMetaBarModification(CalledContexts $called_contexts): ?MetaBarModification
     {
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::HTML_EXPORT_RENDERING, true)) {
@@ -39,7 +57,7 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
                         ->layout()
                         ->factory()
                         ->metabar()
-                        ->withModification(function (MetaBar $current = null) : ?MetaBar {
+                        ->withModification(function (?MetaBar $current = null): ?MetaBar {
                             return null;
                         })->withHighPriority();
         }
@@ -50,7 +68,7 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
      * @inheritDoc
      * No main bar in HTML exports
      */
-    public function getMainBarModification(CalledContexts $called_contexts) : ?MainBarModification
+    public function getMainBarModification(CalledContexts $called_contexts): ?MainBarModification
     {
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::HTML_EXPORT_RENDERING, true)) {
@@ -58,7 +76,7 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
                         ->layout()
                         ->factory()
                         ->mainbar()
-                        ->withModification(function (MainBar $current = null) : ?MainBar {
+                        ->withModification(function (?MainBar $current = null): ?MainBar {
                             return null;
                         })->withHighPriority();
         } else {
@@ -70,7 +88,7 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
      * @inheritDoc
      * No breadcrumbs in HTML exports
      */
-    public function getBreadCrumbsModification(CalledContexts $called_contexts) : ?BreadCrumbsModification
+    public function getBreadCrumbsModification(CalledContexts $called_contexts): ?BreadCrumbsModification
     {
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::HTML_EXPORT_RENDERING, true)) {
@@ -78,7 +96,7 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
                         ->layout()
                         ->factory()
                         ->breadcrumbs()
-                        ->withModification(function (Breadcrumbs $current = null) : ?Breadcrumbs {
+                        ->withModification(function (?Breadcrumbs $current = null): ?Breadcrumbs {
                             return null;
                         })->withHighPriority();
         } else {

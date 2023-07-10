@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Page for user portfolio
@@ -28,17 +31,23 @@ class ilPortfolioPage extends ilPageObject
     protected string $title;
     protected int $order_nr;
 
-    public function getParentType() : string
+    public function afterConstructor(): void
+    {
+        global $DIC;
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
+    }
+
+    public function getParentType(): string
     {
         return "prtf";
     }
 
-    public function setPortfolioId(int $a_val) : void
+    public function setPortfolioId(int $a_val): void
     {
         $this->portfolio_id = $a_val;
     }
 
-    public function getPortfolioId() : int
+    public function getPortfolioId(): int
     {
         return $this->portfolio_id;
     }
@@ -46,22 +55,22 @@ class ilPortfolioPage extends ilPageObject
     /**
      * @param int $a_val self::TYPE_PAGE|self::TYPE_BLOG
      */
-    public function setType(int $a_val) : void
+    public function setType(int $a_val): void
     {
         $this->type = $a_val;
     }
 
-    public function getType() : int
+    public function getType(): int
     {
         return $this->type;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
 
@@ -73,19 +82,19 @@ class ilPortfolioPage extends ilPageObject
         return $this->title;
     }
 
-    public function setOrderNr(int $a_val) : void
+    public function setOrderNr(int $a_val): void
     {
         $this->order_nr = $a_val;
     }
 
-    public function getOrderNr() : int
+    public function getOrderNr(): int
     {
         return $this->order_nr;
     }
 
     public static function lookupMaxOrderNr(
         int $a_portfolio_id
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -96,7 +105,7 @@ class ilPortfolioPage extends ilPageObject
         return (int) $rec["m"];
     }
 
-    protected function getPropertiesForDB() : array
+    protected function getPropertiesForDB(): array
     {
         $fields = array(
             "portfolio_id" => array("integer", $this->portfolio_id),
@@ -108,7 +117,7 @@ class ilPortfolioPage extends ilPageObject
         return $fields;
     }
 
-    public function create(bool $a_import = false) : void
+    public function create(bool $a_import = false): void
     {
         $ilDB = $this->db;
 
@@ -133,7 +142,7 @@ class ilPortfolioPage extends ilPageObject
     public function update(
         bool $a_validate = true,
         bool $a_no_history = false
-    ) : bool {
+    ) {
         $ilDB = $this->db;
 
         $id = $this->getId();
@@ -145,13 +154,12 @@ class ilPortfolioPage extends ilPageObject
                 array("id" => array("integer", $id))
             );
 
-            parent::update($a_validate, $a_no_history);
-            return true;
+            return parent::update($a_validate, $a_no_history);
         }
         return false;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $ilDB = $this->db;
 
@@ -169,7 +177,7 @@ class ilPortfolioPage extends ilPageObject
         parent::read();
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $ilDB = $this->db;
 
@@ -191,7 +199,7 @@ class ilPortfolioPage extends ilPageObject
     protected static function lookupProperty(
         int $a_id,
         string $a_prop
-    ) : string {
+    ): string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -200,15 +208,15 @@ class ilPortfolioPage extends ilPageObject
             " FROM usr_portfolio_page" .
             " WHERE id = " . $ilDB->quote($a_id, "integer"));
         $rec = $ilDB->fetchAssoc($set);
-        return $rec[$a_prop];
+        return (string) $rec[$a_prop];
     }
 
-    public static function lookupTitle(int $a_page_id) : string
+    public static function lookupTitle(int $a_page_id): string
     {
         return self::lookupProperty($a_page_id, "title");
     }
 
-    public static function lookupType($a_page_id) : int
+    public static function lookupType($a_page_id): int
     {
         return (int) self::lookupProperty($a_page_id, "type");
     }
@@ -218,7 +226,7 @@ class ilPortfolioPage extends ilPageObject
      */
     public static function getAllPortfolioPages(
         int $a_portfolio_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -241,7 +249,7 @@ class ilPortfolioPage extends ilPageObject
 
     public static function fixOrdering(
         int $a_portfolio_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -261,7 +269,7 @@ class ilPortfolioPage extends ilPageObject
     /**
      * Get portfolio id of page id
      */
-    public static function findPortfolioForPage(int $a_page_id) : int
+    public static function findPortfolioForPage(int $a_page_id): int
     {
         return (int) self::lookupProperty($a_page_id, "portfolio_id");
     }
@@ -272,7 +280,7 @@ class ilPortfolioPage extends ilPageObject
     public static function getGotoForPortfolioPageTarget(
         int $a_target,
         bool $a_offline = false
-    ) : string {
+    ): string {
         global $DIC;
 
         $pid = self::findPortfolioForPage($a_target);
@@ -282,8 +290,7 @@ class ilPortfolioPage extends ilPageObject
             $ctrl->setParameterByClass("ilobjportfoliotemplategui", "user_page", $a_target);
             $href = $ctrl->getLinkTargetByClass(array(
                 "ilRepositoryGUI",
-                "ilObjPortfolioTemplateGUI",
-                "ilobjportfoliotemplategui"
+                "ilObjPortfolioTemplateGUI"
             ), "preview", "", false, true);
         } else {
             if (!$a_offline) {
@@ -301,7 +308,7 @@ class ilPortfolioPage extends ilPageObject
     public static function updateInternalLinks(
         array $a_copied_nodes,
         ilObjPortfolioBase $a_target_obj
-    ) : void {
+    ): void {
         $all_fixes = array();
         $tpg = null;
 
@@ -363,29 +370,27 @@ class ilPortfolioPage extends ilPageObject
 
     public function renameLinksOnTitleChange(
         array $a_title_changes
-    ) : bool {
+    ): bool {
         $this->buildDom();
 
         $changed = false;
 
         // resolve normal internal links
-        $xpc = xpath_new_context($this->dom);
         $path = "//IntLink";
-        $res = xpath_eval($xpc, $path);
-        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
-            $target = $res->nodeset[$i]->get_attribute("Target");
-            $type = $res->nodeset[$i]->get_attribute("Type");
+        $nodes = $this->dom_util->path($this->getDomDoc(), $path);
+        foreach ($nodes as $node) {
+            $target = $node->getAttribute("Target");
+            $type = $node->getAttribute("Type");
             $obj_id = ilInternalLink::_extractObjIdOfTarget($target);
             if (isset($a_title_changes[$obj_id]) && is_int(strpos($target, "__"))) {
                 if ($type == "PortfolioPage") {
-                    if ($res->nodeset[$i]->get_content() == $a_title_changes[$obj_id]["old"]) {
-                        $res->nodeset[$i]->set_content($a_title_changes[$obj_id]["new"]);
+                    if ($this->dom_util->getContent($node) == $a_title_changes[$obj_id]["old"]) {
+                        $this->dom_util->setContent($node, $a_title_changes[$obj_id]["new"]);
                         $changed = true;
                     }
                 }
             }
         }
-        unset($xpc);
 
         return $changed;
     }
@@ -398,7 +403,7 @@ class ilPortfolioPage extends ilPageObject
      */
     public static function getPagesForBlog(
         int $a_blog_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\DI;
@@ -31,7 +32,7 @@ class RBACServices
     /**
      * Get the interface to the RBAC system.
      */
-    public function system() : \ilRbacSystem
+    public function system(): \ilRbacSystem
     {
         return $this->container["rbacsystem"];
     }
@@ -39,7 +40,7 @@ class RBACServices
     /**
      * Get the interface to insert relations into the RBAC system.
      */
-    public function admin() : \ilRbacAdmin
+    public function admin(): \ilRbacAdmin
     {
         return $this->container["rbacadmin"];
     }
@@ -47,7 +48,7 @@ class RBACServices
     /**
      * Get the interface to query the RBAC system.
      */
-    public function review() : \ilRbacReview
+    public function review(): \ilRbacReview
     {
         return $this->container["rbacreview"];
     }

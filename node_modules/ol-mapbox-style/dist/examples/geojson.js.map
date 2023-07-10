@@ -1,1 +1,0 @@
-{"version":3,"file":"geojson.js","mappings":"0HAGA,E,QAAA,IAAM,MAAO,uB","sources":["webpack://ol-mapbox-style/./examples/geojson.js"],"sourcesContent":["import 'ol/ol.css';\nimport {apply} from 'ol-mapbox-style';\n\napply('map', 'data/geojson.json');\n"],"names":[],"sourceRoot":""}

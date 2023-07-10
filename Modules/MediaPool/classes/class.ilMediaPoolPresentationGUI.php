@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Top level GUI class for media pools.
@@ -38,11 +41,10 @@ class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
         $lng = $DIC->language();
         $objDefinition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
-        
+
         $lng->loadLanguageModule("content");
 
         $this->ctrl = $ilCtrl;
-
         // initiate variables
         $this->tpl = $tpl;
         $this->lng = $lng;
@@ -56,7 +58,7 @@ class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
             ->standardRequest();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;

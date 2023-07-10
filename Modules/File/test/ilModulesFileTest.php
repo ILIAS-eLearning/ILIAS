@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\DI\Container;
@@ -39,12 +41,12 @@ class ilModulesFileTest extends TestCase
      */
     protected $db_mock;
     protected $manager_mock;
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         global $DIC;
-        $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
-        
+        $this->dic_backup = is_object($DIC) ? clone $DIC : null;
+
         $DIC = new Container();
         $DIC['resource_storage'] = $this->storage_mock = $this->createMock(Services::class);
         $this->manager_mock = $this->createMock(Manager::class);
@@ -68,30 +70,52 @@ class ilModulesFileTest extends TestCase
                                 ->disableOriginalConstructor()
                                 ->disableArgumentCloning()
                                 ->getMock();*/
-        
+
         if (!defined('ILIAS_LOG_ENABLED')) {
             define('ILIAS_LOG_ENABLED', false);
         }
-        if (!defined('DEBUG')) {
-            define('DEBUG', false);
-        }
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
         $DIC = $this->dic_backup;
     }
-    
-    public function testAppendStream() : void
+
+    public function testAppendStream(): void
     {
+        // DB mock
         $title = 'Revision One';
         $file_stream = Streams::ofString('Test Content');
-        
+
         $this->storage_mock->expects($this->any())
                            ->method('manage')
                            ->willReturn($this->manager_mock);
-        
+
+        $this->db_mock->expects($this->any())
+                      ->method('query')
+                      ->willReturnCallback(function ($query) {
+                          $mock_object = $this->createMock(ilDBStatement::class);
+                          $mock_object->expects($this->any())->method('fetchAssoc')->willReturn([$query]);
+
+                          return $mock_object;
+                      });
+
+        $this->db_mock->expects($this->any())
+                      ->method('fetchAssoc')
+                      ->willReturnCallback(function (ilDBStatement $statement) {
+                          $row = $statement->fetchAssoc();
+                          $query = end($row);
+                          if (str_contains($query, 'last_update')) {
+                              return [
+                                  'last_update' => '',
+                                  'create_date' => ''
+                              ];
+                          }
+
+                          return null;
+                      });
+
         // Create File Object with disabled news notification
         $file = new ilObjFile();
         $r = new ReflectionClass(ilObjFile::class);
@@ -108,37 +132,36 @@ class ilModulesFileTest extends TestCase
                           ]
                       );
         $file->create();
-        
+
         // identification
         $rid = new ResourceIdentification('the_identification');
-        
+
         $this->manager_mock->expects($this->any())
                            ->method('find')
                            ->withConsecutive(['-'], ['the_identification'], ['the_identification'])
                            ->willReturnOnConsecutiveCalls(null, $rid, $rid);
-        
+
         $this->manager_mock->expects($this->once())
                            ->method('stream')
                            ->with($file_stream, new ilObjFileStakeholder(0), $title)
                            ->willReturn($rid);
-        
+
         $revision = new FileRevision($rid);
         $revision->setVersionNumber(1);
         $revision->setTitle($title);
         $resource = new StorableFileResource($rid);
         $resource->addRevision($revision);
-        
+
         $this->manager_mock->expects($this->once())
                            ->method('getCurrentRevision')
                            ->with($rid)
                            ->willReturn($revision);
-        
-        
+
         $this->manager_mock->expects($this->any())
                            ->method('getResource')
                            ->with($rid)
                            ->willReturn($resource);
-        
+
         $revision_number = $file->appendStream($file_stream, $title);
         $this->assertEquals(1, $revision_number);
         $this->assertEquals(1, $file->getVersion());

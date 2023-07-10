@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilAccessibilityControlConceptGUI
@@ -67,7 +70,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
         $gtpl->printToStdout("DEFAULT", false, true);
     }
 
-    protected function initTemplate(string $a_tmpl) : ilGlobalTemplate
+    protected function initTemplate(string $a_tmpl): ilGlobalTemplate
     {
         $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
         $template_file = $a_tmpl;
@@ -79,7 +82,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
     /**
      * Show accessibility control concept
      */
-    protected function showControlConcept() : void
+    protected function showControlConcept(): void
     {
         if (!$this->user->getId()) {
             $this->user->setId(ANONYMOUS_USER_ID);
@@ -110,7 +113,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
         $this->printToGlobalTemplate($tpl);
     }
 
-    public static function getFooterLink() : string
+    public static function getFooterLink(): string
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -122,7 +125,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
         return $ilCtrl->getLinkTargetByClass("ilaccessibilitycontrolconceptgui");
     }
 
-    public static function getFooterText() : string
+    public static function getFooterText(): string
     {
         global $DIC;
 

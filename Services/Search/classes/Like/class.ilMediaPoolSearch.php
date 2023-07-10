@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -14,7 +16,7 @@
 
 class ilMediaPoolSearch extends ilAbstractSearch
 {
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         $this->setFields(array('title'));
 
@@ -28,19 +30,24 @@ class ilMediaPoolSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->mep_id, 'mep', $this->__prepareFound($row), $row->obj_id);
+            $this->search_result->addEntry(
+                (int) $row->mep_id,
+                'mep',
+                $this->__prepareFound($row),
+                (int) $row->obj_id
+            );
         }
         return $this->search_result;
     }
-    
-    public function performKeywordSearch() : ?ilSearchResult
+
+    public function performKeywordSearch(): ?ilSearchResult
     {
         $this->setFields(array('keyword'));
-        
+
         $and = $this->__createKeywordAndCondition();
         $locate = $this->__createLocateString();
-        
-        
+
+
         $query = "SELECT mep_id, child " .
             $locate .
             "FROM mep_item mi " .
@@ -48,10 +55,15 @@ class ilMediaPoolSearch extends ilAbstractSearch
             "JOIN il_meta_keyword mk ON foreign_id = mk.obj_id " .
             $and .
             "AND obj_type = 'mob'";
-        
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->mep_id, 'mep', $this->__prepareFound($row), $row->child);
+            $this->search_result->addEntry(
+                (int) $row->mep_id,
+                'mep',
+                $this->__prepareFound($row),
+                (int) $row->child
+            );
         }
         return $this->search_result;
     }

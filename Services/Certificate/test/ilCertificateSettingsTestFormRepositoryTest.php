@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,17 +16,15 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateSettingsTestFormRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testCreate() : void
+    public function testCreate(): void
     {
-        $object = $this->getMockBuilder(ilObjTest::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $formMock = $this->getMockBuilder(ilPropertyFormGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -35,7 +33,7 @@ class ilCertificateSettingsTestFormRepositoryTest extends ilCertificateBaseTestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -64,7 +62,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends ilCertificateBaseTestC
             100,
             '/some/where/',
             false,
-            $object,
             $language,
             $controller,
             $access,
@@ -85,21 +82,13 @@ class ilCertificateSettingsTestFormRepositoryTest extends ilCertificateBaseTestC
     /**
      * @doesNotPerformAssertions
      */
-    public function testSave() : void
+    public function testSave(): void
     {
-        $object = $this->getMockBuilder(ilObjTest::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $object
-            ->method('getId')
-            ->willReturn(100);
-
         $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -119,11 +108,10 @@ class ilCertificateSettingsTestFormRepositoryTest extends ilCertificateBaseTestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $repository = new ilCertificateSettingsTestFormRepository(
+        new ilCertificateSettingsTestFormRepository(
             100,
             '/some/where/',
             false,
-            $object,
             $language,
             $controller,
             $access,
@@ -131,25 +119,15 @@ class ilCertificateSettingsTestFormRepositoryTest extends ilCertificateBaseTestC
             $placeholderDescriptionObject,
             $settingsFormFactory
         );
-
-        $repository->save([1, 2, 3]);
     }
 
-    public function testFormFieldData() : void
+    public function testFormFieldData(): void
     {
-        $object = $this->getMockBuilder(ilObjTest::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $object
-            ->method('getId')
-            ->willReturn(100);
-
         $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -178,7 +156,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends ilCertificateBaseTestC
             100,
             '/some/where/',
             false,
-            $object,
             $language,
             $controller,
             $access,

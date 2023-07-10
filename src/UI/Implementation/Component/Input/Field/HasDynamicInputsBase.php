@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -49,7 +65,7 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
      * Returns the instance of Input which should be used to generate
      * dynamic inputs on clientside.
      */
-    public function getTemplateForDynamicInputs() : InputInterface
+    public function getTemplateForDynamicInputs(): InputInterface
     {
         return $this->dynamic_input_template;
     }
@@ -59,7 +75,7 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
      * providing this InputInterface::withValue().
      * @return InputInterface[]
      */
-    public function getDynamicInputs() : array
+    public function getDynamicInputs(): array
     {
         return $this->dynamic_inputs;
     }
@@ -75,7 +91,7 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
     /**
      * @param mixed $value
      */
-    public function withValue($value) : self
+    public function withValue($value): self
     {
         if (!$this->isDynamicInputsValueOk($value)) {
             throw new InvalidArgumentException("Display value does not match input(-template) type.");
@@ -90,7 +106,7 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
         return $clone;
     }
 
-    public function withDisabled(bool $is_disabled) : self
+    public function withDisabled(bool $is_disabled): self
     {
         $clone = parent::withDisabled($is_disabled);
         $clone->dynamic_input_template = $clone->dynamic_input_template->withDisabled($is_disabled);
@@ -102,9 +118,9 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
         return $clone;
     }
 
-    public function withNameFrom(NameSource $source) : self
+    public function withNameFrom(NameSource $source, ?string $parent_name = null): self
     {
-        $clone = parent::withNameFrom($source);
+        $clone = parent::withNameFrom($source, $parent_name);
 
         $clone->dynamic_input_template = $clone->dynamic_input_template->withNameFrom(
             new DynamicInputsNameSource($clone->getName())
@@ -119,7 +135,7 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
         return $clone;
     }
 
-    public function withInput(InputData $post_data) : self
+    public function withInput(InputData $post_data): self
     {
         if (null === $this->getName()) {
             throw new LogicException(static::class . '::withNameFrom must be called first.');
@@ -151,7 +167,7 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
         return $clone;
     }
 
-    public function getValue() : array
+    public function getValue(): array
     {
         if (null === $this->getTemplateForDynamicInputs()) {
             return parent::getValue();
@@ -172,7 +188,7 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
     /**
      * @param mixed $value
      */
-    protected function isDynamicInputsValueOk($value) : bool
+    protected function isDynamicInputsValueOk($value): bool
     {
         if (!is_array($value)) {
             return $this->dynamic_input_template->isClientSideValueOk($value);

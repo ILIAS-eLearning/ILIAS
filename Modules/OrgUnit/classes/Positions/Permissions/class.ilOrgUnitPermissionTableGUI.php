@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitPermissionTableGUI
@@ -6,23 +22,21 @@
  */
 class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 {
+    private int $ref_id = 0;
+    protected \ilOrgUnitPositionDBRepository $positionRepo;
+    protected \ilOrgUnitPermissionDBRepository $permissionRepo;
+    protected \ilOrgUnitOperationDBRepository $operationRepo;
 
-    /**
-     * @var null|int
-     */
-    private $ref_id = null;
-
-    /**
-     * ilOrgUnitPermissionTableGUI constructor.
-     * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $a_parent_obj
-     * @param string                                       $a_parent_cmd
-     * @param string                                       $a_ref_id
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_ref_id)
     {
         global $ilCtrl, $tpl;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $dic = \ilOrgUnitLocalDIC::dic();
+        $this->positionRepo = $dic["repo.Positions"];
+        $this->permissionRepo = $dic["repo.Permissions"];
+        $this->operationRepo = $dic["repo.Operations"];
 
         $this->lng->loadLanguageModule('rbac');
         $this->lng->loadLanguageModule("orgu");
@@ -43,38 +57,31 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         $this->setDisableFilterHiding(true);
         $this->setNoEntriesText($this->lng->txt('msg_no_roles_of_type'));
 
-        $this->addCommandButton(ilPermissionGUI::CMD_SAVE_POSITIONS_PERMISSIONS, $this->lng->txt('save'));
+        $this->addCommandButton(\ilPermissionGUI::CMD_SAVE_POSITIONS_PERMISSIONS, $this->lng->txt('save'));
     }
 
-    /**
-     * @return int
-     */
-    public function getRefId()
+    public function getRefId(): int
     {
-        return (int) $this->ref_id;
+        return $this->ref_id;
     }
 
     /**
      * @return int Object-ID of current object
      */
-    public function getObjId()
+    public function getObjId(): int
     {
-        return (int) ilObject::_lookupObjId($this->getRefId());
+        return ilObject::_lookupObjId($this->getRefId());
+    }
+
+    public function getObjType(): string
+    {
+        return ilObject::_lookupType($this->getObjId());
     }
 
     /**
-     * @return string
+     * @throws ilTemplateException
      */
-    public function getObjType()
-    {
-        return (string) ilObject::_lookupType($this->getObjId());
-    }
-
-    /**
-     * @param array $a_set
-     * @return void
-     */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         // Select all
         if (isset($a_set['show_select_all'])) {
@@ -92,10 +99,6 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         $is_plugin = $objdefinition->isPlugin($this->getObjType());
 
         foreach ($a_set as $permission) {
-            /**
-             * @var $operation \ilOrgUnitOperation
-             * @var $position  \ilOrgUnitPosition
-             */
             $position = $permission["position"];
             $op_id = $permission["op_id"];
             $operation = $permission["operation"];
@@ -123,15 +126,15 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         }
     }
 
-    public function collectData()
+    public function collectData(): void
     {
-        $positions = ilOrgUnitPosition::get();
+        $positions = $this->positionRepo->getAllPositions();
 
         $this->initColumns($positions);
 
         $perms = [];
 
-        $operations = ilOrgUnitOperationQueries::getOperationsForContextName($this->getObjType());
+        $operations = $this->operationRepo->getOperationsByContextName($this->getObjType());
         $ops_ids = [];
         $from_templates = [];
         foreach ($operations as $op) {
@@ -139,8 +142,10 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 
             $ops = [];
             foreach ($positions as $position) {
-                $ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($this->getRefId(),
-                    $position->getId());
+                $ilOrgUnitPermission = $this->permissionRepo->getLocalorDefault(
+                    $this->getRefId(),
+                    $position->getId()
+                );
 
                 $is_template = $ilOrgUnitPermission->isTemplate();
                 $from_templates[$position->getId()] = $is_template;
@@ -174,15 +179,9 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         }
 
         $this->setData($perms);
-
-        return;
     }
 
-    /**
-     * @param array $positions
-     * @return bool
-     */
-    protected function initColumns(array $positions)
+    protected function initColumns(array $positions): bool
     {
         foreach ($positions as $position) {
             $this->addColumn($position->getTitle(), '', '', '', false, $position->getDescription());
@@ -191,23 +190,18 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         return true;
     }
 
-    /**
-     * @return \ILIAS\DI\Container
-     */
-    private function dic()
+    private function dic(): \ILIAS\DI\Container
     {
         return $GLOBALS['DIC'];
     }
 
     /**
-     * @param $row
+     * @throws ilTemplateException
      */
-    protected function fillSelectAll($row)
+    protected function fillSelectAll(array $row): void
     {
-        /**
-         * @var $position \ilOrgUnitPosition
-         */
         foreach ($row["positions"] as $position) {
+            assert($position instanceof ilOrgUnitPosition);
             $this->tpl->setCurrentBlock('position_select_all');
             $id = $position->getId();
             $this->tpl->setVariable('JS_ROLE_ID', $id);
@@ -223,20 +217,17 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param $row
+     * @throws ilTemplateException
      */
-    protected function fillHeaderCommand($row)
+    protected function fillHeaderCommand(array $row): void
     {
-        /**
-         * @var $position \ilOrgUnitPosition
-         */
         foreach ($row["positions"] as $position) {
             $this->tpl->setCurrentBlock('header_command');
             $this->tpl->setVariable('POSITION_ID', $position->getId());
             $this->tpl->setVariable('HEADER_COMMAND_TXT', $this->dic()
                                                                ->language()
                                                                ->txt('positions_override_operations'));
-            if (ilOrgUnitPermissionQueries::hasLocalSet($this->getRefId(), $position->getId())) {
+            if ($this->permissionRepo->find($this->getRefId(), $position->getId())) {
                 $this->tpl->setVariable('HEADER_CHECKED', "checked='checked'");
             }
 

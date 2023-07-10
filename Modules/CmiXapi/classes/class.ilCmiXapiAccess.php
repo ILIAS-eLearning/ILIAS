@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilCmiXapiAccess
  *
@@ -24,30 +29,27 @@
  */
 class ilCmiXapiAccess
 {
-    /**
-     * @var ilObjCmiXapi
-     */
     protected ilObjCmiXapi $object;
-    
+    protected ilAccessHandler $access;
+
     /**
      * ilCmiXapiAccess constructor.
-     * @param ilObjCmiXapi $object
      */
     public function __construct(ilObjCmiXapi $object)
     {
+        global $DIC;
         $this->object = $object;
+        $this->access = $DIC->access();
     }
-    
-    public function hasLearningProgressAccess() : bool
+
+    public function hasLearningProgressAccess(): bool
     {
         return ilLearningProgressAccess::checkAccess($this->object->getRefId());
     }
-    
-    public function hasWriteAccess() : bool
+
+    public function hasWriteAccess(): bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        return (bool) $DIC->access()->checkAccess(
+        return $this->access->checkAccess(
             'write',
             '',
             $this->object->getRefId(),
@@ -55,67 +57,48 @@ class ilCmiXapiAccess
             $this->object->getId()
         );
     }
-    
-    public function hasEditPermissionsAccess() : bool
+
+    public function hasEditPermissionsAccess(): bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $editPermsAccess = $DIC->access()->checkAccess(
+        return $this->access->checkAccess(
             'edit_permission',
             '',
             $this->object->getRefId(),
             $this->object->getType(),
             $this->object->getId()
         );
-        
-        if ($editPermsAccess) {
-            return true;
-        }
-        
-        return false;
     }
-    
-    public function hasOutcomesAccess() : bool
+
+    public function hasOutcomesAccess(): bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $outcomesAccess = $DIC->access()->checkAccess(
+        return $this->access->checkAccess(
             'read_outcomes',
             '',
             $this->object->getRefId(),
             $this->object->getType(),
             $this->object->getId()
         );
-        
-        if ($outcomesAccess) {
-            return true;
-        }
-        return false;
     }
-    
-    public function hasStatementsAccess() : bool
+
+    public function hasStatementsAccess(): bool
     {
         if ($this->object->isStatementsReportEnabled()) {
             return true;
         }
-        
+
         return $this->hasOutcomesAccess();
     }
-    
-    public function hasHighscoreAccess() : bool
+
+    public function hasHighscoreAccess(): bool
     {
         if ($this->object->getHighscoreEnabled()) {
             return true;
         }
-        
+
         return $this->hasOutcomesAccess();
     }
 
-    /**
-     * @param ilObjCmiXapi $object
-     * @return ilCmiXapiAccess
-     */
-    public static function getInstance(ilObjCmiXapi $object) : \ilCmiXapiAccess
+    public static function getInstance(ilObjCmiXapi $object): \ilCmiXapiAccess
     {
         return new self($object);
     }

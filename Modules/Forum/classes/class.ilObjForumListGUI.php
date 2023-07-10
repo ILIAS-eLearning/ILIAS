@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjForumListGUI
  * @author  Alex Killing <alex.killing@gmx.de>
@@ -26,12 +28,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 {
     private int $child_id;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -46,17 +43,17 @@ class ilObjForumListGUI extends ilObjectListGUI
         $this->commands = ilObjForumAccess::_getCommands();
     }
 
-    public function setChildId(int $a_child_id) : void
+    public function setChildId(int $a_child_id): void
     {
         $this->child_id = $a_child_id;
     }
 
-    public function getChildId() : int
+    public function getChildId(): int
     {
         return $this->child_id;
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $props = [];
 
@@ -84,14 +81,7 @@ class ilObjForumListGUI extends ilObjectListGUI
             $drafts_statistics = ilForumPostDraft::getDraftsStatisticsByRefId($this->ref_id);
             $num_drafts_total = $drafts_statistics['total'];
         }
-
-        $frm_overview_setting = (int) $this->settings->get('forum_overview');
         $num_new_total = 0;
-        if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
-            $num_new_total = $properties['num_new_posts'];
-        }
-
-        $last_post = ilObjForumAccess::getLastPostByRefId($this->ref_id);
 
         if (!$this->user->isAnonymous()) {
             if ($this->getDetailsLevel() === ilObjectListGUI::DETAILS_ALL) {
@@ -100,13 +90,6 @@ class ilObjForumListGUI extends ilObjectListGUI
                     'property' => $this->lng->txt('forums_articles') . ' (' . $this->lng->txt('unread') . ')',
                     'value' => $num_posts_total . ' (' . $num_unread_total . ')'
                 ];
-                if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS && $num_new_total > 0) {
-                    $props[] = [
-                        'alert' => false,
-                        'property' => $this->lng->txt('forums_new_articles'),
-                        'value' => $num_new_total
-                    ];
-                }
             }
 
             if ($num_drafts_total > 0 && ilForumPostDraft::isSavePostDraftAllowed()) {
@@ -136,7 +119,8 @@ class ilObjForumListGUI extends ilObjectListGUI
             ];
         }
 
-        if (isset($last_post['pos_pk']) && $last_post['pos_pk'] > 0) {
+        $last_post = ilObjForumAccess::getLastPostByRefId($this->ref_id);
+        if (is_array($last_post) && $last_post['pos_pk'] > 0) {
             $lpCont = "<a class=\"il_ItemProperty\" target=\"" . ilFrameTargetInfo::_getFrame('MainContent') .
                 "\" href=\"ilias.php?baseClass=" . ilRepositoryGUI::class . "&amp;cmd=viewThread&amp;cmdClass=" .
                 ilObjForumGUI::class . "&amp;target=true&amp;pos_pk=" .
@@ -173,12 +157,12 @@ class ilObjForumListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         return ilFrameTargetInfo::_getFrame('MainContent');
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         switch ($cmd) {
             case 'thread':

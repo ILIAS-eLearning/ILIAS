@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilMMItemTranslationTableGUI
@@ -10,7 +12,7 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI
 
 //    private ilCtrl $ctrl;
 //    private ilLanguage $lng;
-    
+
     /**
      * ilMMItemTranslationTableGUI constructor.
      * @param ilMMItemTranslationGUI  $a_parent_obj
@@ -35,7 +37,7 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI
         $this->initColumns();
         $this->initCommands();
         $this->lng->loadLanguageModule("meta");
-        
+
         $this->addCommandButton(
             ilMMItemTranslationGUI::CMD_SAVE_TRANSLATIONS,
             $this->lng
@@ -46,38 +48,38 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI
             $this->lng
                 ->txt("delete")
         );
-        
+
         $this->parseData();
     }
-    
-    protected function initColumns() : void
+
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng->txt('mm_translation_select'), '', '15px', true);
         $this->addColumn($this->lng->txt('mm_translation_lang'));
         $this->addColumn($this->lng->txt('mm_translation_trans'));
     }
-    
-    protected function initCommands() : void
+
+    protected function initCommands(): void
     {
         $this->addMultiCommand(ilBiblTranslationGUI::CMD_DELETE_TRANSLATIONS, $this->lng
             ->txt("delete"));
     }
-    
-    protected function parseData() : void
+
+    protected function parseData(): void
     {
         $this->setData(ilMMItemTranslationStorage::where(['identification' => $this->item_facade->getId()])->getArray());
     }
-    
+
     /**
      * @inheritDoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         /**
          * @var $translation ilMMItemTranslationStorage
          */
         $translation = ilMMItemTranslationStorage::find($a_set['id']);
-        
+
         $this->tpl->setVariable('ID', $translation->getId());
         $this->tpl->setVariable('LANGUAGE', $this->lng->txt("meta_l_" . $translation->getLanguageKey()));
         $this->tpl->setVariable('TEXT', $translation->getTranslation());

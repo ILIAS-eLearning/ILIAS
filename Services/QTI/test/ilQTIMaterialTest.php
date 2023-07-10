@@ -1,15 +1,34 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use PHPUnit\Framework\TestCase;
 
 class ilQTIMaterialTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilQTIMaterial::class, new ilQTIMaterial());
     }
 
-    public function testAddMattext() : void
+    public function testAddMattext(): void
     {
         $instance = new ilQTIMaterial();
         $text = $this->getMockBuilder(ilQTIMattext::class)->disableOriginalConstructor()->getMock();
@@ -17,7 +36,7 @@ class ilQTIMaterialTest extends TestCase
         $this->assertEquals([['material' => $text, 'type' => 'mattext']], $instance->materials);
     }
 
-    public function testAddMatimage() : void
+    public function testAddMatimage(): void
     {
         $instance = new ilQTIMaterial();
         $image = $this->getMockBuilder(ilQTIMatimage::class)->disableOriginalConstructor()->getMock();
@@ -25,7 +44,7 @@ class ilQTIMaterialTest extends TestCase
         $this->assertEquals([['material' => $image, 'type' => 'matimage']], $instance->materials);
     }
 
-    public function testAddMatapplet() : void
+    public function testAddMatapplet(): void
     {
         $instance = new ilQTIMaterial();
         $applet = $this->getMockBuilder(ilQTIMatapplet::class)->disableOriginalConstructor()->getMock();
@@ -33,7 +52,7 @@ class ilQTIMaterialTest extends TestCase
         $this->assertEquals([['material' => $applet, 'type' => 'matapplet']], $instance->materials);
     }
 
-    public function testSetGetFlow() : void
+    public function testSetGetFlow(): void
     {
         $instance = new ilQTIMaterial();
 
@@ -43,7 +62,7 @@ class ilQTIMaterialTest extends TestCase
         $this->assertEquals(8, $instance->getFlow());
     }
 
-    public function testSetGetLabel() : void
+    public function testSetGetLabel(): void
     {
         $instance = new ilQTIMaterial();
 

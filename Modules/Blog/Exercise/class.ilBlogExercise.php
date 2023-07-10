@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Blog Exercise
@@ -33,7 +38,7 @@ class ilBlogExercise
         $this->node_id = $a_node_id;
     }
 
-    public function getAssignmentsOfBlog() : array
+    public function getAssignmentsOfBlog(): array
     {
         $user = $this->user;
         $node_id = $this->node_id;
@@ -41,10 +46,13 @@ class ilBlogExercise
 
         $assignments = [];
 
-        $exercises = ilExSubmission::findUserFiles($user->getId(), $node_id);
+        $exercises = ilExSubmission::findUserFiles($user->getId(), (string) $node_id);
         // #0022794
-        if (!$exercises) {
+        if (count($exercises) === 0) {
             $exercises = ilExSubmission::findUserFiles($user->getId(), $node_id . ".sec");
+        }
+        if (count($exercises) === 0) {
+            $exercises = ilExSubmission::findUserFiles($user->getId(), $node_id . ".zip");
         }
         if ($exercises) {
             foreach ($exercises as $exercise) {

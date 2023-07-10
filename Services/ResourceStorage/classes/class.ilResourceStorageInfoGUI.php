@@ -1,34 +1,34 @@
 <?php
 
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\DI\Container;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\DI\Container;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+
 /**
  * Class ilResourceStorageInfoGUI
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class ilResourceStorageInfoGUI
 {
-    protected ResourceIdentification $identification;
+    protected ?ResourceIdentification $identification = null;
     protected \ILIAS\ResourceStorage\Services $storage;
     protected \ILIAS\ResourceStorage\Resource\StorableResource $resource;
     protected ilLanguage $language;
-    /**
-     * @var false
-     */
     protected bool $is_storage = true;
 
     /**
@@ -37,21 +37,24 @@ class ilResourceStorageInfoGUI
      */
     public function __construct(?ResourceIdentification $identification = null)
     {
-        if (!$identification instanceof ResourceIdentification) {
-            $this->is_storage = false;
-        }
         global $DIC;
+        $this->storage = $DIC->resourceStorage();
         /**
          * @var $DIC Container
          */
-        $this->identification = $identification;
-        $this->storage = $DIC->resourceStorage();
-        $this->resource = $this->storage->manage()->getResource($this->identification);
+        if (!$identification instanceof ResourceIdentification) {
+            $this->is_storage = false;
+        } else {
+            $this->is_storage = true;
+            $this->identification = $identification;
+            $this->resource = $this->storage->manage()->getResource($this->identification);
+        }
+
         $this->language = $DIC->language();
         $this->language->loadLanguageModule('irss');
     }
 
-    public function append(ilInfoScreenGUI $info) : void
+    public function append(ilInfoScreenGUI $info): void
     {
         if ($this->is_storage) {
             $info->addSection($this->language->txt("storage_info"));

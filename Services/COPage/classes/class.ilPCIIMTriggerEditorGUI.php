@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\COPage\PC\EditGUIRequest;
 
@@ -38,38 +41,38 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         ilAccordionGUI::addCss();
     }
 
-    public function getParentNodeName() : string
+    public function getParentNodeName(): string
     {
         return "InteractiveImage";
     }
 
-    public function getEditorTitle() : string
+    public function getEditorTitle(): string
     {
         $lng = $this->lng;
-        
+
         return $lng->txt("cont_pc_iim");
     }
 
     /**
      * Get trigger table
      */
-    public function getImageMapTableHTML() : string
+    public function getImageMapTableHTML(): string
     {
         $ilToolbar = $this->toolbar;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
 
         $ilToolbar->addText($lng->txt("cont_drag_element_click_save"));
         $ilToolbar->setId("drag_toolbar");
         $ilToolbar->setHidden(true);
-        $ilToolbar->addButton($lng->txt("save"), "#", "", "", "", "save_pos_button");
-        
+        $ilToolbar->addButton($lng->txt("save"), "#", "", null, "", "save_pos_button");
+
         $ilToolbar->addButton(
             $lng->txt("cancel"),
             $ilCtrl->getLinkTarget($this, "editMapAreas")
         );
-        
+
         $image_map_table = new ilPCIIMTriggerTableGUI(
             $this,
             "editMapAreas",
@@ -79,11 +82,11 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         return $image_map_table->getHTML();
     }
 
-    public function getToolbar() : ilToolbarGUI
+    public function getToolbar(): ilToolbarGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         // toolbar
         $tb = new ilToolbarGUI();
         $tb->setFormAction($ilCtrl->getFormAction($this));
@@ -97,15 +100,15 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $si->setOptions($options);
         $tb->addInputItem($si, true);
         $tb->addFormButton($lng->txt("add"), "addNewArea");
-        
+
         return $tb;
     }
 
-    public function addNewArea() : string
+    public function addNewArea(): string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         if ($this->edit_request->getString("shape") == "Marker") {
             $this->content_obj->addTriggerMarker();
             $this->page->update();
@@ -116,13 +119,13 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         }
         return "";
     }
-    
+
     /**
      * Init area editing form.
      */
     public function initAreaEditingForm(
         string $a_edit_property
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $lng = $this->lng;
         $form = new ilPropertyFormGUI();
         $form->setOpenTag(false);
@@ -136,7 +139,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
             //$ti->setRequired(true);
             $form->addItem($ti);
         }
-        
+
         // save and cancel commands
         if ($a_edit_property == "") {
             $form->setTitle($lng->txt("cont_new_trigger_area"));
@@ -151,26 +154,26 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
     /**
      * Save new or updated map area
      */
-    public function saveArea() : string
+    public function saveArea(): string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         switch ($this->map_repo->getMode()) {
             // save edited shape
             case "edit_shape":
                 $this->std_alias_item->setShape(
-                    $this->map_repo->getAreaNr(),
-                    $this->map_repo->getAreaType(),
-                    $this->map_repo->getCoords()
+                    $this->map->getAreaNr(),
+                    $this->map->getAreaType(),
+                    $this->map->getCoords()
                 );
                 $this->page->update();
                 break;
 
-            // save new area
+                // save new area
             default:
-                $area_type = $this->map_repo->getAreaType();
-                $coords = $this->map_repo->getCoords();
+                $area_type = $this->map->getAreaType();
+                $coords = $this->map->getCoords();
                 $this->content_obj->addTriggerArea(
                     $this->std_alias_item,
                     $area_type,
@@ -186,11 +189,11 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $ilCtrl->redirect($this, "editMapAreas");
         return "";
     }
-    
+
     /**
      * Update trigger
      */
-    public function updateTrigger() : void
+    public function updateTrigger(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -220,11 +223,11 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "editMapAreas");
     }
-    
+
     /**
      * Confirm trigger deletion
      */
-    public function confirmDeleteTrigger() : void
+    public function confirmDeleteTrigger(): void
     {
         $ilCtrl = $this->ctrl;
         $main_tpl = $this->main_tpl;
@@ -242,7 +245,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
             $cgui->setHeaderText($lng->txt("cont_really_delete_triggers"));
             $cgui->setCancel($lng->txt("cancel"), "editMapAreas");
             $cgui->setConfirm($lng->txt("delete"), "deleteTrigger");
-            
+
             foreach ($trigger as $i) {
                 $cgui->addItem("tr[]", $i, $titles[$i]);
             }
@@ -254,7 +257,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
      * Delete trigger
      * @throws ilDateTimeException
      */
-    public function deleteTrigger() : void
+    public function deleteTrigger(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -275,14 +278,13 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
     /**
      * Get additional page xml (to be overwritten)
      */
-    public function getAdditionalPageXML() : string
+    public function getAdditionalPageXML(): string
     {
         return $this->page->getMultimediaXML();
     }
-    
-    public function outputPostProcessing(string $a_output) : string
-    {
 
+    public function outputPostProcessing(string $a_output): string
+    {
         // for question html get the page gui object
         $pg_gui = new ilPageObjectGUI($this->page->getParentType(), $this->page->getId());
         $pg_gui->setOutputMode(ilPageObjectGUI::PREVIEW);

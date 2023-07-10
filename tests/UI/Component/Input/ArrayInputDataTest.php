@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\UI\Component\Input;
 
@@ -13,7 +29,7 @@ use LogicException;
  */
 class ArrayInputDataTest extends TestCase
 {
-    public function testInvalidKeyWithoutDefault() : void
+    public function testInvalidKeyWithoutDefault(): void
     {
         $test_key = 'test_key_1';
         $input_data = new ArrayInputData([]);
@@ -22,7 +38,7 @@ class ArrayInputDataTest extends TestCase
         $input_data->get($test_key);
     }
 
-    public function testInvalidKeyWithDefault() : void
+    public function testInvalidKeyWithDefault(): void
     {
         $test_key = 'test_key_1';
         $expected_value = 'expected_value_1';
@@ -34,7 +50,7 @@ class ArrayInputDataTest extends TestCase
         );
     }
 
-    public function testValidKeyWithoutDefault() : void
+    public function testValidKeyWithoutDefault(): void
     {
         $test_key = 'test_key_1';
         $expected_value = 'expected_value_1';
@@ -48,7 +64,7 @@ class ArrayInputDataTest extends TestCase
         );
     }
 
-    public function testValidKeyWithDefault() : void
+    public function testValidKeyWithDefault(): void
     {
         $test_key = 'test_key_1';
         $expected_value = 'expected_value_1';
@@ -63,7 +79,7 @@ class ArrayInputDataTest extends TestCase
         );
     }
 
-    public function testDefaultValues() : void
+    public function testDefaultValues(): void
     {
         $input_data = new ArrayInputData([]);
 

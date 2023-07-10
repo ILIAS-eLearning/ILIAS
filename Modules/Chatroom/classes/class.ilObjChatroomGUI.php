@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\ResponseHeader;
@@ -41,12 +43,12 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
     /**
      * @ineritdoc
      */
-    public static function _goto($params) : void
+    public static function _goto($params): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
 
-        $parts = array_filter(explode('_', $params));
+        $parts = array_filter(explode('_', (string) $params));
         $ref_id = (int) $parts[0];
         $sub = (int) ($parts[1] ?? 0);
 
@@ -90,12 +92,12 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         );
     }
 
-    protected function getObjectDefinition() : ilChatroomObjectDefinition
+    protected function getObjectDefinition(): ilChatroomObjectDefinition
     {
         return ilChatroomObjectDefinition::getDefaultDefinition('Chatroom');
     }
 
-    protected function initCreationForms(string $new_type) : array
+    protected function initCreationForms(string $new_type): array
     {
         $forms = parent::initCreationForms($new_type);
 
@@ -106,7 +108,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         return $forms;
     }
 
-    protected function addLocatorItems() : void
+    protected function addLocatorItems(): void
     {
         if (is_object($this->object)) {
             $this->locator->addItem(
@@ -118,7 +120,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         }
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->object->getRefId();
     }
@@ -126,7 +128,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
     /**
      * @inheritDoc
      */
-    public function getUnsafeGetCommands() : array
+    public function getUnsafeGetCommands(): array
     {
         return [];
     }
@@ -134,14 +136,14 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
     /**
      * @inheritDoc
      */
-    public function getSafePostCommands() : array
+    public function getSafePostCommands(): array
     {
         return [
             'view-toggleAutoMessageDisplayState',
         ];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -151,7 +153,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         }
 
         $refId = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-        if (!$this->getCreationMode() && $this->access->checkAccess('read', '', $refId)) {
+        if (!$this->getCreationMode() && ilChatroom::checkPermissionsOfUser($this->user->getId(), 'read', $refId)) {
             $DIC['ilNavigationHistory']->addItem(
                 $refId,
                 './goto.php?target=' . $this->type . '_' . $refId,
@@ -221,13 +223,14 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
                 break;
 
             case strtolower(ilCommonActionDispatcherGUI::class):
+                $this->prepareOutput();
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
 
             default:
                 try {
-                    $res = explode('-', $this->ctrl->getCmd(''), 2);
+                    $res = explode('-', (string) $this->ctrl->getCmd(''), 2);
                     $result = $this->dispatchCall($res[0], $res[1] ?? '');
                     if (!$result && method_exists($this, $this->ctrl->getCmd() . 'Object')) {
                         $this->prepareOutput();
@@ -254,7 +257,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         }
     }
 
-    public function getConnector() : ilChatroomServerConnector
+    public function getConnector(): ilChatroomServerConnector
     {
         return new ilChatroomServerConnector(ilChatroomAdmin::getDefaultConfiguration()->getServerSettings());
     }
@@ -262,7 +265,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
     /**
      * Calls $this->prepareOutput method and sets template variable.
      */
-    public function fallback() : void
+    public function fallback(): void
     {
         $this->prepareOutput();
         $this->tpl->setVariable('ADM_CONTENT', $this->lng->txt('invalid_operation'));
@@ -271,12 +274,12 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
     /**
      * Calls prepareOutput method.
      */
-    public function settings() : void
+    public function settings(): void
     {
         $this->prepareOutput();
     }
 
-    public function insertObject() : ilObjChatroom
+    public function insertObject(): ilObjChatroom
     {
         $new_type = $this->type;
         $refId = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
@@ -327,7 +330,6 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
             'object_id' => $objId,
             'autogen_usernames' => 'Autogen #',
             'display_past_msgs' => 20,
-            'private_rooms_enabled' => 0
         ]);
 
         $rbac_log_roles = $this->rbac_review->getParentRoleIds($newObj->getRefId());
@@ -337,5 +339,17 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         $this->object = $newObj;
 
         return $newObj;
+    }
+
+    /**
+     * @param ilObjChatroom $new_object
+     */
+    protected function afterImport(ilObject $new_object): void
+    {
+        $room = ilChatroom::byObjectId($new_object->getId());
+        $connector = $this->getConnector();
+        $response = $connector->sendCreatePrivateRoom($room->getRoomId(), $new_object->getOwner(), $new_object->getTitle());
+
+        parent::afterImport($new_object);
     }
 }

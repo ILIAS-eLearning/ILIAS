@@ -14,25 +14,25 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblOverviewModel
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInterface
 {
-    const TABLE_NAME = 'il_bibl_overview_model';
-    
-    public static function returnDbTableName() : string
+    public const TABLE_NAME = 'il_bibl_overview_model';
+
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
-    
-    public function getConnectorContainerName() : string
+
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
-    
+
     /**
      * @con_has_field  true
      * @con_fieldtype  integer
@@ -61,43 +61,43 @@ class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInt
      * @con_length     512
      */
     protected string $pattern;
-    
-    public function getOvmId() : ?int
+
+    public function getOvmId(): ?int
     {
         return $this->ovm_id;
     }
-    
-    public function setOvmId(int $ovm_id) : void
+
+    public function setOvmId(int $ovm_id): void
     {
         $this->ovm_id = $ovm_id;
     }
-    
-    public function getFileTypeId() : int
+
+    public function getFileTypeId(): int
     {
         return $this->file_type_id;
     }
-    
-    public function setFileTypeId(int $file_type) : void
+
+    public function setFileTypeId(int $file_type): void
     {
         $this->file_type_id = $file_type;
     }
-    
-    public function getLiteratureType() : string
+
+    public function getLiteratureType(): string
     {
         return $this->literature_type;
     }
-    
-    public function setLiteratureType(string $literature_type) : void
+
+    public function setLiteratureType(string $literature_type): void
     {
         $this->literature_type = $literature_type;
     }
-    
-    public function getPattern() : string
+
+    public function getPattern(): string
     {
         return $this->pattern;
     }
-    
-    public function setPattern(string $pattern) : void
+
+    public function setPattern(string $pattern): void
     {
         $this->pattern = $pattern;
     }

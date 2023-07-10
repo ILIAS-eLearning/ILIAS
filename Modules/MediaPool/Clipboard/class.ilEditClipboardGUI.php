@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Clipboard for editing
@@ -21,12 +24,13 @@
  */
 class ilEditClipboardGUI
 {
+    protected \ILIAS\MediaPool\InternalGUIService $gui;
     public string $mode = "";
     protected string $page_back_title = "";
     protected bool $multiple = false;
     protected \ILIAS\MediaPool\Clipboard\ClipboardGUIRequest $request;
     protected \ILIAS\MediaPool\Clipboard\ClipboardManager $clipboard_manager;
-    protected string $insertbuttontitle;
+    protected string $insertbuttontitle = "";
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
@@ -58,7 +62,7 @@ class ilEditClipboardGUI
             ->gui()
             ->clipboard()
             ->request();
-        
+
         $this->multiple = false;
         $this->page_back_title = $lng->txt("cont_back");
         $this->requested_return_cmd = $this->request->getReturnCmd();
@@ -82,18 +86,18 @@ class ilEditClipboardGUI
         );
 
         $ilCtrl->saveParameter($this, array("clip_item_id", "pcid"));
+        $this->gui = $DIC->mediaPool()->internal()->gui();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
         $lng = $this->lng;
-        
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
-
         switch ($next_class) {
             case "ilobjmediaobjectgui":
                 $ilCtrl->setReturn($this, "view");
@@ -104,10 +108,14 @@ class ilEditClipboardGUI
                 );
                 $mob_gui = new ilObjMediaObjectGUI("", $this->requested_clip_item_id, false, false);
                 $mob_gui->setTabs();
-                $ret = $ilCtrl->forwardCommand($mob_gui);
+                $ilCtrl->forwardCommand($mob_gui);
                 switch ($cmd) {
                     case "save":
-                        $ilUser->addObjectToClipboard($ret->getId(), "mob", $ret->getTitle());
+                        $ilUser->addObjectToClipboard(
+                            $mob_gui->getObject()->getId(),
+                            "mob",
+                            $mob_gui->getObject()->getTitle()
+                        );
                         $ilCtrl->redirect($this, "view");
                         break;
                 }
@@ -118,50 +126,50 @@ class ilEditClipboardGUI
                 break;
         }
     }
-    
-    public function setMultipleSelections(bool $a_multiple = true) : void
+
+    public function setMultipleSelections(bool $a_multiple = true): void
     {
         $this->multiple = $a_multiple;
     }
 
-    public function getMultipleSelections() : bool
+    public function getMultipleSelections(): bool
     {
         return $this->multiple;
     }
 
-    public function setInsertButtonTitle(string $a_insertbuttontitle) : void
+    public function setInsertButtonTitle(string $a_insertbuttontitle): void
     {
         $this->insertbuttontitle = $a_insertbuttontitle;
     }
 
-    public function getInsertButtonTitle() : string
+    public function getInsertButtonTitle(): string
     {
         $lng = $this->lng;
-        
+
         if ($this->insertbuttontitle === "") {
             return $lng->txt("insert");
         }
-        
+
         return $this->insertbuttontitle;
     }
 
-    public function view() : void
+    public function view(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
 
-        $but = ilLinkButton::getInstance();
-        $but->setUrl($ilCtrl->getLinkTargetByClass("ilobjmediaobjectgui", "create"));
-        $but->setCaption("cont_create_mob");
-        $ilToolbar->addButtonInstance($but);
+        $this->gui->link(
+            $this->lng->txt("cont_create_mob"),
+            $ilCtrl->getLinkTargetByClass("ilobjmediaobjectgui", "create")
+        )->emphasised()->toToolbar();
 
         $table_gui = new ilClipboardTableGUI($this, "view");
         $tpl->setContent($table_gui->getHTML());
     }
 
 
-    public function getObject() : void
+    public function getObject(): void
     {
         $this->mode = "getObject";
         $this->view();
@@ -171,14 +179,15 @@ class ilEditClipboardGUI
     /**
      * remove item from clipboard
      */
-    public function remove() : void
+    public function remove(): void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         // check number of objects
         $ids = $this->request->getItemIds();
+
         if (count($ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "view");
@@ -199,7 +208,7 @@ class ilEditClipboardGUI
         $ilCtrl->redirect($this, "view");
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         $lng = $this->lng;
 
@@ -215,7 +224,7 @@ class ilEditClipboardGUI
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             ilUtil::redirect($return);
         }
-        
+
         if (!$this->getMultipleSelections() && count($ids) > 1) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_select_max_one_item"), true);
             ilUtil::redirect($return);
@@ -225,7 +234,7 @@ class ilEditClipboardGUI
         ilUtil::redirect($return);
     }
 
-    public static function _getSelectedIDs() : array
+    public static function _getSelectedIDs(): array
     {
         global $DIC;
         $clipboard_manager = $DIC->mediaPool()
@@ -236,7 +245,7 @@ class ilEditClipboardGUI
         return $clipboard_manager->getIds();
     }
 
-    public function setTabs() : void
+    public function setTabs(): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
@@ -245,16 +254,16 @@ class ilEditClipboardGUI
         $tpl->setTitle($lng->txt("clipboard"));
         $this->getTabs($ilTabs);
     }
-    
-    public function setPageBackTitle(string $a_title) : void
+
+    public function setPageBackTitle(string $a_title): void
     {
         $this->page_back_title = $a_title;
     }
 
-    public function getTabs($tabs_gui) : void
+    public function getTabs($tabs_gui): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         // back to upper context
         $tabs_gui->setBackTarget(
             $this->page_back_title,

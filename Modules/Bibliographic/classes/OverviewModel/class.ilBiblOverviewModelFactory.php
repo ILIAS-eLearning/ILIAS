@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblOverviewModelFactory
  *
@@ -29,7 +29,7 @@ class ilBiblOverviewModelFactory implements ilBiblOverviewModelFactoryInterface
      * @deprecated REFACTOR use active record. Create ilBiblOverviewModel AR, Factory and Interface
      * @return mixed[]
      */
-    private function getAllOverviewModels() : array
+    private function getAllOverviewModels(): array
     {
         if (self::$models !== []) {
             return self::$models;
@@ -55,7 +55,7 @@ class ilBiblOverviewModelFactory implements ilBiblOverviewModelFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getAllOverviewModelsByType(ilBiblTypeInterface $type) : array
+    public function getAllOverviewModelsByType(ilBiblTypeInterface $type): array
     {
         $models = $this->getAllOverviewModels();
 

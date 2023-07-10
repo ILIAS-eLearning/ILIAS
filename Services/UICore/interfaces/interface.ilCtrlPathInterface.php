@@ -25,14 +25,14 @@ interface ilCtrlPathInterface
      *
      * @return string|null
      */
-    public function getCidPath() : ?string;
+    public function getCidPath(): ?string;
 
     /**
      * Returns the CID that must currently be processed.
      *
      * @return string|null
      */
-    public function getCurrentCid() : ?string;
+    public function getCurrentCid(): ?string;
 
     /**
      * Returns the next CID that must be processed.
@@ -40,7 +40,7 @@ interface ilCtrlPathInterface
      * @param string $current_class
      * @return string|null
      */
-    public function getNextCid(string $current_class) : ?string;
+    public function getNextCid(string $current_class): ?string;
 
     /**
      * Returns all individual paths for each cid position for the
@@ -60,7 +60,7 @@ interface ilCtrlPathInterface
      * @param int $order (SORT_DESC|SORT_ASC)
      * @return string[]
      */
-    public function getCidPaths(int $order = SORT_DESC) : array;
+    public function getCidPaths(int $order = SORT_DESC): array;
 
     /**
      * Returns all cid's from the current path in the provided
@@ -72,14 +72,14 @@ interface ilCtrlPathInterface
      * @param int $order (SORT_DESC|SORT_ASC)
      * @return string[]
      */
-    public function getCidArray(int $order = SORT_DESC) : array;
+    public function getCidArray(int $order = SORT_DESC): array;
 
     /**
      * Returns the baseclass of the current cid path.
      *
      * @return string|null
      */
-    public function getBaseClass() : ?string;
+    public function getBaseClass(): ?string;
 
     /**
      * Returns the exception produced during the path-finding-
@@ -87,5 +87,5 @@ interface ilCtrlPathInterface
      *
      * @return ilCtrlException|null
      */
-    public function getException() : ?ilCtrlException;
+    public function getException(): ?ilCtrlException;
 }

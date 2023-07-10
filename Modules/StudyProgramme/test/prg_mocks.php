@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 //NIFT: NotImplementedForTesting
 trait ProgressRepoMockNIFT
@@ -7,7 +25,7 @@ trait ProgressRepoMockNIFT
     {
     }
 
-    public function getByIds(int $prg_id, int $assignment_id) : ilStudyProgrammeProgress
+    public function getByIds(int $prg_id, int $assignment_id): ilPRGProgress
     {
         throw new Exception("Not implemented for testing", 1);
     }
@@ -15,38 +33,42 @@ trait ProgressRepoMockNIFT
     {
         throw new Exception("Not implemented for testing", 1);
     }*/
-    public function getByPrgIdAndUserId(int $prg_id, int $usr_id) : array
+    public function getByPrgIdAndUserId(int $prg_id, int $usr_id): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function getByPrgId(int $prg_id) : array
+    public function getByPrgId(int $prg_id): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function getFirstByPrgId(int $prg_id)
+    public function getFirstByPrgId(int $prg_id): void
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function getExpiredSuccessfull() : array
+    public function getExpiredSuccessfull(): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function getRiskyToFailInstances() : array
+    public function getRiskyToFailInstances(): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function getPassedDeadline() : array
+    public function getLatestAssignedProgress(int $prg_id, int $usr_id): ?\ilPRGProgress
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function delete(ilStudyProgrammeProgress $progress) : void
+    public function getPassedDeadline(): array
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function delete(ilPRGProgress $progress)
     {
         throw new Exception("Not implemented for testing", 1);
     }
     public function createFor(
         ilStudyProgrammeSettings $prg,
         ilStudyProgrammeAssignment $ass
-    ) : ilStudyProgrammeProgress {
+    ): ilPRGProgress {
         throw new Exception("Not implemented for testing", 1);
     }
 }
@@ -56,28 +78,57 @@ trait AssignmentRepoMockNIFT
     public function __construct()
     {
     }
-
-    public function createFor(int $prg_id, int $usr_id, int $assigning_usr_id) : ilStudyProgrammeAssignment
+    public function createFor(int $prg_obj_id, int $usr_id, int $assigning_usr_id): ilPRGAssignment
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function getByUsrId(int $usr_id) : array
+    public function getForUser(int $usr_id): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function getByPrgId(int $prg_id) : array
+    public function getAllForNodeIsContained(int $prg_obj_id, ?array $user_filter = null, ?ilPRGAssignmentFilter $custom_filters = null): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function getDueToRestart() : array
+    public function getAllForSpecificNode(int $prg_obj_id, array $user_filter = null): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function getDueToManuelRestart(int $days_before_end) : array
+    public function getPassedDeadline(\DateTimeImmutable $deadline): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function delete(ilStudyProgrammeAssignment $assignment) : void
+    public function getDashboardInstancesforUser(int $usr_id): array
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function getAboutToExpire(
+        array $programmes_and_due,
+        bool $discard_formerly_notified = true
+    ): array {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function getByPrgId(int $prg_id): array
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function getDueToRestart(): array
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function getDueToManuelRestart(int $days_before_end): array
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function delete(ilPRGAssignment $assignment): void
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function deleteAllAssignmentsForProgrammeId(int $prg_obj_id): void
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function getExpiredAndNotInvalidated(): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
@@ -89,69 +140,36 @@ trait SettingsRepoMockNIFT
     {
     }
 
-    public function createFor(int $obj_id) : ilStudyProgrammeSettings
+    public function createFor(int $obj_id): ilStudyProgrammeSettings
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function delete(ilStudyProgrammeSettings $settings) : void
+    public function delete(ilStudyProgrammeSettings $settings): void
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function loadByType(int $type_id) : array
+    public function loadByType(int $type_id): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function loadIdsByType(int $type_id) : array
+    public function loadIdsByType(int $type_id): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
 }
 
-
-class ProgressRepoMock implements ilStudyProgrammeProgressRepository
+class AssignmentRepoMock implements PRGAssignmentRepository
 {
-    public $progresses = [];
-
-    use ProgressRepoMockNIFT;
-
-    public function get(int $id) : ilStudyProgrammeProgress
-    {
-        return $this->progresses[$id];
-    }
-
-    public function update(ilStudyProgrammeProgress $progress) : void
-    {
-        $this->progresses[$progress->getNodeId()] = $progress;
-    }
-
-    public function getByPrgIdAndAssignmentId(int $prg_id, int $assignment_id)
-    {
-        return $this->progresses[$prg_id];
-    }
-
-    public function getByAssignmentId(int $assignment_id) : array
-    {
-        $ret = [];
-        foreach ($this->progresses as $progress_id => $progress) {
-            if ($progress->getAssignmentId() === $assignment_id) {
-                $ret[] = $progress;
-            }
-        }
-        return $ret;
-    }
-}
-
-class AssignmentRepoMock implements ilStudyProgrammeAssignmentRepository
-{
-    public $assignments = [];
-
     use AssignmentRepoMockNIFT;
+    /** @var array<int, ilStudyProgrammeAssignment> */
+    public array $assignments = [];
 
-    public function get(int $id) : ?ilStudyProgrammeAssignment
+    public function get(int $id): ilPRGAssignment
     {
         return $this->assignments[$id];
     }
-    public function update(ilStudyProgrammeAssignment $assignment) : void
+
+    public function store(ilPRGAssignment $assignment): void
     {
         $this->assignments[$assignment->getId()] = $assignment;
     }
@@ -159,16 +177,16 @@ class AssignmentRepoMock implements ilStudyProgrammeAssignmentRepository
 
 class SettingsRepoMock implements ilStudyProgrammeSettingsRepository
 {
-    public $settings = [];
-
     use SettingsRepoMockNIFT;
+    /** @var array<int, ilStudyProgrammeSettings> */
+    public array $settings = [];
 
-    public function get(int $obj_id) : ilStudyProgrammeSettings
+    public function get(int $obj_id): ilStudyProgrammeSettings
     {
         return $this->settings[$obj_id];
     }
-    
-    public function update(ilStudyProgrammeSettings $settings) : void
+
+    public function update(ilStudyProgrammeSettings $settings): void
     {
         $this->settings[$settings->getObjId()] = $settings;
     }
@@ -179,65 +197,65 @@ class SettingsMock extends ilStudyProgrammeSettings
     public function __construct(int $id)
     {
         $this->obj_id = $id;
+        $this->validity_of_qualification_settings =
+            new ilStudyProgrammeValidityOfAchievedQualificationSettings(
+                null,
+                null,
+                null,
+                false
+            );
     }
 }
 
 class PrgMock extends ilObjStudyProgramme
 {
-    public array $mock_tree;
-
     public function __construct(
         int $id,
         $env
     ) {
         $this->id = $id;
         $this->env = $env;
-        $this->events = new class() extends ilStudyProgrammeEvents {
-            public function __construct()
-            {
-            }
-            public function userSuccessful(ilStudyProgrammeProgress $a_progress) : void
+        $this->events = new class () {
+            public function userSuccessful(ilPRGProgress $a_progress): void
             {
             }
         };
     }
-    
-    public function throwIfNotInTree() : void
+
+    protected function throwIfNotInTree(): void
     {
     }
 
-    public function update() : bool
+    public function update(): bool
     {
-        return $this->updateSettings();
+        return $this->updateSettings();// TODO PHP8-REVIEW Required parameter missing
     }
-    protected function getLoggedInUserId() : int
+    protected function getLoggedInUserId(): int
     {
         return 9;
     }
-    
-    protected function getProgressIdString(ilStudyProgrammeProgress $progress) : string
+
+
+    protected function getProgressIdString(ilPRGAssignment $assignment, ilPRGProgress $progress): string
     {
         return (string) $progress->getId();
     }
 
-    protected function getProgressRepository() : ilStudyProgrammeProgressRepository
-    {
-        return $this->env->progress_repo;
-    }
-    protected function getAssignmentRepository() : ilStudyProgrammeAssignmentRepository
+    protected function getAssignmentRepository(): ilPRGAssignmentDBRepository
     {
         return $this->env->assignment_repo;
     }
-    protected function getSettingsRepository() : ilStudyProgrammeSettingsRepository
+    protected function getSettingsRepository(): ilStudyProgrammeSettingsRepository
     {
         return $this->env->settings_repo;
     }
 
-    protected function refreshLPStatus(int $usr_id, int $node_obj_id = null) : void
+    protected function refreshLPStatus(int $usr_id, int $node_obj_id = null): void
     {
     }
 
-    public function getParentProgress(ilStudyProgrammeProgress $progress) : ?ilStudyProgrammeProgress
+
+    public function getParentProgress(ilPRGAssignment $assignment, int $child_progress_node_id): ?ilPRGProgress
     {
         $parent_id = $this->env->mock_tree[$progress->getNodeId()]['parent'];
         if (is_null($parent_id)) {
@@ -246,7 +264,7 @@ class PrgMock extends ilObjStudyProgramme
         return $this->getProgressRepository()->get($parent_id);
     }
 
-    public function getChildrenProgress($progress) : array
+    public function getChildrenProgress(ilPRGAssignment $assignment, int $progress_node_id): array
     {
         $progresses = [];
         foreach ($this->env->mock_tree[$progress->getNodeId()]['children'] as $child_id) {
@@ -255,22 +273,22 @@ class PrgMock extends ilObjStudyProgramme
         return $progresses;
     }
 
-    public function testUpdateParentProgress(ilStudyProgrammeProgress $progress) : ilStudyProgrammeProgress
+    public function testUpdateParentProgress(ilPRGProgress $progress): ilPRGProgress
     {
         return $this->updateParentProgress($progress);
     }
 
-    public function testApplyProgressDeadline(ilStudyProgrammeProgress $progress) : ilStudyProgrammeProgress
+    public function testApplyProgressDeadline(ilPRGProgress $progress): ilPRGProgress
     {
         return $this->applyProgressDeadline($progress);
     }
 
-    protected function getPrgInstanceByObjId(int $obj_id) : ilObjStudyProgramme
+    protected function getPrgInstanceByObjId(int $obj_id): ilObjStudyProgramme
     {
-        return $this->mock_tree[$obj_id]['prg'];
+        return $this->tree[$obj_id]['prg'];
     }
-    
-    public function hasChildren(bool $include_references = false) : bool
+
+    public function hasChildren(bool $include_references = false): bool
     {
         if ($this->id < 12) {
             return true;
@@ -281,15 +299,19 @@ class PrgMock extends ilObjStudyProgramme
 
 class ProgrammeEventsMock extends ilStudyProgrammeEvents
 {
-    public $raised;
-    
+    public array $raised = [];// TODO PHP8-REVIEW Maybe the shape of the array can be expressed by PHPDoc comments
+
     public function __construct()
     {
-        $this->raised = [];
     }
 
-    public function raise($event, $parameter) : void
+    public function raise($event, $parameter): void// TODO PHP8-REVIEW The type hints are missing
     {
         $this->raised[] = [$event, $parameter];
+    }
+
+    protected function getRefIdFor(int $obj_id): int
+    {
+        return 666;
     }
 }

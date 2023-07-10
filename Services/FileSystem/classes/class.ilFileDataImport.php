@@ -13,7 +13,7 @@
  *
  *****************************************************************************/
 /**
- * @deprecated
+ * @deprecated Will be removed in ILIAS 10. Use ILIAS ResourceStorageService as replacement.
  */
 class ilFileDataImport extends ilFileData
 {
@@ -27,12 +27,12 @@ class ilFileDataImport extends ilFileData
         $this->initExportDirectory();
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->import_path;
     }
 
-    private function initExportDirectory() : void
+    private function initExportDirectory(): void
     {
         if (!file_exists($this->import_path)) {
             ilFileUtils::makeDir($this->import_path);

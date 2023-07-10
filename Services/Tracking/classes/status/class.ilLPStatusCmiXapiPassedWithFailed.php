@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -18,7 +20,7 @@
  */
 class ilLPStatusCmiXapiPassedWithFailed extends ilLPStatusCmiXapiPassed
 {
-    protected function resultSatisfyFailed(ilCmiXapiResult $result) : bool
+    protected function resultSatisfyFailed(ilCmiXapiResult $result): bool
     {
         if ($result->getStatus() === 'failed') {
             return true;

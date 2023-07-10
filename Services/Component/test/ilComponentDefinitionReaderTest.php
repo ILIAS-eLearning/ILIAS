@@ -1,6 +1,20 @@
 <?php
-
-/* Copyright (c) 2021 Richard Klees <richard.klees@concepts-and-training.de>, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use PHPUnit\Framework\TestCase;
 
@@ -21,18 +35,18 @@ class ilComponentDefinitionReaderTest extends TestCase
         ["Services", "A_Service", "/other/path/to/service.xml"]
     ];
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->processor1 = $this->createMock(ilComponentDefinitionProcessorMock1::class);
         $this->processor2 = $this->createMock(ilComponentDefinitionProcessorMock2::class);
 
-        $this->reader = new class($this->processor1, $this->processor2) extends ilComponentDefinitionReader {
-            protected function getComponents() : Iterator
+        $this->reader = new class ($this->processor1, $this->processor2) extends ilComponentDefinitionReader {
+            protected function getComponents(): Iterator
             {
                 return new ArrayIterator(ilComponentDefinitionReaderTest::$components);
             }
             public $read_files = [];
-            protected function readFile(string $path) : string
+            protected function readFile(string $path): string
             {
                 $this->read_files[] = $path;
                 if ($path === "/path/to/module.xml") {
@@ -56,7 +70,7 @@ class ilComponentDefinitionReaderTest extends TestCase
         };
     }
 
-    public function testPurge() : void
+    public function testPurge(): void
     {
         $this->processor1
             ->expects($this->once())
@@ -70,13 +84,13 @@ class ilComponentDefinitionReaderTest extends TestCase
         $this->reader->purge();
     }
 
-    public function testGetComponents() : void
+    public function testGetComponents(): void
     {
-        $reader = new class extends ilComponentDefinitionReader {
+        $reader = new class () extends ilComponentDefinitionReader {
             public function __construct()
             {
             }
-            public function _getComponents() : array
+            public function _getComponents(): array
             {
                 return iterator_to_array($this->getComponents());
             }
@@ -89,7 +103,7 @@ class ilComponentDefinitionReaderTest extends TestCase
         $this->assertContains(["Services", "Component", realpath(__DIR__ . "/../../../Services/Component/service.xml")], $components);
     }
 
-    public function testReadComponentDefinitions() : void
+    public function testReadComponentDefinitions(): void
     {
         $processor1_stack = [];
         $this->processor1

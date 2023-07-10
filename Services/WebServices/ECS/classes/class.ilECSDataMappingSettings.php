@@ -1,18 +1,21 @@
-<?php declare(strict_types = 1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
@@ -23,15 +26,12 @@ class ilECSDataMappingSettings
 
     private ilECSSetting $settings;
     private array $mappings;
-    
+
     private ilDbInterface $db;
     /**
      * Singleton Constructor
-     *
-     * @access private
-     *
      */
-    private function __construct($a_server_id)
+    private function __construct(int $a_server_id)
     {
         global $DIC;
         $this->db = $DIC->database();
@@ -42,10 +42,8 @@ class ilECSDataMappingSettings
 
     /**
      * Get singleton instance
-     * @param int $a_server_id
-     * @return ilECSDataMappingSettings
      */
-    public static function getInstanceByServerId($a_server_id) : ilECSDataMappingSettings
+    public static function getInstanceByServerId(int $a_server_id): ilECSDataMappingSettings
     {
         return self::$instances[$a_server_id] ?? (self::$instances[$a_server_id] = new ilECSDataMappingSettings($a_server_id));
     }
@@ -53,7 +51,7 @@ class ilECSDataMappingSettings
     /**
      * Delete server
      */
-    public function delete() : void
+    public function delete(): void
     {
         $server_id = $this->settings->getServerId();
         unset(self::$instances[$server_id]);
@@ -66,7 +64,7 @@ class ilECSDataMappingSettings
     /**
      * Get actice ecs setting
      */
-    public function getServer() : ilECSSetting
+    public function getServer(): ilECSSetting
     {
         return $this->settings;
     }
@@ -76,12 +74,12 @@ class ilECSDataMappingSettings
      * get mappings
      *
      */
-    public function getMappings($a_mapping_type = ilECSDataMappingSetting::MAPPING_IMPORT_RCRS) : array
+    public function getMappings($a_mapping_type = ilECSDataMappingSetting::MAPPING_IMPORT_RCRS): array
     {
         return $this->mappings[$a_mapping_type];
     }
-    
-    
+
+
     /**
      * get mapping by key
      *
@@ -90,18 +88,18 @@ class ilECSDataMappingSettings
      * @return int AdvancedMetaData field id or 0 (no mapping)
      *
      */
-    public function getMappingByECSName(int $a_mapping_type, string $a_key) : int
+    public function getMappingByECSName(int $a_mapping_type, string $a_key): int
     {
         return $this->mappings[$a_mapping_type][$a_key] ?? 0;
     }
 
-    
+
 
     /**
      * Read settings
      *
      */
-    private function read() : void
+    private function read(): void
     {
         $this->mappings = array();
 

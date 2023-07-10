@@ -16,11 +16,22 @@ The deletion process needs to be checked. Some data is left behind, if exercises
 
 - The business logic of the different assignment phases (assignment member state) should be separated more strongly and put under unit tests.
 
-### Add PRIVACY.md
+### Migrate to IRSS
 
-- Add a PRIVACY.md file.
+See https://docu.ilias.de/goto_docu_wiki_wpage_7775_1357.html
+
 
 ## Mid Term
+
+### Clarify use of table exc_returned
+
+Current situation in ilExSubmission/exc_returned table
+- exc_returned entries are used for text and blog/portfolios submissions, too!
+  - filetitle is the wsp_id for blog/portfolios, the ref_id for wikis now!
+  - getFiles() also returns entries for text
+  -> This is confusing.
+- FUTURE: exc_returned entries should be refactored in a more general concept "Submission Items" (files, text,
+  wsp objects, repo objects, ...)
 
 ### Fix ilExcCriteria
 
@@ -34,7 +45,9 @@ The ilExcCriteria class does stuff on application and gui level and should be di
 
 Subdirectories for domain concepts SHOULD be located directly under the `Exercise` main directory. The main `classes` subdirectory SHOULD only contain code has to be located in this directory due to rules of other components (e.g. the Object service).
 
-### Introduce stronger Tutor Concept
+### Introduce stronger Tutor Concept (Weak Tutor)
+
+Currently there is no tutor role defining the set of tutors in an exercise. Some reminder/notification features treat all users that activate "Notification for Submissions" in the exercise settings as tutors. This should be improved. A local tutor role might be feasible.
 
 ### Introduce Repository Pattern (ongoing)
 

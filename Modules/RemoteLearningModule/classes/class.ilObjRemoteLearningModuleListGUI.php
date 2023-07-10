@@ -1,19 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
+declare(strict_types=1);
 
 /**
 *
@@ -41,7 +43,7 @@ class ilObjRemoteLearningModuleListGUI extends ilRemoteObjectBaseListGUI
      *
      * @access public
      */
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = false;
         $this->static_link_enabled = true;
@@ -70,7 +72,7 @@ class ilObjRemoteLearningModuleListGUI extends ilRemoteObjectBaseListGUI
      * @param
      *
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         if ($org = $this->_lookupOrganization(ilObjRemoteLearningModule::DB_TABLE_NAME, $this->obj_id)) {
             $this->addCustomProperty($this->lng->txt('organization'), $org, false, true);
@@ -89,7 +91,7 @@ class ilObjRemoteLearningModuleListGUI extends ilRemoteObjectBaseListGUI
      * @param
      * @return
      */
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         switch ($cmd) {
             case 'show':

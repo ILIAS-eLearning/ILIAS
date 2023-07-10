@@ -1,25 +1,22 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 
 /**
@@ -38,7 +35,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 {
     protected ilTabsGUI $tabs_gui;
     protected ilHelpGUI $help;
-    
+
     protected ilLuceneAdvancedSearchFields $fields;
 
     protected ?array $admin_panel_commands;
@@ -57,15 +54,15 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         $this->tabs_gui = $DIC->tabs();
         $this->help = $DIC['ilHelp'];
         parent::__construct();
-        
+
         $this->fields = ilLuceneAdvancedSearchFields::getInstance();
         $this->initUserSearchCache();
     }
-    
+
     /**
      * Execute Command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -77,8 +74,8 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
                 $cp = new ilObjectCopyGUI($this);
                 $this->ctrl->forwardCommand($cp);
                 break;
-            
-            
+
+
             default:
                 if (!$cmd) {
                     $cmd = "showSavedResults";
@@ -92,7 +89,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
     /**
      * Show saved results
      */
-    public function showSavedResults() : void
+    public function showSavedResults(): void
     {
         $qp = new ilLuceneAdvancedQueryParser($this->search_cache->getQuery());
         $qp->parse();
@@ -107,7 +104,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         if ($filter->getResultObjIds()) {
             $searcher->highlight($filter->getResultObjIds());
         }
-        
+
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_adv_search.html', 'Services/Search');
         $presentation = new ilSearchResultPresentation($this);
         $presentation->setResults($filter->getResultIds());
@@ -117,40 +114,40 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         // TODO: other handling required
         $this->addPager($filter, 'max_page');
         $presentation->setPreviousNext($this->prev_link, $this->next_link);
-        
+
         if ($presentation->render()) {
             $this->tpl->setVariable('SEARCH_RESULTS', $presentation->getHTML());
         } elseif (strlen(trim($qp->getQuery()))) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_no_match'));
         }
-        
+
         // and finally add search form
         $this->initFormSearch();
         $this->tpl->setVariable('SEARCH_TABLE', $this->form->getHTML());
-        
+
         if ($filter->getResultIds()) {
             $this->fillAdminPanel();
         }
     }
-    
+
     /**
      * Show search form
      */
-    protected function initFormSearch() : void
+    protected function initFormSearch(): void
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'search'));
         $this->form->setTitle($this->lng->txt('search_advanced'));
         $this->form->addCommandButton('search', $this->lng->txt('search'));
         $this->form->addCommandButton('reset', $this->lng->txt('reset'));
-        
+
         foreach ($this->fields->getActiveSections() as $definition) {
             if ($definition['name'] != 'default') {
                 $section = new ilFormSectionHeaderGUI();
                 $section->setTitle($definition['name']);
                 $this->form->addItem($section);
             }
-            
+
             foreach ($definition['fields'] as $field_name) {
                 if (is_object($element = $this->fields->getFormElement($this->search_cache->getQuery(), $field_name, $this->form))) {
                     $this->form->addItem($element);
@@ -158,11 +155,11 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
             }
         }
     }
-    
+
     /**
      * Search from main menu
      */
-    protected function remoteSearch() : void
+    protected function remoteSearch(): void
     {
         $root_id = 0;
         if ($this->http->wrapper()->post()->has('root_id')) {
@@ -183,8 +180,8 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         $this->search_cache->save();
         $this->search();
     }
-    
-    protected function search() : void
+
+    protected function search(): void
     {
         if (!is_array($this->search_cache->getQuery())) {
             // TOD: handle empty advances search
@@ -194,27 +191,27 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         }
         ilSession::clear('max_page');
         $this->search_cache->deleteCachedEntries();
-        
+
         // Reset details
         ilSubItemListGUI::resetDetails();
-        
+
         $this->performSearch();
     }
-    
+
     /**
      * Reset search form
      */
-    protected function reset() : void
+    protected function reset(): void
     {
         $this->search_cache->setQuery(array());
         $this->search_cache->save();
         $this->showSavedResults();
     }
-    
+
     /**
      * Perform search
      */
-    protected function performSearch() : void
+    protected function performSearch(): void
     {
         ilSession::clear('vis_references');
         $qp = new ilLuceneAdvancedQueryParser($this->search_cache->getQuery());
@@ -224,10 +221,10 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
             $this->showSavedResults();
             return;
         }
-        
+
         $searcher = ilLuceneSearcher::getInstance($qp);
         $searcher->search();
-        
+
         // Filter results
         $filter = ilLuceneSearchResultFilter::getInstance($this->user->getId());
         $filter->addFilter(new ilLucenePathFilter($this->search_cache->getRoot()));
@@ -253,54 +250,54 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         } else {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_no_match'));
         }
-        
+
         // and finally add search form
         $this->initFormSearch();
         $this->tpl->setVariable('SEARCH_TABLE', $this->form->getHTML());
-        
+
         if ($filter->getResultIds()) {
             $this->fillAdminPanel();
         }
     }
-    
+
     /**
      * Add admin panel command
      */
-    public function prepareOutput() : void
+    public function prepareOutput(): void
     {
         parent::prepareOutput();
         $this->getTabs();
     }
-    
+
     /**
      * get tabs
      */
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         $this->help->setScreenIdComponent("src_luc");
 
         $this->tabs_gui->addTarget('search', $this->ctrl->getLinkTargetByClass('illucenesearchgui'));
-        
+
         if (ilSearchSettings::getInstance()->isLuceneUserSearchEnabled()) {
             $this->tabs_gui->addTarget('search_user', $this->ctrl->getLinkTargetByClass('illuceneusersearchgui'));
         }
-        
+
         if (
             !ilSearchSettings::getInstance()->getHideAdvancedSearch() and
             $this->fields->getActiveFields()) {
             $this->tabs_gui->addTarget('search_advanced', $this->ctrl->getLinkTarget($this));
         }
-        
+
         $this->tabs_gui->setTabActive('search_advanced');
     }
-    
+
     /**
      * Init user search cache
      *
      * @access private
      *
      */
-    protected function initUserSearchCache() : void
+    protected function initUserSearchCache(): void
     {
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::LUCENE_ADVANCED);
@@ -309,19 +306,14 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
             $this->search_cache->setResultPageNumber($page_number);
         }
         if ($this->http->wrapper()->post()->has('query')) {
-            $this->search_cache->setQuery(
-                $this->http->wrapper()->post()->retrieve(
-                    'query',
-                    $this->refinery->kindlyTo()->string()
-                )
-            );
+            $this->search_cache->setQuery($this->http->request()->getParsedBody()['query'] ?? []);
         }
     }
 
     /**
      * @todo Couldn't find any of these template variables anywhere. Is this still currently used?
      */
-    protected function fillAdminPanel() : void
+    protected function fillAdminPanel(): void
     {
         $adm_view_cmp = $adm_cmds = $creation_selector = $adm_view = false;
 
@@ -343,7 +335,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
             $this->tpl->parseCurrentBlock();
             $adm_view_cmp = true;
         }
-        
+
         // admin view button
         if (isset($this->admin_view_button) && is_array($this->admin_view_button)) {
             if (is_array($this->admin_view_button)) {
@@ -362,7 +354,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
             $this->tpl->parseCurrentBlock();
             $adm_view = true;
         }
-        
+
         // creation selector
         if (isset($this->creation_selector) && is_array($this->creation_selector)) {
             $this->tpl->setCurrentBlock("lucene_add_commands");

@@ -15,7 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
 /**
@@ -24,10 +25,16 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
  */
 class ilObjBibliographicStakeholder extends AbstractResourceStakeholder
 {
+    protected ?ilDBInterface $database = null;
+
+    public function __construct()
+    {
+    }
+
     /**
      * @inheritDoc
      */
-    public function getId() : string
+    public function getId(): string
     {
         return 'bibl';
     }
@@ -35,8 +42,31 @@ class ilObjBibliographicStakeholder extends AbstractResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function getOwnerOfNewResources() : int
+    public function getOwnerOfNewResources(): int
     {
         return 6;
+    }
+
+    public function getLocationURIForResourceUsage(ResourceIdentification $identification): ?string
+    {
+        $this->initDB();
+
+        $r = $this->database->query(
+            "SELECT id FROM il_bibl_data WHERE rid = " . $this->database->quote($identification->serialize(), 'text')
+        );
+        $d = $this->database->fetchObject($r);
+        if (isset($d->id)) {
+            $references = ilObject::_getAllReferences($d->id);
+            $ref_id = array_shift($references);
+
+            return ilLink::_getLink($ref_id, 'bibl');
+        }
+        return null;
+    }
+
+    private function initDB(): void
+    {
+        global $DIC;
+        $this->database = $DIC->database();
     }
 }

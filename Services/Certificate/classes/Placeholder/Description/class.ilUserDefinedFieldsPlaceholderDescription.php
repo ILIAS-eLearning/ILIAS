@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -46,7 +48,7 @@ class ilUserDefinedFieldsPlaceholderDescription implements ilCertificatePlacehol
      * the the description as array value.
      * @return array - [PLACEHOLDER] => 'description'
      */
-    public function getPlaceholderDescriptions() : array
+    public function getPlaceholderDescriptions(): array
     {
         return $this->placeholder;
     }
@@ -54,7 +56,7 @@ class ilUserDefinedFieldsPlaceholderDescription implements ilCertificatePlacehol
     /**
      * @return string - HTML that can used to be displayed in the GUI
      */
-    public function createPlaceholderHtmlDescription() : string
+    public function createPlaceholderHtmlDescription(): string
     {
         $template = new ilTemplate(
             'tpl.common_desc.html',

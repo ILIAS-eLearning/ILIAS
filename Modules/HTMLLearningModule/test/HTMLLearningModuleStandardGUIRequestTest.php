@@ -7,11 +7,11 @@ use PHPUnit\Framework\TestCase;
  */
 class HTMLLearningModuleStandardGUIRequestTest extends TestCase
 {
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\HTMLLearningModule\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\HTMLLearningModule\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -25,7 +25,7 @@ class HTMLLearningModuleStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -41,7 +41,7 @@ class HTMLLearningModuleStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testUserId() : void
+    public function testUserId(): void
     {
         $request = $this->getRequest(
             [

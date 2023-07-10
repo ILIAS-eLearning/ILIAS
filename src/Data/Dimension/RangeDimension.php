@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class RangeDimension extends Dimension
         $this->value_labels = $this->cardinal_dimension->getLabels();
     }
 
-    public function checkValue($value) : void
+    public function checkValue($value): void
     {
         if (is_null($value)) {
             return;

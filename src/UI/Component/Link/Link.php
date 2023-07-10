@@ -1,28 +1,58 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Link;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\HasContentLanguage;
+use ILIAS\Data\LanguageTag;
+use ILIAS\UI\Component\HasHelpTopics;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * Link base interface.
  */
-interface Link extends Component
+interface Link extends Component, HasContentLanguage, HasHelpTopics, JavaScriptBindable
 {
     /**
      * Get the action url of a link
      */
-    public function getAction() : string;
+    public function getAction(): string;
 
     /**
      * Set if link should be opened in new viewport
      */
-    public function withOpenInNewViewport(bool $open_in_new_viewport) : Link;
+    public function withOpenInNewViewport(bool $open_in_new_viewport): Link;
+
+    public function getOpenInNewViewport(): ?bool;
 
     /**
-     * Get if the link should be opened in new viewport
+     * The hreflang attribute indicates the language of content targeted by links.
+     * It is helpful though not required to add this information to links for which the target will
+     * not be translated in this process. If the link text also is not translated (e.g., because it is a formal title
+     * that should be kept in the original language), you should also add the language attributes to the anchor element.
      */
-    public function getOpenInNewViewport() : ?bool;
+    public function withLanguageOfReferencedContent(LanguageTag $language): Link;
+
+    /**
+     * See comment in withLanguageOfReferencedContent
+     */
+    public function getLanguageOfReferencedResource(): ?LanguageTag;
 }

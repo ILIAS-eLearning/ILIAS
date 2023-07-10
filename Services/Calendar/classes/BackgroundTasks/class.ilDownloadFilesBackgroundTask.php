@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
@@ -45,17 +47,17 @@ class ilDownloadFilesBackgroundTask
         $this->user = $user;
     }
 
-    public function setEvents(array $a_events) : void
+    public function setEvents(array $a_events): void
     {
         $this->events = $a_events;
     }
 
-    public function getEvents() : array
+    public function getEvents(): array
     {
         return $this->events;
     }
 
-    public function setBucketTitle(string $a_title) : void
+    public function setBucketTitle(string $a_title): void
     {
         $this->bucket_title = $a_title;
     }
@@ -64,7 +66,7 @@ class ilDownloadFilesBackgroundTask
      * @return string
      * @todo see comments
      */
-    public function getBucketTitle() : string
+    public function getBucketTitle(): string
     {
         //TODO: fix ilUtil zip stuff
         // Error If name starts "-"
@@ -75,7 +77,7 @@ class ilDownloadFilesBackgroundTask
         return $this->bucket_title;
     }
 
-    public function run() : bool
+    public function run(): bool
     {
         $definition = new ilCalendarCopyDefinition();
         $normalized_name = ilFileUtils::getASCIIFilename($this->getBucketTitle());
@@ -115,7 +117,7 @@ class ilDownloadFilesBackgroundTask
         return true;
     }
 
-    private function collectFiles(ilCalendarCopyDefinition $def) : void
+    private function collectFiles(ilCalendarCopyDefinition $def): void
     {
         //filter here the objects, don't repeat the object Id
         $object_ids = [];

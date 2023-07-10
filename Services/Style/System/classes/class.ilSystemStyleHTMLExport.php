@@ -46,7 +46,7 @@ class ilSystemStyleHTMLExport
         $this->addImage('nav_arr_R.png');
     }
 
-    public function createDirectories() : void
+    public function createDirectories(): void
     {
         ilFileUtils::makeDirParents($this->style_dir);
         ilFileUtils::makeDirParents($this->img_dir);
@@ -56,14 +56,14 @@ class ilSystemStyleHTMLExport
     /**
      * Add (icon) image to the list of images to be exported
      */
-    public function addImage(string $a_file, string $a_exp_file_name = '') : void
+    public function addImage(string $a_file, string $a_exp_file_name = ''): void
     {
         $this->images[] = ['file' => $a_file,
                            'exp_file_name' => $a_exp_file_name
         ];
     }
 
-    public function export() : void
+    public function export(): void
     {
         $this->createDirectories();
 
@@ -75,9 +75,9 @@ class ilSystemStyleHTMLExport
         );
         foreach ($iterator as $item) {
             if ($item->isDir()) {
-                mkdir($this->style_dir . DIRECTORY_SEPARATOR . $item->getSubPathName());
+                mkdir($this->style_dir . DIRECTORY_SEPARATOR . $iterator->getSubPathname());
             } else {
-                copy($item, $this->style_dir . DIRECTORY_SEPARATOR . $item->getSubPathName());
+                copy($item->getPathname(), $this->style_dir . DIRECTORY_SEPARATOR . $iterator->getSubPathname());
             }
         }
 

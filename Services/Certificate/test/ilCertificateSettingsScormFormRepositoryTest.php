@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testSave() : void
+    public function testSave(): void
     {
         $object = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
@@ -31,7 +33,7 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -80,7 +82,7 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
         );
     }
 
-    public function testFetchFormFieldData() : void
+    public function testFetchFormFieldData(): void
     {
         $object = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
@@ -90,7 +92,7 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 

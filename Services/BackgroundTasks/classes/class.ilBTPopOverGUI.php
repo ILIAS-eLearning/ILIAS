@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractTask;
@@ -46,7 +46,7 @@ class ilBTPopOverGUI
     /**
      * Get the Notification Items. DOES NOT DO ANY PERMISSION CHECKS.
      */
-    public function getNotificationItem(int $nr_buckets) : ILIAS\UI\Component\Item\Notification
+    public function getNotificationItem(int $nr_buckets): ILIAS\UI\Component\Item\Notification
     {
         $ui_factory = $this->dic->ui()->factory();
 
@@ -64,7 +64,7 @@ class ilBTPopOverGUI
     /**
      * @return ILIAS\UI\Component\Item\Notification[]
      */
-    protected function getAggregateItems() : array
+    protected function getAggregateItems(): array
     {
         $persistence = $this->dic->backgroundTasks()->persistence();
         $items = [];
@@ -77,7 +77,7 @@ class ilBTPopOverGUI
     }
 
 
-    public function getItemForObserver(Bucket $observer) : ILIAS\UI\Component\Item\Notification
+    public function getItemForObserver(Bucket $observer): ILIAS\UI\Component\Item\Notification
     {
         $redirect_uri = "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
@@ -140,7 +140,7 @@ class ilBTPopOverGUI
     }
 
 
-    private function getDefaultCardContent(Bucket $observer) : Legacy
+    private function getDefaultCardContent(Bucket $observer): Legacy
     {
         return $this->getProgressbar($observer);
     }
@@ -149,7 +149,7 @@ class ilBTPopOverGUI
     /**
      * @return \ILIAS\UI\Component\Legacy\Legacy[]|\ILIAS\UI\Component\Button\Shy[]
      */
-    public function getUserInteractionContent(Bucket $observer, string $redirect_uri) : array
+    public function getUserInteractionContent(Bucket $observer, string $redirect_uri): array
     {
         $factory = $this->dic->ui()->factory();
         $language = $this->dic->language();
@@ -164,7 +164,7 @@ class ilBTPopOverGUI
         $options = $userInteraction->getOptions($userInteraction->getInput());
 
         return array_map(
-            function (UserInteraction\Option $option) use ($ctrl, $factory, $observer, $persistence, $redirect_uri, $language) : \ILIAS\UI\Component\Button\Shy {
+            function (UserInteraction\Option $option) use ($ctrl, $factory, $observer, $persistence, $redirect_uri, $language): \ILIAS\UI\Component\Button\Shy {
                 $ctrl->setParameterByClass(
                     ilBTControllerGUI::class,
                     ilBTControllerGUI::FROM_URL,
@@ -193,7 +193,7 @@ class ilBTPopOverGUI
     }
 
 
-    private function getProgressbar(Bucket $observer) : Legacy
+    private function getProgressbar(Bucket $observer): Legacy
     {
         $percentage = $observer->getOverallPercentage();
 
@@ -221,7 +221,7 @@ class ilBTPopOverGUI
     }
 
 
-    private function getCloseButtonAction(UserInteraction\Option $option, string $redirect_uri, Bucket $observer) : string
+    private function getCloseButtonAction(UserInteraction\Option $option, string $redirect_uri, Bucket $observer): string
     {
         $ctrl = $this->dic->ctrl();
         $persistence = $this->dic->backgroundTasks()->persistence();
@@ -246,7 +246,7 @@ class ilBTPopOverGUI
     }
 
 
-    private function getRefreshUrl(Bucket $observer) : string
+    private function getRefreshUrl(Bucket $observer): string
     {
         $ctrl = $this->dic->ctrl();
         $persistence = $this->dic->backgroundTasks()->persistence();
@@ -256,13 +256,13 @@ class ilBTPopOverGUI
     }
 
 
-    private function addFromUrlToNextRequest(string $redirect_uri) : void
+    private function addFromUrlToNextRequest(string $redirect_uri): void
     {
         $this->dic->ctrl()->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::FROM_URL, ilBTControllerGUI::hash($redirect_uri));
     }
 
 
-    private function txt(string $id) : string
+    private function txt(string $id): string
     {
         return $this->dic->language()->txt($id);
     }

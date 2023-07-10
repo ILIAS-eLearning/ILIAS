@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,29 +16,26 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 trait ilForumRequestTrait
 {
-    private function retrieveIntOrZeroFrom(ArrayBasedRequestWrapper $wrapper, string $param) : int
+    private function retrieveIntOrZeroFrom(ArrayBasedRequestWrapper $wrapper, string $param): int
     {
-        $value = 0;
         if ($wrapper->has($param)) {
-            $value = $wrapper->retrieve(
+            return $wrapper->retrieve(
                 $param,
                 $this->refinery->byTrying([
                     $this->refinery->kindlyTo()->int(),
-                    $this->refinery->custom()->transformation(static function ($value) : int {
-                        if ($value === '') {
-                            return 0;
-                        }
-
-                        return $value;
-                    })
+                    $this->refinery->custom()->transformation(
+                        static fn ($value): int => $value === '' ? 0 : $value
+                    )
                 ])
             );
         }
 
-        return $value;
+        return 0;
     }
 }

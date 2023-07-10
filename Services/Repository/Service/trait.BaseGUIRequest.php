@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Repository;
 
@@ -45,7 +50,7 @@ trait BaseGUIRequest
         Refinery\Factory $refinery,
         ?array $passed_query_params = null,
         ?array $passed_post_data = null
-    ) : void {
+    ): void {
         $this->http = $http;
         $this->refinery = $refinery;
         $this->passed_post_data = $passed_post_data;
@@ -53,9 +58,9 @@ trait BaseGUIRequest
     }
 
     // get integer parameter kindly
-    protected function int(string $key) : int
+    public function int(string $key): int
     {
-        if ($this->str($key) === "") {
+        if ($this->isArray($key) || $this->str($key) === "") {
             return 0;
         }
         $t = $this->refinery->kindlyTo()->int();
@@ -63,7 +68,7 @@ trait BaseGUIRequest
     }
 
     // get integer array kindly
-    protected function intArray(string $key) : array
+    protected function intArray(string $key): array
     {
         if (!$this->isArray($key)) {
             return [];
@@ -73,7 +78,7 @@ trait BaseGUIRequest
                 // keep keys(!), transform all values to int
                 return array_column(
                     array_map(
-                        static function ($k, $v) : array {
+                        static function ($k, $v): array {
                             return [$k, (int) $v];
                         },
                         array_keys($arr),
@@ -88,14 +93,17 @@ trait BaseGUIRequest
     }
 
     // get string parameter kindly
-    protected function str(string $key) : string
+    protected function str(string $key): string
     {
+        if ($this->isArray($key)) {
+            return "";
+        }
         $t = $this->refinery->kindlyTo()->string();
         return \ilUtil::stripSlashes((string) ($this->get($key, $t) ?? ""));
     }
 
     // get string array kindly
-    protected function strArray(string $key) : array
+    protected function strArray(string $key): array
     {
         if (!$this->isArray($key)) {
             return [];
@@ -105,7 +113,7 @@ trait BaseGUIRequest
                 // keep keys(!), transform all values to string
                 return array_column(
                     array_map(
-                        static function ($k, $v) : array {
+                        static function ($k, $v): array {
                             if (is_array($v)) {
                                 $v = "";
                             }
@@ -123,7 +131,7 @@ trait BaseGUIRequest
     }
 
     // get string array kindly
-    protected function arrayArray(string $key) : array
+    protected function arrayArray(string $key): array
     {
         if (!$this->isArray($key)) {
             return [];
@@ -133,7 +141,7 @@ trait BaseGUIRequest
                 // keep keys(!), transform all values to string
                 return array_column(
                     array_map(
-                        static function ($k, $v) : array {
+                        static function ($k, $v): array {
                             return [$k, (array) $v];
                         },
                         array_keys($arr),
@@ -150,12 +158,10 @@ trait BaseGUIRequest
     /**
      * Check if parameter is an array
      */
-    protected function isArray(string $key) : bool
+    protected function isArray(string $key): bool
     {
         if ($this->passed_query_params === null && $this->passed_post_data === null) {
-            $no_transform = $this->refinery->custom()->transformation(function ($v) {
-                return $v;
-            });
+            $no_transform = $this->refinery->identity();
             $w = $this->http->wrapper();
             if ($w->post()->has($key)) {
                 return is_array($w->post()->retrieve($key, $no_transform));
@@ -178,9 +184,7 @@ trait BaseGUIRequest
      */
     protected function raw(string $key)
     {
-        $no_transform = $this->refinery->custom()->transformation(function ($v) {
-            return $v;
-        });
+        $no_transform = $this->refinery->identity();
         return $this->get($key, $no_transform);
     }
 

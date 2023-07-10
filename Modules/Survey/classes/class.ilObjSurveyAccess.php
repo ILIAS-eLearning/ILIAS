@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjSurveyAccess
@@ -36,15 +39,15 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         $this->access = $DIC->access();
     }
 
-    
-    public static function getConditionOperators() : array
+
+    public static function getConditionOperators(): array
     {
         return array(
             ilConditionHandler::OPERATOR_FINISHED
         );
     }
-    
-    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
+
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id): bool
     {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_FINISHED:
@@ -59,8 +62,8 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                 return true;
         }
     }
-    
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -70,9 +73,9 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         if (is_null($user_id)) {
             $user_id = $ilUser->getId();
         }
-        
+
         $is_admin = $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
-        
+
         switch ($permission) {
             case "visible":
             case "read":
@@ -107,17 +110,17 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 
         return true;
     }
-    
-    
-    public static function _getCommands() : array
+
+
+    public static function _getCommands(): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "svy_run", "default" => true),
-            array("permission" => "write", "cmd" => "questionsrepo", "lang_var" => "edit_questions"),
+            array("permission" => "write", "cmd" => "questions", "lang_var" => "edit_questions"),
             array("permission" => "write", "cmd" => "properties", "lang_var" => "settings"),
             array("permission" => "read", "cmd" => "evaluation", "lang_var" => "svy_results")
         );
-        
+
         return $commands;
     }
 
@@ -128,7 +131,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * checks whether all necessary parts of the survey are given
      */
-    public static function _lookupCreationComplete(int $a_obj_id) : bool
+    public static function _lookupCreationComplete(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -153,7 +156,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * get evaluation access
      */
-    public static function _lookupEvaluationAccess(int $a_obj_id) : int
+    public static function _lookupEvaluationAccess(int $a_obj_id): int
     {
         global $DIC;
 
@@ -170,11 +173,11 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         }
         return 0;
     }
-    
+
     public static function _isSurveyParticipant(
         int $user_id,
         int $survey_id
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -186,10 +189,10 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         );
         return $result->numRows() === 1;
     }
-    
+
     public static function _lookupAnonymize(
         int $a_obj_id
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -206,11 +209,11 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
             return false;
         }
     }
-    
+
     public static function _hasEvaluationAccess(
         int $a_obj_id,
         int $user_id
-    ) : bool {
+    ): bool {
         $evaluation_access = self::_lookupEvaluationAccess($a_obj_id);
         $svy_mode = self::_lookupMode($a_obj_id);
 
@@ -225,7 +228,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                 case ilObjSurvey::RESULTS_360_OWN:
                     return true;
 
-                // not applicable
+                    // not applicable
             }
         }
 
@@ -319,7 +322,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     public static function _lookupFinished(
         int $a_obj_id,
         int $a_user_id = 0
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -366,7 +369,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function _lookupMode(
         int $a_obj_id
-    ) : int {
+    ): int {
         global $DIC;
         $ilDB = $DIC->database();
 
@@ -384,10 +387,10 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 
         return 0;
     }
-    
+
     public static function _lookup360Mode(
         int $a_obj_id
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -404,7 +407,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
@@ -415,13 +418,13 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
             ->request();
 
         $ilAccess = $DIC->access();
-        
+
         $t_arr = explode("_", $target);
 
         if ($t_arr[0] !== "svy" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
-        
+
         // 360° external raters
         if ($request->getAccessCode()) {
             if (ilObjSurvey::validateExternalRaterCode($t_arr[1], $request->getAccessCode())) {

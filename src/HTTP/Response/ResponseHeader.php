@@ -24,7 +24,6 @@ namespace ILIAS\HTTP\Response;
  */
 interface ResponseHeader
 {
-
     /**
      * Specifying which web sites can participate in cross-origin resource sharing.
      *

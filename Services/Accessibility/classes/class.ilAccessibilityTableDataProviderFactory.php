@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilAccessibilityTableDataProviderFactory
@@ -22,7 +25,7 @@ class ilAccessibilityTableDataProviderFactory
 
     protected ?ilDBInterface $db = null;
 
-    public function getByContext(string $context) : ilAccessibilityTableDataProvider
+    public function getByContext(string $context): ilAccessibilityTableDataProvider
     {
         switch ($context) {
             case self::CONTEXT_DOCUMENTS:
@@ -36,7 +39,7 @@ class ilAccessibilityTableDataProviderFactory
     /**
      * @throws ilAccessibilityMissingDatabaseAdapterException
      */
-    protected function validateConfiguration(array $mandatoryMemberVariables) : void
+    protected function validateConfiguration(array $mandatoryMemberVariables): void
     {
         foreach ($mandatoryMemberVariables as $member) {
             if (null === $this->{$member}) {
@@ -49,7 +52,7 @@ class ilAccessibilityTableDataProviderFactory
     /**
      * @throws InvalidArgumentException
      */
-    protected function getExceptionByMember(string $member) : ilAccessibilityMissingDatabaseAdapterException
+    protected function getExceptionByMember(string $member): ilAccessibilityMissingDatabaseAdapterException
     {
         switch ($member) {
             case 'db':
@@ -62,12 +65,12 @@ class ilAccessibilityTableDataProviderFactory
         }
     }
 
-    public function setDatabaseAdapter(?ilDBInterface $db) : void
+    public function setDatabaseAdapter(?ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function getDatabaseAdapter() : ?ilDBInterface
+    public function getDatabaseAdapter(): ?ilDBInterface
     {
         return $this->db;
     }

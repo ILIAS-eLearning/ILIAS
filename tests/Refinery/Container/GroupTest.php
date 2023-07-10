@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\Container;
 
 use ILIAS\Data\Factory as DataFactory;
@@ -28,13 +30,13 @@ class GroupTest extends TestCase
     private ContainerGroup $group;
     private DataFactory $dataFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->dataFactory = new DataFactory();
         $this->group = new ContainerGroup($this->dataFactory);
     }
 
-    public function testCustomConstraint() : void
+    public function testCustomConstraint(): void
     {
         $instance = $this->group->addLabels(['hello', 'world']);
         $this->assertInstanceOf(AddLabels::class, $instance);

@@ -3,15 +3,20 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * This cron deletes user accounts by INACTIVITY period
@@ -95,40 +100,40 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     /**
      * @param string|int $number
      */
-    protected function isDecimal($number) : bool
+    protected function isDecimal($number): bool
     {
         $number = (string) $number;
 
         return strpos($number, ',') || strpos($number, '.');
     }
 
-    protected function getTimeDifferenceBySchedule(int $schedule_time, int $multiplier) : int
+    protected function getTimeDifferenceBySchedule(CronJobScheduleType $schedule_time, int $multiplier): int
     {
         $time_difference = 0;
 
         switch ($schedule_time) {
-            case ilCronJob::SCHEDULE_TYPE_DAILY:
+            case CronJobScheduleType::SCHEDULE_TYPE_DAILY:
                 $time_difference = 86400;
                 break;
-            case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
+            case CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES:
                 $time_difference = 60 * $multiplier;
                 break;
-            case ilCronJob::SCHEDULE_TYPE_IN_HOURS:
+            case CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS:
                 $time_difference = 3600 * $multiplier;
                 break;
-            case ilCronJob::SCHEDULE_TYPE_IN_DAYS:
+            case CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS:
                 $time_difference = 86400 * $multiplier;
                 break;
-            case ilCronJob::SCHEDULE_TYPE_WEEKLY:
+            case CronJobScheduleType::SCHEDULE_TYPE_WEEKLY:
                 $time_difference = 604800;
                 break;
-            case ilCronJob::SCHEDULE_TYPE_MONTHLY:
+            case CronJobScheduleType::SCHEDULE_TYPE_MONTHLY:
                 $time_difference = 2629743;
                 break;
-            case ilCronJob::SCHEDULE_TYPE_QUARTERLY:
+            case CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY:
                 $time_difference = 7889229;
                 break;
-            case ilCronJob::SCHEDULE_TYPE_YEARLY:
+            case CronJobScheduleType::SCHEDULE_TYPE_YEARLY:
                 $time_difference = 31556926;
                 break;
         }
@@ -136,47 +141,47 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         return $time_difference;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "user_inactive";
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->lng->txt("delete_inactive_user_accounts");
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         return $this->lng->txt("delete_inactive_user_accounts_desc");
     }
-    
-    public function getDefaultScheduleType() : int
+
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
-    
-    public function getDefaultScheduleValue() : ?int
+
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
-    
-    public function hasAutoActivation() : bool
+
+    public function hasAutoActivation(): bool
     {
         return false;
     }
-    
-    public function hasFlexibleSchedule() : bool
+
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
-    
-    public function hasCustomSettings() : bool
+
+    public function hasCustomSettings(): bool
     {
         return true;
     }
-    
-    public function run() : ilCronJobResult
+
+    public function run(): ilCronJobResult
     {
         global $DIC;
 
@@ -228,7 +233,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
             }
             $counter++;
         }
-        
+
         if ($counter) {
             $status = ilCronJobResult::STATUS_OK;
         }
@@ -244,8 +249,8 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 
         return $result;
     }
-    
-    protected function calculateDeletionData(int $date_for_deletion) : int
+
+    protected function calculateDeletionData(int $date_for_deletion): int
     {
         $cron_timing = $this->cronRepository->getCronJobData($this->getId());
         $time_difference = 0;
@@ -260,14 +265,14 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
                 $multiplier = (int) $cron_timing[0]['schedule_value'];
             }
             $time_difference = $this->getTimeDifferenceBySchedule(
-                (int) $cron_timing[0]['schedule_type'],
+                CronJobScheduleType::from((int) $cron_timing[0]['schedule_type']),
                 $multiplier
             );
         }
         return time() + $date_for_deletion + $time_difference;
     }
-    
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
         $this->lng->loadLanguageModule("user");
 
@@ -326,22 +331,22 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         $a_form->addItem($sub_period);
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
         $this->lng->loadLanguageModule("user");
 
         $valid = true;
 
-        $cron_period = $this->http->wrapper()->post()->retrieve(
+        $cron_period = CronJobScheduleType::from($this->http->wrapper()->post()->retrieve(
             'type',
             $this->refinery->kindlyTo()->int()
-        );
+        ));
 
         $cron_period_custom = 0;
         $delete_period = 0;
         $reminder_period = '';
 
-        $empty_string_trafo = $this->refinery->custom()->transformation(static function ($value) : string {
+        $empty_string_trafo = $this->refinery->custom()->transformation(static function ($value): string {
             if ($value === '') {
                 return '';
             }
@@ -409,26 +414,27 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
             );
         }
 
-        if ($cron_period >= ilCronJob::SCHEDULE_TYPE_IN_DAYS && $cron_period <= ilCronJob::SCHEDULE_TYPE_YEARLY && $reminder_period > 0) {
+        if ($cron_period->value >= CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS->value &&
+            $cron_period->value <= CronJobScheduleType::SCHEDULE_TYPE_YEARLY->value && $reminder_period > 0) {
             $logic = true;
             $check_window_logic = $delete_period - $reminder_period;
-            if ($cron_period === ilCronJob::SCHEDULE_TYPE_IN_DAYS) {
+            if ($cron_period === CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS) {
                 if ($check_window_logic < $cron_period_custom) {
                     $logic = false;
                 }
-            } elseif ($cron_period === ilCronJob::SCHEDULE_TYPE_WEEKLY) {
+            } elseif ($cron_period === CronJobScheduleType::SCHEDULE_TYPE_WEEKLY) {
                 if ($check_window_logic <= 7) {
                     $logic = false;
                 }
-            } elseif ($cron_period === ilCronJob::SCHEDULE_TYPE_MONTHLY) {
+            } elseif ($cron_period === CronJobScheduleType::SCHEDULE_TYPE_MONTHLY) {
                 if ($check_window_logic <= 31) {
                     $logic = false;
                 }
-            } elseif ($cron_period === ilCronJob::SCHEDULE_TYPE_QUARTERLY) {
+            } elseif ($cron_period === CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY) {
                 if ($check_window_logic <= 92) {
                     $logic = false;
                 }
-            } elseif ($cron_period === ilCronJob::SCHEDULE_TYPE_YEARLY) {
+            } elseif ($cron_period === CronJobScheduleType::SCHEDULE_TYPE_YEARLY) {
                 if ($check_window_logic <= 366) {
                     $logic = false;
                 }

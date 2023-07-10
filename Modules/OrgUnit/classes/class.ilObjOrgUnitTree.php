@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjOrgUnitTree
@@ -9,136 +24,134 @@
  */
 class ilObjOrgUnitTree
 {
-
-    /**
-     * @var null
-     */
-    protected static $temporary_table_namgetOrgUnitOfUsere = null;
-    /**
-     * @var string
-     */
-    protected static $temporary_table_name;
-    /**
-     * @var  ilObjOrgUnitTree
-     */
-    private static $instance;
-    /**
-     * @var  int[][] "employee" | "superior" => orgu ref id => role id
-     */
-    private $roles;
-    /**
-     * @var  int[][] "employee" | "superior" => role id => orgu ref id
-     */
-    private $role_to_orgu;
-    /**
-     * @var  int[][][] "employee" | "superior" => orgu ref id =>  array(obj_id of users)
-     */
+    protected static ?string $temporary_table_name_getOrgUnitOfUser = null;
+    protected static ?string $temporary_table_name = null;
+    protected static ?ilObjOrgUnitTree $instance = null;
+    /** @var int[][] "employee" | "superior" => orgu_ref_id => role_id */
+    private array $roles;
+    /** @var int[][] "employee" | "superior" => role_id => orgu_ref_id id */
+    private array $role_to_orgu;
+    /** @var int[][][] "employee" | "superior" => orgu ref id =>  array(obj_id of users) */
     private $staff;
-    /**
-     * @var  int[][] org_unit ref id => childrens org_unit ref ids.
-     */
-    private $tree_childs;
-    /**
-     * @var  int[] orgu_ref => parent_ref
-     */
-    private $parent;
-    /**
-     * @var ilDB
-     */
-    private $db;
+    /** @var int[][] org_unit ref id => childrens org_unit ref ids. */
+    private array $tree_childs = [];
+    /** @var int[] orgu_ref => parent_ref */
+    private array $parent = [];
+    private ilDBInterface $db;
+    private ilObjUser $ilUser;
+    private \ilTree $tree;
+    protected \ilOrgUnitPositionDBRepository $positionRepo;
+    protected \ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
 
     private function __construct()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $tree = $DIC['tree'];
-        $this->db = $ilDB;
-        $this->tree = $tree;
+        $this->db = $DIC->database();
+        $this->tree = $DIC->repositoryTree();
         $this->roles = array();
         $this->staff = array();
+        $this->ilUser = $DIC->user();
     }
 
-    /**
-     * @return \ilObjOrgUnitTree
-     */
-    public static function _getInstance()
+    public static function _getInstance(): \ilObjOrgUnitTree
     {
-        if (self::$instance === null) {
-            self::$instance = new self();
+        if (static::$instance === null) {
+            static::$instance = new self();
         }
 
-        return self::$instance;
+        return static::$instance;
+    }
+
+    protected function getPositionRepo(): \ilOrgUnitPositionDBRepository
+    {
+        if (!isset($this->positionRepo)) {
+            $dic = \ilOrgUnitLocalDIC::dic();
+            $this->positionRepo = $dic["repo.Positions"];
+        }
+
+        return $this->positionRepo;
+    }
+
+    protected function getAssignmentRepo(): \ilOrgUnitUserAssignmentDBRepository
+    {
+        if (!isset($this->assignmentRepo)) {
+            $dic = \ilOrgUnitLocalDIC::dic();
+            $this->assignmentRepo = $dic["repo.UserAssignments"];
+        }
+
+        return $this->assignmentRepo;
     }
 
     /**
-     * @param $ref_id    int the reference id of the organisational unit.
-     * @param $recursive bool if true you get the ids of the subsequent orgunits employees too
+     * @deprecated Please use getAssignedUsers()
+     */
+    public function getAssignements(int $ref_id, ilOrgUnitPosition $ilOrgUnitPosition): array
+    {
+        return $this->getAssignedUsers([$ref_id], $ilOrgUnitPosition->getId());
+    }
+
+    /**
+     * @param int[] $orgu_ids
+     * @return int[]
+     */
+    public function getAssignedUsers(array $orgu_ids, int $position_id): array
+    {
+        return $this->getAssignmentRepo()->getUsersByOrgUnitsAndPosition($orgu_ids, $position_id);
+    }
+
+    /**
+     * @param int  $ref_id    the reference id of the organisational unit.
+     * @param bool $recursive if true you get the ids of the subsequent orgunits employees too
+     */
+    public function getEmployees(int $ref_id, bool $recursive = false): array
+    {
+        $employee_position = $this->getPositionRepo()
+            ->getSingle(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE, 'core_identifier')
+            ->getId();
+
+        if ($recursive === false) {
+            return $this->getAssignedUsers(
+                [$ref_id],
+                $employee_position
+            );
+        }
+
+        return $this->getAssignedUsers(
+            $this->getAllChildren($ref_id),
+            $employee_position
+        );
+    }
+
+    /**
+     * @param int  $ref_id    the reference id of the organisational unit.
+     * @param bool $recursive if true you get the ids of the subsequent orgunits superiors too
      * @return int[] array of user ids.
      */
-    public function getEmployees($ref_id, $recursive = false)
+    public function getSuperiors(int $ref_id, bool $recursive = false): array
     {
-        $arr_usr_ids = [];
+        $superior_position = $this->getPositionRepo()
+            ->getSingle(ilOrgUnitPosition::CORE_POSITION_SUPERIOR, 'core_identifier')
+            ->getId();
 
-        switch ($recursive) {
-            case false:
-                $arr_usr_ids = $this->getAssignements($ref_id,
-                    ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE));
-                break;
-            case true:
-                $assignment_query = ilOrgUnitUserAssignmentQueries::getInstance();
-                $arr_usr_ids = $assignment_query->getUserIdsOfOrgUnitsInPosition($this->getAllChildren($ref_id),
-                    ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
-                break;
+        if ($recursive === false) {
+            return $this->getAssignedUsers(
+                [$ref_id],
+                $superior_position
+            );
         }
 
-        return $arr_usr_ids;
+        return $this->getAssignedUsers(
+            $this->getAllChildren($ref_id),
+            $superior_position
+        );
     }
 
     /**
-     * @param int                $ref_id
-     * @param \ilOrgUnitPosition $ilOrgUnitPosition
-     * @return array
-     */
-    public function getAssignements($ref_id, ilOrgUnitPosition $ilOrgUnitPosition)
-    {
-        return ilOrgUnitUserAssignment::where(array(
-            'orgu_id' => $ref_id,
-            'position_id' => $ilOrgUnitPosition->getId(),
-        ))->getArray('id', 'user_id');
-    }
-
-    /**
-     * @param  $ref_id         int the reference id of the organisational unit.
-     * @param  $recursive      bool if true you get the ids of the subsequent orgunits superiors too
-     * @return int[]  array of user ids.
-     */
-    public function getSuperiors($ref_id, $recursive = false)
-    {
-        $arr_usr_ids = [];
-
-        switch ($recursive) {
-            case false:
-                $arr_usr_ids = $this->getAssignements($ref_id,
-                    ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR));
-                break;
-            case true:
-                foreach ($this->getAllChildren($ref_id) as $ref_id) {
-                    $arr_usr_ids = $arr_usr_ids
-                        + $this->getAssignements($ref_id,
-                            ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR));
-                }
-                break;
-        }
-
-        return $arr_usr_ids;
-    }
-
-    /**
-     * @param $title   "employee" or "superior"
-     * @param $ref_ids int[] array of orgu object ref ids.
+     * @param string $title   "employee" or "superior"
+     * @param int[]  $ref_ids array of orgu object ref ids.
      * @return int[] user_ids
      */
-    private function loadArrayOfStaff($title, $ref_ids)
+    private function loadArrayOfStaff(string $title, array $ref_ids): array
     {
         $this->loadRoles($title);
         $all_refs = $ref_ids;
@@ -163,19 +176,14 @@ class ilObjOrgUnitTree
         }
 
         //collect * users.
-        $all_users = array();
+        $all_users = [];
         foreach ($all_refs as $ref) {
             $all_users = array_merge($all_users, $this->staff[$title][$ref]);
         }
-
         return $all_users;
     }
 
-    /**
-     * @param $ref_id
-     * @return array
-     */
-    public function getAllChildren($ref_id)
+    public function getAllChildren(int $ref_id): array
     {
         $open = array($ref_id);
         $closed = array();
@@ -183,7 +191,7 @@ class ilObjOrgUnitTree
             $ref = array_pop($open);
             $closed[] = $ref;
             foreach ($this->getChildren($ref) as $child) {
-                if (!in_array($child, $open) && !in_array($child, $closed)) {
+                if (in_array($child, $open, true) === false && in_array($child, $closed, true) === false) {
                     $open[] = $child;
                 }
             }
@@ -195,13 +203,10 @@ class ilObjOrgUnitTree
     /**
      * If you want to have all orgunits where the current user has the write permission: use this
      * with the parameter "write".
-     * @param $operation string
      * @return int[] ids of the org units.
      */
-    public function getOrgusWhereUserHasPermissionForOperation($operation)
+    public function getOrgusWhereUserHasPermissionForOperation($operation): array
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
         /*$q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
         INNER JOIN rbac_operations ON rbac_operations.operation = ".$this->db->quote($operation, "text")."
         INNER JOIN rbac_ua ON rbac_ua.usr_id = ".$this->db->quote($ilUser->getId(), "integer")."
@@ -213,17 +218,17 @@ class ilObjOrgUnitTree
 
         $q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
 		INNER JOIN rbac_operations ON rbac_operations.operation = " . $this->db->quote($operation, "text") . "
-		INNER JOIN rbac_ua ON rbac_ua.usr_id = " . $this->db->quote($ilUser->getId(), "integer") . "
+		INNER JOIN rbac_ua ON rbac_ua.usr_id = " . $this->db->quote($this->ilUser->getId(), "integer") . "
 		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', rbac_operations.ops_id, '%')
 		INNER JOIN object_reference ON object_reference.ref_id = rbac_pa.ref_id
 		WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'orgu'";
 
         $set = $this->db->query($q);
-        $orgus = array();
+        $orgus = [];
         while ($res = $this->db->fetchAssoc($set)) {
             //this is needed as the table rbac_operations is not in the first normal form, thus this needs some additional checkings.
-            $perm_check = unserialize($res['ops_id']);
-            if (!in_array($res["op_id"], $perm_check)) {
+            $perm_check = unserialize($res['ops_id'], ['allowed_classes' => true]);
+            if (in_array($res["op_id"], $perm_check, true) === false) {
                 continue;
             }
 
@@ -236,17 +241,16 @@ class ilObjOrgUnitTree
     /**
      * If you want to have all orgunits where the current user has the write permission: use this
      * with the parameter 3 (3 is the "write" permission as in rbac_operations).
-     * @param $operation_id
      * @return int[] ids of the org units.
      */
-    public function getOrgusWhereUserHasPermissionForOperationId($operation_id)
+    public function getOrgusWhereUserHasPermissionForOperationId(string $operation_id): array
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
         $q = "SELECT object_data.obj_id, object_data.title, object_data.type, rbac_pa.ops_id FROM object_data
-		INNER JOIN rbac_ua ON rbac_ua.usr_id = " . $this->db->quote($ilUser->getId(), "integer") . "
-		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', " . $this->db->quote($operation_id,
-                "integer") . ", '%')
+		INNER JOIN rbac_ua ON rbac_ua.usr_id = " . $this->db->quote($this->ilUser->getId(), "integer") . "
+		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', " . $this->db->quote(
+            $operation_id,
+            "integer"
+        ) . ", '%')
 		INNER JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
 		INNER JOIN tree ON tree.child = rbac_fa.parent
 		INNER JOIN object_reference ON object_reference.ref_id = tree.parent
@@ -256,8 +260,8 @@ class ilObjOrgUnitTree
         $orgus = array();
         while ($res = $this->db->fetchAssoc($set)) {
             //this is needed as the table rbac_operations is not in the first normal form, thus this needs some additional checkings.
-            $perm_check = unserialize($res['ops_id']);
-            if (!in_array($res["ops_id"], $perm_check)) {
+            $perm_check = unserialize($res['ops_id'], ['allowed_classes' => true]);
+            if (in_array($res["ops_id"], $perm_check, true) === false) {
                 continue;
             }
 
@@ -267,38 +271,26 @@ class ilObjOrgUnitTree
         return $orgus;
     }
 
-    /**
-     * @param $ref_id
-     * @return int[]
-     */
-    private function getChildren($ref_id)
+    private function getChildren(int $ref_id): array
     {
         $this->loadChildren($ref_id);
-
         return $this->tree_childs[$ref_id];
     }
 
-    /**
-     * @param $ref_id
-     */
-    private function loadChildren($ref_id)
+    private function loadChildren(int $ref_id): void
     {
-        if (!$this->tree_childs[$ref_id]) {
-            $children = array();
+        if (!array_key_exists($ref_id, $this->tree_childs)) {
+            $children = [];
             foreach ($this->tree->getChilds($ref_id) as $child) {
                 if ($child["type"] == "orgu") {
                     $children[] = $child["child"];
                 }
             }
             $this->tree_childs[$ref_id] = $children;
-        };
+        }
     }
 
-    /**
-     * @param $level
-     * @return array
-     */
-    public function getAllOrgunitsOnLevelX($level)
+    public function getAllOrgunitsOnLevelX(int $level): array
     {
         $levels = array(0 => array(ilObjOrgUnit::getRootOrgRefId()));
         $current_level = 0;
@@ -316,49 +308,36 @@ class ilObjOrgUnitTree
     }
 
     /**
-     * @param $user_id   int
-     * @param $recursive bool if this is true subsequent orgunits of this users superior role get
-     *                   searched as well.
+     * @param bool $recursive if this is true subsequent orgunits of this users superior role get
+     *                        searched as well.
      * @return int[] returns an array of user_ids of the users which have an employee role in an
-     *                   orgunit of which this user's id has a superior role.
+     *                        orgunit of which this user's id has a superior role.
      */
-    public function getEmployeesUnderUser($user_id, $recursive = true)
+    public function getEmployeesUnderUser(int $user_id, bool $recursive = true): array
     {
-        $employees = [];
-        $assignment_query = ilOrgUnitUserAssignmentQueries::getInstance();
+        $superior_position = $this->getPositionRepo()
+            ->getSingle(ilOrgUnitPosition::CORE_POSITION_SUPERIOR, 'core_identifier')
+            ->getId();
+        $employee_position = $this->getPositionRepo()
+            ->getSingle(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE, 'core_identifier')
+            ->getId();
 
-        $orgu_ref_ids = $assignment_query->getOrgUnitIdsOfUsersPosition(
-            ilOrgUnitPosition::CORE_POSITION_SUPERIOR,
-            $user_id
+        $orgu_ids = $this->getAssignmentRepo()
+            ->getOrgUnitsByUserAndPosition($user_id, $superior_position, $recursive);
+
+        return $this->getAssignedUsers(
+            $orgu_ids,
+            $employee_position
         );
-
-        switch ($recursive) {
-            case true:
-                $orgu_ref_id_with_children = [];
-                foreach ($orgu_ref_ids as $orgu_ref_id) {
-                    $orgu_ref_id_with_children = array_merge($orgu_ref_ids, $this->getAllChildren($orgu_ref_id));
-                }
-
-                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_id_with_children,
-                    ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
-                break;
-            default:
-                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_ids,
-                    ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
-                break;
-        }
-
-        return [];
     }
 
     /**
-     * @param $user_id   int
-     * @param $recursive bool if this is true subsequent orgunits of this users superior role get
-     *                   searched as well.
+     * @param bool $recursive if this is true subsequent orgunits of this users superior role get
+     *                        searched as well.
      * @return int[] returns an array of user_ids of the users which have an employee role in an
-     *                   orgunit of which this user's id has a superior role.
+     *                        orgunit of which this user's id has a superior role.
      */
-    public function getSuperiorsOfUser($user_id, $recursive = true)
+    public function getSuperiorsOfUser(int $user_id, bool $recursive = true): array
     {
         //querry for all orgu where user_id is superior.
         $q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
@@ -381,11 +360,10 @@ class ilObjOrgUnitTree
 
     /**
      * for additional info see the other getLevelX method.
-     * @param $user_id
-     * @param $level
+     * @param int $user_id
      * @return int[]
      */
-    public function getLevelXOfUser($user_id, $level)
+    public function getLevelXOfUser(int $user_id, int $level): array
     {
         $q = "SELECT object_reference.ref_id FROM rbac_ua
 				JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
@@ -411,21 +389,11 @@ class ilObjOrgUnitTree
     }
 
     /**
-     * getOrgUnitOfUser
-     * @param     $user_id
-     * @param int $ref_id if given, only OrgUnits under this ID are returned (including $ref_id)
      * @return int[]
      */
-    public function getOrgUnitOfUser($user_id)
+    public function getOrgUnitOfUser(int $user_id): array
     {
-        $orgu_ref_ids = [];
-        $orgu_query = ilOrgUnitUserAssignmentQueries::getInstance();
-
-        $orgus = $orgu_query->getAssignmentsOfUserId($user_id);
-        foreach ($orgus as $orgu) {
-            $orgu_ref_ids[] = $orgu->getOrguId();
-        }
-        return $orgu_ref_ids;
+        return $this->getAssignmentRepo()->getOrgUnitsByUser($user_id);
     }
 
     /**
@@ -440,7 +408,7 @@ class ilObjOrgUnitTree
      * @return bool
      * @throws ilException
      */
-    public function buildTempTableWithUsrAssignements($temporary_table_name = 'orgu_usr_assignements')
+    public function buildTempTableWithUsrAssignements(string $temporary_table_name = 'orgu_usr_assignements'): bool
     {
         if (self::$temporary_table_name == $temporary_table_name) {
             return true;
@@ -465,14 +433,10 @@ class ilObjOrgUnitTree
         return true;
     }
 
-    /**
-     * @param $temporary_table_name
-     * @return bool
-     */
-    public function dropTempTable($temporary_table_name)
+    public function dropTempTable(string $temporary_table_name): bool
     {
         if (self::$temporary_table_name === null
-            || $temporary_table_name != self::$temporary_table_name
+            || $temporary_table_name !== self::$temporary_table_name
         ) {
             return false;
         }
@@ -484,11 +448,7 @@ class ilObjOrgUnitTree
         return true;
     }
 
-    /**
-     * @param $org_refs
-     * @return array
-     */
-    public function getTitles($org_refs)
+    public function getTitles(array $org_refs): array
     {
         $names = array();
         foreach ($org_refs as $org_unit) {
@@ -501,42 +461,35 @@ class ilObjOrgUnitTree
     /**
      * @return int[] returns an array of role_ids. orgu_ref => role_id
      */
-    public function getEmployeeRoles()
+    public function getEmployeeRoles(): array
     {
         $this->loadRoles("employee");
-
         return $this->roles["employee"];
     }
 
     /**
-     * @return \int[]
+     * @return int[]
      */
-    public function getSuperiorRoles()
+    public function getSuperiorRoles(): array
     {
         $this->loadRoles("superior");
 
         return $this->roles["superior"];
     }
 
-    /**
-     * @param $role
-     */
-    private function loadRoles($role)
+    private function loadRoles(string $role)
     {
         if ($this->roles[$role] == null) {
             $this->loadRolesQuery($role);
         }
     }
 
-    public function flushCache()
+    public function flushCache(): void
     {
         $this->roles = null;
     }
 
-    /**
-     * @param $role
-     */
-    private function loadRolesQuery($role)
+    private function loadRolesQuery(string $role): void
     {
         $this->roles[$role] = array();
         $q = "SELECT obj_id, title FROM object_data WHERE type = 'role' AND title LIKE 'il_orgu_" . $role . "%'";
@@ -548,11 +501,7 @@ class ilObjOrgUnitTree
         }
     }
 
-    /**
-     * @param $role_title
-     * @return int
-     */
-    private function getRefIdFromRoleTitle($role_title)
+    private function getRefIdFromRoleTitle(string $role_title): int
     {
         $array = explode("_", $role_title);
 
@@ -570,14 +519,12 @@ class ilObjOrgUnitTree
      * -
      * 6
      * (6, 1) = 1; (4, 1) = 2; (6, 2) = 3;
-     * @param $orgu_ref
-     * @param $level
      * @return int|bool ref_id of the orgu or false if not found.
      * @throws Exception in case there's a thread of an infinite loop or if you try to fetch the
      *                   third level but there are only two (e.g. you want to fetch lvl 1 but give
      *                   the root node as reference).
      */
-    public function getLevelXOfTreenode($orgu_ref, $level)
+    public function getLevelXOfTreenode(int $orgu_ref, int $level)
     {
         $line = array($orgu_ref);
         $current_ref = $orgu_ref;
@@ -601,13 +548,9 @@ class ilObjOrgUnitTree
         }
     }
 
-    /**
-     * @param $orgu_ref int
-     * @return int
-     */
-    public function getParent($orgu_ref)
+    public function getParent(int $orgu_ref): int
     {
-        if (!$this->parent[$orgu_ref]) {
+        if (array_key_exists($orgu_ref, $this->parent) === false) {
             $this->parent[$orgu_ref] = $this->tree->getParentId($orgu_ref);
         }
 

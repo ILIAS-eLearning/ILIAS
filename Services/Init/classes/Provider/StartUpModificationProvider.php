@@ -11,11 +11,10 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class StartUpModificationProvider extends AbstractModificationProvider
 {
-
     /**
      * @inheritDoc
      */
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->external();
     }

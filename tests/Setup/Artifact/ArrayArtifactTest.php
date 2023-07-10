@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup\Artifact;
 
 use ILIAS\Setup\Artifact;
@@ -23,7 +25,7 @@ use PHPUnit\Framework\TestCase;
 
 class ArrayArtifactTest extends TestCase
 {
-    public function testSerialize() : void
+    public function testSerialize(): void
     {
         $data = [
             "one" => 1,
@@ -40,7 +42,7 @@ class ArrayArtifactTest extends TestCase
         $this->assertEquals($data, eval("?>" . $serialized));
     }
 
-    public function testOnlyPrimitives() : void
+    public function testOnlyPrimitives(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 

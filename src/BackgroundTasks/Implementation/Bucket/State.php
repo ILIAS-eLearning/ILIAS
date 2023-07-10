@@ -15,12 +15,11 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Bucket;
 
 class State
 {
-    
     /**
      * @var int In the database, not yet started by a worker.
      */

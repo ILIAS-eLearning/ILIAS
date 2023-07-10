@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjCertificateSettingsAccess
  * @author  Helmut Schottmüller <ilias@aurealis.de>
@@ -23,17 +25,17 @@
  */
 class ilObjCertificateSettingsAccess extends ilObjectAccess
 {
-    public static function hasBackgroundImage() : bool
+    public static function hasBackgroundImage(): bool
     {
         return is_file(self::getBackgroundImagePath()) && filesize(self::getBackgroundImagePath()) > 0;
     }
 
-    public static function getBackgroundImageDefaultFolder() : string
+    public static function getBackgroundImageDefaultFolder(): string
     {
         return CLIENT_WEB_DIR . "/certificates/default/";
     }
 
-    public static function getBackgroundImagePath(bool $asRelative = false) : string
+    public static function getBackgroundImagePath(bool $asRelative = false): string
     {
         $imagePath = self::getBackgroundImageDefaultFolder() . self::getBackgroundImageName();
 
@@ -48,17 +50,17 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
         return $imagePath;
     }
 
-    public static function getBackgroundImageName() : string
+    public static function getBackgroundImageName(): string
     {
         return "background.jpg";
     }
 
-    public static function getBackgroundImageThumbPath() : string
+    public static function getBackgroundImageThumbPath(): string
     {
         return self::getBackgroundImageDefaultFolder() . self::getBackgroundImageName() . ".thumb.jpg";
     }
 
-    public static function getBackgroundImageThumbPathWeb() : string
+    public static function getBackgroundImageThumbPathWeb(): string
     {
         return str_replace(
             ilFileUtils::removeTrailingPathSeparators(

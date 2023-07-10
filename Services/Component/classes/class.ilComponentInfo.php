@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+declare(strict_types=1);
 
 /**
  * Simple value class for basic information about a component.
@@ -36,22 +54,22 @@ class ilComponentInfo
         $this->pluginslots = &$pluginslots;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getQualifiedName() : string
+    public function getQualifiedName(): string
     {
         return $this->type . "/" . $this->name;
     }
@@ -59,14 +77,14 @@ class ilComponentInfo
     /**
      * @return Iterator <ilPluginSlotInfo>
      */
-    public function getPluginSlots() : Iterator
+    public function getPluginSlots(): Iterator
     {
         foreach ($this->pluginslots as $id => $slot) {
             yield $slot->getId() => $slot;
         }
     }
 
-    public function hasPluginSlotId(string $id) : bool
+    public function hasPluginSlotId(string $id): bool
     {
         foreach ($this->pluginslots as $slot) {
             if ($slot->getId() === $id) {
@@ -79,7 +97,7 @@ class ilComponentInfo
     /**
      * @throw \InvalidArgumentException if there is no such slot
      */
-    public function getPluginSlotById(string $id) : \ilPluginSlotInfo
+    public function getPluginSlotById(string $id): \ilPluginSlotInfo
     {
         foreach ($this->pluginslots as $slot) {
             if ($slot->getId() === $id) {
@@ -91,7 +109,7 @@ class ilComponentInfo
         );
     }
 
-    public function hasPluginSlotName(string $name) : bool
+    public function hasPluginSlotName(string $name): bool
     {
         foreach ($this->pluginslots as $slot) {
             if ($slot->getName() === $name) {
@@ -104,7 +122,7 @@ class ilComponentInfo
     /**
      * @throw \InvalidArgumentException if there is no such slot
      */
-    public function getPluginSlotByName(string $name) : \ilPluginSlotInfo
+    public function getPluginSlotByName(string $name): \ilPluginSlotInfo
     {
         foreach ($this->pluginslots as $slot) {
             if ($slot->getName() === $name) {

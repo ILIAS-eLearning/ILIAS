@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,7 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Mail notifications
@@ -29,7 +32,7 @@ class ilMailCronNotification extends ilCronJob
     protected ilSetting $settings;
     protected bool $initDone = false;
 
-    protected function init() : void
+    protected function init(): void
     {
         global $DIC;
 
@@ -42,19 +45,19 @@ class ilMailCronNotification extends ilCronJob
         }
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return 'mail_notification';
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $this->init();
 
         return $this->lng->txt('cron_mail_notification');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         $this->init();
 
@@ -66,32 +69,32 @@ class ilMailCronNotification extends ilCronJob
         );
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
-    
-    public function hasAutoActivation() : bool
+
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
 
-    public function hasCustomSettings() : bool
+    public function hasCustomSettings(): bool
     {
         return true;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $msn = new ilMailSummaryNotification();
         $msn->send();
@@ -101,7 +104,7 @@ class ilMailCronNotification extends ilCronJob
         return $result;
     }
 
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
         $this->init();
         $cb = new ilCheckboxInputGUI(
@@ -113,7 +116,7 @@ class ilMailCronNotification extends ilCronJob
         $a_form->addItem($cb);
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
         $this->init();
         $this->settings->set(
@@ -123,7 +126,7 @@ class ilMailCronNotification extends ilCronJob
         return true;
     }
 
-    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active) : void
+    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active): void
     {
         $setting->set('mail_notification', (string) ((int) $a_currently_active));
     }

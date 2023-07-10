@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,21 +16,23 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilSamlSettings
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlSettings
+final class ilSamlSettings
 {
-    protected static ?self $instance = null;
-    protected ilSetting $settings;
+    private static ?self $instance = null;
+    private readonly ilSetting $settings;
 
-    protected function __construct()
+    private function __construct()
     {
         $this->settings = new ilSetting('auth_saml');
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         if (null === self::$instance) {
             self::$instance = new self();
@@ -39,12 +41,12 @@ class ilSamlSettings
         return self::$instance;
     }
 
-    public function isDisplayedOnLoginPage() : bool
+    public function isDisplayedOnLoginPage(): bool
     {
         return (bool) $this->settings->get('login_form', '0');
     }
 
-    public function setLoginFormStatus(bool $displayed_on_login_page) : void
+    public function setLoginFormStatus(bool $displayed_on_login_page): void
     {
         $this->settings->set('login_form', (string) ((int) $displayed_on_login_page));
     }

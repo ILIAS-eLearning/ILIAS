@@ -28,7 +28,7 @@ interface ilCtrlSecurityInterface
      *
      * @return string[]
      */
-    public function getUnsafeGetCommands() : array;
+    public function getUnsafeGetCommands(): array;
 
     /**
      * This method must return a list of safe POST commands.
@@ -38,5 +38,5 @@ interface ilCtrlSecurityInterface
      *
      * @return string[]
      */
-    public function getSafePostCommands() : array;
+    public function getSafePostCommands(): array;
 }

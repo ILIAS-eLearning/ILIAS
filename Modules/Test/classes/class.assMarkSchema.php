@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -15,12 +30,8 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class ASS_MarkSchema
 {
-    /** @var $mark_steps array An array containing all mark steps defined for the test. */
     public array $mark_steps;
 
-    /**
-     * ASS_MarkSchema constructor
-     */
     public function __construct()
     {
         $this->mark_steps = array();
@@ -42,14 +53,14 @@ class ASS_MarkSchema
      * @param integer   $passed_passed       Indicates the passed status of the passed mark (0 = failed, 1 = passed).
      */
     public function createSimpleSchema(
-        $txt_failed_short = "failed",
-        $txt_failed_official = "failed",
-        $percentage_failed = 0,
-        $failed_passed = 0,
-        $txt_passed_short = "passed",
-        $txt_passed_official = "passed",
-        $percentage_passed = 50,
-        $passed_passed = 1
+        string $txt_failed_short = "failed",
+        string $txt_failed_official = "failed",
+        float $percentage_failed = 0,
+        int $failed_passed = 0,
+        string $txt_passed_short = "passed",
+        string $txt_passed_official = "passed",
+        float $percentage_passed = 50,
+        int $passed_passed = 1
     ) {
         $this->flush();
         $this->addMarkStep($txt_failed_short, $txt_failed_official, $percentage_failed, $failed_passed);
@@ -62,31 +73,24 @@ class ASS_MarkSchema
      *
      * @see $mark_steps
      *
-     * @param string		$txt_short    The short text of the mark.
-     * @param string		$txt_official The official text of the mark.
-     * @param float|integer	$percentage   The minimum percentage level reaching the mark.
-     * @param integer		$passed       The passed status of the mark (0 = failed, 1 = passed).
+     * @param string  $txt_short    The short text of the mark.
+     * @param string  $txt_official The official text of the mark.
+     * @param float   $percentage   The minimum percentage level reaching the mark.
+     * @param integer $passed       The passed status of the mark (0 = failed, 1 = passed).
      */
-    public function addMarkStep($txt_short = "", $txt_official = "", $percentage = 0, $passed = 0)
+    public function addMarkStep(string $txt_short = "", string $txt_official = "", $percentage = 0, $passed = 0): void
     {
-        require_once './Modules/Test/classes/class.assMark.php';
         $mark = new ASS_Mark($txt_short, $txt_official, $percentage, $passed);
         array_push($this->mark_steps, $mark);
     }
 
-    /**
-     * Saves an ASS_MarkSchema object to a database.
-     *
-     * @param integer $test_id The database id of the related test.
-     */
-    public function saveToDb($test_id)
+    public function saveToDb(int $test_id): void
     {
         global $DIC;
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
 
         $oldmarks = array();
-        include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             $result = $ilDB->queryF(
                 "SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
@@ -100,7 +104,7 @@ class ASS_MarkSchema
                 }
             }
         }
-        
+
         if (!$test_id) {
             return;
         }
@@ -113,7 +117,7 @@ class ASS_MarkSchema
         if (count($this->mark_steps) == 0) {
             return;
         }
-    
+
         // Write new datasets
         foreach ($this->mark_steps as $key => $value) {
             $next_id = $ilDB->nextId('tst_mark');
@@ -123,8 +127,8 @@ class ASS_MarkSchema
                 array(
                     $next_id,
                     $test_id,
-                    $value->getShortName(),
-                    $value->getOfficialName(),
+                    substr($value->getShortName(), 0, 15),
+                    substr($value->getOfficialName(), 0, 50),
                     $value->getMinimumLevel(),
                     $value->getPassed(),
                     time()
@@ -182,16 +186,11 @@ class ASS_MarkSchema
         }
     }
 
-    /**
-     * Loads an ASS_MarkSchema object from a database.
-     *
-     * @param integer $test_id A unique key which defines the test in the database.
-     */
-    public function loadFromDb($test_id)
+    public function loadFromDb(int $test_id): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         if (!$test_id) {
             return;
         }
@@ -203,29 +202,24 @@ class ASS_MarkSchema
         if ($result->numRows() > 0) {
             /** @noinspection PhpAssignmentInConditionInspection */
             while ($data = $ilDB->fetchAssoc($result)) {
-                $this->addMarkStep($data["short_name"], $data["official_name"], $data["minimum_level"], $data["passed"]);
+                $this->addMarkStep($data["short_name"], $data["official_name"], (float) $data["minimum_level"], (int) $data["passed"]);
             }
         }
     }
-  
-    /**
-     * Empties the mark schema and removes all mark steps.
-     *
-     * @see $mark_steps
-     */
-    public function flush()
+
+    public function flush(): void
     {
         $this->mark_steps = array();
     }
-  
+
     /**
      * Sorts the mark schema using the minimum level values.
      *
      * @see $mark_steps
      */
-    public function sort()
+    public function sort(): void
     {
-        function level_sort($a, $b) : int
+        function level_sort($a, $b): int
         {
             if ($a->getMinimumLevel() == $b->getMinimumLevel()) {
                 $res = strcmp($a->getShortName(), $b->getShortName());
@@ -239,7 +233,7 @@ class ASS_MarkSchema
         }
         usort($this->mark_steps, 'level_sort');
     }
-  
+
     /**
      * Deletes the mark step with a given index.
      *
@@ -264,12 +258,9 @@ class ASS_MarkSchema
 
     /**
      * Deletes multiple mark steps using their index positions.
-     *
-     * @see $mark_steps
-     *
      * @param array $indexes An array with all the index positions to delete.
      */
-    public function deleteMarkSteps($indexes)
+    public function deleteMarkSteps(array $indexes): void
     {
         foreach ($indexes as $key => $index) {
             if (!(($index < 0) or (count($this->mark_steps) < 1))) {
@@ -292,14 +283,15 @@ class ASS_MarkSchema
     {
         for ($i = count($this->mark_steps) - 1; $i >= 0; $i--) {
             $curMinLevel = $this->mark_steps[$i]->getMinimumLevel();
-
-            if ($percentage > $curMinLevel || (string) $percentage == (string) $curMinLevel) { // >= does NOT work since PHP is a fucking female float pig !!!!
+            $reached = round($percentage, 2);
+            $level = round($curMinLevel, 2);
+            if ($reached >= $level) {
                 return $this->mark_steps[$i];
             }
         }
         return false;
     }
-  
+
     /**
      * Returns the matching mark for a given percentage.
      *
@@ -308,7 +300,7 @@ class ASS_MarkSchema
      * @param integer 	$test_id 	The database id of the test.
      * @param double 	$percentage	A percentage value between 0 and 100.
      *
-     * @return mixed The mark object, if a matching mark was found, false otherwise.
+     * @return false|ASS_Mark The mark object, if a matching mark was found, false otherwise.
      */
     public static function _getMatchingMark($test_id, $percentage)
     {
@@ -335,11 +327,10 @@ class ASS_MarkSchema
      * @see $mark_steps
      *
      * @param integer	$a_obj_id 	The database id of the test.
-     * @param double 	$percentage A percentage value between 0 and 100.
      *
-     * @return mixed The mark object, if a matching mark was found, false otherwise.
+     * @return false|ASS_Mark The mark object, if a matching mark was found, false otherwise.
      */
-    public static function _getMatchingMarkFromObjId($a_obj_id, $percentage)
+    public static function _getMatchingMarkFromObjId($a_obj_id, float $percentage)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -355,7 +346,7 @@ class ASS_MarkSchema
         }
         return false;
     }
-    
+
     /**
      * Returns the matching mark for a given percentage
      *
@@ -376,7 +367,7 @@ class ASS_MarkSchema
             array('integer'),
             array($active_id)
         );
-        
+
         /** @noinspection PhpAssignmentInConditionInspection */
         while ($row = $ilDB->fetchAssoc($result)) {
             if ($percentage >= $row["minimum_level"]) {
@@ -385,7 +376,7 @@ class ASS_MarkSchema
         }
         return false;
     }
-    
+
     /**
      * Check the marks for consistency.
      *
@@ -405,11 +396,11 @@ class ASS_MarkSchema
                 $passed++;
             }
         }
-        
+
         if ($minimum_percentage != 0) {
             return "min_percentage_ne_0";
         }
-        
+
         if ($passed == 0) {
             return "no_passed_mark";
         }
@@ -419,7 +410,7 @@ class ASS_MarkSchema
     /**
      * @return ASS_Mark[]
      */
-    public function getMarkSteps() : array
+    public function getMarkSteps(): array
     {
         return $this->mark_steps;
     }
@@ -427,25 +418,19 @@ class ASS_MarkSchema
     /**
      * @param ASS_Mark[] $mark_steps
      */
-    public function setMarkSteps($mark_steps)
+    public function setMarkSteps(array $mark_steps): void
     {
         $this->mark_steps = $mark_steps;
     }
 
     /**
      * Logs an action into the Test&Assessment log.
-     *
-     * @param integer 	$test_id The database id of the test.
-     * @param string 	$logtext The log text.
-     *
-     * @return void
      */
-    public function logAction($test_id, $logtext = "")
+    public function logAction($test_id, string $logtext = ""): void
     {
         /** @var $ilUser ilObjUser */
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         ilObjAssessmentFolder::_addLog($ilUser->getId(), ilObjTest::_getObjectIDFromTestID($test_id), $logtext, "", "", true);
     }
 }

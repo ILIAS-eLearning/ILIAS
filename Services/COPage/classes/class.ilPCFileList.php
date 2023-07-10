@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCFileList
@@ -20,64 +23,52 @@
  */
 class ilPCFileList extends ilPageContent
 {
-    public php4DOMElement $list_node;
-
-    public function init() : void
+    public function init(): void
     {
         $this->setType("flst");
-    }
-
-    public function setNode(php4DOMElement $a_node) : void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->list_node = $a_node->first_child();		// this is the Table node
     }
 
     public function create(
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
-        $this->node = $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->list_node = $this->dom->create_element("FileList");
-        $this->list_node = $this->node->append_child($this->list_node);
+    ): void {
+        $this->createInitialChildNode($a_hier_id, $a_pc_id, "FileList");
     }
 
     public function appendItem(
         int $a_id,
         string $a_location,
         string $a_format
-    ) : void {
+    ): void {
         // File Item
-        $new_item = $this->dom->create_element("FileItem");
-        $new_item = $this->list_node->append_child($new_item);
+        $new_item = $this->dom_doc->createElement("FileItem");
+        $new_item = $this->getChildNode()->appendChild($new_item);
 
         // Identifier
-        $id_node = $this->dom->create_element("Identifier");
-        $id_node = $new_item->append_child($id_node);
-        $id_node->set_attribute("Catalog", "ILIAS");
-        $id_node->set_attribute("Entry", "il__file_" . $a_id);
+        $id_node = $this->dom_doc->createElement("Identifier");
+        $id_node = $new_item->appendChild($id_node);
+        $id_node->setAttribute("Catalog", "ILIAS");
+        $id_node->setAttribute("Entry", "il__file_" . $a_id);
 
         // Location
-        $loc_node = $this->dom->create_element("Location");
-        $loc_node = $new_item->append_child($loc_node);
-        $loc_node->set_attribute("Type", "LocalFile");
-        $loc_node->set_content($a_location);
+        $loc_node = $this->dom_doc->createElement("Location");
+        $loc_node = $new_item->appendChild($loc_node);
+        $loc_node->setAttribute("Type", "LocalFile");
+        $this->dom_util->setContent($loc_node, $a_location);
 
         // Format
-        $form_node = $this->dom->create_element("Format");
-        $form_node = $new_item->append_child($form_node);
-        $form_node->set_content($a_format);
+        $form_node = $this->dom_doc->createElement("Format");
+        $form_node = $new_item->appendChild($form_node);
+        $this->dom_util->setContent($form_node, $a_format);
     }
 
     public function setListTitle(
         string $a_title,
         string $a_language
-    ) : void {
-        ilDOMUtil::setFirstOptionalElement(
-            $this->dom,
-            $this->list_node,
+    ): void {
+        $this->dom_util->setFirstOptionalElement(
+            $this->getChildNode(),
             "Title",
             array("FileItem"),
             $a_title,
@@ -85,48 +76,45 @@ class ilPCFileList extends ilPageContent
         );
     }
 
-    public function getListTitle() : string
+    public function getListTitle(): string
     {
-        $chlds = $this->list_node->child_nodes();
-        for ($i = 0; $i < count($chlds); $i++) {
-            if ($chlds[$i]->node_name() == "Title") {
-                return $chlds[$i]->get_content();
+        foreach ($this->getChildNode()->childNodes as $c) {
+            if ($c->nodeName === "Title") {
+                return $c->nodeValue;
             }
         }
         return "";
     }
 
-    public function getLanguage() : string
+    public function getLanguage(): string
     {
-        $chlds = $this->list_node->child_nodes();
-        for ($i = 0; $i < count($chlds); $i++) {
-            if ($chlds[$i]->node_name() == "Title") {
-                return $chlds[$i]->get_attribute("Language");
+        foreach ($this->getChildNode()->childNodes as $c) {
+            if ($c->nodeName === "Title") {
+                return $c->getAttribute("Language");
             }
         }
         return "";
     }
-    
+
     /**
      * Get list of files
      */
-    public function getFileList() : array
+    public function getFileList(): array
     {
         $files = array();
-        
+
         // File Item
-        $childs = $this->list_node->child_nodes();
-        for ($i = 0; $i < count($childs); $i++) {
-            if ($childs[$i]->node_name() == "FileItem") {
+        foreach ($this->getChildNode()->childNodes as $c) {
+            if ($c->nodeName === "FileItem") {
                 $id = $entry = "";
-                $pc_id = $childs[$i]->get_attribute("PCID");
-                $hier_id = $childs[$i]->get_attribute("HierId");
-                $class = $childs[$i]->get_attribute("Class");
-                
+                $pc_id = $c->getAttribute("PCID");
+                $hier_id = $c->getAttribute("HierId");
+                $class = $c->getAttribute("Class");
+
                 // Identifier
-                $id_node = $childs[$i]->first_child();
-                if ($id_node->node_name() == "Identifier") {
-                    $entry = $id_node->get_attribute("Entry");
+                $id_node = $c->firstChild;
+                if ($id_node->nodeName === "Identifier") {
+                    $entry = $id_node->getAttribute("Entry");
                     if (substr($entry, 0, 9) == "il__file_") {
                         $id = substr($entry, 9);
                     }
@@ -136,26 +124,24 @@ class ilPCFileList extends ilPageContent
                     "class" => $class);
             }
         }
-        
+
         return $files;
     }
 
     /**
      * Delete file items
      */
-    public function deleteFileItems(array $a_ids) : void
+    public function deleteFileItems(array $a_ids): void
     {
         // File Item
-        $childs = $this->list_node->child_nodes();
-
-        for ($i = 0; $i < count($childs); $i++) {
-            if ($childs[$i]->node_name() == "FileItem") {
+        foreach ($this->getChildNode()->childNodes as $c) {
+            if ($c->nodeName === "FileItem") {
                 $id = $entry = "";
-                $pc_id = $childs[$i]->get_attribute("PCID");
-                $hier_id = $childs[$i]->get_attribute("HierId");
-                
+                $pc_id = $c->getAttribute("PCID");
+                $hier_id = $c->getAttribute("HierId");
+
                 if (in_array($hier_id . ":" . $pc_id, $a_ids)) {
-                    $childs[$i]->unlink($childs[$i]);
+                    $c->parentNode->removeChild($c);
                 }
             }
         }
@@ -164,25 +150,23 @@ class ilPCFileList extends ilPageContent
     /**
      * Save positions of file items
      */
-    public function savePositions(array $a_pos) : void
+    public function savePositions(array $a_pos): void
     {
         asort($a_pos);
-        
+
         // File Item
-        $childs = $this->list_node->child_nodes();
         $nodes = array();
-        for ($i = 0; $i < count($childs); $i++) {
-            if ($childs[$i]->node_name() == "FileItem") {
-                $pc_id = $childs[$i]->get_attribute("PCID");
-                $hier_id = $childs[$i]->get_attribute("HierId");
-                $nodes[$hier_id . ":" . $pc_id] = $childs[$i];
-                $childs[$i]->unlink($childs[$i]);
+        foreach ($this->getChildNode()->childNodes as $c) {
+            if ($c->nodeName === "FileItem") {
+                $pc_id = $c->getAttribute("PCID");
+                $hier_id = $c->getAttribute("HierId");
+                $nodes[$hier_id . ":" . $pc_id] = $c;
             }
         }
-        
+        $this->dom_util->deleteAllChildsByName($this->getChildNode(), ["FileItem"]);
         foreach ($a_pos as $k => $v) {
             if (is_object($nodes[$k])) {
-                $nodes[$k] = $this->list_node->append_child($nodes[$k]);
+                $nodes[$k] = $this->getChildNode()->appendChild($nodes[$k]);
             }
         }
     }
@@ -190,36 +174,33 @@ class ilPCFileList extends ilPageContent
     /**
      * Get all style classes
      */
-    public function getAllClasses() : array
+    public function getAllClasses(): array
     {
         $classes = array();
-        
-        // File Item
-        $childs = $this->list_node->child_nodes();
 
-        for ($i = 0; $i < count($childs); $i++) {
-            if ($childs[$i]->node_name() == "FileItem") {
-                $classes[$childs[$i]->get_attribute("HierId") . ":" .
-                    $childs[$i]->get_attribute("PCID")] = $childs[$i]->get_attribute("Class");
+        // File Item
+        foreach ($this->getChildNode()->childNodes as $c) {
+            if ($c->nodeName === "FileItem") {
+                $classes[$c->getAttribute("HierId") . ":" .
+                    $c->getAttribute("PCID")] = $c->getAttribute("Class");
             }
         }
-        
+
         return $classes;
     }
 
     /**
      * Save style classes of file items
      */
-    public function saveStyleClasses(array $a_class) : void
+    public function saveStyleClasses(array $a_class): void
     {
         // File Item
-        $childs = $this->list_node->child_nodes();
-        for ($i = 0; $i < count($childs); $i++) {
-            if ($childs[$i]->node_name() == "FileItem") {
-                $childs[$i]->set_attribute(
+        foreach ($this->getChildNode()->childNodes as $c) {
+            if ($c->nodeName == "FileItem") {
+                $c->setAttribute(
                     "Class",
-                    $a_class[$childs[$i]->get_attribute("HierId") . ":" .
-                    $childs[$i]->get_attribute("PCID")]
+                    $a_class[$c->getAttribute("HierId") . ":" .
+                    $c->getAttribute("PCID")]
                 );
             }
         }
@@ -229,7 +210,7 @@ class ilPCFileList extends ilPageContent
      * Get lang vars needed for editing
      * @return array array of lang var keys
      */
-    public static function getLangVars() : array
+    public static function getLangVars(): array
     {
         return array("ed_edit_files", "ed_insert_filelist", "pc_flist");
     }
@@ -242,7 +223,7 @@ class ilPCFileList extends ilPageContent
         DOMDocument $a_domdoc,
         string $a_xml,
         bool $a_creation
-    ) : void {
+    ): void {
         if (!$a_page->getImportMode()) {
             // pc filelist
             $file_ids = ilObjFile::_getFilesOfObject(
@@ -266,15 +247,15 @@ class ilPCFileList extends ilPageContent
             }
         }
     }
-    
+
     /**
      * Before page is being deleted
      */
     public static function beforePageDelete(
         ilPageObject $a_page
-    ) : void {
+    ): void {
         $files = self::collectFileItems($a_page, $a_page->getDomDoc());
-        
+
         // delete all file usages
         ilObjFile::_deleteAllUsages(
             $a_page->getParentType() . ":pg",
@@ -299,7 +280,7 @@ class ilPCFileList extends ilPageContent
         DOMDocument $a_old_domdoc,
         string $a_old_xml,
         int $a_old_nr
-    ) : void {
+    ): void {
         self::saveFileUsage($a_page, $a_old_domdoc, $a_old_nr);
     }
 
@@ -310,12 +291,12 @@ class ilPCFileList extends ilPageContent
         ilPageObject $a_page,
         DOMDocument $a_domdoc,
         int $a_old_nr = 0
-    ) : void {
+    ): void {
         $file_ids = self::collectFileItems($a_page, $a_domdoc);
         ilObjFile::_deleteAllUsages($a_page->getParentType() . ":pg", $a_page->getId(), $a_old_nr, $a_page->getLanguage());
         foreach ($file_ids as $file_id) {
             ilObjFile::_saveUsage(
-                $file_id,
+                (int) $file_id,
                 $a_page->getParentType() . ":pg",
                 $a_page->getId(),
                 $a_old_nr,
@@ -330,7 +311,7 @@ class ilPCFileList extends ilPageContent
     public static function collectFileItems(
         ilPageObject $a_page,
         DOMDocument $a_domdoc
-    ) : array {
+    ): array {
         $xpath = new DOMXPath($a_domdoc);
         $nodes = $xpath->query('//FileItem/Identifier');
         $file_ids = array();
@@ -360,7 +341,7 @@ class ilPCFileList extends ilPageContent
         int $page_id,
         string $lang,
         int $delete_lower_than_nr
-    ) : void {
+    ): void {
         $file_ids = self::_deleteHistoryUsagesLowerEqualThan(
             $parent_type,
             $page_id,
@@ -369,10 +350,12 @@ class ilPCFileList extends ilPageContent
         );
 
         foreach ($file_ids as $file_id) {
-            $file = new ilObjFile($file_id, false);
-            $usages = $file->getUsages();
-            if (count($usages) == 0) {
-                $file->delete();
+            if (ilObject::_lookupType($file_id) === "file") {
+                $file = new ilObjFile($file_id, false);
+                $usages = $file->getUsages();
+                if (count($usages) == 0) {
+                    $file->delete();
+                }
             }
         }
     }
@@ -382,7 +365,7 @@ class ilPCFileList extends ilPageContent
         int $a_id,
         int $a_usage_hist_nr,
         string $a_lang = "-"
-    ) : array {
+    ): array {
         global $DIC;
 
         $hist_repo = $DIC->copage()->internal()->repo()->history();

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,10 +16,9 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Refinery;
+declare(strict_types=1);
 
-use Exception;
-use InvalidArgumentException;
+namespace ILIAS\Refinery;
 
 trait DeriveInvokeFromTransform
 {

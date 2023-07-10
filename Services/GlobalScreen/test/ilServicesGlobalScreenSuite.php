@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -18,13 +20,13 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesGlobalScreenSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
         /** @noRector */
         require_once("./Services/GlobalScreen/test/ilServicesGlobalScreenTest.php");
         $suite->addTestSuite("ilServicesGlobalScreenTest");
-        
+
         return $suite;
     }
 }

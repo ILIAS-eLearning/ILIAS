@@ -29,6 +29,9 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
  */
 class ilSoapRBACAdministration extends ilSoapAdministration
 {
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function deleteRole(string $sid, int $role_id)
     {
         $this->initAuth($sid);
@@ -69,11 +72,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         // set parent id (role folder id) of role
         $rolf_ids = $rbacreview->getFoldersAssignedToRole($role_id, true);
         $rolf_id = end($rolf_ids);
-        $tmp_role->setParent($rolf_id);
+        $tmp_role->setParent((int) $rolf_id);
         $tmp_role->delete();
         return true;
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function addUserRoleEntry(string $sid, int $user_id, int $role_id)
     {
         $this->initAuth($sid);
@@ -118,6 +124,9 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function deleteUserRoleEntry(string $sid, int $user_id, int $role_id)
     {
         $this->initAuth($sid);
@@ -160,6 +169,9 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return soap_fault|SoapFault|null|array
+     */
     public function getOperations(string $sid)
     {
         $this->initAuth($sid);
@@ -180,6 +192,9 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         return $this->raiseError('Unknown error', 'Server');
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function revokePermissions(string $sid, int $ref_id, int $role_id)
     {
         $this->initAuth($sid);
@@ -220,6 +235,9 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function grantPermissions(string $sid, int $ref_id, int $role_id, array $permissions)
     {
         $this->initAuth($sid);
@@ -268,6 +286,9 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function getLocalRoles(string $sid, int $ref_id)
     {
         $this->initAuth($sid);
@@ -311,6 +332,9 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         return '';
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function getUserRoles(string $sid, int $user_id)
     {
         $this->initAuth($sid);
@@ -349,6 +373,9 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         return '';
     }
 
+    /**
+     * @return array|soap_fault|SoapFault|null
+     */
     public function addRole(string $sid, int $target_id, string $role_xml)
     {
         $this->initAuth($sid);
@@ -407,6 +434,9 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         return $new_roles;
     }
 
+    /**
+     * @return array|soap_fault|SoapFault|null
+     */
     public function addRoleFromTemplate(string $sid, int $target_id, string $role_xml, int $template_id)
     {
         $this->initAuth($sid);
@@ -451,7 +481,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         $new_roles = [];
         foreach ($xml_parser->getObjectData() as $object_data) {
-
             // check if role title has il_ prefix
             if (strpos($object_data['title'], "il_") === 0) {
                 return $this->raiseError(
@@ -480,6 +509,9 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         return $new_roles;
     }
 
+    /**
+     * @return array|soap_fault|SoapFault|null
+     */
     public function getObjectTreeOperations(string $sid, int $ref_id, int $user_id)
     {
         $this->initAuth($sid);
@@ -542,7 +574,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
     }
 
     /**
-     * get roles for a specific type and id
+     * @return soap_fault|SoapFault|string|null
      */
     public function getRoles(string $sid, string $role_type, int $id)
     {
@@ -659,10 +691,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
     /**
      * search for roles.
-     * @param string $sid
-     * @param string $searchterms comma separated search terms
-     * @param string $operator    must be or or and
      * @param string $role_type   can be empty which means "local & global", "local", "global", "user" = roles of user, "user_login" or "template"
+     * @return soap_fault|SoapFault|null|string
      */
     public function searchRoles(string $sid, string $key, string $combination, string $role_type)
     {

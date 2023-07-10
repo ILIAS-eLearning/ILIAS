@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a hierarchical form. These forms are used for
@@ -45,8 +48,8 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
             ilPageLayout::MODULE_LM
         );
     }
-    
-    public function getChildTitle(array $a_child) : string
+
+    public function getChildTitle(array $a_child): string
     {
         if ($this->lang != "-") {
             $lmobjtrans = new ilLMObjTranslation($a_child["node_id"], $this->lang);
@@ -60,7 +63,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
      * @param array $a_child node array
      * @return string node title
      */
-    public function getChildInfo(array $a_child) : string
+    public function getChildInfo(array $a_child): string
     {
         if ($this->lang != "-") {
             return $a_child["title"];
@@ -71,17 +74,17 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
     /**
     * Get menu items
     */
-    public function getMenuItems(array $a_node, int $a_depth, bool $a_first_child = false, ?array $a_next_sibling = null, ?array $a_childs = null) : array
+    public function getMenuItems(array $a_node, int $a_depth, bool $a_first_child = false, ?array $a_next_sibling = null, ?array $a_childs = null): array
     {
         $lng = $this->lng;
         $ilUser = $this->user;
-        
+
         $cmds = array();
 
         if ($a_childs == null) {
             $a_childs = [];
         }
-        
+
         if (!$a_first_child) {		// drop area of node
             if ($a_node["type"] == "pg" || ($a_node["type"] == "st" && count($a_childs) == 0 && $this->getMaxDepth() != 0)) {
                 if ($a_node["type"] == "st") {
@@ -92,7 +95,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                             "as_subitem" => true);
                     }
                     if ($ilUser->clipboardHasObjectsOfType("pg")) {
-                        $cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"),
+                        $cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"), "multi" => 0,
                             "cmd" => "insertPageClip", "as_subitem" => true);
                     }
                 } else {
@@ -101,7 +104,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                         $cmds[] = array("text" => $lng->txt("cont_insert_pagelayout"), "cmd" => "insertTemplate", "multi" => 10);
                     }
                     if ($ilUser->clipboardHasObjectsOfType("pg")) {
-                        $cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"),
+                        $cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"), "multi" => 0,
                             "cmd" => "insertPageClip");
                     }
                 }
@@ -110,23 +113,21 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                 $cmds[] = array("text" => $lng->txt("cont_insert_subchapter"),
                     "cmd" => "insertSubchapter", "multi" => 10);
                 if ($ilUser->clipboardHasObjectsOfType("st")) {
-                    $cmds[] = array("text" => $lng->txt("cont_insert_subchapter_from_clip"),
+                    $cmds[] = array("text" => $lng->txt("cont_insert_subchapter_from_clip"), "multi" => 0,
                         "cmd" => "insertSubchapterClip");
                 }
             }
 
-            if ($a_next_sibling) {
-                if (($a_next_sibling["type"] != "pg" && ($a_depth == 0 || $a_next_sibling["type"] == "st"))
-                    || $a_node["type"] == "st") {
-                    $cmds[] = array("text" => $lng->txt("cont_insert_chapter"),
-                                    "cmd" => "insertChapter",
-                                    "multi" => 10
+            if ((($a_next_sibling["type"] ?? "") != "pg" && ($a_depth == 0 || ($a_next_sibling["type"] ?? "") == "st"))
+                || $a_node["type"] == "st") {
+                $cmds[] = array("text" => $lng->txt("cont_insert_chapter"),
+                                "cmd" => "insertChapter",
+                                "multi" => 10
+                );
+                if ($ilUser->clipboardHasObjectsOfType("st")) {
+                    $cmds[] = array("text" => $lng->txt("cont_insert_chapter_from_clip"),
+                                    "cmd" => "insertChapterClip", "multi" => 0
                     );
-                    if ($ilUser->clipboardHasObjectsOfType("st")) {
-                        $cmds[] = array("text" => $lng->txt("cont_insert_chapter_from_clip"),
-                                        "cmd" => "insertChapterClip"
-                        );
-                    }
                 }
             }
         } else {						// drop area before first child of node
@@ -137,15 +138,15 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                     $cmds[] = array("text" => $lng->txt("cont_insert_pagelayout"), "cmd" => "insertTemplate", "multi" => 10);
                 }
                 if ($ilUser->clipboardHasObjectsOfType("pg")) {
-                    $cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"),
+                    $cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"),"multi" => 0,
                         "cmd" => "insertPageClip");
                 }
             }
-            if ($a_childs[0]["type"] != "pg") {
+            if (($a_childs[0]["type"] ?? "") != "pg") {
                 $cmds[] = array("text" => $lng->txt("cont_insert_chapter"),
                     "cmd" => "insertChapter", "multi" => 10);
                 if ($ilUser->clipboardHasObjectsOfType("st")) {
-                    $cmds[] = array("text" => $lng->txt("cont_insert_chapter_from_clip"),
+                    $cmds[] = array("text" => $lng->txt("cont_insert_chapter_from_clip"),"multi" => 0,
                         "cmd" => "insertChapterClip");
                 }
             }
@@ -157,7 +158,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
     /**
     * Which nodes allow child nodes?
     */
-    public function nodeAllowsChilds(array $a_node) : bool
+    public function nodeAllowsChilds(array $a_node): bool
     {
         if ($a_node["type"] == "pg") {
             return false;
@@ -169,10 +170,10 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
     * Makes nodes drag and drop content and targets.
     * @param	array $a_node node array
     */
-    public function manageDragAndDrop(array $a_node, int $a_depth, bool $a_first_child = false, ?array $a_next_sibling = null, ?array $a_childs = null) : void
+    public function manageDragAndDrop(array $a_node, int $a_depth, bool $a_first_child = false, ?array $a_next_sibling = null, ?array $a_childs = null): void
     {
         $lng = $this->lng;
-        
+
         $this->makeDragContent($a_node["node_id"], "grp_" . $a_node["type"]);
 
         if ($a_childs == null) {
@@ -199,7 +200,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                     );
                 }
             }
-            
+
             if ($a_node["type"] != "pg" && $this->getMaxDepth() != 0) {
                 $this->makeDragTarget(
                     $a_node["node_id"],
@@ -231,7 +232,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                     true
                 );
             }
-            if ($a_childs[0]["type"] != "pg") {
+            if (($a_childs[0]["type"] ?? "") != "pg") {
                 $this->makeDragTarget(
                     $a_node["node_id"],
                     "grp_st",
@@ -248,10 +249,10 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
     * @param	array $a_item	itema array
     * @return	string		icon path
     */
-    public function getChildIcon(array $a_item) : string
+    public function getChildIcon(array $a_item): string
     {
         $img = "icon_" . $a_item["type"] . ".svg";
-        
+
         if ($a_item["type"] == "pg") {
             $lm_set = new ilSetting("lm");
             $active = ilLMPage::_lookupActive(
@@ -259,13 +260,13 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                 $this->lm_type,
                 $lm_set->get("time_scheduled_page_activation")
             );
-                
+
             // is page scheduled?
             $img_sc = ($lm_set->get("time_scheduled_page_activation") &&
                 ilLMPage::_isScheduledActivation($a_item["node_id"], $this->lm_type))
                 ? "_sc"
                 : "";
-                
+
             $img = "icon_pg" . $img_sc . ".svg";
 
             if (!$active) {
@@ -289,10 +290,10 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
     * @param	array $a_item	itema array
     * @return	string		icon alt text
     */
-    public function getChildIconAlt(array $a_item) : string
+    public function getChildIconAlt(array $a_item): string
     {
         $lng = $this->lng;
-        
+
 
         if ($a_item["type"] == "pg") {
             $active = ilLMPage::_lookupActive($a_item["node_id"], $this->lm_type);
@@ -317,13 +318,13 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
      * @param array $a_item
      * @return array
      */
-    public function getChildCommands(array $a_item) : array
+    public function getChildCommands(array $a_item): array
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $lm_class = "ilobjlearningmodulegui";
-        
+
         $commands = array();
         switch ($a_item["type"]) {
             case "pg":
@@ -346,7 +347,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                     "link" => $ilCtrl->getLinkTargetByClass(array($lm_class, "ilstructureobjectgui"), "view"));
                 break;
         }
-        
+
         return $commands;
     }
 }

@@ -27,7 +27,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
     protected ilSkinStyle $style2;
     protected ilSkinFactory $factory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -57,7 +57,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
         $this->factory = new ilSkinFactory($this->lng, $this->system_style_config);
     }
 
-    public function testCreateDelete() : void
+    public function testCreateDelete(): void
     {
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
 
@@ -69,14 +69,14 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
         $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . 'newSkin'));
     }
 
-    public function testUpdateSkinNoIdChange() : void
+    public function testUpdateSkinNoIdChange(): void
     {
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $container->updateSkin();
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId()));
     }
 
-    public function testUpdateSkinWithChangedID() : void
+    public function testUpdateSkinWithChangedID(): void
     {
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $old_skin = clone $container->getSkin();
@@ -89,7 +89,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
         $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . 'newSkin2'));
     }
 
-    public function testAddStyle() : void
+    public function testAddStyle(): void
     {
         $new_style = new ilSkinStyle('style1new', 'new Style');
         $new_style->setCssFile('style1new');
@@ -130,7 +130,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
         $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1new-variables.less'));
     }
 
-    public function testDeleteStyle() : void
+    public function testDeleteStyle(): void
     {
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
 
@@ -151,7 +151,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
         $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style2css-variables.less'));
     }
 
-    public function testUpdateStyle() : void
+    public function testUpdateStyle(): void
     {
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $skin = $container->getSkin();
@@ -183,7 +183,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
         $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1new-variables.less'));
     }
 
-    public function testDeleteSkin() : void
+    public function testDeleteSkin(): void
     {
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $skin = $container->getSkin();

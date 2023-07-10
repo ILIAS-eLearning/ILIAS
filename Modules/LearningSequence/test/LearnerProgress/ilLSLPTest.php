@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 class ilLSLPStub extends ilLSLP
@@ -27,14 +29,14 @@ class ilLSLPStub extends ilLSLP
 
 class ilLSLPTest extends TestCase
 {
-    public function testCreateObject() : void
+    public function testCreateObject(): void
     {
         $obj = new ilLSLPStub();
 
         $this->assertInstanceOf(ilLSLP::class, $obj);
     }
 
-    public function testGetDefaultModes() : void
+    public function testGetDefaultModes(): void
     {
         $obj = new ilLSLPStub();
         $result = $obj->getDefaultModes(true);
@@ -44,7 +46,7 @@ class ilLSLPTest extends TestCase
         $this->assertEquals(ilLPObjSettings::LP_MODE_DEACTIVATED, array_pop($result));
     }
 
-    public function testGetDefaultMode() : void
+    public function testGetDefaultMode(): void
     {
         $obj = new ilLSLPStub();
         $result = $obj->getDefaultMode();
@@ -52,7 +54,7 @@ class ilLSLPTest extends TestCase
         $this->assertEquals(ilLPObjSettings::LP_MODE_DEACTIVATED, $result);
     }
 
-    public function testGetValidModes() : void
+    public function testGetValidModes(): void
     {
         $obj = new ilLSLPStub();
         $result = $obj->getValidModes();

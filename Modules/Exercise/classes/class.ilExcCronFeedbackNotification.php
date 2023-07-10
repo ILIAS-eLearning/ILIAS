@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Cron for exercise feedback notification
  *
@@ -34,43 +36,43 @@ class ilExcCronFeedbackNotification extends ilCronJob
         $this->lng = $DIC->language();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "exc_feedback_notification";
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("exc");
         return $lng->txt("exc_global_feedback_file_cron");
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("exc");
         return $lng->txt("exc_global_feedback_file_cron_info");
     }
-    
-    public function getDefaultScheduleType() : int
+
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
-    
-    public function getDefaultScheduleValue() : ?int
+
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
-    
-    public function hasAutoActivation() : bool
+
+    public function hasAutoActivation(): bool
     {
         return true;
     }
-    
-    public function hasFlexibleSchedule() : bool
+
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
@@ -78,25 +80,25 @@ class ilExcCronFeedbackNotification extends ilCronJob
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $status = ilCronJobResult::STATUS_NO_ACTION;
 
         $count = 0;
-        
+
         foreach (ilExAssignment::getPendingFeedbackNotifications() as $ass_id) {
             if (ilExAssignment::sendFeedbackNotifications($ass_id)) {
                 $count++;
             }
         }
-        
+
         if ($count !== 0) {
             $status = ilCronJobResult::STATUS_OK;
         }
-        
+
         $result = new ilCronJobResult();
         $result->setStatus($status);
-        
+
         return $result;
     }
 }

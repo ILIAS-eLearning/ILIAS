@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,14 +16,13 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Settings for LO courses
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilLOUtils
 {
-
     /**
      * Check if objective is completed
      */
@@ -32,7 +33,7 @@ class ilLOUtils
         int $max_points,
         int $reached,
         int $limit_perc
-    ) : bool {
+    ): bool {
         $settings = ilLOSettings::getInstanceByObjId($a_cont_oid);
 
         if (self::lookupRandomTest(ilObject::_lookupObjId($a_test_rid))) {
@@ -62,7 +63,7 @@ class ilLOUtils
         int $a_objective_id,
         int $a_test_ref_id,
         int $a_max_points
-    ) : int {
+    ): int {
         $settings = ilLOSettings::getInstanceByObjId($a_container_id);
         $assignments = ilLOTestAssignments::getInstance($a_container_id);
         $a_test_type = $assignments->getTypeByTest($a_test_ref_id);
@@ -87,7 +88,7 @@ class ilLOUtils
         }
     }
 
-    public static function lookupMaxAttempts(int $a_container_id, int $a_objective_id, int $a_test_ref_id) : int
+    public static function lookupMaxAttempts(int $a_container_id, int $a_objective_id, int $a_test_ref_id): int
     {
         global $DIC;
 
@@ -108,7 +109,7 @@ class ilLOUtils
         return 0;
     }
 
-    public static function lookupRandomTest(int $a_test_obj_id) : bool
+    public static function lookupRandomTest(int $a_test_obj_id): bool
     {
         return ilObjTest::_lookupRandomTest($a_test_obj_id);
     }
@@ -116,7 +117,7 @@ class ilLOUtils
     /**
      * Lookup assigned qpl name (including taxonomy) by sequence
      */
-    public static function lookupQplBySequence(int $a_test_ref_id, int $a_sequence_id) : string
+    public static function lookupQplBySequence(int $a_test_ref_id, int $a_sequence_id): string
     {
         global $DIC;
 
@@ -154,7 +155,7 @@ class ilLOUtils
     protected static function buildQplTitleByDefinition(
         ilTestRandomQuestionSetSourcePoolDefinition $def,
         ilTestTaxonomyFilterLabelTranslater $trans
-    ) : string {
+    ): string {
         $title = $def->getPoolTitle();
         $filterTitle = array();
         $filterTitle[] = $trans->getTaxonomyFilterLabel($def->getMappedTaxonomyFilter());
@@ -165,12 +166,12 @@ class ilLOUtils
         return $title;
     }
 
-    public static function hasActiveRun(int $a_container_id, int $a_test_ref_id, int $a_objective_id) : bool
+    public static function hasActiveRun(int $a_container_id, int $a_test_ref_id, int $a_objective_id): bool
     {
         return false;
     }
 
-    public static function getTestResultLinkForUser(int $a_test_ref_id, int $a_user_id) : string
+    public static function getTestResultLinkForUser(int $a_test_ref_id, int $a_user_id): string
     {
         global $DIC;
 

@@ -22,12 +22,12 @@ class ilStyleDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         if (!$this->db->tableExists('style_char_title')) {
             $fields = [
@@ -198,6 +198,22 @@ class ilStyleDBUpdateSteps implements \ilDatabaseUpdateSteps
                     ]
                 );
             }
+        }
+    }
+
+    public function step_11()
+    {
+        // Add new index
+        if (!$this->db->indexExistsByFields('style_template', ['style_id'])) {
+            $this->db->addIndex('style_template', ['style_id'], 'i1');
+        }
+    }
+
+    public function step_12()
+    {
+        // Add new index
+        if (!$this->db->indexExistsByFields('style_usage', array('style_id'))) {
+            $this->db->addIndex('style_usage', array('style_id'), 'i1');
         }
     }
 }

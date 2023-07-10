@@ -8,14 +8,14 @@ use PHPUnit\Framework\TestCase;
  */
 class FeedItemTest extends TestCase
 {
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test get HTML return an array
      */
-    public function testFeedItemProperties() : void
+    public function testFeedItemProperties(): void
     {
         $feed_item = new ilFeedItem();
 

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Jesús López <lopez@leifos.com>
@@ -39,7 +42,7 @@ class ilSingleUserShareGUI
         $this->wsp_node_id = $wsp_node_id;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $forward_class = $this->ctrl->getNextClass($this);
 
@@ -53,7 +56,7 @@ class ilSingleUserShareGUI
         }
     }
 
-    public function initShareForm(ilPropertyFormGUI $form = null) : void
+    public function initShareForm(ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getShareForm();
@@ -61,7 +64,7 @@ class ilSingleUserShareGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function getShareForm() : ilPropertyFormGUI
+    public function getShareForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -80,7 +83,7 @@ class ilSingleUserShareGUI
         return $form;
     }
 
-    protected function saveShare() : void
+    protected function saveShare(): void
     {
         $form = $this->getShareForm();
 
@@ -102,7 +105,7 @@ class ilSingleUserShareGUI
         $this->ctrl->redirect($this);
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $this->ctrl->returnToParent($this);
     }

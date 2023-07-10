@@ -24,6 +24,7 @@
  */
 class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected \ILIAS\Awareness\AdminManager $admin_manager;
 
     /**
@@ -52,7 +53,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
             ->admin($this->requested_ref_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -84,7 +85,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -105,7 +106,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function setSubTabs(string $a_id) : void
+    public function setSubTabs(string $a_id): void
     {
         $this->tabs_gui->addSubTab(
             "settings",
@@ -122,15 +123,15 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
         $this->tabs_gui->activateSubTab($a_id);
     }
 
-    
+
     /**
      * Edit settings.
      */
-    public function editSettings(?ilPropertyFormGUI $a_form = null) : bool
+    public function editSettings(?ilPropertyFormGUI $a_form = null): bool
     {
         $this->tabs_gui->setTabActive('settings');
         $this->setSubTabs("settings");
-        
+
         if (!$a_form) {
             $a_form = $this->initFormSettings();
         }
@@ -141,12 +142,12 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
     /**
      * Save settings
      */
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $this->checkPermission("write");
-        
+
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
             $awrn_set = new ilSetting("awrn");
@@ -168,14 +169,14 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
             foreach ($prov as $p) {
                 $this->admin_manager->setActivationMode(
                     $p->getProviderId(),
-                    $form->getInput("up_act_mode_" . $p->getProviderId())
+                    (int) $form->getInput("up_act_mode_" . $p->getProviderId())
                 );
             }
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
-        
+
         $form->setValuesByPost();
         $this->editSettings($form);
     }
@@ -183,17 +184,17 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
     /**
      * Save settings
      */
-    public function cancel() : void
+    public function cancel(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->redirect($this, "view");
     }
-        
-    protected function initFormSettings() : ilPropertyFormGUI
+
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $lng = $this->lng;
-        
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('awareness_settings'));

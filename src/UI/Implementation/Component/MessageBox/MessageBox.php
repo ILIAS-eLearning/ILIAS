@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\MessageBox;
 
@@ -36,7 +52,7 @@ class MessageBox implements C\MessageBox\MessageBox
     /**
      * @inheritdoc
      */
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -44,7 +60,7 @@ class MessageBox implements C\MessageBox\MessageBox
     /**
      * @inheritdoc
      */
-    public function getMessageText() : string
+    public function getMessageText(): string
     {
         return $this->message_text;
     }
@@ -52,7 +68,7 @@ class MessageBox implements C\MessageBox\MessageBox
     /**
      * @inheritdoc
      */
-    public function getButtons() : array
+    public function getButtons(): array
     {
         return $this->buttons;
     }
@@ -60,7 +76,7 @@ class MessageBox implements C\MessageBox\MessageBox
     /**
      * @inheritdoc
      */
-    public function getLinks() : array
+    public function getLinks(): array
     {
         return $this->links;
     }
@@ -68,7 +84,7 @@ class MessageBox implements C\MessageBox\MessageBox
     /**
      * @inheritdoc
      */
-    public function withButtons(array $buttons) : C\MessageBox\MessageBox
+    public function withButtons(array $buttons): C\MessageBox\MessageBox
     {
         $types = array(C\Component::class);
         $this->checkArgListElements("buttons", $buttons, $types);
@@ -81,7 +97,7 @@ class MessageBox implements C\MessageBox\MessageBox
     /**
      * @inheritdoc
      */
-    public function withLinks(array $links) : C\MessageBox\MessageBox
+    public function withLinks(array $links): C\MessageBox\MessageBox
     {
         $types = array(C\Component::class);
         $this->checkArgListElements("links", $links, $types);

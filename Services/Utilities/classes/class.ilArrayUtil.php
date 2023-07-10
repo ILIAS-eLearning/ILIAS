@@ -1,19 +1,20 @@
 <?php
 
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * ilArrayUtil class
@@ -35,29 +36,29 @@ class ilArrayUtil
      *
      * @deprecated
      */
-    public static function quoteArray(array $a_array) : array
+    public static function quoteArray(array $a_array): array
     {
         global $DIC;
-        
+
         $ilDB = $DIC->database();
-        
-        
+
+
         if (!is_array($a_array) or !count($a_array)) {
             return ["''"];
         }
-        
+
         foreach ($a_array as $k => $item) {
             $a_array[$k] = $ilDB->quote($item);
         }
-        
+
         return $a_array;
     }
-    
+
     /**
      * @param $data string|array
      * @deprecated
      */
-    public static function stripSlashesRecursive($a_data, bool $a_strip_html = true, string $a_allow = "") : array
+    public static function stripSlashesRecursive($a_data, bool $a_strip_html = true, string $a_allow = ""): array
     {
         if (is_array($a_data)) {
             foreach ($a_data as $k => $v) {
@@ -70,22 +71,22 @@ class ilArrayUtil
         } else {
             $a_data = ilUtil::stripSlashes($a_data, $a_strip_html, $a_allow);
         }
-        
+
         return $a_data;
     }
-    
+
     /**
      * @deprecated
      */
-    public static function stripSlashesArray(array $a_arr, bool $a_strip_html = true, string $a_allow = "") : array
+    public static function stripSlashesArray(array $a_arr, bool $a_strip_html = true, string $a_allow = ""): array
     {
         foreach ($a_arr as $k => $v) {
             $a_arr[$k] = ilUtil::stripSlashes($v, $a_strip_html, $a_allow);
         }
-        
+
         return $a_arr;
     }
-    
+
     /**
      * @deprecated
      */
@@ -95,14 +96,14 @@ class ilArrayUtil
         string $a_array_sortorder = "asc",
         bool $a_numeric = false,
         bool $a_keep_keys = false
-    ) : array {
+    ): array {
         if (!$a_keep_keys) {
             return self::stableSortArray($array, $a_array_sortby_key, $a_array_sortorder, $a_numeric);
         }
-        
+
         global $array_sortby, $array_sortorder;
         $array_sortby = $a_array_sortby_key;
-        
+
         if ($a_array_sortorder == "desc") {
             $array_sortorder = "desc";
         } else {
@@ -121,25 +122,25 @@ class ilArrayUtil
                 usort($array, [ilArrayUtil::class, "sort_func"]);
             }
         }
-        
+
         return $array;
     }
-    
+
     /**
      * @deprecated
      */
-    private static function sort_func(array $left, array $right) : int
+    private static function sort_func(array $left, array $right): int
     {
         global $array_sortby, $array_sortorder;
-        
+
         if (!isset($array_sortby)) {
             // occurred in: setup -> new client -> install languages -> sorting of languages
             $array_sortby = 0;
         }
-        
+
         $leftValue = (string) ($left[$array_sortby] ?? '');
         $rightValue = (string) ($right[$array_sortby] ?? '');
-        
+
         // this comparison should give optimal results if
         // locale is provided and mb string functions are supported
         if ($array_sortorder === "asc") {
@@ -147,35 +148,35 @@ class ilArrayUtil
         } elseif ($array_sortorder === "desc") {
             return ilStr::strCmp($rightValue, $leftValue);
         }
-        
+
         return 0;
     }
-    
+
     /**
      * @deprecated
      */
-    private static function sort_func_numeric(array $left, array $right) : int
+    private static function sort_func_numeric(array $left, array $right): int
     {
         global $array_sortby, $array_sortorder;
-        
+
         $leftValue = (string) ($left[$array_sortby] ?? '');
         $rightValue = (string) ($right[$array_sortby] ?? '');
-        
+
         if ($array_sortorder === "asc") {
             return $leftValue <=> $rightValue;
         } elseif ($array_sortorder === "desc") {
             return $rightValue <=> $leftValue;
         }
-        
+
         return 0;
     }
-    
+
     /**
      * @param array    $array
      * @param callable $cmp_function
      * @return void
      */
-    private static function mergesort(array &$array, callable $cmp_function = null) : void
+    private static function mergesort(array &$array, callable $cmp_function = null): void
     {
         if ($cmp_function === null) {
             $cmp_function = 'strcmp';
@@ -184,22 +185,22 @@ class ilArrayUtil
         if (count($array) < 2) {
             return;
         }
-        
+
         // Split the array in half
-        $halfway = count($array) / 2;
+        $halfway = intval(count($array) / 2);
         $array1 = array_slice($array, 0, $halfway);
         $array2 = array_slice($array, $halfway);
-        
+
         // Recurse to sort the two halves
         ilArrayUtil::mergesort($array1, $cmp_function);
         ilArrayUtil::mergesort($array2, $cmp_function);
-        
+
         // If all of $array1 is <= all of $array2, just append them.
         if (call_user_func($cmp_function, end($array1), $array2[0]) < 1) {
             $array = array_merge($array1, $array2);
             return;
         }
-        
+
         // Merge the two sorted arrays into a single sorted array
         $array = [];
         $ptr1 = $ptr2 = 0;
@@ -210,7 +211,7 @@ class ilArrayUtil
                 $array[] = $array2[$ptr2++];
             }
         }
-        
+
         // Merge the remainder
         while ($ptr1 < count($array1)) {
             $array[] = $array1[$ptr1++];
@@ -219,7 +220,7 @@ class ilArrayUtil
             $array[] = $array2[$ptr2++];
         }
     }
-    
+
     /**
      * Sort an aray using a stable sort algorithm, which preveserves the sequence
      * of array elements which have the same sort value.
@@ -232,26 +233,26 @@ class ilArrayUtil
         string $a_array_sortby,
         string $a_array_sortorder = "asc",
         bool $a_numeric = false
-    ) : array {
+    ): array {
         global $array_sortby, $array_sortorder;
-        
+
         $array_sortby = $a_array_sortby;
-        
+
         if ($a_array_sortorder == "desc") {
             $array_sortorder = "desc";
         } else {
             $array_sortorder = "asc";
         }
-        
+
         // Create a copy of the array values for sorting
         $sort_array = array_values($array);
-        
+
         if ($a_numeric) {
             ilArrayUtil::mergesort($sort_array, [ilArrayUtil::class, "sort_func_numeric"]);
         } else {
             ilArrayUtil::mergesort($sort_array, [ilArrayUtil::class, "sort_func"]);
         }
-        
+
         return $sort_array;
     }
 }

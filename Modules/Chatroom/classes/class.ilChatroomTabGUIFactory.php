@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -28,18 +30,15 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilChatroomTabGUIFactory
 {
-    private ilObjectGUI $gui;
-    private ilLanguage $lng;
-    private ilRbacSystem $rbacSystem;
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+    private readonly ilLanguage $lng;
+    private readonly ilRbacSystem $rbacSystem;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
 
-    public function __construct(ilObjectGUI $gui)
+    public function __construct(private readonly ilObjectGUI $gui)
     {
         /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
-
-        $this->gui = $gui;
         $this->lng = $DIC->language();
         $this->rbacSystem = $DIC->rbac()->system();
         $this->http = $DIC->http();
@@ -49,9 +48,8 @@ class ilChatroomTabGUIFactory
     /**
      * Builds $config and $commandparts arrays to assign them as parameters
      * when calling $this->buildTabs and $this->activateTab.
-     * @param string $command
      */
-    public function getAdminTabsForCommand(string $command) : void
+    public function getAdminTabsForCommand(string $command): void
     {
         global $DIC;
 
@@ -88,11 +86,6 @@ class ilChatroomTabGUIFactory
                     ]
                 ]
             ],
-            'smiley' => [
-                'lng' => 'smiley',
-                'link' => $DIC->ctrl()->getLinkTargetByClass(ilObjChatroomAdminGUI::class, 'smiley'),
-                'permission' => 'read'
-            ]
         ];
         $DIC->ctrl()->setParameterByClass(ilObjChatroomGUI::class, 'ref_id', $public_room_ref);
 
@@ -167,7 +160,7 @@ class ilChatroomTabGUIFactory
      * @param string $value Value in lower camel case conversion
      * @return string The value in underscore case conversion
      */
-    private static function convertLowerCamelCaseToUnderscoreCaseConversion(string $value) : string
+    private static function convertLowerCamelCaseToUnderscoreCaseConversion(string $value): string
     {
         return strtolower(preg_replace('/(.*?)-(.*?)/', '$1_$2', $value));
     }
@@ -175,12 +168,8 @@ class ilChatroomTabGUIFactory
     /**
      * Builds tabs and subtabs using given $tabs, $config and $command
      * parameters.
-     * @param ilTabsGUI $tabs
-     * @param array $config
-     * @param array $command
-     * @param bool $inRoom
      */
-    private function buildTabs(ilTabsGUI $tabs, array $config, array $command, bool $inRoom = true) : void
+    private function buildTabs(ilTabsGUI $tabs, array $config, array $command, bool $inRoom = true): void
     {
         foreach ($config as $id => $tabDefinition) {
             if (!$inRoom && !$this->rbacSystem->checkAccess($tabDefinition['permission'], $this->gui->getRefId())) {
@@ -235,11 +224,8 @@ class ilChatroomTabGUIFactory
 
     /**
      * Returns label for tab by $tabDefinition or $id
-     * @param array $tabDefinition
-     * @param string $id
-     * @return string
      */
-    private function getLabel(array $tabDefinition, string $id) : string
+    private function getLabel(array $tabDefinition, string $id): string
     {
         if (isset($tabDefinition['lng'])) {
             return $this->lng->txt($tabDefinition['lng']);
@@ -252,10 +238,8 @@ class ilChatroomTabGUIFactory
      * Activates tab or subtab if existing.
      * Calls $ilTabs->activateTab() or $ilTabs->activateSubTab() method
      * to set current tab active.
-     * @param array $commandParts
-     * @param array $config
      */
-    private function activateTab(array $commandParts, array $config) : void
+    private function activateTab(array $commandParts, array $config): void
     {
         global $DIC;
 
@@ -275,9 +259,8 @@ class ilChatroomTabGUIFactory
     /**
      * Builds $config and $commandparts arrays to assign them as parameters
      * when calling $this->buildTabs and $this->activateTab.
-     * @param string $command
      */
-    public function getTabsForCommand(string $command) : void
+    public function getTabsForCommand(string $command): void
     {
         global $DIC;
 
@@ -316,7 +299,7 @@ class ilChatroomTabGUIFactory
             ],
             'info' => [
                 'lng' => 'info_short',
-                'link' => $DIC->ctrl()->getLinkTargetByClass([get_class($this->gui), ilInfoScreenGUI::class], 'info'),
+                'link' => $DIC->ctrl()->getLinkTargetByClass([$this->gui::class, ilInfoScreenGUI::class], 'info'),
                 'permission' => 'read'
             ],
             'settings' => [

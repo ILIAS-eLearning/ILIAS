@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Awareness\User;
 
@@ -32,7 +35,7 @@ class ProviderSystemContacts implements Provider
         $this->lng = $DIC->language();
     }
 
-    public function getProviderId() : string
+    public function getProviderId(): string
     {
         return "adm_contacts";
     }
@@ -41,7 +44,7 @@ class ProviderSystemContacts implements Provider
      * Provider title (used in awareness overlay and in administration settings)
      * @return string provider title
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $this->lng->loadLanguageModule("adm");
         return $this->lng->txt("adm_support_contacts");
@@ -51,7 +54,7 @@ class ProviderSystemContacts implements Provider
      * Provider info (used in administration settings)
      * @return string provider info text
      */
-    public function getInfo() : string
+    public function getInfo(): string
     {
         $this->lng->loadLanguageModule("adm");
         return $this->lng->txt("adm_awrn_support_contacts_info");
@@ -62,12 +65,12 @@ class ProviderSystemContacts implements Provider
      * @param ?int[] $user_ids
      * @return int[] array of user IDs
      */
-    public function getInitialUserSet(?array $user_ids = null) : array
+    public function getInitialUserSet(?array $user_ids = null): array
     {
         return \ilSystemSupportContacts::getValidSupportContactIds();
     }
 
-    public function isHighlighted() : bool
+    public function isHighlighted(): bool
     {
         return false;
     }

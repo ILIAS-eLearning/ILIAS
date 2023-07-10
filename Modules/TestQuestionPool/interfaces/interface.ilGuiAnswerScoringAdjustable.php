@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Interface ilGuiAnswerScoringAdjustable
@@ -20,21 +35,13 @@ interface ilGuiAnswerScoringAdjustable
 {
     /**
      * Adds the answer specific form parts to a question property form gui.
-     *
-     * @param ilPropertyFormGUI $form
-     *
-     * @return ilPropertyFormGUI
      */
-    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form);
+    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI;
 
     /**
      * Extracts the answer specific values from $_POST and applies them to the data object.
-     *
-     * @param bool $always If true, a check for form validity is omitted.
-     *
-     * @return void
      */
-    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form);
+    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void;
 
     /**
      * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
@@ -45,5 +52,5 @@ interface ilGuiAnswerScoringAdjustable
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionAnswerPostVars() : array;
+    public function getAfterParticipationSuppressionAnswerPostVars(): array;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -19,14 +21,14 @@
 class ilObjCloudModuleProgressTableUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
-    
-    public function prepare(ilDBInterface $db) : void
+
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
     //Remove the option to create new cloud modules in the repository
-    public function step_1() : void
+    public function step_1(): void
     {
         $query =
             'UPDATE il_object_def'

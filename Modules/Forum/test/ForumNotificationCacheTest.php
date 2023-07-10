@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ForumNotificationCacheTest extends TestCase
 {
-    public function testExceptionIsRaisedWhenTryingToRetrieveItemNotCachedYet() : void
+    public function testExceptionIsRaisedWhenTryingToRetrieveItemNotCachedYet(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -32,7 +34,7 @@ class ForumNotificationCacheTest extends TestCase
         $cache->fetch('item');
     }
 
-    public function testCacheItemResultsInCacheHit() : void
+    public function testCacheItemResultsInCacheHit(): void
     {
         $cache = new ilForumNotificationCache();
         $cache->store('item', 'ilias');
@@ -41,7 +43,7 @@ class ForumNotificationCacheTest extends TestCase
         $this->assertSame('ilias', $cache->fetch('item'));
     }
 
-    public function nonScalarValuesProvider() : array
+    public function nonScalarValuesProvider(): array
     {
         return [
             'Array Type' => [[4]],
@@ -54,15 +56,15 @@ class ForumNotificationCacheTest extends TestCase
      * @param mixed $nonScalarValue
      * @dataProvider nonScalarValuesProvider
      */
-    public function testExceptionIsRaisedWhenKeyShouldBeBuiltWithNonScalarValues($nonScalarValue) : void
+    public function testExceptionIsRaisedWhenKeyShouldBeBuiltWithNonScalarValues($nonScalarValue): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $cache = new ilForumNotificationCache();
-        $key = $cache->createKeyByValues([$nonScalarValue, $nonScalarValue]);
+        $cache->createKeyByValues([$nonScalarValue, $nonScalarValue]);
     }
 
-    public function scalarValuesAndNullProvider() : array
+    public function scalarValuesAndNullProvider(): array
     {
         return [
             'Float Type' => [4.0],
@@ -74,10 +76,10 @@ class ForumNotificationCacheTest extends TestCase
     }
 
     /**
-     * @param scalar $scalarValue
+     * @param scalar|null $scalarValue
      * @dataProvider scalarValuesAndNullProvider
      */
-    public function testCacheKeyCouldBeGeneratedByArray($scalarValue) : void
+    public function testCacheKeyCouldBeGeneratedByArray($scalarValue): void
     {
         $cache = new ilForumNotificationCache();
         $key = $cache->createKeyByValues([$scalarValue, $scalarValue]);

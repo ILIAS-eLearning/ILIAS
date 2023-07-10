@@ -11,13 +11,13 @@ class AccessSessionRepositoryTest extends TestCase
 {
     protected \ILIAS\Portfolio\Access\AccessSessionRepository $repo;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repo = new \ILIAS\Portfolio\Access\AccessSessionRepository();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 

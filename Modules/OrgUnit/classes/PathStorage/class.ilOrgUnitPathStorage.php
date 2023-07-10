@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitPathStorage
@@ -6,11 +22,11 @@
  */
 class ilOrgUnitPathStorage extends ActiveRecord
 {
-    const GLUE = ' > ';
-    const GLUE_SIMPLE = ' - ';
-    const ORG_SEPARATOR = ' | ';
-    const TABLE_NAME = 'orgu_path_storage';
-    const MAX_MIDDLE_PATH_LENGTH = 50;
+    public const GLUE = ' > ';
+    public const GLUE_SIMPLE = ' - ';
+    public const ORG_SEPARATOR = ' | ';
+    public const TABLE_NAME = 'orgu_path_storage';
+    public const MAX_MIDDLE_PATH_LENGTH = 50;
     /**
      * @var int
      * @con_is_primary true
@@ -19,36 +35,34 @@ class ilOrgUnitPathStorage extends ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $ref_id = 0;
+    protected ?int $ref_id = 0;
     /**
      * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $obj_id = 0;
+    protected int $obj_id = 0;
     /**
      * @var string
      * @con_has_field  true
      * @con_fieldtype  clob
      */
-    protected $path = '';
-    /**
-     * @var array
-     */
-    protected static $orgu_names = array();
+    protected string $path = '';
+
+    protected static array $orgu_names = array();
 
     /**
-     * @return array
+     * @return string[]
      */
-    public static function getAllOrguRefIds()
+    public static function getAllOrguRefIds(): array
     {
         $names = self::getAllOrguNames();
 
         return array_keys($names);
     }
 
-    public function store() : void
+    public function store(): void
     {
         if (self::where(array('ref_id' => $this->getRefId()))->hasSets()) {
             $this->update();
@@ -60,17 +74,17 @@ class ilOrgUnitPathStorage extends ActiveRecord
     /**
      * Format comma seperated ref_ids into comma seperated string representation (also filters out deleted orgunits).
      * Return "-" if $string is empty
-     * @param int $user_id
+     * @param int    $user_id
      * @param string $separator
-     * @param bool $using_tmp_table second implementation
+     * @param bool   $using_tmp_table second implementation
      * @return string   comma seperated string representations of format: [OrgUnit Title] - [OrgUnits corresponding Level 1 Title]
      */
     public static function getTextRepresentationOfUsersOrgUnits(
-        $user_id,
-        $separator = self::ORG_SEPARATOR,
-        $using_tmp_table = true
+        int $user_id,
+        string $separator = self::ORG_SEPARATOR,
+        bool $using_tmp_table = true
     ) {
-        if ($using_tmp_table) {
+        if ($using_tmp_table === true) {
             global $DIC;
             /**
              * @var ilDBInterface $ilDB
@@ -78,9 +92,14 @@ class ilOrgUnitPathStorage extends ActiveRecord
             $ilDB = $DIC['ilDB'];
             ilObjOrgUnitTree::_getInstance()->buildTempTableWithUsrAssignements();
 
-            $res = $ilDB->queryF("SELECT " . $ilDB->groupConcat("path",
-                    $separator) . " AS orgus FROM orgu_usr_assignements WHERE user_id = %s GROUP BY user_id;",
-                array('integer'), array($user_id));
+            $res = $ilDB->queryF(
+                "SELECT " . $ilDB->groupConcat(
+                    "path",
+                    $separator
+                ) . " AS orgus FROM orgu_usr_assignements WHERE user_id = %s GROUP BY user_id;",
+                array('integer'),
+                array($user_id)
+            );
             $dat = $ilDB->fetchObject($res);
 
             return (isset($dat->orgus) && $dat->orgus) ? $dat->orgus : '-';
@@ -101,32 +120,27 @@ class ilOrgUnitPathStorage extends ActiveRecord
      * @param bool $sort_by_title
      * @return array
      */
-    public static function getTextRepresentationOfOrgUnits($sort_by_title = true)
+    public static function getTextRepresentationOfOrgUnits(bool $sort_by_title = true): array
     {
         if ($sort_by_title) {
             return ilOrgUnitPathStorage::orderBy('path')->getArray('ref_id', 'path');
-        } else {
-            return ilOrgUnitPathStorage::getArray('ref_id', 'path');
         }
+        return ilOrgUnitPathStorage::getArray('ref_id', 'path');
     }
 
-    /**
-     * @param $ref_id
-     * @return bool
-     */
-    public static function writePathByRefId($ref_id)
+    public static function writePathByRefId(string $ref_id): void
     {
-        $original_ref_id = $ref_id;
+        $original_ref_id = (int) $ref_id;
         $names = self::getAllOrguNames();
         $root_ref_id = ilObjOrgUnit::getRootOrgRefId();
         $tree = ilObjOrgUnitTree::_getInstance();
         $path = array($names[$ref_id]);
         if ($ref_id == $root_ref_id || !$ref_id) {
-            return false;
+            return;
         }
         while ($ref_id != $root_ref_id && $ref_id) {
             $ref_id = $tree->getParent($ref_id);
-            if ($ref_id != $root_ref_id && $names[$ref_id]) {
+            if ($ref_id != $root_ref_id && isset($names[$ref_id]) && $names[$ref_id]) {
                 $path[] = $names[$ref_id];
             }
         }
@@ -143,18 +157,16 @@ class ilOrgUnitPathStorage extends ActiveRecord
             $expression = implode(self::GLUE_SIMPLE, $path);
         }
         /**
-         * @var $ilOrgUnitPathStorage ilOrgUnitPathStorage
+         * @var ilOrgUnitPathStorage $ilOrgUnitPathStorage
          */
         $ilOrgUnitPathStorage = self::findOrGetInstance($original_ref_id);
         $ilOrgUnitPathStorage->setRefId($original_ref_id);
         $ilOrgUnitPathStorage->setObjId(ilObject2::_lookupObjectId($original_ref_id));
         $ilOrgUnitPathStorage->setPath($expression);
         $ilOrgUnitPathStorage->store();
-
-        return true;
     }
 
-    public static function clearDeleted()
+    public static function clearDeleted(): void
     {
         global $DIC;
         /**
@@ -166,48 +178,8 @@ class ilOrgUnitPathStorage extends ActiveRecord
         $ilDB->manipulate($q);
     }
 
-    /**
-     * @param $ref_id
-     * @return bool
-     * @currently_unused
-     */
-    protected static function writeFullPathByRefId($ref_id)
-    {
-        $original_ref_id = $ref_id;
-        $names = self::getAllOrguNames();
-        $root_ref_id = ilObjOrgUnit::getRootOrgRefId();
-        $tree = ilObjOrgUnitTree::_getInstance();
-        $path = array($names[$ref_id]);
-        if ($ref_id == $root_ref_id || !$ref_id) {
-            return false;
-        }
-        while ($ref_id != $root_ref_id && $ref_id) {
-            $ref_id = $tree->getParent($ref_id);
-            if ($ref_id != $root_ref_id && $names[$ref_id]) {
-                $path[] = $names[$ref_id];
-            }
-        }
-
-        $path = array_reverse($path);
-
-        $expression = implode(self::GLUE, $path);
-        /**
-         * @var $ilOrgUnitPathStorage ilOrgUnitPathStorage
-         */
-        $ilOrgUnitPathStorage = self::findOrGetInstance($original_ref_id);
-        $ilOrgUnitPathStorage->setRefId($original_ref_id);
-        $ilOrgUnitPathStorage->setObjId(ilObject2::_lookupObjectId($original_ref_id));
-        $ilOrgUnitPathStorage->setPath($expression);
-        $ilOrgUnitPathStorage->store();
-
-        return true;
-    }
-
-    /**
-     * @param null $lng_key
-     * @return array
-     */
-    public static function getAllOrguNames($lng_key = null)
+    /** @return string[] */
+    public static function getAllOrguNames(array $lng_key = null): array
     {
         if (count(self::$orgu_names) == 0) {
             global $DIC;
@@ -226,58 +198,37 @@ class ilOrgUnitPathStorage extends ActiveRecord
         return self::$orgu_names;
     }
 
-    /**
-     * @return string
-     */
-    public function getConnectorContainerName() : string
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
 
-    /**
-     * @return int
-     */
-    public function getRefId()
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    /**
-     * @param int $ref_id
-     */
-    public function setRefId($ref_id)
+    public function setRefId(int $ref_id): void
     {
         $this->ref_id = $ref_id;
     }
 
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    /**
-     * @param string $path
-     */
-    public function setPath($path)
+    public function setPath(string $path): void
     {
         $this->path = $path;
     }
 
-    /**
-     * @return int
-     */
-    public function getObjId()
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    /**
-     * @param int $obj_id
-     */
-    public function setObjId($obj_id)
+    public function setObjId(int $obj_id): void
     {
         $this->obj_id = $obj_id;
     }

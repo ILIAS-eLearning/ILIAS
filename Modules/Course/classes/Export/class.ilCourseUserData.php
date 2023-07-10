@@ -1,4 +1,7 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -39,7 +42,7 @@ class ilCourseUserData
         }
     }
 
-    public static function _getValuesByObjId(int $a_obj_id) : array
+    public static function _getValuesByObjId(int $a_obj_id): array
     {
         global $DIC;
 
@@ -60,7 +63,7 @@ class ilCourseUserData
         return $user_data;
     }
 
-    public static function _checkRequired(int $a_usr_id, int $a_obj_id) : bool
+    public static function _checkRequired(int $a_usr_id, int $a_obj_id): bool
     {
         global $DIC;
 
@@ -83,7 +86,7 @@ class ilCourseUserData
         return $row->num_entries == count($required);
     }
 
-    public static function _deleteByUser(int $a_user_id) : void
+    public static function _deleteByUser(int $a_user_id): void
     {
         global $DIC;
 
@@ -93,7 +96,7 @@ class ilCourseUserData
         $res = $ilDB->manipulate($query);
     }
 
-    public static function _deleteByField(int $a_field_id) : void
+    public static function _deleteByField(int $a_field_id): void
     {
         global $DIC;
 
@@ -104,23 +107,23 @@ class ilCourseUserData
         $res = $ilDB->manipulate($query);
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public function update() : void
+    public function update(): void
     {
         $this->delete();
         $this->create();
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = "DELETE FROM crs_user_data " .
             "WHERE usr_id = " . $this->db->quote($this->user_id, 'integer') . " " .
@@ -128,7 +131,7 @@ class ilCourseUserData
         $res = $this->db->manipulate($query);
     }
 
-    public function create() : void
+    public function create(): void
     {
         $query = "INSERT INTO crs_user_data (value,usr_id,field_id) " .
             "VALUES( " .
@@ -140,14 +143,15 @@ class ilCourseUserData
         $res = $this->db->manipulate($query);
     }
 
-    private function read() : void
+    private function read(): void
     {
         $query = "SELECT * FROM crs_user_data " .
             "WHERE usr_id = " . $this->db->quote($this->user_id, 'integer') . " " .
             "AND field_id = " . $this->db->quote($this->field_id, 'integer');
         $res = $this->db->query($query);
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-
-        $this->setValue((string) $row->value);
+        $this->setValue('');
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $this->setValue((string) $row->value);
+        }
     }
 }

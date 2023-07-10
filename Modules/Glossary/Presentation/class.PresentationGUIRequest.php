@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Glossary\Presentation;
 
@@ -35,53 +38,53 @@ class PresentationGUIRequest
         );
     }
 
-    public function getMobId() : int
+    public function getMobId(): int
     {
         return $this->int("mob_id");
     }
 
-    public function getExportType() : string
+    public function getExportType(): string
     {
         return $this->str("type");
     }
 
-    public function getFileId() : string
+    public function getFileId(): string
     {
         return $this->str("file_id");
     }
 
-    public function getSearchString() : string
+    public function getSearchString(): string
     {
         return $this->str("srcstring");
     }
 
-    public function getDefinitionPageId() : int
+    public function getDefinitionPageId(): int
     {
         return $this->int("pg_id");
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getTermId() : int
+    public function getTermId(): int
     {
         return $this->int("term_id");
     }
 
-    public function getDefinitionId() : int
-    {
-        return $this->int("def");
-    }
-
-    public function getTaxNode() : int
+    public function getTaxNode(): int
     {
         return $this->int("tax_node");
     }
 
-    public function getLetter() : string
+    public function getLetter(): string
     {
         return $this->str("letter");
+    }
+
+    public function getBoxId(): int
+    {
+        return $this->int("box_id");
     }
 }

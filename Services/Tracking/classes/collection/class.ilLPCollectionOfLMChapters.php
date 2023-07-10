@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -28,7 +30,8 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
             foreach ($tree->getChilds($tree->readRootId()) as $child) {
                 if ($child["type"] == "st") {
                     $child["tlt"] = ilMDEducational::_getTypicalLearningTimeSeconds(
-                        $obj_id, $child["obj_id"]
+                        $obj_id,
+                        $child["obj_id"]
                     );
                     $items[$child["obj_id"]] = $child;
                 }
@@ -43,7 +46,7 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
     /**
      * @return array
      */
-    public function getTableGUIData(int $a_parent_ref_id) : array
+    public function getTableGUIData(int $a_parent_ref_id): array
     {
         $data = array();
 
@@ -59,7 +62,10 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
 
             // #12158
             $tmp['url'] = ilLink::_getLink(
-                $a_parent_ref_id, $parent_type, null, "_" . $tmp['id']
+                $a_parent_ref_id,
+                $parent_type,
+                [],
+                "_" . $tmp['id']
             );
 
             if ($this->mode == ilLPObjSettings::LP_MODE_COLLECTION_TLT) {

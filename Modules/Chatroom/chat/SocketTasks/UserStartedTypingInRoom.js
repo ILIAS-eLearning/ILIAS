@@ -1,8 +1,8 @@
 const Container = require('../AppContainer'),
     UserStartedTyping = require('../Model/Messages/UserStartedTyping');
 
-module.exports = function (roomId, subRoomId) {
-    const serverRoomId = Container.createServerRoomId(roomId, subRoomId),
+module.exports = function (roomId) {
+    const serverRoomId = Container.createServerRoomId(roomId),
         namespace = Container.getNamespace(this.nsp.name),
         room = namespace.getRoom(serverRoomId);
 
@@ -19,7 +19,7 @@ module.exports = function (roomId, subRoomId) {
 
     Container.getLogger().debug("Subscribed with id %s started typing", this.subscriber.getId());
 
-    const message = UserStartedTyping.create(roomId, subRoomId, this.subscriber.toString()),
+    const message = UserStartedTyping.create(roomId, this.subscriber.toString()),
         subscriber = this.subscriber;
 
     room.forSubscribers(function(sub) {

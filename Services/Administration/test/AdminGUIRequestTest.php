@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -28,16 +27,16 @@ class AdminGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\Administration\AdminGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\Administration\AdminGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -54,7 +53,7 @@ class AdminGUIRequestTest extends TestCase
     /**
      * Test ref id
      */
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -72,7 +71,7 @@ class AdminGUIRequestTest extends TestCase
     /**
      * Test no ref id
      */
-    public function testNoRefId() : void
+    public function testNoRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -89,7 +88,7 @@ class AdminGUIRequestTest extends TestCase
     /**
      * Test admin mode
      */
-    public function testAdminMode() : void
+    public function testAdminMode(): void
     {
         $request = $this->getRequest(
             [
@@ -107,7 +106,7 @@ class AdminGUIRequestTest extends TestCase
     /**
      * Test selected ids
      */
-    public function testSelectedIds() : void
+    public function testSelectedIds(): void
     {
         $request = $this->getRequest(
             [
@@ -126,7 +125,7 @@ class AdminGUIRequestTest extends TestCase
     /**
      * Test new type
      */
-    public function testNewType() : void
+    public function testNewType(): void
     {
         $request = $this->getRequest(
             [
@@ -144,7 +143,7 @@ class AdminGUIRequestTest extends TestCase
     /**
      * Test user id
      */
-    public function testUserId() : void
+    public function testUserId(): void
     {
         $request = $this->getRequest(
             [
@@ -162,7 +161,7 @@ class AdminGUIRequestTest extends TestCase
     /**
      * Test plugin id
      */
-    public function testPluginId() : void
+    public function testPluginId(): void
     {
         $request = $this->getRequest(
             [

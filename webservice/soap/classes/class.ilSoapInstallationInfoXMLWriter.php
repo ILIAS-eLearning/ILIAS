@@ -8,35 +8,35 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 {
     protected array $settings = [];
 
-    public function setSettings(array $settings) : void
+    public function setSettings(array $settings): void
     {
         $this->settings = $settings;
     }
 
-    public function start() : void
+    public function start(): void
     {
         $this->buildHeader();
         $this->buildInstallationInfo();
         $this->xmlStartTag("Clients");
     }
 
-    public function addClient(string $client_directory) : bool
+    public function addClient(string $client_directory): bool
     {
         return $this->buildClient($client_directory);
     }
 
-    public function end() : void
+    public function end(): void
     {
         $this->xmlEndTag("Clients");
         $this->buildFooter();
     }
 
-    public function getXML() : string
+    public function getXML(): string
     {
         return $this->xmlDumpMem(false);
     }
 
-    private function buildHeader() : void
+    private function buildHeader(): void
     {
         // we have to build the http path here since this request is client independent!
         $httpPath = ilSoapFunctions::buildHTTPPath();
@@ -52,12 +52,12 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
         );
     }
 
-    private function buildFooter() : void
+    private function buildFooter(): void
     {
         $this->xmlEndTag('Installation');
     }
 
-    private function buildClient(string $client_directory) : bool
+    private function buildClient(string $client_directory): bool
     {
         global $DIC;
 
@@ -109,10 +109,9 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
             $this->xmlEndTag("Client");
         }
         return true;
-
     }
 
-    private function buildInstallationInfo() : void
+    private function buildInstallationInfo(): void
     {
         $this->xmlStartTag("Settings");
         $this->xmlElement(

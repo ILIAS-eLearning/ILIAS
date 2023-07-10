@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -34,8 +37,8 @@ class ilObjContentObjectAccess extends ilObjectAccess
     }
 
     public static array $lo_access;
-    
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -59,14 +62,13 @@ class ilObjContentObjectAccess extends ilObjectAccess
                 }
                 */
                 break;
-                
-            // for permission query feature
+
+                // for permission query feature
             case "info":
                 if (!ilObject::lookupOfflineStatus($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                 }
                 break;
-
         }
 
         return true;
@@ -79,12 +81,12 @@ class ilObjContentObjectAccess extends ilObjectAccess
     public static function _getLastAccessedPage(
         int $a_ref_id,
         int $a_user_id = 0
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
-        
+
         if ($a_user_id == 0) {
             $a_user_id = $ilUser->getId();
         }
@@ -95,12 +97,12 @@ class ilObjContentObjectAccess extends ilObjectAccess
             $q = "SELECT * FROM lo_access WHERE " .
                 "usr_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
                 "lm_id = " . $ilDB->quote($a_ref_id, "integer");
-    
+
             $acc_set = $ilDB->query($q);
             $acc_rec = $ilDB->fetchAssoc($acc_set);
         }
-        
-        if ($acc_rec["obj_id"] > 0) {
+
+        if (($acc_rec["obj_id"] ?? 0) > 0) {
             $lm_id = ilObject::_lookupObjId($a_ref_id);
             $mtree = new ilTree($lm_id);
             $mtree->setTableNames('lm_tree', 'lm_data');
@@ -109,16 +111,16 @@ class ilObjContentObjectAccess extends ilObjectAccess
                 return $acc_rec["obj_id"];
             }
         }
-        
+
         return 0;
     }
-    
-    public static function _checkGoto(string $target) : bool
+
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
+
         $t_arr = explode("_", $target);
 
         if (($t_arr[0] != "lm" && $t_arr[0] != "st"
@@ -133,7 +135,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
                 return true;
             }
         } else {
-            if ($t_arr[2] > 0) {
+            if (($t_arr[2] ?? 0) > 0) {
                 $ref_ids = array($t_arr[2]);
             } else {
                 // determine learning object
@@ -150,8 +152,8 @@ class ilObjContentObjectAccess extends ilObjectAccess
         }
         return false;
     }
-    
-    public static function _preloadData(array $obj_ids, array $ref_ids) : void
+
+    public static function _preloadData(array $obj_ids, array $ref_ids): void
     {
         global $DIC;
 
@@ -160,7 +162,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
-        
+
         $q = "SELECT obj_id, lm_id FROM lo_access WHERE " .
             "usr_id = " . $ilDB->quote($ilUser->getId(), "integer") . " AND " .
             $ilDB->in("lm_id", $ref_ids, false, "integer");
@@ -173,7 +175,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
         }
     }
 
-    public static function isInfoEnabled(int $obj_id) : bool
+    public static function isInfoEnabled(int $obj_id): bool
     {
         return (bool) ilContainer::_lookupContainerSetting(
             $obj_id,

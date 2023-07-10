@@ -9,17 +9,17 @@ class ClassificationSessionRepositoryTest extends TestCase
 {
     protected ilClassificationSessionRepository $repo;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repo = new ilClassificationSessionRepository(14);
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    public function testValueForProvider() : void
+    public function testValueForProvider(): void
     {
         $repo = $this->repo;
         $repo->setValueForProvider("prov", [1,2,3]);
@@ -29,7 +29,7 @@ class ClassificationSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testUnsetAll() : void
+    public function testUnsetAll(): void
     {
         $repo = $this->repo;
         $repo->setValueForProvider("prov", [1,2,3]);
@@ -40,7 +40,7 @@ class ClassificationSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testUnsetValueForProvider() : void
+    public function testUnsetValueForProvider(): void
     {
         $repo = $this->repo;
         $repo->setValueForProvider("prov1", [1,2,3]);

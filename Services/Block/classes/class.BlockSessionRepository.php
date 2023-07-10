@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,11 +36,11 @@ class BlockSessionRepository
     public function setNavPar(
         string $par,
         string $val
-    ) : void {
+    ): void {
         \ilSession::set(self::KEY_BASE . $par, $val);
     }
 
-    public function getNavPar(string $par) : string
+    public function getNavPar(string $par): string
     {
         if (\ilSession::has(self::KEY_BASE . $par)) {
             return \ilSession::get(self::KEY_BASE . $par);

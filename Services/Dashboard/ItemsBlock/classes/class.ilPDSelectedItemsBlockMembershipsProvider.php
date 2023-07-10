@@ -18,6 +18,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
     protected ilObjUser $actor;
     protected ilTree $tree;
     protected ilAccessHandler $access;
+    protected ilSetting  $settings;
     private ilPDSelectedItemsBlockMembershipsObjectRepository $repository;
 
     public function __construct(ilObjUser $actor)
@@ -27,6 +28,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
         $this->actor = $actor;
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
+        $this->settings = $DIC->settings();
         $this->repository = new ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository(
             $DIC->database(),
             RECOVERY_FOLDER_ID
@@ -36,8 +38,11 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
     /**
      * Gets all objects the current user is member of
      */
-    protected function getObjectsByMembership(array $objTypes = []) : array
+    protected function getObjectsByMembership(array $objTypes = []): array
     {
+        $short_desc = $this->settings->get("rep_shorten_description");
+        $short_desc_max_length = (int) $this->settings->get("rep_shorten_description_length");
+
         if (!is_array($objTypes) || $objTypes === []) {
             $objTypes = $this->repository->getValidObjectTypes();
         }
@@ -51,8 +56,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
             $parentTreeLftValue = $item->getParentLftTree();
             $parentTreeLftValue = sprintf("%010d", $parentTreeLftValue);
 
-            if (!$this->access->checkAccess('read', '', $refId) &&
-                !$this->access->checkAccess('visible', '', $refId)) {
+            if (!$this->access->checkAccess('visible', '', $refId)) {
                 continue;
             }
 
@@ -67,12 +71,17 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
                 }
             }
 
+            $description = $item->getDescription();
+            if ($short_desc && $short_desc_max_length !== 0) {
+                $description = ilStr::shortenTextExtended($description, $short_desc_max_length, true);
+            }
+
             $references[$parentTreeLftValue . $title . $refId] = [
                 'ref_id' => $refId,
                 'obj_id' => $objId,
                 'type' => $item->getType(),
                 'title' => $title,
-                'description' => $item->getDescription(),
+                'description' => $description,
                 'parent_ref' => $parentRefId,
                 'start' => $periodStart,
                 'end' => $periodEnd
@@ -83,7 +92,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
         return $references;
     }
 
-    public function getItems(array $object_type_white_list = array()) : array
+    public function getItems(array $object_type_white_list = array()): array
     {
         return $this->getObjectsByMembership($object_type_white_list);
     }

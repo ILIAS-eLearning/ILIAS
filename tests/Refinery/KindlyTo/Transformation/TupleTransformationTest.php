@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Refinery\ConstraintViolationException;
@@ -32,7 +34,7 @@ class TupleTransformationTest extends TestCase
      * @param array $originVal
      * @param array $expectedVal
      */
-    public function testTupleTransformation(array $originVal, array $expectedVal) : void
+    public function testTupleTransformation(array $originVal, array $expectedVal): void
     {
         $transformation = new TupleTransformation(
             [
@@ -49,7 +51,7 @@ class TupleTransformationTest extends TestCase
      * @dataProvider TupleFailingTransformationDataProvider
      * @param array $failingVal
      */
-    public function testNewTupleIsIncorrect(array $failingVal) : void
+    public function testNewTupleIsIncorrect(array $failingVal): void
     {
         $this->expectNotToPerformAssertions();
         $transformation = new TupleTransformation(
@@ -71,7 +73,7 @@ class TupleTransformationTest extends TestCase
      * @dataProvider TupleTooManyValuesDataProvider
      * @param array $tooManyValues
      */
-    public function testTupleTooManyValues(array $tooManyValues) : void
+    public function testTupleTooManyValues(array $tooManyValues): void
     {
         $this->expectNotToPerformAssertions();
         $transformation = new TupleTransformation(
@@ -89,21 +91,21 @@ class TupleTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function TupleTooManyValuesDataProvider() : array
+    public function TupleTooManyValuesDataProvider(): array
     {
         return [
             'too_many_values' => [[1,2,3]]
         ];
     }
 
-    public function TupleFailingTransformationDataProvider() : array
+    public function TupleFailingTransformationDataProvider(): array
     {
         return [
             'incorrect_tuple' => [[1, 2]]
         ];
     }
 
-    public function TupleTransformationDataProvider() : array
+    public function TupleTransformationDataProvider(): array
     {
         return [
             'array_test01' => [[1, 2], [1, 2]]

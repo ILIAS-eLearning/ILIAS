@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionAbstractPageObjectCommandForwarder.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * class can be used as forwarder for feedback page object contexts
@@ -27,67 +40,60 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
         parent::__construct($questionOBJ, $ctrl, $tabs, $lng);
-        
-        if (!isset($_GET['feedback_id']) || !(int) $_GET['feedback_id'] || !$questionOBJ->feedbackOBJ->checkFeedbackParent((int) $_GET['feedback_id'])) {
-            $main_tpl->setOnScreenMessage('failure', 'invalid feedback id given: ' . (int) $_GET['feedback_id'], true);
+
+        if (!$this->request->isset('feedback_id') || !(int) $this->request->raw('feedback_id') || !$questionOBJ->feedbackOBJ->checkFeedbackParent((int) $this->request->raw('feedback_id'))) {
+            $main_tpl->setOnScreenMessage('failure', 'invalid feedback id given: ' . (int) $this->request->raw('feedback_id'), true);
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
         }
-        
-        if (!isset($_GET['feedback_type']) || !ilAssQuestionFeedback::isValidFeedbackPageObjectType($_GET['feedback_type'])) {
-            $main_tpl->setOnScreenMessage('failure', 'invalid feedback type given: ' . $_GET['feedback_type'], true);
+
+        if (!$this->request->isset('feedback_type') || !ilAssQuestionFeedback::isValidFeedbackPageObjectType($this->request->raw('feedback_type'))) {
+            $main_tpl->setOnScreenMessage('failure', 'invalid feedback type given: ' . $this->request->raw('feedback_type'), true);
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
         }
     }
-    
+
     /**
      * forward method
      */
-    public function forward()
+    public function forward(): void
     {
-        //$this->ensurePageObjectExists($_GET['feedback_type'], $_GET['feedback_id']);
-        
-        $pageObjectGUI = $this->getPageObjectGUI($_GET['feedback_type'], $_GET['feedback_id']);
+        $pageObjectGUI = $this->getPageObjectGUI($this->request->raw('feedback_type'), $this->request->raw('feedback_id'));
         $pageObjectGUI->setEnabledTabs(true);
-        
+
         $this->tabs->setBackTarget(
             $this->lng->txt('tst_question_feedback_back_to_feedback_form'),
             $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW)
         );
-        
-        $this->ctrl->setParameter($pageObjectGUI, 'feedback_id', $_GET['feedback_id']);
-        $this->ctrl->setParameter($pageObjectGUI, 'feedback_type', $_GET['feedback_type']);
-        
+
+        $this->ctrl->setParameter($pageObjectGUI, 'feedback_id', $this->request->raw('feedback_id'));
+        $this->ctrl->setParameter($pageObjectGUI, 'feedback_type', $this->request->raw('feedback_type'));
+
         $this->ctrl->forwardCommand($pageObjectGUI);
     }
-    
+
     /**
      * ensures an existing page object with giben type/id
      *
      * @access protected
      */
-    public function ensurePageObjectExists($pageObjectType, $pageObjectId)
+    public function ensurePageObjectExists($pageObjectType, $pageObjectId): void
     {
-        include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssQuestionFeedback.php");
-        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPage.php");
-            if (!ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
-                $pageObject = new ilAssGenFeedbackPage();
-                $pageObject->setParentId($this->questionOBJ->getId());
-                $pageObject->setId($pageObjectId);
-                $pageObject->createFromXML();
-            }
+        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK
+            && !ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId, '', true)) {
+            $pageObject = new ilAssGenFeedbackPage();
+            $pageObject->setParentId($this->questionOBJ->getId());
+            $pageObject->setId($pageObjectId);
+            $pageObject->createFromXML();
         }
-        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPage.php");
-            if (!ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
-                $pageObject = new ilAssSpecFeedbackPage();
-                $pageObject->setParentId($this->questionOBJ->getId());
-                $pageObject->setId($pageObjectId);
-                $pageObject->createFromXML();
-            }
+        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK
+            && !ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId, '', true)) {
+            $pageObject = new ilAssSpecFeedbackPage();
+            $pageObject->setParentId($this->questionOBJ->getId());
+            $pageObject->setId($pageObjectId);
+            $pageObject->createFromXML();
         }
     }
-    
+
     /**
      * instantiates, initialises and returns a page object gui class
      *
@@ -96,9 +102,7 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
      */
     public function getPageObjectGUI($pageObjectType, $pageObjectId)
     {
-        include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssQuestionFeedback.php");
         if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPageGUI.php");
             $pageObjectGUI = new ilAssGenFeedbackPageGUI($pageObjectId);
             $pageObjectGUI->obj->addUpdateListener(
                 $this->questionOBJ,
@@ -106,7 +110,6 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
             );
             return $pageObjectGUI;
         }
-        include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php");
         $pageObjectGUI = new ilAssSpecFeedbackPageGUI($pageObjectId);
         $pageObjectGUI->obj->addUpdateListener(
             $this->questionOBJ,

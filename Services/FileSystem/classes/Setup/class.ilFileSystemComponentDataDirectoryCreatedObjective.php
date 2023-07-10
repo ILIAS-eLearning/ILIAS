@@ -36,12 +36,12 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
     }
 
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class . "::" . $this->component_dir . $this->base_location);
     }
 
-    protected function buildPath(Setup\Environment $environment) : string
+    protected function buildPath(Setup\Environment $environment): string
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
@@ -63,7 +63,7 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
     /**
      * @return \ilFileSystemDirectoriesCreatedObjective[]|\ilIniFilesLoadedObjective[]
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         // case if it is a fresh ILIAS installation
         if ($environment->hasConfigFor("filesystem")) {
@@ -79,7 +79,7 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $this->path = $this->buildPath($environment);
         return parent::achieve($environment);
@@ -88,7 +88,7 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         $this->path = $this->buildPath($environment);
         return parent::isApplicable($environment);

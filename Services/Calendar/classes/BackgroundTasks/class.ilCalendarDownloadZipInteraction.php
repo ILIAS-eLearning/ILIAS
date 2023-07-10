@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -33,7 +35,7 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritdoc
      */
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return [
             new SingleType(StringValue::class),
@@ -44,7 +46,7 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function getRemoveOption() : Option
+    public function getRemoveOption(): Option
     {
         return new UserInteractionOption('remove', self::OPTION_CANCEL);
     }
@@ -52,7 +54,7 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
@@ -60,7 +62,7 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function getOptions(array $input) : array
+    public function getOptions(array $input): array
     {
         return [
             new UserInteractionOption('download', self::OPTION_DOWNLOAD),
@@ -70,7 +72,7 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function interaction(array $input, Option $user_selected_option, Bucket $bucket) : Value
+    public function interaction(array $input, Option $user_selected_option, Bucket $bucket): Value
     {
         global $DIC;
         $zip_name = $input[1];

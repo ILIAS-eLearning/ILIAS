@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
@@ -30,8 +31,8 @@ namespace ILIAS\FileDelivery\FileDeliveryTypes;
  */
 interface DeliveryMethod
 {
-    const PHP = 'php';
-    const PHP_CHUNKED = 'php_chunked';
-    const XACCEL = 'x-accel-redirect';
-    const XSENDFILE = 'mod_xsendfile';
+    public const PHP = 'php';
+    public const PHP_CHUNKED = 'php_chunked';
+    public const XACCEL = 'x-accel-redirect';
+    public const XSENDFILE = 'mod_xsendfile';
 }

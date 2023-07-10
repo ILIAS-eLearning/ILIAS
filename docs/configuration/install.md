@@ -38,7 +38,6 @@
 1. [Upgrading Dependencies](#upgrading-dependencies)
    1. [PHP](#php)
    1. [DBMS](#dbms)
-   1. [ImageMagick](#imagemagick)
 1. [Connect and Contribute](#connect-and-contribute)
 
 <!-- /MarkdownTOC -->
@@ -70,19 +69,17 @@ For best results we recommend:
 
   * a current version of Debian GNU Linux, Ubuntu or RHEL
   * MySQL 5.7.x or MariaDB 10.2
-  * PHP 8.0
+  * PHP 8.2
   * Apache 2.4.x with `mod_php`
-  * ImageMagick 6.8+
-  * php-gd, php-xml, php-mysql, php-mbstring
+  * php-gd, php-xml, php-mysql, php-mbstring, php-imagick, php-zip
   * OpenJDK 11
-  * zip, unzip
   * Node.js: 14 (LTS)
   * git
   * composer v2
   * a contemporary browser supporting ES6, CSS3 and HTML 5
+  * npm
 
 Package names may vary depending on the Linux distribution.
-
 
 <a name="database-recommendations"></a>
 ## Database Recommendations
@@ -91,17 +88,16 @@ Package names may vary depending on the Linux distribution.
 > ILIAS supports utf8-collations with 3 bytes per character, such as `utf8_general_ci`,
 > only.
 
-We RECOMMEND to use MySQL/MariaDB with the following settings:
+We RECOMMEND to use MariaDB with the following settings:
 
-  * InnoDB storage engine
+  * InnoDB storage engine (default)
   * Character Set: `utf8`
   * Collation: `utf8_general_ci`
-  * `query_cache_size` > 16M
   * `join_buffer_size` > 128.0K
   * `table_open_cache` > 400
   * `innodb_buffer_pool_size` > 2G (depending on DB size)
 
-On MySQL 5.8+ and Galera the `Strict SQL Mode` must be disabled. See [MySQL Strict Mode](#mysql-strict-mode-56) for details.
+On MySQL 5.7+ and Galera the `Strict SQL Mode` must be disabled. See [MySQL Strict Mode](#mysql-strict-mode-56) for details.
 
 On MySQL/MariaDB `innodb_large_prefix` must be set to `OFF` if the `ROW_FORMAT`
 is set to `COMPACT`.
@@ -111,20 +107,17 @@ is set to `COMPACT`.
 
 The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows:
 
-| Package        | Version                     |
-|----------------|-----------------------------|
-| Distribution   | Ubuntu 20.04 LTS            |
-| MariaDB        | 10.0.38                     |
-| PHP            | 8.0                         |
-| Apache2        | 2.4.18                      |
-| zip            | 3.0                         |
-| unzip          | 6.00                        |
-| JDK            | OpenJDK 8                   |
-| Node.js        | 10.23.0                     |
-| wkhtmltopdf    | 0.12.5                      |
-| Ghostscript    | 9.26                        |
-| Imagemagick    | 6.8.9-9 Q16                 |
-
+| Package        | Version          |
+|----------------|------------------|
+| Distribution   | Ubuntu 20.04 LTS |
+| MariaDB        | 10.0.38          |
+| PHP            | 8.2              |
+| Apache2        | 2.4.18           |
+| JDK            | OpenJDK 8        |
+| Node.js        | 10.23.0          |
+| wkhtmltopdf    | 0.12.5           |
+| Ghostscript    | 9.26             |
+| MathJax        | 2.7.9            |
 
 <a name="other-platforms"></a>
 ## Other Platforms or Configurations
@@ -208,8 +201,8 @@ systemctl restart httpd.service
 <a name="php-installation"></a>
 ### PHP Installation and Configuration
 
-Refer to the to documentation of your installation to install either PHP 7.4 to
-PHP 8.0 including packages for gd, mysql, mbstring, curl, dom, zip and xml.
+Refer to the to documentation of your installation to install PHP 8.1
+to PHP 8.2 including packages for imagick, gd, mysql, mbstring, curl, dom, zip and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
@@ -263,6 +256,10 @@ for [HTTPS configuration](#enable-http-strict-transport-security) and further
 security relevant configuration.
 
 Remember to reload your web server configuration to apply those changes.
+
+Please ensure that PHP is compiled with `libargon2`. This is mostly the case
+for common distributions, but if you compile PHP yourself it must be build
+with `--with-password-argon2[=DIR]` (see: https://www.php.net/manual/en/password.installation.php).
 
 <a name="database-installationconfiguration"></a>
 ### Database Installation/Configuration
@@ -328,17 +325,17 @@ after several days of using ILIAS in production.
 ### Install other Dependencies
 
 ```
-apt-get install zip unzip imagemagick openjdk-7-jdk
+apt-get install openjdk-7-jdk
 ```
 
 On Debian/Ubuntu execute:
 ```
-apt-get install zip unzip imagemagick openjdk-8-jdk
+apt-get install openjdk-8-jdk
 ```
 
 On RHEL/CentOS execute:
 ```
-yum install zip unzip libxslt ImageMagick java-1.8.0-openjdk
+yum install libxslt java-1.8.0-openjdk
 ```
 
 Restart the apache webserver after you installed dependencies!
@@ -348,10 +345,10 @@ Restart the apache webserver after you installed dependencies!
 
 Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution and PHP version you are using):
 
-* php7.4-curl
-* php7.4-xmlrpc
-* php7.4-soap
-* php7.4-ldap
+* php8.2-curl
+* php8.2-xmlrpc
+* php8.2-soap
+* php8.2-ldap
 * ffmpeg
 * mimetex
 
@@ -377,12 +374,11 @@ git clone https://github.com/ILIAS-eLearning/ILIAS.git . --single-branch
 git checkout release_X
 ```
 
-or unpack the downloaded archieve to the docroot. Replace `release_X` with the
-branch or tag you actually want to install.
+or unpack the downloaded archieve to the docroot. Replace `release_X` with the branch or tag you actually want to
+install.
 
-The repository of ILIAS doesn't contain all code that is required to run. To
-download the required PHP-dependencies and to create static artifacts from
-the source, run the following in your ILIAS folder:
+The repository of ILIAS doesn't contain all code that is required to run. To download the required PHP-dependencies and
+to create static artifacts from the source, run the following in your ILIAS folder:
 
 ```
 composer install --no-dev
@@ -391,9 +387,16 @@ composer install --no-dev
 This requires that the php dependency manager [composer](https://getcomposer.org/)
 is available in your $PATH.
 
-Create a directory outside the web servers docroot (e.g. `/var/www/files`). Make
-sure that the web server is the owner of the files and directories that were created
-by changing the group and owner to www-data (on Debian/Ubuntu) or apache (on RHEL).
+```
+npm install --omit=dev --ignore-scripts
+```
+
+This requires that the javascript dependency manager [npm](https://https://www.npmjs.com/)
+is available in your $PATH.
+
+Create a directory outside the web servers docroot (e.g. `/var/www/files`). Make sure that the web server is the owner
+of the files and directories that were created by changing the group and owner to www-data (on Debian/Ubuntu) or
+apache (on RHEL).
 
 ```
 chown www-data:www-data `/var/www/html
@@ -403,6 +406,7 @@ chown www-data:www-data `/var/www/files
 The commands above will directly serve ILIAS from the docroot.
 
 <a name="install-ilias"></a>
+
 ## Install ILIAS
 
 After having all dependencies installed and configured you should be able to run
@@ -446,9 +450,7 @@ configuration might look like this afterwards:
 		}
 	},
     "utilities" : {
-        "path_to_convert" : "/usr/bin/convert",
-        "path_to_zip" : "/usr/bin/zip",
-        "path_to_unzip" : "/usr/bin/unzip"
+        "path_to_convert" : "/usr/bin/convert"
     }
 }
 ```
@@ -621,6 +623,7 @@ your ILIAS basepath (e.g. `/var/www/html/`):
 ```
 git pull
 composer install --no-dev
+npm install --omit-dev --ignore-scripts
 ```
 
 if you follow a branch or
@@ -629,6 +632,7 @@ if you follow a branch or
 git fetch
 git checkout v7.1
 composer install --no-dev
+npm install --omit-dev --ignore-scripts
 ```
 
 if you use tags to pin a specific ILIAS version.
@@ -653,6 +657,7 @@ layout templates. Then execute the following commands in your ILIAS basepath
 git fetch
 git checkout release_X
 composer install --no-dev
+npm install --omit-dev --ignore-scripts
 ```
 
 Replace `release_X` with the branch or tag you actually want to upgrade to. You can
@@ -726,43 +731,40 @@ each ILIAS release.
 <a name="php"></a>
 ## PHP
 
-| ILIAS Version   | PHP Version                           |
-|-----------------|---------------------------------------|
-| 8.x             | 7.4.x, 8.0.x                          |
-| 7.x             | 7.3.x, 7.4.x                          |
-| 6.x             | 7.2.x, 7.3.x, 7.4.x                   |
-| 5.4.x           | 7.2.x, 7.3.x, 7.4.x                   |
-| 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
-| 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
-| 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |
-| 4.4.x           | 5.3.x - 5.5.x                         |
-| 4.3.x           | 5.2.6 - 5.4.x                         |
-| 4.2.x           | 5.2.6 - 5.3.x                         |
-| 4.0.x - 4.1.x   | 5.1.4 - 5.3.x                         |
-| 3.8.x - 3.10.x  | 5.1.4 - 5.2.x                         |
+| ILIAS Version  | PHP Version                 |
+|----------------|-----------------------------|
+| 9.x            | 8.1.x, 8.2.x                |
+| 8.x            | 7.4.x, 8.0.x                |
+| 7.x            | 7.3.x, 7.4.x                |
+| 6.x            | 7.2.x, 7.3.x, 7.4.x         |
+| 5.4.x          | 7.2.x, 7.3.x, 7.4.x         |
+| 5.3.x          | 5.6.x, 7.0.x, 7.1.x         |
+| 5.2.x          | 5.5.x - 5.6.x, 7.0.x, 7.1.x |
+| 5.0.x - 5.1.x  | 5.3.x - 5.5.x               |
+| 4.4.x          | 5.3.x - 5.5.x               |
+| 4.3.x          | 5.2.6 - 5.4.x               |
+| 4.2.x          | 5.2.6 - 5.3.x               |
+| 4.0.x - 4.1.x  | 5.1.4 - 5.3.x               |
+| 3.8.x - 3.10.x | 5.1.4 - 5.2.x               |
 
 <a name="dbms"></a>
 ## DBMS
 
-| ILIAS Version   | MySQL Version                       | MariaDB Version         | Postgres (experimental)  |
-|-----------------|-------------------------------------|-------------------------|--------------------------|
-| 7.0 - 7.x       | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3        |                          |
-| 6.0 - 6.x       | 5.6.x, 5.7.x, 8.0.x                 | 10.0, 10.1, 10.2, 10.3  | 9.x                      |
-| 5.4.x - x.x.x   | 5.6.x, 5.7.x                        |                         |                          |
-| 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                 |                         |                          |
-| 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x |                         |                          |
-| 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x        |                         |                          |
-| 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x               |                         |                          |
-| 3.10.x          | 4.1.x, 5.0.x, 5.1.32 - 5.1.x        |                         |                          |
-| 3.7.3 - 3.9.x   | 4.0.x - 5.0.x                       |                         |                          |
+We strongly recommend using MariaDB instead of MySQL due to performance, licensing and compatibility in the future.
 
-<a name="imagemagick"></a>
-## ImageMagick
-
-| ILIAS Version   | ImageMagick Version                   |
-|-----------------|---------------------------------------|
-| 4.2.x - 5.2.x   | 6.8.9-9 or higher                     |
-| < 4.2.x         | No specific version requirements      |
+| ILIAS Version | MySQL Version                       | MariaDB Version        |
+|---------------|-------------------------------------|------------------------|
+| 9.0 - 9.x     | 8.0.x                               | 10.3, 10.4, 10.5, 10.6 |
+| 8.0 - 8.x     | 5.7.x, 8.0.x                        | 10.2, 10.3, 10.4       |
+| 7.0 - 7.x     | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3       |
+| 6.0 - 6.x     | 5.6.x, 5.7.x, 8.0.x                 | 10.0, 10.1, 10.2, 10.3 |
+| 5.4.x - x.x.x | 5.6.x, 5.7.x                        |                        |
+| 5.3.x - 5.4.x | 5.5.x, 5.6.x, 5.7.x                 |                        |
+| 4.4.x - 5.2.x | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x |                        |
+| 4.2.x - 4.3.x | 5.0.x, 5.1.32 - 5.1.x, 5.5.x        |                        |
+| 4.0.x - 4.1.x | 5.0.x, 5.1.32 - 5.1.x               |                        |
+| 3.10.x        | 4.1.x, 5.0.x, 5.1.32 - 5.1.x        |                        |
+| 3.7.3 - 3.9.x | 4.0.x - 5.0.x                       |                        |
 
 
 <a name="connect-and-contribute"></a>

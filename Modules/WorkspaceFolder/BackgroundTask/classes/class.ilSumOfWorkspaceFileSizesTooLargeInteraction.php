@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
@@ -34,19 +37,19 @@ class ilSumOfWorkspaceFileSizesTooLargeInteraction extends AbstractUserInteracti
         $this->lng->loadLanguageModule('background_tasks');
     }
 
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return [
             new SingleType(ilWorkspaceCopyDefinition::class),
         ];
     }
 
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(ilWorkspaceCopyDefinition::class);
     }
 
-    public function getRemoveOption() : Option
+    public function getRemoveOption(): Option
     {
         return new UserInteractionOption('ok', self::OPTION_OK);
     }
@@ -55,7 +58,7 @@ class ilSumOfWorkspaceFileSizesTooLargeInteraction extends AbstractUserInteracti
         array $input,
         Option $user_selected_option,
         Bucket $bucket
-    ) : Value {
+    ): Value {
         if ($user_selected_option->getValue() == self::OPTION_OK) {
             // Set state to finished to stop the BackgroundTask and remove it from the popover.
             $bucket->setState(3);
@@ -64,17 +67,17 @@ class ilSumOfWorkspaceFileSizesTooLargeInteraction extends AbstractUserInteracti
         return $input[0];
     }
 
-    public function getOptions(array $input) : array
+    public function getOptions(array $input): array
     {
         return array();
     }
 
-    public function getMessage(array $input) : string
+    public function getMessage(array $input): string
     {
         return $this->lng->txt('ui_msg_files_violate_maxsize');
     }
 
-    public function canBeSkipped(array $input) : bool
+    public function canBeSkipped(array $input): bool
     {
         $copy_definition = $input[0];
         if ($copy_definition->getAdheresToLimit()->getValue()) {
@@ -88,8 +91,13 @@ class ilSumOfWorkspaceFileSizesTooLargeInteraction extends AbstractUserInteracti
         }
     }
 
-    public function getSkippedValue(array $input) : Value
+    public function getSkippedValue(array $input): Value
     {
         return $input[0];
+    }
+
+    public function isFinal(): bool
+    {
+        return false;
     }
 }

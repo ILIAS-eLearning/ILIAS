@@ -43,60 +43,60 @@ class ilCache
         $this->setName($a_cache_name);
         $this->setUseLongContent($a_use_long_content);
     }
-    
+
     /**
      * Check if cache is disabled
      * Forced if member view is active
      */
-    public function isDisabled() : bool
+    public function isDisabled(): bool
     {
         return ilMemberViewSettings::getInstance()->isActive();
     }
-    
-    public function setComponent(string $a_val) : void
+
+    public function setComponent(string $a_val): void
     {
         $this->component = $a_val;
     }
-    
-    protected function getComponent() : string
+
+    protected function getComponent(): string
     {
         return $this->component;
     }
-    
-    protected function setName(string $a_val) : void
+
+    protected function setName(string $a_val): void
     {
         $this->name = $a_val;
     }
-    
-    protected function getName() : string
+
+    protected function getName(): string
     {
         return $this->name;
     }
-    
-    protected function setUseLongContent(bool $a_val) : void
+
+    protected function setUseLongContent(bool $a_val): void
     {
         $this->use_long_content = $a_val;
     }
-    
-    protected function getUseLongContent() : bool
+
+    protected function getUseLongContent(): bool
     {
         return $this->use_long_content;
     }
-    
+
     /**
      * Set expires after x seconds
      */
-    public function setExpiresAfter(int $a_val) : void
+    public function setExpiresAfter(int $a_val): void
     {
         $this->expires_after = $a_val;
     }
-    
-    public function getExpiresAfter() : int
+
+    public function getExpiresAfter(): int
     {
         return $this->expires_after;
     }
-    
-    final public function getEntry(string $a_id) : ?string
+
+    final public function getEntry(string $a_id): ?string
     {
         if ($this->readEntry($a_id)) {	// cache hit
             $this->last_access = "hit";
@@ -105,22 +105,22 @@ class ilCache
         $this->last_access = "miss";
         return null;
     }
-    
-    protected function readEntry(string $a_id) : bool
+
+    protected function readEntry(string $a_id): bool
     {
         global $ilDB;
-        
+
         $table = $this->getUseLongContent()
             ? "cache_clob"
             : "cache_text";
-    
+
         $query = "SELECT value FROM $table WHERE " .
             "component = " . $ilDB->quote($this->getComponent(), "text") . " AND " .
             "name = " . $ilDB->quote($this->getName(), "text") . " AND " .
             "expire_time > " . $ilDB->quote(time(), "integer") . " AND " .
             "ilias_version = " . $ilDB->quote(ILIAS_VERSION_NUMERIC, "text") . " AND " .
             "entry_id = " . $ilDB->quote($a_id, "text");
-        
+
         $set = $ilDB->query($query);
 
         if ($rec = $ilDB->fetchAssoc($set)) {
@@ -130,12 +130,12 @@ class ilCache
 
         return false;
     }
-    
-    public function getLastAccessStatus() : string
+
+    public function getLastAccessStatus(): string
     {
         return $this->last_access;
     }
-    
+
     public function storeEntry(
         string $a_id,
         string $a_value,
@@ -143,7 +143,7 @@ class ilCache
         ?int $a_int_key2 = null,
         ?string $a_text_key1 = null,
         ?string $a_text_key2 = null
-    ) : void {
+    ): void {
         global $ilDB;
 
         $table = $this->getUseLongContent()
@@ -152,7 +152,7 @@ class ilCache
         $type = $this->getUseLongContent()
             ? "clob"
             : "text";
-            
+
         // do not store values, that do not fit into the text field
         if (strlen($a_value) > 4000 && $type == "text") {
             return;
@@ -171,7 +171,7 @@ class ilCache
             "expire_time" => array("integer", (time() + $this->getExpiresAfter())),
             "ilias_version" => array("text", ILIAS_VERSION_NUMERIC)
             ));
-            
+
         // In 1/2000 times, delete old entries
         $random = new \ilRandom();
         $num = $random->int(1, 2000);
@@ -183,19 +183,19 @@ class ilCache
             );
         }
     }
-    
+
     public function deleteByAdditionalKeys(
         ?int $a_int_key1 = null,
         ?int $a_int_key2 = null,
         ?string $a_text_key1 = null,
         ?string $a_text_key2 = null
-    ) : void {
+    ): void {
         global $ilDB;
 
         $table = $this->getUseLongContent()
             ? "cache_clob"
             : "cache_text";
-            
+
         $q = "DELETE FROM $table WHERE " .
             "component = " . $ilDB->quote($this->getComponent(), "text") .
             " AND name = " . $ilDB->quote($this->getName(), "text");
@@ -213,29 +213,29 @@ class ilCache
         }
         $ilDB->manipulate($q);
     }
-    
-    public function deleteAllEntries() : void
+
+    public function deleteAllEntries(): void
     {
         global $ilDB;
 
         $table = $this->getUseLongContent()
             ? "cache_clob"
             : "cache_text";
-            
+
         $q = "DELETE FROM $table WHERE " .
             "component = " . $ilDB->quote($this->getComponent(), "text") .
             " AND name = " . $ilDB->quote($this->getName(), "text");
         $ilDB->manipulate($q);
     }
 
-    public function deleteEntry(string $a_id) : void
+    public function deleteEntry(string $a_id): void
     {
         global $ilDB;
 
         $table = $this->getUseLongContent()
             ? "cache_clob"
             : "cache_text";
-        
+
         $ilDB->manipulate("DELETE FROM " . $table . " WHERE "
             . " entry_id = " . $ilDB->quote($a_id, "text")
             . " AND component = " . $ilDB->quote($this->getComponent(), "text") .

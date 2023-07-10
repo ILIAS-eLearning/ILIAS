@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 
@@ -19,7 +21,7 @@ class ilImportDirectoryFactory
         $this->storage_directory = $DIC->filesystem()->storage();
     }
 
-    public function getInstanceForComponent(string $type) : ilImportDirectory
+    public function getInstanceForComponent(string $type): ilImportDirectory
     {
         switch ($type) {
             case self::TYPE_MOB:

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -29,7 +31,7 @@ class ilADTActiveRecord
      * Read record
      * @return bool
      */
-    public function read() : bool
+    public function read(): bool
     {
         // reset all group elements
         $this->properties->getADT()->reset();
@@ -45,7 +47,7 @@ class ilADTActiveRecord
         return false;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $fields = $this->properties->getPrimary();
         $this->properties->prepareInsert($fields);
@@ -53,7 +55,7 @@ class ilADTActiveRecord
         $this->properties->afterInsert();
     }
 
-    public function update() : void
+    public function update(): void
     {
         $fields = array();
         $this->properties->prepareUpdate($fields);
@@ -61,7 +63,7 @@ class ilADTActiveRecord
         $this->properties->afterUpdate();
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $this->db->manipulate("DELETE FROM " . $this->properties->getTable() .
             " WHERE " . $this->properties->buildPrimaryWhere());

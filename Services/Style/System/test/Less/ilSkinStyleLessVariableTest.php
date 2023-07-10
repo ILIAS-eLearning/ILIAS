@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
 
 class ilSkinStyleLessVariableTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $variable = new ilSystemStyleLessVariable('name', 'value', 'comment', 'category_name', ['references_id']);
         $this->assertEquals('name', $variable->getName());
@@ -34,7 +34,7 @@ class ilSkinStyleLessVariableTest extends TestCase
         $this->assertEquals(['references_id'], $variable->getReferences());
     }
 
-    public function testSetters() : void
+    public function testSetters(): void
     {
         $variable = new ilSystemStyleLessVariable('name', 'value', 'comment', 'category_name', ['references_id']);
 
@@ -51,7 +51,7 @@ class ilSkinStyleLessVariableTest extends TestCase
         $this->assertEquals(['new_references_id'], $variable->getReferences());
     }
 
-    public function testIconFontPathUpdate() : void
+    public function testIconFontPathUpdate(): void
     {
         $variable = new ilSystemStyleLessVariable('il-icon-font-path', 'value', 'comment', 'category_name', ['references_id']);
 
@@ -59,7 +59,7 @@ class ilSkinStyleLessVariableTest extends TestCase
         $this->assertEquals("\"../../../../node_modules/bootstrap/fonts/\"", $variable->getValue());
     }
 
-    public function testIconFontPathQuotation() : void
+    public function testIconFontPathQuotation(): void
     {
         $variable = new ilSystemStyleLessVariable('il-icon-font-path', 'value', 'comment', 'category_name', ['references_id']);
 
@@ -78,7 +78,7 @@ class ilSkinStyleLessVariableTest extends TestCase
         $this->assertEquals("\"somePath\"", $variable->getValue());
     }
 
-    public function testToString() : void
+    public function testToString(): void
     {
         $variable = new ilSystemStyleLessVariable('name', 'value', 'comment', 'category_name', ['references_id']);
         $this->assertEquals("//** comment\n@name:\t\tvalue;\n", (string) $variable);

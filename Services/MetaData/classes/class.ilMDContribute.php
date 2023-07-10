@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -36,12 +38,12 @@ class ilMDContribute extends ilMDBase
     /**
      * @return int[]
      */
-    public function getEntityIds() : array
+    public function getEntityIds(): array
     {
-        return ilMDEntity::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_contribute');
+        return ilMDEntity::_getIds($this->getRBACId(), $this->getObjId(), (int) $this->getMetaId(), 'meta_contribute');
     }
 
-    public function getEntity(int $a_entity_id) : ?ilMDEntity
+    public function getEntity(int $a_entity_id): ?ilMDEntity
     {
         if (!$a_entity_id) {
             return null;
@@ -52,7 +54,7 @@ class ilMDContribute extends ilMDBase
         return $ent;
     }
 
-    public function addEntity() : ilMDEntity
+    public function addEntity(): ilMDEntity
     {
         $ent = new ilMDEntity($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $ent->setParentId($this->getMetaId());
@@ -62,7 +64,7 @@ class ilMDContribute extends ilMDBase
     }
 
     // SET/GET
-    public function setRole(string $a_role) : bool
+    public function setRole(string $a_role): bool
     {
         switch ($a_role) {
             case 'Author':
@@ -90,22 +92,22 @@ class ilMDContribute extends ilMDBase
         }
     }
 
-    public function getRole() : string
+    public function getRole(): string
     {
         return $this->role;
     }
 
-    public function setDate(string $a_date) : void
+    public function setDate(string $a_date): void
     {
         $this->date = $a_date;
     }
 
-    public function getDate() : string
+    public function getDate(): string
     {
         return $this->date;
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_contribute_id'] = array('integer', $next_id = $this->db->nextId('il_meta_contribute'));
@@ -117,21 +119,16 @@ class ilMDContribute extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_contribute',
-                $this->__getFields(),
-                array("meta_contribute_id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_contribute',
+            $this->__getFields(),
+            array("meta_contribute_id" => array('integer', $this->getMetaId()))
+        );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_contribute " .
@@ -150,7 +147,7 @@ class ilMDContribute extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -163,7 +160,7 @@ class ilMDContribute extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_contribute " .
@@ -183,12 +180,10 @@ class ilMDContribute extends ilMDBase
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag('Contribute', array(
-            'Role' => $this->getRole()
-                ? $this->getRole()
-                : 'Author'
+            'Role' => $this->getRole() ?: 'Author'
         ));
 
         // Entities
@@ -206,13 +201,12 @@ class ilMDContribute extends ilMDBase
         $writer->xmlEndTag('Contribute');
     }
 
-
     // STATIC
 
     /**
      * @return int[]
      */
-    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type): array
     {
         global $DIC;
 
@@ -235,7 +229,7 @@ class ilMDContribute extends ilMDBase
     /**
      * @return string[]
      */
-    public static function _lookupAuthors(int $a_rbac_id, int $a_obj_id, string $a_obj_type) : array
+    public static function _lookupAuthors(int $a_rbac_id, int $a_obj_id, string $a_obj_type): array
     {
         global $DIC;
 
@@ -249,7 +243,7 @@ class ilMDContribute extends ilMDBase
             "AND ent.obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($row->role == 'Author' and $row->parent_type == 'meta_contribute') {
+            if ($row->role === 'Author' && $row->parent_type === 'meta_contribute') {
                 $authors[] = trim($row->entity);
             }
         }

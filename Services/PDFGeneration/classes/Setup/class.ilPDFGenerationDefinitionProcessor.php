@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+/**
+ * @deprecated
+ */
 class ilPDFGenerationDefinitionProcessor implements ilComponentDefinitionProcessor
 {
     protected ilDBInterface $db;
@@ -26,21 +31,21 @@ class ilPDFGenerationDefinitionProcessor implements ilComponentDefinitionProcess
         $this->db = $db;
     }
 
-    public function purge() : void
+    public function purge(): void
     {
     }
 
-    public function beginComponent(string $component, string $type) : void
+    public function beginComponent(string $component, string $type): void
     {
         $this->component = $type . "/" . $component;
     }
 
-    public function endComponent(string $component, string $type) : void
+    public function endComponent(string $component, string $type): void
     {
         $this->component = null;
     }
 
-    public function beginTag(string $name, array $attributes) : void
+    public function beginTag(string $name, array $attributes): void
     {
         if ($name !== "pdfpurpose") {
             return;
@@ -49,7 +54,7 @@ class ilPDFGenerationDefinitionProcessor implements ilComponentDefinitionProcess
         ilPDFCompInstaller::updateFromXML($this->component, $attributes['name'], $attributes['preferred']);
     }
 
-    public function endTag(string $name) : void
+    public function endTag(string $name): void
     {
     }
 }

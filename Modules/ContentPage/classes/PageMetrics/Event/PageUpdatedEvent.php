@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ContentPage\PageMetrics\Event;
 
 use ilContentPagePage;
@@ -27,14 +29,11 @@ use ilContentPagePage;
  */
 final class PageUpdatedEvent
 {
-    private ilContentPagePage $page;
-
-    public function __construct(ilContentPagePage $page)
+    public function __construct(private readonly ilContentPagePage $page)
     {
-        $this->page = $page;
     }
 
-    public function page() : ilContentPagePage
+    public function page(): ilContentPagePage
     {
         return $this->page;
     }

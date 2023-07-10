@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Help adapter for booking manager
@@ -34,7 +33,7 @@ class ilBookingHelpAdapter
         $this->help = $help;
     }
 
-    public function setHelpId(string $a_id) : void
+    public function setHelpId(string $a_id): void
     {
         $ilHelp = $this->help;
 

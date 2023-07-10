@@ -5,9 +5,8 @@ var Subscriber = require('../Model/Subscriber');
 module.exports = function(req, res)
 {
 	var roomId = parseInt(req.params.roomId);
-	var subRoomId = parseInt(req.params.subRoomId);
 	var subscriberId= parseInt(req.params.id);
-	var serverRoomId = Container.createServerRoomId(roomId, subRoomId);
+	var serverRoomId = Container.createServerRoomId(roomId);
 	var namespace = Container.getNamespace(req.params.namespace);
 	var room = namespace.getRoom(serverRoomId);
 
@@ -31,6 +30,5 @@ module.exports = function(req, res)
 
 	res.send({
 		success: true,
-		subRoomId: subRoomId
 	});
 };

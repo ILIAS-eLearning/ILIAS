@@ -1,4 +1,8 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +19,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilTimingsCronReminder extends ilCronJob
 {
     private static array $objects_information;
@@ -43,53 +47,53 @@ class ilTimingsCronReminder extends ilCronJob
         $this->db = $DIC->database();
         $this->obj_data_cache = $DIC['ilObjDataCache'];
 
-        self::$objects_information = array();
-        $this->users_with_exceeded_timings = array();
-        $this->users = array();
+        self::$objects_information = [];
+        $this->users_with_exceeded_timings = [];
+        $this->users = [];
         $this->now = time();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return 'crs_timings_reminder';
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('timings_reminder_notifications');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt('timings_reminder_notifications_info');
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
 
-    public function hasCustomSettings() : bool
+    public function hasCustomSettings(): bool
     {
         return false;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $this->log->debug('Start.');
 
@@ -110,15 +114,15 @@ class ilTimingsCronReminder extends ilCronJob
     /**
      * Read all active users
      */
-    protected function gatherUsers() : void
+    protected function gatherUsers(): void
     {
         $now = time();
         $query = $this->db->queryF(
             'SELECT usr_id FROM usr_data WHERE 
 									(active = 1 AND time_limit_unlimited = 1) OR 
 									(active = 1 AND time_limit_unlimited = 0 AND time_limit_from < %s AND time_limit_until > %s)',
-            array('integer', 'integer'),
-            array($now, $now)
+            ['integer', 'integer'],
+            [$now, $now]
         );
         while ($row = $this->db->fetchAssoc($query)) {
             $usr_id = (int) $row['usr_id'];
@@ -127,21 +131,21 @@ class ilTimingsCronReminder extends ilCronJob
         $this->log->debug('Found ' . count($this->users) . ' users.');
     }
 
-    protected function gatherUsersWithExceededTimings() : void
+    protected function gatherUsersWithExceededTimings(): void
     {
         $this->users_with_exceeded_timings = ilTimingsUser::lookupTimingsExceededByUser($this->users);
         $this->log->debug('Found ' . count($this->users_with_exceeded_timings) . ' users with exceeded timings.');
     }
 
-    protected function getNewExceededObjectForUser() : void
+    protected function getNewExceededObjectForUser(): void
     {
-        $users_with_exceeded_objects = array();
+        $users_with_exceeded_objects = [];
 
         if (is_array($this->users_with_exceeded_timings) && $this->users_with_exceeded_timings !== []) {
             foreach ($this->users_with_exceeded_timings as $key => $user_id) {
                 $objects = $this->getExceededObjectsForUser($user_id);
                 if (is_array($objects) && $objects !== []) {
-                    $obj_data = array();
+                    $obj_data = [];
                     $already_notified = $this->getAlreadySentNotifications($user_id);
                     $objects = array_diff_key($objects, $already_notified);
                     foreach (array_keys($objects) as $ref_id) {
@@ -159,15 +163,15 @@ class ilTimingsCronReminder extends ilCronJob
         }
     }
 
-    protected function getFreshlyStartedObjectsForUser() : void
+    protected function getFreshlyStartedObjectsForUser(): void
     {
-        $users_with_new_started_object = array();
+        $users_with_new_started_object = [];
 
         if (is_array($this->users) && $this->users !== []) {
             foreach ($this->users as $key => $user_id) {
                 $objects = $this->getObjectsWithTimingsForUser($user_id);
                 if (is_array($objects) && $objects !== []) {
-                    $obj_data = array();
+                    $obj_data = [];
                     $already_notified = $this->getAlreadySentNotifications($user_id, false);
                     $this->log->debug('User_id ' . $user_id . ' was already notified for ' . count($already_notified) . ' elements ');
                     $objects = array_diff_key($objects, $already_notified);
@@ -192,7 +196,7 @@ class ilTimingsCronReminder extends ilCronJob
         }
     }
 
-    protected function buildExceededMails(array $users_with_exceeded_objects) : void
+    protected function buildExceededMails(array $users_with_exceeded_objects): void
     {
         $this->log->debug('Start.');
         if (is_array($users_with_exceeded_objects)) {
@@ -213,7 +217,7 @@ class ilTimingsCronReminder extends ilCronJob
         $this->log->debug('end.');
     }
 
-    protected function buildFreshlyStartedMails(array $users_with_freshly_started_objects) : void
+    protected function buildFreshlyStartedMails(array $users_with_freshly_started_objects): void
     {
         $this->log->debug('start.');
         if (is_array($users_with_freshly_started_objects)) {
@@ -233,7 +237,7 @@ class ilTimingsCronReminder extends ilCronJob
         $this->log->debug('end.');
     }
 
-    protected function buildTopMailBody(int $user_id, string $language_variable) : ilTemplate
+    protected function buildTopMailBody(int $user_id, string $language_variable): ilTemplate
     {
         $this->log->debug('start...');
         $tpl = new ilTemplate('tpl.crs_timings_cron_reminder_mail.html', true, true, 'Modules/Course');
@@ -245,7 +249,7 @@ class ilTimingsCronReminder extends ilCronJob
         return $tpl;
     }
 
-    protected function fillObjectListForMailBody(array $objects, ilTemplate $tpl) : bool
+    protected function fillObjectListForMailBody(array $objects, ilTemplate $tpl): bool
     {
         $has_elements = false;
         foreach ($objects as $object_id => $object_details) {
@@ -262,7 +266,7 @@ class ilTimingsCronReminder extends ilCronJob
         return $has_elements;
     }
 
-    protected function getUserLanguage(int $user_id) : void
+    protected function getUserLanguage(int $user_id): void
     {
         $this->log->debug('start...');
         $this->user_lang = ilLanguageFactory::_getLanguageOfUser($user_id);
@@ -271,12 +275,12 @@ class ilTimingsCronReminder extends ilCronJob
         $this->log->debug('user language for user ' . $user_id . ' is ' . $this->user_lang->getLangKey() . ' end.');
     }
 
-    protected function buildMailSalutation(int $user_id, ilTemplate $tpl) : void
+    protected function buildMailSalutation(int $user_id, ilTemplate $tpl): void
     {
         $name = ilObjUser::_lookupName($user_id);
         if (is_array($name)) {
             $salutation = $this->user_lang->txt('mail_salutation_n') . ' ';
-            if ($name['gender'] != '') {
+            if (($name['gender'] ?? "") != '') {
                 $salutation .= $this->user_lang->txt('salutation_' . $name['gender']) . ' ';
             }
             if ($name['title'] != '') {
@@ -291,7 +295,7 @@ class ilTimingsCronReminder extends ilCronJob
         }
     }
 
-    protected function sendExceededMail(int $user_id, array $ref_ids, string $mail_body) : void
+    protected function sendExceededMail(int $user_id, array $ref_ids, string $mail_body): void
     {
         $login = \ilObjUser::_lookupLogin($user_id);
         if ($login != '') {
@@ -316,7 +320,7 @@ class ilTimingsCronReminder extends ilCronJob
         }
     }
 
-    protected function sendFreshlyStartedMail(int $user_id, array $ref_ids, string $mail_body) : void
+    protected function sendFreshlyStartedMail(int $user_id, array $ref_ids, string $mail_body): void
     {
         $login = \ilObjUser::_lookupLogin($user_id);
 
@@ -338,37 +342,37 @@ class ilTimingsCronReminder extends ilCronJob
         }
     }
 
-    protected function markExceededInDatabase(int $user_id, array $ref_ids) : void
+    protected function markExceededInDatabase(int $user_id, array $ref_ids): void
     {
         foreach (array_keys($ref_ids) as $ref_id) {
             $this->db->manipulateF(
                 'INSERT INTO ' . ilCourseConstants::CRON_TIMINGS_EXCEEDED_TABLE . ' (user_id, ref_id, sent) VALUES ' .
                 ' (%s,%s,%s)',
-                array('integer', 'integer', 'integer'),
-                array($user_id, $ref_id, $this->now)
+                ['integer', 'integer', 'integer'],
+                [$user_id, $ref_id, $this->now]
             );
 
             $this->log->debug('ilTimingsCronReminder->markExceededInDatabase: Marked exceeded in Database. User ' . $user_id . ' ref_id ' . $ref_id);
         }
     }
 
-    protected function markFreshlyStartedInDatabase(int $user_id, array $ref_ids) : void
+    protected function markFreshlyStartedInDatabase(int $user_id, array $ref_ids): void
     {
         foreach (array_keys($ref_ids) as $ref_id) {
             $this->db->manipulateF(
                 'INSERT INTO ' . ilCourseConstants::CRON_TIMINGS_STARTED_TABLE . ' (user_id, ref_id, sent) VALUES ' .
                 ' (%s,%s,%s)',
-                array('integer', 'integer', 'integer'),
-                array($user_id, $ref_id, $this->now)
+                ['integer', 'integer', 'integer'],
+                [$user_id, $ref_id, $this->now]
             );
 
             $this->log->debug('ilTimingsCronReminder->markFreshlyStartedInDatabase: Marked freshly started in Database. User ' . $user_id . ' ref_id ' . $ref_id);
         }
     }
 
-    protected function getAlreadySentNotifications(int $user_id, bool $for_exceeded = true) : array
+    protected function getAlreadySentNotifications(int $user_id, bool $for_exceeded = true): array
     {
-        $ref_ids = array();
+        $ref_ids = [];
         $table = ilCourseConstants::CRON_TIMINGS_EXCEEDED_TABLE;
 
         if (!$for_exceeded) {
@@ -378,8 +382,8 @@ class ilTimingsCronReminder extends ilCronJob
         $result = $this->db->queryF(
             'SELECT * FROM ' . $table . ' WHERE ' .
             'user_id = %s',
-            array('integer'),
-            array($user_id)
+            ['integer'],
+            [$user_id]
         );
 
         while ($record = $this->db->fetchAssoc($result)) {
@@ -388,16 +392,17 @@ class ilTimingsCronReminder extends ilCronJob
         return $ref_ids;
     }
 
-    protected function getInformationForRefId(int $ref_id) : array
+    protected function getInformationForRefId(int $ref_id): array
     {
         if (!array_key_exists($ref_id, self::$objects_information)) {
             $obj_id = $this->obj_data_cache->lookupObjId($ref_id);
             $type = $this->obj_data_cache->lookupType($obj_id);
-            $value = array('title' => $this->obj_data_cache->lookupTitle($obj_id),
-                           'type' => $type,
-                           'url' => ilLink::_getLink($ref_id, $type),
-                           'obj_id' => $obj_id
-            );
+            $value = [
+                'title' => $this->obj_data_cache->lookupTitle($obj_id),
+                'type' => $type,
+                'url' => ilLink::_getLink($ref_id, $type),
+                'obj_id' => $obj_id
+            ];
             self::$objects_information[$ref_id] = $value;
 
             $this->log->debug('ilTimingsCronReminder->getInformationForRefId: ...cached object information for => ' . $value['type'] . ' => ' . $value['title']);
@@ -405,20 +410,20 @@ class ilTimingsCronReminder extends ilCronJob
         return self::$objects_information[$ref_id];
     }
 
-    protected function getExceededObjectsForUser(int $user_id) : array
+    protected function getExceededObjectsForUser(int $user_id): array
     {
         $tmp = [];
-        return ilTimingsUser::lookupTimings(array($user_id), $tmp, true);
+        return ilTimingsUser::lookupTimings([$user_id], $tmp, true);
     }
 
-    protected function getObjectsWithTimingsForUser(int $user_id) : array
+    protected function getObjectsWithTimingsForUser(int $user_id): array
     {
-        $meta = array();
-        $timings_obj_list = ilTimingsUser::lookupTimings(array($user_id), $meta, false);
-        return $meta[$user_id];
+        $meta = [];
+        $timings_obj_list = ilTimingsUser::lookupTimings([$user_id], $meta, false);
+        return $meta[$user_id] ?? [];
     }
 
-    protected function hasUserActivatedNotification(int $user_id) : bool
+    protected function hasUserActivatedNotification(int $user_id): bool
     {
         return true;
     }

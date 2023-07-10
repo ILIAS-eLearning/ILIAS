@@ -1,11 +1,11 @@
 <?php
+
 require_once("libs/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
 
 class InitHttpServicesTest extends TestCase
 {
-
     /**
      * @var \ILIAS\DI\Container
      */
@@ -14,12 +14,12 @@ class InitHttpServicesTest extends TestCase
     /**
      * Http services has no additional deps so far to be set up.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->dic = new \ILIAS\DI\Container();
     }
 
-    public function testUIFrameworkInitialization() : void
+    public function testUIFrameworkInitialization(): void
     {
         $this->assertFalse(isset($this->dic['http']));
         $this->assertFalse(isset($this->dic['http.response_sender_strategy']));

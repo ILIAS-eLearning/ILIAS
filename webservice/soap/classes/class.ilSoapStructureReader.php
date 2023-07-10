@@ -1,4 +1,5 @@
 <?php
+
 include_once './webservice/soap/classes/class.ilSoapStructureObject.php';
 
 /**
@@ -16,22 +17,22 @@ class ilSoapStructureReader
         $this->structureObject = ilSoapStructureObjectFactory::getInstanceForObject($object);
     }
 
-    public function getStructureObject() : ?ilSoapStructureObject
+    public function getStructureObject(): ?ilSoapStructureObject
     {
         $this->_parseStructure();
         return $this->structureObject;
     }
 
-    public function _parseStructure() : void
+    public function _parseStructure(): void
     {
     }
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         return $this->structureObject instanceof \ilSoapStructureObject;
     }
 
-    public function getObject() : ilObject
+    public function getObject(): ilObject
     {
         return $this->object;
     }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Stream\Streams;
 
@@ -69,15 +72,15 @@ class ilLearningHistoryGUI
         $this->http = $DIC->http();
     }
 
-    public function setUserId(int $user_id) : void
+    public function setUserId(int $user_id): void
     {
         $this->user_id = $user_id;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
-        
+
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("show");
 
@@ -89,7 +92,7 @@ class ilLearningHistoryGUI
         }
     }
 
-    protected function show() : void
+    protected function show(): void
     {
         $main_tpl = $this->main_tpl;
         $lng = $this->lng;
@@ -109,7 +112,7 @@ class ilLearningHistoryGUI
         }
     }
 
-    protected function renderAsync() : void
+    protected function renderAsync(): void
     {
         $response["timeline"] = $this->renderTimeline($this->from, $this->to);
         $response["more"] = $this->show_more ? $this->renderButton() : "";
@@ -120,7 +123,7 @@ class ilLearningHistoryGUI
      * @param string $output
      * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
      */
-    protected function send(string $output) : void
+    protected function send(string $output): void
     {
         $this->http->saveResponse($this->http->response()->withBody(
             Streams::ofString($output)
@@ -137,18 +140,18 @@ class ilLearningHistoryGUI
         ?int $to = null,
         ?array $classes = null,
         ?string $a_mode = null
-    ) : string {
+    ): string {
         return $this->ctrl->getHTML($this, ["from" => $from, "to" => $to, "classes" => $classes, "mode" => $a_mode]);
     }
 
     /**
      * Get HTML
      */
-    public function getHTML(array $par) : string
+    public function getHTML(array $par): string
     {
         return $this->getHistoryHtml($par["from"], $par["to"], $par["classes"], $par["mode"]);
     }
-    
+
     /**
      * Get history html
      */
@@ -157,7 +160,7 @@ class ilLearningHistoryGUI
         ?int $to = null,
         ?array $classes = null,
         ?string $mode = null
-    ) : string {
+    ): string {
         $tpl = new ilTemplate("tpl.timeline.html", true, true, "Services/LearningHistory");
 
         $tpl->setVariable("TIMELINE", $this->renderTimeline($from, $to, $classes, $mode));
@@ -179,7 +182,7 @@ class ilLearningHistoryGUI
         int $to = null,
         array $classes = null,
         string $mode = null
-    ) : string {
+    ): string {
         $collector = $this->lhist_service->factory()->collector();
         $ctrl = $this->ctrl;
 
@@ -220,7 +223,7 @@ class ilLearningHistoryGUI
         return $html;
     }
 
-    protected function renderButton() : string
+    protected function renderButton(): string
     {
         $ctrl = $this->ctrl;
         $f = $this->ui->factory();
@@ -230,7 +233,7 @@ class ilLearningHistoryGUI
 
         $button = $f->button()->standard($this->lng->txt("lhist_show_more"), "")
             ->withLoadingAnimationOnClick(true)
-            ->withOnLoadCode(static function ($id) use ($url) : string {
+            ->withOnLoadCode(static function ($id) use ($url): string {
                 return "il.LearningHistory.initShowMore('$id', '" . $url . "');";
             });
         if ($ctrl->isAsynch()) {

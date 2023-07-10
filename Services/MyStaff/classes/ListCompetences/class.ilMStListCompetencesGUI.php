@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\DI\Container;
@@ -31,7 +47,7 @@ class ilMStListCompetencesGUI
 
     protected function checkAccessOrFail(): void
     {
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToCompetences()) {
             return;
         } else {
             $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt("permission_denied"), true);
@@ -62,7 +78,7 @@ class ilMStListCompetencesGUI
         }
     }
 
-    protected function addSubTabs(string $subtab_active) : void
+    protected function addSubTabs(string $subtab_active): void
     {
         $this->dic->language()->loadLanguageModule('skmg');
         $this->dic->tabs()->addSubTab(
@@ -80,41 +96,5 @@ class ilMStListCompetencesGUI
     final public function index(): void
     {
         $this->dic->ctrl()->redirectByClass(ilMStListCompetencesSkillsGUI::class);
-    }
-
-    final public function getActions(): void
-    {
-        $mst_co_usr_id = $this->dic->http()->request()->getQueryParams()['mst_lco_usr_id'];
-        $mst_lco_crs_ref_id = $this->dic->http()->request()->getQueryParams()['mst_lco_crs_ref_id'];
-
-        if ($mst_co_usr_id > 0 && $mst_lco_crs_ref_id > 0) {
-            $selection = new ilAdvancedSelectionListGUI();
-
-            if ($this->dic->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
-                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
-                $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '',
-                    $link);
-            };
-
-            $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
-            foreach (
-                ilOrgUnitUserAssignment::innerjoin('object_reference', 'orgu_id', 'ref_id')->where(array(
-                    'user_id' => $mst_co_usr_id,
-                    'object_reference.deleted' => null
-                ), array('user_id' => '=', 'object_reference.deleted' => '!='))->get() as $org_unit_assignment
-            ) {
-                if ($this->dic->access()->checkAccess("read", "", $org_unit_assignment->getOrguId())) {
-                    $link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
-                    $selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
-                }
-            }
-
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id,
-                rawurlencode($this->dic->ctrl()
-                                       ->getLinkTarget($this, self::CMD_INDEX)));
-
-            echo $selection->getHTML(true);
-        }
-        exit;
     }
 }

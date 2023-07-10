@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * GUI class for scorm verification
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -20,19 +25,15 @@
  */
 class ilObjSCORMVerificationGUI extends ilObject2GUI
 {
-    /**
-     * @return string
-     */
-    public function getType() : string
+    public function getType(): string
     {
         return "scov";
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
-    public function create() : void
+    public function create(): void
     {
         global $DIC;
         $ilTabs = $DIC->tabs();
@@ -49,12 +50,11 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
     }
 
     /**
-     * @return void
      * @throws JsonException
      * @throws ilCtrlException
      * @throws ilException
      */
-    public function save() : void
+    public function save(): void
     {
         global $DIC;
 
@@ -99,10 +99,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $this->create();
     }
 
-    /**
-     * @return void
-     */
-    public function deliver() : void
+    public function deliver(): void
     {
         $file = $this->object->getFilePath();
         if ($file) {
@@ -110,12 +107,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         }
     }
 
-    /**
-     * @param bool   $a_return
-     * @param string $a_url
-     * @return string
-     */
-    public function render(bool $a_return = false, string $a_url = '') : string
+    public function render(bool $a_return = false, string $a_url = ''): string
     {
         global $DIC;
         $ilUser = $DIC->user();
@@ -155,11 +147,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         return "";
     }
 
-    /**
-     * @param ilPortfolioPage $a_page
-     * @return void
-     */
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page): void
     {
         global $DIC;
         $ilErr = $DIC['ilErr'];
@@ -171,23 +159,22 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
 
-    /**
-     * @param string $a_target
-     * @return void
-     */
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
+        global $DIC;
         $id = explode("_", $a_target);
 
-        $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["wsp_id"] = $id[0];
-        exit;
+        $DIC->ctrl->setParameterByClass(
+            "ilsharedresourceGUI",
+            "wsp_id",
+            $id[0]
+        );
+        $DIC->ctrl->redirectByClass(ilSharedResourceGUI::class);
     }
 
     /**
-     * @param string $key
-     * @param mixed   $default
-     * @return mixed|null
+     * @param mixed $default
+     * @return mixed
      */
     protected function getRequestValue(string $key, $default = null)
     {
@@ -195,10 +182,6 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
             return $this->request->getQueryParams()[$key];
         }
 
-        if (isset($this->request->getParsedBody()[$key])) {
-            return $this->request->getParsedBody()[$key];
-        }
-
-        return $default ?? null;
+        return $this->request->getParsedBody()[$key] ?? $default ?? null;
     }
 }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -16,7 +32,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
      */
     private $questionSetConfig_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $ctrl_mock = $this->createMock(ilCtrl::class);
@@ -41,12 +57,12 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetGeneralConfigFormGUI::class, $this->formGui);
     }
 
-    public function testEditModeEnabled() : void
+    public function testEditModeEnabled(): void
     {
         $expected = true;
 
@@ -55,7 +71,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected, $this->formGui->isEditModeEnabled());
     }
 
-    public function testSave() : void
+    public function testSave(): void
     {
         $this->formGui->build();
 
@@ -67,7 +83,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
         $this->formGui->save();
     }
 
-    public static function lngTxtCallback() : string
+    public static function lngTxtCallback(): string
     {
         $args = func_get_args();
         switch ($args[0]) {

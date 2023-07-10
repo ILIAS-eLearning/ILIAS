@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Multilingualism;
 
@@ -35,27 +38,27 @@ class StandardGUIRequest
         );
     }
 
-    public function getTitles() : array
+    public function getTitles(): array
     {
         return $this->strArray("title");
     }
 
-    public function getDescriptions() : array
+    public function getDescriptions(): array
     {
         return $this->strArray("desc");
     }
 
-    public function getLanguages() : array
+    public function getLanguages(): array
     {
         return $this->strArray("lang");
     }
 
-    public function getCheck() : array
+    public function getCheck(): array
     {
         return $this->strArray("check");
     }
 
-    public function getDefault() : string
+    public function getDefault(): string
     {
         return $this->str("default");
     }

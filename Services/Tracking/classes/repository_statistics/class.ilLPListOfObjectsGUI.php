@@ -1,6 +1,22 @@
-<?php declare(strict_types=0);
+<?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=0);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjUserTrackingGUI
@@ -23,7 +39,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         );
     }
 
-    protected function initUserDetailsIdFromQuery() : int
+    protected function initUserDetailsIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('userdetails_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -34,7 +50,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         return 0;
     }
 
-    protected function initUserIdFromRequest() : int
+    protected function initUserIdFromRequest(): int
     {
         if ($this->initUserIdFromQuery()) {
             return $this->initUserIdFromQuery();
@@ -48,7 +64,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         return 0;
     }
 
-    protected function initDetailsIdFromRequest(int $default_id) : int
+    protected function initDetailsIdFromRequest(int $default_id): int
     {
         if ($this->http->wrapper()->query()->has('details_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -65,7 +81,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         return $default_id;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->ctrl->setReturn($this, "");
 
@@ -75,7 +91,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
                 $this->ctrl->setParameter($this, "user_id", $user_id);
 
                 $this->ctrl->setParameter(
-                    $this, "details_id", $this->details_id
+                    $this,
+                    "details_id",
+                    $this->details_id
                 );
 
                 $table_gui = new ilTrUserObjectsPropsTableGUI(
@@ -95,21 +113,27 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
                     $cmd = "show";
                 }
                 $table_gui = new ilTrSummaryTableGUI(
-                    $this, $cmd, $this->details_id
+                    $this,
+                    $cmd,
+                    $this->details_id
                 );
                 $this->ctrl->forwardCommand($table_gui);
                 break;
 
             case 'iltrmatrixtablegui':
                 $table_gui = new ilTrMatrixTableGUI(
-                    $this, "showUserObjectMatrix", $this->details_id
+                    $this,
+                    "showUserObjectMatrix",
+                    $this->details_id
                 );
                 $this->ctrl->forwardCommand($table_gui);
                 break;
 
             case 'iltrobjectuserspropstablegui':
                 $this->ctrl->setParameter(
-                    $this, "details_id", $this->details_id
+                    $this,
+                    "details_id",
+                    $this->details_id
                 );
 
                 $table_gui = new ilTrObjectUsersPropsTableGUI(
@@ -136,23 +160,31 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         }
 
         if (!ilLearningProgressAccess::checkPermission(
-            'edit_learning_progress', $this->details_id
+            'edit_learning_progress',
+            $this->details_id
         )) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt("permission_denied"), true
+                'failure',
+                $this->lng->txt("permission_denied"),
+                true
             );
             $this->ctrl->returnToParent($this);
         }
 
         $this->__updateUser(
-            $this->initUserIdFromRequest(), $this->details_obj_id
+            $this->initUserIdFromRequest(),
+            $this->details_obj_id
         );
         $this->tpl->setOnScreenMessage(
-            'success', $this->lng->txt('trac_update_edit_user'), true
+            'success',
+            $this->lng->txt('trac_update_edit_user'),
+            true
         );
 
         $this->ctrl->setParameter(
-            $this, "details_id", $this->details_id
+            $this,
+            "details_id",
+            $this->details_id
         ); // #15043
 
         // #14993
@@ -164,7 +196,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         }
     }
 
-    public function editUser() : void
+    public function editUser(): void
     {
         $cancel = '';
         $parent_id = $this->details_id;
@@ -179,10 +211,13 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         }
 
         if (!ilLearningProgressAccess::checkPermission(
-            'edit_learning_progress', $this->details_id
+            'edit_learning_progress',
+            $this->details_id
         )) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt("permission_denied"), true
+                'failure',
+                $this->lng->txt("permission_denied"),
+                true
             );
             $this->ctrl->returnToParent($this);
         }
@@ -198,15 +233,18 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
                 $user_id,
                 $parent_id,
                 strlen($cancel) > 0 ? $cancel : null,
-                $sub_id
+                $sub_id ?? 0
             ) . "<br />" . $info->getHTML()
         );
     }
 
-    public function details() : void
+    public function details(): void
     {
         $this->tpl->addBlockFile(
-            'ADM_CONTENT', 'adm_content', 'tpl.lp_loo.html', 'Services/Tracking'
+            'ADM_CONTENT',
+            'adm_content',
+            'tpl.lp_loo.html',
+            'Services/Tracking'
         );
 
         // Show back button
@@ -228,11 +266,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $this->__showUsersList();
     }
 
-    public function __showUsersList($a_print_view = false) : void
+    public function __showUsersList($a_print_view = false): void
     {
         if ($this->isAnonymized()) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt('permission_denied')
+                'failure',
+                $this->lng->txt('permission_denied')
             );
             return;
         }
@@ -249,11 +288,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
     }
 
-    public function userDetails() : void
+    public function userDetails(): void
     {
         if ($this->isAnonymized()) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt('permission_denied')
+                'failure',
+                $this->lng->txt('permission_denied')
             );
             return;
         }
@@ -270,16 +310,21 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         if (!$print_view) {
             // Show back button
             $this->toolbar->addButton(
-                $this->lng->txt('trac_view_list'), $this->ctrl->getLinkTarget(
-                $this, 'details'
-            )
+                $this->lng->txt('trac_view_list'),
+                $this->ctrl->getLinkTarget(
+                    $this,
+                    'details'
+                )
             );
         }
 
         $user_id = $this->initUserIdFromQuery();
         $this->ctrl->setParameter($this, "user_id", $user_id);
         $this->tpl->addBlockFile(
-            'ADM_CONTENT', 'adm_content', 'tpl.lp_loo.html', 'Services/Tracking'
+            'ADM_CONTENT',
+            'adm_content',
+            'tpl.lp_loo.html',
+            'Services/Tracking'
         );
 
         $info = new ilInfoScreenGUI($this);
@@ -300,7 +345,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $this->tpl->setVariable('LEGEND', $this->__getLegendHTML());
     }
 
-    public function show() : void
+    public function show(): void
     {
         $this->ctrl->setParameter($this, 'offset', 0);
 
@@ -314,20 +359,24 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $this->__listObjects();
     }
 
-    public function __listObjects() : void
+    public function __listObjects(): void
     {
         $this->tpl->addBlockFile(
-            'ADM_CONTENT', 'adm_content', 'tpl.lp_list_objects.html',
+            'ADM_CONTENT',
+            'adm_content',
+            'tpl.lp_list_objects.html',
             'Services/Tracking'
         );
 
         $lp_table = new ilTrSummaryTableGUI($this, "", ROOT_FOLDER_ID);
 
         $this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
-        $this->tpl->setVariable('LEGEND', $this->__getLegendHTML());
+        if ($lp_table->isStatusShown()) {
+            $this->tpl->setVariable('LEGEND', $this->__getLegendHTML(ilLPStatusIcons::ICON_VARIANT_SHORT));
+        }
     }
 
-    public function __initDetails(int $a_details_id) : void
+    public function __initDetails(int $a_details_id): void
     {
         if (!$a_details_id) {
             $a_details_id = $this->getRefId();
@@ -349,27 +398,38 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     /**
      * Show object-based summarized tracking data
      */
-    public function showObjectSummary() : void
+    public function showObjectSummary(): void
     {
         $table = new ilTrSummaryTableGUI(
-            $this, "showObjectSummary", $this->getRefId(), false
+            $this,
+            "showObjectSummary",
+            $this->getRefId(),
+            false
         );
-        $this->tpl->setContent($table->getHTML());
+        $content = $table->getHTML();
+        if ($table->isStatusShown()) {
+            $content .= $this->__getLegendHTML(ilLPStatusIcons::ICON_VARIANT_SHORT);
+        }
+        $this->tpl->setContent($content);
     }
 
     /**
      * Show object user matrix
      */
-    public function showUserObjectMatrix() : void
+    public function showUserObjectMatrix(): void
     {
         if ($this->isAnonymized()) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt('permission_denied')
+                'failure',
+                $this->lng->txt('permission_denied')
             );
             return;
         }
         $this->tpl->addBlockFile(
-            'ADM_CONTENT', 'adm_content', 'tpl.lp_loo.html', 'Services/Tracking'
+            'ADM_CONTENT',
+            'adm_content',
+            'tpl.lp_loo.html',
+            'Services/Tracking'
         );
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));
@@ -380,7 +440,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         }
 
         $table = new ilTrMatrixTableGUI(
-            $this, "showUserObjectMatrix", $this->getRefId()
+            $this,
+            "showUserObjectMatrix",
+            $this->getRefId()
         );
         $this->tpl->setVariable('LP_OBJECTS', $table->getHTML());
         $this->tpl->setVariable('LEGEND', $this->__getLegendHTML());

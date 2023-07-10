@@ -1,9 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolTaxonomiesDuplicator.php';
-require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -45,10 +56,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
     public function reset()
     {
         $this->removeMirroredTaxonomies();
-
         $this->removeStagedQuestions();
-
-        $this->cleanupTestSettings();
     }
 
     private function removeMirroredTaxonomies()
@@ -100,7 +108,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
         }
     }
 
-    private function stageQuestionsFromSourcePool($sourcePoolId) : array
+    private function stageQuestionsFromSourcePool($sourcePoolId): array
     {
         $questionIdMapping = array();
 
@@ -142,8 +150,6 @@ class ilTestRandomQuestionSetStagingPoolBuilder
             $lifecycleFilter = $definition->getLifecycleFilter();
 
             if (!empty($taxFilter)) {
-                require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-
                 $filterItems = null;
                 foreach ($taxFilter as $taxId => $nodeIds) {
                     $taxItems = array();
@@ -215,7 +221,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
             }
             if (!isset($questionIdMappingPerPool[$sourcePoolId][ $row['question_id'] ])) {
                 $question = assQuestion::_instantiateQuestion($row['question_id']);
-                $duplicateId = $question->duplicate(true, null, null, null, $this->testOBJ->getId());
+                $duplicateId = $question->duplicate(true, '', '', '', $this->testOBJ->getId());
 
                 $nextId = $this->db->nextId('tst_rnd_cpy');
                 $this->db->insert('tst_rnd_cpy', array(
@@ -233,7 +239,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
     }
     // fau.
 
-    private function mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping) : ilQuestionPoolDuplicatedTaxonomiesKeysMap
+    private function mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping): ilQuestionPoolDuplicatedTaxonomiesKeysMap
     {
         $duplicator = new ilQuestionPoolTaxonomiesDuplicator();
 
@@ -273,12 +279,4 @@ class ilTestRandomQuestionSetStagingPoolBuilder
             }
         }
     }
-
-    private function cleanupTestSettings()
-    {
-        $this->testOBJ->setResultFilterTaxIds(array());
-        $this->testOBJ->saveToDb(true);
-    }
-
-    // =================================================================================================================
 }

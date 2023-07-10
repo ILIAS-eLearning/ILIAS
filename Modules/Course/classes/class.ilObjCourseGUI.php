@@ -1,4 +1,4 @@
-<?php declare(strict_types=0);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,8 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=0);
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\News\Service as News;
 
 /**
  * Class ilObjCourseGUI
@@ -45,6 +48,7 @@ class ilObjCourseGUI extends ilContainerGUI
     public const BREADCRUMB_DEFAULT = 0;
     public const BREADCRUMB_CRS_ONLY = 1;
     public const BREADCRUMB_FULL_PATH = 2;
+    protected News $news;
 
     private ?ilAdvancedMDRecordGUI $record_gui = null;
     private ?ilContainerStartObjects $start_obj = null;
@@ -72,20 +76,18 @@ class ilObjCourseGUI extends ilContainerGUI
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->news = $DIC->news();
     }
 
     /**
      * @todo  check deletable
      */
-    public function gatewayObject() : void
+    public function gatewayObject(): void
     {
         $this->viewObject();
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function afterImport(ilObject $new_object) : void
+    protected function afterImport(ilObject $new_object): void
     {
         $part = ilCourseParticipants::_getInstanceByObjId($new_object->getId());
         $part->add($this->user->getId(), ilCourseConstants::CRS_ADMIN);
@@ -96,18 +98,24 @@ class ilObjCourseGUI extends ilContainerGUI
         parent::afterImport($new_object);
     }
 
-    public function renderObject() : void
+    public function renderObject(): void
     {
         $this->ctrl->setCmd("view");
         $this->viewObject();
     }
 
-    public function viewObject() : void
+    public function viewObject(): void
     {
+        if (strtolower($this->std_request->getBaseClass()) === "iladministrationgui") {
+            parent::viewObject();
+            return;
+        }
+
         $this->tabs_gui->setTabActive('view_content');
         $this->checkPermission('read', 'view');
         if ($this->view_manager->isAdminView()) {
-            parent::viewObject();
+            parent::renderObject();
+            $this->addAdoptContentLinkToToolbar();
             return;
         }
 
@@ -141,7 +149,6 @@ class ilObjCourseGUI extends ilContainerGUI
             $stgui->getHTML();
             return;
         }
-
         // views handled by general container logic
         if (
             $this->object->getViewMode() == ilContainer::VIEW_SIMPLE ||
@@ -158,7 +165,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
     }
 
-    public function renderContainer() : void
+    public function renderContainer(): void
     {
         parent::renderObject();
     }
@@ -169,14 +176,14 @@ class ilObjCourseGUI extends ilContainerGUI
      * works through ilCtrl in the future this may be changed
      * @todo
      */
-    public function infoScreenObject() : void
+    public function infoScreenObject(): void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->infoScreen();
     }
 
-    public function infoScreen() : void
+    public function infoScreen(): void
     {
         if (!$this->checkPermissionBool('read')) {
             $this->checkPermission('visible');
@@ -382,10 +389,9 @@ class ilObjCourseGUI extends ilContainerGUI
                 }
                 if ($this->object->getSubscriptionMaxMembers()) {
                     $reg_info = ilObjCourseAccess::lookupRegistrationInfo($this->object->getId());
-
                     $info->addProperty(
                         $this->lng->txt('mem_free_places'),
-                        $reg_info['reg_info_free_places']
+                        (string) ($reg_info['reg_info_free_places'] ?? '0')
                     );
                 }
             }
@@ -431,7 +437,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->ctrl->forwardCommand($info);
     }
 
-    public function saveNotificationObject() : void
+    public function saveNotificationObject(): void
     {
         $noti = new ilMembershipNotifications($this->ref_id);
         if ($noti->canCurrentUserEdit()) {
@@ -452,7 +458,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->ctrl->redirect($this, "");
     }
 
-    public function editInfoObject(ilPropertyFormGUI $a_form = null) : void
+    public function editInfoObject(ilPropertyFormGUI $a_form = null): void
     {
         $this->checkPermission('write');
         $this->setSubTabs('properties');
@@ -486,7 +492,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->tpl->setVariable('INFO_FILE_TABLE', $table_gui->getHTML());
     }
 
-    public function confirmDeleteInfoFilesObject() : void
+    public function confirmDeleteInfoFilesObject(): void
     {
         $file_ids = [];
         if ($this->http->wrapper()->post()->has('file_id')) {
@@ -523,7 +529,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->tpl->setContent($c_gui->getHTML());
     }
 
-    public function deleteInfoFilesObject() : void
+    public function deleteInfoFilesObject(): void
     {
         $file_ids = [];
         if ($this->http->wrapper()->post()->has('file_id')) {
@@ -551,7 +557,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->editInfoObject();
     }
 
-    public function initInfoEditor() : ilPropertyFormGUI
+    public function initInfoEditor(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'updateInfo'));
@@ -633,7 +639,7 @@ class ilObjCourseGUI extends ilContainerGUI
     /**
      * @todo switch to form
      */
-    public function updateInfoObject() : void
+    public function updateInfoObject(): void
     {
         $this->checkPermission('write');
 
@@ -650,6 +656,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
             $file_info = $form->getInput('file');
             $file_name = $form->getItemByPostVar('file')->getFilename();
+            $file_name = ilFileUtils::getValidFilename($file_name);
 
             $file_obj = new ilCourseFile();
             $file_obj->setCourseId($this->object->getId());
@@ -694,7 +701,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
     }
 
-    public function updateObject() : void
+    public function updateObject(): void
     {
         $obj_service = $this->getObjectService();
         $setting = $this->settings;
@@ -880,18 +887,7 @@ class ilObjCourseGUI extends ilContainerGUI
         ilObjectServiceSettingsGUI::updateServiceSettingsForm(
             $this->object->getId(),
             $form,
-            array(
-                ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
-                ilObjectServiceSettingsGUI::USE_NEWS,
-                ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-                ilObjectServiceSettingsGUI::TAG_CLOUD,
-                ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-                ilObjectServiceSettingsGUI::BADGES,
-                ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
-                ilObjectServiceSettingsGUI::SKILLS,
-                ilObjectServiceSettingsGUI::BOOKING,
-                ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
-            )
+            $this->getSubServices()
         );
 
         ilChangeEvent::_recordWriteEvent($this->object->getId(), $this->user->getId(), 'update');
@@ -914,7 +910,27 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->afterUpdate();
     }
 
-    protected function confirmLPSync() : void
+    protected function getSubServices(): array
+    {
+        $subs = array(
+            ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
+            ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
+            ilObjectServiceSettingsGUI::TAG_CLOUD,
+            ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+            ilObjectServiceSettingsGUI::BADGES,
+            ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+            ilObjectServiceSettingsGUI::SKILLS,
+            ilObjectServiceSettingsGUI::BOOKING,
+            ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
+        );
+        if ($this->news->isGloballyActivated()) {
+            $subs[] = ilObjectServiceSettingsGUI::USE_NEWS;
+        }
+
+        return $subs;
+    }
+
+    protected function confirmLPSync(): void
     {
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this, "setLPSync"));
@@ -924,7 +940,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    protected function setLPSyncObject() : void
+    protected function setLPSyncObject(): void
     {
         $this->object->setStatusDetermination(ilObjCourse::STATUS_DETERMINATION_LP);
         $this->object->update();
@@ -933,7 +949,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->ctrl->redirect($this, "edit");
     }
 
-    public function editObject(ilPropertyFormGUI $form = null) : void
+    public function editObject(ilPropertyFormGUI $form = null): void
     {
         $this->setSubTabs('properties');
         $this->tabs_gui->setSubTabActive('crs_settings');
@@ -949,12 +965,12 @@ class ilObjCourseGUI extends ilContainerGUI
      * values are already set in initEditForm
      * Returning an empty array avoid overriding these values.
      */
-    protected function getEditFormValues() : array
+    protected function getEditFormValues(): array
     {
         return [];
     }
 
-    protected function initEditForm() : ilPropertyFormGUI
+    protected function initEditForm(): ilPropertyFormGUI
     {
         $obj_service = $this->getObjectService();
         $setting = $this->settings;
@@ -1065,7 +1081,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
         // Registration codes
         $reg_code = new ilCheckboxInputGUI($this->lng->txt('crs_reg_code'), 'reg_code_enabled');
-        $reg_code->setChecked($this->object->isRegistrationAccessCodeEnabled() || 1);
+        $reg_code->setChecked($this->object->isRegistrationAccessCodeEnabled());
         $reg_code->setValue('1');
         $reg_code->setInfo($this->lng->txt('crs_reg_code_enabled_info'));
 
@@ -1153,6 +1169,8 @@ class ilObjCourseGUI extends ilContainerGUI
             $wait->setValue('2');
         } elseif ($this->object->enabledWaitingList()) {
             $wait->setValue('1');
+        } else {
+            $wait->setValue('0');
         }
         $lim->addSubItem($wait);
         $form->addItem($lim);
@@ -1326,18 +1344,7 @@ class ilObjCourseGUI extends ilContainerGUI
         ilObjectServiceSettingsGUI::initServiceSettingsForm(
             $this->object->getId(),
             $form,
-            array(
-                ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
-                ilObjectServiceSettingsGUI::USE_NEWS,
-                ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-                ilObjectServiceSettingsGUI::TAG_CLOUD,
-                ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-                ilObjectServiceSettingsGUI::BADGES,
-                ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
-                ilObjectServiceSettingsGUI::SKILLS,
-                ilObjectServiceSettingsGUI::BOOKING,
-                ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
-            )
+            $this->getSubServices()
         );
 
         $mem = new ilCheckboxInputGUI($this->lng->txt('crs_show_members'), 'show_members');
@@ -1395,7 +1402,7 @@ class ilObjCourseGUI extends ilContainerGUI
         return $form;
     }
 
-    public function sendFileObject() : void
+    public function sendFileObject(): void
     {
         $file_id = 0;
         if ($this->http->wrapper()->query()->has('file_id')) {
@@ -1408,7 +1415,7 @@ class ilObjCourseGUI extends ilContainerGUI
         ilFileDelivery::deliverFileLegacy($file->getAbsolutePath(), $file->getFileName(), $file->getFileType());
     }
 
-    public function setSubTabs(string $a_tab) : void
+    public function setSubTabs(string $a_tab): void
     {
         switch ($a_tab) {
             case "properties":
@@ -1465,7 +1472,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 }
 
                 // only show if export permission is granted
-                if (ilPrivacySettings::getInstance()->checkExportAccess($this->object->getRefId()) or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())) {
+                if (ilPrivacySettings::getInstance()->checkExportAccess($this->object->getRefId()) || ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())) {
                     $this->tabs_gui->addSubTabTarget(
                         'crs_custom_user_fields',
                         $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui'),
@@ -1512,7 +1519,7 @@ class ilObjCourseGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    protected function showPossibleSubObjects() : void
+    protected function showPossibleSubObjects(): void
     {
         if (
             $this->object->getViewMode() == ilContainer::VIEW_OBJECTIVE &&
@@ -1526,7 +1533,7 @@ class ilObjCourseGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    protected function afterSave(ilObject $new_object) : void
+    protected function afterSave(ilObject $new_object): void
     {
         $new_object->getMemberObject()->add($this->user->getId(), ilParticipants::IL_CRS_ADMIN);
         $new_object->getMemberObject()->updateNotification(
@@ -1548,7 +1555,7 @@ class ilObjCourseGUI extends ilContainerGUI
         ));
     }
 
-    public function readMemberData(array $ids, array $selected_columns = null) : array
+    public function readMemberData(array $ids, array $selected_columns = null): array
     {
         $show_tracking =
             (
@@ -1623,7 +1630,7 @@ class ilObjCourseGUI extends ilContainerGUI
             }
 
             if ($do_prtf) {
-                $tmp_data['prtf'] = $all_prtf[$usr_id];
+                $tmp_data['prtf'] = $all_prtf[$usr_id] ?? null;
             }
 
             $members[$usr_id] = $tmp_data;
@@ -1634,7 +1641,7 @@ class ilObjCourseGUI extends ilContainerGUI
     /**
      * sync course status and lp status
      */
-    public function updateLPFromStatus(int $a_member_id, bool $a_has_passed) : void
+    public function updateLPFromStatus(int $a_member_id, bool $a_has_passed): void
     {
         if (ilObjUserTracking::_enabledLearningProgress() &&
             $this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP) {
@@ -1655,7 +1662,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
     }
 
-    public function autoFillObject() : bool
+    public function autoFillObject(): bool
     {
         $this->checkPermission('write');
         if (
@@ -1676,7 +1683,7 @@ class ilObjCourseGUI extends ilContainerGUI
         return true;
     }
 
-    public function leaveObject() : void
+    public function leaveObject(): void
     {
         $this->checkPermission('leave');
 
@@ -1695,12 +1702,28 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    public function unsubscribeObject() : void
+    public function unsubscribeObject(): void
     {
         $this->leaveObject();
     }
 
-    protected function getAgreementTabs() : void
+    public function performUnsubscribeObject()
+    {
+        $this->checkPermission('leave');
+        $this->getObject()->getMembersObject()->delete($this->user->getId());
+        $this->getObject()->getMembersObject()->sendUnsubscribeNotificationToAdmins($this->user->getId());
+        $this->getObject()->getMembersObject()->sendNotification(
+            ilCourseMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
+            $this->user->getId()
+        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_unsubscribed_from_crs'), true);
+
+        $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->tree->getParentId($this->ref_id));
+        $this->ctrl->redirectByClass("ilrepositorygui", "");
+    }
+
+
+    protected function getAgreementTabs(): void
     {
         if ($this->access->checkAccess('visible', '', $this->ref_id)) {
             $this->tabs->addTarget(
@@ -1725,7 +1748,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
     }
 
-    public function addContentTab() : void
+    public function addContentTab(): void
     {
         $this->tabs_gui->addTab(
             "view_content",
@@ -1734,7 +1757,7 @@ class ilObjCourseGUI extends ilContainerGUI
         );
     }
 
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         $this->help->setScreenIdComponent("crs");
         $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
@@ -1929,7 +1952,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -2117,7 +2140,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($agreement);
                 break;
 
-            // container page editing
+                // container page editing
             case "ilcontainerpagegui":
                 $ret = $this->forwardToPageObject();
                 if ($ret != "") {
@@ -2190,6 +2213,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
                 $editor = new ilLOEditorGUI($this->object);
                 $this->ctrl->forwardCommand($editor);
+                if (strtolower($this->ctrl->getCmdClass()) === "illopagegui") {
+                    $header_action = false;
+                }
                 break;
 
             case 'ilcontainerstartobjectsgui':
@@ -2204,6 +2230,11 @@ class ilObjCourseGUI extends ilContainerGUI
                     $this->lng->txt("crs_start_objects"),
                     $this->ctrl->getLinkTargetByClass("ilcontainerstartobjectsgui", "listStructure")
                 );
+                $this->tabs_gui->activateTab("start");
+                if (strtolower($this->ctrl->getCmdClass()) ==
+                    "ilcontainerstartobjectspagegui") {
+                    $header_action = false;
+                }
                 global $DIC;
 
                 $ilHelp = $DIC['ilHelp'];
@@ -2378,7 +2409,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
     }
 
-    private function checkAgreement() : bool
+    private function checkAgreement(): bool
     {
         if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
             return true;
@@ -2413,17 +2444,17 @@ class ilObjCourseGUI extends ilContainerGUI
         return true;
     }
 
-    public static function _forwards() : array
+    public static function _forwards(): array
     {
         return array("ilCourseRegisterGUI", 'ilConditionHandlerGUI');
     }
 
-    protected function membersObject() : void
+    protected function membersObject(): void
     {
         $this->ctrl->redirectByClass('ilcoursemembershipgui');
     }
 
-    public static function _goto($a_target, string $a_add = "") : void
+    public static function _goto($a_target, string $a_add = ""): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -2487,7 +2518,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
     }
 
-    public function editMapSettingsObject() : void
+    public function editMapSettingsObject(): void
     {
         $this->setSubTabs("properties");
         $this->tabs_gui->activateTab('settings');
@@ -2528,9 +2559,9 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->lng->txt("crs_map_location"),
             "location"
         );
-        $loc_prop->setLatitude($latitude);
-        $loc_prop->setLongitude($longitude);
-        $loc_prop->setZoom($zoom);
+        $loc_prop->setLatitude((float) $latitude);
+        $loc_prop->setLongitude((float) $longitude);
+        $loc_prop->setZoom((int) $zoom);
         $form->addItem($loc_prop);
 
         $form->addCommandButton("saveMapSettings", $this->lng->txt("save"));
@@ -2542,12 +2573,12 @@ class ilObjCourseGUI extends ilContainerGUI
     /**
      * @todo centralize for course, group, others
      */
-    public function saveMapSettingsObject() : void
+    public function saveMapSettingsObject(): void
     {
         $location = [];
         if ($this->http->wrapper()->post()->has('location')) {
             $custom_transformer = $this->refinery->custom()->transformation(
-                fn ($array) => $array
+                fn($array) => $array
             );
             $location = $this->http->wrapper()->post()->retrieve(
                 'location',
@@ -2572,7 +2603,7 @@ class ilObjCourseGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function modifyItemGUI(ilObjectListGUI $a_item_list_gui, array $a_item_data) : void
+    public function modifyItemGUI(ilObjectListGUI $a_item_list_gui, array $a_item_data): void
     {
         ilObjCourseGUI::_modifyItemGUI(
             $a_item_list_gui,
@@ -2592,7 +2623,7 @@ class ilObjCourseGUI extends ilContainerGUI
         int $a_course_ref_id,
         int $a_course_obj_id,
         int $a_parent_ref_id = 0
-    ) : void {
+    ): void {
         global $DIC;
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
@@ -2621,7 +2652,7 @@ class ilObjCourseGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function setContentSubTabs() : void
+    public function setContentSubTabs(): void
     {
         global $DIC;
 
@@ -2662,20 +2693,22 @@ class ilObjCourseGUI extends ilContainerGUI
             );
         }
         //}
+
         $this->addStandardContainerSubTabs(false);
     }
 
-    public function askResetObject() : void
+    public function askResetObject(): void
     {
-        $this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_objectives_reset_sure'));
+        //$this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_objectives_reset_sure'));
         $confirm = new ilConfirmationGUI();
+        $confirm->setHeaderText($this->lng->txt('crs_objectives_reset_sure'));
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setConfirm($this->lng->txt('reset'), 'reset');
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    public function resetObject() : void
+    public function resetObject(): void
     {
         $usr_results = new ilLOUserResults($this->object->getId(), $GLOBALS['DIC']['ilUser']->getId());
         $usr_results->delete();
@@ -2692,7 +2725,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->viewObject();
     }
 
-    public function __checkStartObjects() : bool
+    public function __checkStartObjects(): bool
     {
         if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
             return true;
@@ -2711,7 +2744,7 @@ class ilObjCourseGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function prepareOutput(bool $show_subobjects = true) : bool
+    public function prepareOutput(bool $show_subobjects = true): bool
     {
         if (!$this->getCreationMode()) {
             $settings = ilMemberViewSettings::getInstance();
@@ -2727,7 +2760,7 @@ class ilObjCourseGUI extends ilContainerGUI
      * Create a course mail signature
      * @return string
      */
-    public function createMailSignature() : string
+    public function createMailSignature(): string
     {
         $link = chr(13) . chr(10) . chr(13) . chr(10);
         $link .= $this->lng->txt('crs_mail_permanent_link');
@@ -2736,7 +2769,7 @@ class ilObjCourseGUI extends ilContainerGUI
         return rawurlencode(base64_encode($link));
     }
 
-    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null) : ?ilObjectListGUI
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null): ?ilObjectListGUI
     {
         $lg = parent::initHeaderAction($sub_type, $sub_id);
 
@@ -2800,10 +2833,8 @@ class ilObjCourseGUI extends ilContainerGUI
     /**
      * @todo get rid of cert logger
      */
-    public function deliverCertificateObject() : void
+    public function deliverCertificateObject(): void
     {
-        global $DIC;
-
         $user_id = null;
         if ($this->access->checkAccess('manage_members', '', $this->ref_id)) {
             $user_id = 0;
@@ -2829,11 +2860,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
         $repository = new ilUserCertificateRepository();
 
-        $certLogger = $DIC->logger()->cert();
-        $pdfGenerator = new ilPdfGenerator($repository, $certLogger);
+        $pdfGenerator = new ilPdfGenerator($repository);
 
         $pdfAction = new ilCertificatePdfAction(
-            $certLogger,
             $pdfGenerator,
             new ilCertificateUtilHelper(),
             $this->lng->txt('error_creating_certificate_pdf')
@@ -2841,12 +2870,12 @@ class ilObjCourseGUI extends ilContainerGUI
         $pdfAction->downloadPdf((int) $user_id, $objId);
     }
 
-    protected function afterSaveCallback() : void
+    protected function afterSaveCallback(): void
     {
         $this->ctrl->redirectByClass(array('ilrepositorygui', 'ilobjcoursegui', 'illoeditorgui'), 'materials');
     }
 
-    public function saveSortingObject() : void
+    public function saveSortingObject(): void
     {
         $post_position = (array) ($this->http->request()->getParsedBody()['position'] ?? []);
         if (isset($post_position['lobj'])) {
@@ -2878,7 +2907,7 @@ class ilObjCourseGUI extends ilContainerGUI
         parent::saveSortingObject();
     }
 
-    protected function redirectLocToTestConfirmedObject() : void
+    protected function redirectLocToTestConfirmedObject(): void
     {
         $tid = 0;
         if ($this->http->wrapper()->query()->has('tid')) {
@@ -2890,7 +2919,7 @@ class ilObjCourseGUI extends ilContainerGUI
         ilUtil::redirect(ilLink::_getLink($tid));
     }
 
-    protected function redirectLocToTestObject($a_force_new_run = null) : void
+    protected function redirectLocToTestObject($a_force_new_run = null): void
     {
         $tid = 0;
         if ($this->http->wrapper()->query()->has('tid')) {
@@ -2941,7 +2970,7 @@ class ilObjCourseGUI extends ilContainerGUI
     /**
      * Show confirmation whether user wants to start a new run or resume a previous run
      */
-    protected function redirectLocToTestConfirmation(int $a_objective_id, int $a_test_id) : void
+    protected function redirectLocToTestConfirmation(int $a_objective_id, int $a_test_id): void
     {
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this));
@@ -2952,12 +2981,13 @@ class ilObjCourseGUI extends ilContainerGUI
             $question = $this->lng->txt('crs_loc_objectives_passed_confirmation');
         }
 
+        $confirm->setHeaderText($question);
         $confirm->addHiddenItem('objective_id', (string) $a_objective_id);
         $confirm->addHiddenItem('tid', (string) $a_test_id);
         $confirm->setConfirm($this->lng->txt('crs_loc_tst_start'), 'redirectLocToTestConfirmed');
         $confirm->setCancel($this->lng->txt('cancel'), 'view');
 
-        $this->tpl->setOnScreenMessage('question', $question);
+        //$this->tpl->setOnScreenMessage('question', $question);
         $this->tpl->setContent($confirm->getHTML());
     }
 
@@ -2966,7 +2996,7 @@ class ilObjCourseGUI extends ilContainerGUI
      * @param  int[] $a_exclude a list of role ids which will not added to the results (optional)
      * returns all local roles [role_id] => title
      */
-    public function getLocalRoles(array $a_exclude = array()) : array
+    public function getLocalRoles(array $a_exclude = array()): array
     {
         $crs_admin = $this->object->getDefaultAdminRole();
         $crs_member = $this->object->getDefaultMemberRole();
@@ -2997,14 +3027,14 @@ class ilObjCourseGUI extends ilContainerGUI
         return $crs_roles;
     }
 
-    protected function hasAdminPermission() : bool
+    protected function hasAdminPermission(): bool
     {
         return
             ilCourseParticipant::_getInstanceByObjId($this->object->getId(), $this->user->getId())->isAdmin() ||
             $this->checkPermissionBool('edit_permission');
     }
 
-    protected function jump2UsersGalleryObject() : void
+    protected function jump2UsersGalleryObject(): void
     {
         $this->ctrl->redirectByClass(ilUsersGalleryGUI::class);
     }
@@ -3012,7 +3042,7 @@ class ilObjCourseGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function setSideColumnReturn() : void
+    public function setSideColumnReturn(): void
     {
         $this->ctrl->setReturn($this, "view");
     }

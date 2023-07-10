@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,17 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateRpcClientFactoryHelper
 {
-    /**
-     * @param string $package
-     * @param string $certificateContent
-     * @return stdClass
-     */
-    public function ilFO2PDF(string $package, string $certificateContent) : stdClass
+    public function ilFO2PDF(string $package, string $certificateContent): stdClass
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return ilRpcClientFactory::factory($package)->ilFO2PDF($certificateContent);

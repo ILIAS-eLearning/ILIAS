@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Handles scorm mail placeholders
  *
@@ -21,20 +26,14 @@
  */
 class ilScormMailTemplateLPContext extends ilMailTemplateContext
 {
-    const ID = 'sahs_context_lp';
+    public const ID = 'sahs_context_lp';
 
-    /**
-     * @return string
-     */
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         global $DIC;
         $lng = $DIC->language();
@@ -44,10 +43,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
         return $lng->txt('sahs_mail_context_lp');
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         global $DIC;
         $lng = $DIC->language();
@@ -59,9 +55,9 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 
     /**
      * Return an array of placeholders
-     * @return array
+     * @return array<string, mixed[]>
      */
-    public function getSpecificPlaceholders() : array
+    public function getSpecificPlaceholders(): array
     {
         /**
          * @var $lng ilLanguage
@@ -73,80 +69,75 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
         $tracking = new ilObjUserTracking();
 
 
-        $placeholders = array();
+        $placeholders = [];
 
 
-        $placeholders['sahs_title'] = array(
+        $placeholders['sahs_title'] = [
             'placeholder' => 'SCORM_TITLE',
             'label' => $lng->txt('obj_sahs')
-        );
+        ];
 
-        $placeholders['sahs_status'] = array(
+        $placeholders['sahs_status'] = [
             'placeholder' => 'SCORM_STATUS',
             'label' => $lng->txt('trac_status')
-        );
+        ];
 
-        $placeholders['sahs_mark'] = array(
+        $placeholders['sahs_mark'] = [
             'placeholder' => 'SCORM_MARK',
             'label' => $lng->txt('trac_mark')
-        );
+        ];
 
         // #17969
         $lng->loadLanguageModule('content');
-        $placeholders['sahs_score'] = array(
+        $placeholders['sahs_score'] = [
             'placeholder' => 'SCORM_SCORE',
             'label' => $lng->txt('cont_score')
-        );
+        ];
 
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS)) {
-            $placeholders['sahs_time_spent'] = array(
+            $placeholders['sahs_time_spent'] = [
                 'placeholder' => 'SCORM_TIME_SPENT',
                 'label' => $lng->txt('trac_spent_seconds')
-            );
+            ];
         }
 
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
-            $placeholders['sahs_first_access'] = array(
+            $placeholders['sahs_first_access'] = [
                 'placeholder' => 'SCORM_FIRST_ACCESS',
                 'label' => $lng->txt('trac_first_access')
-            );
+            ];
 
-            $placeholders['sahs_last_access'] = array(
+            $placeholders['sahs_last_access'] = [
                 'placeholder' => 'SCORM_LAST_ACCESS',
                 'label' => $lng->txt('trac_last_access')
-            );
+            ];
         }
 
 
-        $placeholders['sahs_link'] = array(
+        $placeholders['sahs_link'] = [
             'placeholder' => 'SCORM_LINK',
             'label' => $lng->txt('perma_link')
-        );
+        ];
 
         return $placeholders;
     }
 
     /**
-     * @param string         $placeholder_id
-     * @param array          $context_parameters
-     * @param ilObjUser|null $recipient
-     * @param bool           $html_markup
-     * @return string
      * @throws ilDateTimeException
      */
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
+        ?ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string {
+    ): string {
         /**
          * @var $ilObjDataCache ilObjectDataCache
          */
         global $DIC;
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
-        if (!in_array($placeholder_id, array('sahs_title', 'sahs_link'))) {
+        if (!in_array($placeholder_id, ['sahs_title', 'sahs_link'])) {
             return '';
         }
 
@@ -158,7 +149,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 return $ilObjDataCache->lookupTitle($obj_id);
 
             case 'sahs_link':
-                return ilLink::_getLink($context_parameters['ref_id'], 'sahs');
+                return ilLink::_getLink((int) $context_parameters['ref_id'], 'sahs');
 
             case 'sahs_status':
                 if ($recipient === null) {
@@ -182,13 +173,13 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                     return '';
                 }
 
-                $scores = array();
-                $obj_id = ilObject::_lookupObjId($context_parameters['ref_id']);
+                $scores = [];
+                $obj_id = ilObject::_lookupObjId((int) $context_parameters['ref_id']);
                 $coll = ilScormLP::getInstance($obj_id)->getCollectionInstance();
-                if ($coll->getItems()) {
+                if ($coll !== null && $coll->getItems()) {
                     //changed static call into dynamic one//ukohnle
                     //foreach(ilTrQuery::getSCOsStatusForUser($recipient->getId(), $obj_id, $coll->getItems()) as $item)
-                    $SCOStatusForUser = (new ilTrQuery)->getSCOsStatusForUser(
+                    $SCOStatusForUser = ilTrQuery::getSCOsStatusForUser(
                         $recipient->getId(),
                         $obj_id,
                         $coll->getItems()

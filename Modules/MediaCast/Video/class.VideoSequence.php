@@ -34,14 +34,14 @@ class VideoSequence
         $this->init();
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $videos = [];
         foreach ($this->media_cast->getSortedItemsArray() as $item) {
             $mob = new \ilObjMediaObject($item["mob_id"]);
             $med = $mob->getMediaItem("Standard");
             $title = $item["title"];
-            $time = $item["playtime"];
+            $time = (int) $item["playtime"];
             $preview_pic = "";
             if ($mob->getVideoPreviewPic() != "") {
                 $preview_pic = $mob->getVideoPreviewPic();
@@ -59,9 +59,11 @@ class VideoSequence
                 }
                 $mime = $med->getFormat();
             }
-            if (in_array($mime, ["video/mp4", "video/vimeo"])) {
+            if (in_array($mime, ["video/vimeo", "video/youtube"])) {
                 if (!is_int(strpos($resource, "?"))) {
                     $resource .= "?controls=0";
+                } else {
+                    $resource .= "&controls=0";
                 }
             }
             if (in_array($mime, ["video/mp4", "video/vimeo", "video/youtube"])) {
@@ -72,8 +74,8 @@ class VideoSequence
                     $mime,
                     $resource,
                     $preview_pic,
-                    $item["content"],
-                    $item["playtime"],
+                    (string) $item["content"],
+                    (string) $item["playtime"],
                     $med->getDuration()
                 );
             }
@@ -84,12 +86,12 @@ class VideoSequence
     /**
      * @return VideoItem[]
      */
-    public function getVideos() : array
+    public function getVideos(): array
     {
         return $this->videos;
     }
 
-    public function getFirst() : ?VideoItem
+    public function getFirst(): ?VideoItem
     {
         if (count($this->videos) > 0) {
             return $this->videos[0];

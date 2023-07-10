@@ -22,7 +22,7 @@ use ILIAS\UI\Component\Input\Field\UploadHandler;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class BasicHandlerResult implements HandlerResult
+final class BasicHandlerResult implements HandlerResult
 {
     private string $file_identification_key;
     private int $status;
@@ -33,8 +33,12 @@ class BasicHandlerResult implements HandlerResult
     /**
      * BasicHandlerResult constructor.
      */
-    public function __construct(string $file_identification_key, int $status, string $file_identifier, string $message)
-    {
+    public function __construct(
+        string $file_identification_key,
+        int $status,
+        string $file_identifier,
+        string $message
+    ) {
         $this->file_identification_key = $file_identification_key;
         $this->status = $status;
         $this->file_identifier = $file_identifier;
@@ -45,7 +49,7 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @inheritDoc
      */
-    public function getStatus() : int
+    public function getStatus(): int
     {
         return $this->status;
     }
@@ -54,7 +58,7 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @inheritDoc
      */
-    public function getFileIdentifier() : string
+    public function getFileIdentifier(): string
     {
         return $this->file_identifier;
     }
@@ -63,7 +67,7 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @inheritDoc
      */
-    final public function jsonSerialize() : array
+    final public function jsonSerialize(): array
     {
         $str = $this->file_identification_key ?? UploadHandler::DEFAULT_FILE_ID_PARAMETER;
 
@@ -78,7 +82,7 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @inheritDoc
      */
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }

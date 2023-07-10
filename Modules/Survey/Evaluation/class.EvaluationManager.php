@@ -1,19 +1,24 @@
-<?php declare(strict_types = 1);
+<?php
 
-namespace ILIAS\Survey\Evaluation;
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+namespace ILIAS\Survey\Evaluation;
 
 use ILIAS\Survey\InternalDomainService;
 use ILIAS\Survey\InternalRepoService;
@@ -60,13 +65,28 @@ class EvaluationManager
      * This is true for tutors (can edit settings) or normal users, if the mode
      * supports to see the results of others.
      */
-    public function isMultiParticipantsView() : bool
+    public function isMultiParticipantsView(): bool
     {
         $survey = $this->survey;
         $access = $this->access;
+
+        switch ($survey->getMode()) {
+            case \ilObjSurvey::MODE_360:
+                return ($access->canEditSettings() ||
+                    $survey->get360Results() === \ilObjSurvey::RESULTS_360_ALL);
+            // tutors can switch appraisees on detailed evaluation screen
+            case \ilObjSurvey::MODE_IND_FEEDB:
+                return ($access->canEditSettings());
+            case \ilObjSurvey::MODE_SELF_EVAL:
+                return ($access->canEditSettings() ||
+                    $survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL);
+        }
+        return false;
+
+        /*
         return ($access->canEditSettings() ||
             $survey->get360Results() === \ilObjSurvey::RESULTS_360_ALL ||
-            $survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL);
+            $survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL);*/
     }
 
     /**
@@ -74,7 +94,7 @@ class EvaluationManager
      * including itself
      * @return int[]
      */
-    public function getSelectableAppraisees() : array
+    public function getSelectableAppraisees(): array
     {
         $survey = $this->survey;
         $user_id = $this->user_id;
@@ -110,7 +130,7 @@ class EvaluationManager
      *    - Otherwise the first selectable appraisee will be returned.
      * In all other cases 0 will be returned.
      */
-    public function getCurrentAppraisee() : int
+    public function getCurrentAppraisee(): int
     {
         $req_appr_id = $this->requested_appr_id;
 
@@ -119,6 +139,7 @@ class EvaluationManager
         if ($req_appr_id === 0) {
             $req_appr_id = $user_id;
         }
+
 
         // requested appraisee is valid -> return appraisee
         $valid = $this->getSelectableAppraisees();
@@ -138,7 +159,7 @@ class EvaluationManager
      * Only the individual feedback mode allows to select raters
      * and only, if the user cannot select appraisees on top level
      */
-    public function getSelectableRaters() : array
+    public function getSelectableRaters(): array
     {
         $raters = [];
         $survey = $this->survey;
@@ -157,11 +178,11 @@ class EvaluationManager
         return $raters;
     }
 
-    public function getCurrentRater() : string
+    public function getCurrentRater(): string
     {
         $req_rater_id = $this->requested_rater_id;
 
-        $valid = array_map(static function ($i) : int {
+        $valid = array_map(static function ($i): int {
             return (int) $i["user_id"];
         }, $this->getSelectableRaters());
         if (in_array($req_rater_id, $valid, true)) {
@@ -170,17 +191,17 @@ class EvaluationManager
         return "";
     }
 
-    public function setAnonEvaluationAccess(int $ref_id) : void
+    public function setAnonEvaluationAccess(int $ref_id): void
     {
         $this->eval_repo->setAnonEvaluationAccess($ref_id);
     }
 
-    public function getAnonEvaluationAccess() : int
+    public function getAnonEvaluationAccess(): int
     {
         return $this->eval_repo->getAnonEvaluationAccess();
     }
 
-    public function clearAnonEvaluationAccess() : void
+    public function clearAnonEvaluationAccess(): void
     {
         $this->eval_repo->clearAnonEvaluationAccess();
     }
@@ -189,11 +210,27 @@ class EvaluationManager
      * @param int $appr_id
      * @return array|null : null means, nothing is filtered (=all), [] means "no finish id"
      */
-    public function getFilteredFinishedIds() : ?array
+    public function getFilteredFinishedIds(): ?array
     {
         $appr_id = $this->getCurrentAppraisee();
         $finished_ids = null;
+
+        $filter = false;
         if ($appr_id > 0) {
+            $filter = true;
+            // see #36336
+            if ($this->survey->getMode() === \ilObjSurvey::MODE_SELF_EVAL &&
+            $this->survey->getSelfEvaluationResults() === \ilObjSurvey::RESULTS_SELF_EVAL_ALL) {
+                $filter = false;
+            }
+            // see #36336, #36378
+            if ($this->survey->getMode() !== \ilObjSurvey::MODE_IND_FEEDB &&
+                $this->access->canEditSettings()) {
+                $filter = false;
+            }
+        }
+
+        if ($filter) {
             $finished_ids = $this->survey->getFinishedIdsForAppraiseeId($appr_id);
             if (!count($finished_ids)) {
                 $finished_ids = [];
@@ -213,12 +250,11 @@ class EvaluationManager
         return $finished_ids;
     }
 
-    public function getUserSpecificResults() : array
+    public function getUserSpecificResults(): array
     {
         $data = array();
 
         $finished_ids = $this->getFilteredFinishedIds();
-
         $participants = $this->access->canReadResultOfParticipants($finished_ids);
         foreach ($this->survey->getSurveyQuestions() as $qdata) {
             $q_eval = \SurveyQuestion::_instanciateQuestionEvaluation((int) $qdata["question_id"], $finished_ids);

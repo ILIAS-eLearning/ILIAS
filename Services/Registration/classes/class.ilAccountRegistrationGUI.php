@@ -1,16 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilAccountRegistrationGUI
@@ -22,7 +28,7 @@ class ilAccountRegistrationGUI
     protected ilRegistrationSettings $registration_settings;
     protected bool $code_enabled = false;
     protected bool $code_was_used;
-    protected ilTermsOfServiceDocumentCriteriaEvaluation $termsOfServiceEvaluation;
+    protected ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation;
     protected ilRecommendedContentManager $recommended_content_manager;
 
     protected ?ilPropertyFormGUI $form = null;
@@ -71,7 +77,7 @@ class ilAccountRegistrationGUI
         $this->refinery = $DIC->refinery();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if ($this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_DISABLED) {
             $this->error->raiseError($this->lng->txt('reg_disabled'), $this->error->FATAL);
@@ -86,13 +92,13 @@ class ilAccountRegistrationGUI
                 $tpl = $this->displayForm();
         }
 
-        $this->tpl->setPermanentLink('usr', 0, 'registration');
+        $this->tpl->setPermanentLink('usr', null, 'registration');
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
-    public function displayForm() : ilTemplate
+    public function displayForm(): ilGlobalTemplateInterface
     {
-        $tpl = ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registration.html', 'Services/Registration'), true);
+        $tpl = ilStartUpGUI::initStartUpTemplate(['tpl.usr_registration.html', 'Services/Registration'], true);
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
         if (!$this->form) {
@@ -102,7 +108,7 @@ class ilAccountRegistrationGUI
         return $tpl;
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         $this->globalUser->setLanguage($this->lng->getLangKey());
         $this->globalUser->setId(ANONYMOUS_USER_ID);
@@ -133,13 +139,13 @@ class ilAccountRegistrationGUI
         // user defined fields
         $user_defined_data = $this->globalUser->getUserDefinedData();
         $user_defined_fields = ilUserDefinedFields::_getInstance();
-        $custom_fields = array();
+        $custom_fields = [];
 
         foreach ($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition) {
             $fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
                 $definition,
                 true,
-                $user_defined_data['f_' . $field_id]
+                $user_defined_data['f_' . $field_id] ?? ''
             );
             if ($fprop instanceof ilFormPropertyGUI) {
                 $custom_fields['udf_' . $definition['field_id']] = $fprop;
@@ -150,7 +156,7 @@ class ilAccountRegistrationGUI
         //TODO-PHP8-REVIEW please check if there is a need for this static call. It looks like of odd to me, that
         //we need a global static state variable in class that changes the behaviour of all instances.
         $up = new ilUserProfile();
-        $up->setMode(ilUserProfile::MODE_REGISTRATION);
+        ilUserProfile::setMode(ilUserProfile::MODE_REGISTRATION);
         $up->skipGroup("preferences");
 
         $up->setAjaxCallback(
@@ -176,7 +182,7 @@ class ilAccountRegistrationGUI
         }
 
         // #11407
-        $domains = array();
+        $domains = [];
         foreach ($this->registration_settings->getAllowedDomains() as $item) {
             if (trim($item)) {
                 $domains[] = $item;
@@ -199,7 +205,7 @@ class ilAccountRegistrationGUI
             }
         }
 
-        if (\ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument()) {
+        if (ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument()) {
             $document = $this->termsOfServiceEvaluation->document();
 
             $field = new ilFormSectionHeaderGUI();
@@ -219,7 +225,7 @@ class ilAccountRegistrationGUI
         $this->form->addCommandButton("saveForm", $this->lng->txt("register"));
     }
 
-    public function saveForm() : ilTemplate
+    public function saveForm(): ilGlobalTemplateInterface
     {
         $this->initForm();
         $form_valid = $this->form->checkInput();
@@ -232,8 +238,8 @@ class ilAccountRegistrationGUI
             $code = $this->form->getInput('usr_registration_code');
             // could be optional
             if (
-                $this->registration_settings->registrationCodeRequired() ||
-                $code != ''
+                $code !== '' ||
+                $this->registration_settings->registrationCodeRequired()
             ) {
                 // code validation
                 if (!ilRegistrationCode::isValidRegistrationCode($code)) {
@@ -258,7 +264,7 @@ class ilAccountRegistrationGUI
             $email = $this->form->getInput("usr_email");
             if ($email) {
                 // #10366
-                $domains = array();
+                $domains = [];
                 foreach ($this->registration_settings->getAllowedDomains() as $item) {
                     if (trim($item)) {
                         $domains[] = $item;
@@ -268,7 +274,7 @@ class ilAccountRegistrationGUI
                     $mail_valid = false;
                     foreach ($domains as $domain) {
                         $domain = str_replace("*", "~~~", $domain);
-                        $domain = preg_quote($domain); //TODO-PHP8-REVIEW please provide a delimiter, even if it is optional
+                        $domain = preg_quote($domain, '/');
                         $domain = str_replace("~~~", ".+", $domain);
                         if (preg_match("/^" . $domain . "$/", $email, $hit)) {
                             $mail_valid = true;
@@ -302,7 +308,7 @@ class ilAccountRegistrationGUI
         }
 
         $showGlobalTermsOfServieFailure = false;
-        if (\ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service')) {
+        if (ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service')) {
             $agr_obj = $this->form->getItemByPostVar('accept_terms_of_service');
             if ($agr_obj) {
                 $agr_obj->setAlert($this->lng->txt('force_accept_usr_agreement'));
@@ -317,7 +323,7 @@ class ilAccountRegistrationGUI
             // manual selection
             if ($this->registration_settings->roleSelectionEnabled()) {
                 $selected_role = $this->form->getInput("usr_roles");
-                if ($selected_role && ilObjRole::_lookupAllowRegister($selected_role)) {
+                if ($selected_role && ilObjRole::_lookupAllowRegister((int) $selected_role)) {
                     $valid_role = (int) $selected_role;
                 }
             } // assign by email
@@ -339,14 +345,18 @@ class ilAccountRegistrationGUI
         if (!ilUtil::isLogin($login)) {
             $login_obj->setAlert($this->lng->txt("login_invalid"));
             $form_valid = false;
-        } elseif (ilObjUser::_loginExists($login)) {
-            $login_obj->setAlert($this->lng->txt("login_exists"));
-            $form_valid = false;
-        } elseif ((int) $this->settings->get('allow_change_loginname') &&
-            (int) $this->settings->get('reuse_of_loginnames') == 0 &&
-            ilObjUser::_doesLoginnameExistInHistory($login)) {
-            $login_obj->setAlert($this->lng->txt('login_exists'));
-            $form_valid = false;
+        }
+
+        if ($form_valid) {
+            if (ilObjUser::_loginExists($login)) {
+                $login_obj->setAlert($this->lng->txt("login_exists"));
+                $form_valid = false;
+            } elseif ((int) $this->settings->get('allow_change_loginname') &&
+                (int) $this->settings->get('reuse_of_loginnames') === 0 &&
+                ilObjUser::_doesLoginnameExistInHistory($login)) {
+                $login_obj->setAlert($this->lng->txt('login_exists'));
+                $form_valid = false;
+            }
         }
 
         if (!$form_valid) {
@@ -366,7 +376,7 @@ class ilAccountRegistrationGUI
         return $this->displayForm();
     }
 
-    protected function createUser(int $a_role) : string
+    protected function createUser(int $a_role): string
     {
         // something went wrong with the form validation
         if (!$a_role) {
@@ -380,9 +390,7 @@ class ilAccountRegistrationGUI
         $this->userObj = new ilObjUser();
 
         $up = new ilUserProfile();
-        //TODO-PHP8-REVIEW please check if there is a need for this static call. It looks like of odd to me, that
-        //we need a global static state variable in class that changes the behaviour of all instances.
-        $up->setMode(ilUserProfile::MODE_REGISTRATION);
+        ilUserProfile::setMode(ilUserProfile::MODE_REGISTRATION);
 
         $map = [];
         $up->skipGroup("preferences");
@@ -427,11 +435,12 @@ class ilAccountRegistrationGUI
         // Set user defined data
         $user_defined_fields = ilUserDefinedFields::_getInstance();
         $defs = $user_defined_fields->getRegistrationDefinitions();
-        $udf = array();
-        foreach ($_POST as $k => $v) {
-            if (strpos($k, "udf_") === 0) {
-                $f = substr($k, 4);
-                $udf[$f] = $v;
+        $udf = [];
+        foreach ($defs as $definition) {
+            $f = "udf_" . $definition['field_id'];
+            $item = $this->form->getItemByPostVar($f);
+            if ($item && !$item->getDisabled()) {
+                $udf[$definition['field_id']] = $this->form->getInput($f);
             }
         }
         $this->userObj->setUserDefinedData($udf);
@@ -449,7 +458,6 @@ class ilAccountRegistrationGUI
             // #10853 - could be optional
             $code = $this->form->getInput('usr_registration_code');
             if ($code) {
-
                 // set code to used
                 ilRegistrationCode::useCode($code);
                 $this->code_was_used = true;
@@ -472,7 +480,7 @@ class ilAccountRegistrationGUI
 
                         case "relative":
                             $rel = unserialize($code_data["alimitdt"], ['allowed_classes' => false]);
-                            $access_limit = $rel["d"] * 86400 + $rel["m"] * 2592000 + time();
+                            $access_limit = $rel["d"] * 86400 + $rel["m"] * 2592000 + $rel["y"] * 31536000 + time();
                             break;
                     }
                 }
@@ -510,17 +518,15 @@ class ilAccountRegistrationGUI
 
         $this->userObj->create();
 
-        if ($this->registration_settings->getRegistrationType() == ilRegistrationSettings::IL_REG_DIRECT ||
-            $this->registration_settings->getRegistrationType() == ilRegistrationSettings::IL_REG_CODES ||
+        if ($this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_DIRECT ||
+            $this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_CODES ||
             $this->code_was_used) {
             $this->userObj->setActive(true, 0);
-        } elseif ($this->registration_settings->getRegistrationType() == ilRegistrationSettings::IL_REG_ACTIVATION) {
+        } elseif ($this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_ACTIVATION) {
             $this->userObj->setActive(false, 0);
         } else {
             $this->userObj->setActive(false, 0);
         }
-
-        $this->userObj->updateOwner();
 
         // set a timestamp for last_password_change
         // this ts is needed by ilSecuritySettings
@@ -531,12 +537,15 @@ class ilAccountRegistrationGUI
         //insert user data in table user_data
         $this->userObj->saveAsNew();
 
+        // don't update owner before the first save. updateOwner rereads the object which fails if it not save before
+        $this->userObj->updateOwner();
+
         // setup user preferences
         $this->userObj->setLanguage($this->form->getInput('usr_language'));
 
-        $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+        $handleDocument = ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
         if ($handleDocument) {
-            $helper = new \ilTermsOfServiceHelper();
+            $helper = new ilTermsOfServiceHelper();
 
             $helper->trackAcceptance($this->userObj, $this->termsOfServiceEvaluation->document());
         }
@@ -588,30 +597,34 @@ class ilAccountRegistrationGUI
         return (string) $password;
     }
 
-    protected function distributeMails(string $password) : void
+    protected function distributeMails(string $password): void
     {
-        // Always send mail to approvers
-        $mail = new ilRegistrationMailNotification();
-        if ($this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_APPROVE && !$this->code_was_used) {
-            $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_CONFIRMATION);
-        } else {
-            $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_APPROVERS);
-        }
-        $mail->setRecipients($this->registration_settings->getApproveRecipients());
-        $mail->setAdditionalInformation(array('usr' => $this->userObj));
-        $mail->send();
+        // Send mail to approvers, if they are defined
+        if ($this->registration_settings->getApproveRecipients()) {
+            $mail = new ilRegistrationMailNotification();
 
+            if (!$this->code_was_used &&
+                $this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_APPROVE) {
+                $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_CONFIRMATION);
+            } else {
+                $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_APPROVERS);
+            }
+            $mail->setRecipients($this->registration_settings->getApproveRecipients());
+            $mail->setAdditionalInformation(['usr' => $this->userObj]);
+            $mail->send();
+        }
         // Send mail to new user
         // Registration with confirmation link ist enabled
-        if ($this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_ACTIVATION && !$this->code_was_used) {
+        if (!$this->code_was_used &&
+            $this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_ACTIVATION) {
             $mail = new ilRegistrationMimeMailNotification();
             $mail->setType(ilRegistrationMimeMailNotification::TYPE_NOTIFICATION_ACTIVATION);
-            $mail->setRecipients(array($this->userObj));
+            $mail->setRecipients([$this->userObj]);
             $mail->setAdditionalInformation(
-                array(
+                [
                     'usr' => $this->userObj,
                     'hash_lifetime' => $this->registration_settings->getRegistrationHashLifetime()
-                )
+                ]
             );
             $mail->send();
         } else {
@@ -624,9 +637,9 @@ class ilAccountRegistrationGUI
         }
     }
 
-    public function login() : ilTemplate
+    public function login(): ilGlobalTemplateInterface
     {
-        $tpl = ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registered.html', 'Services/Registration'), false);
+        $tpl = ilStartUpGUI::initStartUpTemplate(['tpl.usr_registered.html', 'Services/Registration'], false);
         $this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
         $tpl->setVariable("TXT_WELCOME", $this->lng->txt("welcome") . ", " . $this->userObj->getTitle() . "!");
@@ -657,7 +670,7 @@ class ilAccountRegistrationGUI
         return $tpl;
     }
 
-    protected function doProfileAutoComplete() : void
+    protected function doProfileAutoComplete(): void
     {
         $field_id = (string) $_REQUEST["f"];
         $term = (string) $_REQUEST["term"];

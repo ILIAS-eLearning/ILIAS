@@ -1,6 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -19,6 +34,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 use LogicException;
 use Generator;
 use InvalidArgumentException;
+use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 
 /**
  * This implements commonalities between inputs.
@@ -34,6 +50,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     protected string $label;
     protected ?string $byline;
     protected bool $is_required = false;
+    protected ?Constraint $requirement_constraint = null;
     protected bool $is_disabled = false;
 
     /**
@@ -50,6 +67,8 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     protected ?string $error = null;
 
     private ?string $name = null;
+
+    protected ?string $dedicated_name = null;
 
     /**
      * This is the current content of the input in the abstraction. This results by
@@ -70,7 +89,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
         DataFactory $data_factory,
         Factory $refinery,
         string $label,
-        ?string $byline
+        ?string $byline = null
     ) {
         $this->data_factory = $data_factory;
         $this->refinery = $refinery;
@@ -84,7 +103,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -102,7 +121,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @inheritdoc
      */
-    public function getByline() : ?string
+    public function getByline(): ?string
     {
         return $this->byline;
     }
@@ -120,7 +139,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @inheritdoc
      */
-    public function isRequired() : bool
+    public function isRequired(): bool
     {
         return $this->is_required;
     }
@@ -128,10 +147,11 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @inheritdoc
      */
-    public function withRequired(bool $is_required)
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null)
     {
         $clone = clone $this;
         $clone->is_required = $is_required;
+        $clone->requirement_constraint = ($is_required) ? $requirement_constraint : null;
         return $clone;
     }
 
@@ -139,12 +159,12 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
      * This may return a constraint that will be checked first if the field is
      * required.
      */
-    abstract protected function getConstraintForRequirement() : ?Constraint;
+    abstract protected function getConstraintForRequirement(): ?Constraint;
 
     /**
      * @inheritdoc
      */
-    public function isDisabled() : bool
+    public function isDisabled(): bool
     {
         return $this->is_disabled;
     }
@@ -173,7 +193,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
      * Get an input like this with another value displayed on the
      * client side.
      *
-     * @param   mixed
+     * @param   mixed $value
      * @throws  InvalidArgumentException    if value does not fit client side input
      */
     public function withValue($value)
@@ -189,12 +209,12 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
      *
      * @param mixed $value
      */
-    abstract protected function isClientSideValueOk($value) : bool;
+    abstract protected function isClientSideValueOk($value): bool;
 
     /**
      * The error of the input as used in HTML.
      */
-    public function getError() : ?string
+    public function getError(): ?string
     {
         return $this->error;
     }
@@ -212,7 +232,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * Set an error on this input.
      */
-    private function setError(string $error) : void
+    private function setError(string $error): void
     {
         $this->error = $error;
     }
@@ -233,7 +253,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
      * ATTENTION: This is a real setter, i.e. it modifies $this! Use this only if
      * `withAdditionalTransformation` does not work, i.e. in the constructor.
      */
-    protected function setAdditionalTransformation(Transformation $trafo) : void
+    protected function setAdditionalTransformation(Transformation $trafo): void
     {
         $this->operations[] = $trafo;
         if ($this->content !== null) {
@@ -246,6 +266,24 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
         }
     }
 
+    /**
+     * @inheritdoc
+     */
+    final public function getDedicatedName(): ?string
+    {
+        return $this->dedicated_name;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    final public function withDedicatedName(string $dedicated_name): self
+    {
+        $clone = clone $this;
+        $clone->dedicated_name = $dedicated_name;
+        return $clone;
+    }
+
     // Implementation of FormInputInternal
 
     // This is the machinery to be used to process the input from the client side.
@@ -255,7 +293,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @inheritdoc
      */
-    final public function getName() : ?string
+    final public function getName(): ?string
     {
         return $this->name;
     }
@@ -263,10 +301,17 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source)
+    public function withNameFrom(NameSource $source, ?string $parent_name = null)
     {
         $clone = clone $this;
-        $clone->name = $source->getNewName();
+        if ($source instanceof DynamicInputsNameSource) {
+            $clone->name = '';
+        } else {
+            $clone->name = ($parent_name !== null) ? $parent_name . '/' : '';
+        }
+        $clone->name .= ($clone->dedicated_name !== null)
+                        ? $source->getNewDedicatedName($clone->dedicated_name)
+                        : $source->getNewName();
         return $clone;
     }
 
@@ -313,7 +358,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
      *
      * @param    mixed $res
      */
-    protected function applyOperationsTo($res) : Result
+    protected function applyOperationsTo($res): Result
     {
         if ($res === null && !$this->isRequired()) {
             return $this->data_factory->ok($res);
@@ -336,7 +381,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
      *
      * @return Generator<Transformation>
      */
-    private function getOperations() : Generator
+    private function getOperations(): Generator
     {
         if ($this->isRequired()) {
             $op = $this->getConstraintForRequirement();
@@ -353,7 +398,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @inheritdoc
      */
-    public function getContent() : Result
+    public function getContent(): Result
     {
         if (is_null($this->content)) {
             throw new LogicException("No content of this field has been evaluated yet. Seems withRequest was not called.");

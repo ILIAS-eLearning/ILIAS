@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,44 +16,34 @@
  *
  *********************************************************************/
 
-namespace Certificate\API\Repository;
+declare(strict_types=1);
 
-use Certificate\API\Data\UserCertificateDto;
-use Certificate\API\Filter\UserDataFilter;
+namespace ILIAS\Certificate\API\Repository;
+
+use ILIAS\Certificate\API\Data\UserCertificateDto;
+use ILIAS\Certificate\API\Filter\UserDataFilter;
 use ilCtrlInterface;
 use ilDBConstants;
 use ilUserCertificateApiGUI;
 use ilDBInterface;
-use ilLogger;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class UserDataRepository
 {
-    private ilDBInterface $database;
-    private ilLogger $logger;
-    private string $defaultTitle;
-    private ilCtrlInterface $ctrl;
+    private readonly string $defaultTitle;
 
     /**
-     * @param ilDBInterface   $database
-     * @param ilLogger        $logger
-     * @param ilCtrlInterface $ctrl
      * @param string|null     $defaultTitle The default title is use if the title of an repository object could not be
      *                                    determined. This could be the case if the object is deleted from system and
      *                                    mechanisms to store the title of deleted objects (table: object_data_del) failed.
      */
     public function __construct(
-        ilDBInterface $database,
-        ilLogger $logger,
-        ilCtrlInterface $ctrl,
+        private readonly ilDBInterface $database,
+        private readonly ilCtrlInterface $ctrl,
         ?string $defaultTitle = null
     ) {
-        $this->database = $database;
-        $this->logger = $logger;
-        $this->ctrl = $ctrl;
-
         if (null === $defaultTitle) {
             global $DIC;
             $defaultTitle = $DIC->language()->txt('certificate_no_object_title');
@@ -62,16 +52,15 @@ class UserDataRepository
     }
 
     /**
-     * @param UserDataFilter $filter
      * @param string[] $ilCtrlStack
      * @return array<int, UserCertificateDto>
      */
-    public function getUserData(UserDataFilter $filter, array $ilCtrlStack) : array
+    public function getUserData(UserDataFilter $filter, array $ilCtrlStack): array
     {
         $sql = 'SELECT
     cert.pattern_certificate_id,
     cert.obj_id,
-    cert.user_id,
+    cert.usr_id,
     cert.user_name,
     cert.acquired_timestamp,
     cert.currently_active,
@@ -88,6 +77,10 @@ FROM
 
         $query = $this->database->query($sql);
 
+        if ([] !== $ilCtrlStack) {
+            $ilCtrlStack[] = ilUserCertificateApiGUI::class;
+        }
+
         $result = [];
         while ($row = $this->database->fetchAssoc($query)) {
             $id = (int) $row['id'];
@@ -99,7 +92,6 @@ FROM
 
             $link = '';
             if ([] !== $ilCtrlStack) {
-                $ilCtrlStack[] = ilUserCertificateApiGUI::class;
                 $this->ctrl->setParameterByClass(ilUserCertificateApiGUI::class, 'certificate_id', $id);
                 $link = $this->ctrl->getLinkTargetByClass($ilCtrlStack, ilUserCertificateApiGUI::CMD_DOWNLOAD);
                 $this->ctrl->clearParametersByClass(ilUserCertificateApiGUI::class);
@@ -110,7 +102,7 @@ FROM
                 $row['title'] ?? $this->defaultTitle,
                 (int) $row['obj_id'],
                 (int) $row['acquired_timestamp'],
-                (int) $row['user_id'],
+                (int) $row['usr_id'],
                 $row['firstname'],
                 $row['lastname'],
                 $row['login'],
@@ -130,7 +122,7 @@ FROM
         return $result;
     }
 
-    public function getUserCertificateDataMaxCount(UserDataFilter $filter) : int
+    public function getUserCertificateDataMaxCount(UserDataFilter $filter): int
     {
         $sql = 'SELECT
     COUNT(id) AS count
@@ -142,18 +134,13 @@ FROM
         return (int) $this->database->fetchAssoc($query)["count"];
     }
 
-    /**
-     * @param UserDataFilter $filter
-     * @param bool           $max_count_only
-     * @return string
-     */
-    private function getQuery(UserDataFilter $filter, bool $max_count_only = false) : string
+    private function getQuery(UserDataFilter $filter, bool $max_count_only = false): string
     {
         $sql = '(
 SELECT 
   il_cert_user_cert.pattern_certificate_id,
   il_cert_user_cert.obj_id,
-  il_cert_user_cert.user_id,
+  il_cert_user_cert.usr_id,
   il_cert_user_cert.user_name,
   il_cert_user_cert.acquired_timestamp,
   il_cert_user_cert.currently_active,
@@ -170,7 +157,7 @@ UNION
 SELECT 
   il_cert_user_cert.pattern_certificate_id,
   il_cert_user_cert.obj_id,
-  il_cert_user_cert.user_id,
+  il_cert_user_cert.usr_id,
   il_cert_user_cert.user_name,
   il_cert_user_cert.acquired_timestamp,
   il_cert_user_cert.currently_active,
@@ -186,7 +173,8 @@ WHERE object_reference.deleted IS NULL';
 
         $sql .= '
 ) AS cert
-INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
+INNER JOIN usr_data ON usr_data.usr_id = cert.usr_id
+INNER JOIN il_orgu_ua ON il_orgu_ua.user_id = cert.usr_id
 ' . $this->createWhereCondition($filter);
 
         if (!$max_count_only) {
@@ -196,7 +184,7 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
         return $sql;
     }
 
-    private function createOrderByClause(UserDataFilter $filter) : string
+    private function createOrderByClause(UserDataFilter $filter): string
     {
         $sorts = $filter->getSorts();
 
@@ -230,26 +218,28 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
                     $orders[] = 'cert.acquired_timestamp' . $direction;
                     break;
 
+                case ($key === UserDataFilter::SORT_FIELD_USR_EMAIL):
+                    $orders[] = 'usr_data.email' . $direction;
+                    break;
+
                 default:
                     break;
             }
         }
 
-        return 'ORDER BY ' . implode(', ', $orders);
+        return ' ORDER BY ' . implode(', ', $orders);
     }
 
     /**
      * Creating the additional where condition based on the filter object
-     * @param UserDataFilter $filter
-     * @return string
      */
-    private function createWhereCondition(UserDataFilter $filter) : string
+    private function createWhereCondition(UserDataFilter $filter): string
     {
         $wheres = [];
 
         $userIds = $filter->getUserIds();
         if (!empty($userIds)) {
-            $wheres[] = $this->database->in('cert.user_id', $userIds, false, ilDBConstants::T_INTEGER);
+            $wheres[] = $this->database->in('cert.usr_id', $userIds, false, ilDBConstants::T_INTEGER);
         }
 
         $objIds = $filter->getObjIds();
@@ -279,6 +269,16 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
                 . ')';
         }
 
+        $userIdentification = $filter->getUserIdentification();
+        if (!empty($userIdentification)) {
+            $wheres[] = '(' . $this->database->like('usr_data.login', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ' OR ' . $this->database->like('usr_data.firstname', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ' OR ' . $this->database->like('usr_data.lastname', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ' OR ' . $this->database->like('usr_data.email', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ' OR ' . $this->database->like('usr_data.second_email', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ')';
+        }
+
         $issuedBeforeTimestamp = $filter->getIssuedBeforeTimestamp();
         if ($issuedBeforeTimestamp !== null) {
             $wheres[] = 'cert.acquired_timestamp < ' . $this->database->quote(
@@ -301,8 +301,13 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
         }
 
         $onlyCertActive = $filter->isOnlyCertActive();
-        if ($onlyCertActive === true) {
+        if ($onlyCertActive) {
             $wheres[] = 'cert.currently_active = ' . $this->database->quote(1, ilDBConstants::T_INTEGER);
+        }
+
+        $orgUnitIds = $filter->getOrgUnitIds();
+        if ($orgUnitIds) {
+            $wheres[] = $this->database->in('il_orgu_ua.orgu_id', $orgUnitIds, false, ilDBConstants::T_INTEGER);
         }
 
         if (empty($wheres)) {

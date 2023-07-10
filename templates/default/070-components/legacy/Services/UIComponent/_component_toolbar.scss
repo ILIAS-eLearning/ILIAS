@@ -1,0 +1,890 @@
+@use "sass:math";
+@use "../../../../010-settings/" as *;
+@use "../../../../030-tools/tool_focus-outline" as *;
+@use "../../../../030-tools/tool_clearfix" as *;
+@use "../../../../030-tools/legacy-bootstrap-mixins/nav-divider" as *;
+@use "../../../../030-tools/legacy-bootstrap-mixins/border-radius" as *;
+@use "../../../../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as *;
+@use "../../../../050-layout/basics" as *;
+
+/* Services/UIComponent/Toolbar */
+
+// contains the former bootstrap nav and navbar
+
+//== Toolbar
+//
+//##
+$nav-link-padding: $il-padding-large-vertical $il-padding-large-horizontal !default;
+$nav-link-hover-bg: $il-main-darker-bg !default;
+$nav-disabled-link-color: $il-main-dark-bg !default;
+$nav-disabled-link-hover-color: $il-main-dark-bg !default;
+$cursor-disabled: not-allowed !default;
+$nav-tabs-active-link-hover-bg: $il-text-color !default;
+$nav-tabs-active-link-hover-color: $il-text-color-invert !default;
+$nav-tabs-active-link-hover-border-color: $il-text-color !default;
+$nav-pills-border-radius: $il-border-radius-base !default;
+$nav-pills-active-link-hover-bg: $il-main-color !default;
+$nav-pills-active-link-hover-color: $il-text-color-invert !default;
+
+$il-toolbar-margin: $il-margin-xlarge-horizontal !default;
+$il-toolbar-bg: $il-main-dark-bg !default;
+$il-toolbar-border: 1px solid $il-main-border-color !default;
+
+//
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+// Navs
+//
+
+// Base class
+// --------------------------------------------------
+
+.nav {
+	padding-left: 0; // Override default ul/ol
+	margin-bottom: 0;
+	list-style: none;
+	@include clearfix;
+
+	>li {
+		position: relative;
+		display: block;
+
+		>a {
+			position: relative;
+			display: block;
+			padding: $nav-link-padding;
+
+			&:hover,
+			&:focus {
+				text-decoration: none;
+				background-color: $nav-link-hover-bg;
+			}
+		}
+
+		// Disabled state sets text to gray and nukes hover/tab effects
+		&.disabled>a {
+			color: $nav-disabled-link-color;
+
+			&:hover,
+			&:focus {
+				color: $nav-disabled-link-hover-color;
+				text-decoration: none;
+				cursor: $cursor-disabled;
+				background-color: transparent;
+			}
+		}
+	}
+
+	// Open dropdowns
+	.open>a {
+
+		&,
+		&:hover,
+		&:focus {
+			background-color: $nav-link-hover-bg;
+			border-color: $il-link-color;
+		}
+	}
+
+	// Nav dividers (deprecated with v3.0.1)
+	//
+	// This should have been removed in v3 with the dropping of `.nav-list`, but
+	// we missed it. We don't currently support this anywhere, but in the interest
+	// of maintaining backward compatibility in case you use it, it's deprecated.
+	.nav-divider {
+		@include nav-divider;
+	}
+
+	// Prevent IE8 from misplacing imgs
+	//
+	// See https://github.com/h5bp/html5-boilerplate/issues/984#issuecomment-3985989
+	>li>a>img {
+		max-width: none;
+	}
+}
+
+
+// Tabs
+// -------------------------
+
+// Give the tabs something to sit on
+.nav-tabs {
+	border-bottom: 1px solid $il-main-border-color;
+
+	> li {
+		float: left;
+		// Make the list-items overlay the bottom border
+		margin: 0 $il-padding-xs-horizontal 0 0;
+
+		// Actual tabs (as links)
+		> a {
+			margin: 0;
+			margin-right: 2px;
+			font-size: $il-font-size-base;
+			line-height: $il-line-height-base;
+			padding: $il-padding-large-vertical $il-padding-xlarge-horizontal $il-padding-base-vertical;
+			border: 0 none;
+			border-radius: $il-border-radius-base $il-border-radius-base 0 0;
+
+			&:hover {
+				border-color: $il-main-bg $il-main-bg $il-main-bg;
+			}
+		}
+
+		// Active state, and its :hover to override normal :hover
+		&.active>a {
+
+			&,
+			&:hover,
+			&:focus {
+				color: $nav-tabs-active-link-hover-color;
+				cursor: default;
+				background-color: $nav-tabs-active-link-hover-bg;
+				border: 0 none;
+				border-bottom-color: transparent;
+			}
+		}
+	}
+}
+
+
+// Pills
+// -------------------------
+.nav-pills {
+	>li {
+		float: left;
+
+		// Links rendered as pills
+		>a {
+			border-radius: $nav-pills-border-radius;
+		}
+
+		+li {
+			margin-left: 2px;
+		}
+
+		// Active state
+		&.active>a {
+
+			&,
+			&:hover,
+			&:focus {
+				color: $nav-pills-active-link-hover-color;
+				background-color: $nav-pills-active-link-hover-bg;
+			}
+		}
+	}
+}
+
+
+// Dropdowns
+// -------------------------
+
+// Specific dropdowns
+.nav-tabs .dropdown-menu {
+	// make dropdown border overlap tab border
+	margin-top: -1px;
+	// Remove the top rounded corners here since there is a hard edge above the menu
+	@include border-top-radius(0);
+}
+
+
+// Delos
+
+.ilToolbar {
+	.container-fluid {
+		padding-left: 0;
+	}
+
+	&.navbar {
+		border: 0 none;
+		background-color: $il-toolbar-bg;
+	}
+
+	.navbar-toggle {
+		@include il-focus();
+	}
+
+	.ilToolbarItems {
+		padding: 0;
+	}
+
+	.form-control {
+		width: auto;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.input-group  {
+		vertical-align: middle;
+	}
+
+	input[type="file"] {
+		display: inline-block;
+	}
+
+	li {
+		border: 0 none;
+		margin-right: $il-toolbar-margin;
+
+		.dropdown-header {
+			border-bottom: 1px solid $il-main-border-color;
+		}
+
+		.navbar-form,
+		.navbar-text {
+			padding: 0;
+			border: 0 none;
+			margin-left: 0;
+			margin-right: 0;
+			display: inline-block;
+			color: $il-text-color;
+		}
+
+		&.navbar-text {
+			margin-left: 0;
+		}
+
+		&.ilToolbarSeparator {
+			border-left: $il-toolbar-border;
+			height: $il-toolbar-height;
+		}
+
+		&.ilToolbarGroup {
+
+			.navbar-form,
+			.navbar-text {
+				margin-left: ($il-toolbar-margin * 0.5);
+
+				&:first-child {
+					margin-left: 0;
+				}
+			}
+
+			.navbar-text {
+				margin-right: 0;
+			}
+		}
+	}
+	.btn, a{
+		vertical-align: middle;
+	}
+
+	.btn[disabled] {
+		padding: $il-padding-small-vertical $il-padding-small-horizontal;
+	}
+
+	.ilToolbarStickyItems {
+		float: left;
+		margin-left: $il-toolbar-margin;
+
+		&.navbar-nav {
+			margin-top: 0;
+			margin-bottom: 0;
+
+			.open .dropdown-menu>li>a {
+				padding-left: $il-padding-large-horizontal;
+			}
+		}
+
+		>li {
+			float: left;
+			margin-right: $il-toolbar-margin;
+
+			.navbar-form {
+				border: 0 none;
+			}
+
+			&.ilToolbarStickyItem {
+				border: 0 none;
+			}
+		}
+	}
+
+	ul {
+		&.dropdown-menu {
+			>li {
+				border: 0 none;
+				margin-right: 0;
+			}
+		}
+	}
+
+	#il-add-new-item-gl {
+		.row {
+			margin-left: 0;
+			margin-right: 0;
+		}
+		li {
+			&:not(.dropdown-header ){
+				border-bottom: 0;
+			}
+			margin-right: 0;
+		}
+	}
+
+}
+
+//See #https://mantis.ilias.de/view.php?id=30615
+.ilToolbarContainer+.ilFilterContainer {
+	margin-top: -$il-line-height-computed;
+}
+
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+	.ilToolbar {
+		.container-fluid {
+			padding-left: $il-padding-xlarge-horizontal;
+		}
+
+		li {
+			border-bottom: $il-toolbar-border;
+			margin-right: 0;
+		}
+
+		.ilToolbarStickyItems {
+			&.navbar-nav {
+				.open .dropdown-menu>li>a {
+					padding-left: 0;
+				}
+			}
+		}
+	}
+}
+
+.ilToolbar .navbar-form .modal .radio {
+	display: block;
+}
+
+.ilToolbar .navbar-form .modal .form-group {
+	display: block;
+}
+
+//
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+// Navbar
+//
+
+// Wrapper and base class
+//
+// Provide a static navbar from which we expand to create full-width, fixed, and
+// other navbar variations.
+
+$navbar-height: $il-toolbar-height !default;
+$navbar-margin-bottom: $il-line-height-computed !default;
+$navbar-border-radius: $il-border-radius-base !default;
+$navbar-padding-horizontal: $il-padding-base-horizontal !default;
+$navbar-padding-vertical: $il-padding-base-vertical !default;
+$navbar-collapse-max-height: 340px !default;
+$zindex-navbar: 1000 !default;
+
+$navbar-default-color: $il-text-color !default;
+$navbar-default-bg: $il-main-dark-bg !default;
+$navbar-default-border: $il-main-border-color !default;
+// Navbar links
+$navbar-default-link-color:                #777 !default;
+$navbar-default-link-hover-color:          #333 !default;
+$navbar-default-link-hover-bg:             transparent !default;
+$navbar-default-link-active-color:         #555 !default;
+$navbar-default-link-active-bg:            darken($navbar-default-bg, 6.5%) !default;
+$navbar-default-link-disabled-color:       #ccc !default;
+$navbar-default-link-disabled-bg:          transparent !default;
+
+// Navbar brand label
+$navbar-default-brand-color:               $navbar-default-link-color !default;
+$navbar-default-brand-hover-color:         darken($navbar-default-brand-color, 10%) !default;
+$navbar-default-brand-hover-bg:            transparent !default;
+
+// Navbar toggle
+$navbar-default-toggle-hover-bg:           #ddd !default;
+$navbar-default-toggle-icon-bar-bg:        #888 !default;
+$navbar-default-toggle-border-color:       #ddd !default;
+
+.navbar {
+	position: relative;
+	min-height: $navbar-height; // Ensure a navbar always shows (e.g., without a .navbar-brand in collapsed mode)
+	margin-bottom: $navbar-margin-bottom;
+	border: 1px solid transparent;
+
+	// Prevent floats from breaking the navbar
+	@include clearfix();
+
+	@media (min-width: $il-grid-float-breakpoint) {
+		border-radius: $navbar-border-radius;
+	}
+}
+
+
+// Navbar heading
+//
+// Groups `.navbar-brand` and `.navbar-toggle` into a single component for easy
+// styling of responsive aspects.
+
+.navbar-header {
+	@include clearfix();
+
+	@media (min-width: $il-grid-float-breakpoint) {
+		float: left;
+	}
+}
+
+
+// Navbar collapse (body)
+//
+// Group your navbar content into this for easy collapsing and expanding across
+// various device sizes. By default, this content is collapsed when <768px, but
+// will expand past that for a horizontal display.
+//
+// To start (on mobile devices) the navbar links, forms, and buttons are stacked
+// vertically and include a `max-height` to overflow in case you have too much
+// content for the user's viewport.
+
+.navbar-collapse {
+	overflow-x: visible;
+	padding-right: $navbar-padding-horizontal;
+	padding-left: $navbar-padding-horizontal;
+	border-top: 1px solid transparent;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
+	@include clearfix();
+	-webkit-overflow-scrolling: touch;
+
+	&.in {
+		overflow-y: auto;
+	}
+
+	@media (min-width: $il-grid-float-breakpoint) {
+		width: auto;
+		border-top: 0;
+		box-shadow: none;
+
+		&.collapse {
+			display: block !important;
+			height: auto !important;
+			padding-bottom: 0; // Override default setting
+			overflow: visible !important;
+		}
+
+		&.in {
+			overflow-y: visible;
+		}
+	}
+}
+
+
+// Both navbar header and collapse
+//
+// When a container is present, change the behavior of the header and collapse.
+
+.container,
+.container-fluid {
+
+	>.navbar-header,
+	>.navbar-collapse {
+		margin-right: -$navbar-padding-horizontal;
+		margin-left: -$navbar-padding-horizontal;
+
+		@media (min-width: $il-grid-float-breakpoint) {
+			margin-right: 0;
+			margin-left: 0;
+		}
+	}
+}
+
+
+//
+// Navbar alignment options
+//
+// Display the navbar across the entirety of the page or fixed it to the top or
+// bottom of the page.
+
+// Static top (unfixed, but 100% wide) navbar
+.navbar-static-top {
+	z-index: $zindex-navbar;
+	border-width: 0 0 1px;
+
+	@media (min-width: $il-grid-float-breakpoint) {
+		border-radius: 0;
+	}
+}
+
+
+// Brand/project name
+
+.navbar-brand {
+	float: left;
+	padding: $navbar-padding-vertical $navbar-padding-horizontal;
+	font-size: $il-font-size-large;
+	line-height: $il-line-height-computed;
+	height: $navbar-height;
+
+	&:hover,
+	&:focus {
+		text-decoration: none;
+	}
+
+	>img {
+		display: block;
+	}
+
+	@media (min-width: $il-grid-float-breakpoint) {
+
+		.navbar>.container &,
+		.navbar>.container-fluid & {
+			margin-left: -$navbar-padding-horizontal;
+		}
+	}
+}
+
+
+// Navbar toggle
+//
+// Custom button for toggling the `.navbar-collapse`, powered by the collapse
+// JavaScript plugin.
+
+.navbar-toggle {
+	position: relative;
+	float: right;
+	margin-right: $navbar-padding-horizontal;
+	padding: 9px 10px;
+	// @include navbar-vertical-align(34px);
+	background-color: transparent;
+	background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+	border: 1px solid transparent;
+	border-radius: $il-border-radius-base;
+
+	// We remove the `outline` here, but later compensate by attaching `:hover`
+	// styles to `:focus`.
+	&:focus {
+		outline: 0;
+	}
+
+	// Bars
+	.icon-bar {
+		display: block;
+		width: 22px;
+		height: 2px;
+		border-radius: 1px;
+	}
+
+	.icon-bar+.icon-bar {
+		margin-top: 4px;
+	}
+
+	@media (min-width: $il-grid-float-breakpoint) {
+		display: none;
+	}
+}
+
+
+// Navbar nav links
+//
+// Builds on top of the `.nav` components with its own modifier class to make
+// the nav the full height of the horizontal nav (above 768px).
+
+.navbar-nav {
+	margin: math.div($navbar-padding-vertical, 2) (-$navbar-padding-horizontal);
+
+	>li>a {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		line-height: $il-line-height-computed;
+	}
+
+	@media (max-width: $il-grid-float-breakpoint-max) {
+
+		// Dropdowns get custom display when collapsed
+		.open .dropdown-menu {
+			position: static;
+			float: none;
+			width: auto;
+			margin-top: 0;
+			background-color: transparent;
+
+			>li>a,
+			.dropdown-header {
+				padding: 5px 15px 5px 25px;
+			}
+
+			>li>a {
+				line-height: $il-line-height-computed;
+
+				&:hover,
+				&:focus {
+					background-image: none;
+				}
+			}
+		}
+	}
+
+	// Uncollapse the nav
+	@media (min-width: $il-grid-float-breakpoint) {
+		float: left;
+		margin: 0;
+
+		>li {
+			float: left;
+
+			>a {
+				padding-top: $navbar-padding-vertical;
+				padding-bottom: $navbar-padding-vertical;
+			}
+		}
+	}
+}
+
+
+// Navbar form
+//
+// Extension of the `.form-inline` with some extra flavor for optimum display in
+// our navbars.
+
+.navbar-form {
+	margin-left: -$navbar-padding-horizontal;
+	margin-right: -$navbar-padding-horizontal;
+	padding: 10px $navbar-padding-horizontal;
+	border-top: 1px solid transparent;
+	border-bottom: 1px solid transparent;
+	margin-top: $il-margin-large-vertical;
+	margin-bottom: $il-margin-large-vertical;
+	$shadow: inset 0 1px 0 rgba(255, 255, 255, .1),
+	0 1px 0 rgba(255, 255, 255, .1);
+	@include box-shadow($shadow);
+
+	// Mixin behavior for optimum display
+	// @include form-inline();
+
+	.form-group {
+		@media (max-width: $il-grid-float-breakpoint-max) {
+			margin-bottom: 5px;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	// Vertically center in expanded, horizontal navbar
+	// @include navbar-vertical-align($il-line-height-base);
+
+	// Undo 100% width for pull classes
+	@media (min-width: $il-grid-float-breakpoint) {
+		width: auto;
+		border: 0;
+		margin-left: 0;
+		margin-right: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+		@include box-shadow(none);
+	}
+}
+
+
+// Dropdown menus
+
+// Menu position and menu carets
+.navbar-nav>li>.dropdown-menu {
+	margin-top: 0;
+	@include border-top-radius(0);
+}
+
+// Text in navbars
+//
+// Add a class to make any element properly align itself vertically within the navbars.
+
+.navbar-text {
+	// @include navbar-vertical-align($il-line-height-computed);
+
+	@media (min-width: $il-grid-float-breakpoint) {
+		float: left;
+		margin-left: $navbar-padding-horizontal;
+		margin-right: $navbar-padding-horizontal;
+	}
+}
+
+
+// Component alignment
+//
+// Repurpose the pull utilities as their own navbar utilities to avoid specificity
+// issues with parents and chaining. Only do this when the navbar is uncollapsed
+// though so that navbar contents properly stack and align in mobile.
+//
+// Declared after the navbar components to ensure more specificity on the margins.
+
+@media (min-width: $il-grid-float-breakpoint) {
+	.navbar-left {
+		float: left !important;
+	}
+
+	.navbar-right {
+		float: right !important;
+		margin-right: -$navbar-padding-horizontal;
+
+		~.navbar-right {
+			margin-right: 0;
+		}
+	}
+}
+
+
+// Alternate navbars
+// --------------------------------------------------
+
+// Default navbar
+.navbar-default {
+	background-color: $navbar-default-bg;
+	border-color: $navbar-default-border;
+
+	.navbar-brand {
+		color: $navbar-default-brand-color;
+
+		&:hover,
+		&:focus {
+			color: $navbar-default-brand-hover-color;
+			background-color: $navbar-default-brand-hover-bg;
+		}
+	}
+
+	.navbar-text {
+		color: $navbar-default-color;
+	}
+
+	.navbar-nav {
+		>li>a {
+			color: $navbar-default-link-color;
+
+			&:hover,
+			&:focus {
+				color: $navbar-default-link-hover-color;
+				background-color: $navbar-default-link-hover-bg;
+			}
+		}
+
+		>.active>a {
+
+			&,
+			&:hover,
+			&:focus {
+				color: $navbar-default-link-active-color;
+				background-color: $navbar-default-link-active-bg;
+			}
+		}
+
+		>.disabled>a {
+
+			&,
+			&:hover,
+			&:focus {
+				color: $navbar-default-link-disabled-color;
+				background-color: $navbar-default-link-disabled-bg;
+			}
+		}
+	}
+
+	.navbar-toggle {
+		border-color: $navbar-default-toggle-border-color;
+
+		&:hover,
+		&:focus {
+			background-color: $navbar-default-toggle-hover-bg;
+		}
+
+		.icon-bar {
+			background-color: $il-main-color;
+		}
+	}
+
+	.navbar-collapse,
+	.navbar-form {
+		border-color: $navbar-default-border;
+	}
+
+	// Dropdown menu items
+	.navbar-nav {
+
+		// Remove background color from open dropdown
+		>.open>a {
+
+			&,
+			&:hover,
+			&:focus {
+				background-color: $navbar-default-link-active-bg;
+				color: $navbar-default-link-active-color;
+			}
+		}
+
+		@media (max-width: $il-grid-float-breakpoint-max) {
+
+			// Dropdowns get custom display when collapsed
+			.open .dropdown-menu {
+				>li>a {
+					color: $navbar-default-link-color;
+
+					&:hover,
+					&:focus {
+						color: $navbar-default-link-hover-color;
+						background-color: $navbar-default-link-hover-bg;
+					}
+				}
+
+				>.active>a {
+
+					&,
+					&:hover,
+					&:focus {
+						color: $navbar-default-link-active-color;
+						background-color: $navbar-default-link-active-bg;
+					}
+				}
+
+				>.disabled>a {
+
+					&,
+					&:hover,
+					&:focus {
+						color: $navbar-default-link-disabled-color;
+						background-color: $navbar-default-link-disabled-bg;
+					}
+				}
+			}
+		}
+	}
+
+
+	// Links in navbars
+	//
+	// Add a class to ensure links outside the navbar nav are colored correctly.
+
+	.navbar-link {
+		color: $navbar-default-link-color;
+
+		&:hover {
+			color: $navbar-default-link-hover-color;
+		}
+	}
+
+	.btn-link {
+		color: $navbar-default-link-color;
+
+		&:hover,
+		&:focus {
+			color: $navbar-default-link-hover-color;
+		}
+
+		&[disabled],
+		fieldset[disabled] & {
+
+			&:hover,
+			&:focus {
+				color: $navbar-default-link-disabled-color;
+			}
+		}
+	}
+}
+
+// end of section based on bootstrap 3
+
+// ILIAS Additions
+
+.navbar-nav {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		//no idea why needed, but this one fixes the drop downs in the small media view (e.g. main menu)
+		margin: 7.5px 0px;
+	}
+}

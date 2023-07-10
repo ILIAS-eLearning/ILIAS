@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,15 +16,22 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
+ * @template T
  */
 abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 {
     protected ?ilTermsOfServiceTableDataProvider $provider = null;
+    /** @var array<string, string> */
     protected array $visibleOptionalColumns = [];
+    /** @var array<string, array{'field': string, 'txt': string, 'default': bool, "optional"?: bool, "sortable": bool, "is_checkbox"?: bool, "width"?: string}> */
     protected array $optionalColumns = [];
+    /** @var array<string, mixed> */
     protected array $filter = [];
+    /** @var array<string, mixed> */
     protected array $optional_filter = [];
 
     public function __construct(ilTermsOfServiceControllerEnabled $gui, string $command)
@@ -41,72 +48,73 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
                     $column['txt'],
                     isset($column['sortable']) && $column['sortable'] ? $column['field'] : '',
                     $column['width'] ?? '',
-                    isset($column['is_checkbox']) ? (bool) $column['is_checkbox'] : false
+                    isset($column['is_checkbox']) && (bool) $column['is_checkbox']
                 );
             }
         }
     }
 
-    public function setProvider(ilTermsOfServiceTableDataProvider $provider) : void
+    public function setProvider(ilTermsOfServiceTableDataProvider $provider): void
     {
         $this->provider = $provider;
     }
 
-    public function getProvider() : ?ilTermsOfServiceTableDataProvider
+    public function getProvider(): ?ilTermsOfServiceTableDataProvider
     {
         return $this->provider;
     }
 
     /**
-     * @param array $params
-     * @param array $filter
+     * @param array<string, mixed> $params
+     * @param array<string, mixed> $filter
      */
-    protected function onBeforeDataFetched(array &$params, array &$filter) : void
+    protected function onBeforeDataFetched(array &$params, array &$filter): void
     {
     }
 
     /**
      * This method can be used to add some field values dynamically or manipulate existing values of the table row array
-     * @param array $row
+     * @param array<string, mixed> $row
      */
-    protected function prepareRow(array &$row) : void
+    protected function prepareRow(array &$row): void
     {
     }
 
     /**
      * This method can be used to process the array of all fetched data
-     * @param array $data
+     * @param array{items: list<T>, cnt: int} $data
      */
-    protected function preProcessData(array &$data) : void
+    protected function preProcessData(array &$data): void
     {
     }
 
     /**
      * Define a final formatting for a cell value
-     * @param string $column
-     * @param array $row
-     * @return string
+     * @param array<string, mixed> $row
      */
-    protected function formatCellValue(string $column, array $row) : string
+    protected function formatCellValue(string $column, array $row): string
     {
         return trim($row[$column] ?? '');
     }
 
-    public function getSelectableColumns() : array
+    /**
+     * @return array<string, array{'field': string, 'txt': string, 'default': bool, "optional"?: bool, "sortable": bool, "is_checkbox"?: bool, "width"?: string}>
+     */
+    public function getSelectableColumns(): array
     {
-        $optionalColumns = array_filter($this->getColumnDefinition(), static function ($column) : bool {
+        $optionalColumns = array_filter($this->getColumnDefinition(), static function ($column): bool {
             return isset($column['optional']) && $column['optional'];
         });
 
         $columns = [];
-        foreach ($optionalColumns as $index => $column) {
+        foreach ($optionalColumns as $column) {
             $columns[$column['field']] = $column;
         }
 
         return $columns;
     }
 
-    protected function isColumnVisible(int $index) : bool
+    protected function isColumnVisible(int $index): bool
     {
         $columnDefinition = $this->getColumnDefinition();
         if (array_key_exists($index, $columnDefinition)) {
@@ -126,7 +134,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
         return false;
     }
 
-    final protected function fillRow(array $a_set) : void
+    final protected function fillRow(array $a_set): void
     {
         $this->prepareRow($a_set);
 
@@ -147,9 +155,12 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
         }
     }
 
-    abstract protected function getColumnDefinition() : array;
+    /**
+     * @return non-empty-list<array{'field': string, 'txt': string, 'default': bool, "optional"?: bool, "sortable": bool, "is_checkbox"?: bool, "width"?: string}>
+     */
+    abstract protected function getColumnDefinition(): array;
 
-    public function populate() : void
+    public function populate(): void
     {
         if ($this->getExternalSegmentation() && $this->getExternalSorting()) {
             $this->determineOffsetAndOrder();

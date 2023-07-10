@@ -1,4 +1,5 @@
 <?php
+
 require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
 require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
 require_once './Services/WorkflowEngine/classes/detectors/class.ilEventDetector.php';
@@ -10,8 +11,11 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
         class Booking_System_FullDiagram extends ilBaseWorkflow
         {
             public static $startEventRequired = true;
-            
-            public static function getStartEventInfo()
+
+            /**
+             * @return string[]
+             */
+            public static function getStartEventInfo(): array
             {
                 $events[] = array(
                     'type' => '',
@@ -21,7 +25,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
                     'context_type' => '',
                     'context_id' => '',
                 );
-                
+
                 $events[] = array(
                     'type' => '',
                     'content' => '',
@@ -30,7 +34,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
                     'context_type' => '',
                     'context_id' => '',
                 );
-                
+
                 $events[] = array(
                     'type' => '',
                     'content' => '',
@@ -39,7 +43,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
                     'context_type' => '',
                     'context_id' => '',
                 );
-                
+
                 $events[] = array(
                     'type' => '',
                     'content' => '',
@@ -48,7 +52,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
                     'context_type' => '',
                     'context_id' => '',
                 );
-                
+
                 $events[] = array(
                     'type' => '',
                     'content' => '',
@@ -57,7 +61,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
                     'context_type' => '',
                     'context_id' => '',
                 );
-                
+
                 $events[] = array(
                     'type' => '',
                     'content' => '',
@@ -66,10 +70,10 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
                     'context_type' => '',
                     'context_id' => '',
                 );
-                
+
                 return $events;
             }
-            
+
             public function __construct()
             {
                 $_v_StartEvent_2 = new ilBasicNode($this);
@@ -82,9 +86,9 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
                 $_v_StartEvent_2_detector->setEventSubject("", "");
                 $_v_StartEvent_2_detector->setEventContext("", "");
 
-                $this->defineInstanceVar("DataObject_1", "dataObject", false, "", "mixed", "undefined");
+                $this->defineInstanceVar("DataObject_1", "dataObject");
 
-                $this->defineInstanceVar("DataObject_2", "dataObject", false, "", "mixed", "undefined");
+                $this->defineInstanceVar("DataObject_2", "dataObject");
 
                 $_v_ServiceTask_1 = new ilBasicNode($this);
                 $this->addNode($_v_ServiceTask_1);
@@ -103,7 +107,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
                 $this->addNode($_v_ServiceTask_2);
                 $_v_ServiceTask_2->setName('$_v_ServiceTask_2');
 
-                $this->defineInstanceVar("DataObject_3", "dataObject", false, "", "mixed", "undefined");
+                $this->defineInstanceVar("DataObject_3", "dataObject");
 
                 $_v_SendTask_2 = new ilBasicNode($this);
                 $this->addNode($_v_SendTask_2);
@@ -232,7 +236,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
                 $_v_StartEvent_6_detector->setEventSubject("", "");
                 $_v_StartEvent_6_detector->setEventContext("", "");
 
-                $this->defineInstanceVar("DataObject_4", "dataObject", false, "", "mixed", "undefined");
+                $this->defineInstanceVar("DataObject_4", "dataObject");
 
                 $_v_IntermediateCatchEvent_1 = new ilBasicNode($this);
                 $this->addNode($_v_IntermediateCatchEvent_1);
@@ -638,32 +642,32 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 
                 // association_missing
             }
-            
+
             public function _v_ScriptTask_1_script($context)
             {
             }
-            
-            
+
+
             public function _v_ScriptTask_2_script($context)
             {
             }
-            
-            
+
+
             public function _v_ScriptTask_3_script($context)
             {
             }
-            
-            
+
+
             public function _v_ScriptTask_5_script($context)
             {
             }
-            
-            
+
+
             public function _v_ScriptTask_7_script($context)
             {
             }
-            
-            
+
+
             public function _v_ScriptTask_8_script($context)
             {
             }

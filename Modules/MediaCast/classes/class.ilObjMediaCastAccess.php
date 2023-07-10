@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -33,7 +36,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "showContent", "lang_var" => "show",
@@ -41,11 +44,11 @@ class ilObjMediaCastAccess extends ilObjectAccess
             array("permission" => "write", "cmd" => "listItems", "lang_var" => "edit_content"),
             array("permission" => "write", "cmd" => "editSettings", "lang_var" => "settings")
         );
-        
+
         return $commands;
     }
-    
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -65,8 +68,8 @@ class ilObjMediaCastAccess extends ilObjectAccess
                     return false;
                 }
                 break;
-                
-            // for permission query feature
+
+                // for permission query feature
             case "infoScreen":
                 if (!ilObjMediaCastAccess::_lookupOnline($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
@@ -74,7 +77,6 @@ class ilObjMediaCastAccess extends ilObjectAccess
                     $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                 }
                 break;
-
         }
         switch ($permission) {
             case "read":
@@ -90,12 +92,12 @@ class ilObjMediaCastAccess extends ilObjectAccess
         return true;
     }
 
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
+
         $t_arr = explode("_", $target);
 
         if ($t_arr[0] != "mcst" || ((int) $t_arr[1]) <= 0) {
@@ -108,8 +110,8 @@ class ilObjMediaCastAccess extends ilObjectAccess
         }
         return false;
     }
-    
-    public static function _lookupOnline(int $a_id) : bool
+
+    public static function _lookupOnline(int $a_id): bool
     {
         global $DIC;
 
@@ -122,7 +124,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
         return (bool) ($mc_rec["is_online"] ?? false);
     }
 
-    public static function _lookupPublicFiles(int $a_id) : bool
+    public static function _lookupPublicFiles(int $a_id): bool
     {
         global $DIC;
 
@@ -139,7 +141,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
      * Returns the number of bytes used on the harddisk by the file object
      * with the specified object id.
      */
-    public static function _lookupDiskUsage(int $a_id) : int
+    public static function _lookupDiskUsage(int $a_id): int
     {
         $obj = new ilObjMediaCast($a_id, false);
         $obj->read();

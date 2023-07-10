@@ -1,5 +1,22 @@
-<?php declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=0);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for learning progress
@@ -39,7 +56,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function init() : void
+    public function init(): void
     {
         if (!$this->is_details) {
             $this->setShowRowsSelector(true);
@@ -56,7 +73,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             }
         } else {
             $this->setLimit(20);
-
+            $this->setShowRowsSelector(false);     // see #35492
             $this->addColumn($this->lng->txt("trac_figure"));
         }
         $this->initFilter();
@@ -65,7 +82,11 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             foreach ($this->getMonthsYear(
                 $this->filter["yearmonth"]
             ) as $num => $caption) {
-                $this->addColumn($caption, "month_" . $num);
+                if ($this->is_details) {
+                    $this->addColumn($caption);     // see #35492
+                } else {
+                    $this->addColumn($caption, "month_" . $num);
+                }
             }
         } else {
             foreach ($this->types as $type) {
@@ -82,16 +103,14 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                 );
             }
 
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
+
             foreach ($this->status as $status) {
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus(
-                    $status
-                );
-                $text = ilLearningProgressBaseGUI::_getStatusText($status);
-                $icon = ilUtil::img($path, $text);
+                $icon = $icons->renderIconForStatus($status);
 
                 foreach ($this->types as $type) {
                     if ($type != "avg") {
-                        $caption = $icon . $this->lng->txt(
+                        $caption = $icon . " " . $this->lng->txt(
                             "trac_object_stat_lp_" . $type
                         );
                     } else {
@@ -137,7 +156,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         );
     }
 
-    public function loadItems() : void
+    public function loadItems(): void
     {
         if ($this->is_details) {
             $this->getDetailItems($this->preselected[0]);
@@ -146,7 +165,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             $this->getItems();
         }
     }
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         if ($this->is_details) {
             return [];
@@ -180,7 +199,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
     }
 
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         $alphabetic_ordering = [
             'title'
@@ -191,11 +210,16 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         return false;
     }
 
+    protected function isForwardingToFormDispatcher(): bool
+    {
+        return true;
+    }
+
 
     /**
      * Init filter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->setDisableFilterHiding(true);
 
@@ -388,7 +412,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $this->setData($data);
     }
 
-    protected function getDetailItems(int $a_obj_id) : void
+    protected function getDetailItems(int $a_obj_id): void
     {
         $data = array();
         $all_status = array_merge(array("mem_cnt"), $this->status);
@@ -425,19 +449,18 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             }
         }
 
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
         // add captions
         foreach (array_keys($data) as $figure) {
             $status = substr($figure, 0, -4);
             $type = substr($figure, -3);
 
             if ($status != "mem_cnt") {
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus(
-                    (int) $status
-                );
                 $text = ilLearningProgressBaseGUI::_getStatusText(
                     (int) $status
                 );
-                $icon = ilUtil::img($path, $text);
+                $icon = $icons->renderIconForStatus((int) $status);
                 $text = $icon . " " . $text;
             } else {
                 $text = $this->lng->txt("members");
@@ -455,7 +478,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $this->setData($data);
     }
 
-    protected function initRow(array &$a_row) : void
+    protected function initRow(array &$a_row): void
     {
         foreach ($this->types as $type) {
             $a_row["mem_cnt_" . $type] = null;
@@ -470,7 +493,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -542,7 +565,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             foreach (array_keys(
                 $this->getMonthsYear($this->filter["yearmonth"])
             ) as $num) {
-                $value = $this->anonymizeValue((int) $a_set["month_" . $num]);
+                $value = $this->anonymizeValue((int) ($a_set["month_" . $num] ?? 0));
                 $this->tpl->setVariable("ITEM_VALUE", $value);
                 $this->tpl->parseCurrentBlock();
             }
@@ -551,7 +574,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                 $this->tpl->setVariable(
                     "ITEM_VALUE",
                     $this->anonymizeValue(
-                        (int) $a_set["mem_cnt_" . $type]
+                        (int) ($a_set["mem_cnt_" . $type] ?? 0)
                     )
                 );
                 $this->tpl->parseCurrentBlock();
@@ -561,7 +584,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                     $this->tpl->setVariable(
                         "ITEM_VALUE",
                         $this->anonymizeValue(
-                            (int) $a_set[$status . "_" . $type]
+                            (int) ($a_set[$status . "_" . $type] ?? 0)
                         )
                     );
                     $this->tpl->parseCurrentBlock();
@@ -570,12 +593,12 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    public function getGraph(array $a_graph_items) : string
+    public function getGraph(array $a_graph_items): string
     {
         $a_graph_items = array(array_pop($a_graph_items));
 
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstlp");
-        $chart->setSize(700, 500);
+        $chart->setSize("700", "500");
 
         $legend = new ilChartLegend();
         $chart->setLegend($legend);
@@ -684,7 +707,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         return $chart->getHTML();
     }
 
-    protected function initLearningProgressDetailsLayer() : void
+    protected function initLearningProgressDetailsLayer(): void
     {
         global $DIC;
 

@@ -1,6 +1,23 @@
-<?php declare(strict_types=0);
+<?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=0);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
  * Class ilLPListOfSettingsGUI
@@ -24,17 +41,16 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         switch ($this->ctrl->getNextClass()) {
             default:
                 $cmd = $this->__getDefaultCommand();
                 $this->$cmd();
-
         }
     }
 
-    protected function initItemIdsFromPost() : array
+    protected function initItemIdsFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('item_ids')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -50,7 +66,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * Show settings tables
      */
-    protected function show() : void
+    protected function show(): void
     {
         $this->help->setSubScreenId("trac_settings");
         $info = $this->obj_lp->getSettingsInfo();
@@ -66,7 +82,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         );
     }
 
-    protected function initFormSettings() : ilPropertyFormGUI
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('tracking_settings'));
@@ -93,7 +109,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                 // :TODO: Subitem for visits ?!
                 if ($mode_key == ilLPObjSettings::LP_MODE_VISITS) {
                     $vis = new ilNumberInputGUI(
-                        $this->lng->txt('trac_visits'), 'visits'
+                        $this->lng->txt('trac_visits'),
+                        'visits'
                     );
                     $vis->setSize(3);
                     $vis->setMaxLength(4);
@@ -114,7 +131,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         return $form;
     }
 
-    protected function saveSettings() : void
+    protected function saveSettings(): void
     {
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
@@ -163,15 +180,19 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                 $this->obj_lp->getCollectionInstance() &&
                 $new_mode != ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR) { // #14819
                 $this->tpl->setOnScreenMessage(
-                    'info', $this->lng->txt(
-                    'trac_edit_collection'
-                ), true
+                    'info',
+                    $this->lng->txt(
+                        'trac_edit_collection'
+                    ),
+                    true
                 );
             }
             $this->tpl->setOnScreenMessage(
-                'success', $this->lng->txt(
-                'trac_settings_saved'
-            ), true
+                'success',
+                $this->lng->txt(
+                    'trac_settings_saved'
+                ),
+                true
             );
             $this->ctrl->redirect($this, 'show');
         }
@@ -188,7 +209,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * Get tables by mode
      */
-    protected function getTableByMode() : string
+    protected function getTableByMode(): string
     {
         $collection = $this->obj_lp->getCollectionInstance();
         if ($collection && $collection->hasSelectableItems()) {
@@ -204,11 +225,13 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         return '';
     }
 
-    protected function assign() : void
+    protected function assign(): void
     {
         if (!$this->initItemIdsFromPost()) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt('select_one'), true
+                'failure',
+                $this->lng->txt('select_one'),
+                true
             );
             $this->ctrl->redirect($this, 'show');
         }
@@ -225,16 +248,20 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             ilLPStatusWrapper::_refreshStatus($this->getObjId());
         }
         $this->tpl->setOnScreenMessage(
-            'success', $this->lng->txt('trac_settings_saved'), true
+            'success',
+            $this->lng->txt('trac_settings_saved'),
+            true
         );
         $this->ctrl->redirect($this, 'show');
     }
 
-    protected function deassign() : void
+    protected function deassign(): void
     {
         if (!$this->initItemIdsFromPost()) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt('select_one'), true
+                'failure',
+                $this->lng->txt('select_one'),
+                true
             );
             $this->ctrl->redirect($this, 'show');
             return;
@@ -252,7 +279,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             ilLPStatusWrapper::_refreshStatus($this->getObjId());
         }
         $this->tpl->setOnScreenMessage(
-            'success', $this->lng->txt('trac_settings_saved'), true
+            'success',
+            $this->lng->txt('trac_settings_saved'),
+            true
         );
         $this->ctrl->redirect($this, 'show');
     }
@@ -260,11 +289,13 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * Group materials
      */
-    protected function groupMaterials() : void
+    protected function groupMaterials(): void
     {
         if (!count((array) $this->initItemIdsFromPost())) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt('select_one'), true
+                'failure',
+                $this->lng->txt('select_one'),
+                true
             );
             $this->ctrl->redirect($this, 'show');
         }
@@ -279,7 +310,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         }
 
         $this->tpl->setOnScreenMessage(
-            'success', $this->lng->txt('trac_settings_saved'), true
+            'success',
+            $this->lng->txt('trac_settings_saved'),
+            true
         );
         $this->ctrl->redirect($this, 'show');
     }
@@ -287,11 +320,13 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      *
      */
-    protected function releaseMaterials() : void
+    protected function releaseMaterials(): void
     {
         if (!count((array) $this->initItemIdsFromPost())) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt('select_one'), true
+                'failure',
+                $this->lng->txt('select_one'),
+                true
             );
             $this->ctrl->redirect($this, 'show');
         }
@@ -305,7 +340,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         }
 
         $this->tpl->setOnScreenMessage(
-            'success', $this->lng->txt('trac_settings_saved'), true
+            'success',
+            $this->lng->txt('trac_settings_saved'),
+            true
         );
         $this->ctrl->redirect($this, 'show');
     }
@@ -313,20 +350,22 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * Save obligatory state per grouped materials
      */
-    protected function saveObligatoryMaterials() : void
+    protected function saveObligatoryMaterials(): void
     {
         $groups = [];
         if ($this->http->wrapper()->post()->has('grp')) {
             $groups = $this->http->wrapper()->post()->retrieve(
                 'grp',
-                $this->refinery->kindlyTo()->listOf(
+                $this->refinery->kindlyTo()->dictOf(
                     $this->refinery->kindlyTo()->int()
                 )
             );
         }
         if (!count($groups)) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt('select_one'), true
+                'failure',
+                $this->lng->txt('select_one'),
+                true
             );
             $this->ctrl->redirect($this, 'show');
         }
@@ -341,17 +380,23 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             }
 
             $this->tpl->setOnScreenMessage(
-                'success', $this->lng->txt('settings_saved'), true
+                'success',
+                $this->lng->txt('settings_saved'),
+                true
             );
             $this->ctrl->redirect($this, 'show');
         } catch (UnexpectedValueException $e) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt(
-                'trac_grouped_material_obligatory_err'
-            ), true
+                'failure',
+                $this->lng->txt(
+                    'trac_grouped_material_obligatory_err'
+                ),
+                true
             );
             $this->tpl->setOnScreenMessage(
-                'info', $this->lng->txt('err_check_input'), true
+                'info',
+                $this->lng->txt('err_check_input'),
+                true
             );
             $this->ctrl->redirect($this, 'show');
         }
@@ -360,7 +405,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * @throws ilCtrlException
      */
-    protected function updateTLT() : void
+    protected function updateTLT(): void
     {
         $tlt = (array) ($this->http->request()->getParsedBody()['tlt'] ?? []);
         foreach ($tlt as $item_id => $item) {
@@ -383,12 +428,14 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         ilLPStatusWrapper::_refreshStatus($this->getObjId());
 
         $this->tpl->setOnScreenMessage(
-            'success', $this->lng->txt('settings_saved'), true
+            'success',
+            $this->lng->txt('settings_saved'),
+            true
         );
         $this->ctrl->redirect($this, 'show');
     }
 
-    protected function getLPPathInfo(int $a_ref_id, array &$a_res) : bool
+    protected function getLPPathInfo(int $a_ref_id, array &$a_res): bool
     {
         $has_lp_parents = false;
 
@@ -431,7 +478,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         return $has_lp_parents;
     }
 
-    protected function handleLPUsageInfo() : string
+    protected function handleLPUsageInfo(): string
     {
         $ref_id = 0;
         if ($this->http->wrapper()->query()->has('ref_id')) {
@@ -449,7 +496,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         if ($ref_id &&
             $this->getLPPathInfo((int) $ref_id, $coll)) {
             $tpl = new ilTemplate(
-                "tpl.lp_obj_settings_tree_info.html", true, true,
+                "tpl.lp_obj_settings_tree_info.html",
+                true,
+                true,
                 "Services/Tracking"
             );
 
@@ -472,9 +521,12 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                     $tpl->setCurrentBlock("parent_link_bl");
                     $tpl->setVariable("PARENT_LINK_TITLE", $node["title"]);
                     $tpl->setVariable(
-                        "PARENT_URL", ilLink::_getLink(
-                        $parent_ref_id, $node["type"], $params
-                    )
+                        "PARENT_URL",
+                        ilLink::_getLink(
+                            $parent_ref_id,
+                            $node["type"],
+                            $params
+                        )
                     );
                     $tpl->parseCurrentBlock();
                 } else {
@@ -485,16 +537,21 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
                 $tpl->setCurrentBlock("parent_usage_bl");
                 $tpl->setVariable(
-                    "PARENT_TYPE_URL", ilObject::_getIcon(
-                    $node["obj_id"], "small", $node["type"]
-                )
+                    "PARENT_TYPE_URL",
+                    ilObject::_getIcon(
+                        $node["obj_id"],
+                        "small",
+                        $node["type"]
+                    )
                 );
                 $tpl->setVariable(
-                    "PARENT_TYPE_ALT", $this->lng->txt("obj_" . $node["type"])
+                    "PARENT_TYPE_ALT",
+                    $this->lng->txt("obj_" . $node["type"])
                 );
 
                 $tpl->setVariable(
-                    "PARENT_STYLE", $node["lp"]
+                    "PARENT_STYLE",
+                    $node["lp"]
                     ? ''
                     : ' class="ilLPParentInfoListLPUnsupported"'
                 );
@@ -506,10 +563,11 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
             if ($has_active) {
                 $tpl->setVariable(
-                    "LEGEND", sprintf(
-                    $this->lng->txt("trac_lp_settings_info_parent_legend"),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
-                )
+                    "LEGEND",
+                    sprintf(
+                        $this->lng->txt("trac_lp_settings_info_parent_legend"),
+                        ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
+                    )
                 );
             }
 

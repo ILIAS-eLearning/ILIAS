@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Blog\ReadingTime;
 
@@ -20,24 +25,12 @@ namespace ILIAS\Blog\ReadingTime;
  */
 class BlogSettingsGUI
 {
-    /**
-     * @var int
-     */
-    protected $blog_id;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ReadingTimeManager
-     */
-    protected $manager;
+    protected int $blog_id;
+    protected \ilLanguage $lng;
+    protected ReadingTimeManager $manager;
 
     public function __construct(int $blog_id)
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->manager = new ReadingTimeManager();
@@ -45,7 +38,7 @@ class BlogSettingsGUI
         $this->blog_id = $blog_id;
     }
 
-    public function addSettingToForm(\ilPropertyFormGUI $form) : void
+    public function addSettingToForm(\ilPropertyFormGUI $form): void
     {
         if ($this->manager->isGloballyActivated()) {
             $cb = new \ilCheckboxInputGUI($this->lng->txt("blog_est_reading_time"), "est_reading_time");
@@ -54,13 +47,13 @@ class BlogSettingsGUI
         }
     }
 
-    public function addValueToArray(array $values) : array
+    public function addValueToArray(array $values): array
     {
         $values["est_reading_time"] = $this->manager->isActivated($this->blog_id);
         return $values;
     }
 
-    public function saveSettingFromForm(\ilPropertyFormGUI $form) : void
+    public function saveSettingFromForm(\ilPropertyFormGUI $form): void
     {
         if ($this->manager->isGloballyActivated()) {
             $this->manager->activate(

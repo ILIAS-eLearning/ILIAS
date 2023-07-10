@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,28 +16,23 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 {
-    private ilCertificateTemplateRepository $templateRepository;
-    private string $rootDirectory;
-    private ilCertificateUtilHelper $utilHelper;
-    private ilCertificateObjectHelper $objectHelper;
-    private string $iliasVersion;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateObjectHelper $objectHelper;
 
     public function __construct(
-        ilCertificateTemplateRepository $templateRepository,
-        string $rootDirectory = CLIENT_WEB_DIR,
+        private readonly ilCertificateTemplateRepository $templateRepository,
+        private readonly string $rootDirectory = CLIENT_WEB_DIR,
+        private readonly string $iliasVersion = ILIAS_VERSION_NUMERIC,
         ?ilCertificateUtilHelper $utilHelper = null,
-        ?ilCertificateObjectHelper $objectHelper = null,
-        string $iliasVersion = ILIAS_VERSION_NUMERIC
+        ?ilCertificateObjectHelper $objectHelper = null
     ) {
-        $this->templateRepository = $templateRepository;
-
-        $this->rootDirectory = $rootDirectory;
-
         if (null === $utilHelper) {
             $utilHelper = new ilCertificateUtilHelper();
         }
@@ -47,11 +42,9 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
             $objectHelper = new ilCertificateObjectHelper();
         }
         $this->objectHelper = $objectHelper;
-
-        $this->iliasVersion = $iliasVersion;
     }
 
-    public function delete(int $templateId, int $objectId) : void
+    public function delete(int $templateId, int $objectId): void
     {
         $template = $this->templateRepository->fetchCurrentlyUsedCertificate($objectId);
 
@@ -77,7 +70,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
         $this->overwriteBackgroundImageThumbnail($certificateTemplate);
     }
 
-    private function overwriteBackgroundImageThumbnail(ilCertificateTemplate $previousTemplate) : void
+    private function overwriteBackgroundImageThumbnail(ilCertificateTemplate $previousTemplate): void
     {
         $relativePath = $previousTemplate->getBackgroundImagePath();
 
@@ -92,7 +85,6 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
         $this->utilHelper->convertImage(
             $this->rootDirectory . $relativePath,
             $this->rootDirectory . $newFilePath,
-            'JPEG',
             "100"
         );
     }

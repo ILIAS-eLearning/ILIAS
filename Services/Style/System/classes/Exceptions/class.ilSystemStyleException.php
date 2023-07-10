@@ -55,7 +55,7 @@ class ilSystemStyleException extends ilSystemStyleExceptionBase
 
     public const SUBSTYLE_ASSIGNMENT_EXISTS = 7001;
 
-    protected function assignMessageToCode() : void
+    protected function assignMessageToCode(): void
     {
         switch ($this->code) {
             case self::EMPTY_ENTRY:

@@ -1,4 +1,22 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 
 /**
  * Class ilOrgUnitPermissionTableGUI
@@ -6,23 +24,13 @@
  */
 class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
 {
-
-    /**
-     * @var string
-     */
-    protected $context_string;
-    /**
-     * @var ilOrgUnitPermission
-     */
-    private $ilOrgUnitPermission = null;
+    protected string $context_string;
+    private ?ilOrgUnitPermission $ilOrgUnitPermission = null;
 
     /**
      * ilOrgUnitDefaultPermissionTableGUI constructor.
-     * @param object               $a_parent_obj
-     * @param string               $a_parent_cmd
-     * @param \ilOrgUnitPermission $ilOrgUnitPermission
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilOrgUnitPermission $ilOrgUnitPermission)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, ilOrgUnitPermission $ilOrgUnitPermission)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->ilOrgUnitPermission = $ilOrgUnitPermission;
@@ -54,47 +62,40 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
         $this->setCloseFormTag(false);
     }
 
-    public function start()
+    public function start(): void
     {
         $this->setEnableHeader(false);
         $this->setOpenFormTag(true);
         $this->setNoEntriesText('');
         $this->setData(array());
-        $this->addMultiCommand(ilOrgUnitDefaultPermissionGUI::CMD_UPDATE, $this->lng->txt('save'));
+        $this->addMultiCommand(BaseCommands::CMD_UPDATE, $this->lng->txt('save'));
     }
 
-    public function end()
+    public function end(): void
     {
         $this->setCloseFormTag(true);
-        $this->addCommandButton(ilOrgUnitDefaultPermissionGUI::CMD_UPDATE, $this->lng->txt('save'));
+        $this->addCommandButton(BaseCommands::CMD_UPDATE, $this->lng->txt('save'));
     }
 
-    /**
-     * @param array $a_set
-     * @return void
-     */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('OBJ_TYPE', $this->context_string);
-        $this->tpl->setVariable('PERM_PERM_ID', $a_set->getOperationId());
-        if ($this->ilOrgUnitPermission->isOperationIdSelected($a_set->getOperationId())) {
+        $this->tpl->setVariable('PERM_PERM_ID', $a_set['operation_id']);
+        if ($this->ilOrgUnitPermission->isOperationIdSelected((int) $a_set['operation_id'])) {
             $this->tpl->setVariable('PERM_CHECKED', "checked=checked");
         }
         // $this->tpl->setVariable('PERM_DISABLED', "disabled=disabled");
         $this->tpl->setVariable('DESC_TYPE', $this->context_string);
-        $this->tpl->setVariable('DESC_PERM_ID', $a_set->getOperationId());
+        $this->tpl->setVariable('DESC_PERM_ID', $a_set['operation_id']);
         $this->tpl->setVariable('TXT_PERMISSION', $this->dic()->language()->txt('orgu_op_'
-            . $a_set->getOperationString()));
+            . $a_set['operation_string']));
     }
 
-    public function collectData()
+    public function collectData(): void
     {
     }
 
-    /**
-     * @return \ILIAS\DI\Container
-     */
-    private function dic()
+    private function dic(): \ILIAS\DI\Container
     {
         return $GLOBALS['DIC'];
     }

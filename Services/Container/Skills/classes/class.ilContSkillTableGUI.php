@@ -73,14 +73,14 @@ class ilContSkillTableGUI extends ilTable2GUI
         //$this->addCommandButton("", $lng->txt(""));
     }
 
-    public function getSkills() : array
+    public function getSkills(): array
     {
         $skills = $this->container_skill_collector->getSkillsForTableGUI();
 
         return $skills;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $tpl = $this->tpl;
 
@@ -89,7 +89,7 @@ class ilContSkillTableGUI extends ilTable2GUI
         $path = $this->getParentObject()->getPathString($a_set["base_skill_id"], $a_set["tref_id"]);
         $tpl->setVariable("PATH", $path);
 
-        if ($a_set["profile"] != null) {
+        if (isset($a_set["profile"])) {
             $tpl->setVariable("PROFILE", $a_set["profile"]);
         } else {
             $tpl->setCurrentBlock("checkbox");

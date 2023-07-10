@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Setup;
 
@@ -22,12 +25,12 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         $field = array(
             'type' => 'integer',
@@ -39,7 +42,7 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db->modifyTableColumn("copg_pc_def", "order_nr", $field);
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         $field = array(
             'type' => 'integer',
@@ -51,7 +54,7 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db->modifyTableColumn("copg_pc_def", "order_nr", $field);
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         $this->db->update(
             "page_layout",
@@ -100,7 +103,7 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
         );
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         if (!$this->db->tableColumnExists('page_object', 'est_reading_time')) {
             $this->db->addTableColumn('page_object', 'est_reading_time', array(
@@ -109,6 +112,42 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
                 'length' => 4,
                 'default' => 0
             ));
+        }
+    }
+
+    public function step_5(): void
+    {
+        $set = $this->db->queryF(
+            "SELECT content FROM page_object " .
+            " WHERE page_id = %s AND parent_type = %s AND lang = %s",
+            ["integer", "text", "text"],
+            [5, "stys", "-"]
+        );
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $content = $rec["content"];
+
+            $replacements = [
+                ["a4e417c08feebeafb1487e60a2e245a4", "a4e417c08feebeafb1487e60a2e245a5"],
+                ["a4e417c08feebeafb1487e60a2e245a4", "a4e417c08feebeafb1487e60a2e245a6"],
+                ["a4e417c08feebeafb1487e60a2e245a5", "a4e417c08feebeafb1487e60a2e245a7"],
+                ["a4e417c08feebeafb1487e60a2e245a5", "a4e417c08feebeafb1487e60a2e245a8"]
+            ];
+
+            foreach ($replacements as $r) {
+                $content = preg_replace('/' . $r[0] . '/', $r[1], $content, 1);
+            }
+
+            $this->db->update(
+                "page_object",
+                [
+                "content" => ["clob", $content]
+            ],
+                [    // where
+                    "page_id" => ["integer", 5],
+                    "parent_type" => ["text", "stys"],
+                    "lang" => ["text", '-'],
+                ]
+            );
         }
     }
 }

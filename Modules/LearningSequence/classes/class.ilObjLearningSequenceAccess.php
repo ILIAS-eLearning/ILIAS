@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilObjLearningSequenceAccess extends ilObjectAccess
 {
     public static bool $using_code = false;
@@ -23,7 +25,7 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
     /**
      * @return array<array<string|bool>>
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         return array(
             [
@@ -55,12 +57,12 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
         );
     }
 
-    public function usingRegistrationCode() : bool
+    public function usingRegistrationCode(): bool
     {
         return self::$using_code;
     }
 
-    public static function isOffline(int $ref_id) : bool
+    public static function isOffline(int $ref_id): bool
     {
         $obj = ilObjectFactory::getInstanceByRefId($ref_id);
         $act = $obj->getLSActivation();
@@ -100,7 +102,7 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
         return !$online;
     }
 
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         list($rbacsystem, $il_access, $lng) = $this->getDICDependencies();
 
@@ -134,7 +136,7 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
     /**
      * @return array<ilRbacSystem|ilAccess|ilLanguage>
      */
-    protected function getDICDependencies() : array
+    protected function getDICDependencies(): array
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailUserHelper
  * @author Michael Jansen <mjansen@databay.de>
@@ -26,7 +28,7 @@ class ilMailUserHelper
      * @param int[] $usrIds
      * @return string[]
      */
-    public function getUsernameMapForIds(array $usrIds) : array
+    public function getUsernameMapForIds(array $usrIds): array
     {
         return ilUserUtil::getNamePresentation(
             $usrIds,

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -33,7 +36,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        
+
         $this->addColumn($this->lng->txt("title"));
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'question') === 0) {
@@ -61,7 +64,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
                 $this->addColumn($this->lng->txt("arithmetic_mean"));
             }
         }
-    
+
         $this->setRowTemplate(
             "tpl.il_svy_svy_results_cumulated_row.html",
             "Modules/Survey/Evaluation"
@@ -72,7 +75,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
         $this->getItems($a_results);
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         $lng = $this->lng;
         $cols["question"] = array(
@@ -109,16 +112,16 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
         );
         return $cols;
     }
-    
+
     protected function getItems(
         array $a_results
-    ) : void {
+    ): void {
         $data = array();
-            
+
         foreach ($a_results as $question_res) {
             if (!is_array($question_res)) {
                 $question = $question_res->getQuestion();
-                
+
                 $data[] = array(
                     "title" => $question->getTitle(),
                     "question" => strip_tags($question->getQuestiontext()),
@@ -135,12 +138,12 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
             else {
                 // :TODO: $question->getQuestiontext() ?
                 // :TODO: should there be overall figures?
-                
+
                 foreach ($question_res as $idx => $item) {
                     $row_title = $item[0];
                     $row_res = $item[1];
                     $question = $row_res->getQuestion();
-                    
+
                     $data[] = array(
                         "title" => $question->getTitle(),
                         "question" => $row_title,
@@ -155,19 +158,19 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
                 }
             }
         }
-        
+
         $this->setData($data);
     }
-    
-    public function numericOrdering(string $a_field) : bool
+
+    public function numericOrdering(string $a_field): bool
     {
         return !in_array($a_field, array("question", "question_type"));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("TITLE", $a_set['title']);
-    
+
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'question') === 0) {
                 $this->tpl->setCurrentBlock('question');

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilTermsOfServiceDocumentHtmlPurifier
@@ -47,7 +49,7 @@ class ilTermsOfServiceDocumentHtmlPurifier extends ilHtmlPurifierAbstractLibWrap
         $this->allowedTags = $allowedTags;
     }
 
-    protected function getPurifierConfigInstance() : HTMLPurifier_Config
+    protected function getPurifierConfigInstance(): HTMLPurifier_Config
     {
         $config = HTMLPurifier_Config::createDefault();
         $config->set('HTML.DefinitionID', 'ilias termsofservice document');
@@ -65,7 +67,7 @@ class ilTermsOfServiceDocumentHtmlPurifier extends ilHtmlPurifierAbstractLibWrap
         $config->set('HTML.AllowedElements', $this->removeUnsupportedElements($tags));
         $config->set('HTML.ForbiddenAttributes', 'div@style');
 
-        if ($def = $config->maybeGetRawHTMLDefinition()) {
+        if (($def = $config->maybeGetRawHTMLDefinition()) !== null) {
             $def->addAttribute('a', 'target', 'Enum#_blank,_self,_target,_top');
         }
 

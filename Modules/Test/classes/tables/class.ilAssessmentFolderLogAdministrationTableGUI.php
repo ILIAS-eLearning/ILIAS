@@ -1,20 +1,30 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
+declare(strict_types=1);
 
 /**
-*
-* @author Helmut Schottmüller <ilias@aurealis.de>
-* @version $Id$
-*
-* @ingroup ModulesTest
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+/**
+ * @author Helmut Schottmüller <ilias@aurealis.de>
+ * @ingroup ModulesTest
+ */
 class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false)
+    public function __construct(ilObjAssessmentFolderGUI $a_parent_obj, string $a_parent_cmd, bool $a_write_access = false)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -43,23 +53,16 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
             $this->enable('select_all');
         }
 
-        //$this->numericOrdering('nr');
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
-        
+
         $this->setPrefix('chb_test');
-        
+
         $this->enable('header');
         $this->enable('sort');
     }
 
-    /**
-     * fill row
-     * @access public
-     * @param
-     * @return void
-     */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
         $this->tpl->setVariable("NR", $a_set['nr']);
@@ -68,11 +71,8 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
         $this->tpl->setVariable("LOCATION_TXT", $a_set['location_txt']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
-        return 'nr' == $a_field;
+        return 'nr' === $a_field;
     }
 }

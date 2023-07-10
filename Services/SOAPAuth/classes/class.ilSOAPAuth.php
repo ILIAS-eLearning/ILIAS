@@ -1,48 +1,40 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ */
+
+declare(strict_types=1);
 
 include_once("./webservice/soap/lib/nusoap.php");
 
-/**
-* Class SOAPAuth
-*
-* SOAP Authentication class.
-*
-*/
 class ilSOAPAuth
 {
-    /**
-    * Test connection with values of soap auth administration settings
-    */
-    public static function testConnection($a_ext_uid, $a_soap_pw, $a_new_user) : string
+    public static function testConnection(string $a_ext_uid, string $a_soap_pw, bool $a_new_user): string
     {
         global $ilSetting;
 
         $settings = $ilSetting->getAll();
 
-        $server_hostname = $settings["soap_auth_server"];
-        $server_port = (int) $settings["soap_auth_port"];
-        $server_uri = $settings["soap_auth_uri"];
-        $namespace = $settings["soap_auth_namespace"];
-        $use_dotnet = isset($settings["soap_auth_use_dotnet"]) ?
-            $settings["soap_auth_use_dotnet"] : false;
+        $server_hostname = (string) ($settings["soap_auth_server"] ?? '');
+        $server_port = (int) ($settings["soap_auth_port"] ?? 0);
+        $server_uri = (string) ($settings["soap_auth_uri"] ?? '');
+        $namespace = (string) ($settings["soap_auth_namespace"] ?? '');
+        $use_dotnet = (bool) ($settings["soap_auth_use_dotnet"] ?? false);
+        $uri = "http://";
         if (isset($settings["soap_auth_use_https"]) && $settings["soap_auth_use_https"]) {
             $uri = "https://";
-        } else {
-            $uri = "http://";
         }
 
         $uri .= $server_hostname;
@@ -51,10 +43,11 @@ class ilSOAPAuth
             $uri .= ":" . $server_port;
         }
 
-        if ($server_uri != "") {
+        if ($server_uri !== "") {
             $uri .= "/" . $server_uri;
         }
 
+        require_once './webservice/soap/lib/nusoap.php';
         $soap_client = new nusoap_client($uri);
         if ($err = $soap_client->getError()) {
             return "SOAP Authentication Initialisation Error: " . $err;
@@ -69,9 +62,11 @@ class ilSOAPAuth
 
         $valid = $soap_client->call(
             'isValidSession',
-            array($nspref . 'ext_uid' => $a_ext_uid,
+            [
+                $nspref . 'ext_uid' => $a_ext_uid,
                 $nspref . 'soap_pw' => $a_soap_pw,
-                $nspref . 'new_user' => $a_new_user),
+                $nspref . 'new_user' => $a_new_user
+            ],
             $namespace,
             $soapAction
         );

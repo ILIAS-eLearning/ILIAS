@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Learning history provider: Badges
@@ -45,7 +48,7 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         $this->ui = $ui;
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         if (ilBadgeHandler::getInstance()->isActive()) {
             return true;
@@ -53,7 +56,7 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         return false;
     }
 
-    public function getEntries(int $ts_start, int $ts_end) : array
+    public function getEntries(int $ts_start, int $ts_end): array
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("badge");
@@ -81,7 +84,7 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         return $entries;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         $lng = $this->getLanguage();
 

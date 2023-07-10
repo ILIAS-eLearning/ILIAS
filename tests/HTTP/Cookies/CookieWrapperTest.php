@@ -34,7 +34,6 @@ use PHPUnit\Framework\TestCase;
  */
 class CookieWrapperTest extends TestCase
 {
-
     /**
      * @var CookieWrapper $cookie
      */
@@ -45,14 +44,14 @@ class CookieWrapperTest extends TestCase
     private static $cookieFactory;
 
 
-    public static function setUpBeforeClass() : void
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         self::$cookieFactory = new CookieFactoryImpl();
     }
 
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 

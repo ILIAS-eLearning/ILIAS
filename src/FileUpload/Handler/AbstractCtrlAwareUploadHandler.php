@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\FileUpload\Handler;
 
@@ -35,6 +37,12 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
     protected ilCtrl $ctrl;
     protected FileUpload $upload;
 
+    protected bool $is_chunked = false;
+    protected int $chunk_index = 0;
+    protected int $amount_of_chunks = 0;
+    protected ?string $chunk_id = null;
+    protected int $chunk_total_size = 0;
+
 
     /**
      * ilUIDemoFileUploadHandlerGUI constructor.
@@ -51,7 +59,7 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
     /**
      * @inheritDoc
      */
-    public function getFileIdentifierParameterName() : string
+    public function getFileIdentifierParameterName(): string
     {
         return self::DEFAULT_FILE_ID_PARAMETER;
     }
@@ -60,7 +68,7 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
     /**
      * @inheritDoc
      */
-    public function getUploadURL() : string
+    public function getUploadURL(): string
     {
         return $this->ctrl->getLinkTargetByClass([static::class], self::CMD_UPLOAD);
     }
@@ -69,7 +77,7 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
     /**
      * @inheritDoc
      */
-    public function getExistingFileInfoURL() : string
+    public function getExistingFileInfoURL(): string
     {
         return $this->ctrl->getLinkTargetByClass([static::class], self::CMD_INFO);
     }
@@ -78,13 +86,23 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
     /**
      * @inheritDoc
      */
-    public function getFileRemovalURL() : string
+    public function getFileRemovalURL(): string
     {
         return $this->ctrl->getLinkTargetByClass([static::class], self::CMD_REMOVE);
     }
 
+    protected function readChunkedInformation(): void
+    {
+        $body = $this->http->request()->getParsedBody();
+        $this->chunk_id = $body['dzuuid'] ?? null;
+        $this->amount_of_chunks = (int) ($body['dztotalchunkcount'] ?? 0);
+        $this->chunk_index = (int) ($body['dzchunkindex'] ?? 0);
+        $this->chunk_total_size = (int) ($body['dztotalfilesize'] ?? 0);
+        $this->is_chunked = ($this->chunk_id !== null && $this->amount_of_chunks > 0);
+    }
 
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         switch ($this->ctrl->getCmd()) {
             case self::CMD_UPLOAD:
@@ -92,7 +110,19 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
                 // file-id which will be a FileStorage-ID in a later version
                 // of ILIAS and for now you must implement an own ID which allows
                 // identifying the file after the request
-                $content = json_encode($this->getUploadResult());
+                try {
+                    $this->readChunkedInformation();
+                    $content = json_encode($this->getUploadResult());
+                } catch (\Throwable $t) {
+                    $content = json_encode(
+                        new BasicHandlerResult(
+                            $this->getFileIdentifierParameterName(),
+                            BasicHandlerResult::STATUS_FAILED,
+                            '',
+                            $t->getMessage()
+                        )
+                    );
+                }
                 break;
             case self::CMD_REMOVE:
                 // here you delete the previously uploaded file again, you know
@@ -117,14 +147,20 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
     }
 
 
-    abstract protected function getUploadResult() : HandlerResult;
+    abstract protected function getUploadResult(): HandlerResult;
 
 
-    abstract protected function getRemoveResult(string $identifier) : HandlerResult;
+    abstract protected function getRemoveResult(string $identifier): HandlerResult;
 
 
-    abstract public function getInfoResult(string $identifier) : ?FileInfoResult;
+    abstract public function getInfoResult(string $identifier): ?FileInfoResult;
 
-    
-    abstract public function getInfoForExistingFiles(array $file_ids) : array;
+
+    abstract public function getInfoForExistingFiles(array $file_ids): array;
+
+    public function supportsChunkedUploads(): bool
+    {
+        return false;
+    }
+
 }

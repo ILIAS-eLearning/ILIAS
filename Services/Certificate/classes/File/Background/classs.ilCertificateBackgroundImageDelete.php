@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,21 +16,20 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateBackgroundImageDelete
 {
-    private string $certificatePath;
-    private ilCertificateBackgroundImageFileService $fileService;
-
-    public function __construct(string $certificatePath, ilCertificateBackgroundImageFileService $fileService)
-    {
-        $this->certificatePath = $certificatePath;
-        $this->fileService = $fileService;
+    public function __construct(
+        private readonly string $certificatePath,
+        private readonly ilCertificateBackgroundImageFileService $fileService
+    ) {
     }
 
-    public function deleteBackgroundImage(?int $version) : void
+    public function deleteBackgroundImage(?int $version): void
     {
         if (is_file($this->fileService->getBackgroundImageThumbPath())) {
             unlink($this->fileService->getBackgroundImageThumbPath());
@@ -41,13 +40,15 @@ class ilCertificateBackgroundImageDelete
             $version_string = (string) $version;
         }
 
-        $filename = $this->certificatePath . 'background_' . $version . '.jpg';
+        $filename = $this->certificatePath . 'background_' . $version_string . '.jpg';
         if (is_file($filename)) {
             unlink($filename);
         }
 
-        if (is_file($this->fileService->getBackgroundImageTempfilePath())) {
-            unlink($this->fileService->getBackgroundImageTempfilePath());
+        foreach ($this->fileService->getValidBackgroundImageFileExtensions() as $extension) {
+            if (file_exists($this->fileService->getBackgroundImageTempfilePath($extension))) {
+                unlink($this->fileService->getBackgroundImageTempfilePath($extension));
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Exporter class for sessions
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -26,7 +28,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
 {
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
         $this->content_style_domain = $DIC
@@ -35,7 +37,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
     }
 
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $xml = '';
 
@@ -51,7 +53,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
         return $xml;
     }
 
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $deps = [];
 
@@ -89,7 +91,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
             }
         }
 
-        if (count($pageObjectIds) > 0) {
+        if ($pageObjectIds !== []) {
             $deps[] = [
                 'component' => 'Services/COPage',
                 'entity' => 'pg',
@@ -97,7 +99,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
             ];
         }
 
-        if (count($styleIds) > 0) {
+        if ($styleIds !== []) {
             $deps[] = [
                 'component' => 'Services/Style',
                 'entity' => 'sty',
@@ -113,7 +115,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return [
             "4.1.0" => [
@@ -135,6 +137,20 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
                 "xsd_file" => "ilias_frm_5_1.xsd",
                 "uses_dataset" => false,
                 "min" => "5.1.0",
+                "max" => "7.999"
+            ],
+            "8.0" => [
+                "namespace" => "http://www.ilias.de/Modules/Forum/frm/8",
+                "xsd_file" => "ilias_frm_8.xsd",
+                "uses_dataset" => false,
+                "min" => "8.0",
+                "max" => ""
+            ],
+            "9.0" => [
+                "namespace" => "http://www.ilias.de/Modules/Forum/frm/9",
+                "xsd_file" => "ilias_frm_9.xsd",
+                "uses_dataset" => false,
+                "min" => "9.0",
                 "max" => ""
             ]
         ];

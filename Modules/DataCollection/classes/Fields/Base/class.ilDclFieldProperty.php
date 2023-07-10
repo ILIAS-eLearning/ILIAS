@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclFieldProperty
@@ -8,9 +23,8 @@
  */
 class ilDclFieldProperty extends ActiveRecord
 {
-
     /**
-     * @var int
+     * @var ?int
      * @db_has_field        true
      * @db_is_unique        true
      * @db_is_primary       true
@@ -19,7 +33,7 @@ class ilDclFieldProperty extends ActiveRecord
      * @db_length           8
      * @db_sequence         true
      */
-    protected $id;
+    protected ?int $id;
     /**
      * @var int
      * @db_has_field        true
@@ -27,7 +41,7 @@ class ilDclFieldProperty extends ActiveRecord
      * @db_fieldtype        integer
      * @db_length           8
      */
-    protected $field_id;
+    protected int $field_id = 0;
     /**
      * @var string
      * @db_has_field        true
@@ -35,7 +49,7 @@ class ilDclFieldProperty extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected $name;
+    protected string $name = "";
     /**
      * @var string
      * @db_has_field        true
@@ -46,73 +60,52 @@ class ilDclFieldProperty extends ActiveRecord
 
     /**
      * ilDclFieldProperty constructor.
-     * @param int  $primary_key
-     * @param null $connector
      */
-    public function __construct($primary_key = 0, $connector = null)
+    public function __construct(?int $primary_key = 0)
     {
-        parent::__construct($primary_key, $connector);
+        parent::__construct($primary_key);
     }
 
     /**
-     * @return string
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_dcl_field_prop";
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
-    public function getFieldId()
+    public function getFieldId(): int
     {
         return $this->field_id;
     }
 
-    /**
-     * @param int $field_id
-     */
-    public function setFieldId($field_id)
+    public function setFieldId(int $field_id): void
     {
         $this->field_id = $field_id;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return string
+     * @return string|array
      */
     public function getValue()
     {
@@ -120,59 +113,48 @@ class ilDclFieldProperty extends ActiveRecord
     }
 
     /**
-     * @param string $value
+     * @param string|array|int $value
      */
-    public function setValue($value)
+    public function setValue($value): void
     {
         $this->value = $value;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function create() : void
+    public function create(): void
     {
         $this->value = $this->serializeData($this->value);
         parent::create();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function update()
+    public function update(): void
     {
         $this->value = $this->serializeData($this->value);
         parent::update();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function afterObjectLoad() : void
+    public function afterObjectLoad(): void
     {
         $this->value = $this->deserializeData($this->value);
     }
 
     /**
      * Serialize data before storing to db
-     * @param $value mixed
-     * @return mixed
+     * @param int|string|array $value
      */
-    public function serializeData($value)
+    public function serializeData($value): string
     {
         if (is_array($value)) {
             $value = json_encode($value);
         }
 
-        return $value;
+        return (string)$value;
     }
 
     /**
      * Deserialize data before applying to field
-     * @param $value mixed
-     * @return mixed
+     * @return string|array
      */
-    public function deserializeData($value)
+    public function deserializeData(string $value)
     {
         $deserialize = json_decode($value, true);
         if (is_array($deserialize)) {

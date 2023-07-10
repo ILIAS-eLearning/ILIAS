@@ -1,11 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Item\Standard;
 
 /**
  * With audio player
  */
-function with_audio_player() : string
+function with_audio_player(): string
 {
     global $DIC;
     $f = $DIC->ui()->factory();

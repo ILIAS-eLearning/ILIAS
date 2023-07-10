@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,12 +14,13 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Triggerable;
+use ILIAS\UI\Implementation\Component\Signal;
 
 /**
  * A wrapper file dropzone wraps around any other component from the UI framework, e.g. a calendar entry.
@@ -34,5 +35,5 @@ interface Wrapper extends File
      *
      * @return Component[]
      */
-    public function getContent() : array;
+    public function getContent(): array;
 }

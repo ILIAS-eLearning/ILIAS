@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Button;
 
@@ -61,7 +77,7 @@ interface Factory
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Standard
      */
-    public function standard(string $label, $action) : Standard;
+    public function standard(string $label, $action): Standard;
 
     /**
      * ---
@@ -119,7 +135,7 @@ interface Factory
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Primary
      */
-    public function primary(string $label, $action) : Primary;
+    public function primary(string $label, $action): Primary;
 
     /**
      * ---
@@ -144,7 +160,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Button\Close
      */
-    public function close() : Close;
+    public function close(): Close;
 
     /**
      * ---
@@ -161,7 +177,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Button\Minimize
      */
-    public function minimize() : Minimize;
+    public function minimize(): Minimize;
 
     /**
      * ---
@@ -184,7 +200,7 @@ interface Factory
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Shy
      */
-    public function shy(string $label, $action) : Shy;
+    public function shy(string $label, $action): Shy;
 
     /**
      * ---
@@ -211,7 +227,7 @@ interface Factory
      * @param string $default Initial value, use format "mm-yyyy".
      * @return  \ILIAS\UI\Component\Button\Month
      */
-    public function month(string $default) : Month;
+    public function month(string $default): Month;
 
     /**
      * ---
@@ -247,7 +263,7 @@ interface Factory
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Tag
      */
-    public function tag(string $label, $action) : Tag;
+    public function tag(string $label, $action): Tag;
 
     /**
      * ---
@@ -300,13 +316,16 @@ interface Factory
      *        If the Button is not stateful (which is the default), the
      *        aria-attribute SHOULD be omitted. Further if the Button carries the aria-role "menuitem",
      *        the "aria-pressed" and "aria-checked"-attributes MUST be ommitted as well.
+     *     3: >
+     *        If a Bulky Button contains a Symbol, then the Label of the Icon MUST be set to "" or be omitted completely
+     *        to avoid redundant alt tags which would render the Bulky Button cumbersome to be processed by screenreaders.
      * ---
      * @param	\ILIAS\UI\Component\Symbol\Symbol		$icon_or_glyph
      * @param	string		$label
      * @param	string		$action
      * @return  \ILIAS\UI\Component\Button\Bulky
      */
-    public function bulky(Symbol $icon_or_glyph, string $label, string $action) : Bulky;
+    public function bulky(Symbol $icon_or_glyph, string $label, string $action): Bulky;
 
     /**
      * ---
@@ -363,5 +382,5 @@ interface Factory
         $off_action,
         bool $is_on = false,
         Signal $click_signal = null
-    ) : Toggle;
+    ): Toggle;
 }

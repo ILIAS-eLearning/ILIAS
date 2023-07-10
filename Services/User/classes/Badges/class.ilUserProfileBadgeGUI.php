@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use Psr\Http\Message\RequestInterface;
 
@@ -30,20 +33,20 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
         $this->request = $DIC->http()->request();
     }
 
-    public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id) : void
+    public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id): void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         $fields = new ilCheckboxGroupInputGUI($lng->txt("profile"), "profile");
         $a_form->addItem($fields);
-        
+
         $gui = new ilPersonalProfileGUI();
         $gui->showPublicProfileFields($a_form, array(), $fields, true);
     }
-    
-    public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config) : void // Missing array type.
+
+    public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config): void // Missing array type.
     {
         if (is_array($a_config["profile"])) {
             $group = $a_form->getItemByPostVar("profile");
@@ -57,8 +60,8 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
             }
         }
     }
-    
-    public function getConfigFromForm(ilPropertyFormGUI $a_form) : array // Missing array type.
+
+    public function getConfigFromForm(ilPropertyFormGUI $a_form): array // Missing array type.
     {
         $fields = array();
         foreach (array_keys($this->request->getParsedBody()) as $id) {
@@ -66,11 +69,11 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
                 $fields[] = $id;
             }
         }
-        
+
         return array("profile" => $fields);
     }
-    
-    public function validateForm(ilPropertyFormGUI $a_form) : bool
+
+    public function validateForm(ilPropertyFormGUI $a_form): bool
     {
         return true;
     }

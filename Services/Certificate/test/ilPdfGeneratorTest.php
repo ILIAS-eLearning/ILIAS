@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -24,7 +26,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testGenerateSpecificCertificate() : void
+    public function testGenerateSpecificCertificate(): void
     {
         if (!defined('CLIENT_WEB_DIR')) {
             define("CLIENT_WEB_DIR", 'my/client/web/dir');
@@ -35,7 +37,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             'crs',
             50,
             'ilyas',
-            123456789,
+            123_456_789,
             '<xml> Some content </xml>',
             '[]',
             null,
@@ -54,10 +56,6 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
         $userCertificateRepository->method('fetchCertificate')
             ->willReturn($certificate);
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $rpcHelper = $this->getMockBuilder(ilCertificateRpcClientFactoryHelper::class)
             ->getMock();
 
@@ -76,7 +74,6 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
 
         $pdfGenerator = new ilPdfGenerator(
             $userCertificateRepository,
-            $logger,
             $rpcHelper,
             $pdfFileNameFactory,
             $language
@@ -88,7 +85,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testGenerateCurrentActiveCertificate() : void
+    public function testGenerateCurrentActiveCertificate(): void
     {
         if (!defined('CLIENT_WEB_DIR')) {
             define("CLIENT_WEB_DIR", 'my/client/web/dir');
@@ -99,7 +96,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             'crs',
             50,
             'ilyas',
-            123456789,
+            123_456_789,
             '<xml> Some content </xml>',
             '[]',
             null,
@@ -118,10 +115,6 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
         $userCertificateRepository->method('fetchActiveCertificate')
             ->willReturn($certificate);
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $rpcHelper = $this->getMockBuilder(ilCertificateRpcClientFactoryHelper::class)
             ->getMock();
 
@@ -140,7 +133,6 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
 
         $pdfGenerator = new ilPdfGenerator(
             $userCertificateRepository,
-            $logger,
             $rpcHelper,
             $pdfFileNameFactory,
             $language

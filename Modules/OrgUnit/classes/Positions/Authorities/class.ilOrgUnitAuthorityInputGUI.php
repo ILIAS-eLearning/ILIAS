@@ -1,16 +1,34 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+declare(strict_types=1);
 
 /**
  * Class ilOrgUnitAuthorityInputGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiValuesItem
+class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiValuesItem // TODO: still in use?
 {
-
     /**
      * @var ilOrgUnitAuthority[]
      */
     protected $value;
+    private ilOrgUnitPositionDBRepository $positionRepo;
 
     /**
      * ilOrgUnitAuthorityInputGUI constructor.
@@ -20,21 +38,22 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     public function __construct($a_title, $a_postvar)
     {
         parent::__construct($a_title, $a_postvar);
-        ilOrgUnitAuthority::replaceNameRenderer(function($id) {
-            /**
-             * @var $a ilOrgUnitAuthority
-             */
-            $a = ilOrgUnitAuthority::find($id);
-            $data = array('id' => $id, 'over' => $a->getOver(), 'scope' => $a->getScope());
+    }
 
-            return json_encode($data);
-        });
+    private function getPositionRepo(): ilOrgUnitPositionDBRepository
+    {
+        if (!isset($this->positionRepo)) {
+            $dic = ilOrgUnitLocalDIC::dic();
+            $this->positionRepo = $dic["repo.Positions"];
+        }
+
+        return $this->positionRepo;
     }
 
     /**
      * @param \ilTemplate $a_tpl
      */
-    public function insert(ilTemplate $a_tpl)
+    public function insert(ilTemplate $a_tpl): void
     {
         $html = $this->render();
 
@@ -46,7 +65,7 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     /**
      * @param array $values
      */
-    public function setValueByArray(array $values)
+    public function setValueByArray(array $values): void
     {
         $authorities = $values[$this->getPostVar()];
         if (!is_array($authorities)) {
@@ -59,9 +78,9 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     }
 
     /**
-     * @param $a_value \ilOrgUnitAuthority[]
+     * @param \ilOrgUnitAuthority[] $a_value
      */
-    public function setValue($a_value)
+    public function setValue(array $a_value): void
     {
         $this->value = $a_value;
     }
@@ -69,12 +88,15 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     /**
      * @return \ilOrgUnitAuthority[]
      */
-    public function getValue()
+    public function getValue(): array
     {
         return $this->value;
     }
 
-    protected function render()
+    /**
+     * @throws ilTemplateException
+     */
+    protected function render(): string
     {
         $tpl = new ilTemplate("tpl.authority_input.html", true, true, "Modules/OrgUnit");
         //		if (strlen($this->getValue())) {
@@ -104,7 +126,7 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         $over_everyone = ilOrgUnitAuthority::OVER_EVERYONE;
         $title = $this->lang()->txt('over_' . $over_everyone);
         $over_html = "<option value='{$over_everyone}'>{$title}</option>";
-        foreach (ilOrgUnitPosition::getArray('id', 'title') as $id => $title) {
+        foreach ($this->getPositionRepo()->getArray('id', 'title') as $id => $title) {
             $over_html .= "<option value='{$id}'>{$title}</option>";
         }
         $tpl->setVariable("OVER_OPTIONS", $over_html);
@@ -113,12 +135,12 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
          */
         if ($this->getMultiValues()) {
             foreach ($this->getMultiValues() as $ilOrgUnitAuthority) {
-                //				$tpl->setVariable("OVER_OPTIONS", $over_html);
+                //				$tpl->setVariable("OVER_OPTIONS", $over_html);  // TODO: remove?
             }
         }
 
         if ($this->getRequired()) {
-            //			$tpl->setVariable("REQUIRED", "required=\"required\"");
+            //			$tpl->setVariable("REQUIRED", "required=\"required\""); // TODO: remove?
         }
 
         $tpl->touchBlock("inline_in_bl");
@@ -128,18 +150,12 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         return $tpl->get();
     }
 
-    /**
-     * @return \ILIAS\DI\Container
-     */
-    protected function dic()
+    protected function dic(): \ILIAS\DI\Container
     {
         return $GLOBALS["DIC"];
     }
 
-    /**
-     * @return \ilLanguage
-     */
-    protected function lang()
+    protected function lang(): \ilLanguage
     {
         static $loaded;
         $lang = $this->dic()->language();
@@ -151,15 +167,12 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         return $lang;
     }
 
-    /**
-     * @return bool
-     */
-    public function getMulti() : bool
+    public function getMulti(): bool
     {
         return false;
     }
 
-    protected function initJS()
+    protected function initJS(): void
     {
         // Global JS
         /**
@@ -167,8 +180,20 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
          */
         $globalTpl = $GLOBALS['DIC'] ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
         $globalTpl->addJavascript("./Modules/OrgUnit/templates/default/authority.js");
+
         $config = json_encode(array());
-        $data = json_encode($this->getValue());
+
+        $authorities = $this->getValue();
+        $auth = [];
+        foreach ($authorities as $authority) {
+            $auth[] = [
+                'id' => $authority->getId(),
+                'over' => $authority->getOver(),
+                'scope' => $authority->getScope()
+            ];
+        }
+        $data = json_encode($auth);
+
         $globalTpl->addOnLoadCode("ilOrgUnitAuthorityInput.init({$config}, {$data});");
     }
 }

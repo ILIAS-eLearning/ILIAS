@@ -27,7 +27,7 @@ class ilSystemStyleMessageTest extends TestCase
     protected ilSystemStyleMessage $ilSystemStyleMessage;
     protected string $messageString = 'This is a message';
 
-    public function testConstructor() : void
+    public function testConstructor(): void
     {
         $this->ilSystemStyleMessage = new ilSystemStyleMessage($this->messageString, ilSystemStyleMessage::TYPE_INFO);
         $this->assertTrue($this->ilSystemStyleMessage->getTypeId() === ilSystemStyleMessage::TYPE_INFO);
@@ -42,14 +42,14 @@ class ilSystemStyleMessageTest extends TestCase
         $this->assertTrue($this->ilSystemStyleMessage->getMessage() === $this->messageString);
     }
 
-    public function testGetAndSetMessage() : void
+    public function testGetAndSetMessage(): void
     {
         $this->ilSystemStyleMessage = new ilSystemStyleMessage($this->messageString, ilSystemStyleMessage::TYPE_INFO);
         $this->ilSystemStyleMessage->setMessage('This is an altered message');
         $this->assertTrue($this->ilSystemStyleMessage->getMessage() === 'This is an altered message');
     }
 
-    public function testGetAndSetTypeID() : void
+    public function testGetAndSetTypeID(): void
     {
         $this->ilSystemStyleMessage = new ilSystemStyleMessage($this->messageString, ilSystemStyleMessage::TYPE_INFO);
         $this->ilSystemStyleMessage->setTypeId(ilSystemStyleMessage::TYPE_SUCCESS);
@@ -62,7 +62,7 @@ class ilSystemStyleMessageTest extends TestCase
         $this->assertTrue($this->ilSystemStyleMessage->getTypeId() === ilSystemStyleMessage::TYPE_INFO);
     }
 
-    public function testGetMessageOutput() : void
+    public function testGetMessageOutput(): void
     {
         $this->ilSystemStyleMessage = new ilSystemStyleMessage($this->messageString, ilSystemStyleMessage::TYPE_INFO);
         $this->assertTrue($this->ilSystemStyleMessage->getMessageOutput() === 'This is a message</br>');

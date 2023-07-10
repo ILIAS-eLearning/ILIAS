@@ -1,17 +1,19 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
     public const ENUM_SEARCH_COLUMN = 'value_index';
 
-    protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
+    protected function isValidADTDefinition(ilADTDefinition $a_adt_def): bool
     {
         return ($a_adt_def instanceof ilADTEnumDefinition);
     }
 
     // table2gui / filter
 
-    public function loadFilter() : void
+    public function loadFilter(): void
     {
         $value = $this->readFilter();
         if ($value !== null) {
@@ -19,14 +21,14 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
         }
     }
 
-    public function getSearchColumn() : string
+    public function getSearchColumn(): string
     {
         return self::ENUM_SEARCH_COLUMN;
     }
 
     // form
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         $def = $this->getADT()->getCopyOfDefinition();
 
@@ -44,7 +46,7 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($select);
     }
 
-    public function importFromPost(array $a_post = null) : bool
+    public function importFromPost(array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
         if (
@@ -69,7 +71,7 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     // db
 
-    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []): string
     {
         $search_column = $this->getSearchColumn();
         if (!$this->isNull() && $this->isValid()) {
@@ -78,7 +80,7 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
         return '';
     }
 
-    public function isInCondition(ilADT $a_adt) : bool
+    public function isInCondition(ilADT $a_adt): bool
     {
         assert($a_adt instanceof ilADTEnum);
 
@@ -87,7 +89,7 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     //  import/export
 
-    public function getSerializedValue() : string
+    public function getSerializedValue(): string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getSelection()));
@@ -95,7 +97,7 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
         return '';
     }
 
-    public function setSerializedValue(string $a_value) : void
+    public function setSerializedValue(string $a_value): void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

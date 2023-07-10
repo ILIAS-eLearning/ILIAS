@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -18,7 +20,7 @@ class ilCtrlPathTestBase extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $structure_artifact = require __DIR__ . '/../Data/Structure/test_ctrl_structure.php';
         $base_class_artifact = require __DIR__ . '/../Data/Structure/test_base_classes.php';
@@ -34,9 +36,9 @@ class ilCtrlPathTestBase extends TestCase
      * @param string|null $cid_path
      * @return ilCtrlPathInterface
      */
-    protected function getPath(string $cid_path = null) : ilCtrlPathInterface
+    protected function getPath(string $cid_path = null): ilCtrlPathInterface
     {
-        return new class($this->structure, $cid_path) extends ilCtrlAbstractPath {
+        return new class ($this->structure, $cid_path) extends ilCtrlAbstractPath {
             public function __construct(ilCtrlStructureInterface $structure, string $cid_path = null)
             {
                 parent::__construct($structure);

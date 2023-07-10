@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -16,9 +18,7 @@
 
 /**
  * Auth frontend credentials for CAS auth
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilAuthFrontendCredentialsCAS extends ilAuthFrontendCredentials
 {

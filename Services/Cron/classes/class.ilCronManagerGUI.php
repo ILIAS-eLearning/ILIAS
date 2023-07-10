@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,9 +16,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Class ilCronManagerGUI
@@ -29,20 +32,20 @@ use ILIAS\UI\Renderer;
  */
 class ilCronManagerGUI
 {
-    private ilLanguage $lng;
-    private ilCtrlInterface $ctrl;
-    private ilSetting $settings;
-    private ilGlobalTemplateInterface $tpl;
-    private Factory $uiFactory;
-    private Renderer $uiRenderer;
-    private ilUIService $uiService;
-    private ilCronJobRepository $cronRepository;
-    private \ILIAS\DI\RBACServices $rbac;
-    private ilErrorHandling $error;
-    private WrapperFactory $httpRequest;
-    private \ILIAS\Refinery\Factory $refinery;
-    private ilCronManager $cronManager;
-    private ilObjUser $actor;
+    private readonly ilLanguage $lng;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilSetting $settings;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly Factory $uiFactory;
+    private readonly Renderer $uiRenderer;
+    private readonly ilUIService $uiService;
+    private readonly ilCronJobRepository $cronRepository;
+    private readonly \ILIAS\DI\RBACServices $rbac;
+    private readonly ilErrorHandling $error;
+    private readonly WrapperFactory $httpRequest;
+    private readonly \ILIAS\Refinery\Factory $refinery;
+    private readonly ilCronManager $cronManager;
+    private readonly ilObjUser $actor;
 
     public function __construct()
     {
@@ -69,9 +72,6 @@ class ilCronManagerGUI
     }
 
     /**
-     * @param string $key
-     * @param \ILIAS\Refinery\Transformation $trafo
-     * @param bool $forceRetrieval
      * @param mixed $default
      * @return mixed|null
      */
@@ -106,14 +106,14 @@ class ilCronManagerGUI
         return $default ?? null;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->rbac->system()->checkAccess('visible,read', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
         $class = $this->ctrl->getNextClass($this);
-    
+
         /** @noinspection PhpSwitchStatementWitSingleBranchInspection */
         switch (strtolower($class)) {
             case strtolower(ilPropertyFormGUI::class):
@@ -127,7 +127,7 @@ class ilCronManagerGUI
         $this->$cmd();
     }
 
-    protected function render() : void
+    protected function render(): void
     {
         $tstamp = $this->lng->txt('cronjob_last_start_unknown');
         if ($this->settings->get('last_cronjob_start_ts')) {
@@ -172,7 +172,7 @@ class ilCronManagerGUI
         ]));
     }
 
-    public function edit(ilPropertyFormGUI $a_form = null) : void
+    public function edit(ilPropertyFormGUI $a_form = null): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -190,69 +190,43 @@ class ilCronManagerGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    protected function getScheduleTypeFormElementName(int $scheduleTypeId) : string
+    private function getScheduleTypeFormElementName(CronJobScheduleType $schedule_type): string
     {
-        switch ($scheduleTypeId) {
-            case ilCronJob::SCHEDULE_TYPE_DAILY:
-                return $this->lng->txt('cron_schedule_daily');
-
-            case ilCronJob::SCHEDULE_TYPE_WEEKLY:
-                return $this->lng->txt('cron_schedule_weekly');
-
-            case ilCronJob::SCHEDULE_TYPE_MONTHLY:
-                return $this->lng->txt('cron_schedule_monthly');
-
-            case ilCronJob::SCHEDULE_TYPE_QUARTERLY:
-                return $this->lng->txt('cron_schedule_quarterly');
-
-            case ilCronJob::SCHEDULE_TYPE_YEARLY:
-                return $this->lng->txt('cron_schedule_yearly');
-
-            case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
-                return sprintf($this->lng->txt('cron_schedule_in_minutes'), 'x');
-
-            case ilCronJob::SCHEDULE_TYPE_IN_HOURS:
-                return sprintf($this->lng->txt('cron_schedule_in_hours'), 'x');
-
-            case ilCronJob::SCHEDULE_TYPE_IN_DAYS:
-                return sprintf($this->lng->txt('cron_schedule_in_days'), 'x');
-        }
-
-        throw new InvalidArgumentException(sprintf(
-            'The passed argument %s is invalid!',
-            var_export($scheduleTypeId, true)
-        ));
+        return match ($schedule_type) {
+            CronJobScheduleType::SCHEDULE_TYPE_DAILY => $this->lng->txt('cron_schedule_daily'),
+            CronJobScheduleType::SCHEDULE_TYPE_WEEKLY => $this->lng->txt('cron_schedule_weekly'),
+            CronJobScheduleType::SCHEDULE_TYPE_MONTHLY => $this->lng->txt('cron_schedule_monthly'),
+            CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY => $this->lng->txt('cron_schedule_quarterly'),
+            CronJobScheduleType::SCHEDULE_TYPE_YEARLY => $this->lng->txt('cron_schedule_yearly'),
+            CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES => sprintf($this->lng->txt('cron_schedule_in_minutes'), 'x'),
+            CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS => sprintf($this->lng->txt('cron_schedule_in_hours'), 'x'),
+            CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS => sprintf($this->lng->txt('cron_schedule_in_days'), 'x'),
+        };
     }
 
-    protected function getScheduleValueFormElementName(int $scheduleTypeId) : string
+    protected function getScheduleValueFormElementName(CronJobScheduleType $schedule_type): string
     {
-        switch ($scheduleTypeId) {
-            case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
-                return 'smini';
-
-            case ilCronJob::SCHEDULE_TYPE_IN_HOURS:
-                return 'shri';
-
-            case ilCronJob::SCHEDULE_TYPE_IN_DAYS:
-                return 'sdyi';
-        }
-
-        throw new InvalidArgumentException(sprintf(
-            'The passed argument %s is invalid!',
-            var_export($scheduleTypeId, true)
-        ));
+        return match ($schedule_type) {
+            CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES => 'smini',
+            CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS => 'shri',
+            CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS => 'sdyi',
+            default => throw new InvalidArgumentException(sprintf(
+                'The passed argument %s is invalid!',
+                var_export($schedule_type, true)
+            )),
+        };
     }
 
-    protected function hasScheduleValue(int $scheduleTypeId) : bool
+    protected function hasScheduleValue(CronJobScheduleType $schedule_type): bool
     {
-        return in_array($scheduleTypeId, [
-            ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
-            ilCronJob::SCHEDULE_TYPE_IN_HOURS,
-            ilCronJob::SCHEDULE_TYPE_IN_DAYS
+        return in_array($schedule_type, [
+            CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES,
+            CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS,
+            CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS
         ], true);
     }
 
-    protected function initEditForm(string $a_job_id) : ilPropertyFormGUI
+    protected function initEditForm(string $a_job_id): ilPropertyFormGUI
     {
         $job = $this->cronRepository->getJobInstanceById($a_job_id);
         if (!($job instanceof ilCronJob)) {
@@ -271,29 +245,30 @@ class ilCronManagerGUI
         if ($job->hasFlexibleSchedule()) {
             $type = new ilRadioGroupInputGUI($this->lng->txt('cron_schedule_type'), 'type');
             $type->setRequired(true);
-            $type->setValue($job_data['schedule_type']);
+            $type->setValue($job_data['schedule_type'] === null ? null : (string) $job_data['schedule_type']);
 
-            foreach ($job->getAllScheduleTypes() as $typeId) {
-                if (!in_array($typeId, $job->getValidScheduleTypes(), true)) {
+            foreach ($job->getAllScheduleTypes() as $schedule_type) {
+                if (!in_array($schedule_type, $job->getValidScheduleTypes(), true)) {
                     continue;
                 }
 
                 $option = new ilRadioOption(
-                    $this->getScheduleTypeFormElementName($typeId),
-                    (string) $typeId
+                    $this->getScheduleTypeFormElementName($schedule_type),
+                    (string) $schedule_type->value
                 );
                 $type->addOption($option);
 
-                if (in_array($typeId, $job->getScheduleTypesWithValues(), true)) {
+                if (in_array($schedule_type, $job->getScheduleTypesWithValues(), true)) {
                     $scheduleValue = new ilNumberInputGUI(
                         $this->lng->txt('cron_schedule_value'),
-                        $this->getScheduleValueFormElementName($typeId)
+                        $this->getScheduleValueFormElementName($schedule_type)
                     );
                     $scheduleValue->allowDecimals(false);
                     $scheduleValue->setRequired(true);
                     $scheduleValue->setSize(5);
-                    if ((int) $job_data['schedule_type'] === $typeId) {
-                        $scheduleValue->setValue($job_data['schedule_value']);
+                    if (is_numeric($job_data['schedule_type']) &&
+                        CronJobScheduleType::tryFrom((int) $job_data['schedule_type']) === $schedule_type) {
+                        $scheduleValue->setValue($job_data['schedule_value'] === null ? null : (string) $job_data['schedule_value']);
                     }
                     $option->addSubItem($scheduleValue);
                 }
@@ -312,7 +287,7 @@ class ilCronManagerGUI
         return $form;
     }
 
-    public function update() : void
+    public function update(): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -333,16 +308,11 @@ class ilCronManagerGUI
                 }
 
                 if ($valid && $job->hasFlexibleSchedule()) {
-                    $type = (int) $form->getInput('type');
-                    switch (true) {
-                        case $this->hasScheduleValue($type):
-                            $value = (int) $form->getInput($this->getScheduleValueFormElementName($type));
-                            break;
-
-                        default:
-                            $value = null;
-                            break;
-                    }
+                    $type = CronJobScheduleType::from((int) $form->getInput('type'));
+                    $value = match (true) {
+                        $this->hasScheduleValue($type) => (int) $form->getInput($this->getScheduleValueFormElementName($type)),
+                        default => null,
+                    };
 
                     $this->cronRepository->updateJobSchedule($job, $type, $value);
                 }
@@ -358,12 +328,12 @@ class ilCronManagerGUI
         $this->edit($form);
     }
 
-    public function run() : void
+    public function run(): void
     {
         $this->confirm('run');
     }
 
-    public function confirmedRun() : void
+    public function confirmedRun(): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -381,12 +351,12 @@ class ilCronManagerGUI
         $this->ctrl->redirect($this, 'render');
     }
 
-    public function activate() : void
+    public function activate(): void
     {
         $this->confirm('activate');
     }
 
-    public function confirmedActivate() : void
+    public function confirmedActivate(): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -406,12 +376,12 @@ class ilCronManagerGUI
         $this->ctrl->redirect($this, 'render');
     }
 
-    public function deactivate() : void
+    public function deactivate(): void
     {
         $this->confirm('deactivate');
     }
 
-    public function confirmedDeactivate() : void
+    public function confirmedDeactivate(): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -431,12 +401,12 @@ class ilCronManagerGUI
         $this->ctrl->redirect($this, 'render');
     }
 
-    public function reset() : void
+    public function reset(): void
     {
         $this->confirm('reset');
     }
 
-    public function confirmedReset() : void
+    public function confirmedReset(): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -456,7 +426,7 @@ class ilCronManagerGUI
     /**
      * @return array<string, ilCronJob>
      */
-    protected function getMultiActionData() : array
+    protected function getMultiActionData(): array
     {
         $res = [];
 
@@ -464,12 +434,12 @@ class ilCronManagerGUI
         try {
             try {
                 $job_ids = [$this->getRequestValue('jid', $this->refinery->kindlyTo()->string(), true)];
-            } catch (\ILIAS\Refinery\ConstraintViolationException | OutOfBoundsException $e) {
+            } catch (\ILIAS\Refinery\ConstraintViolationException | OutOfBoundsException) {
                 $job_ids = $this->getRequestValue('mjid', $this->refinery->kindlyTo()->listOf(
                     $this->refinery->kindlyTo()->string()
                 ), false);
             }
-        } catch (\ILIAS\Refinery\ConstraintViolationException | OutOfBoundsException $e) {
+        } catch (\ILIAS\Refinery\ConstraintViolationException | OutOfBoundsException) {
         }
 
         foreach ($job_ids as $job_id) {
@@ -482,7 +452,7 @@ class ilCronManagerGUI
         return $res;
     }
 
-    protected function confirm(string $a_action) : void
+    protected function confirm(string $a_action): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -494,7 +464,7 @@ class ilCronManagerGUI
         }
 
         if ('run' === $a_action) {
-            $jobs = array_filter($jobs, static function (ilCronJob $job) : bool {
+            $jobs = array_filter($jobs, static function (ilCronJob $job): bool {
                 return $job->isManuallyExecutable();
             });
 
@@ -536,7 +506,7 @@ class ilCronManagerGUI
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    public function addToExternalSettingsForm(int $a_form_id) : array
+    public function addToExternalSettingsForm(int $a_form_id): array
     {
         $form_elements = [];
         $fields = [];

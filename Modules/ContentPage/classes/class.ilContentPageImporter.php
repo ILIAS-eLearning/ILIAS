@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
@@ -25,7 +27,7 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
     protected ilContentPageDataSet $ds;
     private PageMetricsService $pageMetricsService;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -39,12 +41,12 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
         );
     }
 
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         $parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(), $a_xml, $this->ds, $a_mapping);
     }
 
-    public function finalProcessing(ilImportMapping $a_mapping) : void
+    public function finalProcessing(ilImportMapping $a_mapping): void
     {
         parent::finalProcessing($a_mapping);
 

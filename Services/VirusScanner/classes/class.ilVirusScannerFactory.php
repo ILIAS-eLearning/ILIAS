@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,7 +20,7 @@
 
 class ilVirusScannerFactory
 {
-    public static function _getInstance() : ilVirusScanner
+    public static function _getInstance(): ?ilVirusScanner
     {
         $vs = null;
 
@@ -35,7 +37,7 @@ class ilVirusScannerFactory
                     break;
                 case "AntiVir":
                     global $DIC;
-                    $DIC->logger()->error('AntiVir is deprecated, please install and use a different virus scanner.');
+                    $DIC->logger()->root()->error('AntiVir is deprecated, please install and use a different virus scanner.');
                     $vs = new ilVirusScannerAntiVir(IL_VIRUS_SCAN_COMMAND, IL_VIRUS_CLEAN_COMMAND);
                     break;
                 case "ClamAV":

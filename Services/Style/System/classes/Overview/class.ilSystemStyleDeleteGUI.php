@@ -33,7 +33,7 @@ class ilSystemStyleDeleteGUI
         $this->ctrl = $ctrl;
     }
 
-    public function addStyle(ilSkin $skin, ilSkinStyle $style, string $img_path) : void
+    public function addStyle(ilSkin $skin, ilSkinStyle $style, string $img_path): void
     {
         $this->styles[] = [
             'var' => 'style_' . sizeof($this->styles),
@@ -44,7 +44,7 @@ class ilSystemStyleDeleteGUI
         ];
     }
 
-    public function getDeleteStyleFormHTML() : string
+    public function getDeleteStyleFormHTML(): string
     {
         $this->main_tpl->setOnScreenMessage('question', $this->lng->txt('info_delete_sure'), true);
 

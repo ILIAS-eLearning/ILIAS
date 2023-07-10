@@ -1,7 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
- *
+declare(strict_types=1);
+
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +13,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use ILIAS\Administration\AdminGUIRequest;
 
@@ -59,12 +60,12 @@ class ilAdministrationCommandGUI
         );
     }
 
-    public function getContainer() : ilAdministrationCommandHandling
+    public function getContainer(): ilAdministrationCommandHandling
     {
         return $this->container;
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $tpl = $this->tpl;
         $ilSetting = $this->settings;
@@ -87,7 +88,7 @@ class ilAdministrationCommandGUI
         foreach ($to_delete as $delete) {
             $obj_id = ilObject::_lookupObjId($delete);
             $type = ilObject::_lookupType($obj_id);
-            
+
             $confirm->addItem(
                 'id[]',
                 $delete,
@@ -97,7 +98,7 @@ class ilAdministrationCommandGUI
         }
 
         $msg = $this->lng->txt("info_delete_sure");
-        
+
         if (!$ilSetting->get('enable_trash')) {
             $msg .= "<br/>" . $this->lng->txt("info_delete_warning_no_trash");
         }
@@ -106,7 +107,7 @@ class ilAdministrationCommandGUI
         $tpl->setContent($confirm->getHTML());
     }
 
-    public function performDelete() : void
+    public function performDelete(): void
     {
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
@@ -116,10 +117,10 @@ class ilAdministrationCommandGUI
         $object->confirmedDeleteObject();
     }
 
-    public function cut() : void
+    public function cut(): void
     {
         $tree = $this->tree;
-        
+
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
         $ref_id = $tree->getParentId($this->request->getItemRefId());
@@ -127,9 +128,9 @@ class ilAdministrationCommandGUI
         $container = new ilContainerGUI(array(), $ref_id, true, false);
         $container->cutObject();
     }
-    
+
     // Show target selection
-    public function showMoveIntoObjectTree() : void
+    public function showMoveIntoObjectTree(): void
     {
         $objDefinition = $this->obj_definition;
 
@@ -144,9 +145,9 @@ class ilAdministrationCommandGUI
         $container = new $class_name(array(), $this->request->getRefId(), true, false);
         $container->showMoveIntoObjectTreeObject();
     }
-    
+
     // Target selection
-    public function showLinkIntoMultipleObjectsTree() : void
+    public function showLinkIntoMultipleObjectsTree(): void
     {
         $objDefinition = $this->obj_definition;
 
@@ -163,10 +164,10 @@ class ilAdministrationCommandGUI
     }
 
     // Start linking object
-    public function link() : void
+    public function link(): void
     {
         $tree = $this->tree;
-        
+
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
         $ref_id = $tree->getParentId($this->request->getItemRefId());
@@ -176,7 +177,7 @@ class ilAdministrationCommandGUI
     }
 
     // Paste object
-    public function paste() : void
+    public function paste(): void
     {
         $objDefinition = $this->obj_definition;
 
@@ -191,8 +192,8 @@ class ilAdministrationCommandGUI
         $container = new $class_name(array(), $this->request->getItemRefId(), true, false);
         $container->pasteObject();
     }
-    
-    public function performPasteIntoMultipleObjects() : void
+
+    public function performPasteIntoMultipleObjects(): void
     {
         $objDefinition = $this->obj_definition;
 

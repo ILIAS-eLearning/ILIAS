@@ -1,17 +1,21 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ ********************************************************************
+ */
+
 /**
 * Class ilPluginReader
 *
@@ -45,7 +49,7 @@ class ilPluginReader extends ilSaxParser
     /**
      * Delete the event listeneing information
      */
-    public function clearEvents() : void
+    public function clearEvents(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -55,7 +59,7 @@ class ilPluginReader extends ilSaxParser
     }
 
 
-    public function startParsing() : void
+    public function startParsing(): void
     {
         if ($this->getInputType() === 'file' && !file_exists($this->xml_file)) {
             // not every plugin has a plugin.xml yet
@@ -64,7 +68,7 @@ class ilPluginReader extends ilSaxParser
         parent::startParsing();
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -79,7 +83,7 @@ class ilPluginReader extends ilSaxParser
     * @param	array		element attributes
     * @access	private
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -101,7 +105,7 @@ class ilPluginReader extends ilSaxParser
     * @param	string		element tag name
     * @access	private
     */
-    public function handlerEndTag($a_xml_parser, $a_name) : void
+    public function handlerEndTag($a_xml_parser, $a_name): void
     {
     }
 
@@ -112,7 +116,7 @@ class ilPluginReader extends ilSaxParser
     * @param	string		data
     * @access	private
     */
-    public function handlerCharacterData($a_xml_parser, $a_data) : void
+    public function handlerCharacterData($a_xml_parser, $a_data): void
     {
     }
 }

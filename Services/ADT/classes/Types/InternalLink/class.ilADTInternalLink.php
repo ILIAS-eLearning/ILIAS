@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilADTInternalLink extends ilADT
 {
@@ -18,7 +36,7 @@ class ilADTInternalLink extends ilADT
      * @param ilADTDefinition $a_def
      * @return bool
      */
-    protected function isValidDefinition(ilADTDefinition $a_def) : bool
+    protected function isValidDefinition(ilADTDefinition $a_def): bool
     {
         return $a_def instanceof ilADTInternalLinkDefinition;
     }
@@ -26,13 +44,13 @@ class ilADTInternalLink extends ilADT
     /**
      * Reset
      */
-    public function reset() : void
+    public function reset(): void
     {
         parent::reset();
         $this->value = null;
     }
 
-    public function setTargetRefId(?int $a_value) : void
+    public function setTargetRefId(?int $a_value): void
     {
         $this->value = $a_value;
     }
@@ -40,7 +58,7 @@ class ilADTInternalLink extends ilADT
     /**
      * @return int|null get target ref_id
      */
-    public function getTargetRefId() : ?int
+    public function getTargetRefId(): ?int
     {
         return $this->value;
     }
@@ -49,20 +67,20 @@ class ilADTInternalLink extends ilADT
      * @param ilADT $a_adt
      * @return bool
      */
-    public function equals(ilADT $a_adt) : ?bool
+    public function equals(ilADT $a_adt): ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
-            return strcmp($this->getCheckSum(), $a_adt->getCheckSum()) === 0;
+            return strcmp($this->getCheckSum() ?? '', $a_adt->getCheckSum() ?? '') === 0;
         }
         return null;
     }
 
-    public function isLarger(ilADT $a_adt) : ?bool
+    public function isLarger(ilADT $a_adt): ?bool
     {
         return null;
     }
 
-    public function isSmaller(ilADT $a_adt) : ?bool
+    public function isSmaller(ilADT $a_adt): ?bool
     {
         return null;
     }
@@ -71,12 +89,12 @@ class ilADTInternalLink extends ilADT
      * is null
      * @return bool
      */
-    public function isNull() : bool
+    public function isNull(): bool
     {
         return !$this->getTargetRefId();
     }
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         $valid = parent::isValid();
         if (!$this->isNull()) {
@@ -91,7 +109,7 @@ class ilADTInternalLink extends ilADT
         return $valid;
     }
 
-    public function getCheckSum() : ?string
+    public function getCheckSum(): ?string
     {
         if (!$this->isNull()) {
             return md5((string) $this->getTargetRefId());
@@ -102,7 +120,7 @@ class ilADTInternalLink extends ilADT
     /**
      * @inheritDoc
      */
-    public function exportStdClass() : ?stdClass
+    public function exportStdClass(): ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
@@ -116,7 +134,7 @@ class ilADTInternalLink extends ilADT
     /**
      * @inheritDoc
      */
-    public function importStdClass(?stdClass $a_std) : void
+    public function importStdClass(?stdClass $a_std): void
     {
         if (is_object($a_std)) {
             $this->setTargetRefId($a_std->target_ref_id);

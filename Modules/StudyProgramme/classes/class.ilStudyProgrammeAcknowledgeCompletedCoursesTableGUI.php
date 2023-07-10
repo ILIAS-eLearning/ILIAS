@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * TableGUI class for acknowledgement of completed courses for new members
@@ -11,9 +27,9 @@
 */
 class ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI extends ilTable2GUI
 {
-    protected string $user_id;
+    protected int $user_id;
 
-    public function __construct($parent_obj, string $user_id, $completed_courses)
+    public function __construct($parent_obj, int $user_id, $completed_courses)
     {
         parent::__construct($parent_obj);
         $this->user_id = $user_id;
@@ -26,9 +42,9 @@ class ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI extends ilTable2GUI
         $this->setData($completed_courses);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable("USR_ID", $this->user_id);
+        $this->tpl->setVariable("USR_ID", (string) $this->user_id);
         $this->tpl->setVariable("PRG_REF_ID", $a_set["prg_ref_id"]);
         $this->tpl->setVariable("CRS_ID", $a_set["crs_id"]);
         $this->tpl->setVariable("CRSR_ID", $a_set["crsr_id"]);

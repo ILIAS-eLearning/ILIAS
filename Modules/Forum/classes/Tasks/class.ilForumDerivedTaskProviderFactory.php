@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,28 +16,27 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilForumDerivedTaskProviderFactory
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilForumDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
 {
-    protected ilTaskService $taskService;
     protected ilAccessHandler $accessHandler;
     protected ilSetting $settings;
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
 
     public function __construct(
-        ilTaskService $taskService,
+        protected ilTaskService $taskService,
         ilAccessHandler $accessHandler = null,
         ilSetting $settings = null,
         ilLanguage $lng = null,
         ilCtrlInterface $ctrl = null
     ) {
         global $DIC;
-
-        $this->taskService = $taskService;
         $this->accessHandler = is_null($accessHandler)
             ? $DIC->access()
             : $accessHandler;
@@ -55,7 +54,7 @@ class ilForumDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
             : $ctrl;
     }
 
-    public function getProviders() : array
+    public function getProviders(): array
     {
         return [
             new ilForumDraftsDerivedTaskProvider(

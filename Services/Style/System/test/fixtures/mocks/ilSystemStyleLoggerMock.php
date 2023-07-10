@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilSystemStyleLoggerMock extends \ILIAS\DI\LoggingServices
 {
@@ -7,7 +9,7 @@ class ilSystemStyleLoggerMock extends \ILIAS\DI\LoggingServices
         $this->container = $DIC;
     }
 
-    public function root() : ilLogger
+    public function root(): ilLogger
     {
         return new ilSystemStyleRootLoggerMock();
     }

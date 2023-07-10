@@ -3,51 +3,44 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
-
-const IL_EXTRACT_ROLES = 1;
-const IL_USER_IMPORT = 2;
-const IL_VERIFY = 3;
-
-const IL_FAIL_ON_CONFLICT = 1;
-const IL_UPDATE_ON_CONFLICT = 2;
-const IL_IGNORE_ON_CONFLICT = 3;
-
-const IL_IMPORT_SUCCESS = 1;
-const IL_IMPORT_WARNING = 2;
-const IL_IMPORT_FAILURE = 3;
-
-const IL_USER_MAPPING_LOGIN = 1;
-const IL_USER_MAPPING_ID = 2;
-
-
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\User\UserGUIRequest;
+
 /**
  * User Import Parser
  * @author Alex Killing <alex.killing@gmx.de>
  */
 class ilUserImportParser extends ilSaxParser
 {
+    public const IL_EXTRACT_ROLES = 1;
+    public const IL_USER_IMPORT = 2;
+    public const IL_VERIFY = 3;
+
+    public const IL_FAIL_ON_CONFLICT = 1;
+    public const IL_UPDATE_ON_CONFLICT = 2;
+    public const IL_IGNORE_ON_CONFLICT = 3;
+
+    public const IL_IMPORT_SUCCESS = 1;
+    public const IL_IMPORT_WARNING = 2;
+    public const IL_IMPORT_FAILURE = 3;
+
+    private const IL_USER_MAPPING_LOGIN = 1;
+    public const IL_USER_MAPPING_ID = 2;
+
     protected ?string $tmp_udf_name = null;
     protected ?string $tmp_udf_id = null;
     protected array $multi_values; // Missing array type.
@@ -72,6 +65,7 @@ class ilUserImportParser extends ilSaxParser
     public array $roles; // Missing array type.
     public string $action;      // "Insert","Update","Delete"
     protected array $required_fields = []; // Missing array type.
+    protected array $containedTags = [];
 
     /**
      * The variable holds the protocol of the import.
@@ -94,13 +88,6 @@ class ilUserImportParser extends ilSaxParser
      */
     public array $logins;
 
-    /**
-     * Conflict handling rule.
-     *
-     * Values:  IL_FAIL_ON_CONFLICT
-     *          IL_UPDATE_ON_CONFLICT
-     *          IL_IGNORE_ON_CONFLICT
-     */
     public int $conflict_rule;
 
     public bool $send_mail;
@@ -232,29 +219,29 @@ class ilUserImportParser extends ilSaxParser
      */
     public function __construct(
         string $a_xml_file = '',
-        int $a_mode = IL_USER_IMPORT,
-        int $a_conflict_rule = IL_FAIL_ON_CONFLICT
+        int $a_mode = self::IL_USER_IMPORT,
+        int $a_conflict_rule = self::IL_FAIL_ON_CONFLICT
     ) {
         global $DIC;
 
         $DIC->settings();
 
-        $this->roles = array();
+        $this->roles = [];
         $this->mode = $a_mode;
         $this->conflict_rule = $a_conflict_rule;
-        $this->error_level = IL_IMPORT_SUCCESS;
-        $this->protocol = array();
-        $this->logins = array();
+        $this->error_level = self::IL_IMPORT_SUCCESS;
+        $this->protocol = [];
+        $this->logins = [];
         $this->userCount = 0;
-        $this->localRoleCache = array();
-        $this->parentRolesCache = array();
+        $this->localRoleCache = [];
+        $this->parentRolesCache = [];
         $this->send_mail = false;
-        $this->mapping_mode = IL_USER_MAPPING_LOGIN;
+        $this->mapping_mode = self::IL_USER_MAPPING_LOGIN;
 
         $this->user_settings_config = new ilUserSettingsConfig();
 
         // get all active style  instead of only assigned ones -> cannot transfer all to another otherwise
-        $this->userStyles = array();
+        $this->userStyles = [];
         $skins = ilStyleDefinition::getAllSkins();
 
         if (is_array($skins)) {
@@ -277,7 +264,7 @@ class ilUserImportParser extends ilSaxParser
 
         $this->recommended_content_manager = new ilRecommendedContentManager();
 
-        $request = new \ILIAS\User\StandardGUIRequest(
+        $request = new UserGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
@@ -290,12 +277,12 @@ class ilUserImportParser extends ilSaxParser
      * assign users to this folder (normally the usr_folder)
      * But if called from local admin => the ref_id of the category
      */
-    public function setFolderId(int $a_folder_id) : void
+    public function setFolderId(int $a_folder_id): void
     {
         $this->folder_id = $a_folder_id;
     }
 
-    public function getFolderId() : int
+    public function getFolderId(): int
     {
         return $this->folder_id;
     }
@@ -307,7 +294,7 @@ class ilUserImportParser extends ilSaxParser
     *
     * @param resource|\XMLParser $a_xml_parser
     */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -319,7 +306,7 @@ class ilUserImportParser extends ilSaxParser
     *
     * @param	array		role assignment (key: import id; value: local role id)
     */
-    public function setRoleAssignment(array $a_assign) : void
+    public function setRoleAssignment(array $a_assign): void
     {
         $this->role_assign = $a_assign;
     }
@@ -327,7 +314,7 @@ class ilUserImportParser extends ilSaxParser
     /**
      * generate a tag with given name and attributes
      */
-    public function buildTag(string $type, string $name, array $attr = null) : string // Missing array type.
+    public function buildTag(string $type, string $name, array $attr = null): string // Missing array type.
     {
         $tag = "<";
 
@@ -352,15 +339,15 @@ class ilUserImportParser extends ilSaxParser
         $a_xml_parser,
         string $a_name,
         array $a_attribs
-    ) : void {
+    ): void {
         switch ($this->mode) {
-            case IL_EXTRACT_ROLES:
+            case self::IL_EXTRACT_ROLES:
                 $this->extractRolesBeginTag($a_xml_parser, $a_name, $a_attribs);
                 break;
-            case IL_USER_IMPORT:
+            case self::IL_USER_IMPORT:
                 $this->importBeginTag($a_xml_parser, $a_name, $a_attribs);
                 break;
-            case IL_VERIFY:
+            case self::IL_VERIFY:
                 $this->verifyBeginTag($a_xml_parser, $a_name, $a_attribs);
                 break;
         }
@@ -375,7 +362,7 @@ class ilUserImportParser extends ilSaxParser
         $a_xml_parser,
         string $a_name,
         array $a_attribs
-    ) : void {
+    ): void {
         switch ($a_name) {
             case "Role":
                 // detect numeric, ilias id (then extract role id) or alphanumeric
@@ -395,7 +382,7 @@ class ilUserImportParser extends ilSaxParser
         $a_xml_parser,
         string $a_name,
         array $a_attribs
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilias = $DIC['ilias'];
@@ -426,7 +413,7 @@ class ilUserImportParser extends ilSaxParser
 
             case "User":
                 $this->acc_mail->reset();
-                $this->prefs = array();
+                $this->prefs = [];
                 $this->currentPrefKey = null;
                 $this->auth_mode_set = false;
                 $this->approve_date_set = false;
@@ -440,11 +427,11 @@ class ilUserImportParser extends ilSaxParser
                 $this->userObj = new ilObjUser();
 
                 // user defined fields
-                $this->udf_data = array();
+                $this->udf_data = [];
 
                 // if we have an object id, store it
                 $this->user_id = -1;
-                if (!is_null($a_attribs["Id"]) && $this->getUserMappingMode() == IL_USER_MAPPING_ID) {
+                if (isset($a_attribs["Id"]) && $this->getUserMappingMode() === self::IL_USER_MAPPING_ID) {
                     if (is_numeric($a_attribs["Id"])) {
                         $this->user_id = $a_attribs["Id"];
                     } elseif ($id = ilUtil::__extractId($a_attribs["Id"], IL_INST_ID) > 0) {
@@ -461,13 +448,16 @@ class ilUserImportParser extends ilSaxParser
                     $ilias->ini->readVariable("layout", "style")
                 );
 
-                $this->userObj->setLanguage($a_attribs["Language"]);
-                $this->userObj->setImportId($a_attribs["Id"]);
+                if (isset($a_attribs["Language"])) {
+                    $this->containedTags[] = "Language";
+                }
+                $this->userObj->setLanguage($a_attribs["Language"] ?? '');
+                $this->userObj->setImportId($a_attribs["Id"] ?? '');
                 $this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
                 $this->currPassword = null;
                 $this->currPasswordType = null;
                 $this->currActive = null;
-                $this->multi_values = array();
+                $this->multi_values = [];
                 break;
 
             case 'Password':
@@ -500,23 +490,22 @@ class ilUserImportParser extends ilSaxParser
 
                         case "default":
                         case "local":
-                        case "radius":
                         case "shibboleth":
                         case "script":
                         case "cas":
                         case "soap":
                         case "openid":
-                        // begin-patch auth_plugin
+                            // begin-patch auth_plugin
                         default:
                             $this->auth_mode_set = true;
                             $this->userObj->setAuthMode($a_attribs["type"]);
                             break;
-                        /*
-                            $this->logFailure($this->userObj->getLogin(),
-                                              sprintf($lng->txt("usrimport_xml_element_inapplicable"),"AuthMode",$a_attribs["type"]));
-                            break;
-                         *
-                         */
+                            /*
+                                $this->logFailure($this->userObj->getLogin(),
+                                                  sprintf($lng->txt("usrimport_xml_element_inapplicable"),"AuthMode",$a_attribs["type"]));
+                                break;
+                             *
+                             */
                     }
                 } else {
                     $this->logFailure(
@@ -552,7 +541,7 @@ class ilUserImportParser extends ilSaxParser
         $a_xml_parser,
         string $a_name,
         array $a_attribs
-    ) : void {
+    ): void {
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -585,14 +574,15 @@ class ilUserImportParser extends ilSaxParser
 
             case "User":
                 $this->userCount++;
+                $this->containedTags = [];
                 $this->userObj = new ilObjUser();
-                $this->userObj->setLanguage($a_attribs["Language"]);
+                $this->userObj->setLanguage($a_attribs["Language"] ?? '');
                 $this->userObj->setImportId($a_attribs["Id"]);
                 $this->currentPrefKey = null;
                 // if we have an object id, store it
                 $this->user_id = -1;
 
-                if (!is_null($a_attribs["Id"]) && $this->getUserMappingMode() == IL_USER_MAPPING_ID) {
+                if (!is_null($a_attribs["Id"]) && $this->getUserMappingMode() === self::IL_USER_MAPPING_ID) {
                     if (is_numeric($a_attribs["Id"])) {
                         $this->user_id = $a_attribs["Id"];
                     } elseif ($id = ilUtil::__extractId($a_attribs["Id"], IL_INST_ID) > 0) {
@@ -642,22 +632,21 @@ class ilUserImportParser extends ilSaxParser
 
                         case "default":
                         case "local":
-                        case "radius":
                         case "shibboleth":
                         case "script":
                         case "cas":
                         case "soap":
                         case "openid":
-                        // begin-patch auth_plugin
+                            // begin-patch auth_plugin
                         default:
                             $this->userObj->setAuthMode($a_attribs["type"]);
                             break;
-                        /*
-                        default:
-                            $this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"AuthMode","type",$a_attribs["type"]));
-                            break;
-                         *
-                         */
+                            /*
+                            default:
+                                $this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"AuthMode","type",$a_attribs["type"]));
+                                break;
+                             *
+                             */
                     }
                 } else {
                     $this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"), "AuthMode", "type", ""));
@@ -666,22 +655,21 @@ class ilUserImportParser extends ilSaxParser
             case 'Pref':
                 $this->currentPrefKey = $a_attribs["key"];
                 break;
-
         }
     }
 
     public function handlerEndTag(
         $a_xml_parser,
         string $a_name
-    ) : void {
+    ): void {
         switch ($this->mode) {
-            case IL_EXTRACT_ROLES:
+            case self::IL_EXTRACT_ROLES:
                 $this->extractRolesEndTag($a_xml_parser, $a_name);
                 break;
-            case IL_USER_IMPORT:
+            case self::IL_USER_IMPORT:
                 $this->importEndTag($a_xml_parser, $a_name);
                 break;
-            case IL_VERIFY:
+            case self::IL_VERIFY:
                 $this->verifyEndTag($a_xml_parser, $a_name);
                 break;
         }
@@ -693,7 +681,7 @@ class ilUserImportParser extends ilSaxParser
     public function extractRolesEndTag(
         $a_xml_parser,
         string $a_name
-    ) : void {
+    ): void {
         switch ($a_name) {
             case "Role":
                 $this->roles[$this->current_role_id]["name"] = $this->cdata;
@@ -706,7 +694,7 @@ class ilUserImportParser extends ilSaxParser
     /**
      * Returns the parent object of the role folder object which contains the specified role.
      */
-    public function getRoleObject(int $a_role_id) : ilObjRole
+    public function getRoleObject(int $a_role_id): ilObjRole
     {
         if (array_key_exists($a_role_id, $this->localRoleCache)) {
             return $this->localRoleCache[$a_role_id];
@@ -721,7 +709,7 @@ class ilUserImportParser extends ilSaxParser
     /**
      * Returns the parent object of the role folder object which contains the specified role.
      */
-    public function getCourseMembersObjectForRole(int $a_role_id) : ilCourseParticipants
+    public function getCourseMembersObjectForRole(int $a_role_id): ilCourseParticipants
     {
         global $DIC;
 
@@ -742,7 +730,7 @@ class ilUserImportParser extends ilSaxParser
     /**
      * Assigns a user to a role.
      */
-    public function assignToRole(ilObjUser $a_user_obj, int $a_role_id) : void
+    public function assignToRole(ilObjUser $a_user_obj, int $a_role_id): void
     {
         global $DIC;
 
@@ -783,14 +771,14 @@ class ilUserImportParser extends ilSaxParser
      * If necessary, create a new cache entry.
      * @return array[]
      */
-    public function getParentRoleIds(int $a_role_id) : array
+    public function getParentRoleIds(int $a_role_id): array
     {
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
 
         if (!array_key_exists($a_role_id, $this->parentRolesCache)) {
-            $parent_role_ids = array();
+            $parent_role_ids = [];
 
             $role_obj = $this->getRoleObject($a_role_id);
             $short_role_title = substr($role_obj->getTitle(), 0, 12);
@@ -835,7 +823,7 @@ class ilUserImportParser extends ilSaxParser
     public function assignToRoleWithParents(
         ilObjUser $a_user_obj,
         int $a_role_id
-    ) : void {
+    ): void {
         $this->assignToRole($a_user_obj, $a_role_id);
 
         $parent_role_ids = $this->getParentRoleIds($a_role_id);
@@ -850,7 +838,7 @@ class ilUserImportParser extends ilSaxParser
     public function detachFromRole(
         ilObjUser $a_user_obj,
         int $a_role_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
@@ -867,18 +855,25 @@ class ilUserImportParser extends ilSaxParser
         }
     }
 
+    protected function tagContained(string $tagname): bool
+    {
+        return in_array($tagname, $this->containedTags, true);
+    }
+
     /**
      * @param \XMLParser|resource $a_xml_parser
      */
     public function importEndTag(
         $a_xml_parser,
         string $a_name
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
         $ilSetting = $DIC['ilSetting'];
+
+        $this->containedTags[] = $a_name;
 
         switch ($a_name) {
             case "Role":
@@ -912,10 +907,10 @@ class ilUserImportParser extends ilSaxParser
 
                 // Handle conflicts
                 switch ($this->conflict_rule) {
-                    case IL_FAIL_ON_CONFLICT:
+                    case self::IL_FAIL_ON_CONFLICT:
                         // do not change action
                         break;
-                    case IL_UPDATE_ON_CONFLICT:
+                    case self::IL_UPDATE_ON_CONFLICT:
                         switch ($this->action) {
                             case "Insert":
                                 if ($user_id) {
@@ -937,7 +932,7 @@ class ilUserImportParser extends ilSaxParser
                                 break;
                         }
                         break;
-                    case IL_IGNORE_ON_CONFLICT:
+                    case self::IL_IGNORE_ON_CONFLICT:
                         switch ($this->action) {
                             case "Insert":
                                 if ($user_id) {
@@ -1030,7 +1025,6 @@ class ilUserImportParser extends ilSaxParser
                                     default:
                                         $this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"), "Type", "Password", $this->currPasswordType));
                                         break;
-
                                 }
                             } else {
                                 // this does the trick for empty passwords
@@ -1077,7 +1071,7 @@ class ilUserImportParser extends ilSaxParser
 
                             //insert user data in table user_data
                             $this->userObj->saveAsNew();
-                            
+
                             // Set default prefs
                             $this->userObj->setPref('hits_per_page', $ilSetting->get('hits_per_page', 30));
                             //$this->userObj->setPref('show_users_online',$ilSetting->get('show_users_online','y'));
@@ -1124,7 +1118,7 @@ class ilUserImportParser extends ilSaxParser
 
                             //set role entries
                             foreach ($this->roles as $role_id => $role) {
-                                if ($this->role_assign[$role_id]) {
+                                if (isset($this->role_assign[$role_id]) && $this->role_assign[$role_id]) {
                                     $this->assignToRole($this->userObj, $this->role_assign[$role_id]);
                                 }
                             }
@@ -1169,106 +1163,106 @@ class ilUserImportParser extends ilSaxParser
                                         break;
                                 }
                             }
-                            if (!is_null($this->userObj->getFirstname())) {
+                            if ($this->tagContained("Firstname")) {
                                 $updateUser->setFirstname($this->userObj->getFirstname());
                             }
-                            if (!is_null($this->userObj->getLastname())) {
+                            if ($this->tagContained("Lastname")) {
                                 $updateUser->setLastname($this->userObj->getLastname());
                             }
-                            if (!is_null($this->userObj->getUTitle())) {
+                            if ($this->tagContained("Title")) {
                                 $updateUser->setUTitle($this->userObj->getUTitle());
                             }
-                            if (!is_null($this->userObj->getGender())) {
+                            if ($this->tagContained("Gender")) {
                                 $updateUser->setGender($this->userObj->getGender());
                             }
-                            if (!is_null($this->userObj->getEmail())) {
+                            if ($this->tagContained("Email")) {
                                 $updateUser->setEmail($this->userObj->getEmail());
                             }
-                            if (!is_null($this->userObj->getSecondEmail())) {
+                            if ($this->tagContained("SecondEmail")) {
                                 $updateUser->setSecondEmail($this->userObj->getSecondEmail());
                             }
-                            if (!is_null($this->userObj->getBirthday())) {
+                            if ($this->tagContained("Birthday")) {
                                 $updateUser->setBirthday($this->userObj->getBirthday());
                             }
-                            if (!is_null($this->userObj->getInstitution())) {
+                            if ($this->tagContained("Institution")) {
                                 $updateUser->setInstitution($this->userObj->getInstitution());
                             }
-                            if (!is_null($this->userObj->getStreet())) {
+                            if ($this->tagContained("Street")) {
                                 $updateUser->setStreet($this->userObj->getStreet());
                             }
-                            if (!is_null($this->userObj->getCity())) {
+                            if ($this->tagContained("City")) {
                                 $updateUser->setCity($this->userObj->getCity());
                             }
-                            if (!is_null($this->userObj->getZipcode())) {
+                            if ($this->tagContained("PostalCode")) {
                                 $updateUser->setZipcode($this->userObj->getZipcode());
                             }
-                            if (!is_null($this->userObj->getCountry())) {
+                            if ($this->tagContained("Country")) {
                                 $updateUser->setCountry($this->userObj->getCountry());
                             }
-                            if (!is_null($this->userObj->getSelectedCountry())) {
+                            if ($this->tagContained("SelCountry")) {
                                 $updateUser->setSelectedCountry($this->userObj->getSelectedCountry());
                             }
-                            if (!is_null($this->userObj->getPhoneOffice())) {
+                            if ($this->tagContained("PhoneOffice")) {
                                 $updateUser->setPhoneOffice($this->userObj->getPhoneOffice());
                             }
-                            if (!is_null($this->userObj->getPhoneHome())) {
+                            if ($this->tagContained("PhoneHome")) {
                                 $updateUser->setPhoneHome($this->userObj->getPhoneHome());
                             }
-                            if (!is_null($this->userObj->getPhoneMobile())) {
+                            if ($this->tagContained("PhoneMobile")) {
                                 $updateUser->setPhoneMobile($this->userObj->getPhoneMobile());
                             }
-                            if (!is_null($this->userObj->getFax())) {
+                            if ($this->tagContained("Fax")) {
                                 $updateUser->setFax($this->userObj->getFax());
                             }
-                            if (!is_null($this->userObj->getHobby())) {
+                            if ($this->tagContained("Hobby")) {
                                 $updateUser->setHobby($this->userObj->getHobby());
                             }
-                            if (!is_null($this->userObj->getGeneralInterests())) {
+                            if ($this->tagContained("GeneralInterest")) {
                                 $updateUser->setGeneralInterests($this->userObj->getGeneralInterests());
                             }
-                            if (!is_null($this->userObj->getOfferingHelp())) {
+                            if ($this->tagContained("OfferingHelp")) {
                                 $updateUser->setOfferingHelp($this->userObj->getOfferingHelp());
                             }
-                            if (!is_null($this->userObj->getLookingForHelp())) {
+                            if ($this->tagContained("LookingForHelp")) {
                                 $updateUser->setLookingForHelp($this->userObj->getLookingForHelp());
                             }
-                            if (!is_null($this->userObj->getComment())) {
+                            if ($this->tagContained("Comment")) {
                                 $updateUser->setComment($this->userObj->getComment());
                             }
-                            if (!is_null($this->userObj->getDepartment())) {
+                            if ($this->tagContained("Department")) {
                                 $updateUser->setDepartment($this->userObj->getDepartment());
                             }
-                            if (!is_null($this->userObj->getMatriculation())) {
+                            if ($this->tagContained("Matriculation")) {
                                 $updateUser->setMatriculation($this->userObj->getMatriculation());
                             }
                             if (!is_null($this->currActive)) {
                                 $updateUser->setActive($this->currActive === "true", is_object($ilUser) ? $ilUser->getId() : 0);
                             }
-                            if (!is_null($this->userObj->getClientIP())) {
+                            if ($this->tagContained("ClientIP")) {
                                 $updateUser->setClientIP($this->userObj->getClientIP());
                             }
-                            if (!is_null($this->userObj->getTimeLimitUnlimited())) {
+                            if ($this->time_limit_set) {
                                 $updateUser->setTimeLimitUnlimited($this->userObj->getTimeLimitUnlimited());
                             }
-                            if (!is_null($this->userObj->getTimeLimitFrom())) {
+                            if ($this->tagContained("TimeLimitFrom")) {
                                 $updateUser->setTimeLimitFrom($this->userObj->getTimeLimitFrom());
                             }
-                            if (!is_null($this->userObj->getTimeLimitUntil())) {
+                            if ($this->tagContained("TimeLimitUntil")) {
                                 $updateUser->setTimeLimitUntil($this->userObj->getTimeLimitUntil());
                             }
-                            if (!is_null($this->userObj->getTimeLimitMessage())) {
+                            if ($this->tagContained("TimeLimitMessage")) {
                                 $updateUser->setTimeLimitMessage($this->userObj->getTimeLimitMessage());
                             }
-                            if (!is_null($this->userObj->getApproveDate())) {
+                            if ($this->tagContained("ApproveDate")) {
                                 $updateUser->setApproveDate($this->userObj->getApproveDate());
                             }
-                            if (!is_null($this->userObj->getAgreeDate())) {
+                            if ($this->tagContained("AgreeDate")) {
                                 $updateUser->setAgreeDate($this->userObj->getAgreeDate());
                             }
-                            if (!is_null($this->userObj->getLanguage())) {
+                            if ($this->tagContained("Language")) {
                                 $updateUser->setLanguage($this->userObj->getLanguage());
                             }
-                            if (!is_null($this->userObj->getExternalAccount())) {
+                            if ($this->tagContained("ExternalAccount")) {
                                 $updateUser->setExternalAccount($this->userObj->getExternalAccount());
                             }
 
@@ -1282,7 +1276,6 @@ class ilUserImportParser extends ilSaxParser
                             if ($this->time_limit_owner_set) {
                                 $updateUser->setTimeLimitOwner($this->userObj->getTimeLimitOwner());
                             }
-
 
                             if (count($this->prefs)) {
                                 foreach ($this->prefs as $key => $value) {
@@ -1327,7 +1320,7 @@ class ilUserImportParser extends ilSaxParser
                             }
 
                             // update login
-                            if (!is_null($this->userObj->getLogin()) && $this->user_id != -1) {
+                            if ($this->tagContained("Login") && $this->user_id != -1) {
                                 try {
                                     $updateUser->updateLogin($this->userObj->getLogin());
                                 } catch (ilUserException $e) {
@@ -1385,7 +1378,7 @@ class ilUserImportParser extends ilSaxParser
                 }
 
                 // init role array for next user
-                $this->roles = array();
+                $this->roles = [];
                 break;
 
             case "Login":
@@ -1623,7 +1616,7 @@ class ilUserImportParser extends ilSaxParser
     public function saveTempImage(
         string $image_data,
         string $filename
-    ) : string {
+    ): string {
         $tempname = ilFileUtils::ilTempnam() . $filename;
         $fh = fopen($tempname, "wb");
         if ($fh == false) {
@@ -1640,7 +1633,7 @@ class ilUserImportParser extends ilSaxParser
     public function verifyEndTag(
         $a_xml_parser,
         string $a_name
-    ) : void {
+    ): void {
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -1664,14 +1657,13 @@ class ilUserImportParser extends ilSaxParser
                 } else {
                     $user_exists = ilObjUser::getUserIdByLogin($this->userObj->getLogin()) != 0;
                 }
-
                 if (is_null($this->userObj->getLogin())) {
                     $this->logFailure("---", sprintf($lng->txt("usrimport_xml_element_for_action_required"), "Login", "Insert"));
                 }
 
                 switch ($this->action) {
                     case "Insert":
-                        if ($user_exists and $this->conflict_rule == IL_FAIL_ON_CONFLICT) {
+                        if ($user_exists and $this->conflict_rule === self::IL_FAIL_ON_CONFLICT) {
                             $this->logWarning($this->userObj->getLogin(), $lng->txt("usrimport_cant_insert"));
                         }
                         if (is_null($this->userObj->getGender()) && $this->isFieldRequired("gender")) {
@@ -1701,7 +1693,7 @@ class ilUserImportParser extends ilSaxParser
                     case "Update":
                         if (!$user_exists) {
                             $this->logWarning($this->userObj->getLogin(), $lng->txt("usrimport_cant_update"));
-                        } elseif ($this->user_id != -1 && !is_null($this->userObj->getLogin())) {
+                        } elseif ($this->user_id != -1 && $this->tagContained("Login")) {
                             // check if someone owns the new login name!
                             $someonesId = ilObjUser::_lookupId($this->userObj->getLogin());
 
@@ -1718,7 +1710,7 @@ class ilUserImportParser extends ilSaxParser
                 }
 
                 // init role array for next user
-                $this->roles = array();
+                $this->roles = [];
                 break;
 
             case "Login":
@@ -1840,7 +1832,7 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case "ExternalAccount":
-//echo "-".$this->userObj->getAuthMode()."-".$this->userObj->getLogin()."-";
+                //echo "-".$this->userObj->getAuthMode()."-".$this->userObj->getLogin()."-";
                 $am = ($this->userObj->getAuthMode() === "default" || $this->userObj->getAuthMode() == "")
                     ? ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode'))
                     : $this->userObj->getAuthMode();
@@ -1865,7 +1857,6 @@ class ilUserImportParser extends ilSaxParser
                             }
                         }
                         break;
-
                 }
                 if ($externalAccountHasChanged) {
                     $this->userObj->setExternalAccount(trim($this->cdata));
@@ -1921,14 +1912,14 @@ class ilUserImportParser extends ilSaxParser
                 if (strtotime($this->cdata) === false && !is_numeric($this->cdata)) {
                     $this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"), "TimeLimitFrom", $this->cdata));
                 }
-                $this->userObj->setTimeLimitFrom($this->cdata);
+                $this->userObj->setTimeLimitFrom((int) $this->cdata);
                 break;
             case "TimeLimitUntil":
                 // Accept datetime or Unix timestamp
                 if (strtotime($this->cdata) === false && !is_numeric($this->cdata)) {
                     $this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"), "TimeLimitUntil", $this->cdata));
                 }
-                $this->userObj->setTimeLimitUntil($this->cdata);
+                $this->userObj->setTimeLimitUntil((int) $this->cdata);
                 break;
             case "TimeLimitMessage":
                 switch (strtolower($this->cdata)) {
@@ -1969,7 +1960,7 @@ class ilUserImportParser extends ilSaxParser
     public function handlerCharacterData(
         $a_xml_parser,
         string $a_data
-    ) : void {
+    ): void {
         if ($a_data !== "\n") {
             $a_data = preg_replace("/\t+/", " ", $a_data);
         }
@@ -1982,12 +1973,12 @@ class ilUserImportParser extends ilSaxParser
     /**
      * @return array[]
      */
-    public function getCollectedRoles() : array
+    public function getCollectedRoles(): array
     {
         return $this->roles;
     }
 
-    public function getUserCount() : int
+    public function getUserCount(): int
     {
         return $this->userCount;
     }
@@ -1998,15 +1989,15 @@ class ilUserImportParser extends ilSaxParser
     public function logWarning(
         string $aLogin,
         string $aMessage
-    ) : void {
+    ): void {
         if (!array_key_exists($aLogin, $this->protocol)) {
-            $this->protocol[$aLogin] = array();
+            $this->protocol[$aLogin] = [];
         }
         if ($aMessage) {
             $this->protocol[$aLogin][] = $aMessage;
         }
-        if ($this->error_level == IL_IMPORT_SUCCESS) {
-            $this->error_level = IL_IMPORT_WARNING;
+        if ($this->error_level === self::IL_IMPORT_SUCCESS) {
+            $this->error_level = self::IL_IMPORT_WARNING;
         }
     }
 
@@ -2016,14 +2007,14 @@ class ilUserImportParser extends ilSaxParser
     public function logFailure(
         string $aLogin,
         string $aMessage
-    ) : void {
+    ): void {
         if (!array_key_exists($aLogin, $this->protocol)) {
-            $this->protocol[$aLogin] = array();
+            $this->protocol[$aLogin] = [];
         }
         if ($aMessage) {
             $this->protocol[$aLogin][] = $aMessage;
         }
-        $this->error_level = IL_IMPORT_FAILURE;
+        $this->error_level = self::IL_IMPORT_FAILURE;
     }
 
     /**
@@ -2033,7 +2024,7 @@ class ilUserImportParser extends ilSaxParser
         string $aLogin,
         string $userid,
         string $action
-    ) : void {
+    ): void {
         $this->user_mapping[$userid] = array("login" => $aLogin, "action" => $action, "message" => "successful");
     }
 
@@ -2045,7 +2036,7 @@ class ilUserImportParser extends ilSaxParser
      * message.
      * @return array[]
      */
-    public function getProtocol() : array
+    public function getProtocol(): array
     {
         return $this->protocol;
     }
@@ -2053,7 +2044,7 @@ class ilUserImportParser extends ilSaxParser
     /**
      * Returns the protocol as a HTML table.
      */
-    public function getProtocolAsHTML(string $a_log_title) : string
+    public function getProtocolAsHTML(string $a_log_title): string
     {
         global $DIC;
 
@@ -2083,16 +2074,16 @@ class ilUserImportParser extends ilSaxParser
     /**
      * Returns true, if the import was successful.
      */
-    public function isSuccess() : bool
+    public function isSuccess(): bool
     {
-        return $this->error_level == IL_IMPORT_SUCCESS;
+        return $this->error_level === self::IL_IMPORT_SUCCESS;
     }
 
     /**
      * Returns the error level.
      * @return int IL_IMPORT_SUCCESS | IL_IMPORT_WARNING | IL_IMPORT_FAILURE
      */
-    public function getErrorLevel() : int
+    public function getErrorLevel(): int
     {
         return $this->error_level;
     }
@@ -2101,7 +2092,7 @@ class ilUserImportParser extends ilSaxParser
      * returns a map user_id <=> login
      * @return array with user_id as key and login as value
      */
-    public function getUserMapping() : array
+    public function getUserMapping(): array
     {
         return $this->user_mapping;
     }
@@ -2109,7 +2100,7 @@ class ilUserImportParser extends ilSaxParser
     /**
      * send account mail
      */
-    public function sendAccountMail() : void
+    public function sendAccountMail(): void
     {
         if ($this->req_send_mail != "" ||
             ($this->isSendMail() && $this->userObj->getEmail() != "")) {
@@ -2118,12 +2109,12 @@ class ilUserImportParser extends ilSaxParser
         }
     }
 
-    public function setSendMail(bool $value) : void
+    public function setSendMail(bool $value): void
     {
         $this->send_mail = $value;
     }
 
-    public function isSendMail() : bool
+    public function isSendMail(): bool
     {
         return $this->send_mail;
     }
@@ -2133,9 +2124,9 @@ class ilUserImportParser extends ilSaxParser
      *
      * @param int $value must be one of IL_USER_MAPPING_ID or IL_USER_MAPPING_LOGIN, die otherwise
      */
-    public function setUserMappingMode(int $value) : void
+    public function setUserMappingMode(int $value): void
     {
-        if ($value == IL_USER_MAPPING_ID || $value == IL_USER_MAPPING_LOGIN) {
+        if ($value === self::IL_USER_MAPPING_ID || $value === self::IL_USER_MAPPING_LOGIN) {
             $this->mapping_mode = $value;
         } else {
             die("wrong argument using methode setUserMappingMethod in " . __FILE__);
@@ -2146,7 +2137,7 @@ class ilUserImportParser extends ilSaxParser
      * read access to user mapping mode
      * @return int one of IL_USER_MAPPING_ID or IL_USER_MAPPING_LOGIN
      */
-    public function getUserMappingMode() : int
+    public function getUserMappingMode(): int
     {
         return $this->mapping_mode;
     }
@@ -2154,7 +2145,7 @@ class ilUserImportParser extends ilSaxParser
     /**
      * @return array[]
      */
-    private function readRequiredFields() : array
+    private function readRequiredFields(): array
     {
         global $DIC;
 
@@ -2169,14 +2160,14 @@ class ilUserImportParser extends ilSaxParser
                 $this->required_fields[$value] = $value;
             }
         }
-        return $this->required_fields ?: array();
+        return $this->required_fields ?: [];
     }
 
     /**
      * Check if profile is incomplete
      * Will set the usr_data field profile_incomplete if any required field is missing
      */
-    private function checkProfileIncomplete(ilObjUser $user_obj) : bool
+    private function checkProfileIncomplete(ilObjUser $user_obj): bool
     {
         return ilUserProfile::isProfileIncomplete($user_obj);
     }
@@ -2187,14 +2178,14 @@ class ilUserImportParser extends ilSaxParser
      * @param	$fieldname	string value of fieldname, e.g. gender
      * @return true, if field of required fields contains fieldname as key, false otherwise.
      */
-    protected function isFieldRequired(string $fieldname) : bool
+    protected function isFieldRequired(string $fieldname): bool
     {
         $requiredFields = $this->readRequiredFields();
         $fieldname = strtolower(trim($fieldname));
         return array_key_exists($fieldname, $requiredFields);
     }
-    
-    private function verifyPref(string $key, string $value) : void
+
+    private function verifyPref(string $key, string $value): void
     {
         switch ($key) {
             case 'mail_linebreak':
@@ -2283,16 +2274,15 @@ class ilUserImportParser extends ilSaxParser
                 break;
         }
     }
-    
-    private function updateMailPreferences(int $usr_id) : void
+
+    private function updateMailPreferences(int $usr_id): void
     {
         if (array_key_exists("mail_incoming_type", $this->prefs) ||
             array_key_exists("mail_signature", $this->prefs) ||
             array_key_exists("mail_linebreak", $this->prefs)
-            ) {
+        ) {
             $mailOptions = new ilMailOptions($usr_id);
 
-            $mailOptions->setLinebreak(array_key_exists("mail_linebreak", $this->prefs) ? $this->prefs["mail_linebreak"] : $mailOptions->getLinebreak());
             $mailOptions->setSignature(array_key_exists("mail_signature", $this->prefs) ? $this->prefs["mail_signature"] : $mailOptions->getSignature());
             $mailOptions->setIncomingType(array_key_exists("mail_incoming_type", $this->prefs) ? $this->prefs["mail_incoming_type"] : $mailOptions->getIncomingType());
             $mailOptions->updateOptions();

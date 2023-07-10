@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Booking preferences repo
@@ -40,7 +39,7 @@ class ilBookingPreferencesDBRepository
     /**
      * Get booking preferences for a pool id
      */
-    public function getPreferences(int $a_pool_id) : ilBookingPreferences
+    public function getPreferences(int $a_pool_id): ilBookingPreferences
     {
         $db = $this->db;
 
@@ -65,7 +64,7 @@ class ilBookingPreferencesDBRepository
     public function getPreferencesOfUser(
         int $a_pool_id,
         int $a_user_id
-    ) : ilBookingPreferences {
+    ): ilBookingPreferences {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -90,9 +89,9 @@ class ilBookingPreferencesDBRepository
     public function savePreferences(
         int $a_pool_id,
         ilBookingPreferences $preferences
-    ) : void {
+    ): void {
         $db = $this->db;
-        
+
         $db->manipulateF(
             "DELETE FROM booking_preferences WHERE " .
             " book_pool_id = %s",
@@ -120,7 +119,7 @@ class ilBookingPreferencesDBRepository
         int $a_pool_id,
         int $a_user_id,
         ilBookingPreferences $preferences
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $db->manipulateF(

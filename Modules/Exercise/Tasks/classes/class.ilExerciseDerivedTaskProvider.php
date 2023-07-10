@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Exercise derived task provider
  *
@@ -42,7 +42,7 @@ class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
         $this->lng->loadLanguageModule("exc");
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return true;
     }
@@ -51,7 +51,7 @@ class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
      * @throws ilExcUnknownAssignmentTypeException
      * @return \ilDerivedTask[]
      */
-    public function getTasks(int $user_id) : array
+    public function getTasks(int $user_id): array
     {
         $lng = $this->lng;
 
@@ -108,7 +108,7 @@ class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
         string $perm,
         int $obj_id,
         int $user_id
-    ) : int {
+    ): int {
         $access = $this->access;
 
         foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {

@@ -30,7 +30,7 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 class ilSoapFileAdministration extends ilSoapAdministration
 {
     /**
-     * add an File with id.
+     * @return int|soap_fault|SoapFault|null
      */
     public function addFile(string $sid, int $target_id, string $file_xml)
     {
@@ -101,6 +101,9 @@ class ilSoapFileAdministration extends ilSoapAdministration
         }
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function updateFile(string $sid, int $requested_ref_id, string $file_xml)
     {
         $this->initAuth($sid);
@@ -171,6 +174,9 @@ class ilSoapFileAdministration extends ilSoapAdministration
         return false;
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function getFileXML(string $sid, int $requested_ref_id, int $attachFileContentsMode)
     {
         $this->initAuth($sid);

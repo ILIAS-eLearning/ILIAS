@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Learning Resources Settings.
@@ -46,7 +49,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('lm');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -73,7 +76,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbac_system = $this->rbac_system;
 
@@ -95,7 +98,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings(?ilPropertyFormGUI $form = null) : void
+    public function editSettings(?ilPropertyFormGUI $form = null): void
     {
         if (is_null($form)) {
             $form = $this->getSettingsForm();
@@ -103,7 +106,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function getSettingsForm() : ilPropertyFormGUI
+    public function getSettingsForm(): ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -114,7 +117,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("cont_lrs_settings") . " - " . $lng->txt("obj_lm"));
-        
+
         // Page History
         $cb_prop = new ilCheckboxInputGUI(
             $lng->txt("cont_enable_page_history"),
@@ -198,15 +201,15 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $cb_prop->setInfo($lng->txt("scorm_without_session_info"));
         $cb_prop->setChecked((bool) $lm_set->get("scorm_without_session"));
         $form->addItem($cb_prop);
-        
+
         $privacy = ilPrivacySettings::getInstance();
-        $check = new ilCheckboxInputGui($lng->txt('enable_sahs_protocol_data'), 'enable_sahs_pd');
+        $check = new ilCheckboxInputGUI($lng->txt('enable_sahs_protocol_data'), 'enable_sahs_pd');
         $check->setInfo($this->lng->txt('enable_sahs_protocol_data_desc'));
         $check->setChecked((bool) $privacy->enabledSahsProtocolData());
         $form->addItem($check);
 
         // show and export protocol data with name
-        $check = new ilCheckboxInputGui($this->lng->txt('ps_export_scorm'), 'export_scorm');
+        $check = new ilCheckboxInputGUI($this->lng->txt('ps_export_scorm'), 'export_scorm');
         $check->setInfo($this->lng->txt('enable_export_scorm_desc'));
         $check->setChecked($privacy->enabledExportSCORM());
         $form->addItem($check);
@@ -225,7 +228,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         return $form;
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -293,16 +296,16 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
             $this->editSettings($form);
         }
     }
-    
-    public function addToExternalSettingsForm(int $a_form_id) : array
+
+    public function addToExternalSettingsForm(int $a_form_id): array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
-                
+
                 $privacy = ilPrivacySettings::getInstance();
-                
+
                 $fields = array('enable_sahs_protocol_data' => array($privacy->enabledSahsProtocolData(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
-                
+
                 return array(array("editSettings", $fields));
         }
         return [];

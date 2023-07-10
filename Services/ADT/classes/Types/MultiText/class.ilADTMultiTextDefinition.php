@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTMultiTextDefinition extends ilADTDefinition
 {
@@ -7,12 +9,12 @@ class ilADTMultiTextDefinition extends ilADTDefinition
 
     // properties
 
-    public function getMaxLength() : ?int
+    public function getMaxLength(): ?int
     {
         return $this->max_length;
     }
 
-    public function setMaxLength(int $a_value) : void
+    public function setMaxLength(int $a_value): void
     {
         if ($a_value < 1) {
             $a_value = null;
@@ -20,12 +22,12 @@ class ilADTMultiTextDefinition extends ilADTDefinition
         $this->max_length = $a_value;
     }
 
-    public function getMaxSize() : ?int
+    public function getMaxSize(): ?int
     {
         return $this->max_size;
     }
 
-    public function setMaxSize(int $a_value) : void
+    public function setMaxSize(int $a_value): void
     {
         if ($a_value < 1) {
             $a_value = null;
@@ -35,7 +37,7 @@ class ilADTMultiTextDefinition extends ilADTDefinition
 
     // comparison
 
-    public function isComparableTo(ilADT $a_adt) : bool
+    public function isComparableTo(ilADT $a_adt): bool
     {
         // has to be text-based
         return ($a_adt instanceof ilADTMultiText);

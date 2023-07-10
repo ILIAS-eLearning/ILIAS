@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Menu / Tabs renderer
@@ -86,7 +89,7 @@ class ilLMMenuRendererGUI
         $this->requested_ref_id = $request->getRefId();
     }
 
-    public function render() : string
+    public function render(): string
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -94,7 +97,7 @@ class ilLMMenuRendererGUI
 
         $getcmd = "getHTML";
 
-        $active[$this->active_tab] = true;
+        $content_active = ($this->active_tab === "content");
 
         if (!$this->lm->isActiveLMMenu()) {
             return "";
@@ -110,7 +113,7 @@ class ilLMMenuRendererGUI
         // content
         if (!$this->offline && $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
             $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
-            if (!$active["content"]) {
+            if (!$content_active) {
                 $this->toolbar->addComponent(
                     $this->ui_factory->button()->standard($this->lng->txt("content"), $ilCtrl->getLinkTargetByClass("illmpresentationgui", "layout"))
                 );
@@ -118,8 +121,8 @@ class ilLMMenuRendererGUI
         } elseif ($this->offline) {
             $tabs_gui->setForcePresentationOfSingleTab(true);
         }
-    
-        if (!$active["content"]) {
+
+        if (!$content_active) {
             return "";
         }
 
@@ -131,34 +134,37 @@ class ilLMMenuRendererGUI
                     array("illmpresentationgui", "ilinfoscreengui"),
                     "showSummary"
                 );
-            } else {
-                $link = "./info.html";
+                $this->toolbar->addComponent(
+                    $this->ui_factory->button()->standard($this->lng->txt("info_short"), $link)
+                );
             }
-            $this->toolbar->addComponent(
-                $this->ui_factory->button()->standard($this->lng->txt("info_short"), $link)
-            );
         }
-
         if (!$this->offline &&
             $ilAccess->checkAccess("read", "", $this->requested_ref_id) && // #14075
             ilLearningProgressAccess::checkAccess($this->requested_ref_id)) {
             $olp = ilObjectLP::getInstance($this->lm->getId());
-
-            if ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
+            if ($olp->getCurrentMode() !== ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
+                $this->toolbar->addComponent(
+                    $this->ui_factory->button()->standard(
+                        $this->lng->txt("learning_progress"),
+                        $this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "")
+                    )
+                );
+            } else {
                 $this->toolbar->addComponent(
                     $this->ui_factory->button()->standard(
                         $this->lng->txt("learning_progress"),
                         $this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "editManual")
                     )
                 );
-            } elseif ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT) {
+            } /* elseif ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT) {
                 $this->toolbar->addComponent(
                     $this->ui_factory->button()->standard(
                         $this->lng->txt("learning_progress"),
                         $this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "showtlt")
                     )
                 );
-            }
+            }*/
         }
 
         // default entries (appearing in lsq and native mode)

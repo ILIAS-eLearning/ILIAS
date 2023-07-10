@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Handler class for multi srt upload in learning modules
@@ -30,7 +33,7 @@ class ilMepMultiSrt implements ilMobMultiSrtInt
     /**
      * Get directory for multi srt upload
      */
-    public function getUploadDir() : string
+    public function getUploadDir(): string
     {
         return ilFileUtils::getDataDir() . "/mep_data" .
             "/mep_" . $this->mep->getId() . "/srt_tmp";
@@ -40,7 +43,7 @@ class ilMepMultiSrt implements ilMobMultiSrtInt
      * Get all mob ids of pool (incl mobs in snippet pages)
      * @return int[]
      */
-    public function getMobIds() : array
+    public function getMobIds(): array
     {
         $mobs = array();
 

@@ -1,31 +1,49 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
 {
-    const TYPE_TABLE = 'prg_type';
+    private const TYPE_TABLE = 'prg_type';
 
-    const FIELD_ID = 'id';
-    const FIELD_DEFAULT_LANG = 'default_lang';
-    const FIELD_OWNER = 'owner';
-    const FIELD_CREATE_DATE = 'create_date';
-    const FIELD_LAST_UPDATE = 'last_update';
-    const FIELD_ICON = 'icon';
+    private const FIELD_ID = 'id';
+    private const FIELD_DEFAULT_LANG = 'default_lang';
+    private const FIELD_OWNER = 'owner';
+    private const FIELD_CREATE_DATE = 'create_date';
+    private const FIELD_LAST_UPDATE = 'last_update';
+    private const FIELD_ICON = 'icon';
 
-    const TYPE_TRANSLATION_TABLE = 'prg_translations';
+    private const TYPE_TRANSLATION_TABLE = 'prg_translations';
 
-    const FIELD_PRG_TYPE_ID = 'prg_type_id';
-    const FIELD_LANG = 'lang';
-    const FIELD_MEMBER = 'member';
-    const FIELD_VALUE = 'value';
+    private const FIELD_PRG_TYPE_ID = 'prg_type_id';
+    private const FIELD_LANG = 'lang';
+    private const FIELD_MEMBER = 'member';
+    private const FIELD_VALUE = 'value';
 
-    const AMD_TABLE = 'prg_type_adv_md_rec';
+    private const AMD_TABLE = 'prg_type_adv_md_rec';
 
-    const FIELD_TYPE_ID = 'type_id';
-    const FIELD_REC_ID = 'rec_id';
+    private const FIELD_TYPE_ID = 'type_id';
+    private const FIELD_REC_ID = 'rec_id';
 
     protected ?array $active_plugins = null;
     protected array $amd_records_assigned = [];
-    protected static array $amd_records_available;
+    protected static ?array $amd_records_available = null;
 
     protected ilDBInterface $db;
     protected ilStudyProgrammeSettingsRepository $settings_repo;
@@ -54,7 +72,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function createType(string $default_language) : ilStudyProgrammeType
+    public function createType(string $default_language): ilStudyProgrammeType
     {
         $id = $this->db->nextId(self::TYPE_TABLE);
         $now = date("Y-m-d H:i:s");
@@ -70,7 +88,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         return $this->createTypeByRow($row);
     }
 
-    protected function insertRowTypeDB(array $row) : void
+    protected function insertRowTypeDB(array $row): void
     {
         $this->db->insert(
             self::TYPE_TABLE,
@@ -85,7 +103,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         );
     }
 
-    protected function createTypeByRow(array $row) : ilStudyProgrammeType
+    protected function createTypeByRow(array $row): ilStudyProgrammeType
     {
         $return = new ilStudyProgrammeType(
             (int) $row[self::FIELD_ID],
@@ -116,7 +134,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function createAMDRecord() : ilStudyProgrammeAdvancedMetadataRecord
+    public function createAMDRecord(): ilStudyProgrammeAdvancedMetadataRecord
     {
         $id = $this->db->nextId(self::AMD_TABLE);
         $row = [
@@ -128,7 +146,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         return $this->createAMDByRow($row);
     }
 
-    protected function insertRowAMDDB(array $row)
+    protected function insertRowAMDDB(array $row): void
     {
         $this->db->insert(
             self::AMD_TABLE,
@@ -140,7 +158,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         );
     }
 
-    protected function createAMDByRow(array $row) : ilStudyProgrammeAdvancedMetadataRecord
+    protected function createAMDByRow(array $row): ilStudyProgrammeAdvancedMetadataRecord
     {
         $return = new ilStudyProgrammeAdvancedMetadataRecord((int) $row[self::FIELD_ID]);
         $return->setTypeId((int) $row[self::FIELD_TYPE_ID]);
@@ -151,7 +169,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function createTypeTranslation() : ilStudyProgrammeTypeTranslation
+    public function createTypeTranslation(): ilStudyProgrammeTypeTranslation
     {
         $id = $this->db->nextId(self::TYPE_TRANSLATION_TABLE);
         $row = [
@@ -165,7 +183,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         return $this->createTypeTranslationByRow($row);
     }
 
-    protected function insertRowTypeTranslationDB(array $row)
+    protected function insertRowTypeTranslationDB(array $row): void
     {
         $this->db->insert(
             self::TYPE_TRANSLATION_TABLE,
@@ -179,7 +197,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         );
     }
 
-    protected function createTypeTranslationByRow(array $row) : ilStudyProgrammeTypeTranslation
+    protected function createTypeTranslationByRow(array $row): ilStudyProgrammeTypeTranslation
     {
         $return = new ilStudyProgrammeTypeTranslation((int) $row[self::FIELD_ID]);
         $return->setPrgTypeId((int) $row[self::FIELD_PRG_TYPE_ID]);
@@ -188,7 +206,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         $return->setValue((string) $row[self::FIELD_VALUE]);
         return $return;
     }
-    public function updateType(ilStudyProgrammeType $type) : void
+    public function updateType(ilStudyProgrammeType $type): void
     {
         $this->updateRowTypeDB(
             [
@@ -202,7 +220,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         );
     }
 
-    protected function updateRowTypeDB(array $row) : void
+    protected function updateRowTypeDB(array $row): void
     {
         $q = 'UPDATE ' . self::TYPE_TABLE
             . '	SET'
@@ -219,7 +237,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function updateAMDRecord(ilStudyProgrammeAdvancedMetadataRecord $rec) : void
+    public function updateAMDRecord(ilStudyProgrammeAdvancedMetadataRecord $rec): void
     {
         $this->updateRowAMDRecordDB(
             [
@@ -230,7 +248,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         );
     }
 
-    protected function updateRowAMDRecordDB(array $row) : void
+    protected function updateRowAMDRecordDB(array $row): void
     {
         $q = 'UPDATE ' . self::AMD_TABLE
             . '	SET'
@@ -244,7 +262,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function updateTypeTranslation(ilStudyProgrammeTypeTranslation $tt) : void
+    public function updateTypeTranslation(ilStudyProgrammeTypeTranslation $tt): void
     {
         $this->updateRowTypeTranslationDB(
             [
@@ -257,7 +275,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         );
     }
 
-    protected function updateRowTypeTranslationDB(array $row) : void
+    protected function updateRowTypeTranslationDB(array $row): void
     {
         $q = 'UPDATE ' . self::TYPE_TRANSLATION_TABLE
             . '	SET'
@@ -273,7 +291,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function deleteType(ilStudyProgrammeType $type) : void
+    public function deleteType(ilStudyProgrammeType $type): void
     {
         $prg_ids = $this->getStudyProgrammeIdsByTypeId($type->getId());
 
@@ -318,19 +336,19 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         unset($this->amd_records_assigned[$type->getId()]);
     }
 
-    protected function getActivePlugins() : Iterator
+    protected function getActivePlugins(): Iterator
     {
-        return $this->component_factory->getActivePluginsInSlot('prgtypehk');;
+        return $this->component_factory->getActivePluginsInSlot('prgtypehk');
     }
 
-    protected function deleteAllTranslationsByTypeId(int $type_id)
+    protected function deleteAllTranslationsByTypeId(int $type_id): void
     {
         $this->db->manipulate(
             'DELETE FROM ' . self::TYPE_TRANSLATION_TABLE .
             ' WHERE ' . self::FIELD_PRG_TYPE_ID . ' = ' . $this->db->quote($type_id, 'integer')
         );
     }
-    protected function deleteAMDRecordsByTypeId(int $type_id)
+    protected function deleteAMDRecordsByTypeId(int $type_id): void
     {
         $this->db->manipulate(
             'DELETE FROM ' . self::AMD_TABLE .
@@ -341,7 +359,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function deleteAMDRecord(ilStudyProgrammeAdvancedMetadataRecord $rec) : void
+    public function deleteAMDRecord(ilStudyProgrammeAdvancedMetadataRecord $rec): void
     {
         $this->db->manipulate(
             'DELETE FROM ' . self::AMD_TABLE .
@@ -352,7 +370,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function deleteTypeTranslation(ilStudyProgrammeTypeTranslation $tt) : void
+    public function deleteTypeTranslation(ilStudyProgrammeTypeTranslation $tt): void
     {
         $this->db->manipulate(
             'DELETE FROM ' . self::TYPE_TRANSLATION_TABLE .
@@ -363,7 +381,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function deleteTypeTranslationByTypeId(int $type_id) : void
+    public function deleteTypeTranslationByTypeId(int $type_id): void
     {
         $this->db->manipulate(
             'DELETE FROM ' . self::TYPE_TRANSLATION_TABLE .
@@ -374,7 +392,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getAllTypes() : array
+    public function getAllTypes(): array
     {
         $return = [];
         foreach ($this->getAllTypesRecords() as $row) {
@@ -383,7 +401,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         return $return;
     }
 
-    protected function getAllTypesRecords() : Generator
+    protected function getAllTypesRecords(): Generator
     {
         $q = 'SELECT'
             . '	' . self::FIELD_DEFAULT_LANG
@@ -403,7 +421,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getType(int $type_id) : ilStudyProgrammeType
+    public function getType(int $type_id): ilStudyProgrammeType
     {
         $q = 'SELECT'
             . '	' . self::FIELD_DEFAULT_LANG
@@ -425,7 +443,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getAllTypesArray() : array
+    public function getAllTypesArray(): array
     {
         $return = [];
         foreach ($this->getAllTypes() as $type) {
@@ -434,11 +452,15 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         return $return;
     }
 
-    public function getAssignedAMDRecordsByType(int $type_id, bool $only_active = false) : array
+    /**
+     * @inheritdoc
+     */
+    public function getAssignedAMDRecordsByType(int $type_id, bool $only_active = false): array
     {
         $active = ($only_active) ? 1 : 0; // Cache key
         if (
             array_key_exists($type_id, $this->amd_records_assigned) &&
+            isset($this->amd_records_assigned[$type_id][$active]) &&
             is_array($this->amd_records_assigned[$type_id][$active])
         ) {
             return $this->amd_records_assigned[$type_id][$active];
@@ -465,7 +487,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getAssignedAMDRecordIdsByType(int $type_id, bool $only_active = false) : array
+    public function getAssignedAMDRecordIdsByType(int $type_id, bool $only_active = false): array
     {
         $ids = array();
         /** @var ilAdvancedMDRecord $record */
@@ -478,7 +500,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getAllAMDRecords() : array
+    public function getAllAMDRecords(): array
     {
         if (is_array(self::$amd_records_available)) {
             return self::$amd_records_available;
@@ -490,7 +512,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getAllAMDRecordIds() : array
+    public function getAllAMDRecordIds(): array
     {
         $ids = array();
         /** @var ilAdvancedMDRecord $record */
@@ -504,7 +526,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getAMDRecordsByTypeIdAndRecordId(int $type_id, int $record_id) : array
+    public function getAMDRecordsByTypeIdAndRecordId(int $type_id, int $record_id): array
     {
         $q = 'SELECT'
             . '	' . self::FIELD_REC_ID
@@ -524,7 +546,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getAMDRecordsByTypeId(int $type_id, bool $only_active = false) : array
+    public function getAMDRecordsByTypeId(int $type_id, bool $only_active = false): array
     {
         $q = 'SELECT'
             . '	' . self::FIELD_REC_ID
@@ -543,7 +565,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getTranslationsArrayByTypeIdAndLangCode(int $type_id, string $lang_code) : array
+    public function getTranslationsArrayByTypeIdAndLangCode(int $type_id, string $lang_code): array
     {
         throw new LogicException("Not implemented yet.");
     }
@@ -551,7 +573,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getStudyProgrammesByTypeId(int $type_id) : array
+    public function getStudyProgrammesByTypeId(int $type_id): array
     {
         return $this->settings_repo->loadByType($type_id);
     }
@@ -559,10 +581,10 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getStudyProgrammeIdsByTypeId(int $type_id) : array
+    public function getStudyProgrammeIdsByTypeId(int $type_id): array
     {
-        return  array_map(
-            function ($settings) {
+        return array_map(
+            static function (ilStudyProgrammeSettings $settings): int {
                 return $settings->getObjId();
             },
             $this->settings_repo->loadByType($type_id)
@@ -572,7 +594,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getAvailableAdvancedMDRecords() : array
+    public function getAvailableAdvancedMDRecords(): array
     {
         $q = 'SELECT'
             . '	' . self::FIELD_REC_ID
@@ -590,7 +612,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function getAvailableAdvancedMDRecordIds() : array
+    public function getAvailableAdvancedMDRecordIds(): array
     {
         $q = 'SELECT ' . self::FIELD_REC_ID
             . '	FROM ' . self::AMD_TABLE;
@@ -602,7 +624,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         return $return;
     }
 
-    public function getTranslationsByTypeAndLang(int $type_id, string $lang_code) : array
+    public function getTranslationsByTypeAndLang(int $type_id, string $lang_code): array
     {
         $q = 'SELECT'
             . '	' . self::FIELD_MEMBER
@@ -622,7 +644,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         int $type_id,
         string $member,
         string $lang_code
-    ) : ?ilStudyProgrammeTypeTranslation {
+    ): ?ilStudyProgrammeTypeTranslation {
         $q = 'SELECT'
             . '	' . self::FIELD_LANG
             . '	,' . self::FIELD_PRG_TYPE_ID

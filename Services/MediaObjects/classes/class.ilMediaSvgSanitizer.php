@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use enshrined\svgSanitize\Sanitizer;
 
@@ -28,7 +31,7 @@ class ilMediaSvgSanitizer
      */
     public static function sanitizeFile(
         string $a_file
-    ) : void {
+    ): void {
         $sanitizer = new Sanitizer();
         $dirtySVG = file_get_contents($a_file);
         $cleanSVG = $sanitizer->sanitize($dirtySVG);
@@ -40,7 +43,7 @@ class ilMediaSvgSanitizer
      */
     public static function sanitizeDir(
         string $a_path
-    ) : void {
+    ): void {
         $path = realpath($a_path);
 
         $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST);

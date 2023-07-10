@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Repository;
 
@@ -19,91 +24,179 @@ use ILIAS\DI\UIServices;
 use ILIAS\HTTP;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen;
+use ILIAS\Repository\Form\FormAdapterGUI;
+use ILIAS\Repository\Modal\ModalAdapterGUI;
+use Slim\Http\Stream;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Repository\Filter\FilterAdapterGUI;
+use ILIAS\Repository\Button\ButtonAdapterGUI;
+use ILIAS\Repository\Link\LinkAdapterGUI;
+use ILIAS\Repository\Symbol\SymbolAdapterGUI;
+use ILIAS\Repository\Listing\ListingAdapterGUI;
+use ILIAS\Repository\HTTP\HTTPUtil;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 trait GlobalDICGUIServices
 {
-    protected UIServices $ui;
-    protected \ilObjectServiceInterface $object_service;
-    protected \ilCtrl $ctrl;
-    protected \ilGlobalTemplateInterface $main_tpl;
-    protected HTTP\Services $http;
-    protected FileUpload $upload;
-    protected \ilToolbarGUI $toolbar;
-    protected GlobalScreen\Services $global_screen;
-    protected \ilHelpGUI $help;
-    protected \ilTabsGUI $tabs;
-    protected \ilLocatorGUI $locator;
+    private \ILIAS\DI\Container $DIC;
 
-    protected function initGUIServices(\ILIAS\DI\Container $DIC) : void
+    protected function initGUIServices(\ILIAS\DI\Container $DIC): void
     {
-        $this->ui = $DIC->ui();
-        $this->object_service = $DIC->object();
-        $this->ctrl = $DIC->ctrl();
-        $this->http = $DIC->http();
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->upload = $DIC->upload();
-        $this->toolbar = $DIC->toolbar();
-        $this->global_screen = $DIC->globalScreen();
-        $this->help = $DIC->help();
-        $this->tabs = $DIC->tabs();
-        $this->locator = $DIC["ilLocator"];
+        $this->DIC = $DIC;
+        FormAdapterGUI::initJavascript();
     }
 
-    public function ui() : UIServices
+    public function ui(): UIServices
     {
-        return $this->ui;
+        return $this->DIC->ui();
     }
 
-    public function object() : \ilObjectServiceInterface
+    public function object(): \ilObjectService
     {
-        return $this->object_service;
+        return $this->DIC->object();
     }
 
-    public function ctrl() : \ilCtrl
+    public function ctrl(): \ilCtrl
     {
-        return $this->ctrl;
+        return $this->DIC->ctrl();
     }
 
-    public function http() : HTTP\Services
+    public function http(): HTTP\Services
     {
-        return $this->http;
+        return $this->DIC->http();
     }
 
-    public function mainTemplate() : \ilGlobalTemplateInterface
+    public function httpUtil(): HTTPUtil
     {
-        return $this->main_tpl;
+        return new HTTPUtil($this->DIC->http());
     }
 
-    public function upload() : FileUpload
+    public function mainTemplate(): \ilGlobalTemplateInterface
     {
-        return $this->upload;
+        return $this->DIC->ui()->mainTemplate();
     }
 
-    public function toolbar() : \ilToolbarGUI
+    public function upload(): FileUpload
     {
-        return $this->toolbar;
+        return $this->DIC->upload();
     }
 
-    public function globalScreen() : GlobalScreen\Services
+    public function toolbar(): \ilToolbarGUI
     {
-        return $this->global_screen;
+        return $this->DIC->toolbar();
     }
 
-    public function help() : \ilHelpGUI
+    public function globalScreen(): GlobalScreen\Services
     {
-        return $this->help;
+        return $this->DIC->globalScreen();
     }
 
-    public function tabs() : \ilTabsGUI
+    public function help(): \ilHelpGUI
     {
-        return $this->tabs;
+        return $this->DIC->help();
     }
 
-    public function locator() : \ilLocatorGUI
+    public function tabs(): \ilTabsGUI
     {
-        return $this->locator;
+        return $this->DIC->tabs();
+    }
+
+    public function locator(): \ilLocatorGUI
+    {
+        return $this->DIC["ilLocator"];
+    }
+
+    /**
+     * @param array|string $class_path
+     */
+    public function form(
+        $class_path,
+        string $cmd,
+        string $submit_caption = ""
+    ): FormAdapterGUI {
+        return new FormAdapterGUI(
+            $class_path,
+            $cmd,
+            $submit_caption
+        );
+    }
+
+    public function modal(
+        string $title = "",
+        string $cancel_label = ""
+    ): ModalAdapterGUI {
+        return new ModalAdapterGUI(
+            $title,
+            $cancel_label,
+            $this->httpUtil()
+        );
+    }
+
+    /**
+     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
+     */
+    public function send(string $output): void
+    {
+        $http = $this->http();
+        $http->saveResponse($http->response()->withBody(
+            Streams::ofString($output)
+        ));
+        $http->sendResponse();
+        $http->close();
+    }
+
+    /**
+     * @param array|string $class_path
+     */
+    public function filter(
+        string $filter_id,
+        $class_path,
+        string $cmd,
+        bool $activated = true,
+        bool $expanded = true
+    ): FilterAdapterGUI {
+        return new FilterAdapterGUI(
+            $filter_id,
+            $class_path,
+            $cmd,
+            $activated,
+            $expanded
+        );
+    }
+
+    public function button(
+        string $caption,
+        string $cmd
+    ): ButtonAdapterGUI {
+        return new ButtonAdapterGUI(
+            $caption,
+            $cmd
+        );
+    }
+
+    public function link(
+        string $caption,
+        string $href,
+        bool $new_viewport = false
+    ): LinkAdapterGUI {
+        return new LinkAdapterGUI(
+            $caption,
+            $href,
+            $new_viewport
+        );
+    }
+
+    public function symbol(
+    ): SymbolAdapterGUI {
+        return new SymbolAdapterGUI(
+        );
+    }
+
+    public function listing(
+    ): ListingAdapterGUI {
+        return new ListingAdapterGUI(
+        );
     }
 }

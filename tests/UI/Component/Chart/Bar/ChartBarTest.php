@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,8 +14,9 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -28,27 +29,27 @@ use ILIAS\UI\Implementation as I;
  */
 class ChartBarTest extends ILIAS_UI_TestBase
 {
-    protected function getFactory() : C\Chart\Bar\Factory
+    protected function getFactory(): C\Chart\Bar\Factory
     {
         return new I\Component\Chart\Bar\Factory();
     }
 
-    protected function getDataFactory() : ILIAS\Data\Factory
+    public function getDataFactory(): ILIAS\Data\Factory
     {
         return new ILIAS\Data\Factory();
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function listing() : I\Component\Listing\Factory
+        return new class () extends NoUIFactory {
+            public function listing(): I\Component\Listing\Factory
             {
                 return new I\Component\Listing\Factory();
             }
         };
     }
 
-    protected function getSimpleDataset() : \ILIAS\Data\Chart\Dataset
+    protected function getSimpleDataset(): \ILIAS\Data\Chart\Dataset
     {
         $df = $this->getDataFactory();
 
@@ -60,7 +61,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         return $dataset;
     }
 
-    protected function getExtendedDataset() : \ILIAS\Data\Chart\Dataset
+    protected function getExtendedDataset(): \ILIAS\Data\Chart\Dataset
     {
         $df = $this->getDataFactory();
 
@@ -74,14 +75,14 @@ class ChartBarTest extends ILIAS_UI_TestBase
         return $dataset;
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\Bar\\Factory", $f);
     }
 
-    public function test_get_instances() : void
+    public function test_get_instances(): void
     {
         $f = $this->getFactory();
 
@@ -103,7 +104,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\Bar\\Vertical", $vertical);
     }
 
-    public function test_empty_dataset() : void
+    public function test_empty_dataset(): void
     {
         $f = $this->getFactory();
         $df = $this->getDataFactory();
@@ -139,7 +140,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
     }
     */
 
-    public function test_with_title() : void
+    public function test_with_title(): void
     {
         $f = $this->getFactory();
 
@@ -155,7 +156,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals("Alternative title for Horizontal Bar", $horizontal1->getTitle());
     }
 
-    public function test_with_title_invisible() : void
+    public function test_with_title_invisible(): void
     {
         $f = $this->getFactory();
 
@@ -171,7 +172,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals(false, $horizontal1->isTitleVisible());
     }
 
-    public function test_with_tooltips_invisible() : void
+    public function test_with_tooltips_invisible(): void
     {
         $f = $this->getFactory();
 
@@ -187,7 +188,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals(false, $horizontal1->isTooltipsVisible());
     }
 
-    public function test_with_legend_invisible() : void
+    public function test_with_legend_invisible(): void
     {
         $f = $this->getFactory();
 
@@ -203,7 +204,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals(false, $horizontal1->isLegendVisible());
     }
 
-    public function test_with_legend_position() : void
+    public function test_with_legend_position(): void
     {
         $f = $this->getFactory();
 
@@ -219,7 +220,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals("left", $horizontal1->getLegendPosition());
     }
 
-    public function test_with_invalid_legend_position() : void
+    public function test_with_invalid_legend_position(): void
     {
         $f = $this->getFactory();
 
@@ -236,7 +237,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $horizontal = $horizontal->withLegendPosition("middle");
     }
 
-    public function test_with_dataset() : void
+    public function test_with_dataset(): void
     {
         $f = $this->getFactory();
 
@@ -253,7 +254,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals($e_dataset, $horizontal1->getDataset());
     }
 
-    public function test_with_bar_configs() : void
+    public function test_with_bar_configs(): void
     {
         $f = $this->getFactory();
         $df = $this->getDataFactory();
@@ -277,7 +278,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals($bars, $horizontal1->getBarConfigs());
     }
 
-    public function test_index_axis() : void
+    public function test_index_axis(): void
     {
         $f = $this->getFactory();
         $df = $this->getDataFactory();
@@ -299,7 +300,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals("x", $vertical->getIndexAxis());
     }
 
-    public function test_render_horizontal() : void
+    public function test_render_horizontal(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
@@ -315,7 +316,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
 
         $expected_html = <<<EOT
 <div class="il-chart-bar-horizontal">
-    <canvas id="id_1" height="250px" aria-label="bar123" role="img"></canvas>
+    <canvas id="id_1" height="150px" aria-label="bar123" role="img"></canvas>
 </div>
 <div class="sr-only">
     <dl>
@@ -332,7 +333,7 @@ EOT;
         $this->assertHTMLEquals("<div>" . $expected_html . "</div>", "<div>" . $html . "</div>");
     }
 
-    public function test_render_vertical() : void
+    public function test_render_vertical(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
@@ -348,7 +349,7 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="il-chart-bar-vertical">
-    <canvas id="id_1" height="315px" aria-label="bar123" role="img"></canvas>
+    <canvas id="id_1" height="165px" aria-label="bar123" role="img"></canvas>
 </div>
 <div class="sr-only">
     <dl>

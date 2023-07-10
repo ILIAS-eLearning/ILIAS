@@ -1,6 +1,20 @@
 <?php
-
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Administration class for plugins. Handles basic data from plugin.php files.
@@ -23,7 +37,7 @@ class ilPluginAdmin
         $this->component_repository = $component_repository;
     }
 
-    protected function getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname) : \ilPluginInfo
+    protected function getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname): \ilPluginInfo
     {
         return $this->component_repository
             ->getComponentByTypeAndName(
@@ -59,7 +73,7 @@ class ilPluginAdmin
      *
      * @return bool
      */
-    public function isActive($a_ctype, $a_cname, $a_slot_id, $a_pname) : bool
+    public function isActive($a_ctype, $a_cname, $a_slot_id, $a_pname): bool
     {
         trigger_error("DEPRECATED: ilPluginAdmin::isActive is deprecated. Remove your usages of the method.");
         try {

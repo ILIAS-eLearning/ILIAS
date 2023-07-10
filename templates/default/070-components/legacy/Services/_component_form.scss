@@ -1,0 +1,715 @@
+@use "../../../010-settings/" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
+@use "../../../030-tools/tool_rem-conversion" as *;
+@use "../../../030-tools/tool_focus-outline" as *;
+@use "../../../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as *;
+@use "../../../050-layout/basics" as *;
+@use "../../../050-layout/layout_breakpoints" as *;
+
+$cursor-disabled: not-allowed;
+$form-group-margin-bottom: $il-margin-xlarge-vertical;
+
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+
+//
+// Forms
+// --------------------------------------------------
+
+
+// Normalize non-controls
+//
+// Restyle and baseline non-control form elements.
+
+fieldset {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	// Chrome and Firefox set a `min-width: min-content;` on fieldsets,
+	// so we reset that to ensure it behaves more like a standard block element.
+	// See https://github.com/twbs/bootstrap/issues/12359.
+	min-width: 0;
+}
+
+label {
+	cursor: pointer;
+	display: inline-block;
+	max-width: 100%; // Force IE8 to wrap long content (see https://github.com/twbs/bootstrap/issues/13141)
+	margin-bottom: 5px;
+	font-weight: $il-font-weight-base;
+}
+
+
+// Normalize form controls
+//
+// While most of our form styles require extra classes, some basic normalization
+// is required to ensure optimum display with or without those classes to better
+// address browser inconsistencies.
+
+// Override content-box in Normalize (* isn't specific enough)
+input[type="search"] {
+	@include box-sizing(border-box);
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+// Position radios and checkboxes better
+input[type="radio"],
+input[type="checkbox"] {
+	margin: 4px 0 0;
+	margin-top: 1px \9; // IE8-9
+	line-height: normal;
+
+	// Apply same disabled cursor tweak as for inputs
+	// Some special care is needed because <label>s don't inherit their parent's `cursor`.
+	//
+	// Note: Neither radios nor checkboxes can be readonly.
+	&[disabled],
+	&.disabled,
+	fieldset[disabled] & {
+		cursor: $cursor-disabled;
+	}
+}
+
+input[type="file"] {
+	display: block;
+}
+
+// Make range inputs behave like textual form controls
+input[type="range"] {
+	display: block;
+	width: 100%;
+}
+
+// Make multiple select elements height not fixed
+select[multiple],
+select[size] {
+	height: auto;
+}
+
+// Focus for file, radio, and checkbox
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+	@include tab-focus();
+}
+
+
+// Common form controls
+//
+// Shared size and type resets for form controls. Apply `.form-control` to any
+// of the following form controls:
+//
+// select
+// textarea
+// input[type="text"]
+// input[type="password"]
+// input[type="datetime"]
+// input[type="datetime-local"]
+// input[type="date"]
+// input[type="month"]
+// input[type="time"]
+// input[type="week"]
+// input[type="number"]
+// input[type="email"]
+// input[type="url"]
+// input[type="search"]
+// input[type="tel"]
+// input[type="color"]
+
+.form-control {
+	display: block;
+	width: 100%;
+	height: (rem-to-pixel($il-font-size-small) * $il-line-height-base) + ((2+2*$il-padding-base-vertical)); // Make inputs at least the height of their button counterpart (base line-height + padding + border)
+	padding: $il-padding-base-vertical $il-padding-base-horizontal;
+	font-size: $il-standard-form-font-size;
+	line-height: $il-line-height-base;
+	color: $il-input-color;
+	background-color: $il-input-bg;
+	background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+	border: 1px solid $il-input-border-color;
+	border-radius: $il-input-border-radius; // Note: This has no effect on <select>s in some browsers, due to the limited stylability of <select>s in CSS.
+	@include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075));
+	@include transition(border-color ease-in-out .15s, box-shadow ease-in-out .15s);
+
+	// Customize the `:focus` state to imitate native WebKit styles.
+	@mixin form-control-focus($color: $il-input-border-focus) {
+		$color-rgba: rgba(red($color), green($color), blue($color), .6);
+
+		&:focus {
+			border-color: $color;
+			outline: 0;
+			@include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px $color-rgba);
+		}
+	}
+
+	@include form-control-focus;
+
+	// Placeholder
+	@include placeholder;
+
+	// Unstyle the caret on `<select>`s in IE10+.
+	&::-ms-expand {
+		border: 0;
+		background-color: transparent;
+	}
+
+	// Disabled and read-only inputs
+	//
+	// HTML5 says that controls under a fieldset > legend:first-child won't be
+	// disabled if the fieldset is disabled. Due to implementation difficulty, we
+	// don't honor that edge case; we style them as disabled anyway.
+	&[disabled],
+	&[readonly],
+	fieldset[disabled] & {
+		background-color: $il-input-bg-disabled;
+		opacity: 1; // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655
+	}
+
+	&[disabled],
+	fieldset[disabled] & {
+		cursor: $cursor-disabled;
+	}
+
+	// Reset height for `textarea`s
+	textarea & {
+		height: auto;
+	}
+}
+
+
+// Search inputs in iOS
+//
+// This overrides the extra rounded corners on search inputs in iOS so that our
+// `.form-control` class can properly style them. Note that this cannot simply
+// be added to `.form-control` as it's not specific enough. For details, see
+// https://github.com/twbs/bootstrap/issues/11586.
+
+input[type="search"] {
+	-webkit-appearance: none;
+}
+
+
+// Special styles for iOS temporal inputs
+//
+// In Mobile Safari, setting `display: block` on temporal inputs causes the
+// text within the input to become vertically misaligned. As a workaround, we
+// set a pixel line-height that matches the given height of the input, but only
+// for Safari. See https://bugs.webkit.org/show_bug.cgi?id=139848
+//
+// Note that as of 9.3, iOS doesn't support `week`.
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+
+	input[type="date"],
+	input[type="time"],
+	input[type="datetime-local"],
+	input[type="month"] {
+		&.form-control {
+			line-height: $il-input-height-base;
+		}
+	}
+}
+
+
+// Form groups
+//
+// Designed to help with the organization and spacing of vertical forms. For
+// horizontal forms, use the predefined grid classes.
+
+.form-group {
+	margin-bottom: $form-group-margin-bottom;
+}
+
+
+// Checkboxes and radios
+//
+// Indent the labels to position radios/checkboxes as hanging controls.
+
+.radio,
+.checkbox {
+	position: relative;
+	display: block;
+	margin-top: 10px;
+	margin-bottom: 10px;
+
+	// These are used on elements with <label> descendants
+	&.disabled,
+	fieldset[disabled] & {
+		label {
+			cursor: $cursor-disabled;
+		}
+	}
+
+	label {
+		min-height: $il-line-height-computed; // Ensure the input doesn't jump when there is no text
+		padding-left: 20px;
+		margin-bottom: 0;
+		font-weight: $il-font-weight-base;
+		cursor: pointer;
+	}
+}
+
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+  position: static;
+  display: inline-block;
+  margin-left: -20px;
+  margin-top: 7px;
+  min-width: 13px;
+  @media only screen and (max-width: $il-grid-float-breakpoint-max) {
+    min-width: 16px;
+  }
+}
+.radio input[type="radio"],
+.radio-inline input[type="radio"] {
+  vertical-align: top;
+}
+
+.radio+.radio,
+.checkbox+.checkbox {
+	margin-top: -5px; // Move up sibling radios or checkboxes for tighter spacing
+}
+
+// Radios and checkboxes on same line
+.radio-inline,
+.checkbox-inline {
+	position: relative;
+	display: inline-block;
+	padding-left: 20px;
+	margin-bottom: 0;
+	vertical-align: top;
+	line-height: $il-input-height-base;
+	font-weight: $il-font-weight-base;
+	cursor: pointer;
+}
+
+div.radio label.radio-inline {
+    line-height: $il-input-height-base;
+}
+
+.radio-inline+.radio-inline,
+.checkbox-inline+.checkbox-inline {
+	margin-top: 0;
+	margin-left: 10px; // space out consecutive inline controls
+}
+
+// Apply same disabled cursor tweak as for inputs
+// Some special care is needed because <label>s don't inherit their parent's `cursor`.
+//
+// Note: Neither radios nor checkboxes can be readonly.
+input[type="radio"],
+input[type="checkbox"] {
+	cursor: pointer;
+
+	&[disabled],
+	&.disabled,
+	fieldset[disabled] & {
+		cursor: $cursor-disabled;
+	}
+}
+
+// These classes are used directly on <label>s
+.radio-inline,
+.checkbox-inline {
+
+	&.disabled,
+	fieldset[disabled] & {
+		cursor: $cursor-disabled;
+	}
+}
+
+// These classes are used on elements with <label> descendants
+.radio,
+.checkbox {
+
+	&.disabled,
+	fieldset[disabled] & {
+		label {
+			cursor: $cursor-disabled;
+		}
+	}
+}
+
+
+// Help text
+//
+// Apply to any element you wish to create light text for placement immediately
+// below a form control. Use for general help, formatting, or instructional text.
+
+.help-block {
+	display: block;
+	color: $il-standard-form-color;
+	font-size: $il-standard-form-byline-font-size;
+
+	margin: $il-margin-large-vertical 0 $il-margin-large-horizontal;
+	padding: 0;
+
+	clear: both;
+
+	&:last-child {
+		margin: 2px 0 10px;
+	}
+
+	&.alert-danger {
+		margin: $il-margin-small-vertical 0 0;
+		padding: 0 $il-padding-small-vertical 0 $il-padding-small-vertical;
+
+		color: $il-alert-danger-text;
+		background-color: $il-alert-danger-bg;
+		border-color: $il-alert-danger-border;
+	}
+}
+
+// Inline forms
+//
+// Make forms appear inline(-block) by adding the `.form-inline` class. Inline
+// forms begin stacked on extra small (mobile) devices and then go inline when
+// viewports reach <768px.
+//
+// Requires wrapping inputs and labels with `.form-group` for proper display of
+// default HTML form controls and our custom form controls (e.g., input groups).
+//
+// Heads up! This is mixin-ed into `.navbar-form` in navbars.scss.
+
+// [converter] extracted from `.form-inline` for libsass compatibility
+@mixin form-inline {
+
+	// Kick in the inline
+	@media (min-width: $screen-sm-min) {
+
+		// Inline-block all the things for "inline"
+		.form-group {
+			display: inline-block;
+			margin-bottom: 0;
+			vertical-align: top;
+		}
+
+		// In navbar-form, allow folks to *not* use `.form-group`
+		.form-control {
+			display: inline-block;
+			width: auto; // Prevent labels from stacking above inputs in `.form-group`
+			vertical-align: top;
+		}
+
+		// Make static controls behave like regular ones
+		.form-control-static {
+			display: inline-block;
+		}
+
+		.input-group {
+			display: inline-table;
+			vertical-align: middle;
+
+			.input-group-addon,
+			.input-group-btn,
+			.form-control {
+				width: auto;
+			}
+		}
+
+		// Input groups need that 100% width though
+		.input-group>.form-control {
+			width: 100%;
+		}
+
+		.control-label {
+			margin-bottom: 0;
+			vertical-align: middle;
+		}
+
+		// Remove default margin on radios/checkboxes that were used for stacking, and
+		// then undo the floating of radios and checkboxes to match.
+		.radio,
+		.checkbox {
+			display: inline-block;
+			margin-top: 0;
+			margin-bottom: 0;
+			vertical-align: middle;
+
+			label {
+				padding-left: 0;
+			}
+		}
+
+		.radio input[type="radio"],
+		.checkbox input[type="checkbox"] {
+			position: relative;
+			margin-left: 0;
+		}
+
+		// Re-override the feedback icon.
+		.has-feedback .form-control-feedback {
+			top: 0;
+		}
+	}
+}
+
+// [converter] extracted as `@mixin form-inline` for libsass compatibility
+.form-inline {
+	@include form-inline;
+}
+
+
+
+// Horizontal forms
+//
+// Horizontal forms are built on grid classes and allow you to create forms with
+// labels on the left and inputs on the right.
+
+.form-horizontal {
+	margin-bottom: $il-margin-xxxlarge-vertical;
+	background: $il-standard-form-bg;
+
+	.form-group {
+		margin: 0px;
+		padding: $il-padding-base-vertical 0;
+		background-color: $il-main-bg;
+	}
+
+	// Consistent vertical alignment of radios and checkboxes
+	//
+	// Labels also get some reset styles, but that is scoped to a media query below.
+	.radio,
+	.checkbox,
+	.radio-inline,
+	.checkbox-inline {
+		margin-top: 0;
+		margin-bottom: 0;
+		padding-top: 0;
+    	line-height: normal;
+	}
+
+	// Account for padding we're adding to ensure the alignment and of help text
+	// and other content below items
+	.radio,
+	.checkbox {
+		min-height: ($il-line-height-computed + ($il-padding-base-vertical + 1));
+	}
+
+	label {
+		color: $il-standard-form-label-color;
+		font-size: 100%;
+	}
+
+	.control-label {
+		text-align: $il-form-label-text-align;
+		//padding-top: 0;
+		//line-height: 24px;
+		padding-bottom: ($il-padding-base-vertical + 1);
+		min-height: ($il-line-height-computed + rem-to-pixel($il-font-size-base));
+		@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		  min-height: auto;
+		  padding-bottom: 0;
+		  margin-bottom: 0;
+		}
+		&.col-sm-3.il_textarea {
+		  width: 100%;
+		}
+	  }
+	/*
+	// Reset spacing and right align labels, but scope to media queries so that
+	// labels on narrow viewports stack the same as a default form example.
+	@media (min-width: $screen-sm-min) {
+		.control-label {
+			text-align: right;
+			margin-bottom: 0;
+			padding-top: ($il-padding-base-vertical + 1); // Default padding plus a border
+		}
+	} */
+}
+
+// end of section based on bootstrap 3
+
+
+.ilFormHeader {
+	padding: $il-standard-form-header-padding;
+
+	&:not(:first-child) {
+		margin: $il-standard-form-header-margin;
+		border-top: $il-standard-form-header-border;
+	}
+
+	.ilHeader {
+		vertical-align: middle;
+	}
+
+	.ilFormCmds {
+		margin: 0;
+		float: right;
+	}
+
+	h3 {
+		margin: 0;
+	}
+}
+
+.ilFormHeader,
+.ilFormFooter {
+	color: $il-standard-form-header-color;
+	background-color: $il-standard-form-header-bg;
+}
+
+.ilSubForm {
+	background-color: $il-standard-form-dependant-group-bg;
+	padding: $il-padding-base-vertical 0;
+	margin-bottom: $il-margin-xlarge-vertical;
+	margin-left: $il-margin-xxlarge-horizontal;
+
+	.form-group {
+		background-color: $il-standard-form-dependant-group-bg;
+		margin: 0;
+
+		@media (max-width: $il-grid-float-breakpoint-max) {
+			margin: $il-margin-large-vertical 0;
+		}
+	}
+
+	.col-sm-9.il_textarea {
+		width: 100%;
+	}
+}
+
+.ilFormFooter {
+	padding: $il-padding-small-vertical $il-padding-xlarge-horizontal $il-padding-small-vertical 0;
+}
+
+.ilFormFooter .ilFormCmds {
+	text-align: right;
+	padding: 0;
+}
+
+/* jQuery ui autocomplete menu */
+input.ilHFormHighlighted,
+.ui-state-focus {
+	background-color: #ff9;
+}
+
+div.ilFormExternalSetting {
+	margin-bottom: 10px;
+}
+
+div.ilFormExternalSetting ul {
+	margin: 2px 0;
+	padding-left: 25px;
+}
+
+div.ilFormExternalSetting span {
+	color: $il-warning-color;
+	/* font-style: italic; */
+}
+
+div[id^="ilFormField"] {
+	margin-bottom: 10px;
+}
+
+/* Hierarchy Form */
+div.ilHFormHeader,
+div.ilHFormFooter {
+	color: $il-standard-form-header-color;
+	background-color: $il-standard-form-header-bg;
+	padding: 4px 0 4px 22px;
+}
+
+div.ilHFormContent {
+	padding: 20px 10px 20px 0px;
+
+	table {
+		width: 100%;
+	}
+}
+
+div.ilHFormItem {
+	margin-bottom: 5px;
+	display: table-row;
+}
+
+div.ilHFormHeader .ilFormCmds,
+div.ilHFormFooter .ilFormCmds {
+	float: right;
+}
+
+.ilHFormExpIcon,
+.ilHFormCheckbox,
+.ilHFormIcon,
+.ilHFormInput,
+.ilHFormItemCmd {}
+
+.ilHFormExpIcon,
+.ilHFormCheckbox,
+.ilHFormIcon {
+	min-width: 20px;
+	padding: 0;
+}
+
+.ilHFormItemCmd {
+	padding: 0 10px;
+}
+
+.ilHFormChilds {}
+
+.ilHFormExpIcon img,
+.ilHFormIcon img {
+	width: 19px;
+	height: 19px;
+}
+
+.ilHFormInput,
+.ilHFormInput input.form-control {
+	width: 100%;
+}
+
+.wzdrow .form-control {
+	height: (rem-to-pixel($il-font-size-small) * $il-line-height-base) + (2+2*$il-padding-base-vertical) * 1.35;
+}
+
+
+.ilHFormDropArea {
+	margin: 6px 0;
+	width: auto;
+}
+
+/* experimental: bootstrap'ed file upload */
+.btn-file {
+	position: relative;
+	overflow: hidden;
+}
+
+.btn-file input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 100%;
+	min-height: 100%;
+	font-size: 100px;
+	text-align: right;
+	filter: alpha(opacity=0);
+	opacity: 0;
+	outline: none;
+	background: white;
+	cursor: inherit;
+	display: block;
+}
+
+.ilFormInnerCol {
+	padding: 0;
+}
+
+.ilFormInnerCol .form-group {
+	margin: 0;
+}
+
+input:invalid {
+	background-color: #ffebeb;
+	border-color: $il-danger-color;
+}
+
+.bootstrap-datetimepicker-widget {
+	z-index: 2000;
+}
+
+/* provisory fix for #0021322  */
+div[id$="color-picker-menu"] {
+	z-index: 3;
+}

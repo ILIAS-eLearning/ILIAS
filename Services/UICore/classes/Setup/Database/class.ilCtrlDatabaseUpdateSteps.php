@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -18,7 +20,7 @@ class ilCtrlDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     /**
      * @inheritDoc
      */
-    public function prepare(ilDBInterface $db) : void
+    public function prepare(ilDBInterface $db): void
     {
         $this->database = $db;
     }
@@ -27,7 +29,7 @@ class ilCtrlDatabaseUpdateSteps implements ilDatabaseUpdateSteps
      * Deletes the table 'ctrl_calls' from the database, as it is
      * no longer needed.
      */
-    public function step_1() : void
+    public function step_1(): void
     {
         $this->abortIfNotPrepared();
         if ($this->database->tableExists('ctrl_calls')) {
@@ -39,7 +41,7 @@ class ilCtrlDatabaseUpdateSteps implements ilDatabaseUpdateSteps
      * Deletes the table 'ctrl_classfile' from the database, as it is
      * no longer needed.
      */
-    public function step_2() : void
+    public function step_2(): void
     {
         $this->abortIfNotPrepared();
         if ($this->database->tableExists('ctrl_classfile')) {
@@ -51,7 +53,7 @@ class ilCtrlDatabaseUpdateSteps implements ilDatabaseUpdateSteps
      * Deletes the table 'ctrl_structure' from the database, as it is
      * no longer needed.
      */
-    public function step_3() : void
+    public function step_3(): void
     {
         $this->abortIfNotPrepared();
         if ($this->database->tableExists('ctrl_structure')) {
@@ -63,7 +65,7 @@ class ilCtrlDatabaseUpdateSteps implements ilDatabaseUpdateSteps
      * Deletes the table 'il_request_token' from the database, since tokens
      * are now stored in the ILIAS session.
      */
-    public function step_4() : void
+    public function step_4(): void
     {
         $this->abortIfNotPrepared();
         if ($this->database->tableExists('il_request_token')) {
@@ -75,19 +77,19 @@ class ilCtrlDatabaseUpdateSteps implements ilDatabaseUpdateSteps
      * Deletes the table 'service_class' from the database, since information
      * is now stored in an artifact.
      */
-    public function step_5() : void
+    public function step_5(): void
     {
         $this->abortIfNotPrepared();
         if ($this->database->tableExists('service_class')) {
             $this->database->dropTable('service_class');
         }
     }
-    
+
     /**
      * Deletes the table 'module_class' from the database, since information
      * is now stored in an artifact.
      */
-    public function step_6() : void
+    public function step_6(): void
     {
         $this->abortIfNotPrepared();
         if ($this->database->tableExists('module_class')) {
@@ -102,7 +104,7 @@ class ilCtrlDatabaseUpdateSteps implements ilDatabaseUpdateSteps
      * @throws LogicException if the database update steps were not
      *                        yet prepared.
      */
-    private function abortIfNotPrepared() : void
+    private function abortIfNotPrepared(): void
     {
         if (null === $this->database) {
             throw new LogicException(self::class . "::prepare() must be called before db-update-steps execution.");

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,25 +17,25 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 {
     // Notifications affect members & co.
-    const TYPE_ADMISSION_MEMBER = 20;
-    const TYPE_DISMISS_MEMBER = 21;
-    const TYPE_ACCEPTED_SUBSCRIPTION_MEMBER = 22;
-    const TYPE_REFUSED_SUBSCRIPTION_MEMBER = 23;
-    const TYPE_STATUS_CHANGED = 24;
-    const TYPE_BLOCKED_MEMBER = 25;
-    const TYPE_UNBLOCKED_MEMBER = 26;
-    const TYPE_UNSUBSCRIBE_MEMBER = 27;
-    const TYPE_SUBSCRIBE_MEMBER = 28;
-    const TYPE_WAITING_LIST_MEMBER = 29;
+    public const TYPE_ADMISSION_MEMBER = 20;
+    public const TYPE_DISMISS_MEMBER = 21;
+    public const TYPE_ACCEPTED_SUBSCRIPTION_MEMBER = 22;
+    public const TYPE_REFUSED_SUBSCRIPTION_MEMBER = 23;
+    public const TYPE_STATUS_CHANGED = 24;
+    public const TYPE_BLOCKED_MEMBER = 25;
+    public const TYPE_UNBLOCKED_MEMBER = 26;
+    public const TYPE_UNSUBSCRIBE_MEMBER = 27;
+    public const TYPE_SUBSCRIBE_MEMBER = 28;
+    public const TYPE_WAITING_LIST_MEMBER = 29;
 
     // Notifications affect admins
-    const TYPE_NOTIFICATION_REGISTRATION = 30;
-    const TYPE_NOTIFICATION_REGISTRATION_REQUEST = 31;
-    const TYPE_NOTIFICATION_UNSUBSCRIBE = 32;
+    public const TYPE_NOTIFICATION_REGISTRATION = 30;
+    public const TYPE_NOTIFICATION_REGISTRATION_REQUEST = 31;
+    public const TYPE_NOTIFICATION_UNSUBSCRIBE = 32;
 
     /**
      * Notifications which are not affected by "mail_grp_member_notification"
@@ -57,12 +59,12 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
         $this->settings = $settings;
     }
 
-    public function forceSendingMail(bool $status) : void
+    public function forceSendingMail(bool $status): void
     {
         $this->force_sending_mail = $status;
     }
 
-    public function send() : bool
+    public function send(): bool
     {
         if (!$this->isNotificationTypeEnabled($this->getType())) {
             $this->logger->info('Membership mail disabled globally.');
@@ -377,13 +379,13 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
         return true;
     }
 
-    protected function initLanguage(int $usr_id) : void
+    protected function initLanguage(int $usr_id): void
     {
         parent::initLanguage($usr_id);
         $this->getLanguage()->loadLanguageModule('lso');
     }
 
-    protected function createLearningSequenceStatus(int $usr_id) : string
+    protected function createLearningSequenceStatus(int $usr_id): string
     {
         $part = ilLearningSequenceParticipants::_getInstanceByObjId($this->getObjId());
         $body = $this->getLanguageText('lso_new_status') . "\n";
@@ -408,7 +410,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
         return $body;
     }
 
-    protected function isNotificationTypeEnabled(int $type) : bool
+    protected function isNotificationTypeEnabled(int $type): bool
     {
         return (
             $this->force_sending_mail ||

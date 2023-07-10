@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Legacy\Legacy;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -26,10 +28,10 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTest
 {
-    /** @var MockObject|ilLanguage */
+    /** @var MockObject&ilLanguage */
     protected ilLanguage $lng;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -40,12 +42,12 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
             ->willReturn('dummy');
     }
 
-    protected function getInstance() : ilTermsOfServiceNullCriterion
+    protected function getInstance(): ilTermsOfServiceNullCriterion
     {
         return new ilTermsOfServiceNullCriterion();
     }
 
-    public function testInstanceCanBeCreated() : ilTermsOfServiceNullCriterion
+    public function testInstanceCanBeCreated(): ilTermsOfServiceNullCriterion
     {
         $criterion = $this->getInstance();
 
@@ -56,12 +58,11 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
     }
 
     /**
-     * @param ilTermsOfServiceCriterionTypeGUI $gui
-     * @return MockObject|ilPropertyFormGUI
+     * @return MockObject&ilPropertyFormGUI
      */
     protected function buildForm(
         ilTermsOfServiceCriterionTypeGUI $gui
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $form = $this->getFormMock();
 
         $radioGroup = $this
@@ -82,13 +83,11 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
     }
 
     /**
-     * @param ilTermsOfServiceNullCriterion $criterion
      * @depends testInstanceCanBeCreated
-     * @return ilTermsOfServiceNullCriterion
      */
     public function testNoFormUserInterfaceElementsAreBuilt(
         ilTermsOfServiceNullCriterion $criterion
-    ) : ilTermsOfServiceNullCriterion {
+    ): ilTermsOfServiceNullCriterion {
         $gui = $criterion->ui($this->lng);
 
         $this->buildForm($gui);
@@ -98,9 +97,8 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
 
     /**
      * @depends testNoFormUserInterfaceElementsAreBuilt
-     * @param ilTermsOfServiceNullCriterion $criterion
      */
-    public function testCriterionAlwaysCreateEmptyConfigValue(ilTermsOfServiceNullCriterion $criterion) : void
+    public function testCriterionAlwaysCreateEmptyConfigValue(ilTermsOfServiceNullCriterion $criterion): void
     {
         $gui = $criterion->ui($this->lng);
 
@@ -118,9 +116,8 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
 
     /**
      * @depends testNoFormUserInterfaceElementsAreBuilt
-     * @param ilTermsOfServiceNullCriterion $criterion
      */
-    public function testTypeIdentPresentationEqualsANonEmptyString(ilTermsOfServiceNullCriterion $criterion) : void
+    public function testTypeIdentPresentationEqualsANonEmptyString(ilTermsOfServiceNullCriterion $criterion): void
     {
         $gui = $criterion->ui($this->lng);
 
@@ -130,7 +127,7 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
         $this->assertNotEmpty($actual);
     }
 
-    public function testValuePresentationMatchesExpectation() : void
+    public function testValuePresentationMatchesExpectation(): void
     {
         $criterion = $this->getInstance();
         $gui = $criterion->ui($this->lng);
@@ -146,7 +143,7 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
         $this->assertSame('-', $actual->getContent());
     }
 
-    public function testEvaluationAlwaysSucceeds() : void
+    public function testEvaluationAlwaysSucceeds(): void
     {
         $user = $this->getUserMock();
         $criterion = $this->getInstance();

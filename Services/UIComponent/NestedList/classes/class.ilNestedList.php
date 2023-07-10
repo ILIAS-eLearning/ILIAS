@@ -3,19 +3,24 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Nested List
  * @author Alexander Killing <killing@leifos.de>
+ *
+ * @deprecated 10
  */
 class ilNestedList
 {
@@ -33,23 +38,23 @@ class ilNestedList
     }
 
     // Set li class
-    public function setItemClass(string $a_val) : void
+    public function setItemClass(string $a_val): void
     {
         $this->item_class = $a_val;
     }
 
-    public function getItemClass() : string
+    public function getItemClass(): string
     {
         return $this->item_class;
     }
 
     // Set list class
-    public function setListClass(string $a_val, int $a_depth = 0) : void
+    public function setListClass(string $a_val, int $a_depth = 0): void
     {
         $this->list_class[$a_depth] = $a_val;
     }
 
-    public function getListClass(int $a_depth = 0) : string
+    public function getListClass(int $a_depth = 0): string
     {
         return $this->list_class[$a_depth] ?? "";
     }
@@ -58,27 +63,27 @@ class ilNestedList
         string $a_content,
         string $a_id,
         $a_parent = 0
-    ) : void {
+    ): void {
         $this->nodes[$a_id] = $a_content;
         $this->childs[$a_parent][] = $a_id;
     }
 
-    public function setAutoNumbering(bool $a_val) : void
+    public function setAutoNumbering(bool $a_val): void
     {
         $this->auto_numbering = $a_val;
     }
 
-    public function getAutoNumbering() : bool
+    public function getAutoNumbering(): bool
     {
         return $this->auto_numbering;
     }
 
-    public function getNumbers() : array
+    public function getNumbers(): array
     {
         return $this->nr;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $tpl = new ilTemplate("tpl.nested_list.html", true, true, "Services/UIComponent/NestedList");
 
@@ -100,7 +105,7 @@ class ilNestedList
         ilTemplate $tpl,
         int $depth,
         array &$nr
-    ) : void {
+    ): void {
         if (!isset($nr[$depth])) {
             $nr[$depth] = 1;
         } else {
@@ -135,7 +140,7 @@ class ilNestedList
         $this->listItemEnd($tpl);
     }
 
-    public function listItemStart(ilTemplate $tpl) : void
+    public function listItemStart(ilTemplate $tpl): void
     {
         if ($this->getItemClass() !== "") {
             $tpl->setCurrentBlock("list_item_start");
@@ -147,13 +152,13 @@ class ilNestedList
         $tpl->touchBlock("tag");
     }
 
-    public function listItemEnd(ilTemplate $tpl) : void
+    public function listItemEnd(ilTemplate $tpl): void
     {
         $tpl->touchBlock("list_item_end");
         $tpl->touchBlock("tag");
     }
 
-    public function listStart(ilTemplate $tpl, int $depth) : void
+    public function listStart(ilTemplate $tpl, int $depth): void
     {
         //echo "<br>listStart";
 
@@ -171,7 +176,7 @@ class ilNestedList
         $tpl->touchBlock("tag");
     }
 
-    public function listEnd(ilTemplate $tpl) : void
+    public function listEnd(ilTemplate $tpl): void
     {
         //echo "<br>listEnd";
         $tpl->touchBlock("list_end");

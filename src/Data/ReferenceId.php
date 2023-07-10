@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Data;
 
@@ -20,12 +22,12 @@ class ReferenceId
         $this->ref_id = $ref_id;
     }
 
-    public function toInt() : int
+    public function toInt(): int
     {
         return $this->ref_id;
     }
 
-    public function toObjectId() : ObjectId
+    public function toObjectId(): ObjectId
     {
         return new ObjectId(ilObject2::_lookupObjectId($this->ref_id));
     }

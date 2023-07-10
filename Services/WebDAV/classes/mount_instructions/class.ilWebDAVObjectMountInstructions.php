@@ -1,18 +1,23 @@
-<?php declare(strict_types = 1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * @author Raphael Heer <raphael.heer@hslu.ch>
  * $Id$
@@ -22,7 +27,7 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
     protected int $ref_id;
     protected int $obj_id;
     protected string $obj_title;
-    
+
     public function __construct(
         ilWebDAVMountInstructionsRepository $a_repo,
         ilWebDAVUriBuilder $a_uri_builder,
@@ -39,7 +44,7 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
         $this->obj_title = ilObject::_lookupTitle($this->obj_id);
     }
 
-    protected function fillPlaceholdersForMountInstructions(array $mount_instructions) : array
+    protected function fillPlaceholdersForMountInstructions(array $mount_instructions): array
     {
         foreach ($mount_instructions as $title => $mount_instruction) {
             $mount_instruction = str_replace("[WEBFOLDER_ID]", (string) $this->ref_id, $mount_instruction);

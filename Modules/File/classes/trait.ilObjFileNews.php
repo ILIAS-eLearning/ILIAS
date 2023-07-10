@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Trait ilObjFileNews
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -24,13 +24,13 @@ trait ilObjFileNews
 {
     protected bool $just_notified = false;
 
-    public function notifyCreation(int $obj_id, string $additional_message = null) : void
+    public function notifyCreation(int $obj_id, string $additional_message = null): void
     {
         $this->addNewsNotification($obj_id, 'file_created', $additional_message);
         $this->just_notified = true;
     }
 
-    public function notifyUpdate(int $obj_id, string $additional_message = null) : void
+    public function notifyUpdate(int $obj_id, string $additional_message = null): void
     {
         if (!$this->just_notified) {
             $this->addNewsNotification($obj_id, 'file_updated', $additional_message);
@@ -38,7 +38,7 @@ trait ilObjFileNews
         }
     }
 
-    protected function addNewsNotification(int $obj_id, string $a_lang_var, string $description = null) : void
+    protected function addNewsNotification(int $obj_id, string $a_lang_var, string $description = null): void
     {
         global $DIC;
 

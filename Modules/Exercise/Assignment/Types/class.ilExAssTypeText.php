@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Text type
  *
@@ -38,54 +38,54 @@ class ilExAssTypeText implements ilExAssignmentTypeInterface
             ?: $DIC->language();
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return true;
     }
 
-    public function usesTeams() : bool
+    public function usesTeams(): bool
     {
         return false;
     }
 
-    public function usesFileUpload() : bool
+    public function usesFileUpload(): bool
     {
         return false;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
 
         return $lng->txt("exc_type_text");
     }
 
-    public function getSubmissionType() : string
+    public function getSubmissionType(): string
     {
         return ilExSubmission::TYPE_TEXT;
     }
 
-    public function isSubmissionAssignedToTeam() : bool
+    public function isSubmissionAssignedToTeam(): bool
     {
         return false;
     }
 
-    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target) : void
+    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target): void
     {
     }
 
-    public function supportsWebDirAccess() : bool
+    public function supportsWebDirAccess(): bool
     {
         return false;
     }
 
-    public function getStringIdentifier() : string
+    public function getStringIdentifier(): string
     {
         // TODO: Implement getSubmissionStringIdentifier() method.
         return "";
     }
 
-    public function getExportObjIdForResourceId(int $resource_id) : int
+    public function getExportObjIdForResourceId(int $resource_id): int
     {
         return 0;
     }

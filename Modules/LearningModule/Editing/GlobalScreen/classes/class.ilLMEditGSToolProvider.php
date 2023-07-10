@@ -13,13 +13,13 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy as LegacySlate;
  */
 class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
 {
-    public const SHOW_TREE = 'show_tree';
     use Hasher;
+    public const SHOW_TREE = 'show_tree';
 
     /**
      * @inheritDoc
      */
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->repository();
     }
@@ -28,13 +28,13 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
     /**
      * @inheritDoc
      */
-    public function getToolsForContextStack(CalledContexts $called_contexts) : array
+    public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_TREE, true)) {
             $title = $this->dic->language()->txt('objs_st');
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_chp.svg"), $title);
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_chp.svg"), $title);
 
             $iff = function ($id) {
                 return $this->identification_provider->contextAwareIdentifier($id);
@@ -45,15 +45,12 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
             $identification = $iff("tree");
             $hashed = $this->hash($identification->serialize());
             $tools[] = $this->factory->tool($identification)
-                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed) : ILIAS\UI\Component\Component {
+                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed): ILIAS\UI\Component\Component {
                     if ($c instanceof LegacySlate) {
                         $signal_id = $c->getToggleSignal()->getId();
                         return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
-                            return "
-                                 console.log('trigger added');
-                                 $('body').on('il-lm-editor-tree', function(){
+                            return "document.addEventListener('il-lm-editor-tree', () => {
                                     il.UI.maincontrols.mainbar.engageTool('$hashed');
-                                    console.log('trigger tree');
                                  });";
                         });
                     }
@@ -74,7 +71,7 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
      *
      * @return string
      */
-    private function getContent() : string
+    private function getContent(): string
     {
         global $DIC;
 

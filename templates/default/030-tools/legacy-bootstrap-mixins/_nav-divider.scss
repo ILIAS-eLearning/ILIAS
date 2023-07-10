@@ -1,0 +1,13 @@
+@use "sass:math";
+@use "../../010-settings/" as *;
+
+// Horizontal dividers
+//
+// Dividers (basically an hr) within dropdowns and nav lists
+
+@mixin nav-divider($color: #e5e5e5) {
+  height: 1px;
+  margin: (math.div($il-line-height-computed, 2) - 1) 0;
+  overflow: hidden;
+  background-color: $color;
+}

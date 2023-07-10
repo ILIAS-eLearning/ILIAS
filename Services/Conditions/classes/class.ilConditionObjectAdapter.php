@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -27,7 +29,7 @@ class ilConditionObjectAdapter implements ilConditionObjectAdapterInterface
     /**
      * @inheritdoc
      */
-    public function getObjIdForRefId(int $a_ref_id) : int
+    public function getObjIdForRefId(int $a_ref_id): int
     {
         return ilObject::_lookupObjId($a_ref_id);
     }
@@ -35,7 +37,7 @@ class ilConditionObjectAdapter implements ilConditionObjectAdapterInterface
     /**
      * @inheritdoc
      */
-    public function getTypeForObjId(int $a_obj_id) : string
+    public function getTypeForObjId(int $a_obj_id): string
     {
         return ilObject::_lookupType($a_obj_id);
     }

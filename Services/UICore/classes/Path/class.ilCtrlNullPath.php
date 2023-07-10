@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -12,7 +14,7 @@ class ilCtrlNullPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getCidPath() : ?string
+    public function getCidPath(): ?string
     {
         return null;
     }
@@ -20,7 +22,7 @@ class ilCtrlNullPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getCurrentCid() : ?string
+    public function getCurrentCid(): ?string
     {
         return null;
     }
@@ -28,7 +30,7 @@ class ilCtrlNullPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getNextCid(string $current_class) : ?string
+    public function getNextCid(string $current_class): ?string
     {
         return null;
     }
@@ -36,7 +38,7 @@ class ilCtrlNullPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getCidPaths(int $order = SORT_DESC) : array
+    public function getCidPaths(int $order = SORT_DESC): array
     {
         return [];
     }
@@ -44,7 +46,7 @@ class ilCtrlNullPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getCidArray(int $order = SORT_DESC) : array
+    public function getCidArray(int $order = SORT_DESC): array
     {
         return [];
     }
@@ -52,7 +54,7 @@ class ilCtrlNullPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getBaseClass() : ?string
+    public function getBaseClass(): ?string
     {
         return null;
     }
@@ -60,7 +62,7 @@ class ilCtrlNullPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
-    public function getException() : ?ilCtrlException
+    public function getException(): ?ilCtrlException
     {
         return null;
     }

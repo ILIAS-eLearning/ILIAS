@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,25 +16,26 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilSamlMappedUserAttributeValueParser
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlMappedUserAttributeValueParser
+final class ilSamlMappedUserAttributeValueParser
 {
     private const ATTR_REGEX = '/^(.*?)(\|(\d+))?$/';
 
-    protected ilExternalAuthUserAttributeMappingRule $rule;
-    /** @var array<string, mixed> */
-    protected array $userData = [];
-
-    public function __construct(ilExternalAuthUserAttributeMappingRule $rule, array $userData)
-    {
-        $this->rule = $rule;
-        $this->userData = $userData;
+    /**
+     * @param array<string, mixed> $userData
+     */
+    public function __construct(
+        private readonly ilExternalAuthUserAttributeMappingRule $rule,
+        private readonly array $userData
+    ) {
     }
 
-    protected function getValueIndex() : int
+    private function getValueIndex(): int
     {
         $index = 0;
 
@@ -48,7 +49,7 @@ class ilSamlMappedUserAttributeValueParser
         return max($index, 0);
     }
 
-    public function getAttributeKey() : string
+    public function getAttributeKey(): string
     {
         $attribute = '';
 
@@ -62,7 +63,7 @@ class ilSamlMappedUserAttributeValueParser
         return $attribute;
     }
 
-    public function parse() : string
+    public function parse(): string
     {
         $attributeKey = $this->getAttributeKey();
 

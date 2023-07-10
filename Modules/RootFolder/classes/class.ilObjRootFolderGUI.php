@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,7 +45,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $lng = $DIC->language();
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
-        
+
         $lng->loadLanguageModule("cntr");
         $lng->loadLanguageModule("obj");
 
@@ -55,7 +57,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $this->help = $DIC->help();
     }
 
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
@@ -72,7 +74,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 $this->ctrl->getLinkTarget($this, "")
             );
         }
-        
+
         if ($rbacsystem->checkAccess('write', $this->ref_id)) {
             $cmd = $this->ctrl->getCmd();
             $this->tabs_gui->addTarget(
@@ -89,7 +91,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         parent::getTabs();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -101,7 +103,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($ru);
                 break;
 
-            // container page editing
+                // container page editing
             case "ilcontainerpagegui":
                 $this->prepareOutput(false);
                 $ret = $this->forwardToPageObject();
@@ -137,7 +139,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
             case "ilobjectcontentstylesettingsgui":
                 $this->checkPermission("write");
                 $this->setTitleAndDescription();
-                $this->showContainerPageTabs();
+                //$this->showContainerPageTabs();
                 $settings_gui = $this->content_style_gui
                     ->objectSettingsGUIForRefId(
                         null,
@@ -145,7 +147,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
                     );
                 $this->ctrl->forwardCommand($settings_gui);
                 break;
-            
+
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
@@ -185,17 +187,17 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 break;
         }
     }
-    
-    public function renderObject() : void
+
+    public function renderObject(): void
     {
         global $ilTabs;
 
         ilObjectListGUI::prepareJsLinks(
             "",
-            $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "ilnotegui"], "", "", true, false),
+            "",
             $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true, false)
         );
-        
+
         $ilTabs->activateTab("view_content");
         parent::renderObject();
     }
@@ -203,18 +205,19 @@ class ilObjRootFolderGUI extends ilContainerGUI
     /**
      * @throws ilObjectException
      */
-    public function viewObject() : void
+    public function viewObject(): void
     {
         $this->checkPermission('read');
 
         if (strtolower($this->root_request->getBaseClass()) === "iladministrationgui") {
             parent::viewObject();
+            return;
         }
 
         $this->renderObject();
     }
 
-    protected function setTitleAndDescription() : void
+    protected function setTitleAndDescription(): void
     {
         global $lng;
 
@@ -231,7 +234,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
     protected function setEditTabs(
         string $active_tab = "settings_misc"
-    ) : void {
+    ): void {
         $this->tabs_gui->addSubTab(
             "settings_misc",
             $this->lng->txt("settings"),
@@ -248,20 +251,15 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $this->tabs_gui->activateTab("settings");
         $this->tabs_gui->activateSubTab($active_tab);
     }
-    
-    protected function initEditForm() : ilPropertyFormGUI
+
+    protected function initEditForm(): ilPropertyFormGUI
     {
         $this->setEditTabs();
         $obj_service = $this->getObjectService();
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt("repository"));
-
-        // presentation
-        $pres = new ilFormSectionHeaderGUI();
-        $pres->setTitle($this->lng->txt('obj_presentation'));
-        $form->addItem($pres);
+        $form->setTitle($this->lng->txt('obj_presentation'));
 
         // list presentation
         $form = $this->initListPresentationForm($form);
@@ -276,7 +274,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         );
 
 
-        $this->showCustomIconsEditing(1, $form, false);
+        $form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
 
         $form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTitleIconVisibility();
 
@@ -286,13 +284,13 @@ class ilObjRootFolderGUI extends ilContainerGUI
         return $form;
     }
 
-    protected function getEditFormValues() : array
+    protected function getEditFormValues(): array
     {
         // values are set in initEditForm()
         return [];
     }
 
-    public function updateObject() : void
+    public function updateObject(): void
     {
         global $ilSetting;
 
@@ -309,26 +307,8 @@ class ilObjRootFolderGUI extends ilContainerGUI
             // list presentation
             $this->saveListPresentation($form);
 
-            if ($ilSetting->get('custom_icons')) {
-                global $DIC;
-                /** @var ilObjectCustomIconFactory $customIconFactory */
-                $customIconFactory = $DIC['object.customicons.factory'];
-                $customIcon = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
-
-                /** @var ilImageFileInputGUI $item */
-                $fileData = (array) $form->getInput('cont_icon');
-                $item = $form->getItemByPostVar('cont_icon');
-
-                if ($item->getDeletionFlag()) {
-                    $customIcon->remove();
-                }
-
-                if ($fileData['tmp_name']) {
-                    $customIcon->saveFromHttpRequest();
-                }
-            }
-
             // custom icon
+            $obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
             $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
 
             // BEGIN ChangeEvent: Record update
@@ -347,7 +327,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         ilObjectGUI::_gotoRepositoryRoot(true);
     }

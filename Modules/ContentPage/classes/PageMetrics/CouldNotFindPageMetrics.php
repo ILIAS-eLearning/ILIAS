@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ContentPage\PageMetrics;
 
 use ilException;
@@ -27,7 +29,7 @@ use ilException;
  */
 final class CouldNotFindPageMetrics extends ilException
 {
-    public static function by(int $contentPageId, int $pageId, string $language) : self
+    public static function by(int $contentPageId, int $pageId, string $language): self
     {
         return new self(sprintf(
             'Could not find content page page metrics for page with page id %s and language %s for parent with id %s',

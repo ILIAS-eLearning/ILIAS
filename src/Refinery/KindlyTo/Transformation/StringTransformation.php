@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Refinery\DeriveApplyToFromTransform;
@@ -25,6 +27,8 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class StringTransformation implements Transformation
 {
+    use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
     private const BOOL_TRUE = true;
     private const BOOL_FALSE = false;
     private const BOOL_TRUE_NUMBER = 1;
@@ -32,13 +36,10 @@ class StringTransformation implements Transformation
     private const BOOL_TRUE_STRING = 'true';
     private const BOOL_FALSE_STRING = 'false';
 
-    use DeriveApplyToFromTransform;
-    use DeriveInvokeFromTransform;
-
     /**
      * @inheritDoc
      */
-    public function transform($from) : string
+    public function transform($from): string
     {
         if (is_int($from) || is_float($from)) {
             return (string) $from;

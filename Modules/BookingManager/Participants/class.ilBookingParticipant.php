@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,12 +11,13 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
+ * @todo split up to manager and repo class
  * @author Jesús López <lopez@leifos.com>
  */
 class ilBookingParticipant
@@ -58,7 +58,7 @@ class ilBookingParticipant
         }
     }
 
-    protected function read() : ?int
+    protected function read(): ?int
     {
         $query = 'SELECT participant_id FROM booking_member' .
             ' WHERE user_id = ' . $this->db->quote($this->participant_id, 'integer') .
@@ -72,7 +72,7 @@ class ilBookingParticipant
         return (int) $row['participant_id'];
     }
 
-    protected function save() : void
+    protected function save(): void
     {
         $assigner_id = $this->user->getId();
         $next_id = $this->db->nextId('booking_member');
@@ -87,7 +87,7 @@ class ilBookingParticipant
         $this->db->manipulate($query);
     }
 
-    public function getIsNew() : bool
+    public function getIsNew(): bool
     {
         return $this->is_new;
     }
@@ -99,7 +99,7 @@ class ilBookingParticipant
      */
     public static function getAssignableParticipants(
         int $a_bp_object_id
-    ) : array {
+    ): array {
         $booking_object = new ilBookingObject($a_bp_object_id);
         $pool_id = $booking_object->getPoolId();
         $pool = new ilObjBookingPool($pool_id, false);
@@ -137,7 +137,7 @@ class ilBookingParticipant
         int $a_booking_pool,
         array $a_filter = null,
         int $a_object_id = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -153,11 +153,11 @@ class ilBookingParticipant
         if ($a_object_id) {
             $where[] = 'br.object_id = ' . $ilDB->quote($a_object_id, 'integer');
         }
-        if ($a_filter['title']) {
+        if ($a_filter['title'] ?? false) {
             $where[] = '(' . $ilDB->like('title', 'text', '%' . $a_filter['title'] . '%') .
                 ' OR ' . $ilDB->like('description', 'text', '%' . $a_filter['title'] . '%') . ')';
         }
-        if ($a_filter['user_id']) {
+        if ($a_filter['user_id'] ?? false) {
             $where[] = 'bm.user_id = ' . $ilDB->quote($a_filter['user_id'], 'integer');
         }
 
@@ -190,6 +190,9 @@ class ilBookingParticipant
                 }
             } elseif ($row['title'] !== "" && (!in_array($row['title'], $res[$index]['object_title'], true) && $status != ilBookingReservation::STATUS_CANCELLED)) {
                 $res[$index]['object_title'][] = $row['title'];
+                if (!isset($res[$index]['obj_count'])) {
+                    $res[$index]['obj_count'] = 0;
+                }
                 $res[$index]['obj_count'] += 1;
                 $res[$index]['object_ids'][] = $row['object_id'];
             }
@@ -197,7 +200,9 @@ class ilBookingParticipant
         }
 
         foreach ($res as $index => $val) {
-            $res[$index]['object_ids'][] = $row['object_id'];
+            if (isset($row['object_id'])) {
+                $res[$index]['object_ids'][] = $row['object_id'];
+            }
         }
         return $res;
     }
@@ -208,7 +213,7 @@ class ilBookingParticipant
      */
     public static function getBookingPoolParticipants(
         int $a_booking_pool_id
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
         $sql = 'SELECT * FROM booking_member WHERE booking_pool_id = ' . $ilDB->quote($a_booking_pool_id, 'integer');
@@ -229,7 +234,7 @@ class ilBookingParticipant
      */
     public static function getUserFilter(
         int $a_pool_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -258,7 +263,7 @@ class ilBookingParticipant
     protected function isParticipantAssigned(
         int $a_booking_object_id,
         int $a_participant_id
-    ) : bool {
+    ): bool {
         return count(ilBookingReservation::getObjectReservationForUser($a_booking_object_id, $a_participant_id)) > 0;
     }
 }

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Team file upload type
  *
@@ -38,34 +38,34 @@ class ilExAssTypeUploadTeam implements ilExAssignmentTypeInterface
             ?: $DIC->language();
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return true;
     }
 
-    public function usesTeams() : bool
+    public function usesTeams(): bool
     {
         return true;
     }
 
-    public function usesFileUpload() : bool
+    public function usesFileUpload(): bool
     {
         return true;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
 
         return $lng->txt("exc_type_upload_team");
     }
 
-    public function getSubmissionType() : string
+    public function getSubmissionType(): string
     {
         return ilExSubmission::TYPE_FILE;
     }
 
-    public function isSubmissionAssignedToTeam() : bool
+    public function isSubmissionAssignedToTeam(): bool
     {
         return false;
     }
@@ -73,21 +73,21 @@ class ilExAssTypeUploadTeam implements ilExAssignmentTypeInterface
     public function cloneSpecificProperties(
         ilExAssignment $source,
         ilExAssignment $target
-    ) : void {
+    ): void {
     }
 
-    public function supportsWebDirAccess() : bool
+    public function supportsWebDirAccess(): bool
     {
         return false;
     }
 
-    public function getStringIdentifier() : string
+    public function getStringIdentifier(): string
     {
         // TODO: Implement getSubmissionStringIdentifier() method.
         return "";
     }
 
-    public function getExportObjIdForResourceId(int $resource_id) : int
+    public function getExportObjIdForResourceId(int $resource_id): int
     {
         return 0;
     }

@@ -1,6 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -28,7 +43,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('sysc');
     }
 
-    protected function getGrpIdFromRequest() : int
+    protected function getGrpIdFromRequest(): int
     {
         if ($this->http->wrapper()->query()->has('grp_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -39,7 +54,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         return 0;
     }
 
-    protected function getTaskIdFromRequest() : int
+    protected function getTaskIdFromRequest(): int
     {
         if ($this->http->wrapper()->query()->has('task_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -50,13 +65,15 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         return 0;
     }
 
-    public function getLang() : ilLanguage
+    public function getLang(): ilLanguage
     {
         return $this->lng;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
+        $this->checkPermission('read');
+
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
@@ -64,8 +81,11 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilobjectownershipmanagementgui':
                 $this->setSubTabs(self::SECTION_MAIN, 'no_owner');
+                $this->tabs_gui->activateTab('overview');
 
-                $gui = new ilObjectOwnershipManagementGUI(0);
+                $read_only = !$this->checkPermissionBool('write');
+
+                $gui = new ilObjectOwnershipManagementGUI(0, $read_only);
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -80,7 +100,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
                 break;
 
             case 'ilpermissiongui':
-                $this->tabs_gui->setTabActive('perm_settings');
+                $this->tabs_gui->activateTab('perm_settings');
 
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
@@ -105,25 +125,33 @@ class ilObjSystemCheckGUI extends ilObjectGUI
                 $handler = ilSCComponentTaskFactory::getComponentTask($this->getTaskIdFromRequest());
                 $this->ctrl->forwardCommand($handler);
                 break;
-
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
-        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
-            $this->tabs_gui->addTarget('overview', $this->ctrl->getLinkTarget($this, 'overview'));
+        if ($this->checkPermissionBool('read')) {
+            $this->tabs_gui->addTab(
+                'overview',
+                $this->lng->txt('overview'),
+                $this->ctrl->getLinkTarget($this, 'overview')
+            );
         }
-        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
-            $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
+        if ($this->checkPermissionBool('edit_permission')) {
+            $this->tabs_gui->addTab(
+                'perm_settings',
+                $this->lng->txt('perm_settings'),
+                $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm')
+            );
         }
     }
 
-    protected function overview() : bool
+    protected function overview(): bool
     {
         $this->getLang()->loadLanguageModule('sysc');
 
         $this->setSubTabs(self::SECTION_MAIN, 'overview');
+        $this->tabs_gui->activateTab('overview');
 
         $table = new ilSCGroupTableGUI($this, 'overview');
         $table->init();
@@ -133,7 +161,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         return true;
     }
 
-    protected function showGroup() : bool
+    protected function showGroup(): bool
     {
         $this->setSubTabs(self::SECTION_GROUP, '');
 
@@ -147,16 +175,19 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         return true;
     }
 
-    protected function trash(ilPropertyFormGUI $form = null) : void
+    protected function trash(ilPropertyFormGUI $form = null): void
     {
+        $this->checkPermission('write');
+
         $this->setSubTabs(self::SECTION_MAIN, 'trash');
+        $this->tabs_gui->activateTab('overview');
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initFormTrash();
         }
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function initFormTrash() : ilPropertyFormGUI
+    protected function initFormTrash(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -215,7 +246,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         return $form;
     }
 
-    protected function handleTrashAction() : bool
+    protected function handleTrashAction(): bool
     {
         $form = $this->initFormTrash();
         if ($form->checkInput()) {
@@ -225,12 +256,12 @@ class ilObjSystemCheckGUI extends ilObjectGUI
             if ($dt) {
                 $trash->setAgeLimit($dt);
             }
-            $trash->setNumberLimit($form->getInput('number'));
+            $trash->setNumberLimit((int) $form->getInput('number'));
 
             if ($form->getInput('types')) {
                 $trash->setTypesLimit((array) $form->getInput('types'));
             }
-            $trash->setMode($form->getInput('type'));
+            $trash->setMode((int) $form->getInput('type'));
             $trash->start();
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
@@ -245,34 +276,48 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         return false;
     }
 
-    protected function setSubTabs(string $a_section, string $a_active) : void
+    protected function setSubTabs(string $a_section, string $a_active): void
     {
         switch ($a_section) {
             case self::SECTION_MAIN:
-                $this->tabs_gui->addSubTab(
-                    'overview',
-                    $this->getLang()->txt('sysc_groups'),
-                    $this->ctrl->getLinkTarget($this, 'overview')
-                );
-                $this->tabs_gui->addSubTab(
-                    'trash',
-                    $this->getLang()->txt('sysc_tab_trash'),
-                    $this->ctrl->getLinkTarget($this, 'trash')
-                );
-                $this->tabs_gui->addSubTab(
-                    'no_owner',
-                    $this->getLang()->txt('system_check_no_owner'),
-                    $this->ctrl->getLinkTargetByClass('ilobjectownershipmanagementgui')
-                );
+                $this->setMainSubTabs();
                 break;
 
             case self::SECTION_GROUP:
-                $this->tabs_gui->clearTargets();
-                $this->tabs_gui->setBackTarget(
-                    $this->lng->txt('back'),
-                    $this->ctrl->getLinkTarget($this, 'overview')
-                );
+                $this->setGroupSubTabs();
         }
         $this->tabs_gui->activateSubTab($a_active);
+    }
+
+    protected function setMainSubTabs(): void
+    {
+        $this->tabs_gui->addSubTab(
+            'overview',
+            $this->getLang()->txt('sysc_groups'),
+            $this->ctrl->getLinkTarget($this, 'overview')
+        );
+
+        if ($this->checkPermissionBool('write')) {
+            $this->tabs_gui->addSubTab(
+                'trash',
+                $this->getLang()->txt('sysc_tab_trash'),
+                $this->ctrl->getLinkTarget($this, 'trash')
+            );
+        }
+
+        $this->tabs_gui->addSubTab(
+            'no_owner',
+            $this->getLang()->txt('system_check_no_owner'),
+            $this->ctrl->getLinkTargetByClass('ilobjectownershipmanagementgui')
+        );
+    }
+
+    protected function setGroupSubTabs(): void
+    {
+        $this->tabs_gui->clearTargets();
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, 'overview')
+        );
     }
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilForumSettingsGUI
  * @author  Nadia Matuschek <nmatuschek@databay.de>
@@ -30,22 +32,20 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     private ilTabsGUI $tabs;
     private ilAccessHandler $access;
     private ilTree $tree;
-    private ilObjForumGUI $parent_obj;
-    private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
-    private \ILIAS\Refinery\Factory $refinery;
+    private \ILIAS\HTTP\GlobalHttpState $http;
     private ilForumNotification $forumNotificationObj;
     private ?ilPropertyFormGUI $notificationSettingsForm = null;
-    public int $ref_id;
+    private int $ref_id;
     private ilObjectService $obj_service;
     private \ILIAS\DI\Container $dic;
     private ilErrorHandling $error;
+    private \ILIAS\UI\Factory $ui_factory;
 
-    public function __construct(ilObjForumGUI $parent_obj)
+    public function __construct(private ilObjForumGUI $parent_obj)
     {
         global $DIC;
 
         $this->dic = $DIC;
-        $this->parent_obj = $parent_obj;
 
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -56,40 +56,41 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->tree = $DIC->repositoryTree();
         $this->obj_service = $this->dic->object();
         $this->ref_id = $this->parent_obj->getObject()->getRefId();
-        $this->http_wrapper = $DIC->http()->wrapper();
-        $this->refinery = $DIC->refinery();
+        $this->http = $DIC->http();
+        $this->ui_factory = $DIC->ui()->factory();
         $this->error = $DIC['ilErr'];
 
         $this->lng->loadLanguageModule('style');
         $this->lng->loadLanguageModule('cont');
     }
 
-    private function initForcedForumNotification() : void
+    public function getRefId(): int
+    {
+        return $this->ref_id;
+    }
+
+    private function initForcedForumNotification(): void
     {
         $this->forumNotificationObj = new ilForumNotification($this->parent_obj->getObject()->getRefId());
         $this->forumNotificationObj->readAllForcedEvents();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
-        $next_class = $this->ctrl->getNextClass();
-        
-        switch (strtolower($next_class)) {
-            default:
-                switch (true) {
-                    case method_exists($this, $cmd):
-                        $this->settingsTabs();
-                        $this->{$cmd}();
-                        break;
 
-                    default:
-                        $this->ctrl->redirect($this->parent_obj);
-                }
+        switch (true) {
+            case method_exists($this, $cmd):
+                $this->settingsTabs();
+                $this->{$cmd}();
+                break;
+
+            default:
+                $this->ctrl->redirect($this->parent_obj);
         }
     }
 
-    private function addAvailabilitySection(ilPropertyFormGUI $form) : void
+    private function addAvailabilitySection(ilPropertyFormGUI $form): void
     {
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('rep_activation_availability'));
@@ -100,7 +101,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $form->addItem($online);
     }
 
-    public function getCustomForm(ilPropertyFormGUI $a_form) : void
+    public function getCustomForm(ilPropertyFormGUI $a_form): void
     {
         $this->settingsTabs();
         $this->tabs->activateSubTab(self::UI_SUB_TAB_ID_BASIC_SETTINGS);
@@ -109,23 +110,23 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->addAvailabilitySection($a_form);
 
         $presentationHeader = new ilFormSectionHeaderGUI();
-        $presentationHeader->setTitle($this->lng->txt('frm_settings_presentation_header'));
+        $presentationHeader->setTitle($this->lng->txt('settings_presentation_header'));
         $a_form->addItem($presentationHeader);
 
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->getObject())->addTileImage();
 
         $rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
-        $rg_pro->addOption(new ilRadioOption($this->lng->txt('sort_by_posts'), (string) ilForumProperties::VIEW_TREE));
-        $view_desc = new ilRadioOption(
-            $this->lng->txt('sort_by_date') . ' (' . $this->lng->txt('descending_order') . ')',
-            (string) ilForumProperties::VIEW_DATE_DESC
-        );
-        $view_asc = new ilRadioOption(
-            $this->lng->txt('sort_by_date') . ' (' . $this->lng->txt('ascending_order') . ')',
-            (string) ilForumProperties::VIEW_DATE_ASC
-        );
-        $rg_pro->addOption($view_desc);
-        $rg_pro->addOption($view_asc);
+        $option_view_by_posts = new ilRadioOption($this->lng->txt('sort_by_posts'), (string) ilForumProperties::VIEW_TREE);
+        $option_view_by_posts->setInfo($this->lng->txt('sort_by_posts_desc'));
+        $rg_pro->addOption($option_view_by_posts);
+        $option_view_by_date = new ilRadioOption($this->lng->txt('sort_by_date'), (string) ilForumProperties::VIEW_DATE);
+        $option_view_by_date->setInfo($this->lng->txt('sort_by_date_desc'));
+        $sub_group = new ilRadioGroupInputGUI('', 'default_view_by_date');
+        $sub_group->addOption(new ilRadioOption($this->lng->txt('ascending_order'), (string) ilForumProperties::VIEW_DATE_ASC));
+        $sub_group->addOption(new ilRadioOption($this->lng->txt('descending_order'), (string) ilForumProperties::VIEW_DATE_DESC));
+
+        $option_view_by_date->addSubItem($sub_group);
+        $rg_pro->addOption($option_view_by_date);
         $a_form->addItem($rg_pro);
 
         $userFunctionsHeader = new ilFormSectionHeaderGUI();
@@ -164,16 +165,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $cb_prop->setInfo($this->lng->txt('mark_moderator_posts_desc'));
         $a_form->addItem($cb_prop);
 
-        $stickyThreadSorting = new ilRadioGroupInputGUI($this->lng->txt('sorting_manual_sticky'), 'thread_sorting');
-        $latestAtTop = new ilRadioOption($this->lng->txt('frm_sticky_threads_latest_at_top'), '0');
-        $latestAtTop->setInfo($this->lng->txt('frm_sticky_threads_latest_at_top_info'));
-        $latestAtTop->setValue('1');
-        $stickyThreadSorting->addOption($latestAtTop);
-        $manualSorting = new ilRadioOption($this->lng->txt('frm_sticky_threads_manual_sorting'), '1');
-        $manualSorting->setInfo($this->lng->txt('frm_sticky_threads_manual_sorting_info'));
-        $stickyThreadSorting->addOption($manualSorting);
-        $a_form->addItem($stickyThreadSorting);
-
         if ($this->settings->get('enable_anonymous_fora') || $this->settings->get('enable_fora_statistics')) {
             $privacyHeader = new ilFormSectionHeaderGUI();
             $privacyHeader->setTitle($this->lng->txt('frm_settings_privacy_header'));
@@ -195,7 +186,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
     }
 
-    public function settingsTabs() : bool
+    public function settingsTabs(): bool
     {
         $this->tabs->addSubTabTarget(
             self::UI_SUB_TAB_ID_BASIC_SETTINGS,
@@ -209,32 +200,32 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'grp');
             $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'crs');
 
-            if ($grp_ref_id > 0 || $crs_ref_id > 0) {
-                #show member-tab for notification if forum-notification is enabled in administration
-                if ($this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
-                    $cmd = '';
-                    if ($this->dic->http()->wrapper()->query()->has('cmd')) {
-                        $cmd = $this->dic->http()->wrapper()->query()->retrieve(
-                            'cmd',
-                            $this->dic->refinery()->kindlyTo()->string()
-                        );
-                    }
-
-                    $mem_active = ['showMembers', 'forums_notification_settings'];
-                    $force_mem_active = false;
-                    if (in_array($cmd, $mem_active, true)) {
-                        $force_mem_active = true;
-                    }
-
-                    $this->tabs->addSubTabTarget(
-                        self::UI_SUB_TAB_ID_NOTIFICATIONS,
-                        $this->ctrl->getLinkTarget($this, 'showMembers'),
-                        '',
-                        [strtolower(self::class)],
-                        '',
-                        $force_mem_active
+            #show member-tab for notification if forum-notification is enabled in administration
+            if (($grp_ref_id > 0 || $crs_ref_id > 0) && $this->access->checkAccess(
+                'write',
+                '',
+                $this->parent_obj->getRefId()
+            )) {
+                $cmd = '';
+                if ($this->dic->http()->wrapper()->query()->has('cmd')) {
+                    $cmd = $this->dic->http()->wrapper()->query()->retrieve(
+                        'cmd',
+                        $this->dic->refinery()->kindlyTo()->string()
                     );
                 }
+                $mem_active = ['showMembers', 'forums_notification_settings'];
+                $force_mem_active = false;
+                if (in_array($cmd, $mem_active, true)) {
+                    $force_mem_active = true;
+                }
+                $this->tabs->addSubTabTarget(
+                    self::UI_SUB_TAB_ID_NOTIFICATIONS,
+                    $this->ctrl->getLinkTarget($this, 'showMembers'),
+                    '',
+                    [strtolower(self::class)],
+                    '',
+                    $force_mem_active
+                );
             }
         }
 
@@ -257,41 +248,64 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         return true;
     }
 
-    public function getCustomValues(array &$a_values) : void
+    public function getCustomValues(array &$a_values): void
     {
         $a_values['anonymized'] = $this->parent_obj->objProperties->isAnonymized();
         $a_values['statistics_enabled'] = $this->parent_obj->objProperties->isStatisticEnabled();
         $a_values['post_activation'] = $this->parent_obj->objProperties->isPostActivationEnabled();
         $a_values['subject_setting'] = $this->parent_obj->objProperties->getSubjectSetting();
         $a_values['mark_mod_posts'] = $this->parent_obj->objProperties->getMarkModeratorPosts();
-        $a_values['thread_sorting'] = $this->parent_obj->objProperties->getThreadSorting();
         $a_values['thread_rating'] = $this->parent_obj->objProperties->isIsThreadRatingEnabled();
 
-        if (in_array($this->parent_obj->objProperties->getDefaultView(), [
+        $default_view_value = $this->parent_obj->objProperties->getDefaultView();
+        if (in_array($default_view_value, [
             ilForumProperties::VIEW_TREE,
+            ilForumProperties::VIEW_DATE,
             ilForumProperties::VIEW_DATE_ASC,
             ilForumProperties::VIEW_DATE_DESC
         ], true)) {
-            $default_view = $this->parent_obj->objProperties->getDefaultView();
+            if (in_array($default_view_value, [
+                ilForumProperties::VIEW_DATE_ASC,
+                ilForumProperties::VIEW_DATE_DESC
+            ], true)) {
+                $default_view_by_date = $default_view_value;
+                $default_view = ilForumProperties::VIEW_DATE;
+            } else {
+                $default_view = $default_view_value;
+            }
         } else {
             $default_view = ilForumProperties::VIEW_TREE;
         }
 
         $a_values['default_view'] = $default_view;
+        if (isset($default_view_by_date)) {
+            $a_values['default_view_by_date'] = $default_view_by_date;
+        }
         $a_values['file_upload_allowed'] = $this->parent_obj->objProperties->getFileUploadAllowed();
 
         $object = $this->parent_obj->getObject();
-        $a_values['activation_online'] = $object->getOfflineStatus() === false;
+        $a_values['activation_online'] = !$object->getOfflineStatus();
     }
 
-    public function updateCustomValues(ilPropertyFormGUI $a_form) : void
+    public function updateCustomValues(ilPropertyFormGUI $a_form): void
     {
-        if (in_array((int) $a_form->getInput('default_view'), [
+        $default_view_input_value = (int) $a_form->getInput('default_view');
+        if (in_array($default_view_input_value, [
             ilForumProperties::VIEW_TREE,
+            ilForumProperties::VIEW_DATE,
             ilForumProperties::VIEW_DATE_ASC,
             ilForumProperties::VIEW_DATE_DESC
         ], true)) {
-            $default_view = (int) $a_form->getInput('default_view');
+            if ($default_view_input_value === ilForumProperties::VIEW_DATE) {
+                $default_view_order_by_date_value = (int) $a_form->getInput('default_view_by_date');
+                if (in_array($default_view_order_by_date_value, [
+                    ilForumProperties::VIEW_DATE_ASC,
+                    ilForumProperties::VIEW_DATE_DESC
+                ], true)) {
+                    $default_view_input_value = $default_view_order_by_date_value;
+                }
+            }
+            $default_view = $default_view_input_value;
         } else {
             $default_view = ilForumProperties::VIEW_TREE;
         }
@@ -299,8 +313,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
         // BUGFIX FOR 11271
 
-        if (ilSession::get('viewmode')) {
-            ilSession::set('viewmode', $default_view);
+        $view_mode = 'viewmode_' . $this->parent_obj->getObject()->getId();
+        if (ilSession::get($view_mode)) {
+            ilSession::set($view_mode, $default_view);
         }
 
         if ($this->settings->get('enable_anonymous_fora') || $this->parent_obj->objProperties->isAnonymized()) {
@@ -312,7 +327,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->parent_obj->objProperties->setPostActivation((bool) $a_form->getInput('post_activation'));
         $this->parent_obj->objProperties->setSubjectSetting($a_form->getInput('subject_setting'));
         $this->parent_obj->objProperties->setMarkModeratorPosts((bool) $a_form->getInput('mark_mod_posts'));
-        $this->parent_obj->objProperties->setThreadSorting((int) $a_form->getInput('thread_sorting'));
         $this->parent_obj->objProperties->setIsThreadRatingEnabled((bool) $a_form->getInput('thread_rating'));
         if (!ilForumProperties::isFileUploadGloballyAllowed()) {
             $this->parent_obj->objProperties->setFileUploadAllowed((bool) $a_form->getInput('file_upload_allowed'));
@@ -325,7 +339,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $object->update();
     }
 
-    public function showMembers() : void
+    public function showMembers(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -342,23 +356,23 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             $interested_events = $this->parent_obj->objProperties->getInterestedEvents();
 
             $form_events = [];
-            if ($interested_events & ilForumNotificationEvents::UPDATED) {
+            if (($interested_events & ilForumNotificationEvents::UPDATED) !== 0) {
                 $form_events[] = ilForumNotificationEvents::UPDATED;
             }
 
-            if ($interested_events & ilForumNotificationEvents::CENSORED) {
+            if (($interested_events & ilForumNotificationEvents::CENSORED) !== 0) {
                 $form_events[] = ilForumNotificationEvents::CENSORED;
             }
 
-            if ($interested_events & ilForumNotificationEvents::UNCENSORED) {
+            if (($interested_events & ilForumNotificationEvents::UNCENSORED) !== 0) {
                 $form_events[] = ilForumNotificationEvents::UNCENSORED;
             }
 
-            if ($interested_events & ilForumNotificationEvents::POST_DELETED) {
+            if (($interested_events & ilForumNotificationEvents::POST_DELETED) !== 0) {
                 $form_events[] = ilForumNotificationEvents::POST_DELETED;
             }
 
-            if ($interested_events & ilForumNotificationEvents::THREAD_DELETED) {
+            if (($interested_events & ilForumNotificationEvents::THREAD_DELETED) !== 0) {
                 $form_events[] = ilForumNotificationEvents::THREAD_DELETED;
             }
 
@@ -373,7 +387,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         // set form html into template
         $this->tpl->setVariable('NOTIFICATIONS_SETTINGS_FORM', $this->notificationSettingsForm->getHTML());
 
-        $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
         $oParticipants = $this->getParticipants();
 
         $moderator_ids = ilForum::_getModerators($this->parent_obj->getObject()->getRefId());
@@ -402,7 +415,11 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
     }
 
-    private function getUserNotificationTableData($user_ids) : array
+    /**
+     * @param int[] $user_ids
+     * @return array
+     */
+    private function getUserNotificationTableData(array $user_ids): array
     {
         $counter = 0;
         $users = [];
@@ -425,7 +442,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         return $users;
     }
 
-    private function showMembersTable(array $moderators, array $admins, array $members, array $tutors) : void
+    private function showMembersTable(array $moderators, array $admins, array $members, array $tutors): void
     {
         foreach (array_filter([
             'moderators' => $moderators,
@@ -441,72 +458,61 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
     }
 
-    public function saveEventsForUser() : void
+    public function saveEventsForUser(): void
     {
-        $hidden_value = [];
-        if ($this->http_wrapper->post()->has('hidden_value')) {
-            $hidden_value = $this->http_wrapper->post()->retrieve(
-                'hidden_value',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
+            $this->error->raiseError(
+                $this->lng->txt('msg_no_perm_read'),
+                $this->error->MESSAGE
             );
         }
 
-        $notify_modified = 0;
-        if ($this->http_wrapper->post()->has('notify_modified')) {
-            $notify_modified = $this->http_wrapper->post()->retrieve(
-                'notify_modified',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $notify_censored = 0;
-        if ($this->http_wrapper->post()->has('notify_censored')) {
-            $notify_censored = $this->http_wrapper->post()->retrieve(
-                'notify_censored',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $notify_uncensored = 0;
-        if ($this->http_wrapper->post()->has('notify_uncensored')) {
-            $notify_uncensored = $this->http_wrapper->post()->retrieve(
-                'notify_uncensored',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $notify_post_deleted = 0;
-        if ($this->http_wrapper->post()->has('notify_post_deleted')) {
-            $notify_post_deleted = $this->http_wrapper->post()->retrieve(
-                'notify_post_deleted',
-                $this->refinery->kindlyTo()->int()
-            );
+        $events_form_builder = new ilForumNotificationEventsFormGUI(
+            $this->ctrl->getFormAction($this, 'saveEventsForUser'),
+            null,
+            $this->ui_factory,
+            $this->lng
+        );
+
+        if ($this->http->request()->getMethod() === 'POST') {
+            $form = $events_form_builder->build()->withRequest($this->http->request());
+            $formData = $form->getData();
+
+            $interested_events = ilForumNotificationEvents::DEACTIVATED;
+
+            foreach ($events_form_builder->getValidEvents() as $event) {
+                $interested_events += isset($formData[$event]) && $formData[$event] ? $events_form_builder->getValueForEvent(
+                    $event
+                ) : 0;
+            }
+
+            if (isset($formData['hidden_value']) && $formData['hidden_value']) {
+                $hidden_value = json_decode($formData['hidden_value'], false, 512, JSON_THROW_ON_ERROR);
+
+                $oParticipants = $this->getParticipants();
+                $moderator_ids = ilForum::_getModerators($this->parent_obj->getObject()->getRefId());
+                $admin_ids = $oParticipants->getAdmins();
+                $member_ids = $oParticipants->getMembers();
+                $tutor_ids = $oParticipants->getTutors();
+
+                $valid_usr_ids = array_unique(array_merge($moderator_ids, $admin_ids, $member_ids, $tutor_ids));
+
+                if (in_array($hidden_value->usr_id, $valid_usr_ids)) {
+                    $frm_noti = new ilForumNotification($this->parent_obj->getRefId());
+                    $frm_noti->setUserId($hidden_value->usr_id);
+                    $frm_noti->setForumId($this->parent_obj->getObject()->getId());
+                    $frm_noti->setInterestedEvents($interested_events);
+                    $frm_noti->updateInterestedEvents();
+                }
+            }
         }
 
-        $notify_thread_deleted = 0;
-        if ($this->http_wrapper->post()->has('notify_thread_deleted')) {
-            $notify_thread_deleted = $this->http_wrapper->post()->retrieve(
-                'notify_thread_deleted',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-
-        $hidden_value = json_decode($hidden_value, false, 512, JSON_THROW_ON_ERROR);
-        $interested_events = 0;
-
-        $interested_events += (int) $notify_modified;
-        $interested_events += (int) $notify_censored;
-        $interested_events += (int) $notify_uncensored;
-        $interested_events += (int) $notify_post_deleted;
-        $interested_events += (int) $notify_thread_deleted;
-
-        $frm_noti = new ilForumNotification($hidden_value->ref_id);
-        $frm_noti->setUserId($hidden_value->usr_id_events);
-        $frm_noti->setForumId($hidden_value->forum_id);
-        $frm_noti->setInterestedEvents($interested_events);
-        $frm_noti->updateInterestedEvents();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
 
         $this->showMembers();
     }
 
-    public function enableAdminForceNoti() : void
+    public function enableAdminForceNoti(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -545,7 +551,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->showMembers();
     }
 
-    public function disableAdminForceNoti() : void
+    public function disableAdminForceNoti(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -582,7 +588,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->showMembers();
     }
 
-    public function enableHideUserToggleNoti() : void
+    public function enableHideUserToggleNoti(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -623,7 +629,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->showMembers();
     }
 
-    public function disableHideUserToggleNoti() : void
+    public function disableHideUserToggleNoti(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -663,7 +669,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->showMembers();
     }
 
-    public function getParticipants() : ilParticipants
+    public function getParticipants(): ilParticipants
     {
         if (!$this->parent_obj->isParentObjectCrsOrGrp()) {
             $this->error->raiseError(
@@ -684,7 +690,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         return ilCourseParticipants::_getInstanceByObjId($parent_obj->getId());
     }
 
-    private function updateUserNotifications(bool $update_all_users = false) : void
+    private function updateUserNotifications(bool $update_all_users = false): void
     {
         $oParticipants = $this->getParticipants();
 
@@ -709,13 +715,13 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
             if (array_key_exists($user_id, $all_notis) && $update_all_users) {
                 $frm_noti->update();
-            } elseif ($frm_noti->existsNotification() === false) {
+            } elseif (!$frm_noti->existsNotification()) {
                 $frm_noti->insertAdminForce();
             }
         }
     }
 
-    private function initNotificationSettingsForm() : bool
+    private function initNotificationSettingsForm(): bool
     {
         if (null === $this->notificationSettingsForm) {
             $form = new ilPropertyFormGUI();
@@ -768,7 +774,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         return true;
     }
 
-    public function updateNotificationSettings() : void
+    public function updateNotificationSettings(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(

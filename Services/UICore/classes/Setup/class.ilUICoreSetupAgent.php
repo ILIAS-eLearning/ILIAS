@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -21,7 +23,7 @@ class ilUICoreSetupAgent implements Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return false;
     }
@@ -29,7 +31,7 @@ class ilUICoreSetupAgent implements Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         throw new LogicException(self::class . " has no Config.");
     }
@@ -37,7 +39,7 @@ class ilUICoreSetupAgent implements Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Config $config = null) : Objective
+    public function getInstallObjective(Config $config = null): Objective
     {
         return new NullObjective();
     }
@@ -45,7 +47,7 @@ class ilUICoreSetupAgent implements Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Config $config = null) : Objective
+    public function getUpdateObjective(Config $config = null): Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(
             new ilCtrlDatabaseUpdateSteps()
@@ -55,7 +57,7 @@ class ilUICoreSetupAgent implements Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Objective
+    public function getBuildArtifactObjective(): Objective
     {
         return new ObjectiveCollection(
             'buildIlCtrlArtifacts',
@@ -69,7 +71,7 @@ class ilUICoreSetupAgent implements Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Storage $storage) : Objective
+    public function getStatusObjective(Storage $storage): Objective
     {
         return new NullObjective();
     }
@@ -77,7 +79,7 @@ class ilUICoreSetupAgent implements Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }
@@ -85,7 +87,7 @@ class ilUICoreSetupAgent implements Agent
     /**
      * @inheritDoc
      */
-    public function getNamedObjectives(?Config $config = null) : array
+    public function getNamedObjectives(?Config $config = null): array
     {
         return [
             'buildIlCtrlArtifacts' => new ObjectiveConstructor(

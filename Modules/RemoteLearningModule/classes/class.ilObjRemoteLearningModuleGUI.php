@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * Remote learning module GUI
@@ -35,30 +38,30 @@ class ilObjRemoteLearningModuleGUI extends ilRemoteObjectBaseGUI implements ilCt
         $this->lng->loadLanguageModule('rlm');
         // $this->lng->loadLanguageModule('lres');
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return 'rlm';
     }
-    
-    protected function addCustomInfoFields(ilInfoScreenGUI $a_info) : void
+
+    protected function addCustomInfoFields(ilInfoScreenGUI $a_info): void
     {
         $a_info->addProperty($this->lng->txt('ecs_availability'), $this->availabilityToString());
     }
-    
+
     protected function availabilityToString()
     {
         switch ($this->object->getAvailabilityType()) {
             case ilObjRemoteLearningModule::ACTIVATION_OFFLINE:
                 return $this->lng->txt('offline');
-            
+
             case ilObjRemoteLearningModule::ACTIVATION_ONLINE:
                 return $this->lng->txt('online');
         }
         return '';
     }
-    
-    protected function addCustomEditForm(ilPropertyFormGUI $a_form) : void
+
+    protected function addCustomEditForm(ilPropertyFormGUI $a_form): void
     {
         $radio_grp = new ilRadioGroupInputGUI($this->lng->txt('ecs_availability'), 'activation_type');
         $radio_grp->setValue($this->object->getAvailabilityType());

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
     +-----------------------------------------------------------------------------+
@@ -36,19 +38,19 @@ class ilGroupEventHandlerTest extends TestCase
 
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->initDependencies();
         parent::setUp();
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $listener = new ilGroupAppEventListener();
         $this->assertTrue($listener instanceof ilGroupAppEventListener);
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -59,7 +61,7 @@ class ilGroupEventHandlerTest extends TestCase
         };
     }
 
-    protected function initDependencies() : void
+    protected function initDependencies(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;

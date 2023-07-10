@@ -1,4 +1,6 @@
-<?php namespace ILIAS\GlobalScreen\Client;
+<?php
+
+namespace ILIAS\GlobalScreen\Client;
 
 chdir(strstr(__DIR__, '/src', true));
 /** @noRector  */

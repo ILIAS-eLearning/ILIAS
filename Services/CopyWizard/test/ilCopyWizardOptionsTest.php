@@ -1,8 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
-
 
 /**
  * Unit tests for class ilCopyWizardOptions
@@ -15,13 +16,13 @@ class ilCopyWizardOptionsTest extends TestCase
 
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->initCopyWizardDependencies();
         parent::setUp();
     }
 
-    public function testSingleton() : void
+    public function testSingleton(): void
     {
         $first = ilCopyWizardOptions::_getInstance(0);
         $second = ilCopyWizardOptions::_getInstance(0);
@@ -33,7 +34,7 @@ class ilCopyWizardOptionsTest extends TestCase
      * @param string $name
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -44,7 +45,7 @@ class ilCopyWizardOptionsTest extends TestCase
         };
     }
 
-    protected function initCopyWizardDependencies() : void
+    protected function initCopyWizardDependencies(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;

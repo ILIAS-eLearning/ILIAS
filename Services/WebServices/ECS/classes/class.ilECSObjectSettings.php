@@ -1,18 +1,27 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Field\Section;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 
 /**
 * Handles object exports to ECS
@@ -22,15 +31,15 @@
 abstract class ilECSObjectSettings
 {
     protected \ilObject $content_obj; // [ilObj]
-    
+
     private ilLogger $logger;
     private ilLanguage $lng;
     private ilTree $tree;
     private ilRbacAdmin $rbacAdmin;
-    
+
     public const MAIL_SENDER = 6;
     private \ilGlobalTemplateInterface $main_tpl;
-    
+
     /**
      * Constructor
      *
@@ -48,55 +57,55 @@ abstract class ilECSObjectSettings
 
         $this->content_obj = $a_content_object;
     }
-    
+
     /**
      * Get settings handler for repository object
      */
-    public static function getInstanceByObject(ilObject $a_content_obj) : ?ilECSObjectSettings
+    public static function getInstanceByObject(ilObject $a_content_obj): ?ilECSObjectSettings
     {
         switch ($a_content_obj->getType()) {
             case 'crs':
                 return new ilECSCourseSettings($a_content_obj);
-                
+
             case 'cat':
                 return new ilECSCategorySettings($a_content_obj);
-                
+
             case 'file':
                 return new ilECSFileSettings($a_content_obj);
-                
+
             case 'glo':
                 return new ilECSGlossarySettings($a_content_obj);
-                
+
             case 'grp':
                 return new ilECSGroupSettings($a_content_obj);
-                
+
             case 'lm':
                 return new ilECSLearningModuleSettings($a_content_obj);
-                
+
             case 'wiki':
                 return new ilECSWikiSettings($a_content_obj);
         }
         return null;
     }
-    
+
     /**
      * Get content object
      * @return ilObject
      */
-    public function getContentObject() : \ilObject
+    public function getContentObject(): \ilObject
     {
         return $this->content_obj;
     }
-    
+
     /**
      * Get ECS resource identifier, e.g. "/campusconnect/courselinks"
      */
-    abstract protected function getECSObjectType() : string;
+    abstract protected function getECSObjectType(): string;
 
     /**
      * Is ECS (for current object) active?
      */
-    protected function isActive() : bool
+    protected function isActive(): bool
     {
         if (ilECSServerSettings::getInstance()->activeServerExists()) {
             // imported objects cannot be exported => why not
@@ -105,7 +114,7 @@ abstract class ilECSObjectSettings
                 return true;
             }
         }
-                        
+
         return false;
     }
 
@@ -114,33 +123,14 @@ abstract class ilECSObjectSettings
      *
      * to be used in ilObject->initEditForm()
      */
-    public function addSettingsToForm(ilPropertyFormGUI $a_form, $a_type) : bool
+    public function addSettingsToForm(ilPropertyFormGUI $a_form, $a_type): bool
     {
-        $this->logger->debug('Show ecs settings.');
-        if (!$this->isActive()) {
-            $this->logger->debug('Object type is not active. => no settings.');
-            return false;
-        }
-        
+        $export_manager = ilECSExportManager::getInstance();
+        $exportable_participants = (new ilECSParticipantSettingsRepository())->getExportableParticipants($a_type);
         $obj_id = $this->content_obj->getId();
 
-        // Return if no participant is enabled for export and the current object is not released
-        if (!$this->getContentObject()->withReferences()) {
-            $this->logger->debug('Called withot references. => no settings.');
-            return true;
-        }
-        $exportManager = ilECSExportManager::getInstance();
-        $exportableParticipants = (new ilECSParticipantSettingsRepository())->getExportableParticipants($a_type);
-        if (!$exportableParticipants && !$exportManager->_isExported($obj_id)) {
-            $this->logger->debug('Object type is not exportable. => no settings.');
-            return true;
-        }
-        if (
-            $this->tree->checkForParentType($this->tree->getParentId($this->getContentObject()->getRefId()), 'crs', false) ||
-            $this->tree->checkForParentType($this->tree->getParentId($this->getContentObject()->getRefId()), 'grp', false)
-        ) {
-            $this->logger->debug('Parent crs/grp in path. => no settings.');
-            return true;
+        if (!$this->ecsCanBeActivatedForObject($export_manager, $exportable_participants)) {
+            return false;
         }
 
         $this->lng->loadLanguageModule('ecs');
@@ -154,7 +144,7 @@ abstract class ilECSObjectSettings
         // release or not
         $exp = new ilRadioGroupInputGUI($this->lng->txt('ecs_' . $a_type . '_export_obj_settings'), 'ecs_export');
         $exp->setRequired(true);
-        $exp->setValue($exportManager->_isExported($obj_id) ? "1" : "0");
+        $exp->setValue($export_manager->_isExported($obj_id) ? "1" : "0");
         $off = new ilRadioOption($this->lng->txt('ecs_' . $a_type . '_export_disabled'), "0");
         $exp->addOption($off);
         $on = new ilRadioOption($this->lng->txt('ecs_' . $a_type . '_export_enabled'), "1");
@@ -169,9 +159,9 @@ abstract class ilECSObjectSettings
 
         // Read receivers
         $receivers = array();
-        foreach ($exportManager->getExportServerIds($obj_id) as $sid) {
+        foreach ($export_manager->getExportServerIds($obj_id) as $sid) {
             $exp = new ilECSExport($sid, $obj_id);
-                        
+
             $participants = null;
             $details = ilECSEContentDetails::getInstanceFromServer(
                 $sid,
@@ -189,7 +179,7 @@ abstract class ilECSObjectSettings
         }
         $publish_for->setValue($receivers);
 
-        foreach ($exportableParticipants as $pInfo) {
+        foreach ($exportable_participants as $pInfo) {
             $partSetting = new ilECSParticipantSetting($pInfo['sid'], $pInfo['mid']);
 
             $com = new ilCheckboxOption(
@@ -202,7 +192,140 @@ abstract class ilECSObjectSettings
         $on->addSubItem($publish_for);
         return true;
     }
-    
+
+    public function getSettingsSection(
+        FieldFactory $field_factory,
+        Refinery $refinery
+    ): ?Section {
+        $type = $this->content_obj->getType();
+        $export_manager = ilECSExportManager::getInstance();
+        $exportable_participants = (new ilECSParticipantSettingsRepository())->getExportableParticipants($type);
+
+        if (!$this->ecsCanBeActivatedForObject($export_manager, $exportable_participants)) {
+            return null;
+        }
+
+        $this->lng->loadLanguageModule('ecs');
+        $trafo = $this->getTrafoForECSExportSection($refinery);
+
+        $potential_receivers = [];
+
+        foreach ($exportable_participants as $participant) {
+            $participant_setting = new ilECSParticipantSetting($participant['sid'], $participant['mid']);
+            $potential_receivers[$participant['sid'] . '_' . $participant['mid']] = $field_factory->checkbox(
+                $participant_setting->getCommunityName() . ': ' . $participant_setting->getTitle()
+            );
+        }
+
+        $value = $this->getValueForECSExportOptionalGroup(
+            $export_manager,
+            array_keys($potential_receivers)
+        );
+
+        $inputs['ecs_export'] = $field_factory->optionalGroup(
+            $potential_receivers,
+            $this->lng->txt('ecs_' . $type . '_export_obj_settings')
+        )
+            ->withValue($value);
+
+        return $field_factory->section($inputs, $this->lng->txt('ecs_' . $type . '_export'))
+            ->withAdditionalTransformation($trafo);
+    }
+
+    protected function ecsCanBeActivatedForObject(
+        ilECSExportManager $export_manager,
+        array $exportable_participants
+    ): bool {
+        $this->logger->debug('Show ecs settings.');
+        if (!$this->isActive()) {
+            $this->logger->debug('Object type is not active. => no settings.');
+            return false;
+        }
+
+        $obj_id = $this->content_obj->getId();
+
+        // Return if no participant is enabled for export and the current object is not released
+        if (!$this->getContentObject()->withReferences()) {
+            $this->logger->debug('Called without references. => no settings.');
+            return false;
+        }
+
+        if (!$exportable_participants && !$export_manager->_isExported($obj_id)) {
+            $this->logger->debug('Object type is not exportable. => no settings.');
+            return false;
+        }
+        if (
+            $this->tree->checkForParentType($this->tree->getParentId($this->getContentObject()->getRefId()), 'crs', false) ||
+            $this->tree->checkForParentType($this->tree->getParentId($this->getContentObject()->getRefId()), 'grp', false)
+        ) {
+            $this->logger->debug('Parent crs/grp in path. => no settings.');
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function getTrafoForECSExportSection(Refinery $refinery): Transformation
+    {
+        return $refinery->custom()->transformation(
+            function (?array $vs): array {
+                if ($vs['ecs_export'] === null) {
+                    return [
+                        'is_exported' => false
+                    ];
+                }
+
+                return [
+                    'is_exported' => true,
+                    'values' => array_keys($vs['ecs_export'])
+                ];
+            }
+        );
+    }
+
+    protected function getValueForECSExportOptionalGroup(
+        ilECSExportManager $export_manager,
+        array $potential_receivers
+    ): ?array {
+        $obj_id = $this->content_obj->getId();
+        $active_receivers = null;
+        foreach ($export_manager->getExportServerIds($obj_id) as $sid) {
+            $exp = new ilECSExport($sid, $obj_id);
+
+            $participants = null;
+            $details = ilECSEContentDetails::getInstanceFromServer(
+                $sid,
+                $exp->getEContentId(),
+                $this->getECSObjectType()
+            );
+            if ($details instanceof ilECSEContentDetails) {
+                $participants = $details->getReceivers();
+            }
+            if ($participants === null) {
+                continue;
+            }
+            foreach ($participants as $mid) {
+                $active_receivers[$sid . '_' . $mid] = true;
+            }
+        }
+
+        if ($active_receivers === null) {
+            return null;
+        }
+
+        $missing_keys = (array_diff($potential_receivers, array_keys($active_receivers)));
+        foreach ($missing_keys as $key) {
+            $active_receivers[$key] = false;
+        }
+
+        return $active_receivers;
+    }
+
+    public function saveSettingsSection(array $section): bool
+    {
+        return $this->handleSettings($section['is_exported'], $section['values']);
+    }
+
     /**
      * Update ECS Export Settings
      *
@@ -211,15 +334,25 @@ abstract class ilECSObjectSettings
      *
      * @return bool
      */
-    public function handleSettingsUpdate() : bool
+    public function handleSettingsUpdate(): bool
     {
+        $ecs_export = (bool) $_POST['ecs_export'];
+        $selected_receivers = (array) $_POST['ecs_sid'];
+        return $this->handleSettings($ecs_export, $selected_receivers);
+    }
+
+
+    protected function handleSettings(
+        bool $ecs_export,
+        array $selected_receivers
+    ): bool {
         if (!$this->isActive()) {
             return true;
         }
-        
+
         // Parse post data
         $mids = array();
-        foreach ((array) $_POST['ecs_sid'] as $sid_mid) {
+        foreach ((array) $selected_receivers as $sid_mid) {
             $tmp = explode('_', $sid_mid);
             $mids[$tmp[0]][] = $tmp[1];
         }
@@ -231,7 +364,7 @@ abstract class ilECSObjectSettings
                 if ($server->isEnabled()) {
                     // Export
                     $export = true;
-                    if (!$_POST['ecs_export']) {
+                    if (!$ecs_export) {
                         $export = false;
                     }
                     if (
@@ -253,14 +386,14 @@ abstract class ilECSObjectSettings
         }
         return true;
     }
-    
+
     /**
      * Save ECS settings (add- update- deleteResource)
      *
      * @param array array of participant mids
      * @throws ilECSConnectorException
      */
-    protected function handleSettingsForServer(ilECSSetting $a_server, bool $a_export, array $a_mids) : void
+    protected function handleSettingsForServer(ilECSSetting $a_server, bool $a_export, array $a_mids): void
     {
         $export_settings = new ilECSExport($a_server->getServerId(), $this->content_obj->getId());
 
@@ -280,13 +413,13 @@ abstract class ilECSObjectSettings
             $this->doAdd($a_server, $export_settings, $a_mids);
         }
     }
-    
+
     /**
      * Update ECS Content
      *
      * to be used AFTER metadata-/content-updates
      */
-    public function handleContentUpdate() : bool
+    public function handleContentUpdate(): bool
     {
         if (!$this->isActive()) {
             return true;
@@ -298,7 +431,7 @@ abstract class ilECSObjectSettings
             if ($server->isEnabled()) {
                 try {
                     $export_settings = new ilECSExport($server_id, $this->content_obj->getId());
-                    
+
                     // already exported, update ecs
                     if ($export_settings->isExported()) {
                         $this->doUpdate($server, $export_settings);
@@ -311,11 +444,11 @@ abstract class ilECSObjectSettings
         }
         return true;
     }
-    
+
     /**
      * Add resource to ECS
      */
-    protected function doAdd(ilECSSetting $a_server, ilECSExport $a_export_settings, array $a_mids) : void
+    protected function doAdd(ilECSSetting $a_server, ilECSExport $a_export_settings, array $a_mids): void
     {
         $this->logger->info(__METHOD__ . ': Starting ECS add resource...');
 
@@ -332,13 +465,13 @@ abstract class ilECSObjectSettings
         $a_export_settings->setExported(true);
         $a_export_settings->setEContentId($econtent_id);
         $a_export_settings->save();
-        
+
         $this->handlePermissionUpdate($a_server);
 
         // Send mail
         $this->sendNewContentNotification($a_server, $econtent_id);
     }
-    
+
     /**
      * Update ECS resource
      *
@@ -347,7 +480,7 @@ abstract class ilECSObjectSettings
      * @param array $a_mids
      * @throws ilECSConnectorException
      */
-    protected function doUpdate(ilECSSetting $a_server, ilECSExport $a_export_settings, array $a_mids = null) : void
+    protected function doUpdate(ilECSSetting $a_server, ilECSExport $a_export_settings, array $a_mids = null): void
     {
         $econtent_id = $a_export_settings->getEContentId();
         if (!$econtent_id) {
@@ -355,7 +488,7 @@ abstract class ilECSObjectSettings
             throw new ilECSConnectorException('Missing ECS content ID. Aborting.');
         }
         $connector = new ilECSConnector($a_server);
-        
+
         if (!$a_mids) {
             $a_mids = $this->getParticipants($a_server->getServerId(), $econtent_id);
         }
@@ -368,10 +501,10 @@ abstract class ilECSObjectSettings
             $econtent_id,
             json_encode($json, JSON_THROW_ON_ERROR)
         );
-        
+
         $this->handlePermissionUpdate($a_server);
     }
-    
+
     /**
      * Delete ECS resource
      *
@@ -379,7 +512,7 @@ abstract class ilECSObjectSettings
      *
      * @throws ilECSConnectorException
      */
-    public function doDelete(ilECSSetting $a_server, ilECSExport $a_export_settings) : void
+    public function doDelete(ilECSSetting $a_server, ilECSExport $a_export_settings): void
     {
         // already exported?
         if ($a_export_settings->isExported()) {
@@ -401,15 +534,14 @@ abstract class ilECSObjectSettings
             $a_export_settings->save();
         }
     }
-    
+
     /**
      * handle delete
      * Objects that are moved to the trash call ECS-Remove
      *
      * @see ilRepUtil
-     * @param array $a_subbtree_nodes
      */
-    public static function _handleDelete(array $a_subbtree_nodes) : void
+    public static function _handleDelete(array $a_subbtree_nodes): void
     {
         // active?
         if (!ilECSServerSettings::getInstance()->activeServerExists()) {
@@ -436,11 +568,11 @@ abstract class ilECSObjectSettings
             }
         }
     }
-    
+
     /**
      * Get participants for server and ecs resource
      */
-    protected function getParticipants(int $a_server_id, int $a_econtent_id) : array
+    protected function getParticipants(int $a_server_id, int $a_econtent_id): array
     {
         $receivers = array();
         foreach ((array) $a_server_id as $sid) {
@@ -457,11 +589,11 @@ abstract class ilECSObjectSettings
         }
         return $receivers;
     }
-    
+
     /**
      * send notifications about new EContent
      */
-    protected function sendNewContentNotification(ilECSSetting $a_server, $a_econtent_id) : bool
+    protected function sendNewContentNotification(ilECSSetting $a_server, $a_econtent_id): bool
     {
         if (!count($rcps = $a_server->getApprovalRecipients())) {
             return true;
@@ -480,10 +612,10 @@ abstract class ilECSObjectSettings
 
         // Participant info
         $message .= ("\n" . $lang->txt('ecs_published_for'));
-            
+
         try {
             $found = false;
-            
+
             $receivers = null;
             $details = ilECSEContentDetails::getInstanceFromServer(
                 $a_server->getServerId(),
@@ -496,9 +628,9 @@ abstract class ilECSObjectSettings
             if ($receivers) {
                 foreach ($receivers as $member) {
                     $found = true;
-                    
+
                     $part = ilECSCommunityReader::getInstanceByServerId($a_server->getServerId())->getParticipantByMID($member);
-                    
+
                     $message .= ("\n\n" . $part->getParticipantName() . "\n");
                     $message .= ($part->getDescription());
                 }
@@ -512,11 +644,11 @@ abstract class ilECSObjectSettings
             $this->logger->warning(__METHOD__ . ': Cannot read approvements.');
             return false;
         }
-        
+
         $href = ilLink::_getStaticLink($this->content_obj->getRefId(), 'crs', true);
         $message .= $lang->txt("perma_link") . ': ' . $href . "\n\n";
         $message .= ilMail::_getAutoGeneratedMessageString();
-        
+
         $mail->enqueue(
             $a_server->getApprovalRecipientsAsString(),
             '',
@@ -525,15 +657,14 @@ abstract class ilECSObjectSettings
             $message,
             array()
         );
-        
+
         return true;
     }
-    
+
     /**
      * Handle permission update
-     * @param ilECSSetting $server
      */
-    protected function handlePermissionUpdate(ilECSSetting $server) : void
+    protected function handlePermissionUpdate(ilECSSetting $server): void
     {
         if (
             ($this->content_obj->getType() === 'crs') ||
@@ -547,14 +678,11 @@ abstract class ilECSObjectSettings
             );
         }
     }
-    
+
     /**
      * Build core json structure
-     *
-     * @param string $a_etype
-     * @return object
      */
-    protected function getJsonCore($a_etype)
+    protected function getJsonCore(string $a_etype): object
     {
         $json = new stdClass();
         $json->lang = 'en_EN'; // :TODO: obsolet?
@@ -562,23 +690,19 @@ abstract class ilECSObjectSettings
         $json->etype = $a_etype;
         $json->title = $this->content_obj->getTitle();
         $json->abstract = $this->content_obj->getLongDescription();
-        
+
         $json->url = ilLink::_getLink($this->content_obj->getRefId(), $this->content_obj->getType());
-        
+
         return $json;
     }
-    
+
     /**
      * Add advanced metadata to json (export)
-     *
-     * @param object $a_json
-     * @param ilECSSetting $a_server
-     * @param array $a_definition
      */
-    protected function addMetadataToJson($a_json, ilECSSetting $a_server, array $a_definition) : void
+    protected function addMetadataToJson(object $a_json, ilECSSetting $a_server, array $a_definition): void
     {
         $mappings = ilECSDataMappingSettings::getInstanceByServerId($a_server->getServerId());
-        
+
         $values = ilECSUtils::getAdvancedMDValuesForObjId($this->content_obj->getId());
 
         foreach ($a_definition as $id => $type) {
@@ -587,23 +711,23 @@ abstract class ilECSObjectSettings
             } else {
                 $target = $id;
             }
-        
+
             if ($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, $id)) {
                 $value = $values[$field] ?? '';
-                
+
                 switch ($type) {
                     case ilECSUtils::TYPE_ARRAY:
                         $a_json->{$target} = explode(',', $value);
                         break;
-                    
+
                     case ilECSUtils::TYPE_INT:
                         $a_json->{$target} = (int) $value;
                         break;
-                    
+
                     case ilECSUtils::TYPE_STRING:
                         $a_json->{$target} = (string) $value;
                         break;
-                    
+
                     case ilECSUtils::TYPE_TIMEPLACE:
                         if (!isset($a_json->{$target})) {
                             $a_json->{$target} = new ilECSTimePlace();
@@ -614,11 +738,10 @@ abstract class ilECSObjectSettings
             }
         }
     }
-    
+
     /**
      * Build resource-specific json
      *
-     * @param ilECSSetting $a_server
      * @return mixed
      */
     abstract protected function buildJson(ilECSSetting $a_server);

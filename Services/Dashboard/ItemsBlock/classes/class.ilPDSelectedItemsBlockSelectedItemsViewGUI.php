@@ -15,7 +15,7 @@
 
 class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockViewGUI
 {
-    public function getGroups() : array
+    public function getGroups(): array
     {
         if ($this->viewSettings->isSortedByLocation()) {
             return $this->groupItemsByLocation();
@@ -26,22 +26,22 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
         return $this->groupItemsByType();
     }
 
-    public function getScreenId() : string
+    public function getScreenId(): string
     {
         return 'sel_items';
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('dash_favourites');
     }
 
-    public function supportsSelectAll() : bool
+    public function supportsSelectAll(): bool
     {
         return true;
     }
 
-    public function getIntroductionHtml() : string
+    public function getIntroductionHtml(): string
     {
         $tpl = new ilTemplate('tpl.dashboard_intro.html', true, true, 'Services/Dashboard');
         $tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon(0, 'big', 'pd'));

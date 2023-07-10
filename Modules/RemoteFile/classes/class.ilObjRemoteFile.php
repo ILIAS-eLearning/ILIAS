@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * Remote file app class
@@ -25,26 +28,26 @@
 
 class ilObjRemoteFile extends ilRemoteObjectBase
 {
-    const DB_TABLE_NAME = "rfil_settings";
-    
+    public const DB_TABLE_NAME = "rfil_settings";
+
     protected $version;
     protected $version_tstamp;
 
-    public function initType() : void
+    public function initType(): void
     {
         $this->type = "rfil";
     }
-    
-    protected function getTableName() : string
+
+    protected function getTableName(): string
     {
         return self::DB_TABLE_NAME;
     }
-    
-    protected function getECSObjectType() : string
+
+    protected function getECSObjectType(): string
     {
         return "/campusconnect/files";
     }
-    
+
     /**
      * Set version
      *
@@ -54,7 +57,7 @@ class ilObjRemoteFile extends ilRemoteObjectBase
     {
         $this->version = (int) $a_version;
     }
-    
+
     /**
      * get version
      *
@@ -64,7 +67,7 @@ class ilObjRemoteFile extends ilRemoteObjectBase
     {
         return $this->version;
     }
-    
+
     /**
      * Set version timestamp
      *
@@ -74,7 +77,7 @@ class ilObjRemoteFile extends ilRemoteObjectBase
     {
         $this->version_tstamp = (int) $a_tstamp;
     }
-    
+
     /**
      * get version timestamp
      *
@@ -84,31 +87,31 @@ class ilObjRemoteFile extends ilRemoteObjectBase
     {
         return $this->version_tstamp;
     }
-    
-    protected function doCreateCustomFields(array &$a_fields) : void
+
+    protected function doCreateCustomFields(array &$a_fields): void
     {
         $a_fields["version"] = array("integer", 1);
         $a_fields["version_tstamp"] = array("integer", time());
     }
 
-    protected function doUpdateCustomFields(array &$a_fields) : void
+    protected function doUpdateCustomFields(array &$a_fields): void
     {
         $a_fields["version"] = array("integer", $this->getVersion());
         $a_fields["version_tstamp"] = array("integer", $this->getVersionDateTime());
     }
 
-    protected function doReadCustomFields($a_row) : void
+    protected function doReadCustomFields($a_row): void
     {
         $this->setVersion($a_row->version);
         $this->setVersionDateTime($a_row->version_tstamp);
     }
-    
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content) : void
+
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content): void
     {
         $this->setVersion($ecs_content->version);
         $this->setVersionDateTime($ecs_content->version_date);
     }
-    
+
     /**
      * Get version info
      *
@@ -120,17 +123,17 @@ class ilObjRemoteFile extends ilRemoteObjectBase
     public static function _lookupVersionInfo($a_obj_id)
     {
         global $ilDB;
-        
+
         $set = $ilDB->query("SELECT version, version_tstamp" .
             " FROM " . self::DB_TABLE_NAME .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer"));
         $row = $ilDB->fetchAssoc($set);
         $res = (int) $row["version"];
-        
+
         if ($row["version_tstamp"]) {
             $res .= " (" . ilDatePresentation::formatDate(new ilDateTime($row["version_tstamp"], IL_CAL_UNIX)) . ")";
         }
-        
+
         return $res;
     }
 }

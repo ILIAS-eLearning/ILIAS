@@ -10,12 +10,11 @@ var Notice = function Notice() {};
 /**
  * @param {string} content
  * @param {number} roomId
- * @param {number} subRoomId
  * @param {{}} [data]
- * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number}}
+ * @returns {{type: string, timestamp: number, content: string, roomId: number}}
  */
-Notice.prototype.create = function(content, roomId, subRoomId, data) {
-	var message = Message.create('notice', content, roomId, subRoomId);
+Notice.prototype.create = function(content, roomId, data) {
+	var message = Message.create('notice', content, roomId);
 
 	message.data = data;
 

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Adds link to mail
@@ -21,7 +24,7 @@ class ilMailUserActionProvider extends ilUserActionProvider
 {
     public static array $user_access = array();
 
-    public function checkUserMailAccess(int $a_user_id) : bool
+    public function checkUserMailAccess(int $a_user_id): bool
     {
         global $DIC;
 
@@ -34,7 +37,7 @@ class ilMailUserActionProvider extends ilUserActionProvider
         return (bool) self::$user_access[$a_user_id];
     }
 
-    public function getComponentId() : string
+    public function getComponentId(): string
     {
         return "mail";
     }
@@ -42,16 +45,16 @@ class ilMailUserActionProvider extends ilUserActionProvider
     /**
      * @return array<string,string>
      */
-    public function getActionTypes() : array
+    public function getActionTypes(): array
     {
         return array(
             "compose" => $this->lng->txt("mail")
         );
     }
 
-    public function collectActionsForTargetUser(int $a_target_user) : ilUserActionCollection
+    public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
-        $coll = ilUserActionCollection::getInstance();
+        $coll = new ilUserActionCollection();
 
         // check mail permission of user
         if ($this->getUserId() == ANONYMOUS_USER_ID || !$this->checkUserMailAccess($this->getUserId())) {

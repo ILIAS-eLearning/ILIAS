@@ -1,0 +1,71 @@
+@use "../../../010-settings/" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_tree" as *;
+@use "../../../050-layout/basics" as *;
+
+//== Tree
+//
+
+.c-tree {
+	list-style-type: none;
+	padding: 0 $il-padding-small-vertical 0 calc($il-padding-small-vertical + $il-tree-node-horizontal-spacing);
+	margin-left: 0;
+	ul {
+		padding-left: $il-tree-node-indentation;
+		list-style-type: none;
+	}
+	li.c-tree__node {
+		padding: 0;
+
+		.c-tree__node__line {
+			padding: $il-tree-node-vertical-spacing 0 $il-tree-node-vertical-spacing $il-tree-node-indentation;
+			cursor: pointer;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: baseline;
+			> .c-tree__node__label {
+				padding-left: $il-tree-node-horizontal-spacing;
+				.icon {
+					vertical-align: text-bottom;
+				}
+			}
+			> .c-tree__node__value {
+				padding-left: $il-tree-node-horizontal-spacing;
+
+				flex: 1;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+
+				font-style: italic;
+				font-size: $il-font-size-small;
+				color: $il-text-light-color;
+			}
+			> .c-tree__node__byline {
+				padding-left: $il-tree-node-horizontal-spacing;
+				width: 100%;
+			}
+		}
+		&.highlighted > .c-tree__node__line {
+			background-color: $il-highlight-bg;
+		}
+		&.expandable {
+			> .c-tree__node__line:before {
+				color: $il-neutral-light-color;
+				// to be fixed: @extend .glyphicon-triangle-right:before;
+				font-family: il-icons;
+				content: "\e606";
+				position: absolute;
+				margin-left: -$il-tree-node-indentation;
+			}
+			&[aria-expanded="true"] > .c-tree__node__line:before {
+				// to be fixed: @extend .glyphicon-triangle-bottom:before;
+				font-family: il-icons;
+				content: "\e604";
+			}
+		}
+		&[aria-expanded="false"] > ul{
+			display: none;
+		}
+	}
+}
+

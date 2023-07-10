@@ -1,0 +1,17 @@
+@use "sass:map";
+// Tools to generate different kind of color palettes and shades
+
+@function color-desaturation-map($input-color, $desaturation-levels: ("1":20%,"2":40%,"3":60%,"4":80%)) {
+    $color-desaturation-map: ();
+    @if type-of($desaturation-levels) != "map" { @error "Desaturation levels have to be a map."; }
+    @each $name, $value in $desaturation-levels {
+        @if unit($value) == "%" {
+            $saturation-level: (#{$name}: desaturate($input-color, $value));
+            $color-desaturation-map: map.merge($saturation-level, $color-desaturation-map);
+        }
+        @else {
+            @error "Only enter percentage values for desaturation levels.";
+        }
+    }
+    @return $color-desaturation-map;
+}

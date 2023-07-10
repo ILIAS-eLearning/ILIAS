@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+declare(strict_types=1);
 
 use ILIAS\Data;
 
@@ -29,7 +47,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
         $this->buildDatabase();
     }
 
-    protected function buildDatabase() : void
+    protected function buildDatabase(): void
     {
         $component_data = $this->readComponentData();
         $plugin_data = $this->readPluginData();
@@ -111,12 +129,12 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
         }
     }
 
-    protected function readComponentData() : array
+    protected function readComponentData(): array
     {
         return require self::COMPONENT_DATA_PATH;
     }
 
-    protected function readPluginData() : array
+    protected function readPluginData(): array
     {
         return require self::PLUGIN_DATA_PATH;
     }
@@ -124,7 +142,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
     /**
      * @inheritdocs
      */
-    public function hasComponent(string $type, string $name) : bool
+    public function hasComponent(string $type, string $name): bool
     {
         if (!in_array($type, ilComponentInfo::TYPES)) {
             throw new \InvalidArgumentException(
@@ -138,7 +156,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
     /**
      * @inheritdocs
      */
-    public function hasComponentId(string $id) : bool
+    public function hasComponentId(string $id): bool
     {
         return isset($this->components[$id]);
     }
@@ -146,7 +164,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
     /**
      * @inheritdocs
      */
-    public function getComponents() : Iterator
+    public function getComponents(): Iterator
     {
         foreach ($this->components as $id => $comp) {
             yield $id => $comp;
@@ -156,7 +174,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
     /**
      * @inheritdocs
      */
-    public function getComponentById(string $id) : ilComponentInfo
+    public function getComponentById(string $id): ilComponentInfo
     {
         if (!$this->hasComponentId($id)) {
             throw new \InvalidArgumentException(
@@ -169,7 +187,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
     /**
      * @inheritdocs
      */
-    public function getComponentByTypeAndName(string $type, string $name) : ilComponentInfo
+    public function getComponentByTypeAndName(string $type, string $name): ilComponentInfo
     {
         if (!$this->hasComponent($type, $name)) {
             throw new \InvalidArgumentException(
@@ -183,7 +201,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
     /**
      * @inheritdocs
      */
-    public function hasPluginSlotId(string $id) : bool
+    public function hasPluginSlotId(string $id): bool
     {
         return isset($this->pluginslot_by_id[$id]);
     }
@@ -191,7 +209,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
     /**
      * @inheritdocs
      */
-    public function getPluginSlots() : Iterator
+    public function getPluginSlots(): Iterator
     {
         foreach ($this->pluginslot_by_id as $id => $slot) {
             yield $id => $slot;
@@ -201,7 +219,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
     /**
      * @inheritdocs
      */
-    public function getPluginSlotById(string $id) : ilPluginSlotInfo
+    public function getPluginSlotById(string $id): ilPluginSlotInfo
     {
         if (!$this->hasPluginSlotId($id)) {
             throw new \InvalidArgumentException(
@@ -214,7 +232,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
     /**
      * Check if a plugin exists.
      */
-    public function hasPluginId(string $id) : bool
+    public function hasPluginId(string $id): bool
     {
         return isset($this->plugin_by_id[$id]);
     }
@@ -226,7 +244,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
      *
      * @return Iterator <string, ilPluginInfo>
      */
-    public function getPlugins() : Iterator
+    public function getPlugins(): Iterator
     {
         foreach ($this->plugin_by_id as $id => $plugin) {
             yield $id => $plugin;
@@ -238,7 +256,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
      *
      * @throws \InvalidArgumentException if plugin does not exist
      */
-    public function getPluginById(string $id) : ilPluginInfo
+    public function getPluginById(string $id): ilPluginInfo
     {
         if (!$this->hasPluginId($id)) {
             throw new \InvalidArgumentException(
@@ -253,7 +271,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
      *
      * @throws \InvalidArgumentException if plugin does not exist
      */
-    public function getPluginByName(string $name) : ilPluginInfo
+    public function getPluginByName(string $name): ilPluginInfo
     {
         foreach ($this->getPlugins() as $plugin) {
             if ($plugin->getName() === $name) {
@@ -265,7 +283,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
         );
     }
 
-    public function setCurrentPluginVersion(string $plugin_id, Data\Version $version, int $db_version) : void
+    public function setCurrentPluginVersion(string $plugin_id, Data\Version $version, int $db_version): void
     {
         $plugin = $this->getPluginById($plugin_id);
         if ($plugin->getCurrentVersion() !== null && $plugin->getCurrentVersion()->isGreaterThan($version)) {
@@ -282,7 +300,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
         $this->buildDatabase();
     }
 
-    public function setActivation(string $plugin_id, bool $activated) : void
+    public function setActivation(string $plugin_id, bool $activated): void
     {
         if (!$this->hasPluginId($plugin_id)) {
             throw new \InvalidArgumentException(
@@ -293,7 +311,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
         $this->buildDatabase();
     }
 
-    public function removeStateInformationOf(string $plugin_id) : void
+    public function removeStateInformationOf(string $plugin_id): void
     {
         if (!$this->hasPluginId($plugin_id)) {
             throw new \InvalidArgumentException(

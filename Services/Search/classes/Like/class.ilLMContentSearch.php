@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,7 +36,7 @@
 
 class ilLMContentSearch extends ilAbstractSearch
 {
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         $this->setFields(array('content'));
 
@@ -48,17 +50,16 @@ class ilLMContentSearch extends ilAbstractSearch
             $where .
             "AND obj_id = page_id " .
             $in;
-            
-        
+
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            // workaround to get term ids for definition ids (which is not the same!!!)
-            if ($row->parent_type == "gdf") {
-                // it is not a page id anymore now, it is a term id
-                $row->page_id = ilGlossaryDefinition::_lookupTermId($row->page_id);
-            }
-
-            $this->search_result->addEntry($row->parent_id, $row->parent_type, $this->__prepareFound($row), $row->page_id);
+            $this->search_result->addEntry(
+                (int) $row->parent_id,
+                (string) $row->parent_type,
+                $this->__prepareFound($row),
+                (int) $row->page_id
+            );
         }
 
         return $this->search_result;
@@ -67,22 +68,22 @@ class ilLMContentSearch extends ilAbstractSearch
 
 
     // Protected can be overwritten in Like or Fulltext classes
-    public function __createInStatement() : string
+    public function __createInStatement(): string
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (!$this->getFilter() and !$this->getIdFilter()) {
             return '';
         }
-        
+
         $in = '';
         if ($this->getFilter()) {
             $type = "('";
             $type .= implode("','", $this->getFilter());
             $type .= "')";
-            
+
             $in = " AND parent_type IN " . $type . ' ';
         }
         if ($this->getIdFilter()) {

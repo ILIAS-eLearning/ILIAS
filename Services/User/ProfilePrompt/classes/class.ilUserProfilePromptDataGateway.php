@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Profile prompt data gateway
@@ -32,7 +35,7 @@ class ilUserProfilePromptDataGateway
         $this->db = $DIC->database();
     }
 
-    public function saveSettings(ilProfilePromptSettings $settings) : void
+    public function saveSettings(ilProfilePromptSettings $settings): void
     {
         $user_settings = $this->user_settings;
 
@@ -47,7 +50,7 @@ class ilUserProfilePromptDataGateway
         $user_settings->set("user_profile_prompt_days", $settings->getDays());
     }
 
-    public function getSettings() : ilProfilePromptSettings
+    public function getSettings(): ilProfilePromptSettings
     {
         $user_settings = $this->user_settings;
         $lng = $this->lng;
@@ -66,7 +69,7 @@ class ilUserProfilePromptDataGateway
         );
     }
 
-    public function getUserPrompt(int $user_id) : ilProfileUserPrompt
+    public function getUserPrompt(int $user_id): ilProfileUserPrompt
     {
         $db = $this->db;
 
@@ -82,7 +85,7 @@ class ilUserProfilePromptDataGateway
         return new ilProfileUserPrompt($user_id, "", "");
     }
 
-    public function saveLastUserPrompt(int $user_id, string $last_profile_prompt = "") : void
+    public function saveLastUserPrompt(int $user_id, string $last_profile_prompt = ""): void
     {
         $db = $this->db;
 

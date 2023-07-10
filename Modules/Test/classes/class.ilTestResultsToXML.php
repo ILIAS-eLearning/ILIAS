@@ -1,23 +1,27 @@
 <?php
-/******************************************************************************
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilTestResultsToXML extends ilXmlWriter
 {
     private int $test_id = 0;
     private bool $anonymized = false;
     private $active_ids;
-    
+
     protected bool $includeRandomTestQuestionsEnabled = false;
 
     public function __construct($test_id, $anonymized = false)
@@ -27,17 +31,17 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->anonymized = $anonymized;
     }
 
-    public function isIncludeRandomTestQuestionsEnabled() : bool
+    public function isIncludeRandomTestQuestionsEnabled(): bool
     {
         return $this->includeRandomTestQuestionsEnabled;
     }
 
-    public function setIncludeRandomTestQuestionsEnabled(bool $includeRandomTestQuestionsEnabled) : void
+    public function setIncludeRandomTestQuestionsEnabled(bool $includeRandomTestQuestionsEnabled): void
     {
         $this->includeRandomTestQuestionsEnabled = $includeRandomTestQuestionsEnabled;
     }
-    
-    protected function exportActiveIDs() : void
+
+    protected function exportActiveIDs(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -47,7 +51,7 @@ class ilTestResultsToXML extends ilXmlWriter
         if (strlen($user_criteria) == 0) {
             $user_criteria = 'usr_id';
         }
-        
+
         if ($this->anonymized) {
             $result = $ilDB->queryF(
                 "SELECT * FROM tst_active WHERE test_fi = %s",
@@ -65,16 +69,16 @@ class ilTestResultsToXML extends ilXmlWriter
         while ($row = $ilDB->fetchAssoc($result)) {
             $attrs = array(
                 'active_id' => $row['active_id'],
-                'user_fi' => $row['user_fi'],
-                'anonymous_id' => $row['anonymous_id'],
+                'user_fi' => $row['user_fi'] ?? '',
+                'anonymous_id' => $row['anonymous_id'] ?? '',
                 'test_fi' => $row['test_fi'],
-                'lastindex' => $row['lastindex'],
-                'tries' => $row['tries'],
-                'last_started_pass' => $row['last_started_pass'],
-                'last_finished_pass' => $row['last_finished_pass'],
-                'submitted' => $row['submitted'],
-                'submittimestamp' => $row['submittimestamp'],
-                'tstamp' => $row['tstamp']
+                'lastindex' => $row['lastindex'] ?? '',
+                'tries' => $row['tries'] ?? '',
+                'last_started_pass' => $row['last_started_pass'] ?? '',
+                'last_finished_pass' => $row['last_finished_pass'] ?? '',
+                'submitted' => $row['submitted'] ?? '',
+                'submittimestamp' => $row['submittimestamp'] ?? '',
+                'tstamp' => $row['tstamp'] ?? ''
             );
             $attrs['fullname'] = ilObjTestAccess::_getParticipantData($row['active_id']);
             if (!$this->anonymized) {
@@ -87,35 +91,35 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->xmlEndTag("tst_active");
     }
 
-    protected function exportPassResult() : void
+    protected function exportPassResult(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT * FROM tst_pass_result WHERE " . $ilDB->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi, pass";
         $result = $ilDB->query($query);
         $this->xmlStartTag("tst_pass_result", null);
         while ($row = $ilDB->fetchAssoc($result)) {
             $attrs = array(
                 'active_fi' => $row['active_fi'],
-                'pass' => $row['pass'],
-                'points' => $row['points'],
-                'maxpoints' => $row['maxpoints'],
-                'questioncount' => $row['questioncount'],
-                'answeredquestions' => $row['answeredquestions'],
-                'workingtime' => $row['workingtime'],
-                'tstamp' => $row['tstamp']
+                'pass' => $row['pass'] ?? '',
+                'points' => $row['points'] ?? '',
+                'maxpoints' => $row['maxpoints'] ?? '',
+                'questioncount' => $row['questioncount'] ?? '',
+                'answeredquestions' => $row['answeredquestions'] ?? '',
+                'workingtime' => $row['workingtime'] ?? '',
+                'tstamp' => $row['tstamp'] ?? ''
             );
             $this->xmlElement("row", $attrs);
         }
         $this->xmlEndTag("tst_pass_result");
     }
 
-    protected function exportResultCache() : void
+    protected function exportResultCache(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT * FROM tst_result_cache WHERE " . $ilDB->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi";
         $result = $ilDB->query($query);
         $this->xmlStartTag("tst_result_cache", null);
@@ -136,33 +140,33 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->xmlEndTag("tst_result_cache");
     }
 
-    protected function exportTestSequence() : void
+    protected function exportTestSequence(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT * FROM tst_sequence WHERE " . $ilDB->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi, pass";
         $result = $ilDB->query($query);
         $this->xmlStartTag("tst_sequence", null);
         while ($row = $ilDB->fetchAssoc($result)) {
             $attrs = array(
                 'active_fi' => $row['active_fi'],
-                'pass' => $row['pass'],
-                'sequence' => $row['sequence'],
-                'postponed' => $row['postponed'],
-                'hidden' => $row['hidden'],
-                'tstamp' => $row['tstamp']
+                'pass' => $row['pass'] ?? '',
+                'sequence' => $row['sequence'] ?? '',
+                'postponed' => $row['postponed'] ?? '',
+                'hidden' => $row['hidden'] ?? '',
+                'tstamp' => $row['tstamp'] ?? ''
             );
             $this->xmlElement("row", $attrs);
         }
         $this->xmlEndTag("tst_sequence");
     }
 
-    protected function exportTestSolutions() : void
+    protected function exportTestSolutions(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT * FROM tst_solutions WHERE " . $ilDB->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY solution_id";
         $result = $ilDB->query($query);
         $this->xmlStartTag("tst_solutions", null);
@@ -171,18 +175,18 @@ class ilTestResultsToXML extends ilXmlWriter
                 'solution_id' => $row['solution_id'],
                 'active_fi' => $row['active_fi'],
                 'question_fi' => $row['question_fi'],
-                'points' => $row['points'],
-                'pass' => $row['pass'],
-                'value1' => $row['value1'],
-                'value2' => $row['value2'],
-                'tstamp' => $row['tstamp']
+                'points' => $row['points'] ?? '',
+                'pass' => $row['pass'] ?? '',
+                'value1' => $row['value1'] ?? '',
+                'value2' => $row['value2'] ?? '',
+                'tstamp' => $row['tstamp'] ?? ''
             );
             $this->xmlElement("row", $attrs);
         }
         $this->xmlEndTag("tst_solutions");
     }
 
-    protected function exportRandomTestQuestions() : void
+    protected function exportRandomTestQuestions(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -205,13 +209,13 @@ class ilTestResultsToXML extends ilXmlWriter
         }
         $this->xmlEndTag('tst_test_rnd_qst');
     }
-    
 
-    protected function exportTestResults() : void
+
+    protected function exportTestResults(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT * FROM tst_test_result WHERE " . $ilDB->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi";
         $result = $ilDB->query($query);
         $this->xmlStartTag("tst_test_result", null);
@@ -220,21 +224,21 @@ class ilTestResultsToXML extends ilXmlWriter
                 'test_result_id' => $row['test_result_id'],
                 'active_fi' => $row['active_fi'],
                 'question_fi' => $row['question_fi'],
-                'points' => $row['points'],
-                'pass' => $row['pass'],
-                'manual' => $row['manual'],
-                'tstamp' => $row['tstamp']
+                'points' => $row['points'] ?? '',
+                'pass' => $row['pass'] ?? '',
+                'manual' => $row['manual'] ?? '',
+                'tstamp' => $row['tstamp'] ?? ''
             );
             $this->xmlElement("row", $attrs);
         }
         $this->xmlEndTag("tst_test_result");
     }
-    
-    protected function exportTestTimes() : void
+
+    protected function exportTestTimes(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT * FROM tst_times WHERE " . $ilDB->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi";
         $result = $ilDB->query($query);
         $this->xmlStartTag("tst_times", null);
@@ -251,8 +255,8 @@ class ilTestResultsToXML extends ilXmlWriter
         }
         $this->xmlEndTag("tst_times");
     }
-    
-    public function getXML() : void
+
+    public function getXML(): void
     {
         $this->active_ids = array();
         $this->xmlHeader();
@@ -263,7 +267,7 @@ class ilTestResultsToXML extends ilXmlWriter
         if ($this->isIncludeRandomTestQuestionsEnabled()) {
             $this->exportRandomTestQuestions();
         }
-        
+
         $this->exportPassResult();
         $this->exportResultCache();
         $this->exportTestSequence();
@@ -273,13 +277,13 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->xmlEndTag("results");
     }
 
-    public function xmlDumpMem(bool $format = true) : string
+    public function xmlDumpMem(bool $format = true): string
     {
         $this->getXML();
         return parent::xmlDumpMem($format);
     }
 
-    public function xmlDumpFile(string $file, bool $format = true) : void
+    public function xmlDumpFile(string $file, bool $format = true): void
     {
         $this->getXML();
         parent::xmlDumpFile($file, $format);

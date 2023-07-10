@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Media pool explorer GUI class
@@ -37,7 +40,7 @@ class ilMediaPoolExplorerGUI extends ilTreeExplorerGUI
 
         $this->media_pool = $a_media_pool;
         parent::__construct("mep_exp", $a_parent_obj, $a_parent_cmd, $a_media_pool->getTree());
-        
+
         $this->setTypeWhiteList(array("dummy", "fold"));
         $this->setSkipRootNode(false);
         $this->setAjax(true);
@@ -54,33 +57,33 @@ class ilMediaPoolExplorerGUI extends ilTreeExplorerGUI
     /**
      * @param array $a_node
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             return $this->media_pool->getTitle();
         }
-                
+
         return $a_node["title"];
     }
 
     /**
      * @param array $a_node
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath("icon_mep.svg");
         } else {
             $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");
         }
-        
+
         return $icon;
     }
 
     /**
      * @param array $a_node
      */
-    public function isNodeHighlighted($a_node) : bool
+    public function isNodeHighlighted($a_node): bool
     {
         if ($a_node["child"] == $this->mep_request->getItemId() ||
             ($this->mep_request->getItemId() == 0 && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
@@ -88,12 +91,12 @@ class ilMediaPoolExplorerGUI extends ilTreeExplorerGUI
         }
         return false;
     }
-    
+
     /**
      * @param array $a_node
      * @throws ilCtrlException
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         $ilCtrl = $this->ctrl;
 
@@ -115,7 +118,7 @@ class ilMediaPoolExplorerGUI extends ilTreeExplorerGUI
     /**
      * @param array $record
      */
-    protected function getNodeStateToggleCmdClasses($record) : array
+    protected function getNodeStateToggleCmdClasses($record): array
     {
         return [
             'ilRepositoryGUI',

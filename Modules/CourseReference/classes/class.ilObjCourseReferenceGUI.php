@@ -1,27 +1,21 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGUI.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -30,7 +24,7 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGU
  * @ilCtrl_Calls ilObjCourseReferenceGUI: ilCommonActionDispatcherGUI, ilLearningProgressGUI
  * @ingroup      ModulesCourseReference
  */
-class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBaseClassInterface
+class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 {
     private ?ilLogger $logger = null;
 
@@ -51,7 +45,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
      * Execute command
      * @access public
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -77,7 +71,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
      * Add tabs
      * @access public
      */
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         global $DIC;
 
@@ -123,7 +117,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
     /**
      * @inheritdoc
      */
-    public function initForm($a_mode = self::MODE_EDIT) : ilPropertyFormGUI
+    public function initForm($a_mode = self::MODE_EDIT): ilPropertyFormGUI
     {
         $form = parent::initForm($a_mode);
 
@@ -131,8 +125,10 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
             return $form;
         }
 
-        $path_info = \ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(),
-            $this->object->getTargetRefId());
+        $path_info = \ilCourseReferencePathInfo::getInstanceByRefId(
+            $this->object->getRefId(),
+            $this->object->getTargetRefId()
+        );
 
         // nothing todo if no parent course is in path
         if (!$path_info->hasParentCourse()) {
@@ -154,13 +150,15 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
      * @param \ilPropertyFormGUI $form
      * @return bool
      */
-    protected function loadPropertiesFromSettingsForm(ilPropertyFormGUI $form) : bool
+    protected function loadPropertiesFromSettingsForm(ilPropertyFormGUI $form): bool
     {
         $ok = true;
         $ok = parent::loadPropertiesFromSettingsForm($form);
 
-        $path_info = ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(),
-            $this->object->getTargetRefId());
+        $path_info = ilCourseReferencePathInfo::getInstanceByRefId(
+            $this->object->getRefId(),
+            $this->object->getTargetRefId()
+        );
 
         $auto_update = $form->getInput('member_update');
         if ($auto_update && !$path_info->hasParentCourse()) {

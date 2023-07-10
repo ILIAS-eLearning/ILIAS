@@ -31,4 +31,4 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
 }
 ```
 
-The Scope Tool is a context-sensitive tool, more information about this under [src/GlobalScreen/ScreenContext/README.md](src/GlobalScreen/ScreenContext/README.md)
+The Scope Tool is a context-sensitive tool, more information about this under [src/GlobalScreen/ScreenContext/README.md](../../ScreenContext/README.md)

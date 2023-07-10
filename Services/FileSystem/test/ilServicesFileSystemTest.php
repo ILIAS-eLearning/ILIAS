@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -19,15 +21,15 @@ use PHPUnit\Framework\TestCase;
 class ilServicesFileSystemTest extends TestCase
 {
     private ?\ILIAS\DI\Container $dic_backup;
-    
-    public function testTrailingSlashes() : void
+
+    public function testTrailingSlashes(): void
     {
         $file_data = new ilFileData();
         $this->assertEquals('/var/www/ilias', $file_data->deleteTrailingSlash('/var/www/ilias/'));
         $this->assertEquals('\\var\\www\\ilias', $file_data->deleteTrailingSlash('\\var\\www\\ilias\\'));
     }
-    
-    public function testBaseDirectory() : void
+
+    public function testBaseDirectory(): void
     {
         if (!defined('CLIENT_DATA_DIR')) {
             define('CLIENT_DATA_DIR', '/var/iliasdata');

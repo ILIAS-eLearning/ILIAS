@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
-require_once('./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Question page GUI class
@@ -17,15 +29,12 @@ require_once('./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php');
  */
 class ilAssQuestionPageGUI extends ilPageObjectGUI
 {
-    const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
+    public const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
 
     private $originalPresentationTitle = '';
-
-    // fau: testNav - variables for info and actions HTML
     private $questionInfoHTML = '';
     private $questionActionsHTML = '';
-    // fau.
-    protected \ILIAS\TestQuestionPool\InternalRequestService $testrequest;
+
 
     /**
      * Constructor
@@ -36,31 +45,44 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
     public function __construct($a_id = 0, $a_old_nr = 0)
     {
         global $DIC;
-        $this->testrequest = $DIC->testQuestionPool()->internal()->request();
+        $cmd_class = '';
+        if ($DIC->http()->wrapper()->query()->has('cmdClass')) {
+            $cmd_class = $DIC->http()->wrapper()->query()->retrieve(
+                'cmdClass',
+                $DIC->refinery()->kindlyTo()->string()
+            );
+        }
+
         parent::__construct('qpl', $a_id, $a_old_nr);
         $this->setEnabledPageFocus(false);
+        if (strtolower($cmd_class) === 'ilassquestionpreviewgui') {
+            $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, 'downloadFile'));
+        } else {
+            $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile'));
+        }
     }
 
-    public function getOriginalPresentationTitle() : string
+    public function getOriginalPresentationTitle(): string
     {
         return $this->originalPresentationTitle;
     }
 
-    public function setOriginalPresentationTitle($originalPresentationTitle)
+    public function setOriginalPresentationTitle($originalPresentationTitle): void
     {
         $this->originalPresentationTitle = $originalPresentationTitle;
     }
 
-    protected function isPageContainerToBeRendered() : bool
+    protected function isPageContainerToBeRendered(): bool
     {
         return $this->getRenderPageContainer();
     }
 
-    public function showPage() : string
+    public function showPage(): string
     {
-        $this->setOriginalPresentationTitle($this->getPresentationTitle());
-
-        $this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
+        if ($this->getPresentationTitle() !== null) {
+            $this->setOriginalPresentationTitle($this->getPresentationTitle());
+            $this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
+        }
 
         // fau: testNav - enable page toc as placeholder for info and actions block (see self::insertPageToc)
         $config = $this->getPageConfig();
@@ -70,7 +92,12 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
         return parent::showPage();
     }
 
-    public function postOutputProcessing(string $a_output) : string
+    public function finishEditing(): void
+    {
+        $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+    }
+
+    public function postOutputProcessing(string $a_output): string
     {
         $a_output = str_replace(
             self::TEMP_PRESENTATION_TITLE_PLACEHOLDER,
@@ -89,7 +116,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      * Set the HTML of a question info block below the title (number, status, ...)
      * @param string	$a_html
      */
-    public function setQuestionInfoHTML($a_html)
+    public function setQuestionInfoHTML($a_html): void
     {
         $this->questionInfoHTML = $a_html;
     }
@@ -98,7 +125,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      * Set the HTML of a question actions block below the title
      * @param string 	$a_html
      */
-    public function setQuestionActionsHTML($a_html)
+    public function setQuestionActionsHTML($a_html): void
     {
         $this->questionActionsHTML = $a_html;
     }
@@ -108,7 +135,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      * @todo: 	support question info and actions in the page XSL directly
      * 			the current workaround avoids changing the COPage service
      */
-    public function insertPageToc(string $a_output) : string
+    public function insertPageToc(string $a_output): string
     {
         if (!empty($this->questionInfoHTML) || !empty($this->questionActionsHTML)) {
             $tpl = new ilTemplate('tpl.tst_question_subtitle_blocks.html', true, true, 'Modules/TestQuestionPool');

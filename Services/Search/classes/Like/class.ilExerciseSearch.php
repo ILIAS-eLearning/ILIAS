@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,7 +36,7 @@
 
 class ilExerciseSearch extends ilAbstractSearch
 {
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         $this->setFields(array('instruction','title'));
 
@@ -48,7 +50,12 @@ class ilExerciseSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->exc_id, 'exc', $this->__prepareFound($row), $row->id);
+            $this->search_result->addEntry(
+                (int) $row->exc_id,
+                'exc',
+                $this->__prepareFound($row),
+                (int) $row->id
+            );
         }
         return $this->search_result;
     }

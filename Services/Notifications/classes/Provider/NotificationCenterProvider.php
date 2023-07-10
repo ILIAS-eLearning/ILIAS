@@ -1,7 +1,6 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,12 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Notifications\Provider;
 
@@ -27,14 +28,11 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
  */
 class NotificationCenterProvider extends AbstractStaticMetaBarProvider
 {
-    /**
-     * @inheritDoc
-     */
-    public function getMetaBarItems() : array
+    public function getMetaBarItems(): array
     {
         $mb = $this->globalScreen()->metaBar();
 
-        $id = function (string $id) : IdentificationInterface {
+        $id = function (string $id): IdentificationInterface {
             return $this->if->identifier($id);
         };
 
@@ -48,11 +46,11 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
                 ->withAmountOfOldNotifications($new + $old)
                 ->withAmountOfNewNotifications($new)
                 ->withNotifications($nc->getNotifications())
-                ->withAvailableCallable(function () : bool {
-                    return $this->dic->ctrl()->getCmd() !== "showLogout";
+                ->withAvailableCallable(function (): bool {
+                    return $this->dic->ctrl()->getCmd() !== 'showLogout';
                 })
                 ->withVisibilityCallable(
-                    function () : bool {
+                    function (): bool {
                         return (
                             !$this->dic->user()->isAnonymous() &&
                             $this->dic->globalScreen()->collector()->notifications()->hasItems()

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Ralph Dittrich <dittrich@qualitus.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -13,19 +29,19 @@ use ILIAS\UI\Implementation as I;
  */
 class ChartProgressMeterTest extends ILIAS_UI_TestBase
 {
-    protected function getFactory() : C\Chart\ProgressMeter\Factory
+    protected function getFactory(): C\Chart\ProgressMeter\Factory
     {
         return new I\Component\Chart\ProgressMeter\Factory();
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $progressmeter = $this->getFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Factory", $progressmeter);
     }
 
-    public function test_get_instances() : void
+    public function test_get_instances(): void
     {
         $progressmeter = $this->getFactory();
 
@@ -39,7 +55,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Mini", $mini);
     }
 
-    public function test_get_values_of_standard() : void
+    public function test_get_values_of_standard(): void
     {
         $f = $this->getFactory();
         $standard = $f->standard(400, 250, 300, 200);
@@ -53,7 +69,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertEquals(50, $standard->getComparisonAsPercent());
     }
 
-    public function test_get_values_of_fixedSize() : void
+    public function test_get_values_of_fixedSize(): void
     {
         $f = $this->getFactory();
         $fixedSize = $f->fixedSize(400, 250, 300, 200);
@@ -67,7 +83,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertEquals(50, $fixedSize->getComparisonAsPercent());
     }
 
-    public function test_get_values_of_mini() : void
+    public function test_get_values_of_mini(): void
     {
         $f = $this->getFactory();
         $mini = $f->mini(400, 250, 300);
@@ -79,7 +95,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertEquals(75, $mini->getRequiredAsPercent());
     }
 
-    public function test_render_standard_two_bar() : void
+    public function test_render_standard_two_bar(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
@@ -120,7 +136,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_fixedSize_one_bar() : void
+    public function test_render_fixedSize_one_bar(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
@@ -157,7 +173,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_mini() : void
+    public function test_render_mini(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
@@ -180,7 +196,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
             '</svg>' .
             '</div>' .
             '</div>';
-        
+
         $this->assertHTMLEquals($expected_html, $html);
     }
 }

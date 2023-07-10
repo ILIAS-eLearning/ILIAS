@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Embeds booking information into info screen
@@ -23,6 +22,7 @@
  */
 class ilBookingInfoScreenAdapter
 {
+    protected \ILIAS\BookingManager\InternalRepoService $repo;
     protected ilInfoScreenGUI $info_screen_gui;
     protected ?int $context_obj_id;
     protected ilObjUseBookDBRepository $use_book_repo;
@@ -33,15 +33,16 @@ class ilBookingInfoScreenAdapter
         global $DIC;
         $this->info_screen_gui = $info_screen_gui;
         $this->context_obj_id = $this->info_screen_gui->getContextObjId();
-
         $this->use_book_repo = new ilObjUseBookDBRepository($DIC->database());
+        $this->repo = $DIC->bookingManager()->internal()
+            ->repo();
     }
 
     /**
      * Get pool ids
      * @return int[]
      */
-    protected function getPoolIds() : array
+    protected function getPoolIds(): array
     {
         return array_map(static function ($ref_id) {
             return ilObject::_lookupObjId($ref_id);
@@ -52,13 +53,12 @@ class ilBookingInfoScreenAdapter
      * Get reservation list
      * @return array[]
      */
-    protected function getList() : array
+    protected function getList(): array
     {
         $filter = ["context_obj_ids" => [$this->context_obj_id]];
         $filter['past'] = true;
         $filter['status'] = -ilBookingReservation::STATUS_CANCELLED;
-        $f = new ilBookingReservationDBRepositoryFactory();
-        $repo = $f->getRepo();
+        $repo = $this->repo->reservation();
         $list = $repo->getListByDate(true, null, $filter, $this->getPoolIds());
         $list = ilArrayUtil::sortArray($list, "slot", "asc", true);
         $list = ilArrayUtil::stableSortArray($list, "date", "asc", true);
@@ -70,7 +70,7 @@ class ilBookingInfoScreenAdapter
     /**
      * Add info to info screen
      */
-    public function add() : void
+    public function add(): void
     {
         $info = $this->info_screen_gui;
         $current_pool_id = 0;

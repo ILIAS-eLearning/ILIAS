@@ -1,7 +1,27 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
+
+require_once __DIR__ . "/../../../libs/composer/vendor/autoload.php";
 
 /**
  * Test clipboard repository
@@ -12,7 +32,7 @@ class EventTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $dic = new ILIAS\DI\Container();
         $GLOBALS['DIC'] = $dic;
@@ -60,7 +80,7 @@ class EventTest extends TestCase
      * @param string $name
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -72,27 +92,29 @@ class EventTest extends TestCase
         };
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getHandler() : ilAppEventHandler
+    protected function getHandler(): ilAppEventHandler
     {
-        return new ilAppEventHandler();
+        $logger = $this->createMock(ilLogger::class);
+
+        return new ilAppEventHandler($logger);
     }
 
     /**
      * Test event
      */
-    public function testEvent() : void
+    public function testEvent(): void
     {
         $handler = $this->getHandler();
 
         $this->expectException(ilEventHandlingTestException::class);
 
         $handler->raise(
-            "MyTestComponent",
-            "MyEvent",
+            "Services/EventHandling",
+            "myEvent",
             [
                 "par1" => "val1",
                 "par2" => "val2"

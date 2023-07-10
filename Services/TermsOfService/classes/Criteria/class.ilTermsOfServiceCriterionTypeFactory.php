@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceCriterionTypeFactory
  * @author Michael Jansen <mjansen@databay.de>
@@ -27,8 +29,6 @@ class ilTermsOfServiceCriterionTypeFactory implements ilTermsOfServiceCriterionT
 
     /**
      * ilTermsOfServiceCriterionTypeFactory constructor.
-     * @param ilRbacReview $rbacReview
-     * @param ilObjectDataCache $objectCache
      * @param string[] $countryCodes
      */
     public function __construct(ilRbacReview $rbacReview, ilObjectDataCache $objectCache, array $countryCodes)
@@ -44,12 +44,12 @@ class ilTermsOfServiceCriterionTypeFactory implements ilTermsOfServiceCriterionT
         ];
     }
 
-    public function getTypesByIdentMap() : array
+    public function getTypesByIdentMap(): array
     {
         return $this->types;
     }
 
-    public function findByTypeIdent(string $typeIdent, bool $useFallback = false) : ilTermsOfServiceCriterionType
+    public function findByTypeIdent(string $typeIdent, bool $useFallback = false): ilTermsOfServiceCriterionType
     {
         if (isset($this->types[$typeIdent])) {
             return $this->types[$typeIdent];

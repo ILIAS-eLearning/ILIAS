@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ADT presentation bridge base class
@@ -10,7 +27,7 @@ abstract class ilADTPresentationBridge
 {
     protected ilADT $adt;
     /**
-     * @var callable
+     * @var ?callable
      */
     protected $decorator;
     protected ilLanguage $lng;
@@ -24,9 +41,9 @@ abstract class ilADTPresentationBridge
         $this->setADT($a_adt);
     }
 
-    abstract protected function isValidADT(ilADT $a_adt) : bool;
+    abstract protected function isValidADT(ilADT $a_adt): bool;
 
-    protected function setADT(ilADT $a_adt) : void
+    protected function setADT(ilADT $a_adt): void
     {
         if (!$this->isValidADT($a_adt)) {
             throw new InvalidArgumentException('ADTPresentationBridge Type mismatch.');
@@ -34,17 +51,17 @@ abstract class ilADTPresentationBridge
         $this->adt = $a_adt;
     }
 
-    public function getADT() : ?ilADT
+    public function getADT(): ?ilADT
     {
         return $this->adt;
     }
 
-    public function getList() : string
+    public function getList(): string
     {
         return $this->getHTML();
     }
 
-    abstract public function getHTML() : string;
+    abstract public function getHTML(): string;
 
     /**
      * Get sortable value presentation
@@ -53,10 +70,12 @@ abstract class ilADTPresentationBridge
     abstract public function getSortable();
 
     /**
-     * Set decorator callback
-     * @param callable $a_callback
+     * Takes as input an array consisting of the object that
+     * the method that should be called back to belongs to, and
+     * a string with the name of the method.
+     * @param null|array{0: ilObject, 1: string} $a_callback
      */
-    public function setDecoratorCallBack(callable $a_callback) : void
+    public function setDecoratorCallBack(?array $a_callback): void
     {
         $this->decorator = $a_callback;
     }

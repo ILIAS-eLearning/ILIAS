@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@
  */
 class ilGroupLP extends ilObjectLP
 {
-    public static function getDefaultModes(bool $a_lp_active) : array
+    public static function getDefaultModes(bool $a_lp_active): array
     {
         if (!$a_lp_active) {
             return array(
@@ -23,13 +25,13 @@ class ilGroupLP extends ilObjectLP
             );
         }
     }
-    
-    public function getDefaultMode() : int
+
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
-    
-    public function getValidModes() : array
+
+    public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -37,19 +39,19 @@ class ilGroupLP extends ilObjectLP
             ilLPObjSettings::LP_MODE_COLLECTION
         );
     }
-    
-    public function getMembers(bool $a_search = true) : array
+
+    public function getMembers(bool $a_search = true): array
     {
         $member_obj = ilGroupParticipants::_getInstanceByObjId($this->obj_id);
         return $member_obj->getMembers();
     }
-    
-    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids) : bool
+
+    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-            
+
         // will only find objects with roles for user!
         // see ilParticipants::_getMembershipByType()
         $query = " SELECT DISTINCT obd.obj_id, obd.type, obd2.title" .

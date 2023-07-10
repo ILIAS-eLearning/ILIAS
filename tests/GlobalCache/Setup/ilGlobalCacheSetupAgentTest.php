@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\GlobalCache\Setup;
 
@@ -8,12 +22,13 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Cache\Config;
 
 class TestObj extends \ilGlobalCacheSetupAgent
 {
     public function getMServer(array $node)
     {
-        return $this->getMemcachedServer($node);
+        return $this->convertNode($node);
     }
 }
 
@@ -24,91 +39,95 @@ class ilGlobalCacheSetupAgentTest extends TestCase
      */
     protected $obj;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
         $this->obj = new TestObj($this->refinery);
     }
 
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $this->assertInstanceOf(\ilGlobalCacheSetupAgent::class, $this->obj);
     }
 
-    public function testHasConfig() : void
+    public function testHasConfig(): void
     {
         $this->assertTrue($this->obj->hasConfig());
     }
 
-    public function testGetArrayToConfigTransformationWithNullData() : void
+    public function testGetArrayToConfigTransformationWithNullData(): void
     {
+        /** @var Config $config */
         $fnc = $this->obj->getArrayToConfigTransformation();
-
         $settings = $fnc(null);
+        $config = $settings->toConfig();
 
-        $this->assertInstanceOf(\ilGlobalCacheSettings::class, $settings);
-        $this->assertFalse($settings->isActive());
+        $this->assertInstanceOf(\ilGlobalCacheSettingsAdapter::class, $settings);
+        $this->assertFalse($config->isActivated());
     }
 
-    public function testGetArrayToConfigTransformationWithEmptyDataArray() : void
+    public function testGetArrayToConfigTransformationWithEmptyDataArray(): void
     {
+        /** @var Config $config */
         $fnc = $this->obj->getArrayToConfigTransformation();
+        $settings = $fnc(null);
+        $config = $settings->toConfig();
 
-        $settings = $fnc([]);
-
-        $this->assertInstanceOf(\ilGlobalCacheSettings::class, $settings);
-        $this->assertFalse($settings->isActive());
+        $this->assertInstanceOf(\ilGlobalCacheSettingsAdapter::class, $settings);
+        $this->assertFalse($config->isActivated());
     }
 
-    public function testGetArrayToConfigTransformationWithNullComponents() : void
+    public function testGetArrayToConfigTransformationWithNullComponents(): void
     {
+        /** @var Config $config */
         $fnc = $this->obj->getArrayToConfigTransformation();
-
         $settings = $fnc(["components" => null]);
+        $config = $settings->toConfig();
 
-        $this->assertInstanceOf(\ilGlobalCacheSettings::class, $settings);
-        $this->assertFalse($settings->isActive());
+        $this->assertInstanceOf(\ilGlobalCacheSettingsAdapter::class, $settings);
+        $this->assertFalse($config->isActivated());
     }
 
-    public function testGetArrayToConfigTransformationWithNullMemcachedData() : void
+    public function testGetArrayToConfigTransformationWithNullMemcachedData(): void
     {
+        /** @var Config $config */
         $fnc = $this->obj->getArrayToConfigTransformation();
-
         $settings = $fnc(["service" => "memcached"]);
+        $config = $settings->toConfig();
 
-        $this->assertInstanceOf(\ilGlobalCacheSettings::class, $settings);
-        $this->assertFalse($settings->isActive());
+        $this->assertInstanceOf(\ilGlobalCacheSettingsAdapter::class, $settings);
+        $this->assertFalse($config->isActivated());
     }
 
-    public function testGetArrayToConfigTransformationWithNullMemcachedDataArray() : void
+    public function testGetArrayToConfigTransformationWithNullMemcachedDataArray(): void
     {
+        /** @var Config $config */
         $fnc = $this->obj->getArrayToConfigTransformation();
-
         $settings = $fnc(["service" => "memcached", "memcached_nodes" => null]);
+        $config = $settings->toConfig();
 
-        $this->assertInstanceOf(\ilGlobalCacheSettings::class, $settings);
-        $this->assertFalse($settings->isActive());
+        $this->assertInstanceOf(\ilGlobalCacheSettingsAdapter::class, $settings);
+        $this->assertFalse($config->isActivated());
     }
 
-    public function testGetArrayToConfigTransformationWithEmptyMemcachedDataArray() : void
+    public function testGetArrayToConfigTransformationWithEmptyMemcachedDataArray(): void
     {
+        /** @var Config $config */
         $fnc = $this->obj->getArrayToConfigTransformation();
-
         $settings = $fnc(["service" => "memcached", "memcached_nodes" => []]);
+        $config = $settings->toConfig();
 
-        $this->assertInstanceOf(\ilGlobalCacheSettings::class, $settings);
-        $this->assertFalse($settings->isActive());
+        $this->assertInstanceOf(\ilGlobalCacheSettingsAdapter::class, $settings);
+        $this->assertFalse($config->isActivated());
     }
 
-    public function testGetArrayToConfigTransformationWithDataServices() : void
+    public function testGetArrayToConfigTransformationWithDataServices(): void
     {
-        $fnc = $this->obj->getArrayToConfigTransformation();
-    
         $services = [
-            \ilGlobalCache::TYPE_STATIC => "static",
-            \ilGlobalCache::TYPE_MEMCACHED => "memcached",
-            \ilGlobalCache::TYPE_APC => "apc"
+            Config::PHPSTATIC => "static",
+            Config::MEMCACHED => "memcached",
+            Config::APCU => "apc"
         ];
 
         $node = [
@@ -119,19 +138,23 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         ];
 
         foreach ($services as $key => $service) {
+            /** @var Config $config */
+            $fnc = $this->obj->getArrayToConfigTransformation();
+
             $settings = $fnc(
                 [
                     "service" => $service,
                     "memcached_nodes" => [$node],
-                    "components" => ["dummy"]
+                    "components" => ["dummy" => true]
                 ]
             );
-            $this->assertInstanceOf(\ilGlobalCacheSettings::class, $settings);
-            $this->assertEquals($key, $settings->getService());
+            $config = $settings->toConfig();
+            $this->assertInstanceOf(\ilGlobalCacheSettingsAdapter::class, $settings);
+            $this->assertEquals($key, $config->getAdaptorName());
         }
     }
 
-    public function testGetArrayToConfigTransformationWithServiceException() : void
+    public function testGetArrayToConfigTransformationWithServiceException(): void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();
 
@@ -154,7 +177,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         );
     }
 
-    public function testGetArrayToConfigTransformationWithMemcachedNode() : void
+    public function testGetArrayToConfigTransformationWithMemcachedNode(): void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();
 
@@ -169,23 +192,22 @@ class ilGlobalCacheSetupAgentTest extends TestCase
             [
                 "service" => "memcached",
                 "memcached_nodes" => [$node],
-                "components" => ["dummy"]
+                "components" => ["dummy" => true]
             ]
         );
 
-        $this->assertInstanceOf(\ilGlobalCacheSettings::class, $settings);
+        $this->assertInstanceOf(\ilGlobalCacheSettingsAdapter::class, $settings);
         $this->assertIsArray($settings->getMemcachedNodes());
 
         $settings = $settings->getMemcachedNodes();
         $node = array_shift($settings);
 
-        $this->assertEquals("1", $node->getStatus());
         $this->assertEquals("test.de", $node->getHost());
         $this->assertEquals("9874", $node->getPort());
         $this->assertEquals("10", $node->getWeight());
     }
 
-    public function testGetMemcachedServerActive() : void
+    public function testGetMemcachedServerActive(): void
     {
         $node = $node = [
             "active" => "1",
@@ -196,13 +218,12 @@ class ilGlobalCacheSetupAgentTest extends TestCase
 
         $result = $this->obj->getMServer($node);
 
-        $this->assertEquals(\ilMemcacheServer::STATUS_ACTIVE, $result->getStatus());
         $this->assertEquals("my.test.de", $result->getHost());
         $this->assertEquals("1111", $result->getPort());
         $this->assertEquals("20", $result->getWeight());
     }
 
-    public function testGetMemcachedServerInactive() : void
+    public function testGetMemcachedServerInactive(): void
     {
         $node = $node = [
             "active" => "0",
@@ -213,31 +234,30 @@ class ilGlobalCacheSetupAgentTest extends TestCase
 
         $result = $this->obj->getMServer($node);
 
-        $this->assertEquals(\ilMemcacheServer::STATUS_INACTIVE, $result->getStatus());
         $this->assertEquals("my.test.de", $result->getHost());
         $this->assertEquals("1111", $result->getPort());
         $this->assertEquals("20", $result->getWeight());
     }
 
-    public function testGetInstallObjectives() : void
+    public function testGetInstallObjectives(): void
     {
-        $setup_conf_mock = $this->createMock(\ilGlobalCacheSettings::class);
+        $setup_conf_mock = $this->createMock(\ilGlobalCacheSettingsAdapter::class);
         $objective_collection = $this->obj->getInstallObjective($setup_conf_mock);
 
         $this->assertEquals('Store configuration of Services/GlobalCache', $objective_collection->getLabel());
         $this->assertFalse($objective_collection->isNotable());
     }
 
-    public function testGetUpdateObjective() : void
+    public function testGetUpdateObjective(): void
     {
-        $setup_conf_mock = $this->createMock(\ilGlobalCacheSettings::class);
+        $setup_conf_mock = $this->createMock(\ilGlobalCacheSettingsAdapter::class);
         $objective_collection = $this->obj->getUpdateObjective($setup_conf_mock);
 
         $this->assertEquals('Store configuration of Services/GlobalCache', $objective_collection->getLabel());
         $this->assertFalse($objective_collection->isNotable());
     }
 
-    public function testGetUpdateObjectiveWithoutConfig() : void
+    public function testGetUpdateObjectiveWithoutConfig(): void
     {
         $objective_collection = $this->obj->getUpdateObjective();
 
@@ -245,7 +265,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
     }
 
 
-    public function testGetBuildArtifactObjective() : void
+    public function testGetBuildArtifactObjective(): void
     {
         $objective_collection = $this->obj->getBuildArtifactObjective();
 

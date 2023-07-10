@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -27,23 +29,16 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 {
     /** @var ilMailTemplateContext[] */
     protected array $contexts = [];
-    protected bool $readOnly = false;
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
     /** @var ILIAS\UI\Component\Component[] */
     protected array $uiComponents = [];
 
     public function __construct(
         ilMailTemplateGUI $a_parent_obj,
         string $a_parent_cmd,
-        Factory $uiFactory,
-        Renderer $uiRenderer,
-        bool $readOnly = false
+        protected Factory $uiFactory,
+        protected Renderer $uiRenderer,
+        protected bool $readOnly = false
     ) {
-        $this->uiFactory = $uiFactory;
-        $this->uiRenderer = $uiRenderer;
-        $this->readOnly = $readOnly;
-
         $this->setId('mail_man_tpl');
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -67,7 +62,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->contexts = ilMailTemplateContextService::getTemplateContexts();
     }
 
-    protected function formatCellValue(string $column, array $row) : string
+    protected function formatCellValue(string $column, array $row): string
     {
         if ('tpl_id' === $column) {
             return ilLegacyFormElementsUtil::formCheckbox(false, 'tpl_id[]', (string) $row[$column]);
@@ -94,7 +89,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         return (string) $row[$column];
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         foreach ($a_set as $column => $value) {
             if ($column === 'tpl_id' && $this->readOnly) {
@@ -108,13 +103,13 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_ACTION', $this->formatActionsDropDown($a_set));
     }
 
-    protected function formatActionsDropDown(array $row) : string
+    protected function formatActionsDropDown(array $row): string
     {
         $this->ctrl->setParameter($this->getParentObject(), 'tpl_id', $row['tpl_id']);
 
         $buttons = [];
 
-        if (count($this->contexts) > 0) {
+        if ($this->contexts !== []) {
             if (!$this->readOnly) {
                 $buttons[] = $this->uiFactory
                     ->button()
@@ -140,7 +135,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
                     $this->lng->txt('mail_tpl_sure_delete_entry'),
                     $this->ctrl->getFormAction($this->getParentObject(), 'deleteTemplate')
                 )->withActionButtonLabel(
-                    'deleteTemplate'
+                    $this->lng->txt('deleteTemplate')
                 );
 
             $this->uiComponents[] = $deleteModal;
@@ -179,7 +174,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         return $this->uiRenderer->render([$dropDown]);
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
     }

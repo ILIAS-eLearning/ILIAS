@@ -1,17 +1,28 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Component/classes/class.ilPlugin.php';
 
 /**
-* Abstract parent class for all ComplexGateway plugin classes.
-*
-* @author Maximilian Becker <mbecker@databay.de>
-* @version $Id$
-*
-* @ingroup ServicesWorkflowEngine
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+/**
+ * Abstract parent class for all ComplexGateway plugin classes.
+ * @author Maximilian Becker <mbecker@databay.de>
+ * @ingroup ServicesWorkflowEngine
+ */
 abstract class ilComplexGatewayPlugin extends ilPlugin
 {
     /**
@@ -21,7 +32,7 @@ abstract class ilComplexGatewayPlugin extends ilPlugin
      *
      * @param ilNode $context
      *
-     * @return boolean
+     * @return bool
      */
-    abstract public function evaluate(ilNode $context) : bool;
+    abstract public function evaluate(ilNode $context): bool;
 }

@@ -64,10 +64,27 @@ function db_pwassist_session_close()
 * - Only a non-substantial number of bits can be predicted from
 *   previously generated id's.
 */
-function db_pwassist_create_id()
+function db_pwassist_create_id(): string
 {
-    // #26009 we use ilSession to duplicate the existing session
-    return \ilSession::_duplicate(session_id());
+    global $DIC;
+
+    $ilDB = $DIC->database();
+
+    do {
+        $hash = bin2hex(ilPasswordUtils::getBytes(32));
+
+        $exists = (
+            (int) ($ilDB->fetchAssoc(
+                $ilDB->query(
+                    "SELECT EXISTS(" .
+                    "SELECT 1 FROM usr_pwassist WHERE pwassist_id = " . $ilDB->quote($hash, ilDBConstants::T_TEXT) .
+                    ") AS hit"
+                )
+            )['hit'] ?? 0) === 1
+        );
+    } while ($exists);
+
+    return $hash;
 }
 
 /*
@@ -158,7 +175,7 @@ function db_pwassist_session_destroy($pwassist_id)
     $q = "DELETE FROM usr_pwassist " .
          "WHERE pwassist_id = " . $ilDB->quote($pwassist_id, "text");
     $ilDB->manipulate($q);
-  
+
     return true;
 }
 
@@ -175,6 +192,6 @@ function db_pwassist_session_gc()
     $q = "DELETE FROM usr_pwassist " .
          "WHERE expires < " . $ilDB->quote(time(), "integer");
     $ilDB->manipulate($q);
-    
+
     return true;
 }

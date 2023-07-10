@@ -38,7 +38,7 @@ class ilCertificateVerificationFileService
     /**
      * @throws ilException
      */
-    public function createFile(ilUserCertificatePresentation $userCertificatePresentation) : ?ilCertificateVerificationObject
+    public function createFile(ilUserCertificatePresentation $userCertificatePresentation): ?ilCertificateVerificationObject
     {
         $userCertificate = $userCertificatePresentation->getUserCertificate();
         $objectType = $userCertificate->getObjType();
@@ -59,10 +59,9 @@ class ilCertificateVerificationFileService
         $verificationObject->setProperty('issued_on', $issueDate);
 
         $ilUserCertificateRepository = new ilUserCertificateRepository($this->database, $this->logger);
-        $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $this->logger);
+        $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository);
 
         $pdfAction = new ilCertificatePdfAction(
-            $this->logger,
             $pdfGenerator,
             new ilCertificateUtilHelper(),
             $this->language->txt('error_creating_certificate_pdf')
@@ -91,7 +90,7 @@ class ilCertificateVerificationFileService
         return null;
     }
 
-    public function initStorage(int $objectId, string $subDirectory = '') : string
+    public function initStorage(int $objectId, string $subDirectory = ''): string
     {
         $storage = new ilVerificationStorageFile($objectId);
         $storage->create();

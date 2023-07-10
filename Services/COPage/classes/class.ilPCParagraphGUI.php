@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Style;
 
@@ -36,20 +39,20 @@ class ilPCParagraphGUI extends ilPageContentGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
-        
+
         // characteristics (should be flexible in the future)
         $this->setCharacteristics(ilPCParagraphGUI::_getStandardCharacteristics());
     }
-    
+
     /**
      * Get standard characteristics
      */
-    public static function _getStandardCharacteristics() : array
+    public static function _getStandardCharacteristics(): array
     {
         global $DIC;
 
         $lng = $DIC->language();
-        
+
         return array("Standard" => $lng->txt("cont_standard"),
             "Headline1" => $lng->txt("cont_Headline1"),
             "Headline2" => $lng->txt("cont_Headline2"),
@@ -65,7 +68,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
     /**
      * Get standard characteristics
      */
-    public static function _getStandardTextCharacteristics() : array
+    public static function _getStandardTextCharacteristics(): array
     {
         return ["Mnemonic", "Attention"];
     }
@@ -73,7 +76,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
     /**
      * Get characteristics
      */
-    public static function _getCharacteristics(int $a_style_id) : array
+    public static function _getCharacteristics(int $a_style_id): array
     {
         global $DIC;
         $request = $DIC->copage()->internal()
@@ -104,7 +107,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
             );
             $new_chars = array();
             foreach ($chars as $char) {
-                if ($st_chars[$char->getCharacteristic()] != "") {	// keep lang vars for standard chars
+                if (($st_chars[$char->getCharacteristic()] ?? "") != "") {	// keep lang vars for standard chars
                     $title = $char_manager->getPresentationTitle(
                         $char->getType(),
                         $char->getCharacteristic()
@@ -132,7 +135,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
     public static function _getTextCharacteristics(
         int $a_style_id,
         bool $a_include_core = false
-    ) : array {
+    ): array {
         $chars = array();
 
         if ($a_style_id > 0 &&
@@ -162,7 +165,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         $this->getCharacteristicsOfCurrentStyle(
             array("text_block", "heading1", "heading2", "heading3")
         );	// scorm-2004
-        
+
         // get current command
         $cmd = $this->ctrl->getCmd();
 
@@ -181,7 +184,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
     /**
      * Determine current characteristic
      */
-    public function determineCharacteristic(bool $a_insert = false) : string
+    public function determineCharacteristic(bool $a_insert = false): string
     {
         $cmd = $this->ctrl->getCmd();
         // language and characteristic selection
@@ -221,7 +224,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
     /**
      * Edit paragraph (Ajax mode, sends the content of the paragraph)
      */
-    public function editJS() : void
+    public function editJS(): void
     {
         $s_text = $this->content_obj->getText();
         $this->log->debug("step 1: " . substr($s_text, 0, 1000));
@@ -244,18 +247,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
     }
 
     /**
-     * Edit multiple paragraphs (Ajax mode, sends the content of the paragraphs)
-     */
-    public function editMultipleJS() : void
-    {
-        echo $this->content_obj->getParagraphSequenceContent($this->pg_obj);
-        exit;
-    }
-
-    /**
      * Prepare content for js output
      */
-    public static function xml2outputJS(string $s_text) : string
+    public static function xml2outputJS(string $s_text): string
     {
         // lists
         $s_text = str_replace(
@@ -335,7 +329,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
     /**
      * Output error
      */
-    public function outputError(array $a_err) : void
+    public function outputError(array $a_err): void
     {
         $err_str = "";
         foreach ($a_err as $err) {
@@ -346,7 +340,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         exit;
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $this->log->debug("ilPCParagraphGUI, cancel(): return to parent: jump" . $this->hier_id);
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
@@ -358,7 +352,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
     public function insertCharacteristicTable(
         ilTemplate $a_tpl,
         string $a_seleted_value
-    ) : void {
+    ): void {
         $i = 0;
 
         $chars = $this->getCharacteristics();
@@ -398,7 +392,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
     public function insertStyleSelectionList(
         ilTemplate $a_tpl,
         string $a_selected
-    ) : void {
+    ): void {
         $a_tpl->setVariable("ADV_SEL_STYLE", self::getStyleSelector(
             $a_selected,
             $this->getCharacteristics()
@@ -412,7 +406,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         string $a_selected,
         array $a_chars,
         bool $a_use_callback = false
-    ) : string {
+    ): string {
         $a_seleted = "";
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setPullRight(false);
@@ -437,7 +431,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         if ($a_use_callback) {
             $selection->setSelectCallback("ilCOPage.setParagraphClass");
         }
-        
+
         $chars = $a_chars;
         $title_char = ($chars[$a_selected] != "")
             ? $chars[$a_selected]
@@ -455,9 +449,15 @@ class ilPCParagraphGUI extends ilPageContentGUI
             $t = "text_block";
             $tag = "div";
             switch ($char) {
-                case "Headline1": $t = "heading1"; $tag = "h1"; break;
-                case "Headline2": $t = "heading2"; $tag = "h2"; break;
-                case "Headline3": $t = "heading3"; $tag = "h3"; break;
+                case "Headline1": $t = "heading1";
+                    $tag = "h1";
+                    break;
+                case "Headline2": $t = "heading2";
+                    $tag = "h2";
+                    break;
+                case "Headline3": $t = "heading3";
+                    $tag = "h3";
+                    break;
             }
             $html = '<div class="ilCOPgEditStyleSelectionItem"><' . $tag . ' class="ilc_' . $t . '_' . $char . '" style="' . self::$style_selector_reset . '">' . $char_lang . "</" . $tag . "></div>";
             $selection->addItem(
@@ -472,7 +472,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         }
         return $selection->getHTML();
     }
-    
+
     /**
      * Get character style selector
      */
@@ -480,7 +480,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         string $a_par_type,
         bool $a_use_callback = true,
         int $a_style_id = 0
-    ) : string {
+    ): string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -541,10 +541,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
                 $t = "text_inline";
                 $tag = "span";
                 switch ($key) {
-                    case "Code": $tag = "code"; break;
+                    case "Code": $tag = "code";
+                        break;
                 }
                 $html = '<' . $tag . ' class="ilc_' . $t . '_' . $key . '" style="font-size:90%; margin-top:2px; margin-bottom:2px; position:static;">' . $char["txt"] . "</" . $tag . ">";
-                
+
                 // this next line is very important for IE. The real onclick event is on the surrounding <tr> of the
                 // advanced selection list. But it is impossible to prevent the tr-event from removing the focus
                 // on tiny withouth the following line, that receives the click event before and stops the faulty default
@@ -564,11 +565,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
         return $selection->getHTML();
     }
 
-    private function setStyle() : void
+    private function setStyle(): void
     {
-        if ($this->pg_obj->getParentType() == "gdf" ||
+        if ($this->pg_obj->getParentType() == "term" ||
             $this->pg_obj->getParentType() == "lm") {
-            if ($this->pg_obj->getParentType() != "gdf") {
+            if ($this->pg_obj->getParentType() != "term") {
                 $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(
                     ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())
                 ));
@@ -577,107 +578,14 @@ class ilPCParagraphGUI extends ilPageContentGUI
             }
         }
     }
-    
-    /**
-     * insert paragraph form
-     */
-    public function insert() : string
-    {
-        $this->log->debug("ilPCParagraphGUI, saveJS: got updated value " . $this->updated);
-        return $this->edit(true);
-    }
-    
-    /**
-     * update paragraph in dom and update page in db
-     */
-    public function update() : void
-    {
-        $this->log->debug("ilPCParagraphGUI, update(): start");
-
-        // set language and characteristic
-        $this->content_obj->setLanguage(
-            $this->request->getString("par_language")
-        );
-        $this->content_obj->setCharacteristic(
-            $this->request->getString("par_characteristic")
-        );
-
-        $this->updated = $this->content_obj->setText(
-            $this->content_obj->input2xml(
-                $this->request->getRaw("par_content"),
-                $this->request->getString("usedwsiwygeditor")
-            ),
-            true
-        );
-        if ($this->updated !== true) {
-            $this->edit();
-            return;
-        }
-
-        $this->updated = $this->content_obj->updatePage($this->pg_obj);
-
-
-        if ($this->updated === true) {
-            $this->log->debug("ilPCParagraphGUI, update(): return to parent: jump" . $this->hier_id);
-            $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
-        } else {
-            $this->log->debug("ilPCParagraphGUI, update(): call edit.");
-            $this->edit();
-        }
-    }
-    
-    /**
-     * create new paragraph in dom and update page in db
-     */
-    public function create() : void
-    {
-        $this->log->debug("ilPCParagraphGUI, create(): start.");
-
-        if ($this->request->getString("ajaxform_hier_id") != "") {
-            $this->createJS();
-            return;
-        }
-
-        $this->content_obj = new ilPCParagraph($this->getPage());
-        //echo "+".$this->pc_id."+";
-        $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-
-        $this->content_obj->setLanguage(
-            $this->request->getString("par_language")
-        );
-        $this->setCurrentTextLang($this->request->getString("par_language"));
-        $this->content_obj->setCharacteristic(
-            $this->request->getString("par_characteristic")
-        );
-
-        $this->updated = $this->content_obj->setText(
-            $this->content_obj->input2xml(
-                $this->request->getRaw("par_content"),
-                $this->request->getString("usedwsiwygeditor")
-            ),
-            true
-        );
-
-        if ($this->updated !== true) {
-            $this->insert();
-            return;
-        }
-        $this->updated = $this->content_obj->updatePage($this->pg_obj);
-
-        if ($this->updated === true) {
-            $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
-        } else {
-            $this->insert();
-        }
-    }
 
     /**
      * Insert Help
      */
-    public function insertHelp(ilTemplate $a_tpl) : void
+    public function insertHelp(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
-        
+
         $a_tpl->setCurrentBlock("help_item");
         $a_tpl->setVariable("TXT_HELP", "<b>" . $lng->txt("cont_syntax_help") . "</b>");
         $a_tpl->parseCurrentBlock();
@@ -692,7 +600,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
             "==" . $lng->txt("cont_Headline2") . "==<br />" .
             "===" . $lng->txt("cont_Headline3") . "===");
         $a_tpl->parseCurrentBlock();
-        
+
         if ($this->getPageConfig()->getEnableWikiLinks()) {
             $a_tpl->setCurrentBlock("help_item");
             $a_tpl->setVariable("TXT_HELP", "[[" . $lng->txt("cont_wiki_page_link") . "]]");

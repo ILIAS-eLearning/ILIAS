@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Card;
 
@@ -16,7 +32,7 @@ class RepositoryObject extends Card implements C\RepositoryObject
     protected ?bool $certificate = null;
     protected ?Dropdown $actions = null;
 
-    public function withObjectIcon(Icon $icon) : C\RepositoryObject
+    public function withObjectIcon(Icon $icon): C\RepositoryObject
     {
         $icon = $icon->withSize("medium");		// ensure same size
         $clone = clone $this;
@@ -24,12 +40,12 @@ class RepositoryObject extends Card implements C\RepositoryObject
         return $clone;
     }
 
-    public function getObjectIcon() : ?Icon
+    public function getObjectIcon(): ?Icon
     {
         return $this->object_icon;
     }
 
-    public function withProgress(ProgressMeter $progress_meter) : C\RepositoryObject
+    public function withProgress(ProgressMeter $progress_meter): C\RepositoryObject
     {
         $clone = clone $this;
         $clone->progress = $progress_meter;
@@ -39,31 +55,31 @@ class RepositoryObject extends Card implements C\RepositoryObject
     /**
      * Get the ProgressMeter
      */
-    public function getProgress() : ?ProgressMeter
+    public function getProgress(): ?ProgressMeter
     {
         return $this->progress;
     }
 
-    public function withCertificateIcon(bool $certificate_icon) : C\RepositoryObject
+    public function withCertificateIcon(bool $certificate_icon): C\RepositoryObject
     {
         $clone = clone $this;
         $clone->certificate = $certificate_icon;
         return $clone;
     }
 
-    public function getCertificateIcon() : ?bool
+    public function getCertificateIcon(): ?bool
     {
         return $this->certificate;
     }
 
-    public function withActions(Dropdown $dropdown) : C\RepositoryObject
+    public function withActions(Dropdown $dropdown): C\RepositoryObject
     {
         $clone = clone $this;
         $clone->actions = $dropdown;
         return $clone;
     }
 
-    public function getActions() : ?Dropdown
+    public function getActions(): ?Dropdown
     {
         return $this->actions;
     }

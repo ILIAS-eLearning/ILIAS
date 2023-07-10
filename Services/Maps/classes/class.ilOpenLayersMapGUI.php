@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2018 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -20,29 +22,29 @@ class ilOpenLayersMapGUI extends ilMapGUI
         $this->geolocation_server = "";
     }
 
-    public function getTileServers() : string
+    public function getTileServers(): string
     {
         return  $this->tile_server;
     }
 
-    public function setTileServers(string $tile) : ilOpenLayersMapGUI
+    public function setTileServers(string $tile): ilOpenLayersMapGUI
     {
         $this->tile_server = $tile;
         return $this;
     }
 
-    public function getGeolocationServer() : ?string
+    public function getGeolocationServer(): ?string
     {
         return $this->geolocation_server;
     }
 
-    public function setGeolocationServer(?string $geolocation) : ilOpenLayersMapGUI
+    public function setGeolocationServer(?string $geolocation): ilOpenLayersMapGUI
     {
         $this->geolocation_server = $geolocation;
         return $this;
     }
 
-    public function getHtml() : string
+    public function getHtml(): string
     {
         $html_tpl = new ilTemplate(
             "tpl.openlayers_map.html",
@@ -158,7 +160,7 @@ class ilOpenLayersMapGUI extends ilMapGUI
     /**
      * Get User List HTML (to be displayed besides the map)
      */
-    public function getUserListHtml() : string
+    public function getUserListHtml(): string
     {
         $list_tpl = new ilTemplate(
             "tpl.openlayers_map_user_list.html",

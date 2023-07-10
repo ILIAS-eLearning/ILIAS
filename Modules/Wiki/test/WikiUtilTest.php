@@ -9,14 +9,14 @@ use PHPUnit\Framework\TestCase;
  */
 class WikiUtilTest extends TestCase
 {
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test make URL title
      */
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $input_expected = [
             ["a", "a"]

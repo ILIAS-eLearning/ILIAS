@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateValueReplacement
 {
-    public function replace(array $placeholderValues, string $certificateContent) : string
+    public function replace(array $placeholderValues, string $certificateContent): string
     {
         foreach ($placeholderValues as $placeholder => $value) {
             $certificateContent = str_replace('[' . $placeholder . ']', $value, $certificateContent);

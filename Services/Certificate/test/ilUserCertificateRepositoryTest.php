@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,15 +16,16 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testSaveOfUserCertificateToDatabase() : void
+    public function testSaveOfUserCertificateToDatabase(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database->method('nextId')
             ->willReturn(141);
@@ -36,9 +37,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'pattern_certificate_id' => ['integer', 1],
                 'obj_id' => ['integer', 20],
                 'obj_type' => ['text',  'crs'],
-                'user_id' => ['integer', 400],
+                'usr_id' => ['integer', 400],
                 'user_name' => ['text', 'Niels Theen'],
-                'acquired_timestamp' => ['integer', 123456789],
+                'acquired_timestamp' => ['integer', 123_456_789],
                 'certificate_content' => ['clob', '<xml>Some Content</xml>'],
                 'template_values' => ['clob', '[]'],
                 'valid_until' => ['integer', null],
@@ -55,7 +56,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository(
             $database,
@@ -69,7 +70,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             'crs',
             400,
             'Niels Theen',
-            123456789,
+            123_456_789,
             '<xml>Some Content</xml>',
             '[]',
             null,
@@ -83,10 +84,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $repository->save($userCertificate);
     }
 
-    public function testFetchAllActiveCertificateForUser() : void
+    public function testFetchAllActiveCertificateForUser(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database->method('nextId')
             ->willReturn(141);
@@ -97,9 +97,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'pattern_certificate_id' => 1,
                 'obj_id' => 20,
                 'obj_type' => 'crs',
-                'user_id' => 400,
+                'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 123456789,
+                'acquired_timestamp' => 123_456_789,
                 'certificate_content' => '<xml>Some Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -115,9 +115,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'pattern_certificate_id' => 5,
                 'obj_id' => 3123,
                 'obj_type' => 'tst',
-                'user_id' => 400,
+                'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 987654321,
+                'acquired_timestamp' => 987_654_321,
                 'certificate_content' => '<xml>Some Other Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -135,7 +135,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository(
             $database,
@@ -149,10 +149,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertSame(142, $results[1]->getUserCertificate()->getId());
     }
 
-    public function testFetchActiveCertificateForUserObjectCombination() : void
+    public function testFetchActiveCertificateForUserObjectCombination(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database->method('nextId')
             ->willReturn(141);
@@ -163,9 +162,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'pattern_certificate_id' => 1,
                 'obj_id' => 20,
                 'obj_type' => 'crs',
-                'user_id' => 400,
+                'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 123456789,
+                'acquired_timestamp' => 123_456_789,
                 'certificate_content' => '<xml>Some Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -180,9 +179,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'pattern_certificate_id' => 5,
                 'obj_id' => 20,
                 'obj_type' => 'tst',
-                'user_id' => 400,
+                'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 987654321,
+                'acquired_timestamp' => 987_654_321,
                 'certificate_content' => '<xml>Some Other Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -199,7 +198,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository(
             $database,
@@ -215,12 +214,11 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
     /**
      *
      */
-    public function testFetchNoActiveCertificateLeadsToException() : void
+    public function testFetchNoActiveCertificateLeadsToException(): never
     {
         $this->expectException(ilException::class);
 
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database->method('nextId')
             ->willReturn(141);
@@ -232,7 +230,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository($database, $logger, 'someDefaultTitle');
 
@@ -241,10 +239,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->fail('Should never happen. Certificate Found?');
     }
 
-    public function testFetchActiveCertificatesByType() : void
+    public function testFetchActiveCertificatesByType(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database->method('nextId')
             ->willReturn(141);
@@ -255,9 +252,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'pattern_certificate_id' => 1,
                 'obj_id' => 20,
                 'obj_type' => 'crs',
-                'user_id' => 400,
+                'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 123456789,
+                'acquired_timestamp' => 123_456_789,
                 'certificate_content' => '<xml>Some Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -274,9 +271,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'pattern_certificate_id' => 5,
                 'obj_id' => 20,
                 'obj_type' => 'crs',
-                'user_id' => 400,
+                'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 987654321,
+                'acquired_timestamp' => 987_654_321,
                 'certificate_content' => '<xml>Some Other Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -295,7 +292,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository($database, $logger, 'someDefaultTitle');
 
@@ -305,10 +302,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertSame(142, $results[1]->getUserCertificate()->getId());
     }
 
-    public function testFetchCertificate() : void
+    public function testFetchCertificate(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database->method('nextId')
             ->willReturn(141);
@@ -319,9 +315,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'pattern_certificate_id' => 1,
                 'obj_id' => 20,
                 'obj_type' => 'crs',
-                'user_id' => 400,
+                'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 123456789,
+                'acquired_timestamp' => 123_456_789,
                 'certificate_content' => '<xml>Some Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -340,7 +336,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository($database, $logger, 'someTitle');
 
@@ -349,12 +345,11 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertSame(141, $result->getId());
     }
 
-    public function testNoCertificateInFetchtCertificateLeadsToException() : void
+    public function testNoCertificateInFetchtCertificateLeadsToException(): never
     {
         $this->expectException(ilException::class);
 
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database->method('nextId')
             ->willReturn(141);
@@ -367,7 +362,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository($database, $logger, 'someTitle');
 
@@ -376,10 +371,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->fail('Should never happen. Certificate Found?');
     }
 
-    public function testFetchObjectWithCertificateForUser() : void
+    public function testFetchObjectWithCertificateForUser(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database
             ->expects($this->once())
@@ -406,7 +400,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository($database, $logger, 'someTitle');
 
@@ -418,10 +412,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertSame([100, 300], $results);
     }
 
-    public function testFetchUserIdsWithCertificateForObject() : void
+    public function testFetchUserIdsWithCertificateForObject(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database
             ->expects($this->once())
@@ -431,8 +424,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->expects($this->exactly(3))
             ->method('fetchAssoc')
             ->willReturnOnConsecutiveCalls(
-                ['user_id' => 100],
-                ['user_id' => 300],
+                ['usr_id' => 100],
+                ['usr_id' => 300],
                 []
             );
 
@@ -444,7 +437,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('debug');
 
         $repository = new ilUserCertificateRepository($database, $logger, 'someTitle');
 

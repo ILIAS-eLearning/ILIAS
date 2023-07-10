@@ -15,16 +15,16 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 class ValueToTaskContainer extends \ActiveRecord
 {
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_bt_value_to_task";
     }
-    
+
     /**
      * @con_is_primary true
      * @con_is_unique  true
@@ -58,53 +58,53 @@ class ValueToTaskContainer extends \ActiveRecord
      * @con_length     8
      */
     protected ?int $position = null;
-    
-    public function getId() : int
+
+    public function getId(): int
     {
         return $this->id;
     }
-    
-    public function setId(int $id) : void
+
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
-    
-    public function getTaskId() : int
+
+    public function getTaskId(): int
     {
         return $this->task_id;
     }
-    
-    public function setTaskId(int $task_id) : void
+
+    public function setTaskId(int $task_id): void
     {
         $this->task_id = $task_id;
     }
-    
-    public function getValueId() : int
+
+    public function getValueId(): int
     {
         return $this->value_id;
     }
-    
-    public function setValueId(int $value_id) : void
+
+    public function setValueId(int $value_id): void
     {
         $this->value_id = $value_id;
     }
-    
-    public function getBucketId() : int
+
+    public function getBucketId(): int
     {
         return $this->bucket_id;
     }
-    
-    public function setBucketId(int $bucket_id) : void
+
+    public function setBucketId(int $bucket_id): void
     {
         $this->bucket_id = $bucket_id;
     }
-    
-    public function getPosition() : int
+
+    public function getPosition(): int
     {
         return $this->position;
     }
-    
-    public function setPosition(int $position) : void
+
+    public function setPosition(int $position): void
     {
         $this->position = $position;
     }

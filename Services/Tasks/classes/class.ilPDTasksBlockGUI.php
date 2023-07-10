@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Item\Item;
 
@@ -41,7 +55,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
@@ -49,7 +63,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return false;
     }
@@ -57,7 +71,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * Get Screen Mode for current command.
      */
-    public static function getScreenMode() : string
+    public static function getScreenMode(): string
     {
         return IL_SCREEN_SIDE;
     }
@@ -77,7 +91,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * Fill data section
      */
-    public function fillDataSection() : void
+    public function fillDataSection(): void
     {
         global $DIC;
         $collector = $DIC->task()->derived()->factory()->collector();
@@ -98,7 +112,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * Get list data.
      */
-    public function getListRowData() : void
+    public function getListRowData(): void
     {
         $data = [];
 
@@ -120,7 +134,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * get flat list for personal desktop
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -141,7 +155,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
         if ($a_set["ref_id"] > 0) {
             $obj_id = ilObject::_lookupObjId($a_set["ref_id"]);
             $obj_type = ilObject::_lookupType($obj_id);
-            
+
             $url = 0 === $a_set['url'] ? ilLink::_getStaticLink($a_set["ref_id"]) : $a_set['url'];
             $link = $factory->button()->shy(ilObject::_lookupTitle($obj_id), $url);
 
@@ -185,7 +199,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
             $lng->txt("task_details"),
             $factory->legacy($info_screen->getHTML())
         )
-            ->withCancelButtonLabel("close");
+            ->withCancelButtonLabel($lng->txt("close"));
         $button1 = $factory->button()->shy($a_set["title"], '#')
             ->withOnClick($modal->getShowSignal());
 
@@ -195,7 +209,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * Get overview.
      */
-    public function getOverview() : string
+    public function getOverview(): string
     {
         $lng = $this->lng;
 
@@ -211,7 +225,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    public function getHTMLNew() : string
+    public function getHTMLNew(): string
     {
         global $DIC;
         $collector = $DIC->task()->derived()->factory()->collector();
@@ -226,7 +240,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData(array $data) : ?Item
+    protected function getListItemForData(array $data): ?Item
     {
         $factory = $this->ui->factory();
         $lng = $this->lng;
@@ -276,7 +290,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * No item entry
      */
-    public function getNoItemFoundContent() : string
+    public function getNoItemFoundContent(): string
     {
         return $this->lng->txt("task_no_task_items");
     }

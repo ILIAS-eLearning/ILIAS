@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for pc image map editor
@@ -40,10 +43,10 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_pc_media_object->getMediaObject());
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $std_alias_item = new ilMediaAliasItem(
-            $this->pc_media_object->dom,
+            $this->pc_media_object->getDomDoc(),
             $this->pc_media_object->hier_id,
             "Standard",
             $this->pc_media_object->getPCId(),
@@ -57,8 +60,8 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
         $areas = ilArrayUtil::sortArray($areas, "title", "asc", false, true);
         $this->setData($areas);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $i = $a_set["Nr"];
         $this->tpl->setVariable(
@@ -68,7 +71,7 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
         $this->tpl->setVariable("VAR_NAME", "name_" . $i);
         $this->tpl->setVariable("VAL_NAME", trim($a_set["Link"]["Title"]));
         $this->tpl->setVariable("VAL_SHAPE", $a_set["Shape"]);
-        
+
         $this->tpl->setVariable(
             "VAL_HIGHL_MODE",
             ilLegacyFormElementsUtil::formSelect(
@@ -89,7 +92,7 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
                 true
             )
         );
-        
+
         $this->tpl->setVariable(
             "VAL_COORDS",
             implode(", ", explode(",", $a_set["Coords"]))

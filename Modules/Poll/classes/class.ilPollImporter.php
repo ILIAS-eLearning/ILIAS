@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,13 +28,13 @@ class ilPollImporter extends ilXmlImporter
 {
     protected ilPollDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilPollDataSet();
         $this->ds->setDSPrefix("ds");
     }
 
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         $this->ds->setImportDirectory($this->getImportDirectory());
         $parser = new ilDataSetImportParser(

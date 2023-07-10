@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblTableQueryInfo
  *
@@ -23,7 +23,6 @@
  */
 class ilBiblTableQueryInfo implements ilBiblTableQueryInfoInterface
 {
-
     /**
      * @var \ilBiblTableQueryFilterInterface[]
      */
@@ -34,49 +33,49 @@ class ilBiblTableQueryInfo implements ilBiblTableQueryInfoInterface
     protected int $limit = 10000;
 
 
-    public function getSortingColumn() : string
+    public function getSortingColumn(): string
     {
         return $this->sorting_column;
     }
 
 
-    public function setSortingColumn(string $sorting_column) : void
+    public function setSortingColumn(string $sorting_column): void
     {
         $this->sorting_column = $sorting_column;
     }
 
 
-    public function getSortingDirection() : string
+    public function getSortingDirection(): string
     {
         return $this->sorting_direction;
     }
 
 
-    public function setSortingDirection(string $sorting_direction) : void
+    public function setSortingDirection(string $sorting_direction): void
     {
         $this->sorting_direction = $sorting_direction;
     }
 
 
-    public function getOffset() : int
+    public function getOffset(): int
     {
         return $this->offset;
     }
 
 
-    public function setOffset(int $offset) : void
+    public function setOffset(int $offset): void
     {
         $this->offset = $offset;
     }
 
 
-    public function getLimit() : int
+    public function getLimit(): int
     {
         return $this->limit;
     }
 
 
-    public function setLimit(int $limit) : void
+    public function setLimit(int $limit): void
     {
         $this->limit = $limit;
     }
@@ -85,7 +84,7 @@ class ilBiblTableQueryInfo implements ilBiblTableQueryInfoInterface
     /**
      * @inheritDoc
      */
-    public function addFilter(ilBiblTableQueryFilterInterface $filter) : void
+    public function addFilter(ilBiblTableQueryFilterInterface $filter): void
     {
         $this->filters[] = $filter;
     }
@@ -94,7 +93,7 @@ class ilBiblTableQueryInfo implements ilBiblTableQueryInfoInterface
     /**
      * @inheritDoc
      */
-    public function getFilters() : array
+    public function getFilters(): array
     {
         return $this->filters;
     }

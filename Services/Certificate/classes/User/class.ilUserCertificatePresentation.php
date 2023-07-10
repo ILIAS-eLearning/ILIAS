@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,60 +16,49 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilUserCertificatePresentation
 {
-    private int $objId;
-    private string $objType;
-    private ?ilUserCertificate $userCertificate;
-    private string $objectTitle;
-    private string $objectDescription;
-    private string $userName;
-
     public function __construct(
-        int $objId,
-        string $objType,
-        ?ilUserCertificate $userCertificate,
-        string $objectTitle,
-        string $objectDescription,
-        string $userName = ''
+        private readonly int $objId,
+        private readonly string $objType,
+        private readonly ?ilUserCertificate $userCertificate,
+        private readonly string $objectTitle,
+        private readonly string $objectDescription,
+        private readonly string $userName = ''
     ) {
-        $this->objId = $objId;
-        $this->objType = $objType;
-        $this->userCertificate = $userCertificate;
-        $this->objectTitle = $objectTitle;
-        $this->objectDescription = $objectDescription;
-        $this->userName = $userName;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->objId;
     }
 
-    public function getObjType() : string
+    public function getObjType(): string
     {
         return $this->objType;
     }
 
-    public function getUserCertificate() : ?ilUserCertificate
+    public function getUserCertificate(): ?ilUserCertificate
     {
         return $this->userCertificate;
     }
 
-    public function getObjectTitle() : string
+    public function getObjectTitle(): string
     {
         return $this->objectTitle;
     }
 
-    public function getObjectDescription() : string
+    public function getObjectDescription(): string
     {
         return $this->objectDescription;
     }
 
-    public function getUserName() : string
+    public function getUserName(): string
     {
         return $this->userName;
     }

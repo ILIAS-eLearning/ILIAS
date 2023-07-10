@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * This class represents a multiple choice wizard property in a property form.
@@ -12,21 +25,20 @@ include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInput
 */
 class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
-    public function setValue($a_value) : void
+    private string $pending;
+
+    public function setValue($a_value): void
     {
-        $this->values = array();
-        if (is_array($a_value)) {
-            if (is_array($a_value['answer'])) {
-                foreach ($a_value['answer'] as $index => $value) {
-                    include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
-                    $answer = new ASS_AnswerMultipleResponseImage($value, $a_value['points'][$index], $index);
-                    $answer->setPointsChecked($a_value['points'][$index]);
-                    $answer->setPointsUnchecked($a_value['points_unchecked'][$index]);
-                    if (isset($a_value['imagename'])) {
-                        $answer->setImage($a_value['imagename'][$index]);
-                    }
-                    array_push($this->values, $answer);
+        $this->values = [];
+        if (is_array($a_value) && isset($a_value['answer']) && is_array($a_value['answer'])) {
+            foreach ($a_value['answer'] as $index => $value) {
+                $answer = new ASS_AnswerMultipleResponseImage($value, (float) ($a_value['points'][$index] ?? 0), $index);
+                $answer->setPointsChecked((float) ($a_value['points'][$index] ?? 0));
+                $answer->setPointsUnchecked((float) ($a_value['points_unchecked'][$index] ?? 0));
+                if (isset($a_value['imagename'][$index])) {
+                    $answer->setImage($a_value['imagename'][$index]);
                 }
+                $this->values[] = $answer;
             }
         }
     }
@@ -35,18 +47,18 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $post_var = $this->getPostVar();
         if (!$this->post_wrapper->has($post_var)) {
             return false;
         }
 
         $values = $this->post_wrapper->retrieve($post_var, $this->refinery->custom()->transformation(fn ($v) => $v));
-        
+
         $values = ilArrayUtil::stripSlashesRecursive( //TODO: move into transform
             $values,
             false,
@@ -54,12 +66,12 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         );
 
         $foundvalues = $values;
-        
+
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && (strlen($foundvalues['imagename'][$aidx]) == 0)) {
+                    if (((strlen($answervalue)) == 0) && (!isset($foundvalues['imagename']) || !isset($foundvalues['imagename'][$aidx]) || strlen($foundvalues['imagename'][$aidx]) == 0)) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
@@ -69,6 +81,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             $max = 0;
             if (is_array($foundvalues['points'])) {
                 foreach ($foundvalues['points'] as $points) {
+                    $points = str_replace(',', '.', $points);
                     if ($points > $max) {
                         $max = $points;
                     }
@@ -78,6 +91,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     }
                 }
                 foreach ($foundvalues['points_unchecked'] as $points) {
+                    $points = str_replace(',', '.', $points);
                     if (((strlen($points)) == 0) || (!is_numeric($points))) {
                         $this->setAlert($lng->txt("form_msg_numeric_value_required"));
                         return false;
@@ -184,7 +198,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
-        
+
         return $this->checkSubItemsInput();
     }
 
@@ -192,11 +206,11 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
      * Insert property html
      * @param $a_tpl ilTemplate
      */
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $tpl = new ilTemplate("tpl.prop_multiplechoicewizardinput.html", true, true, "Modules/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
@@ -249,6 +263,9 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                         ilLegacyFormElementsUtil::prepareFormOutput($value->getPointsUnchecked())
                     );
                     $tpl->parseCurrentBlock();
+                    $tpl->setCurrentBlock("prop_answer_id_propval");
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->getId()));
+                    $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('singleline');
                 $tpl->setVariable("SIZE", $this->getSize());
@@ -290,11 +307,13 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             }
             if ($this->getAllowMove()) {
                 $tpl->setCurrentBlock("move");
-                $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
-                $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-                $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
-                $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable("UP_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->up()->withAction('#')
+                ));
+                $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->down()->withAction('#')
+                ));
                 $tpl->parseCurrentBlock();
             }
             $tpl->setCurrentBlock("row");
@@ -303,13 +322,15 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
             $tpl->setVariable("POINTS_ID", $this->getPostVar() . "[points][$i]");
             $tpl->setVariable("POINTS_UNCHECKED_ID", $this->getPostVar() . "[points_unchecked][$i]");
-            $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-            $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
             if ($this->getDisabled()) {
                 $tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
             }
-            $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-            $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+            $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
+                $this->glyph_factory->add()->withAction('#')
+            ));
+            $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
+                $this->glyph_factory->remove()->withAction('#')
+            ));
             $tpl->parseCurrentBlock();
             $i++;
         }
@@ -333,7 +354,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->parseCurrentBlock();
             }
         }
-        
+
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
         $tpl->setVariable("TEXT_YES", $lng->txt('yes'));
         $tpl->setVariable("TEXT_NO", $lng->txt('no'));
@@ -351,7 +372,17 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
         global $DIC;
         $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
         $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/multiplechoicewizard.js");
+    }
+
+    public function setPending(string $a_val): void
+    {
+        $this->pending = $a_val;
+    }
+
+    public function getPending(): string
+    {
+        return $this->pending;
     }
 }

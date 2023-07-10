@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 
@@ -59,7 +62,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
      * Execute command
      * @throws ilCtrlException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
         $tabs = $this->tabs;
@@ -92,7 +95,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
         $lng = $this->lng;
@@ -116,7 +119,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $main_tpl = $this->main_tpl;
         $ui = $this->ui;
@@ -128,7 +131,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         $main_tpl->setContent($ui->renderer()->render($form));
     }
 
-    public function initForm() : Standard
+    public function initForm(): Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -146,7 +149,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $request = $this->request;
         $form = $this->initForm();

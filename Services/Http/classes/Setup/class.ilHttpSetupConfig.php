@@ -58,42 +58,42 @@ class ilHttpSetupConfig implements Setup\Config
     }
 
 
-    public function isForced() : bool
+    public function isForced(): bool
     {
         return $this->forced;
     }
 
-    public function getHttpPath() : string
+    public function getHttpPath(): string
     {
         return $this->http_path;
     }
 
-    public function isAutodetectionEnabled() : bool
+    public function isAutodetectionEnabled(): bool
     {
         return $this->autodetection_enabled;
     }
 
-    public function getHeaderName() : ?string
+    public function getHeaderName(): ?string
     {
         return $this->header_name;
     }
 
-    public function getHeaderValue() : ?string
+    public function getHeaderValue(): ?string
     {
         return $this->header_value;
     }
 
-    public function isProxyEnabled() : bool
+    public function isProxyEnabled(): bool
     {
         return $this->proxy_enabled;
     }
 
-    public function getProxyHost() : ?string
+    public function getProxyHost(): ?string
     {
         return $this->proxy_host;
     }
 
-    public function getProxyPort() : ?string
+    public function getProxyPort(): ?string
     {
         return $this->proxy_port;
     }

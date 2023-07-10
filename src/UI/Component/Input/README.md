@@ -207,3 +207,6 @@ a new Filter Input, it is highly probable that you have to add some Javascript c
 especially for your Filter Input. To have an idea about the necessary changes, please
 search for "Multi Select" in the `filter.js` and check the extra code which was added
 for that Input.
+
+# Handle Files
+You find information how to handle File-Uploads in [Services/FileServices/README.md](../../../../Services/FileServices/README.md) 

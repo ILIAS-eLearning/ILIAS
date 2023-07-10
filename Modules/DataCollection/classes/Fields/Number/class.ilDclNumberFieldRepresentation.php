@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclDateTimeREpresentation
@@ -7,7 +23,7 @@
  */
 class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilNumberInputGUI
     {
         $input = new ilNumberInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         // 9 is the maximum number of digits for an integer
@@ -18,10 +34,19 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
+    /**
+     * @param ilTable2GUI $table
+     * @return array|string|null
+     * @throws Exception
+     */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
-        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(),
-            ilTable2GUI::FILTER_NUMBER_RANGE, false, $this->getField()->getId());
+        $input = $table->addFilterItemByMetaType(
+            "filter_" . $this->getField()->getId(),
+            ilTable2GUI::FILTER_NUMBER_RANGE,
+            false,
+            $this->getField()->getId()
+        );
         $input->setSubmitFormOnEnter(true);
 
         $this->setupFilterInputField($input);
@@ -29,7 +54,10 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
+    /**
+     * @param array $filter
+     */
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         if ((!$filter['from'] || $value >= $filter['from']) && (!$filter['to'] || $value <= $filter['to'])) {
@@ -39,10 +67,7 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -51,28 +54,31 @@ class ilProfileChecklistStatus
         $this->profile_mode = new ilPersonalProfileMode($this->user, $DIC->settings());
     }
 
-    private function areOnScreenChatOptionsVisible() : bool
+    private function areOnScreenChatOptionsVisible(): bool
     {
         $chatSettings = new ilSetting('chatroom');
 
         return (
-            $chatSettings->get('chat_enabled', false) &&
-            $chatSettings->get('enable_osc', false) &&
-            !(bool) $this->settings->get('usr_settings_hide_chat_osc_accept_msg', false)
+            $chatSettings->get('chat_enabled', '0') &&
+            $chatSettings->get('enable_osc', '0') &&
+            !(bool) $this->settings->get('usr_settings_hide_chat_osc_accept_msg', '0')
         );
     }
 
-    private function areChatTypingBroadcastOptionsVisible() : bool
+    private function areChatTypingBroadcastOptionsVisible(): bool
     {
         $chatSettings = new ilSetting('chatroom');
 
         return (
-            $chatSettings->get('chat_enabled', false) &&
-            !(bool) $this->settings->get('usr_settings_hide_chat_broadcast_typing', false)
+            $chatSettings->get('chat_enabled', '0') &&
+            !(bool) $this->settings->get('usr_settings_hide_chat_broadcast_typing', '0')
         );
     }
 
-    public function getSteps() : array // Missing array type.
+    /**
+     * @return array<int,string>
+     */
+    public function getSteps(): array
     {
         $lng = $this->lng;
 
@@ -90,11 +96,11 @@ class ilProfileChecklistStatus
     /**
      * Any visibility settings?
      */
-    public function anyVisibilitySettings() : bool
+    public function anyVisibilitySettings(): bool
     {
         $awrn_set = new ilSetting("awrn");
         if (
-            $awrn_set->get("awrn_enabled", false) ||
+            $awrn_set->get("awrn_enabled", '0') ||
             ilBuddySystem::getInstance()->isEnabled() ||
             $this->areOnScreenChatOptionsVisible() ||
             $this->areChatTypingBroadcastOptionsVisible()
@@ -108,7 +114,7 @@ class ilProfileChecklistStatus
     /**
      * Get status of step
      */
-    public function getStatus(int $step) : int
+    public function getStatus(int $step): int
     {
         $status = self::STATUS_NOT_STARTED;
         $user = $this->user;
@@ -144,7 +150,7 @@ class ilProfileChecklistStatus
     /**
      * Get status details
      */
-    public function getStatusDetails(int $step) : string
+    public function getStatusDetails(int $step): string
     {
         $lng = $this->lng;
         $user = $this->user;
@@ -171,9 +177,9 @@ class ilProfileChecklistStatus
                 if ($status == self::STATUS_SUCCESSFUL) {
                     $awrn_set = new ilSetting("awrn");
                     $status = [];
-                    if ($awrn_set->get("awrn_enabled", false)) {
-                        $show = ($user->getPref("hide_own_online_status") == "n" ||
-                            ($user->getPref("hide_own_online_status") == "" && $this->settings->get("hide_own_online_status") == "n"));
+                    if ($awrn_set->get("awrn_enabled", '0')) {
+                        $show = ($user->getPref("hide_own_online_status") === "n" ||
+                            ($user->getPref("hide_own_online_status") == "" && $this->settings->get("hide_own_online_status") === "n"));
                         $status[] = (!$show)
                             ? $lng->txt("hide_own_online_status")
                             : $lng->txt("show_own_online_status");
@@ -184,12 +190,12 @@ class ilProfileChecklistStatus
                             : $lng->txt("buddy_allow_to_contact_me_yes");
                     }
                     if ($this->areOnScreenChatOptionsVisible()) {
-                        $status[] = ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'))
+                        $status[] = ilUtil::yn2tf((string) $this->user->getPref('chat_osc_accept_msg'))
                             ? $lng->txt("chat_use_osc")
                             : $lng->txt("chat_not_use_osc");
                     }
                     if ($this->areChatTypingBroadcastOptionsVisible()) {
-                        $status[] = ilUtil::yn2tf($this->user->getPref('chat_broadcast_typing'))
+                        $status[] = ilUtil::yn2tf((string) $this->user->getPref('chat_broadcast_typing'))
                             ? $lng->txt("chat_use_typing_broadcast")
                             : $lng->txt("chat_no_use_typing_broadcast");
                     }
@@ -204,11 +210,11 @@ class ilProfileChecklistStatus
         return $details;
     }
 
-    
+
     /**
      * Save step success
      */
-    public function saveStepSucess(int $step) : void
+    public function saveStepSucess(int $step): void
     {
         $user = $this->user;
         switch ($step) {

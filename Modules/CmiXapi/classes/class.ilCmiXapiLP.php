@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilCmiXapiLP
  *
@@ -24,17 +29,13 @@
  */
 class ilCmiXapiLP extends ilObjectLP
 {
-    const MOVEON_COMPLETED = 'Completed';
-    const MOVEON_PASSED = 'Passed';
-    const MOVEON_COMPLETED_OR_PASSED = 'CompletedOrPassed';
-    const MOVEON_COMPLETED_AND_PASSED = 'CompletedAndPassed';
-    const MOVEON_NOT_APPLICABLE = 'NotApplicable';
+    public const MOVEON_COMPLETED = 'Completed';
+    public const MOVEON_PASSED = 'Passed';
+    public const MOVEON_COMPLETED_OR_PASSED = 'CompletedOrPassed';
+    public const MOVEON_COMPLETED_AND_PASSED = 'CompletedAndPassed';
+    public const MOVEON_NOT_APPLICABLE = 'NotApplicable';
 
-    /**
-     * @param ilRadioGroupInputGUI $modeRadio
-     * @return void
-     */
-    public function initModeOptions(ilRadioGroupInputGUI $modeRadio) : void
+    public function initModeOptions(ilRadioGroupInputGUI $modeRadio): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $modeCompleted = new ilRadioOption(
@@ -43,7 +44,7 @@ class ilCmiXapiLP extends ilObjectLP
         );
         $modeCompleted->setInfo($DIC->language()->txt('cmix_lp_mode_deactivated_info'));
         $modeRadio->addOption($modeCompleted);
-        
+
         $modeCompleted = new ilRadioOption(
             $DIC->language()->txt('cmix_lp_mode_when_completed'),
             (string) ilLPObjSettings::LP_MODE_CMIX_COMPLETED
@@ -56,7 +57,7 @@ class ilCmiXapiLP extends ilObjectLP
         );
         $modeCompletedFailed->setInfo($DIC->language()->txt('cmix_lp_mode_with_failed_info'));
         $modeCompleted->addSubItem($modeCompletedFailed);
-        
+
         $modePassed = new ilRadioOption(
             $DIC->language()->txt('cmix_lp_mode_when_passed'),
             (string) ilLPObjSettings::LP_MODE_CMIX_PASSED
@@ -69,7 +70,7 @@ class ilCmiXapiLP extends ilObjectLP
         );
         $modePassedFailed->setInfo($DIC->language()->txt('cmix_lp_mode_with_failed_info'));
         $modePassed->addSubItem($modePassedFailed);
-        
+
         $modePassedOrCompleted = new ilRadioOption(
             $DIC->language()->txt('cmix_lp_mode_when_passed_or_completed'),
             (string) ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED
@@ -82,7 +83,7 @@ class ilCmiXapiLP extends ilObjectLP
         );
         $modePassedOrCompletedFailed->setInfo($DIC->language()->txt('cmix_lp_mode_with_failed_info'));
         $modePassedOrCompleted->addSubItem($modePassedOrCompletedFailed);
-        
+
         switch ($this->getCurrentMode()) {
             case ilLPObjSettings::LP_MODE_CMIX_COMPLETED:
                 $modeRadio->setValue((string) ilLPObjSettings::LP_MODE_CMIX_COMPLETED);
@@ -108,15 +109,11 @@ class ilCmiXapiLP extends ilObjectLP
         }
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     * @return int
-     */
-    public function fetchModeOption(ilPropertyFormGUI $form) : int
+    public function fetchModeOption(ilPropertyFormGUI $form): int
     {
         $mainMode = (int) $form->getInput('modus');
         $failedOpt = (int) $form->getInput('modus_' . $mainMode . '_failed');
-        
+
         if ($failedOpt) {
             switch ($mainMode) {
                 case ilLPObjSettings::LP_MODE_CMIX_COMPLETED:
@@ -129,35 +126,16 @@ class ilCmiXapiLP extends ilObjectLP
                     return ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED;
             }
         }
-        
+
         return $mainMode;
     }
-    
-//    public static function getDefaultModes($a_lp_active) : array
-//    {
-//        return array(
-//            ilLPObjSettings::LP_MODE_DEACTIVATED,
-//            ilLPObjSettings::LP_MODE_CMIX_COMPLETED,
-//            ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED,
-//            ilLPObjSettings::LP_MODE_CMIX_PASSED,
-//            ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED,
-//            ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED,
-//            ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED
-//        );
-//    }
 
-    /**
-     * @return int
-     */
-    public function getDefaultMode() : int
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
-    /**
-     * @return array
-     */
-    public function getValidModes() : array
+    public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,

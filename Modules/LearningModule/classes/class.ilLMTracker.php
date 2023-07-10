@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Track access to ILIAS learning modules
@@ -29,7 +32,7 @@ class ilLMTracker
 
     protected ilDBInterface $db;
     protected ilLanguage $lng;
-    protected ilPluginAdmin $plugin_admin;
+    protected ilComponentRepository $component_repository;
     protected ilObjUser $user;
     protected int $lm_ref_id;
     protected int $lm_obj_id;
@@ -57,9 +60,9 @@ class ilLMTracker
 
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->user = $DIC->user();
         $this->user_id = $a_user_id;
+        $this->component_repository = $DIC['component.repository'];
 
         if ($a_by_obj_id) {
             $this->lm_ref_id = 0;
@@ -75,7 +78,7 @@ class ilLMTracker
     public static function getInstance(
         int $a_ref_id,
         int $a_user_id = 0
-    ) : self {
+    ): self {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -93,7 +96,7 @@ class ilLMTracker
     public static function getInstanceByObjId(
         int $a_obj_id,
         int $a_user_id = 0
-    ) : self {
+    ): self {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -118,7 +121,7 @@ class ilLMTracker
     public function trackAccess(
         int $a_page_id,
         int $user_id
-    ) : void {
+    ): void {
         if ($user_id == ANONYMOUS_USER_ID) {
             ilChangeEvent::_recordReadEvent("lm", $this->lm_ref_id, $this->lm_obj_id, $user_id);
             return;
@@ -160,7 +163,7 @@ class ilLMTracker
         int $usr_id,
         int $lm_id,
         int $obj_id
-    ) : void {
+    ): void {
         $title = "";
         $db = $this->db;
         $db->replace(
@@ -179,7 +182,7 @@ class ilLMTracker
 
     protected function trackPageAndChapterAccess(
         int $a_page_id
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         $now = time();
@@ -216,7 +219,7 @@ class ilLMTracker
             "usr_id = " . $ilDB->quote($this->user_id, "integer") . " AND " .
             "lm_id = " . $ilDB->quote($this->lm_ref_id, "integer"));
         $res = $ilDB->fetchAssoc($set);
-        if ($res["obj_id"]) {
+        if (isset($res["obj_id"])) {
             $valid_timespan = ilObjUserTracking::_getValidTimeSpan();
 
             $pg_ts = new ilDateTime($res["timestamp"], IL_CAL_DATETIME);
@@ -225,7 +228,7 @@ class ilLMTracker
             if (!$this->lm_tree->isInTree($pg_id)) {
                 return;
             }
-            
+
             $time_diff = $read_diff = 0;
 
             // spent_seconds or read_count ?
@@ -284,11 +287,11 @@ class ilLMTracker
 
     public function setCurrentPage(
         int $a_val
-    ) : void {
+    ): void {
         $this->current_page_id = $a_val;
     }
 
-    public function getCurrentPage() : int
+    public function getCurrentPage(): int
     {
         return $this->current_page_id;
     }
@@ -296,7 +299,7 @@ class ilLMTracker
     /**
      * Load LM tracking data. Loaded when needed.
      */
-    protected function loadLMTrackingData() : void
+    protected function loadLMTrackingData(): void
     {
         $ilDB = $this->db;
 
@@ -304,7 +307,7 @@ class ilLMTracker
         // please note that the dirty flag works only to a certain limit
         // e.g. if questions are answered the flag is not set (yet)
         // or if pages/chapter are added/deleted the flag is not set
-        if ((int) $this->loaded_for_node === $this->getCurrentPage() && !$this->dirty) {
+        if ((int) $this->loaded_for_node === $this->getCurrentPage() && $this->getCurrentPage() > 0 && !$this->dirty) {
             return;
         }
 
@@ -357,7 +360,7 @@ class ilLMTracker
      * Have all questions been answered correctly (and questions exist)?
      * @return bool true, if learning module contains any question and all questions (in the chapter structure) have been answered correctly
      */
-    public function getAllQuestionsCorrect() : bool
+    public function getAllQuestionsCorrect(): bool
     {
         $this->loadLMTrackingData();
         if (count($this->all_questions) > 0 && !$this->has_incorrect_answers) {
@@ -375,14 +378,14 @@ class ilLMTracker
         int $a_obj_id,
         bool &$a_has_pred_incorrect_answers,
         bool &$a_has_pred_incorrect_not_unlocked_answers
-    ) : int {
+    ): int {
         $status = ilLMTracker::NOT_ATTEMPTED;
 
         if (isset($this->tree_arr["nodes"][$a_obj_id])) {
             $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"] = $a_has_pred_incorrect_answers;
             $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"] = $a_has_pred_incorrect_not_unlocked_answers;
 
-            if (is_array($this->tree_arr["childs"][$a_obj_id])) {
+            if (isset($this->tree_arr["childs"][$a_obj_id])) {
                 // sort childs in correct order
                 $this->tree_arr["childs"][$a_obj_id] = ilArrayUtil::sortArray(
                     $this->tree_arr["childs"][$a_obj_id],
@@ -419,7 +422,7 @@ class ilLMTracker
                     // the next item has predecessing incorrect answers
                     if ($this->tree_arr["nodes"][$c["child"]]["type"] == "pg") {
                         if ($c_stat == ilLMTracker::FAILED || $c_stat == ilLMTracker::IN_PROGRESS ||
-                            ($c_stat == ilLMTracker::NOT_ATTEMPTED && is_array($this->page_questions[$c["child"]]) && count($this->page_questions[$c["child"]]) > 0)) {
+                            ($c_stat == ilLMTracker::NOT_ATTEMPTED && isset($this->page_questions[$c["child"]]) && count($this->page_questions[$c["child"]]) > 0)) {
                             $a_has_pred_incorrect_answers = true;
                             if (!$this->tree_arr["nodes"][$c["child"]]["unlocked"]) {
                                 $a_has_pred_incorrect_not_unlocked_answers = true;
@@ -439,11 +442,11 @@ class ilLMTracker
                 }
 
                 $unlocked = false;
-                if (is_array($this->page_questions[$a_obj_id])) {
+                if (isset($this->page_questions[$a_obj_id])) {
                     // check questions, if one is failed -> failed
                     $unlocked = true;
                     foreach ($this->page_questions[$a_obj_id] as $q_id) {
-                        if (is_array($this->answer_status[$q_id])
+                        if (isset($this->answer_status[$q_id])
                             && $this->answer_status[$q_id]["try"] > 0
                             && !$this->answer_status[$q_id]["passed"]) {
                             $status = ilLMTracker::FAILED;
@@ -456,7 +459,7 @@ class ilLMTracker
                     // check questions, if one is not answered -> in progress
                     if ($status != ilLMTracker::FAILED) {
                         foreach ($this->page_questions[$a_obj_id] as $q_id) {
-                            if (!is_array($this->answer_status[$q_id])
+                            if (!isset($this->answer_status[$q_id])
                                 || $this->answer_status[$q_id]["try"] == 0) {
                                 if ($status != ilLMTracker::NOT_ATTEMPTED) {
                                     $status = ilLMTracker::IN_PROGRESS;
@@ -480,24 +483,26 @@ class ilLMTracker
     public function getIconForLMObject(
         array $a_node,
         int $a_highlighted_node = 0
-    ) : string {
+    ): string {
         $this->loadLMTrackingData();
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
+
         if ($a_node["child"] == $a_highlighted_node) {
-            return ilUtil::getImagePath('scorm/running.svg');
+            return $icons->getImagePathRunning();
         }
         if (isset($this->tree_arr["nodes"][$a_node["child"]])) {
             switch ($this->tree_arr["nodes"][$a_node["child"]]["status"]) {
                 case ilLMTracker::IN_PROGRESS:
-                    return ilUtil::getImagePath('scorm/incomplete.svg');
+                    return $icons->getImagePathInProgress();
 
                 case ilLMTracker::FAILED:
-                    return ilUtil::getImagePath('scorm/failed.svg');
+                    return $icons->getImagePathFailed();
 
                 case ilLMTracker::COMPLETED:
-                    return ilUtil::getImagePath('scorm/completed.svg');
+                    return $icons->getImagePathCompleted();
             }
         }
-        return ilUtil::getImagePath('scorm/not_attempted.svg');
+        return $icons->getImagePathNotAttempted();
     }
 
     /**
@@ -510,11 +515,11 @@ class ilLMTracker
     ) {
         $this->loadLMTrackingData();
         $ret = false;
-        if (is_array($this->tree_arr["nodes"][$a_obj_id])) {
+        if (isset($this->tree_arr["nodes"][$a_obj_id])) {
             if ($a_ignore_unlock) {
-                $ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"];
+                $ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"] ?? false;
             } else {
-                $ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"];
+                $ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"] ?? false;
             }
         }
         return $ret;
@@ -524,11 +529,11 @@ class ilLMTracker
     //// Blocked Users
     ////
 
-    public function getBlockedUsersInformation() : array
+    public function getBlockedUsersInformation(): array
     {
         $ilDB = $this->db;
         $lng = $this->lng;
-        $ilPluginAdmin = $this->plugin_admin;
+        $component_repository = $this->component_repository;
 
         $blocked_users = array();
 
@@ -543,7 +548,7 @@ class ilLMTracker
             $page_for_question[$quest["question_id"]] = $quest["page_id"];
         }
         // get question information
-        $qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
+        $qlist = new ilAssQuestionList($ilDB, $lng, $component_repository);
         $qlist->setParentObjId(0);
         $qlist->setJoinObjectData(false);
         $qlist->addFieldFilter("question_id", $this->all_questions);
@@ -572,7 +577,7 @@ class ilLMTracker
      */
     public static function _isNodeVisible(
         array $a_node
-    ) : bool {
+    ): bool {
         if ($a_node["type"] != "pg") {
             return true;
         }

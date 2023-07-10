@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -18,6 +34,8 @@ use ILIAS\UI\Implementation\Component\Breadcrumbs\Breadcrumbs as Crumbs;
 use ILIAS\UI\Implementation\Component\Link\Standard as CrumbEntry;
 use ILIAS\UI\Implementation\Component\Button;
 use ILIAS\UI\Implementation\Component\Dropdown;
+use ILIAS\Data\Meta\Html;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Tests for the Standard Page
@@ -39,7 +57,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
      */
     protected array $contents;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $sig_gen = new SignalGenerator();
         $this->metabar = $this->createMock(MetaBar::class);
@@ -65,13 +83,14 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->crumbs,
             $this->logo,
             $this->responsive_logo,
+            'favicon.ico',
             $this->overlay,
             null,
             $this->title
         );
     }
 
-    public function testConstruction() : void
+    public function testConstruction(): void
     {
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Layout\\Page\\Standard",
@@ -79,7 +98,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetContent() : void
+    public function testGetContent(): void
     {
         $this->assertEquals(
             $this->contents,
@@ -87,7 +106,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetMetabar() : void
+    public function testGetMetabar(): void
     {
         $this->assertEquals(
             $this->metabar,
@@ -95,7 +114,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetMainbar() : void
+    public function testGetMainbar(): void
     {
         $this->assertEquals(
             $this->mainbar,
@@ -103,7 +122,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetBreadcrumbs() : void
+    public function testGetBreadcrumbs(): void
     {
         $this->assertEquals(
             $this->crumbs,
@@ -111,7 +130,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetLogo() : void
+    public function testGetLogo(): void
     {
         $this->assertEquals(
             $this->logo,
@@ -119,12 +138,12 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testHasLogo() : void
+    public function testHasLogo(): void
     {
         $this->assertTrue($this->stdpage->hasLogo());
     }
 
-    public function testGetResponsiveLogo() : void
+    public function testGetResponsiveLogo(): void
     {
         $this->assertEquals(
             $this->responsive_logo,
@@ -132,12 +151,21 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testHasResponsiveLogo() : void
+    public function testHasResponsiveLogo(): void
     {
         $this->assertTrue($this->stdpage->hasResponsiveLogo());
     }
 
-    public function testGetOverlay() : void
+    public function testWithFaviconPath(): void
+    {
+        $this->assertEquals("favicon.ico", $this->stdpage->getFaviconPath());
+        $this->assertEquals(
+            "test",
+            $this->stdpage->withFaviconPath("test")->getFaviconPath()
+        );
+    }
+
+    public function testGetOverlay(): void
     {
         $this->assertEquals(
             $this->overlay,
@@ -145,7 +173,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithWrongContents() : void
+    public function testWithWrongContents(): void
     {
         $this->expectException(TypeError::class);
         $this->stdpage = $this->factory->standard(
@@ -157,7 +185,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetTitle() : void
+    public function testGetTitle(): void
     {
         $this->assertEquals(
             $this->title,
@@ -165,7 +193,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithTitle() : void
+    public function testWithTitle(): void
     {
         $title = 'some title';
         $this->assertEquals(
@@ -173,7 +201,8 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->stdpage->withTitle($title)->getTitle()
         );
     }
-    public function testWithShortTitle() : void
+
+    public function testWithShortTitle(): void
     {
         $title = 'some short title';
         $this->assertEquals(
@@ -181,7 +210,8 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->stdpage->withShortTitle($title)->getShortTitle()
         );
     }
-    public function testWithViewTitle() : void
+
+    public function testWithViewTitle(): void
     {
         $title = 'some view title';
         $this->assertEquals(
@@ -190,46 +220,51 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithTextDirection() : void
+    public function testWithTextDirection(): void
     {
         $this->assertEquals("ltr", $this->stdpage->getTextDirection());
         $this->assertEquals(
             "rtl",
             $this->stdpage
-            ->withTextDirection($this->stdpage::RTL)
-            ->getTextDirection()
-        );
-    }
-    
-    public function testWithMetaDatum() : void
-    {
-        $meta_datum_key = 'meta_datum_key';
-        $meta_datum_value = 'meta_datum_value';
-        $meta_data = [$meta_datum_key => $meta_datum_value];
-        $this->assertEquals(
-            $meta_data,
-            $this->stdpage->withAdditionalMetaDatum($meta_datum_key, $meta_datum_value)->getMetaData()
+                ->withTextDirection($this->stdpage::RTL)
+                ->getTextDirection()
         );
     }
 
-    public function testRenderingWithTitle() : void
+    public function testWithMetaDatum(): void
+    {
+        $meta_datum_html = 'test_html';
+        $meta_datum = $this->getMockedTag($meta_datum_html);
+        $this->assertEquals(
+            [$meta_datum],
+            $this->stdpage->withAdditionalMetaDatum($meta_datum)->getMetaData()
+        );
+    }
+
+    public function testRenderingWithTitle(): void
     {
         $this->stdpage = $this->stdpage
             ->withTitle("Title")
             ->withViewTitle("View Title")
             ->withShortTitle("Short Title");
 
-        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]);
+        $r = $this->getDefaultRenderer(
+            null,
+            [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]
+        );
         $html = $this->brutallyTrimHTML($r->render($this->stdpage));
 
-        $exptected = $this->brutallyTrimHTML('<!DOCTYPE html>
+        $exptected = $this->brutallyTrimHTML(
+            '<!DOCTYPE html>
 <html lang="en" dir="ltr">
 
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Short Title: View Title</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>
 
@@ -238,39 +273,44 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <div class="il-layout-page">
         <header>
             <div class="header-inner">
-                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs-block">Responsive Logo Stub</span>
                     <div class="il-pagetitle">Title</div>
                 </div>MetaBar Stub
             </div>
         </header>
         <div class="il-system-infos"></div>
         <div class="nav il-maincontrols">MainBar Stub</div>
-        <main class="il-layout-page-content">
-            <div>some content</div>
-        </main>
+        <main class="il-layout-page-content">some content</main>
     </div>
     <script>il.Util.addOnLoad(function() {});</script>
 </body>
 
-</html>');
+</html>'
+        );
         $this->assertEquals($exptected, $html);
     }
 
-    public function testRenderingWithRtlLanguage() : void
+    public function testRenderingWithRtlLanguage(): void
     {
         $this->stdpage = $this->stdpage->withTextDirection($this->stdpage::RTL);
 
-        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]);
+        $r = $this->getDefaultRenderer(
+            null,
+            [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]
+        );
         $html = $this->brutallyTrimHTML($r->render($this->stdpage));
 
-        $exptected = $this->brutallyTrimHTML('<!DOCTYPE html>
+        $exptected = $this->brutallyTrimHTML(
+            '<!DOCTYPE html>
 <html lang="en" dir="rtl">
 
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>:</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>
 
@@ -279,43 +319,52 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <div class="il-layout-page">
         <header>
             <div class="header-inner">
-                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs-block">Responsive Logo Stub</span>
                     <div class="il-pagetitle">pagetitle</div>
                 </div>MetaBar Stub
             </div>
         </header>
         <div class="il-system-infos"></div>
         <div class="nav il-maincontrols">MainBar Stub</div>
-        <main class="il-layout-page-content">
-            <div>some content</div>
-        </main>
+        <main class="il-layout-page-content">some content</main>
     </div>
     <script>il.Util.addOnLoad(function() {});</script>
 </body>
 
-</html>');
+</html>'
+        );
         $this->assertEquals($exptected, $html);
     }
-    
-    public function testRenderingWithMetaData() : void
+
+    public function testRenderingWithMetaData(): void
     {
-        $this->stdpage = $this->stdpage->withAdditionalMetaDatum('meta_datum_key_1', 'meta_datum_value_1');
-        $this->stdpage = $this->stdpage->withAdditionalMetaDatum('meta_datum_key_2', 'meta_datum_value_2');
-    
-        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]);
+        $meta_datum_1_html = 'test_html_1';
+        $meta_datum_2_html = 'test_html_2';
+        $meta_datum_1 = $this->getMockedTag($meta_datum_1_html);
+        $meta_datum_2 = $this->getMockedTag($meta_datum_2_html);
+
+        $this->stdpage = $this->stdpage->withAdditionalMetaDatum($meta_datum_1);
+        $this->stdpage = $this->stdpage->withAdditionalMetaDatum($meta_datum_2);
+
+        $r = $this->getDefaultRenderer(
+            null,
+            [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]
+        );
         $html = $this->brutallyTrimHTML($r->render($this->stdpage));
-        $expected = $this->brutallyTrimHTML('
+        $expected = $this->brutallyTrimHTML(
+            '
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+' . $meta_datum_1_html . $meta_datum_2_html . '
     <title>:</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
-    <meta name="meta_datum_key_1" content="meta_datum_value_1" />
-    <meta name="meta_datum_key_2" content="meta_datum_value_2" />
 </head>
 
 <body>
@@ -323,40 +372,44 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <div class="il-layout-page">
         <header>
             <div class="header-inner">
-                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs-block">Responsive Logo Stub</span>
                     <div class="il-pagetitle">pagetitle</div>
                 </div>MetaBar Stub
             </div>
         </header>
         <div class="il-system-infos"></div>
         <div class="nav il-maincontrols">MainBar Stub</div>
-        <main class="il-layout-page-content">
-            <div>some content</div>
-        </main>
+        <main class="il-layout-page-content">some content</main>
     </div>
     <script>il.Util.addOnLoad(function() {});</script>
 </body>
 
-</html>');
+</html>'
+        );
         $this->assertEquals($expected, $html);
     }
 
-
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function button() : \ILIAS\UI\Component\Button\Factory
+        return new class () extends NoUIFactory {
+            public function button(): \ILIAS\UI\Component\Button\Factory
             {
                 return new Button\Factory();
             }
-            public function dropdown() : Factory
+
+            public function dropdown(): Factory
             {
                 return new Dropdown\Factory();
             }
         };
     }
 
-    public function testRenderingWithCrumbs() : void
+    public function getDataFactory(): DataFactory
+    {
+        return new DataFactory();
+    }
+
+    public function testRenderingWithCrumbs(): void
     {
         $crumbs = new Crumbs([
             new CrumbEntry("label1", '#'),
@@ -372,6 +425,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $crumbs,
             $this->logo,
             $this->responsive_logo,
+            'favicon.ico',
             $this->overlay,
             null,
             $this->title
@@ -379,14 +433,17 @@ class StandardPageTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($stdpage));
 
-        $exptected = $this->brutallyTrimHTML('<!DOCTYPE html>
+        $exptected = $this->brutallyTrimHTML(
+            '<!DOCTYPE html>
 <html lang="en" dir="ltr">
 
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>:</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>
 
@@ -395,12 +452,12 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <div class="il-layout-page">
         <header>
             <div class="header-inner">
-                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs-block">Responsive Logo Stub</span>
                     <div class="il-pagetitle">pagetitle</div>
                 </div>
                 <nav class="il-header-locator">
-                    <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">label3<span class="caret"></span></button>
-                        <ul class="dropdown-menu">
+                    <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">label3<span class="caret"></span></button>
+                        <ul id="id_3_menu" class="dropdown-menu">
                             <li><button class="btn btn-link" data-action="#" id="id_1">label2</button></li>
                             <li><button class="btn btn-link" data-action="#" id="id_2">label1</button></li>
                         </ul>
@@ -411,19 +468,33 @@ class StandardPageTest extends ILIAS_UI_TestBase
         <div class="il-system-infos"></div>
         <div class="nav il-maincontrols">MainBar Stub</div>
         <main class="il-layout-page-content">
-            <div>
                 <div class="breadcrumbs">
                     <nav aria-label="breadcrumbs_aria_label" class="breadcrumb_wrapper">
                         <div class="breadcrumb"><span class="crumb"><a href="#">label1</a></span><span class="crumb"><a href="#">label2</a></span><span class="crumb"><a href="#">label3</a></span></div>
                     </nav>
                 </div>some content
-            </div>
         </main>
     </div>
     <script>il.Util.addOnLoad(function() {});</script>
 </body>
 
-</html>');
+</html>'
+        );
         $this->assertEquals($exptected, $html);
+    }
+
+    public function getMockedTag(string $html): Html\Tag
+    {
+        return new class ($html) extends Html\Tag {
+            public function __construct(
+                protected string $html
+            ) {
+            }
+
+            public function toHtml(): string
+            {
+                return $this->html;
+            }
+        };
     }
 }

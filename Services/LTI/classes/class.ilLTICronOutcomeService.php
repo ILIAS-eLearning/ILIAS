@@ -1,18 +1,25 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Description of class class
  *
@@ -21,53 +28,58 @@
  */
 class ilLTICronOutcomeService extends ilCronJob
 {
-    public function getDefaultScheduleType() : int
+    private ilLanguage $lng;
+    private ilCronJobRepository $cronRepo;
+
+    public function __construct()
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        global $DIC;
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule("lti");
+        $this->cronRepo = $DIC->cron()->repository();
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleType(): CronJobScheduleType
+    {
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
+    }
+
+    public function getDefaultScheduleValue(): ?int
     {
         return 1;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return 'lti_outcome';
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
-        global $DIC;
-        $DIC->language()->loadLanguageModule('lti');
-        return $DIC->language()->txt('lti_cron_title');
+        return $this->lng->txt('lti_cron_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
-        global $DIC;
-        $DIC->language()->loadLanguageModule('lti');
-        return $DIC->language()->txt('lti_cron_title_desc');
+        return $this->lng->txt('lti_cron_title_desc');
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
-        global $DIC;
-
         $status = \ilCronJobResult::STATUS_NO_ACTION;
 
-        $info = $DIC->cron()->repository()->getCronJobData($this->getId());
-        $last_ts = $info['job_status_ts'];
+        $info = $this->cronRepo->getCronJobData($this->getId());
+        $last_ts = $info['job_status_ts'] ?? false;
         if (!$last_ts) {
             $last_ts = time() - 24 * 3600;
         }

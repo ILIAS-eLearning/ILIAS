@@ -33,12 +33,12 @@ include_once "./webservice/soap/classes/class.ilSoapStructureObject.php";
 
 class ilSoapLMChapterStructureObject extends ilSoapStructureObject
 {
-    public function getInternalLink() : string
+    public function getInternalLink(): string
     {
         return "[iln chap=\"" . $this->getObjId() . "\"]" . $this->getTitle() . "[/iln]";
     }
 
-    public function getGotoLink() : string
+    public function getGotoLink(): string
     {
         return "";
     }

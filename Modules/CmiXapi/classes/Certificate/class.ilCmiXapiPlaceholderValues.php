@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilCmiXapiPlaceholderValues
  *
@@ -100,7 +105,7 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
     /**
      * @return mixed[]
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
@@ -116,7 +121,7 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
     /**
      * @return mixed[]
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array
+    public function getPlaceholderValues(int $userId, int $objId): array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
@@ -131,7 +136,7 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         return $placeholders;
     }
 
-    protected function getReachedScore(int $objectId, int $userId) : string
+    protected function getReachedScore(int $objectId, int $userId): string
     {
         try {
             $cmixResult = ilCmiXapiResult::getInstanceByObjIdAndUsrId(
@@ -142,8 +147,6 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
             $cmixResult = ilCmiXapiResult::getEmptyInstance();
         }
 
-        $reachedScore = sprintf('%0.2f %%', $cmixResult->getScore() * 100);
-
-        return $reachedScore;
+        return sprintf('%0.2f %%', $cmixResult->getScore() * 100);
     }
 }

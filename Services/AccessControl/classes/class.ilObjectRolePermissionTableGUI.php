@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Table for object role permissions
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -74,7 +76,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     /**
      * Get tree path ids
      */
-    public function getPathIds() : array
+    public function getPathIds(): array
     {
         return $this->tree_path_ids;
     }
@@ -82,7 +84,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     /**
      * Get ref id of current object
      */
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
@@ -90,7 +92,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     /**
      * Get obj id
      */
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return ilObject::_lookupObjId($this->getRefId());
     }
@@ -98,7 +100,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     /**
      * get obj type
      */
-    public function getObjType() : string
+    public function getObjType(): string
     {
         return ilObject::_lookupType($this->getObjId());
     }
@@ -106,7 +108,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     /**
      * Add active operation
      */
-    public function addActiveOperation(int $a_ops_id) : void
+    public function addActiveOperation(int $a_ops_id): void
     {
         $this->activeOperations[] = $a_ops_id;
     }
@@ -115,12 +117,12 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
      * get active operations
      * @return int[]
      */
-    public function getActiveOperations() : array
+    public function getActiveOperations(): array
     {
         return $this->activeOperations;
     }
 
-    public function setVisibleRoles(array $a_ar) : void
+    public function setVisibleRoles(array $a_ar): void
     {
         $this->visible_roles = $a_ar;
     }
@@ -128,7 +130,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     /**
      * get visible roles
      */
-    public function getVisibleRoles() : array
+    public function getVisibleRoles(): array
     {
         return $this->visible_roles;
     }
@@ -136,7 +138,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     /**
      * Init role filter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         global $DIC;
 
@@ -169,7 +171,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 
     /**
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         // local policy
         if (isset($a_set['show_local_policy_row'])) {
@@ -298,7 +300,14 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
                     $this->getObjType() . "_" . $a_set['perm']['operation']
                 ));
             } elseif (substr($a_set['perm']['operation'], 0, 6) == 'create') {
-                $this->tpl->setVariable('PERM_LONG', $this->lng->txt('rbac_' . $a_set['perm']['operation']));
+                if ($this->objDefinition->isPlugin(substr($a_set['perm']['operation'], 7))) {
+                    $this->tpl->setVariable('PERM_LONG', ilObjectPlugin::lookupTxtById(
+                        substr($a_set['perm']['operation'], 7),
+                        $this->getObjType() . "_" . $a_set['perm']['operation']
+                    ));
+                } else {
+                    $this->tpl->setVariable('PERM_LONG', $this->lng->txt('rbac_' . $a_set['perm']['operation']));
+                }
             } else {
                 $this->tpl->setVariable(
                     'PERM_LONG',
@@ -320,7 +329,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     /**
      * Parse
      */
-    public function parse() : void
+    public function parse(): void
     {
         $this->initColumns();
 
@@ -429,7 +438,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         $ops_ids = ilRbacReview::lookupCreateOperationIds(array_keys($objects));
         $creation_operations = array();
         foreach ($objects as $type => $info) {
-            $ops_id = $ops_ids[$type];
+            $ops_id = $ops_ids[$type] ?? null;
 
             if (!$ops_id) {
                 continue;
@@ -468,14 +477,14 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         $this->setData($perms);
     }
 
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         global $DIC;
 
         $roles = $this->review->getParentRoleIds($this->getRefId());
         $roles = $this->getParentObject()->applyRoleFilter(
             $roles,
-            $this->getFilterItemByPostVar('role')->getValue()
+            (int) $this->getFilterItemByPostVar('role')->getValue()
         );
 
         $possible_roles = array();
@@ -520,7 +529,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     /**
      * Create a linked title for roles with local policy
      */
-    protected function createTooltip(array $role) : string
+    protected function createTooltip(array $role): string
     {
         $protected_status = $this->review->isProtected($role['parent'], $role['obj_id']) ? 'protected_' : '';
         if ($role['role_type'] == 'global') {
@@ -588,7 +597,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     /**
      * Create (linked) title
      */
-    protected function createTitle(array $role) : string
+    protected function createTitle(array $role): string
     {
         $role_title = ilObjRole::_getTranslation($role['title']);
 

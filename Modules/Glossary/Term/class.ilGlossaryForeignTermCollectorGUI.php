@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Collects terms (reference or copy) from other glossaries
@@ -66,12 +69,12 @@ class ilGlossaryForeignTermCollectorGUI
         $this->ctrl->saveParameter($this, "fglo_ref_id");
     }
 
-    public static function getInstance(ilObjGlossaryGUI $a_glossary_gui) : self
+    public static function getInstance(ilObjGlossaryGUI $a_glossary_gui): self
     {
         return new self($a_glossary_gui);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("showGlossarySelector");
@@ -84,7 +87,7 @@ class ilGlossaryForeignTermCollectorGUI
         }
     }
 
-    public function showGlossarySelector() : void
+    public function showGlossarySelector(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("glo_select_source_glo"));
         $exp = new ilRepositorySelectorExplorerGUI(
@@ -101,7 +104,7 @@ class ilGlossaryForeignTermCollectorGUI
         }
     }
 
-    public function setForeignGlossary() : void
+    public function setForeignGlossary(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -116,14 +119,14 @@ class ilGlossaryForeignTermCollectorGUI
         $ilCtrl->redirect($this, "showTerms");
     }
 
-    public function showTerms() : void
+    public function showTerms(): void
     {
         $t = new ilGlossaryForeignTermTableGUI($this, "showTerms", $this->foreign_glossary);
 
         $this->tpl->setContent($t->getHTML());
     }
-    
-    public function copyTerms() : void
+
+    public function copyTerms(): void
     {
         $term_ids = $this->request->getTermIds();
         if (count($term_ids) == 0) {
@@ -140,7 +143,7 @@ class ilGlossaryForeignTermCollectorGUI
         $this->ctrl->returnToParent($this);
     }
 
-    public function referenceTerms() : void
+    public function referenceTerms(): void
     {
         $term_ids = $this->request->getTermIds();
         if (count($term_ids) == 0) {
@@ -155,7 +158,7 @@ class ilGlossaryForeignTermCollectorGUI
             $this->foreign_glossary->getRefId(),
             $terms
         );
-        
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->returnToParent($this);
     }

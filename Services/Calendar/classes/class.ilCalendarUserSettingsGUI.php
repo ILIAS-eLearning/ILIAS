@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -55,7 +57,7 @@ class ilCalendarUserSettingsGUI
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
@@ -66,7 +68,7 @@ class ilCalendarUserSettingsGUI
         }
     }
 
-    public function show(?ilPropertyFormGUI $form = null) : void
+    public function show(?ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initSettingsForm();
@@ -74,7 +76,7 @@ class ilCalendarUserSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $this->ctrl->returnToParent($this);
     }
@@ -90,9 +92,7 @@ class ilCalendarUserSettingsGUI
             $this->user_settings->setTimeFormat((int) $form->getInput('time_format'));
             $this->user_settings->setDayStart((int) $form->getInput('dst'));
             $this->user_settings->setDayEnd((int) $form->getInput('den'));
-            if ($this->settings->getShowWeeks()) {
-                $this->user_settings->setShowWeeks((bool) $form->getInput('show_weeks'));
-            }
+            $this->user_settings->setShowWeeks((bool) $form->getInput('show_weeks'));
             $this->user_settings->save();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, "show");
@@ -103,7 +103,7 @@ class ilCalendarUserSettingsGUI
         }
     }
 
-    public function initSettingsForm() : ilPropertyFormGUI
+    public function initSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'save'));
@@ -160,9 +160,9 @@ class ilCalendarUserSettingsGUI
         $radio = new ilRadioGroupInputGUI($this->lng->txt('cal_week_start'), 'weekstart');
         $radio->setValue((string) $this->user_settings->getWeekStart());
 
-        $option = new ilRadioOption($this->lng->txt('l_su'), (string) 0);
+        $option = new ilRadioOption($this->lng->txt('l_su'), "0");
         $radio->addOption($option);
-        $option = new ilRadioOption($this->lng->txt('l_mo'), (string) 1);
+        $option = new ilRadioOption($this->lng->txt('l_mo'), "1");
         $radio->addOption($option);
         $form->addItem($radio);
 
@@ -170,7 +170,7 @@ class ilCalendarUserSettingsGUI
             //
             $cb = new ilCheckboxInputGUI($this->lng->txt("cal_usr_show_weeks"), "show_weeks");
             $cb->setInfo($this->lng->txt("cal_usr_show_weeks_info"));
-            $cb->setValue((string) 1);
+            $cb->setValue("1");
             $cb->setChecked($this->user_settings->getShowWeeks());
             $form->addItem($cb);
         }

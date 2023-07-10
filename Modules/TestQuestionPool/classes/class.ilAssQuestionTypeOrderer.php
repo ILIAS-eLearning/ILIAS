@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Orderer for Question Type Lists
@@ -16,13 +31,13 @@ class ilAssQuestionTypeOrderer
     /**
      * order mode with fixed priority for ordering
      */
-    const ORDER_MODE_FIX = 'fix';
-    
+    public const ORDER_MODE_FIX = 'fix';
+
     /**
      * order mode that orders by alphanumerical priority
      */
-    const ORDER_MODE_ALPHA = 'alpha';
-    
+    public const ORDER_MODE_ALPHA = 'alpha';
+
     /**
      * defines the fix order for question types
      *
@@ -32,7 +47,7 @@ class ilAssQuestionTypeOrderer
         'assSingleChoice',
         'assMultipleChoice',
         'assKprimChoice',
-        
+
         'assErrorText',
         'assImagemapQuestion',
 
@@ -56,14 +71,14 @@ class ilAssQuestionTypeOrderer
      */
     protected $deprecatedTypes = array(
     );
-    
+
     /**
      * flipped question type order (used for determining order priority)
      *
      * @var array
      */
     public static $flippedQuestionTypeOrder = null;
-    
+
     /**
      * Constructor
      *
@@ -95,31 +110,31 @@ class ilAssQuestionTypeOrderer
 
         #vd($this->types);
     }
-    
+
     /**
      * getter for ordered question types
      *
      * @return array $orderedQuestionTypes
      */
-    public function getOrderedTypes($withDeprecatedTypes = true) : array
+    public function getOrderedTypes($withDeprecatedTypes = true): array
     {
         if ($withDeprecatedTypes) {
             return $this->types;
         }
-        
+
         $types = array();
-        
+
         foreach ($this->types as $translation => $typeData) {
             if (in_array($typeData['type_tag'], $this->deprecatedTypes)) {
                 continue;
             }
-            
+
             $types[$translation] = $typeData;
         }
-        
+
         return $types;
     }
-    
+
     /**
      * custom sort callback for ordering the question types
      *
@@ -128,7 +143,7 @@ class ilAssQuestionTypeOrderer
      * @param array $b
      * @return integer
      */
-    public function fixQuestionTypeOrderSortCallback($a, $b) : int
+    public function fixQuestionTypeOrderSortCallback($a, $b): int
     {
         if (self::$flippedQuestionTypeOrder[ $a['type_tag'] ] > self::$flippedQuestionTypeOrder[ $b['type_tag'] ]) {
             return 1;

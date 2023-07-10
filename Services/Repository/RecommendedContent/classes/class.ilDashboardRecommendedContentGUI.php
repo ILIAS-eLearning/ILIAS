@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Item\Group;
 use ILIAS\UI\Component\Item\Item;
@@ -31,6 +34,7 @@ class ilDashboardRecommendedContentGUI
     protected \ILIAS\DI\UIServices $ui;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
+    protected ilSetting $settings;
     protected ilFavouritesManager $fav_manager;
     protected ilObjectDefinition $objDefinition;
     protected int $requested_item_ref_id;
@@ -49,6 +53,7 @@ class ilDashboardRecommendedContentGUI
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
+        $this->settings = $DIC->settings();
 
         $this->lng->loadLanguageModule("rep");
 
@@ -58,7 +63,7 @@ class ilDashboardRecommendedContentGUI
         $this->recommendations = $this->rec_manager->getOpenRecommendationsOfUser($this->user->getId());
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -73,7 +78,7 @@ class ilDashboardRecommendedContentGUI
         }
     }
 
-    public function render() : string
+    public function render(): string
     {
         if (count($this->recommendations) === 0) {
             return "";
@@ -89,7 +94,7 @@ class ilDashboardRecommendedContentGUI
     /**
      * @return Group[]
      */
-    protected function getListItemGroups() : array
+    protected function getListItemGroups(): array
     {
         global $DIC;
         $factory = $DIC->ui()->factory();
@@ -99,6 +104,9 @@ class ilDashboardRecommendedContentGUI
 
         foreach ($this->recommendations as $ref_id) {
             try {
+                if (!$DIC->access()->checkAccess('visible', '', $ref_id)) {
+                    continue;
+                }
                 $list_items[] = $this->getListItemForData($ref_id);
             } catch (ilException $e) {
                 continue;
@@ -110,15 +118,19 @@ class ilDashboardRecommendedContentGUI
         return $item_groups;
     }
 
-    protected function getListItemForData(int $ref_id) : ?Item
+    protected function getListItemForData(int $ref_id): ?Item
     {
+        $short_desc = $this->settings->get("rep_shorten_description");
+        $short_desc_max_length = (int) $this->settings->get("rep_shorten_description_length");
         $ctrl = $this->ctrl;
-        $lng = $this->lng;
 
         $obj_id = ilObject::_lookupObjectId($ref_id);
         $type = ilObject::_lookupType($obj_id);
         $title = ilObject::_lookupTitle($obj_id);
         $desc = ilObject::_lookupDescription($obj_id);
+        if ($short_desc && $short_desc_max_length !== 0) {
+            $desc = ilStr::shortenTextExtended($desc, $short_desc_max_length, true);
+        }
         $item = [
             "ref_id" => $ref_id,
             "obj_id" => $obj_id,
@@ -160,7 +172,7 @@ class ilDashboardRecommendedContentGUI
     /**
      * @throws ilException
      */
-    public function byType(string $a_type) : ilObjectListGUI
+    public function byType(string $a_type): ilObjectListGUI
     {
         /** @var $item_list_gui ilObjectListGUI */
         if (!array_key_exists($a_type, self::$list_by_type)) {
@@ -198,7 +210,7 @@ class ilDashboardRecommendedContentGUI
         return (clone self::$list_by_type[$a_type]);
     }
 
-    protected function remove() : void
+    protected function remove(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -207,7 +219,7 @@ class ilDashboardRecommendedContentGUI
         $ctrl->returnToParent($this);
     }
 
-    protected function makeFavourite() : void
+    protected function makeFavourite(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;

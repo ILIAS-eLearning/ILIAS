@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,12 +27,12 @@ class LinkDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         $field = array(
             'type' => 'text',
@@ -41,11 +43,14 @@ class LinkDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db->modifyTableColumn("int_link", "target_type", $field);
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
-        $this->db->update("int_link", [
+        $this->db->update(
+            "int_link",
+            [
             "target_type" => ["text", "wpage"]
-        ], [    // where
+        ],
+            [    // where
                 "target_type" => ["text", "wpag"]
             ]
         );

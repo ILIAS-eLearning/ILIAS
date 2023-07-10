@@ -1,8 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Toast\Container;
 
-function with_multiple_toasts() : string
+function with_multiple_toasts(): string
 {
     global $DIC;
     $tc = $DIC->ui()->factory()->toast()->container();
@@ -10,15 +12,15 @@ function with_multiple_toasts() : string
     $toasts = [
         $DIC->ui()->factory()->toast()->standard(
             'Example 1',
-            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')->withIsOutlined(true)
+            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')
         ),
         $DIC->ui()->factory()->toast()->standard(
             'Example 2',
-            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')->withIsOutlined(true)
+            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')
         ),
         $DIC->ui()->factory()->toast()->standard(
             'Example 3',
-            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')->withIsOutlined(true)
+            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')
         )
     ];
 

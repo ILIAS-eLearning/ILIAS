@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * UDF permission helper
@@ -43,40 +46,40 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
     public const SUBACTION_FIELD_ACCESS_EXPORT = 9;
     public const SUBACTION_FIELD_ACCESS_SEARCHABLE = 10;
     public const SUBACTION_FIELD_ACCESS_CERTIFICATE = 11;
-        
-    
+
+
     // caching
-        
-    protected function readContextIds(int $a_context_type) : array // Missing array type.
+
+    protected function readContextIds(int $a_context_type): array // Missing array type.
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         switch ($a_context_type) {
             case self::CONTEXT_UDF:
                 return array($this->getRefId());
-                    
+
             case self::CONTEXT_FIELD:
                 $set = $ilDB->query("SELECT field_id id" .
                     " FROM udf_definition");
                 break;
-                                
+
             default:
                 return array();
         }
-        
+
         $res = array();
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[] = $row["id"];
         }
         return $res;
     }
-    
-    
+
+
     // permissions
-    
-    protected function buildPermissionMap() : array // Missing array type.
+
+    protected function buildPermissionMap(): array // Missing array type.
     {
         return array(
             self::CONTEXT_UDF => array(
@@ -113,11 +116,11 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
             )
         );
     }
-    
-    
+
+
     // plugins
-    
-    protected function getActivePlugins() : array // Missing array type.
+
+    protected function getActivePlugins(): array // Missing array type.
     {
         global $DIC;
         $component_factory = $DIC["component.factory"];

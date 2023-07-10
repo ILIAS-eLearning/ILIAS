@@ -1,19 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
-
+ *********************************************************************/
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Legacy\Legacy;
@@ -26,7 +29,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilSessionTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
@@ -59,7 +62,7 @@ class ilSessionTest extends TestCase
      * @param string $name
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -71,7 +74,7 @@ class ilSessionTest extends TestCase
         };
     }
 
-    public function tstBasicSessionBehaviour() : void
+    public function tstBasicSessionBehaviour(): void
     {
         global $DIC;
 
@@ -197,7 +200,7 @@ class ilSessionTest extends TestCase
         if (ilSession::_exists($duplicate)) {
             $result .= "destroyExp-";
         }
-        
+
         ilSession::_destroyByUserId(17);
         if (!ilSession::_exists($duplicate)) {
             $result .= "destroyByUser-";
@@ -205,12 +208,12 @@ class ilSessionTest extends TestCase
         $this->assertEquals("exists-write-get-duplicate-destroy-destroyExp-destroyByUser-", $result);
     }
 
-    public function testPasswordAssisstanceSession() : void
+    public function testPasswordAssisstanceSession(): void
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-                
+
         $result = "";
         $this->markTestIncomplete(
             'This test has not been implemented yet.'
@@ -218,19 +221,19 @@ class ilSessionTest extends TestCase
         return;
         // write session
         db_pwassist_session_write("12345", 60, $ilUser->getId());
-        
+
         // find
         $res = db_pwassist_session_find($ilUser->getId());
         if ($res["pwassist_id"] === "12345") {
             $result .= "find-";
         }
-        
+
         // read
         $res = db_pwassist_session_read("12345");
         if ((int) $res["user_id"] === $ilUser->getId()) {
             $result .= "read-";
         }
-        
+
         // destroy
         db_pwassist_session_destroy("12345");
         $res = db_pwassist_session_read("12345");

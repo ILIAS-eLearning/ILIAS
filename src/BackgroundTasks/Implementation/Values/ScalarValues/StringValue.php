@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Values\ScalarValues;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
@@ -23,7 +23,7 @@ use ILIAS\BackgroundTasks\Value;
 
 class StringValue extends ScalarValue
 {
-    public function setValue($value) : void
+    public function setValue($value): void
     {
         if (!is_string($value)) {
             throw new InvalidArgumentException("The value given must be a string! See php-documentation is_string().");

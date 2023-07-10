@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjTaxonomyAdministration
@@ -18,13 +32,13 @@ class ilObjTaxonomyAdministration extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         // DISABLED
         return false;
     }
 
-    protected function getPath(int $a_ref_id) : array
+    protected function getPath(int $a_ref_id): array
     {
         $tree = $this->tree;
 
@@ -37,7 +51,7 @@ class ilObjTaxonomyAdministration extends ilObject
         return $res;
     }
 
-    public function getRepositoryTaxonomies() : array
+    public function getRepositoryTaxonomies(): array
     {
         $ilDB = $this->db;
         $tree = $this->tree;

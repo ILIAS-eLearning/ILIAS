@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Export class for surveys
@@ -36,7 +39,7 @@ class ilSurveyExport
         $ilDB = $DIC->database();
 
         $this->survey_obj = $a_survey_obj;
-    
+
         $this->db = $ilDB;
         $this->mode = $a_mode;
         $this->inst_id = (int) IL_INST_ID;
@@ -52,7 +55,7 @@ class ilSurveyExport
         }
     }
 
-    public function getInstId() : int
+    public function getInstId(): int
     {
         return $this->inst_id;
     }
@@ -61,7 +64,7 @@ class ilSurveyExport
     /**
      * @return string export file name
      */
-    public function buildExportFile() : string
+    public function buildExportFile(): string
     {
         switch ($this->mode) {
             default:
@@ -75,9 +78,8 @@ class ilSurveyExport
      * @throws ilLogException
      * @throws ilSurveyException
      */
-    public function buildExportFileXML() : string
+    public function buildExportFileXML(): string
     {
-
         // create directories
         $this->survey_obj->createExportDirectory();
         ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);
@@ -114,7 +116,7 @@ class ilSurveyExport
 
     public function exportXHTMLMediaObjects(
         string $a_export_dir
-    ) : void {
+    ): void {
         $mobs = ilObjMediaObject::_getMobsOfObject("svy:html", $this->survey_obj->getId());
         foreach ($mobs as $mob) {
             $mob_obj = new ilObjMediaObject($mob);

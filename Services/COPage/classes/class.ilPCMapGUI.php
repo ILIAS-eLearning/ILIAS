@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCMapGUI
@@ -36,7 +39,7 @@ class ilPCMapGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -51,16 +54,16 @@ class ilPCMapGUI extends ilPageContentGUI
         }
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         $tpl = $this->tpl;
-        
+
         $this->displayValidationError();
         $this->initForm("create");
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function edit() : void
+    public function edit(): void
     {
         $tpl = $this->tpl;
         $this->displayValidationError();
@@ -69,10 +72,10 @@ class ilPCMapGUI extends ilPageContentGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function getValues() : void
+    public function getValues(): void
     {
         $values = array();
-        
+
         $values["location"]["latitude"] = $this->content_obj->getLatitude();
         $values["location"]["longitude"] = $this->content_obj->getLongitude();
         $values["location"]["zoom"] = $this->content_obj->getZoom();
@@ -80,11 +83,11 @@ class ilPCMapGUI extends ilPageContentGUI
         $values["height"] = $this->content_obj->getHeight();
         $values["caption"] = ilPCMap::handleCaptionFormOutput($this->content_obj->getCaption());
         $values["horizontal_align"] = $this->content_obj->getHorizontalAlign();
-        
+
         $this->form->setValuesByArray($values);
     }
 
-    public function initForm(string $a_mode) : void
+    public function initForm(string $a_mode): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -159,10 +162,10 @@ class ilPCMapGUI extends ilPageContentGUI
         }
     }
 
-    public function create() : void
+    public function create(): void
     {
         $tpl = $this->tpl;
-        
+
         $this->initForm("create");
         if ($this->form->checkInput()) {
             $this->content_obj = new ilPCMap($this->getPage());
@@ -170,7 +173,7 @@ class ilPCMapGUI extends ilPageContentGUI
             $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
             $this->content_obj->setLatitude($location["latitude"]);
             $this->content_obj->setLongitude($location["longitude"]);
-            $this->content_obj->setZoom($location["zoom"]);
+            $this->content_obj->setZoom((int) $location["zoom"]);
             $this->content_obj->setLayout(
                 $this->form->getInput("width"),
                 $this->form->getInput("height"),
@@ -190,16 +193,16 @@ class ilPCMapGUI extends ilPageContentGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function update() : void
+    public function update(): void
     {
         $tpl = $this->tpl;
-        
+
         $this->initForm("update");
         if ($this->form->checkInput()) {
             $location = $this->form->getInput("location");
             $this->content_obj->setLatitude($location["latitude"]);
             $this->content_obj->setLongitude($location["longitude"]);
-            $this->content_obj->setZoom($location["zoom"]);
+            $this->content_obj->setZoom((int) $location["zoom"]);
             $this->content_obj->setLayout(
                 $this->form->getInput("width"),
                 $this->form->getInput("height"),

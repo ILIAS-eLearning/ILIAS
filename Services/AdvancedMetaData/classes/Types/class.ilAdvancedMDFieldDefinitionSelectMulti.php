@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * AMD field type select
@@ -9,18 +26,18 @@
 class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinitionSelect
 {
     protected const XML_SEPARATOR = "~|~";
-    
-    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : string
+
+    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search): string
     {
-        return $a_adt_search->getADT()->getSelections()[0] ?? "";
+        return (string) $a_adt_search->getADT()->getSelections()[0];
     }
 
-    public function getType() : int
+    public function getType(): int
     {
         return self::TYPE_SELECT_MULTI;
     }
 
-    protected function initADTDefinition() : ilADTDefinition
+    protected function initADTDefinition(): ilADTDefinition
     {
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType("MultiEnum");
         $def->setNumeric(false);
@@ -34,7 +51,7 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
         return $def;
     }
 
-    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '') : void
+    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = ''): void
     {
         if (!$this->useDefaultLanguageMode($language)) {
             $this->importTranslatedFormPostValues($a_form, $language);
@@ -73,19 +90,19 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
         $this->setOptionTranslationsForLanguage($new, $language);
     }
 
-    public function getValueForXML(ilADT $element) : string
+    public function getValueForXML(ilADT $element): string
     {
         return self::XML_SEPARATOR .
             implode(self::XML_SEPARATOR, $element->getSelections()) .
             self::XML_SEPARATOR;
     }
 
-    public function importValueFromXML(string $a_cdata) : void
+    public function importValueFromXML(string $a_cdata): void
     {
         $this->getADT()->setSelections(explode(self::XML_SEPARATOR, $a_cdata));
     }
-    
-    public function prepareElementForEditor(ilADTFormBridge $a_bridge) : void
+
+    public function prepareElementForEditor(ilADTFormBridge $a_bridge): void
     {
         assert($a_bridge instanceof ilADTMultiEnumFormBridge);
 

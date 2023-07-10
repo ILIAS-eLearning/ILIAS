@@ -64,12 +64,14 @@
 				<td class="ilValignTop">
 					<input class="form-control text-right" type="text" size="5" id="{POINTS_UNCHECKED_ID}" name="{POST_VAR}[points_unchecked][{ROW_NUMBER}]" <!-- BEGIN prop_points_unchecked_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_unchecked_propval -->{DISABLED_POINTS_UNCHECKED}/>
 				</td>
+				<input class="form-control" type="hidden" name="{POST_VAR}[answer_id][{ROW_NUMBER}]" <!-- BEGIN prop_answer_id_propval -->value="{PROPERTY_VALUE}" <!-- END prop_answer_id_propval -->/>
+
 				<td class="ilValignTop ilWhiteSpaceNowrap">
-					<button type="button" name="{CMD_ADD}" class="multiplechoice_add btn btn-link" id="add_{ID}">{ADD_BUTTON}</button>
-					<button type="button" name="{CMD_REMOVE}" class="multiplechoice_remove btn btn-link" id="remove_{ID}">{REMOVE_BUTTON}</button>
+					<div class="multiplechoice_add btn btn-link" id="add_{ID}">{ADD_BUTTON}</div>
+					<div class="multiplechoice_remove btn btn-link" id="remove_{ID}">{REMOVE_BUTTON}</div>
 <!-- BEGIN move -->
-					<button type="button" name="{CMD_UP}" class="multiplechoice_up btn btn-link" id="up_{ID}">{UP_BUTTON}</button>
-					<button type="button" name="{CMD_DOWN}" class="multiplechoice_down btn btn-link" id="down_{ID}">{DOWN_BUTTON}</button>
+					<div class="multiplechoice_up btn btn-link" id="up_{ID}">{UP_BUTTON}</div>
+					<div class="multiplechoice_down btn btn-link" id="down_{ID}">{DOWN_BUTTON}</div>
 <!-- END move -->
 				</td>
 			</tr>

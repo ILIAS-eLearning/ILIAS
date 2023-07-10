@@ -33,12 +33,12 @@ include_once "./webservice/soap/classes/class.ilSoapStructureObject.php";
 
 class ilSoapGLOTermDefinitionStructureObject extends ilSoapStructureObject
 {
-    public function getInternalLink() : string
+    public function getInternalLink(): string
     {
         return "";
     }
 
-    public function getGotoLink() : string
+    public function getGotoLink(): string
     {
         return "";
     }

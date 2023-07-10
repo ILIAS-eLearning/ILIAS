@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
@@ -29,7 +31,7 @@ class AgentCollectionTest extends TestCase
 {
     use Helper;
 
-    public function testHasConfig() : void
+    public function testHasConfig(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -56,7 +58,7 @@ class AgentCollectionTest extends TestCase
         $this->assertFalse($col5->hasConfig());
     }
 
-    public function testGetArrayToConfigTransformation() : void
+    public function testGetArrayToConfigTransformation(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -108,7 +110,7 @@ class AgentCollectionTest extends TestCase
         $this->assertEquals($conf3, $conf->getConfig("c3"));
     }
 
-    public function testArrayToConfigTransformationAllowsUnsetFields() : void
+    public function testArrayToConfigTransformationAllowsUnsetFields(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -160,7 +162,7 @@ class AgentCollectionTest extends TestCase
         $this->assertEquals($conf3, $conf->getConfig("c3"));
     }
 
-    public function testGetInstallObjective() : void
+    public function testGetInstallObjective(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -201,7 +203,7 @@ class AgentCollectionTest extends TestCase
         $this->assertEquals([$g1, $g2], $g->getObjectives());
     }
 
-    public function testGetUpdateObjective() : void
+    public function testGetUpdateObjective(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
         $storage = $this->createMock(Setup\Metrics\Storage::class);
@@ -235,7 +237,7 @@ class AgentCollectionTest extends TestCase
         $this->assertEquals([$g1, $g2], $g->getObjectives());
     }
 
-    public function testGetCollectMetricsObjective() : void
+    public function testGetCollectMetricsObjective(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -267,7 +269,7 @@ class AgentCollectionTest extends TestCase
         $this->assertEquals([$g1, $g2], $g->getObjectives());
     }
 
-    public function testGetAgent() : void
+    public function testGetAgent(): void
     {
         $refinery = $this->createMock(Refinery::class);
 
@@ -288,7 +290,7 @@ class AgentCollectionTest extends TestCase
         $this->assertNull($c->getAgent("c5"));
     }
 
-    public function testWithRemovedAgent() : void
+    public function testWithRemovedAgent(): void
     {
         $refinery = $this->createMock(Refinery::class);
 
@@ -318,7 +320,7 @@ class AgentCollectionTest extends TestCase
         $this->assertNull($cb->getAgent("c5"));
     }
 
-    public function testWithAdditionalAgent() : void
+    public function testWithAdditionalAgent(): void
     {
         $refinery = $this->createMock(Refinery::class);
 
@@ -348,7 +350,7 @@ class AgentCollectionTest extends TestCase
         $this->assertNull($cb->getAgent("c5"));
     }
 
-    public function testGetNamedObjectivesSorting() : void
+    public function testGetNamedObjectivesSorting(): void
     {
         $refinery = $this->createMock(Refinery::class);
         $config = new Setup\ConfigCollection([]);
@@ -421,7 +423,7 @@ class AgentCollectionTest extends TestCase
         $this->assertSame($expected, $testAgentCollection->getNamedObjectives($config));
     }
 
-    public function testGetNamedObjectives() : void
+    public function testGetNamedObjectives(): void
     {
         $refinery = $this->createMock(Refinery::class);
         $config = new Setup\ConfigCollection([]);
@@ -489,7 +491,7 @@ class AgentCollectionTest extends TestCase
         $this->assertSame($agent_config, $seen_config);
     }
 
-    public function testGetAgents() : void
+    public function testGetAgents(): void
     {
         $refinery = $this->createMock(Refinery::class);
 

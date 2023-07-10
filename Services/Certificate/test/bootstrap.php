@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,8 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-require_once 'libs/composer/vendor/autoload.php';
-require_once 'ilCertificateBaseTestCase.php';
+require_once __DIR__ . '/../../../libs/composer/vendor/autoload.php';
+require_once __DIR__ . '/ilCertificateBaseTestCase.php';

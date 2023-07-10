@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
@@ -39,7 +42,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         $this->tree = new ilWorkspaceTree($user->getId());
     }
 
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return
             [
@@ -48,17 +51,17 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(ilWorkspaceCopyDefinition::class);
     }
 
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
 
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : Value
+    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer): Value
     {
         $this->logger->debug('Start collecting files!');
         $this->logger->dump($input);
@@ -105,7 +108,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         int $a_wsp_id,
         string $a_file_name,
         string $a_temp_dir
-    ) : ?array {
+    ): ?array {
         global $DIC;
 
         $user = $DIC->user();
@@ -132,7 +135,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         string $a_temp_dir,
         int $a_num_recursions,
         bool $a_initiated_by_folder_action
-    ) : array {
+    ): array {
         $num_recursions = $a_num_recursions + 1;
         $tree = $this->tree;
         $ilAccess = new ilWorkspaceAccessHandler($this->tree);
@@ -157,7 +160,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
                 $files_from_folder = $this->recurseFolder($child["child"], $child['title'], $temp_dir, $num_recursions, $a_initiated_by_folder_action);
                 $files = array_merge($files, $files_from_folder);
             } elseif (($child["type"] == "file") and ($this->getFileDirs($child["child"], $child['title'], $temp_dir) != false)) {
-                $files[] = $this->getFileDirs($child["ref_id"], $child['title'], $temp_dir);
+                $files[] = $this->getFileDirs((int) $child["wsp_id"], $child['title'], $temp_dir);
             }
         }
         // ensure that empty folders are also contained in the downloaded zip
@@ -170,7 +173,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         return $files;
     }
 
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

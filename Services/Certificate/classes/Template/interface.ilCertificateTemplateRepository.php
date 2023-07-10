@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,57 +16,47 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 interface ilCertificateTemplateRepository
 {
-    public function save(ilCertificateTemplate $certificateTemplate) : void;
+    public function save(ilCertificateTemplate $certificateTemplate): void;
+
+    public function updateActivity(ilCertificateTemplate $certificateTemplate, bool $currentlyActive): int;
 
     /**
-     * @param ilCertificateTemplate $certificateTemplate
-     * @param bool $currentlyActive
-     * @return int
+     * @throws ilCouldNotFindCertificateTemplate
      */
-    public function updateActivity(ilCertificateTemplate $certificateTemplate, bool $currentlyActive) : int;
+    public function fetchTemplate(int $templateId): ilCertificateTemplate;
 
     /**
-     * @param int $templateId
-     * @return ilCertificateTemplate
-     * @throws ilException
-     */
-    public function fetchTemplate(int $templateId) : ilCertificateTemplate;
-
-    /**
-     * @param int $objId
      * @return ilCertificateTemplate[]
      */
-    public function fetchCertificateTemplatesByObjId(int $objId) : array;
+    public function fetchCertificateTemplatesByObjId(int $objId): array;
 
-    public function fetchCurrentlyUsedCertificate(int $objId) : ilCertificateTemplate;
+    public function fetchCurrentlyUsedCertificate(int $objId): ilCertificateTemplate;
 
     /**
-     * @param int $objId
-     * @return ilCertificateTemplate
-     * @throws ilException
+     * @throws ilCouldNotFindCertificateTemplate
      */
-    public function fetchCurrentlyActiveCertificate(int $objId) : ilCertificateTemplate;
+    public function fetchCurrentlyActiveCertificate(int $objId): ilCertificateTemplate;
 
-    public function fetchPreviousCertificate(int $objId) : ilCertificateTemplate;
+    public function fetchPreviousCertificate(int $objId): ilCertificateTemplate;
 
-    public function deleteTemplate(int $templateId, int $objectId) : void;
+    public function deleteTemplate(int $templateId, int $objectId): void;
 
-    public function activatePreviousCertificate(int $objId) : ilCertificateTemplate;
+    public function activatePreviousCertificate(int $objId): ilCertificateTemplate;
 
     /**
-     * @param bool $isGlobalLpEnabled
      * @return ilCertificateTemplate[]
      */
     public function fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(
-        bool $isGlobalLpEnabled
-    ) : array;
+        bool $isGlobalLpEnabled,
+        ?int $forRefId = null
+    ): array;
 
     /**
-     * @param int $objId
-     * @return ilCertificateTemplate
-     * @throws ilException
+     * @throws ilCouldNotFindCertificateTemplate
      */
-    public function fetchFirstCreatedTemplate(int $objId) : ilCertificateTemplate;
+    public function fetchFirstCreatedTemplate(int $objId): ilCertificateTemplate;
 }

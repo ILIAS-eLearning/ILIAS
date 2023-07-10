@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Page;
 
@@ -21,6 +24,7 @@ namespace ILIAS\Survey\Page;
  */
 class PageRenderer
 {
+    protected int $question_title_mode;
     protected \ilCtrl $ctrl;
     protected \ilLanguage $lng;
     protected array $page_data;
@@ -36,7 +40,8 @@ class PageRenderer
         \ilObjSurvey $survey,
         array $page_data,
         array $working_data = [],
-        array $errors = []
+        array $errors = [],
+        int $question_title_mode = 1
     ) {
         global $DIC;
 
@@ -46,9 +51,10 @@ class PageRenderer
         $this->page_data = $page_data;
         $this->working_data = $working_data;
         $this->errors = $errors;
+        $this->question_title_mode = $question_title_mode;
     }
 
-    public function render() : string
+    public function render(): string
     {
         $page = $this->page_data;
 
@@ -84,7 +90,6 @@ class PageRenderer
 
         // questions
         foreach ($page as $data) {
-
             // question heading
             if ($data["heading"]) {
                 $stpl->setCurrentBlock("heading");
@@ -101,9 +106,11 @@ class PageRenderer
             // get show questiontext flag
             $show_questiontext = ($data["questionblock_show_questiontext"]) ? 1 : 0;
 
-            // get show title flag
-            $show_title = ($this->survey->getShowQuestionTitles() && !$data["compressed_first"]);
-
+            // question title mode
+            $question_title_mode = $this->question_title_mode;
+            if (!$this->survey->getShowQuestionTitles() || $data["compressed_first"]) {
+                $question_title_mode = 0;
+            }
             $working_data = $this->working_data[$data["question_id"]] ?? null;
             $error = $this->errors[$data["question_id"]] ?? "";
 
@@ -112,7 +119,7 @@ class PageRenderer
             // showQuestionTitle()
             $question_output = $question_gui->getWorkingForm(
                 $working_data,
-                $show_title,
+                $question_title_mode,
                 $show_questiontext,
                 $error,
                 $this->survey->getSurveyId(),
@@ -149,7 +156,7 @@ class PageRenderer
     protected function compressQuestion(
         ?array $previous_page,
         array $page
-    ) : bool {
+    ): bool {
         if (is_null($previous_page)) {
             return false;
         }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceDataGatewayFactory
  * @author Michael Jansen <mjansen@databay.de>
@@ -24,34 +26,30 @@ class ilTermsOfServiceDataGatewayFactory
 {
     protected ?ilDBInterface $db = null;
 
-    public function setDatabaseAdapter(?ilDBInterface $db) : void
+    public function setDatabaseAdapter(?ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function getDatabaseAdapter() : ?ilDBInterface
+    public function getDatabaseAdapter(): ?ilDBInterface
     {
         return $this->db;
     }
 
     /**
-     * @param string $name
      * @return ilTermsOfServiceAcceptanceDatabaseGateway
      * @throws InvalidArgumentException
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
-    public function getByName(string $name) : ilTermsOfServiceAcceptanceDataGateway
+    public function getByName(string $name): ilTermsOfServiceAcceptanceDataGateway
     {
-        if (null === $this->db) {
+        if (!$this->db instanceof \ilDBInterface) {
             throw new ilTermsOfServiceMissingDatabaseAdapterException('Incomplete factory configuration. Please inject a database adapter.');
         }
 
-        switch (strtolower($name)) {
-            case 'iltermsofserviceacceptancedatabasegateway':
-                return new ilTermsOfServiceAcceptanceDatabaseGateway($this->db);
-
-            default:
-                throw new InvalidArgumentException('Data gateway not supported');
-        }
+        return match (strtolower($name)) {
+            'iltermsofserviceacceptancedatabasegateway' => new ilTermsOfServiceAcceptanceDatabaseGateway($this->db),
+            default => throw new InvalidArgumentException('Data gateway not supported'),
+        };
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -35,7 +37,7 @@ class ilObjFileServicesAccess extends ilObjectAccess
         $this->http = $DIC->http();
     }
 
-    public function checkAccessAndThrowException(string $permission) : void
+    public function checkAccessAndThrowException(string $permission): void
     {
         if (!$this->hasUserPermissionTo($permission)) {
             throw new ilException('Permission denied');
@@ -43,7 +45,7 @@ class ilObjFileServicesAccess extends ilObjectAccess
     }
 
 
-    public function hasUserPermissionTo(string $permission) : bool
+    public function hasUserPermissionTo(string $permission): bool
     {
         return $this->rbacsystem->checkAccess($permission, $this->http->request()->getQueryParams()['ref_id']);
     }

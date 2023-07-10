@@ -1,11 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Init\Provider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopParentItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use Psr\Http\Message\UriInterface;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Class StartUpMetaBarProvider
@@ -13,21 +32,20 @@ use Psr\Http\Message\UriInterface;
  */
 class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
 {
-
     /**
      * @inheritDoc
      */
-    public function getMetaBarItems() : array
+    public function getMetaBarItems(): array
     {
         $factory = $this->dic->ui()->factory();
         $request = $this->dic->http()->request();
         $languages = $this->dic->language()->getInstalledLanguages();
 
-        $if = function (string $id) : IdentificationInterface {
+        $if = function (string $id): IdentificationInterface {
             return $this->if->identifier($id);
         };
 
-        $txt = function (string $id) : string {
+        $txt = function (string $id): string {
             return $this->dic->language()->txt($id);
         };
 
@@ -35,11 +53,12 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
         // Only visible, if not on login-page but not logged in
         $target_str = '';
         if (isset($request->getQueryParams()['ref_id']) && $ref_id = $request->getQueryParams()['ref_id']) {
-            $type = \ilObject::_lookupType($ref_id, true);
+            $type = \ilObject::_lookupType((int) $ref_id, true);
             if ($type != "root") {  // see bug #30710
-                $target_str = 'target=' . \ilObject::_lookupType($ref_id, true) . '_' . (int) $ref_id . '&';
+                $target_str = 'target=' . \ilObject::_lookupType((int) $ref_id, true) . '_' . (int) $ref_id . '&';
             }
         } elseif (isset($request->getQueryParams()['target']) && $target = $request->getQueryParams()['target']) {
+            $target = rawurlencode($target);        // see #32789
             $target_str = 'target=' . $target . '&';
         }
 
@@ -69,6 +88,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
                                              ->withTitle($txt('language'));
 
         $base = $this->getBaseURL($request->getUri());
+        $dataFactory = new DataFactory();
 
         foreach ($languages as $lang_key) {
             $link = $this->appendUrlParameterString($base, "lang=" . $lang_key);
@@ -79,8 +99,8 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
 
             $s = $this->meta_bar->linkItem($if($lang_key))
                                 ->withSymbol($language_icon)
-                                ->withAction($link)
-                                ->withTitle($language_name);
+                                ->withContentLanguage($dataFactory->languageTag($lang_key))
+                                ->withLanguageForTargetedResource($dataFactory->languageTag($lang_key));
 
             $language_selection->appendChild($s);
         }
@@ -91,19 +111,19 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
         ];
     }
 
-    private function isUserLoggedIn() : bool
+    private function isUserLoggedIn(): bool
     {
         return (!$this->dic->user()->isAnonymous() && $this->dic->user()->getId() != 0);
     }
 
-    private function isUserOnLoginPage(UriInterface $uri) : bool
+    private function isUserOnLoginPage(UriInterface $uri): bool
     {
         $b = preg_match("%^.*/login.php$%", $uri->getPath()) === 1;
 
         return $b;
     }
 
-    private function appendUrlParameterString(string $existing_url, string $addition) : string
+    private function appendUrlParameterString(string $existing_url, string $addition): string
     {
         $url = (is_int(strpos($existing_url, "?")))
             ? $existing_url . "&" . $addition
@@ -114,7 +134,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
         return $url;
     }
 
-    private function getBaseURL(UriInterface $uri) : string
+    private function getBaseURL(UriInterface $uri): string
     {
         $base = substr($uri->__toString(), strrpos($uri->__toString(), "/") + 1);
         return preg_replace("/&*lang=[a-z]{2}&*/", "", $base);

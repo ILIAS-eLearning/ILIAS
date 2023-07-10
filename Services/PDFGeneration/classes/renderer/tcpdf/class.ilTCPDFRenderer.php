@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+/**
+ * @deprecated
+ */
 class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 {
     protected ilLanguage $lng;
@@ -26,7 +31,7 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
         $this->lng = $DIC->language();
     }
 
-    public function addConfigElementsToForm(ilPropertyFormGUI $form, string $service, string $purpose) : void
+    public function addConfigElementsToForm(ilPropertyFormGUI $form, string $service, string $purpose): void
     {
         $margin_left = new ilTextInputGUI($this->lng->txt('margin_left'), 'margin_left');
         $form->addItem($margin_left);
@@ -44,7 +49,7 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
         $form->addItem($image_scale);
     }
 
-    public function populateConfigElementsInForm(ilPropertyFormGUI $form, string $service, string $purpose, array $config) : void
+    public function populateConfigElementsInForm(ilPropertyFormGUI $form, string $service, string $purpose, array $config): void
     {
         $form->getItemByPostVar('margin_left')->setValue($config['margin_left']);
         $form->getItemByPostVar('margin_right')->setValue($config['margin_right']);
@@ -53,12 +58,12 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
         $form->getItemByPostVar('image_scale')->setValue($config['image_scale']);
     }
 
-    public function validateConfigInForm(ilPropertyFormGUI $form, string $service, string $purpose) : bool
+    public function validateConfigInForm(ilPropertyFormGUI $form, string $service, string $purpose): bool
     {
         return true;
     }
 
-    public function getConfigFromForm(ilPropertyFormGUI $form, string $service, string $purpose) : array
+    public function getConfigFromForm(ilPropertyFormGUI $form, string $service, string $purpose): array
     {
         $retval = [
             'margin_left' => $form->getItemByPostVar('margin_left')->getValue(),
@@ -71,7 +76,7 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
         return $retval;
     }
 
-    public function getDefaultConfig(string $service, string $purpose) : array
+    public function getDefaultConfig(string $service, string $purpose): array
     {
         $retval = [
             'margin_left' => '10',
@@ -84,7 +89,7 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
         return $retval;
     }
 
-    public function prepareGenerationRequest(string $service, string $purpose) : void
+    public function prepareGenerationRequest(string $service, string $purpose): void
     {
         ilMathJax::getInstance()
             ->init(ilMathJax::PURPOSE_PDF)
@@ -93,13 +98,13 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
             ->setZoomFactor(0.17);
     }
 
-    public function generatePDF(string $service, string $purpose, array $config, ilPDFGenerationJob $job) : void
+    public function generatePDF(string $service, string $purpose, array $config, ilPDFGenerationJob $job): void
     {
         // create new PDF document
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
         $pdf->SetMargins($config['margin_left'], $config['margin_top'], $config['margin_right']);
-        $pdf->SetAutoPageBreak('auto', $config['margin_buttom']);
+        $pdf->SetAutoPageBreak('auto', $config['margin_bottom']);
         $pdf->setImageScale($config['image_scale']);
 
         $pdf->setHeaderFont([PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN]);
@@ -115,7 +120,7 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
             $pdf->AddPage();
             $pdf->writeHTML($page, true, false, true, false, '');
         }
-        $result = $pdf->Output(basename($job->getFilename()), $job->getOutputMode()); // (I - Inline, D - Download, F - File)
+        $result = $pdf->Output($job->getFilename(), $job->getOutputMode()); // (I - Inline, D - Download, F - File)
 
         if (in_array($job->getOutputMode(), ['I', 'D'])) {
             exit();

@@ -1,4 +1,19 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author Oskar Truffer <ot@studer-raimann.ch>
@@ -6,29 +21,19 @@
  */
 class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
 {
+    protected int $max_reference_length = 20;
 
-    /**
-     * @var int
-     */
-    protected $max_reference_length = 20;
-
-    /**
-     * @return int
-     */
-    public function getMaxReferenceLength()
+    public function getMaxReferenceLength(): int
     {
         return $this->max_reference_length;
     }
 
-    /**
-     * @param int $max_reference_length
-     */
-    public function setMaxReferenceLength($max_reference_length)
+    public function setMaxReferenceLength(int $max_reference_length): void
     {
         $this->max_reference_length = $max_reference_length;
     }
 
-    public function doUpdate()
+    public function doUpdate(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -50,25 +55,23 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         $query = "INSERT INTO il_dcl_stloc" . $datatype->getStorageLocation() . "_value (value, record_field_id, id) VALUES";
         foreach ($values as $value) {
             $next_id = $ilDB->nextId("il_dcl_stloc" . $datatype->getStorageLocation() . "_value");
-            $query .= " (" . $ilDB->quote($value, $datatype->getDbType()) . ", " . $ilDB->quote($this->getId(),
-                    "integer") . ", "
+            $query .= " (" . $ilDB->quote($value, $datatype->getDbType()) . ", " . $ilDB->quote(
+                $this->getId(),
+                "integer"
+            ) . ", "
                 . $ilDB->quote($next_id, "integer") . "),";
         }
         $query = substr($query, 0, -1);
         $ilDB->manipulate($query);
     }
 
-    /**
-     * @return string
-     */
-    public function getValue()
+    public function getValue(): array
     {
         $this->loadValue();
-
         return $this->value;
     }
 
-    protected function loadValueSorted()
+    protected function loadValueSorted(): void
     {
         if ($this->value === null) {
             global $DIC;
@@ -79,7 +82,7 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
             $supported_internal_types = array(
                 ilDclDatatype::INPUTFORMAT_ILIAS_REF,
                 ilDclDatatype::INPUTFORMAT_MOB,
-                ilDclDatatype::INPUTFORMAT_FILE,
+                ilDclDatatype::INPUTFORMAT_FILEUPLOAD,
             );
 
             $supported_types = array_merge(
@@ -114,7 +117,7 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
                     $query .= " INNER JOIN object_data AS ilias_object ON ilias_object.obj_id = ilias_ref.obj_id ";
                     break;
                 case ilDclDatatype::INPUTFORMAT_MOB:
-                case ilDclDatatype::INPUTFORMAT_FILE:
+                case ilDclDatatype::INPUTFORMAT_FILEUPLOAD:
                     $query .= " INNER JOIN object_data AS ilias_object ON ilias_object.obj_id =  stlocRef.value ";
                     break;
             }
@@ -132,7 +135,7 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         }
     }
 
-    protected function loadValue()
+    protected function loadValue(): void
     {
         if ($this->value === null) {
             global $DIC;
@@ -150,40 +153,32 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
 
     /**
      * @description this funciton is used to in the viewdefinition of a single record.
-     * @return mixed
      */
-    public function getSingleHTML($options = null)
+    public function getSingleHTML($options = null): string
     {
         $ilDataCollectionNReferenceFieldGUI = new ilDclNReferenceFieldGUI($this);
 
         return $ilDataCollectionNReferenceFieldGUI->getSingleHTML($options);
     }
 
-    /**
-     * @param null $link
-     * @param      $value
-     * @return string
-     */
-    public function getLinkHTML($link, $value)
+    public function getLinkHTML(string $link, int $value): string
     {
-        if ($link == "[" . $this->getField()->getTitle() . "]") {
-            $link = null;
+        if ($link === "[" . $this->getField()->getTitle() . "]") {
+            //$link = null;
+            return "";
         }
 
-        return parent::getLinkHTML($link, $value);
+        return "<a href=\"$link\">$value</a>";
     }
 
-    /**
-     * @return array|mixed|string
-     */
-    public function getHTML()
+    public function getHTML(): string
     {
         $ilDataCollectionNReferenceFieldGUI = new ilDclNReferenceFieldGUI($this);
 
         return $ilDataCollectionNReferenceFieldGUI->getHTML();
     }
 
-    public function getValueFromExcel($excel, $row, $col)
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col): array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -200,10 +195,7 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         return $referenceIds;
     }
 
-    /**
-     * @return int|string
-     */
-    public function getExportValue()
+    public function getExportValue(): string
     {
         $values = $this->getValue();
         $names = array();
@@ -229,10 +221,9 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
      * This method tries to get as many valid references out of a string separated by commata. This is problematic as a string value could contain commata itself.
      * It is optimized to work with an exported list from this DataCollection. And works fine in most cases. Only areference list with the values "hello" and "hello, world"
      * Will mess with it.
-     * @param $stringValues string
      * @return int[]
      */
-    protected function getReferencesFromString($stringValues)
+    protected function getReferencesFromString(string $stringValues): array
     {
         $slicedStrings = explode(", ", $stringValues);
         $slicedReferences = array();
@@ -253,7 +244,6 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
             if ($ref = $this->getReferenceFromValue($searchString)) {
                 $slicedReferences[] = $ref;
                 $resolved = $i;
-                continue;
             }
         }
 

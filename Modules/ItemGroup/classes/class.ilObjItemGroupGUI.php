@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\ItemGroup\StandardGUIRequest;
 
@@ -24,6 +27,7 @@ use ILIAS\ItemGroup\StandardGUIRequest;
  */
 class ilObjItemGroupGUI extends ilObject2GUI
 {
+    protected \ILIAS\ItemGroup\InternalGUIService $gui;
     protected StandardGUIRequest $ig_request;
     protected ilTabsGUI $tabs;
     protected ilHelpGUI $help;
@@ -44,26 +48,25 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $this->locator = $DIC["ilLocator"];
         $this->tree = $DIC->repositoryTree();
         $this->help = $DIC["ilHelp"];
-        $this->ig_request = $DIC->itemGroup()
-            ->internal()
-            ->gui()
+        $this->gui = $DIC->itemGroup()->internal()->gui();
+        $this->ig_request = $this->gui
             ->standardRequest();
     }
 
-    protected function afterConstructor() : void
+    protected function afterConstructor(): void
     {
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("itgr");
         $this->ctrl->saveParameter($this, array("ref_id"));
     }
 
-    final public function getType() : string
+    final public function getType(): string
     {
         return "itgr";
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilTabs = $this->tabs;
         $next_class = $this->ctrl->getNextClass($this);
@@ -87,7 +90,9 @@ class ilObjItemGroupGUI extends ilObject2GUI
                 $this->prepareOutput();
                 $this->setSettingsSubTabs("settings_trans");
                 $transgui = new ilObjectTranslationGUI($this);
-                $transgui->setTitleDescrOnlyMode(false);
+                $transgui->setEnableFallbackLanguage(false);
+                $transgui->supportContentTranslation(false);
+                $transgui->hideDescription(true);
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -100,32 +105,26 @@ class ilObjItemGroupGUI extends ilObject2GUI
         }
     }
 
-    public function addLocatorItems() : void
+    public function addLocatorItems(): void
     {
         $ilLocator = $this->locator;
         $ilAccess = $this->access;
-        
+
         if (is_object($this->object) && $ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "listMaterials"), "", $this->requested_ref_id);
         }
     }
 
-    protected function initCreationForms(string $new_type) : array
+    protected function initCreationForms(string $new_type): array
     {
         $forms = array(self::CFORM_NEW => $this->initCreateForm($new_type));
 
         return $forms;
     }
 
-    protected function initEditCustomForm(ilPropertyFormGUI $form) : void
+    protected function initEditCustomForm(ilPropertyFormGUI $form): void
     {
         $form->removeItemByPostVar("desc");
-
-        // description
-        $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-        $ta->setRows(2);
-        $ta->setInfo($this->lng->txt("itgr_desc_info"));
-        $form->addItem($ta);
 
         // presentation
         $pres = new ilFormSectionHeaderGUI();
@@ -165,52 +164,52 @@ class ilObjItemGroupGUI extends ilObject2GUI
             $op = new ilRadioOption($txt, $key);
             $si->addOption($op);
         }
-        $lpres->addSubItem($si);
+        $tile_view->addSubItem($si);
         $si->setValue($this->object->getTileSize());
 
         $lpres->setValue($this->object->getListPresentation());
         $form->addItem($lpres);
     }
 
-    protected function afterSave(ilObject $new_object) : void
+    protected function afterSave(ilObject $new_object): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $ilCtrl->redirect($this, "listMaterials");
     }
 
-    public function edit() : void
+    public function edit(): void
     {
         parent::edit();
         $this->setSettingsSubTabs("general");
     }
 
-    public function listMaterials() : void
+    public function listMaterials(): void
     {
         $tree = $this->tree;
         $ilTabs = $this->tabs;
         $tpl = $this->tpl;
-        
+
         $this->checkPermission("write");
-        
+
         $ilTabs->activateTab("materials");
-                
+
         $parent_ref_id = $tree->getParentId($this->object->getRefId());
-        
+
         $gui = new ilObjectAddNewItemGUI($parent_ref_id);
         $gui->setDisabledObjectTypes(array("itgr", "sess"));
         $gui->setAfterCreationCallback($this->object->getRefId());
         $gui->render();
-        
-        $tab = new ilItemGroupItemsTableGUI($this, "listMaterials");
+
+        $tab = new ilItemGroupItemsTableGUI($this->gui, $this, "listMaterials");
         $tpl->setContent($tab->getHTML());
     }
-    
-    public function saveItemAssignment() : void
+
+    public function saveItemAssignment(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $this->checkPermission("write");
 
         $item_group_items = new ilItemGroupItems($this->object->getRefId());
@@ -222,31 +221,31 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $ilCtrl->redirect($this, "listMaterials");
     }
 
-    public function getTemplate() : void
+    public function getTemplate(): void
     {
         $this->tpl->loadStandardTemplate();
     }
 
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
         $ilAccess = $this->access;
         $ilTabs = $this->tabs;
         $ilHelp = $this->help;
         $lng = $this->lng;
         $tree = $this->tree;
-        
+
         $ilHelp->setScreenIdComponent("itgr");
-        
+
         $parent_ref_id = $tree->getParentId($this->object->getRefId());
         $parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
         $parent_type = ilObject::_lookupType($parent_obj_id);
-        
+
         $ilTabs->setBackTarget(
             $lng->txt('obj_' . $parent_type),
             ilLink::_getLink($parent_ref_id),
             "_top"
         );
-        
+
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             $ilTabs->addTab(
                 'materials',
@@ -260,7 +259,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
                 $this->ctrl->getLinkTarget($this, 'edit')
             );
         }
-        
+
         if ($ilAccess->checkAccess("edit_permission", "", $this->object->getRefId())) {
             $ilTabs->addTab(
                 "perm_settings",
@@ -270,7 +269,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         }
     }
 
-    protected function setSettingsSubTabs(string $active_tab = "general") : void
+    protected function setSettingsSubTabs(string $active_tab = "general"): void
     {
         $this->tabs_gui->addSubTab(
             "general",
@@ -287,7 +286,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $this->tabs_gui->activateSubTab($active_tab);
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -295,11 +294,11 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
         $tree = $DIC->repositoryTree();
-        
+
         $targets = explode('_', $a_target);
         $ref_id = $targets[0];
         $par_id = $tree->getParentId($ref_id);
-        
+
         if ($ilAccess->checkAccess("read", "", $par_id)) {
             ilUtil::redirect(ilLink::_getLink($par_id));
             exit;
@@ -314,14 +313,14 @@ class ilObjItemGroupGUI extends ilObject2GUI
         throw new ilPermissionException($lng->txt("msg_no_perm_read"));
     }
 
-    public function gotoParent() : void
+    public function gotoParent(): void
     {
         $ilAccess = $this->access;
         $tree = $this->tree;
-        
+
         $ref_id = $this->object->getRefId();
         $par_id = $tree->getParentId($ref_id);
-        
+
         if ($ilAccess->checkAccess("read", "", $par_id)) {
             ilUtil::redirect(ilLink::_getLink($par_id));
             exit;
@@ -331,7 +330,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
     /**
      * Custom callback after object is created (in parent container)
      */
-    public function afterSaveCallback(ilObject $a_obj) : void
+    public function afterSaveCallback(ilObject $a_obj): void
     {
         // add new object to materials
         $items = new ilItemGroupItems($this->object->getRefId());
@@ -342,7 +341,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
     /**
      * Get edit form values (custom part)
      */
-    protected function getEditFormCustomValues(array &$a_values) : void
+    protected function getEditFormCustomValues(array &$a_values): void
     {
         $a_values["show_title"] = !$this->object->getHideTitle();
         $a_values["behaviour"] = $this->object->getBehaviour();
@@ -350,7 +349,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $a_values["tile_size"] = $this->object->getTileSize();
     }
 
-    protected function updateCustom(ilPropertyFormGUI $form) : void
+    protected function updateCustom(ilPropertyFormGUI $form): void
     {
         $this->object->setHideTitle(!$form->getInput("show_title"));
         $behaviour = ($form->getInput("show_title"))
@@ -361,11 +360,10 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $this->object->setTileSize($form->getInput("tile_size"));
     }
 
-    protected function initCreateForm(string $new_type) : ilPropertyFormGUI
+    protected function initCreateForm(string $new_type): ilPropertyFormGUI
     {
         $form = parent::initCreateForm($new_type);
-        $ta = $form->getItemByPostVar("desc");
-        $ta->setInfo($this->lng->txt("itgr_desc_info"));
+        $form->removeItemByPostVar("desc");
         return $form;
     }
 }

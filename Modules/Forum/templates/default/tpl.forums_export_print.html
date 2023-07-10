@@ -20,6 +20,15 @@
 		{CSS_INLINE}
 	</style>
 	<!-- END css_inline -->
+	<style type="text/css">
+		body::-webkit-scrollbar {
+			display: none; /* Chrome, Safari and Opera */
+		}
+		body {
+			-ms-overflow-style: none;  /* IE and Edge */
+			scrollbar-width: none;  /* Firefox */
+		}
+	</style>
 	<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
 	<!-- BEGIN ContentStyle -->
 	<link rel="stylesheet" type="text/css" href="{LOCATION_CONTENT_STYLESHEET}" />
@@ -29,7 +38,7 @@
 	<script type="text/javascript" src="{JS_FILE}"></script>
 	<!-- END js_file -->
 </head>
-<body><!-- BEGIN tree_icons --><!-- END tree_icons --><!-- BEGIN headline -->
+<body style="overflow-y: scroll;"><!-- BEGIN tree_icons --><!-- END tree_icons --><!-- BEGIN headline -->
 <p><b>{HEADLINE}</b></p><!-- END headline --><!-- BEGIN posttable -->
 <ul id="ilFrmPostList"><!-- BEGIN posts_row -->
 	<li class="ilFrmPostRow{ROWCOL}">

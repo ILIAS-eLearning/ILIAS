@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +18,8 @@
  *
  *********************************************************************/
 
+use Whoops\Handler\Handler;
+
 /**
  * A Whoops error handler that delegates calls on it self to another handler that is created only in the
  * case an error is thrown. This is necessary to make it possible to use another handler when the DEVMODE
@@ -27,9 +31,6 @@
  * in ilErrorHandling, so this class acts rather dump and asks ilErrorHandling for a handler.
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
-
-use Whoops\Handler\Handler;
-
 final class ilDelegatingHandler extends Handler
 {
     private ilErrorHandling $error_handling;
@@ -39,6 +40,37 @@ final class ilDelegatingHandler extends Handler
         $this->error_handling = $error_handling;
     }
 
+    private function hideSensitiveData(array $key_value_pairs): array
+    {
+        foreach ($key_value_pairs as $key => &$value) {
+            if (is_array($value)) {
+                $value = $this->hideSensitiveData($value);
+            }
+
+            if ($key === 'password' && is_string($value)) {
+                $value = 'REMOVED FOR SECURITY';
+            }
+
+            if ($key === 'PHPSESSID' && is_string($value)) {
+                $value = substr($value, 0, 5) . ' (SHORTENED FOR SECURITY)';
+            }
+
+            if ($key === 'HTTP_COOKIE') {
+                $cookie_content = explode(';', $value);
+                foreach ($cookie_content as &$cookie_pair_string) {
+                    $cookie_pair = explode('=', $cookie_pair_string);
+                    if (trim($cookie_pair[0]) === session_name()) {
+                        $cookie_pair[1] = substr($cookie_pair[1], 0, 5) . ' (SHORTENED FOR SECURITY)';
+                        $cookie_pair_string = implode('=', $cookie_pair);
+                    }
+                }
+                $value = implode(';', $cookie_content);
+            }
+        }
+
+        return $key_value_pairs;
+    }
+
     /**
      * Last missing method from HandlerInterface.
      * Asks ilErrorHandling for the appropriate Handler and delegates it's tasks to
@@ -46,17 +78,21 @@ final class ilDelegatingHandler extends Handler
      * @inheritDoc
      * @noinspection PhpCastIsUnnecessaryInspection
      */
-    public function handle() : ?int
+    public function handle(): ?int
     {
         if (defined("IL_INITIAL_WD")) {
             chdir(IL_INITIAL_WD);
         }
-        // we must rest the superglobals back to normal arrays since the error handler needs them. they were replaced by
-        // SuperGlobalDropInReplacement
-        $_GET = (array) $_GET;
-        $_POST = (array) $_POST;
-        $_COOKIE = (array) $_COOKIE;
-        $_REQUEST = (array) $_REQUEST;
+
+        /* We must cast the superglobals back to normal arrays since the error handler needs them. They were replaced by
+           SuperGlobalDropInReplacement . The keys contain NULL bytes, so accessing values directly by key is not
+           really possible */
+        $_GET = $this->hideSensitiveData((array) $_GET);
+        $_POST = $this->hideSensitiveData((array) $_POST);
+        $_COOKIE = $this->hideSensitiveData((array) $_COOKIE);
+        $_REQUEST = $this->hideSensitiveData((array) $_REQUEST);
+
+        $_SERVER = $this->hideSensitiveData($_SERVER);
 
         $handler = $this->error_handling->getHandler();
         $handler->setRun($this->getRun());

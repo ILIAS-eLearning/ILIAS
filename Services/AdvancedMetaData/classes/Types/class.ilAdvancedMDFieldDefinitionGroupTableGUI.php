@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -31,7 +33,7 @@ class ilAdvancedMDFieldDefinitionGroupTableGUI extends ilTable2GUI
         $this->initItems($a_def);
     }
 
-    protected function initItems(ilAdvancedMDFieldDefinition $a_def) : void
+    protected function initItems(ilAdvancedMDFieldDefinition $a_def): void
     {
         $data = array();
 
@@ -46,7 +48,7 @@ class ilAdvancedMDFieldDefinitionGroupTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("OPTION", $a_set["option"]);
 

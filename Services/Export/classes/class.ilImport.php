@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Import class
@@ -38,7 +54,7 @@ class ilImport
     /**
      * Get configuration (note that configurations are optional, null may be returned!)
      */
-    public function getConfig(string $a_comp) : ilImportConfig
+    public function getConfig(string $a_comp): ilImportConfig
     {
         // if created, return existing config object
         if (isset($this->configs[$a_comp])) {
@@ -54,17 +70,17 @@ class ilImport
         return $imp_config;
     }
 
-    public function getMapping() : ilImportMapping
+    public function getMapping(): ilImportMapping
     {
         return $this->mapping;
     }
 
-    final public function setEntityTypes(array $a_val) : void
+    final public function setEntityTypes(array $a_val): void
     {
         $this->entity_types = $a_val;
     }
 
-    final public function getEntityTypes() : array
+    final public function getEntityTypes(): array
     {
         return $this->entity_types;
     }
@@ -72,12 +88,12 @@ class ilImport
     /**
      * Add skip entity
      */
-    public function addSkipEntity(string $a_component, string $a_entity, bool $skip = true) : void
+    public function addSkipEntity(string $a_component, string $a_entity, bool $skip = true): void
     {
         $this->skip_entity[$a_component][$a_entity] = $skip;
     }
 
-    public function addSkipImporter(string $a_component, bool $skip = true) : void
+    public function addSkipImporter(string $a_component, bool $skip = true): void
     {
         $this->skip_importer[$a_component] = $skip;
     }
@@ -91,7 +107,7 @@ class ilImport
         string $a_entity,
         string $a_component,
         bool $a_copy_file = false
-    ) : int {
+    ): int {
         return $this->importObject(null, $a_tmp_file, $a_filename, $a_entity, $a_component, $a_copy_file);
     }
 
@@ -102,8 +118,7 @@ class ilImport
         string $a_type,
         string $a_comp = "",
         bool $a_copy_file = false
-    ) : int {
-
+    ): ?int {
         // create temporary directory
         $tmpdir = ilFileUtils::ilTempnam();
         ilFileUtils::makeDir($tmpdir);
@@ -120,7 +135,7 @@ class ilImport
         $this->log->debug("dir: " . $dir);
         $ret = $this->doImportObject($dir, $a_type, $a_comp, $tmpdir);
         $new_id = null;
-        if (is_array($ret)) {
+        if (is_array($ret) && array_key_exists('new_id', $ret)) {
             $new_id = $ret['new_id'];
         }
         // delete temporary directory
@@ -128,7 +143,7 @@ class ilImport
         return $new_id;
     }
 
-    public function importFromDirectory(string $dir, string $a_type, string $a_comp) : ?int
+    public function importFromDirectory(string $dir, string $a_type, string $a_comp): ?int
     {
         $ret = $this->doImportObject($dir, $a_type, $a_comp);
         if (is_array($ret)) {
@@ -150,7 +165,7 @@ class ilImport
      * Get temporary import directory
      * @return string temporary import directory (used to unzip and read import)
      */
-    public function getTemporaryImportDir() : string
+    public function getTemporaryImportDir(): string
     {
         return $this->tmp_import_dir;
     }
@@ -163,7 +178,7 @@ class ilImport
         string $a_type,
         string $a_component = "",
         string $a_tmpdir = ""
-    ) : array {
+    ): array {
         if ($a_component == "") {
             $a_component = ilImportExportFactory::getComponentForExport($a_type);
         }
@@ -238,8 +253,8 @@ class ilImport
         if (is_array($obj_map)) {
             foreach ($obj_map as $obj_id_old => $obj_id_new) {
                 ilObject::_writeImportId(
-                    $obj_id_new,
-                    "il_" . $this->mapping->getInstallId() . "_" . ilObject::_lookupType($obj_id_new) . "_" . $obj_id_old
+                    (int) $obj_id_new,
+                    "il_" . $this->mapping->getInstallId() . "_" . ilObject::_lookupType((int) $obj_id_new) . "_" . $obj_id_old
                 );
             }
         }
@@ -270,7 +285,7 @@ class ilImport
         string $a_xml,
         string $a_install_id,
         string $a_install_url
-    ) : void {
+    ): void {
         // skip
         if (isset($this->skip_entity[$this->current_comp][$a_entity]) &&
             $this->skip_entity[$this->current_comp][$a_entity]) {

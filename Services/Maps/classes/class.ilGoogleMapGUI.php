@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * User interface class for Google Maps
@@ -9,14 +25,14 @@
  */
 class ilGoogleMapGUI extends ilMapGUI
 {
-    protected string $css_row;
+    protected string $css_row = "";
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function getHtml() : string
+    public function getHtml(): string
     {
         $html_tpl = new ilTemplate(
             "tpl.google_map.html",
@@ -95,7 +111,7 @@ class ilGoogleMapGUI extends ilMapGUI
         $js_tpl->setVariable("MAP_ID", $this->getMapId());
         $js_tpl->setVariable("LAT", $this->getLatitude());
         $js_tpl->setVariable("LONG", $this->getLongitude());
-        $js_tpl->setVariable("ZOOM", $this->getZoom());
+        $js_tpl->setVariable("ZOOM", (int) $this->getZoom());
         $type_control = $this->getEnableTypeControl()
             ? "true"
             : "false";
@@ -121,11 +137,11 @@ class ilGoogleMapGUI extends ilMapGUI
 
         return $html_tpl->get();
     }
-    
+
     /**
     * Get User List HTML (to be displayed besides the map)
     */
-    public function getUserListHtml() : string
+    public function getUserListHtml(): string
     {
         $list_tpl = new ilTemplate(
             "tpl.google_map_user_list.html",
@@ -133,7 +149,7 @@ class ilGoogleMapGUI extends ilMapGUI
             true,
             "Services/Maps"
         );
-            
+
         $cnt = 0;
         foreach ($this->user_marker as $user_id) {
             if (ilObject::_exists($user_id)) {
@@ -160,7 +176,7 @@ class ilGoogleMapGUI extends ilMapGUI
                 $list_tpl->touchBlock("row");
             }
         }
-        
+
         return $list_tpl->get();
     }
 }

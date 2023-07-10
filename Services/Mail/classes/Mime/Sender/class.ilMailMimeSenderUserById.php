@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilMailMimeSenderUserById
@@ -34,7 +36,7 @@ class ilMailMimeSenderUserById extends ilMailMimeSenderUser
         parent::__construct($settings, self::$userInstances[$usrId]);
     }
 
-    public static function addUserToCache(int $usrId, ilObjUser $user) : void
+    public static function addUserToCache(int $usrId, ilObjUser $user): void
     {
         self::$userInstances[$usrId] = $user;
     }

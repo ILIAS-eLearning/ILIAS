@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -32,37 +34,37 @@ class ilAdvancedMDFieldTranslation
         $this->lang_key = $lang_key;
     }
 
-    public function setTitle(string $title) : void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    public function setDescription(string $description) : void
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
-    public function getFieldId() : int
+    public function getFieldId(): int
     {
         return $this->field_id;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getLangKey() : string
+    public function getLangKey(): string
     {
         return $this->lang_key;
     }
 
-    public function update() : void
+    public function update(): void
     {
         $query = 'select *  from ' . self::TABLE_NAME . ' ' .
             'where field_id = ' . $this->db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ' ' .
@@ -82,7 +84,7 @@ class ilAdvancedMDFieldTranslation
         $this->db->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'delete from ' . self::TABLE_NAME . ' ' .
             'where field_id = ' . $this->db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ' and ' .
@@ -90,7 +92,7 @@ class ilAdvancedMDFieldTranslation
         $this->db->manipulate($query);
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         $query = 'insert into ' . self::TABLE_NAME . ' (field_id, title, lang_code, description) ' .
             'values (  ' .

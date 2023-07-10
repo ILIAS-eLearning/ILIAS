@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -22,7 +24,6 @@
  */
 class ilLTIConsumerResultService
 {
-
     /**
      * @var ilLTIConsumerResult
      */
@@ -53,42 +54,27 @@ class ilLTIConsumerResultService
     protected string $operation = '';
 
 
-    /**
-     * @return float
-     */
-    public function getMasteryScore() : float
+    public function getMasteryScore(): float
     {
         return $this->mastery_score;
     }
 
-    /**
-     * @param float $mastery_score
-     */
-    public function setMasteryScore(float $mastery_score) : void
+    public function setMasteryScore(float $mastery_score): void
     {
         $this->mastery_score = $mastery_score;
     }
 
-    /**
-     * @return int
-     */
-    public function getAvailability() : int
+    public function getAvailability(): int
     {
         return $this->availability;
     }
 
-    /**
-     * @param int $availability
-     */
-    public function setAvailability(int $availability) : void
+    public function setAvailability(int $availability): void
     {
         $this->availability = $availability;
     }
 
-    /**
-     * @return bool
-     */
-    public function isAvailable() : bool
+    public function isAvailable(): bool
     {
         if ($this->availability == 0) {
             return false;
@@ -96,19 +82,10 @@ class ilLTIConsumerResultService
         return true;
     }
 
-
-
-    /**
-     * Constructor: general initialisations
-     */
-    public function __construct()
-    {
-    }
-    
     /**
      * Handle an incoming request from the LTI tool provider
      */
-    public function handleRequest() : void
+    public function handleRequest(): void
     {
         try {
             // get the request as xml
@@ -170,7 +147,7 @@ class ilLTIConsumerResultService
     /**
      * Read a stored result
      */
-    protected function readResult(\SimpleXMLElement $request) : void
+    protected function readResult(\SimpleXMLElement $request): void
     {
         $response = $this->loadResponse('readResult.xml');
         $response = str_replace('{message_id}', md5((string) rand(0, 999_999_999)), $response);
@@ -185,7 +162,7 @@ class ilLTIConsumerResultService
     /**
      * Replace a stored result
      */
-    protected function replaceResult(\SimpleXMLElement $request) : void
+    protected function replaceResult(\SimpleXMLElement $request): void
     {
         $result = (string) $request->resultRecord->result->resultScore->textString;
         if (!is_numeric($result)) {
@@ -231,7 +208,7 @@ class ilLTIConsumerResultService
     /**
      * Delete a stored result
      */
-    protected function deleteResult(\SimpleXMLElement $request) : void
+    protected function deleteResult(\SimpleXMLElement $request): void
     {
         $this->result->result = null;
         $this->result->save();
@@ -260,7 +237,7 @@ class ilLTIConsumerResultService
      * @param string    file name
      * @return string   file content
      */
-    protected function loadResponse($a_name) : string
+    protected function loadResponse($a_name): string
     {
         return file_get_contents('./Modules/LTIConsumer/responses/' . $a_name);
     }
@@ -270,7 +247,7 @@ class ilLTIConsumerResultService
      * Send a response that the operation is not supported
      * This depends on the status of the object
      */
-    protected function respondUnsupported() : void
+    protected function respondUnsupported(): void
     {
         $response = $this->loadResponse('unsupported.xml');
         $response = str_replace('{message_id}', md5((string) rand(0, 999_999_999)), $response);
@@ -284,7 +261,7 @@ class ilLTIConsumerResultService
     /**
      * Send a "unknown operation" response
      */
-    protected function respondUnknown() : void
+    protected function respondUnknown(): void
     {
         $response = $this->loadResponse('unknown.xml');
         $response = str_replace('{message_id}', md5((string) rand(0, 999_999_999)), $response);
@@ -297,9 +274,8 @@ class ilLTIConsumerResultService
 
     /**
      * Send a "bad request" response
-     * @param string|null $message
      */
-    protected function respondBadRequest(?string $message = null) : void
+    protected function respondBadRequest(?string $message = null): void
     {
         header('HTTP/1.1 400 Bad Request');
         header('Content-type: text/plain');
@@ -314,7 +290,7 @@ class ilLTIConsumerResultService
      * Send an "unauthorized" response
      * @param string|null $message  response message
      */
-    protected function respondUnauthorized(?string $message = null) : void
+    protected function respondUnauthorized(?string $message = null): void
     {
         header('HTTP/1.1 401 Unauthorized');
         header('Content-type: text/plain');
@@ -327,9 +303,8 @@ class ilLTIConsumerResultService
 
     /**
      * Read the LTI Consumer object properties
-     * @param int $a_obj_id
      */
-    private function readProperties(int $a_obj_id) : void
+    private function readProperties(int $a_obj_id): void
     {
         global $DIC;
 
@@ -339,7 +314,7 @@ class ilLTIConsumerResultService
 			WHERE lti_ext_provider.id = lti_consumer_settings.provider_id
 			AND lti_consumer_settings.obj_id = %s
 		";
-        
+
         $res = $DIC->database()->queryF($query, array('integer'), array($a_obj_id));
 
         if ($row = $DIC->database()->fetchAssoc($res)) {
@@ -351,9 +326,8 @@ class ilLTIConsumerResultService
 
     /**
      * Read the LTI Consumer object fields
-     * @param int $a_obj_id
      */
-    private function readFields(int $a_obj_id) : void
+    private function readFields(int $a_obj_id): void
     {
         global $DIC;
 
@@ -363,9 +337,9 @@ class ilLTIConsumerResultService
 			WHERE lti_ext_provider.id = lti_consumer_settings.provider_id
 			AND lti_consumer_settings.obj_id = %s
 		";
-        
+
         $res = $DIC->database()->queryF($query, array('integer'), array($a_obj_id));
-        
+
         while ($row = $DIC->database()->fetchAssoc($res)) {
             if (strlen($row["launch_key"]) > 0) {
                 $this->fields["KEY"] = $row["launch_key"];
@@ -382,8 +356,6 @@ class ilLTIConsumerResultService
 
     /**
      * Check the reqest signature
-     * @param string $a_key
-     * @param string $a_secret
      * @return bool|Exception    Exception or true
      */
     private function checkSignature(string $a_key, string $a_secret)
@@ -403,13 +375,13 @@ class ilLTIConsumerResultService
         }
         return true;
     }
-    
-    protected function updateLP() : void
+
+    protected function updateLP(): void
     {
         if (!($this->result instanceof ilLTIConsumerResult)) {
             return;
         }
-        
+
         ilLPStatusWrapper::_updateStatus($this->result->getObjId(), $this->result->getUsrId());
     }
 }

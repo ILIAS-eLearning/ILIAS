@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,32 +16,26 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilUserCertificateTableProvider
 {
-    private ilDBInterface $database;
-    private ilLogger $logger;
-    private string $defaultTitle;
-
     public function __construct(
-        ilDBInterface $database,
-        ilLogger $logger,
-        string $defaultTitle
+        private readonly ilDBInterface $database,
+        private readonly ilLogger $logger,
+        private readonly string $defaultTitle
     ) {
-        $this->database = $database;
-        $this->logger = $logger;
-        $this->defaultTitle = $defaultTitle;
     }
 
     /**
-     * @param int                  $userId
      * @param array<string, mixed> $params
      * @param array<string, mixed> $filter
      * @return array{cnt: int, items: array<int, array>}
      */
-    public function fetchDataSet(int $userId, array $params, array $filter) : array
+    public function fetchDataSet(int $userId, array $params, array $filter): array
     {
         $this->logger->debug(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
@@ -72,8 +66,8 @@ LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_translation trans ON trans.obj_id = object_data.obj_id
 AND trans.lang_code = ' . $this->database->quote($params['language'], 'text') . '
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
-LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
-WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
+LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.usr_id
+WHERE il_cert_user_cert.usr_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
         if ([] !== $params) {
             $sql .= $this->getOrderByPart($params, $filter);
@@ -119,17 +113,19 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
             $cnt_sql = '
 				SELECT COUNT(*) cnt
 				FROM il_cert_user_cert
-				WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
+				WHERE usr_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
             $row_cnt = $this->database->fetchAssoc($this->database->query($cnt_sql));
 
             $data['cnt'] = (int) $row_cnt['cnt'];
 
-            $this->logger->debug(sprintf(
-                'All active certificates for user: "%s" total: "%s"',
-                $userId,
-                $data['cnt']
-            ));
+            $this->logger->debug(
+                sprintf(
+                    'All active certificates for user: "%s" total: "%s"',
+                    $userId,
+                    $data['cnt']
+                )
+            );
         } else {
             $data['cnt'] = count($data['items']);
         }
@@ -139,7 +135,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
         return $data;
     }
 
-    protected function getOrderByPart(array $params, array $filter) : string
+    protected function getOrderByPart(array $params, array $filter): string
     {
         if (isset($params['order_field'])) {
             if (!is_string($params['order_field'])) {

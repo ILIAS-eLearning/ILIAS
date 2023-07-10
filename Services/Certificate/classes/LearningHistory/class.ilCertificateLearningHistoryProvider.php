@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\DI\Container;
@@ -25,12 +27,12 @@ use ILIAS\DI\Container;
  */
 class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
-    private ilUserCertificateRepository $userCertificateRepository;
-    private ilCtrlInterface $ctrl;
-    private ilSetting $certificateSettings;
+    private readonly ilUserCertificateRepository $userCertificateRepository;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilSetting $certificateSettings;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
-    private ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateUtilHelper $utilHelper;
 
     public function __construct(
         int $user_id,
@@ -87,18 +89,16 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         $this->utilHelper = $utilHelper;
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return (bool) $this->certificateSettings->get('active', '0');
     }
 
     /**
      * Get entries
-     * @param int $ts_start
-     * @param int $ts_end
      * @return ilLearningHistoryEntry[]
      */
-    public function getEntries(int $ts_start, int $ts_end) : array
+    public function getEntries(int $ts_start, int $ts_end): array
     {
         $entries = [];
 
@@ -151,7 +151,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         return $entries;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->lng->txt('certificates');
     }

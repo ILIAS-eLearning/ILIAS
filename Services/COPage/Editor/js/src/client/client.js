@@ -1,9 +1,24 @@
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 import ResponseFactory from './response/response-factory.js';
 import FetchWrapper from './fetch-wrapper.js';
 import FormWrapper from './form-wrapper.js';
 import FormCommandAction from './actions/form-command-action.js';
+import CommandQueue from './actions/command-queue.js';
 
 export default class Client {
 
@@ -46,6 +61,7 @@ export default class Client {
     this.form_action = form_action;
     this.response_factory = response_factory || new ResponseFactory();
     this.defErrorHandler = null;
+    this.queue = new CommandQueue();
   }
 
   setDefaultErrorHandler(handler) {
@@ -114,8 +130,26 @@ export default class Client {
    * @returns {Promise}
    */
   sendCommand(command_action) {
-    this.log("client.sendCommand");
-    this.log(command_action);
+    if (command_action.getQueueable()) {
+      const t = this;
+      console.log("### Put command in queue:");
+      console.log(command_action);
+      return this.queue.push(() => {return t._sendCommand(command_action);});
+    } else {
+      console.log("### Sending command directly:");
+      console.log(command_action);
+      return this._sendCommand(command_action);
+    }
+  }
+
+  /**
+   * Send command action
+   * @param {CommandAction} command_action
+   * @returns {Promise}
+   */
+  _sendCommand(command_action) {
+
+    this.log("...sending Command " + command_action.getId());
 
     const errorHandler = (err) => {
       this.errorHandler(err);
@@ -135,7 +169,12 @@ export default class Client {
           this.log("client.sendCommand, response:");
           this.log(response);
 
-          if (!response.ok) {
+          let getAsJSON = false;
+          const contentType = response.headers.get("content-type");
+          if (response.ok && contentType && contentType.indexOf("application/json") !== -1) {
+            getAsJSON = true;
+          }
+          if (!getAsJSON) {
             const statusText = response.statusText;
             response.text().then(text =>
                 errorHandler(statusText + " " + text)
@@ -146,6 +185,7 @@ export default class Client {
                 resolve(this.response_factory.response(command_action, json))
             ).catch(errorHandler);
           }
+          this.log("...left in Queue: " + this.queue.count());
         }).catch(errorHandler);
       });
 
@@ -162,17 +202,23 @@ export default class Client {
           this.log("client.sendCommand, response:");
           this.log(response);
 
-          if (!response.ok) {
+          let getAsJSON = false;
+          const contentType = response.headers.get("content-type");
+          if (response.ok && contentType && contentType.indexOf("application/json") !== -1) {
+            getAsJSON = true;
+          }
+          if (!getAsJSON) {
             const statusText = response.statusText;
             response.text().then(text =>
                 errorHandler(statusText + " " + text)
             ).catch(errorHandler);
           } else {
-            // note that fetch.json() returns yet another promise
+              // note that fetch.json() returns yet another promise
             response.json().then(json =>
                 resolve(this.response_factory.response(command_action, json))
             ).catch(errorHandler);
           }
+          this.log("...left in Queue: " + this.queue.count());
         }).catch(errorHandler);
       });
     }

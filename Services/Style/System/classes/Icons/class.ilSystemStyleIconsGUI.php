@@ -79,7 +79,7 @@ class ilSystemStyleIconsGUI
         $this->setStyleContainer($this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack));
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         $this->setSubStyleSubTabs($cmd);
@@ -119,13 +119,13 @@ class ilSystemStyleIconsGUI
         $this->message_stack->sendMessages();
     }
 
-    protected function fail() : void
+    protected function fail(): void
     {
         $form = $this->initByColorForm();
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function setSubStyleSubTabs(string $active = '') : void
+    protected function setSubStyleSubTabs(string $active = ''): void
     {
         $this->tabs->addSubTab('edit', $this->lng->txt('edit_by_color'), $this->ctrl->getLinkTarget($this, 'edit'));
         $this->tabs->addSubTab(
@@ -148,19 +148,19 @@ class ilSystemStyleIconsGUI
         }
     }
 
-    protected function edit() : void
+    protected function edit(): void
     {
         $form = $this->initByColorForm();
         $this->getByColorValues($form);
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function preview() : void
+    protected function preview(): void
     {
         $this->tpl->setContent($this->renderer->render($this->getIconsPreviews()));
     }
 
-    protected function initByColorForm() : ilPropertyFormGUI
+    protected function initByColorForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -234,7 +234,7 @@ class ilSystemStyleIconsGUI
         return $form;
     }
 
-    protected function getByColorValues(ilPropertyFormGUI $form) : void
+    protected function getByColorValues(ilPropertyFormGUI $form): void
     {
         $values = [];
 
@@ -251,7 +251,7 @@ class ilSystemStyleIconsGUI
         $form->setValuesByArray($values);
     }
 
-    protected function reset() : void
+    protected function reset(): void
     {
         $style = $this->getStyleContainer()->getSkin()->getStyle($this->style_id);
         $this->getStyleContainer()->resetImages($style);
@@ -266,7 +266,7 @@ class ilSystemStyleIconsGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    protected function update() : void
+    protected function update(): void
     {
         $form = $this->initByColorForm();
         if ($form->checkInput()) {
@@ -305,7 +305,7 @@ class ilSystemStyleIconsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function editIcon() : void
+    protected function editIcon(): void
     {
         $icon_name = '';
         if ($this->request_wrapper->post()->has('selected_icon')) {
@@ -329,7 +329,7 @@ class ilSystemStyleIconsGUI
         }
     }
 
-    protected function addSelectIconToolbar(?string $icon_name = '') : void
+    protected function addSelectIconToolbar(?string $icon_name = ''): void
     {
         $si = new ilSelectInputGUI($this->lng->txt('select_icon'), 'selected_icon');
 
@@ -355,7 +355,7 @@ class ilSystemStyleIconsGUI
         $this->toolbar->setFormAction($this->ctrl->getLinkTarget($this, 'editIcon'));
     }
 
-    protected function initByIconForm(ilSystemStyleIcon $icon) : ilPropertyFormGUI
+    protected function initByIconForm(ilSystemStyleIcon $icon): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -393,7 +393,7 @@ class ilSystemStyleIconsGUI
         return $form;
     }
 
-    protected function updateIcon() : void
+    protected function updateIcon(): void
     {
         $icon_path = $this->request_wrapper->post()->retrieve(
             'selected_icon',
@@ -463,7 +463,7 @@ class ilSystemStyleIconsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function renderIconPreview(ilSystemStyleIcon $icon) : string
+    protected function renderIconPreview(ilSystemStyleIcon $icon): string
     {
         $icon_image = $this->ui_factory->image()->standard($icon->getPath(), $icon->getName());
 
@@ -477,7 +477,7 @@ class ilSystemStyleIconsGUI
         return $this->renderer->render($report);
     }
 
-    public function getIconsPreviews() : \ILIAS\UI\Component\Panel\Report
+    public function getIconsPreviews(): \ILIAS\UI\Component\Panel\Report
     {
         $sub_panels = [];
         foreach ($this->getIconFolder()->getIconsSortedByFolder() as $folder_name => $icons) {
@@ -506,22 +506,22 @@ class ilSystemStyleIconsGUI
         return $this->ui_factory->panel()->report($this->lng->txt('icons'), $sub_panels);
     }
 
-    protected function getStyleContainer() : ilSkinStyleContainer
+    protected function getStyleContainer(): ilSkinStyleContainer
     {
         return $this->style_container;
     }
 
-    protected function setStyleContainer(ilSkinStyleContainer $style_container) : void
+    protected function setStyleContainer(ilSkinStyleContainer $style_container): void
     {
         $this->style_container = $style_container;
     }
 
-    protected function getIconFolder() : ilSystemStyleIconFolder
+    protected function getIconFolder(): ilSystemStyleIconFolder
     {
         return $this->icon_folder;
     }
 
-    protected function setIconFolder(ilSystemStyleIconFolder $icon_folder) : void
+    protected function setIconFolder(ilSystemStyleIconFolder $icon_folder): void
     {
         $this->icon_folder = $icon_folder;
     }

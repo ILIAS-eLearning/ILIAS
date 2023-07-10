@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Participants;
 
@@ -52,7 +57,7 @@ class StatusManager
     /**
      * Checks if a user can add himself as an appraisee
      */
-    public function canAddItselfAsAppraisee() : bool
+    public function canAddItselfAsAppraisee(): bool
     {
         $survey = $this->survey;
         $user_id = $this->user_id;
@@ -74,7 +79,7 @@ class StatusManager
      * Note: Code will be gathered from session
      * @return bool
      */
-    public function cantStartAgain() : bool
+    public function cantStartAgain(): bool
     {
         $feature_config = $this->feature_config;
 
@@ -82,7 +87,7 @@ class StatusManager
             return false;
         }
 
-        if ($this->run_manager->hasFinished()) {
+        if ($this->run_manager->hasStarted() && $this->run_manager->hasFinished()) {
             // check for
             // !(!$this->object->isAccessibleWithoutCode() && !$anonymous_code && $ilUser->getId() == ANONYMOUS_USER_ID)
             // removed
@@ -96,7 +101,7 @@ class StatusManager
      * Can the current user see the own results
      * @return bool
      */
-    public function canViewUserResults() : bool
+    public function canViewUserResults(): bool
     {
         if ($this->cantStartAgain() &&
             $this->user_id !== ANONYMOUS_USER_ID &&
@@ -110,7 +115,7 @@ class StatusManager
      * Can the current user mail the confirmation
      * @return bool
      */
-    public function canMailUserResults() : bool
+    public function canMailUserResults(): bool
     {
         if ($this->cantStartAgain() &&
             $this->user_id !== ANONYMOUS_USER_ID &&
@@ -123,7 +128,7 @@ class StatusManager
     /**
      * Check if user must enter code to start (and currently is able to start)
      */
-    public function mustEnterCode(string $code = "") : bool
+    public function mustEnterCode(string $code = ""): bool
     {
         if ($this->access->canStartSurvey()) {
             // code is mandatory and not given yet
@@ -136,23 +141,37 @@ class StatusManager
         return false;
     }
 
-    public function isExternalRater() : bool
+    public function isExternalRater(): bool
     {
         $survey = $this->survey;
         $feature_config = $this->feature_config;
         $anon_session = $this->repo_service->execution()->runSession();
         if ($feature_config->usesAppraisees() &&
-            $anon_session->issetCode($survey->getId()) &&
-            \ilObjSurvey::validateExternalRaterCode(
-                $survey->getRefId(),
-                $anon_session->getCode($survey->getId())
-            )) {
+            $anon_session->issetCode($survey->getId())) {
+            if (!$anon_session->isExternalRaterValidated($survey->getRefId())) {
+                $code = $anon_session->getCode($survey->getId());
+                $code_manager = $this->domain_service->code($survey, 0);
+                $feature_config = $this->domain_service->modeFeatureConfig($survey->getMode());
+                $access_manager = $this->domain_service->access($survey->getRefId(), 0);
+
+                if ($code_manager->exists($code)) {
+                    $anonymous_id = $survey->getAnonymousIdByCode($code);
+                    if ($anonymous_id) {
+                        if (count($survey->getAppraiseesToRate(null, $anonymous_id))) {
+                            $anon_session->setExternalRaterValidation($survey->getRefId(), true);
+                            return true;
+                        }
+                    }
+                }
+                $anon_session->setExternalRaterValidation($survey->getRefId(), false);
+                return false;
+            }
             return true;
         }
         return false;
     }
 
-    public function isAppraisee() : bool
+    public function isAppraisee(): bool
     {
         $survey = $this->survey;
         $feature_config = $this->feature_config;

@@ -1,6 +1,19 @@
 <?php
-
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilAssSingleChoiceCorrectionsInputGUI
@@ -16,8 +29,8 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
      * @var assSingleChoice
      */
     protected $qstObject;
-    
-    public function setValue($a_value) : void
+
+    public function setValue($a_value): void
     {
         if (is_array($a_value)) {
             if (is_array($a_value['points']) && is_array($a_value['points_unchecked'])) {
@@ -28,26 +41,19 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
             }
         }
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
-        include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-        if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
-                $_POST[$this->getPostVar()],
-                false,
-                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
-            );
-        }
+
         $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
             // check points
             $max = 0;
             if (is_array($foundvalues['points'])) {
                 foreach ($foundvalues['points'] as $points) {
+                    $points = str_replace(',', '.', $points);
                     if ($points > $max) {
                         $max = $points;
                     }
@@ -74,21 +80,21 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
-        
+
         return $this->checkSubItemsInput();
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $lng = $DIC->language();
-        
+
         $tpl = new ilTemplate("tpl.prop_multiplechoicecorrection_input.html", true, true, "Modules/TestQuestionPool");
-        
+
         $i = 0;
-        
+
         foreach ($this->values as $value) {
-            if ($this->qstObject->isSingleline) {
+            if ($this->qstObject->isSingleline()) {
                 if (strlen($value->getImage())) {
                     $imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
                     if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {
@@ -96,7 +102,7 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
                             $imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
                         }
                     }
-                    
+
                     $tpl->setCurrentBlock('image');
                     $tpl->setVariable('SRC_IMAGE', $imagename);
                     $tpl->setVariable('IMAGE_NAME', $value->getImage());
@@ -108,11 +114,11 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
                     $tpl->parseCurrentBlock();
                 }
             }
-            
+
             $tpl->setCurrentBlock("answer");
             $tpl->setVariable("ANSWER", $value->getAnswertext());
             $tpl->parseCurrentBlock();
-            
+
             $tpl->setCurrentBlock("row");
             $tpl->setVariable("POINTS_POST_VAR", $this->getPostVar());
             $tpl->setVariable("POINTS_ROW_NUMBER", $i);
@@ -125,25 +131,25 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
                 ilLegacyFormElementsUtil::prepareFormOutput($value->getPointsUnchecked())
             );
             $tpl->parseCurrentBlock();
-            
+
             $i++;
         }
-        
-        if ($this->qstObject->isSingleline) {
+
+        if ($this->qstObject->isSingleline()) {
             $tpl->setCurrentBlock("image_heading");
             $tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
             $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
             $tpl->parseCurrentBlock();
         }
-        
+
         $tpl->setCurrentBlock("points_heading");
         $tpl->setVariable("POINTS_CHECKED_TEXT", $lng->txt('points_checked'));
         $tpl->setVariable("POINTS_UNCHECKED_TEXT", $lng->txt('points_unchecked'));
         $tpl->parseCurrentBlock();
-        
+
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
         $tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
-        
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();

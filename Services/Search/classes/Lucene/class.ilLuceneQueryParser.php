@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -44,12 +46,12 @@ class ilLuceneQueryParser
     {
         $this->query_string = $a_query_string;
     }
-    
+
     /**
      * parse query string
      * @return void
      */
-    public function parse() : void
+    public function parse(): void
     {
         $this->parsed_query = (string) preg_replace_callback(
             '/(owner:)\s?([A-Za-z0-9_\.\+\*\@!\$\%\~\-]+)/',
@@ -57,11 +59,11 @@ class ilLuceneQueryParser
             $this->query_string
         );
     }
-    
+
     /**
      * Append asterisk for remote search from global search form field
      */
-    public function parseAutoWildcard() : void
+    public function parseAutoWildcard(): void
     {
         $this->parsed_query = trim($this->query_string);
         if (stristr($this->parsed_query, '*')) {
@@ -71,16 +73,16 @@ class ilLuceneQueryParser
             $this->parsed_query .= '*';
         }
     }
-    
-    public function getQuery() : string
+
+    public function getQuery(): string
     {
         return $this->parsed_query;
     }
-    
+
     /**
      * Replace owner callback (preg_replace_callback)
      */
-    protected function replaceOwnerCallback(array $matches) : string
+    protected function replaceOwnerCallback(array $matches): string
     {
         if (isset($matches[2])) {
             if ($usr_id = ilObjUser::_loginExists($matches[2])) {
@@ -89,13 +91,13 @@ class ilLuceneQueryParser
         }
         return $matches[0];
     }
-    
-    
+
+
     /**
      * @throws ilLuceneQueryParserException
      * @todo add multi byte query validation.
      */
-    public static function validateQuery($a_query) : bool
+    public static function validateQuery($a_query): bool
     {
         #ilLuceneQueryParser::checkAllowedCharacters($a_query);
         #ilLuceneQueryParser::checkAsterisk($a_query);
@@ -111,36 +113,36 @@ class ilLuceneQueryParser
         #ilLuceneQueryParser::checkColon($a_query);
         return true;
     }
-    
+
     /**
      * Check allowed characters
      * @throws ilLuceneQueryParserException
      */
-    protected static function checkAllowedCharacters(string $query) : bool
+    protected static function checkAllowedCharacters(string $query): bool
     {
         if (preg_match('/[^\pL0-9_+\-:.()\"*?&§€|!{}\[\]\^~\\@#\/$%\'= ]/u', $query) != 0) {
             throw new ilLuceneQueryParserException('lucene_err_allowed_characters');
         }
         return true;
     }
-    
+
     /**
      * Check asterisk
      * @throws ilLuceneQueryParserException
      */
-    protected static function checkAsterisk(string $query) : bool
+    protected static function checkAsterisk(string $query): bool
     {
         if (preg_match('/^[\*]*$|[\s]\*|^\*[^\s]/', $query) != 0) {
             throw new ilLuceneQueryParserException('lucene_err_asterisk');
         }
         return true;
     }
-    
+
     /**
      * Check ampersands
      * @throws ilLuceneQueryParserException
      */
-    protected static function checkAmpersands(string $query) : bool
+    protected static function checkAmpersands(string $query): bool
     {
         if (preg_match('/[&]{2}/', $query) > 0) {
             if (preg_match('/^([\pL0-9_+\-:.()\"*?&|!{}\[\]\^~\\@#\/$%\'=]+( && )?[\pL0-9_+\-:.()\"*?|!{}\[\]\^~\\@#\/$%\'=]+[ ]*)+$/u', $query) == 0) {
@@ -154,7 +156,7 @@ class ilLuceneQueryParser
      * Check carets
      * @throws ilLuceneQueryParserException
      */
-    protected static function checkCaret(string $query) : bool
+    protected static function checkCaret(string $query): bool
     {
         if (preg_match('/[^\\\]\^([^\s]*[^0-9.]+)|[^\\\]\^$/', $query) != 0) {
             throw new ilLuceneQueryParserException('lucene_err_caret');
@@ -166,7 +168,7 @@ class ilLuceneQueryParser
      * Check squiggles
      * @throws ilLuceneQueryParserException
      */
-    protected static function checkSquiggle(string $query) : bool
+    protected static function checkSquiggle(string $query): bool
     {
         if (preg_match('/[^\\\]*~[^\s]*[^0-9\s]+/', $query, $matches) != 0) {
             throw new ilLuceneQueryParserException('lucene_err_squiggle');
@@ -178,7 +180,7 @@ class ilLuceneQueryParser
      * Check exclamation marks (replacement for NOT)
      * @throws ilLuceneQueryParserException
      */
-    protected static function checkExclamationMark(string $query) : bool
+    protected static function checkExclamationMark(string $query): bool
     {
         if (preg_match('/^[^!]*$|^([\pL0-9_+\-:.()\"*?&|!{}\[\]\^~\\@#\/$%\'=]+( ! )?[\pL0-9_+\-:.()\"*?&|!{}\[\]\^~\\@#\/$%\'=]+[ ]*)+$/u', $query, $matches) == 0) {
             throw new ilLuceneQueryParserException('lucene_err_exclamation_mark');
@@ -190,48 +192,48 @@ class ilLuceneQueryParser
      * Check question mark (wild card single character)
      * @throws ilLuceneQueryParserException
      */
-    protected static function checkQuestionMark(string $query) : bool
+    protected static function checkQuestionMark(string $query): bool
     {
         if (preg_match('/^(\?)|([^\pL0-9_+\-:.()\"*?&|!{}\[\]\^~\\@#\/$%\'=]\?+)/u', $query, $matches) != 0) {
             throw new ilLuceneQueryParserException('lucene_err_question_mark');
         }
         return true;
     }
-    
+
     /**
      * Check parenthesis
      * @throws ilLuceneQueryParserException
      */
-    protected static function checkParenthesis(string $a_query) : bool
+    protected static function checkParenthesis(string $a_query): bool
     {
         $hasLft = false;
         $hasRgt = false;
-        
+
         $matchLft = 0;
         $matchRgt = 0;
-        
+
         $tmp = array();
-        
+
         if (($matchLft = preg_match_all('/[(]/', $a_query, $tmp)) > 0) {
             $hasLft = true;
         }
         if (($matchRgt = preg_match_all('/[)]/', $a_query, $tmp)) > 0) {
             $hasRgt = true;
         }
-        
+
         if (!$hasLft || !$hasRgt) {
             return true;
         }
-        
-        
+
+
         if (($hasLft && !$hasRgt) || ($hasRgt && !$hasLft)) {
             throw new ilLuceneQueryParserException('lucene_err_parenthesis_not_closed');
         }
-        
+
         if ($matchLft !== $matchRgt) {
             throw new ilLuceneQueryParserException('lucene_err_parenthesis_not_closed');
         }
-        
+
         if (preg_match('/\(\s*\)/', $a_query) > 0) {
             throw new ilLuceneQueryParserException('lucene_err_parenthesis_empty');
         }
@@ -243,7 +245,7 @@ class ilLuceneQueryParser
      * @throws ilLuceneQueryParserException
      *
      */
-    protected static function checkPlusMinus(string $a_query) : bool
+    protected static function checkPlusMinus(string $a_query): bool
     {
         if (preg_match('/^[^\n+\-]*$|^([+-]?\s*[\pL0-9_:.()\"*?&|!{}\[\]\^~\\@#\/$%\'=]+[ ]?)+$/u', $a_query) == 0) {
             throw new ilLuceneQueryParserException('lucene_err_plus_minus');
@@ -256,7 +258,7 @@ class ilLuceneQueryParser
      * @throws ilLuceneQueryParserException
      *
      */
-    protected static function checkANDORNOT(string $a_query) : bool
+    protected static function checkANDORNOT(string $a_query): bool
     {
         if (preg_match('/^([\pL0-9_+\-:.()\"*?&|!{}\[\]\^~\\@\/#$%\'=]+\s*((AND )|(OR )|(AND NOT )|(NOT ))?[\pL0-9_+\-:.()\"*?&|!{}\[\]\^~\\@\/#$%\'=]+[ ]*)+$/u', $a_query) == 0) {
             throw new ilLuceneQueryParserException('lucene_err_and_or_not');
@@ -269,14 +271,14 @@ class ilLuceneQueryParser
      * @throws ilLuceneQueryParserException
      *
      */
-    protected static function checkQuotes(string $a_query) : bool
+    protected static function checkQuotes(string $a_query): bool
     {
         $matches = preg_match_all('/"/', $a_query, $tmp);
-        
+
         if ($matches == 0) {
             return true;
         }
-        
+
         if (($matches % 2) > 0) {
             throw new ilLuceneQueryParserException('lucene_err_quotes');
         }
@@ -292,7 +294,7 @@ class ilLuceneQueryParser
      * Check colon
      * @throws ilLuceneQueryParserException
      */
-    protected static function checkColon(string $a_query) : bool
+    protected static function checkColon(string $a_query): bool
     {
         if (preg_match('/[^\\\\s]:[\s]|[^\\\\s]:$|[\s][^\\]?:|^[^\\\\s]?:/', $a_query) != 0) {
             throw new ilLuceneQueryParserException('lucene_err_colon');

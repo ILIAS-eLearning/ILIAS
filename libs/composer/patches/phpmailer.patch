@@ -15,34 +15,3 @@ index 477ee82..d9d6cb8 100644
          //Calling mail() with null params breaks
          $this->edebug('Sending with mail()');
          $this->edebug('Sendmail path: ' . ini_get('sendmail_path'));
-@@ -2553,19 +2559,22 @@
-         $result = '';
- 
-         $result .= $this->headerLine('Date', '' === $this->MessageDate ? self::rfcDate() : $this->MessageDate);
--
--        //The To header is created automatically by mail(), so needs to be omitted here
--        if ('mail' !== $this->Mailer) {
--            if ($this->SingleTo) {
-+        // patch-mjansen: begin #30264
-+        // To be created automatically by mail()
-+        if ($this->SingleTo) {
-+            if ('mail' !== $this->Mailer) {
-                 foreach ($this->to as $toaddr) {
-                     $this->SingleToArray[] = $this->addrFormat($toaddr);
-                 }
--            } elseif (count($this->to) > 0) {
-+            }
-+        } elseif (count($this->to) > 0) {
-+            if ('mail' !== $this->Mailer) {
-                 $result .= $this->addrAppend('To', $this->to);
--            } elseif (count($this->cc) === 0) {
--                $result .= $this->headerLine('To', 'undisclosed-recipients:;');
--            }
-+            }
-+        } elseif (count($this->cc) === 0) {
-+            $result .= $this->headerLine('To', 'undisclosed-recipients:;');
-         }
-+        // patch-mjansen: end
-         $result .= $this->addrAppend('From', [[trim($this->From), $this->FromName]]);
- 
-         //sendmail and mail() extract Cc from the header before sending

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,10 +16,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailException
  * @author Nadia Matuschek <nmatuschek@databay.de>
  */
-class ilMailException extends ilException
+class ilMailException extends Exception
 {
 }

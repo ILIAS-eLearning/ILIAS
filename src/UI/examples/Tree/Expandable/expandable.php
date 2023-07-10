@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Tree\Expandable;
 
@@ -32,8 +34,8 @@ function expandable()
         ]]
     ];
 
-    $recursion = new class implements \ILIAS\UI\Component\Tree\TreeRecursion {
-        public function getChildren($record, $environment = null) : array
+    $recursion = new class () implements \ILIAS\UI\Component\Tree\TreeRecursion {
+        public function getChildren($record, $environment = null): array
         {
             return $record['children'];
         }
@@ -42,7 +44,7 @@ function expandable()
             \ILIAS\UI\Component\Tree\Node\Factory $factory,
             $record,
             $environment = null
-        ) : \ILIAS\UI\Component\Tree\Node\Node {
+        ): \ILIAS\UI\Component\Tree\Node\Node {
             $label = $record['label'];
             $node = $factory->simple($label);
 

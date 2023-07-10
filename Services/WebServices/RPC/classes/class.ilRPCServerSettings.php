@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -47,7 +49,7 @@ class ilRPCServerSettings
         $this->settings = $DIC->settings();
     }
 
-    public static function getInstance() : ilRPCServerSettings
+    public static function getInstance(): ilRPCServerSettings
     {
         if (self::$instance) {
             return self::$instance;
@@ -58,17 +60,17 @@ class ilRPCServerSettings
     /**
      * Returns true if server ip and port are set.
      */
-    public function isEnabled() : bool
+    public function isEnabled(): bool
     {
         return $this->getHost() !== '' && $this->getPort() !== '';
     }
 
-    public function getServerUrl() : string
+    public function getServerUrl(): string
     {
         return 'http://' . $this->getHost() . ':' . $this->getPort() . '/' . self::RPC_SERVER_PATH;
     }
 
-    public function getHost() : string
+    public function getHost(): string
     {
         if ($this->rpc_host !== '') {
             return $this->rpc_host;
@@ -76,12 +78,12 @@ class ilRPCServerSettings
         return $this->rpc_host = (string) $this->settings->get('rpc_server_host');
     }
 
-    public function setHost($a_host) : void
+    public function setHost($a_host): void
     {
         $this->rpc_host = $a_host;
     }
 
-    public function getPort() : string
+    public function getPort(): string
     {
         if ($this->rpc_port !== '') {
             return $this->rpc_port;
@@ -89,23 +91,23 @@ class ilRPCServerSettings
         return $this->rpc_port = (string) $this->settings->get('rpc_server_port');
     }
 
-    public function setPort(string $a_port) : void
+    public function setPort(string $a_port): void
     {
         $this->rpc_port = $a_port;
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return self::RPC_SERVER_PATH;
     }
 
-    public function update() : void
+    public function update(): void
     {
         $this->settings->set('rpc_server_host', $this->getHost());
         $this->settings->set('rpc_server_port', $this->getPort());
     }
 
-    public function pingServer() : bool
+    public function pingServer(): bool
     {
         try {
             ilRpcClientFactory::factory('RPCebug')->ping();

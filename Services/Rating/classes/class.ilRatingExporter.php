@@ -28,7 +28,7 @@ class ilRatingExporter extends ilXmlExporter
     /**
      * Initialisation
      */
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilRatingDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -38,7 +38,7 @@ class ilRatingExporter extends ilXmlExporter
     /**
      * @inheritDoc
      */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
@@ -50,7 +50,7 @@ class ilRatingExporter extends ilXmlExporter
      *
      * @inheritDoc
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.3.0" => array(

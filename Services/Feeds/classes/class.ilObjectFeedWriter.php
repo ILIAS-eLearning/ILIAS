@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Feed writer for objects.
@@ -25,7 +28,7 @@ class ilObjectFeedWriter extends ilFeedWriter
     public function __construct(
         int $a_ref_id,
         ?int $a_userid = null,
-        bool $a_purpose = false
+        string $a_purpose = null
     ) {
         global $DIC;
 
@@ -91,7 +94,7 @@ class ilObjectFeedWriter extends ilFeedWriter
         foreach ($items as $item) {
             $i++;
 
-            if ($a_purpose != false && $obj_type == "mcst") {
+            if ($a_purpose != null && $obj_type == "mcst") {
                 $mob = ilMediaItem::_getMediaItemsOfMObId($item["mob_id"], $a_purpose);
 
                 if ($mob == false) {
@@ -107,8 +110,8 @@ class ilObjectFeedWriter extends ilFeedWriter
                 $item["context_obj_type"],
                 $item["title"],
                 $item["content_is_lang_var"],
-                $item["agg_ref_id"],
-                $item["aggregation"]
+                (int) ($item["agg_ref_id"] ?? 0),
+                $item["aggregation"] ?? []
             );
 
             $loc = "";
@@ -156,7 +159,7 @@ class ilObjectFeedWriter extends ilFeedWriter
                 $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
                     "&amp;target=" . $item["context_obj_type"] . "_" . $item["ref_id"]);
                 //echo "<br>".ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
-//					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"];
+                //					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"];
             }
 
             $feed_item->setAbout($feed_item->getLink() . "&amp;il_about_feed=" . $item["id"]);

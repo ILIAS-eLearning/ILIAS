@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Execution;
 
@@ -36,47 +39,47 @@ class ExecutionGUIRequest
         );
     }
 
-    public function getQuestionId() : int
+    public function getQuestionId(): int
     {
         return $this->int("qid");
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getActiveCommand() : string
+    public function getActiveCommand(): string
     {
         return $this->str("activecommand");
     }
 
-    public function getAccessCode() : string
+    public function getAccessCode(): string
     {
         return $this->str("accesscode");
     }
 
-    public function getDirection() : int
+    public function getDirection(): int
     {
         return $this->int("direction");
     }
 
-    public function getMail() : string
+    public function getMail(): string
     {
         return $this->str("mail");
     }
 
-    public function getAppraiseeId() : int
+    public function getAppraiseeId(): int
     {
         return $this->int("appr_id");
     }
 
-    public function getTargetPosition() : string
+    public function getTargetPosition(): string
     {
         return $this->str("pgov");
     }
 
-    public function getPreview() : int
+    public function getPreview(): int
     {
         return $this->int("prvw");
     }

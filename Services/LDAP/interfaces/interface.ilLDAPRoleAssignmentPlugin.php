@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
 * Interface for ldap role assignment plugins
 *
@@ -22,7 +27,6 @@
 */
 interface ilLDAPRoleAssignmentPlugin
 {
-    
     /**
      * check role assignment for a specific plugin id
      * (defined in the ldap role assignment administration).
@@ -31,8 +35,8 @@ interface ilLDAPRoleAssignmentPlugin
      * @param array $a_user_data	Array with user data ($_SERVER)
      * @return bool whether the condition is fullfilled or not
      */
-    public function checkRoleAssignment(int $a_plugin_id, array $a_user_data) : bool;
-    
+    public function checkRoleAssignment(int $a_plugin_id, array $a_user_data): bool;
+
     /**
      * If additional LDAP attributes values are required in the plugin return an array
      * with these attribute names.
@@ -44,5 +48,5 @@ interface ilLDAPRoleAssignmentPlugin
      * </code>
      * @return string[]
      */
-    public function getAdditionalAttributeNames() : array;
+    public function getAdditionalAttributeNames(): array;
 }

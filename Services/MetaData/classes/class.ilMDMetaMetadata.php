@@ -1,25 +1,22 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Meta Data class (element meta_data)
@@ -28,14 +25,13 @@
  */
 class ilMDMetaMetadata extends ilMDBase
 {
-
     private string $meta_data_scheme = 'LOM v 1.0';
     private ?ilMDLanguageItem $language = null;
 
     /**
      * @return array<string, string>
      */
-    public function getPossibleSubelements() : array
+    public function getPossibleSubelements(): array
     {
         $subs['Identifier'] = 'meta_identifier';
         $subs['Contribute'] = 'meta_contribute';
@@ -43,23 +39,18 @@ class ilMDMetaMetadata extends ilMDBase
         return $subs;
     }
 
-
     // SUBELEMENTS
 
     /**
      * @return int[]
      */
-    public function getIdentifierIds() : array
+    public function getIdentifierIds(): array
     {
-
-
         return ilMDIdentifier::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_meta_data');
     }
 
-    public function getIdentifier(int $a_identifier_id) : ?ilMDIdentifier
+    public function getIdentifier(int $a_identifier_id): ?ilMDIdentifier
     {
-
-
         if (!$a_identifier_id) {
             return null;
         }
@@ -69,10 +60,8 @@ class ilMDMetaMetadata extends ilMDBase
         return $ide;
     }
 
-    public function addIdentifier() : ilMDIdentifier
+    public function addIdentifier(): ilMDIdentifier
     {
-
-
         $ide = new ilMDIdentifier($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $ide->setParentId($this->getMetaId());
         $ide->setParentType('meta_meta_data');
@@ -83,17 +72,13 @@ class ilMDMetaMetadata extends ilMDBase
     /**
      * @return int[]
      */
-    public function getContributeIds() : array
+    public function getContributeIds(): array
     {
-
-
         return ilMDContribute::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_meta_data');
     }
 
-    public function getContribute(int $a_contribute_id) : ?ilMDContribute
+    public function getContribute(int $a_contribute_id): ?ilMDContribute
     {
-
-
         if (!$a_contribute_id) {
             return null;
         }
@@ -103,10 +88,8 @@ class ilMDMetaMetadata extends ilMDBase
         return $con;
     }
 
-    public function addContribute() : ilMDContribute
+    public function addContribute(): ilMDContribute
     {
-
-
         $con = new ilMDContribute($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $con->setParentId($this->getMetaId());
         $con->setParentType('meta_meta_data');
@@ -114,42 +97,37 @@ class ilMDMetaMetadata extends ilMDBase
         return $con;
     }
 
-
-
     // SET/GET
     //TODO: check fixed attribute
-    public function setMetaDataScheme(string $a_val) : void
+    public function setMetaDataScheme(string $a_val): void
     {
         $this->meta_data_scheme = $a_val;
     }
 
-    public function getMetaDataScheme() : string
+    public function getMetaDataScheme(): string
     {
         // Fixed attribute
         return 'LOM v 1.0';
     }
 
-    public function setLanguage(ilMDLanguageItem $lng_obj) : void
+    public function setLanguage(ilMDLanguageItem $lng_obj): void
     {
-        if (is_object($lng_obj)) {
-            $this->language = $lng_obj;
-        }
+        $this->language = $lng_obj;
     }
 
-    public function getLanguage() : ?ilMDLanguageItem
+    public function getLanguage(): ?ilMDLanguageItem
     {
         return is_object($this->language) ? $this->language : null;
     }
 
-    public function getLanguageCode() : string
+    public function getLanguageCode(): string
     {
         return is_object($this->language) ? $this->language->getLanguageCode() : '';
     }
 
-    public function save() : int
+    public function save(): int
     {
-
-        $fields                      = $this->__getFields();
+        $fields = $this->__getFields();
         $fields['meta_meta_data_id'] = array('integer', $next_id = $this->db->nextId('il_meta_meta_data'));
 
         if ($this->db->insert('il_meta_meta_data', $fields)) {
@@ -159,28 +137,21 @@ class ilMDMetaMetadata extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
-
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_meta_data',
-                $this->__getFields(),
-                array("meta_meta_data_id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_meta_data',
+            $this->__getFields(),
+            array("meta_meta_data_id" => array('integer', $this->getMetaId()))
+        );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
-
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_meta_data " .
                 "WHERE meta_meta_data_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res   = $this->db->manipulate($query);
+            $res = $this->db->manipulate($query);
 
             foreach ($this->getIdentifierIds() as $id) {
                 $ide = $this->getIdentifier($id);
@@ -200,21 +171,19 @@ class ilMDMetaMetadata extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
-            'rbac_id'          => array('integer', $this->getRBACId()),
-            'obj_id'           => array('integer', $this->getObjId()),
-            'obj_type'         => array('text', $this->getObjType()),
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'obj_type' => array('text', $this->getObjType()),
             'meta_data_scheme' => array('text', $this->getMetaDataScheme()),
-            'language'         => array('text', $this->getLanguageCode())
+            'language' => array('text', $this->getLanguageCode())
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
-
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_meta_data " .
                 "WHERE meta_meta_data_id = " . $this->db->quote($this->getMetaId(), 'integer');
@@ -224,15 +193,15 @@ class ilMDMetaMetadata extends ilMDBase
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
-                $this->setMetaDataScheme($row->meta_data_scheme);
-                $this->setLanguage(new ilMDLanguageItem($row->language));
+                $this->setMetaDataScheme($row->meta_data_scheme ?? '');
+                $this->setLanguage(new ilMDLanguageItem($row->language ?? ''));
             }
             return true;
         }
         return false;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $attr = null;
         if ($this->getMetaDataScheme()) {
@@ -250,7 +219,6 @@ class ilMDMetaMetadata extends ilMDBase
             $ide->toXML($writer);
         }
         if (!count($identifiers)) {
-
             $ide = new ilMDIdentifier($this->getRBACId(), $this->getObjId());
             $ide->toXML($writer);
         }
@@ -262,7 +230,6 @@ class ilMDMetaMetadata extends ilMDBase
             $con->toXML($writer);
         }
         if (!count($contributes)) {
-
             $con = new ilMDContribute($this->getRBACId(), $this->getObjId());
             $con->toXML($writer);
         }
@@ -271,7 +238,7 @@ class ilMDMetaMetadata extends ilMDBase
     }
 
     // STATIC
-    public static function _getId(int $a_rbac_id, int $a_obj_id) : int
+    public static function _getId(int $a_rbac_id, int $a_obj_id): int
     {
         global $DIC;
 

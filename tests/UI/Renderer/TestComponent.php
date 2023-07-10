@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Test;
 
@@ -45,7 +61,7 @@ class Renderer implements ComponentRenderer
     public TemplateFactory $tpl_factory;
     public \ilLanguage $lng;
     public JavaScriptBinding $js_binding;
-    
+
     final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng, JavaScriptBinding $js_binding)
     {
         $this->ui_factory = $ui_factory;
@@ -54,7 +70,7 @@ class Renderer implements ComponentRenderer
         $this->js_binding = $js_binding;
     }
 
-    public function render(Component $component, DefaultRenderer $default_renderer) : string
+    public function render(Component $component, DefaultRenderer $default_renderer): string
     {
         if ($component instanceof JSTestComponent) {
             $text = $component->text;
@@ -66,12 +82,12 @@ class Renderer implements ComponentRenderer
         return $component->text;
     }
 
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         $registry->register("test.js");
     }
 
-    private function bindOnloadCode(\ILIAS\UI\Component\JavaScriptBindable $component) : void
+    private function bindOnloadCode(\ILIAS\UI\Component\JavaScriptBindable $component): void
     {
         $binder = $component->getOnLoadCode();
         $this->js_binding->addOnLoadCode($binder("id"));

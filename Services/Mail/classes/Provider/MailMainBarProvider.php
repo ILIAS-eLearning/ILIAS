@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Mail\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
@@ -29,12 +31,12 @@ use ilMailGlobalServices;
  */
 class MailMainBarProvider extends AbstractStaticMainMenuProvider
 {
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
 
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $dic = $this->dic;
 
@@ -42,8 +44,7 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
-            ->standard(Standard::MAIL, $title)
-            ->withIsOutlined(true);
+            ->standard(Standard::MAIL, $title);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_mail'))
@@ -56,12 +57,12 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
                     $this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active'))
                 )
                 ->withAvailableCallable(
-                    static function () use ($dic) : bool {
+                    static function () use ($dic): bool {
                         return !$dic->user()->isAnonymous() && $dic->user()->getId() !== 0;
                     }
                 )
                 ->withVisibilityCallable(
-                    static function () use ($dic) : bool {
+                    static function () use ($dic): bool {
                         return $dic->rbac()->system()->checkAccess(
                             'internal_mail',
                             ilMailGlobalServices::getMailObjectRefId()

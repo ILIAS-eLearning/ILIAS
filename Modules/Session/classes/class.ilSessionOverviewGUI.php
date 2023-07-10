@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  ********************************************************************
  */
+
+declare(strict_types=1);
 
 /**
 *
@@ -52,13 +54,13 @@ class ilSessionOverviewGUI
 
         $this->lng->loadLanguageModule('event');
         $this->lng->loadLanguageModule('crs');
-        
+
         $this->course_ref_id = $a_crs_ref_id;
         $this->course_id = ilObject::_lookupObjId($this->course_ref_id);
         $this->members_obj = $a_members;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -85,12 +87,12 @@ class ilSessionOverviewGUI
         if (!$ilAccess->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', $this->course_ref_id)) {
             $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
         }
-        
+
         $ilToolbar->addButton(
             $this->lng->txt('event_csv_export'),
             $this->ctrl->getLinkTarget($this, 'exportCSV')
         );
-        
+
         $part = $this->members_obj->getParticipants();
         $part = $ilAccess->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
@@ -98,23 +100,35 @@ class ilSessionOverviewGUI
             $this->course_ref_id,
             $part
         );
-        
+
         $tbl = new ilSessionOverviewTableGUI($this, 'listSessions', $this->course_ref_id, $part);
         $this->tpl->setContent($tbl->getHTML());
     }
 
-    public function exportCSV() : void
+    public function exportCSV(): void
     {
         $tree = $this->tree;
         $ilAccess = $this->access;
-        
+
         $part = $ilAccess->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
             'manage_members',
             $this->course_ref_id,
             $this->members_obj->getParticipants()
         );
-        $members = ilUtil::_sortIds($part, 'usr_data', 'lastname', 'usr_id');
+
+        $sortedMembers = [];
+        foreach ($part as $user_id) {
+            $name = ilObjUser::_lookupName($user_id);
+            $sortedMembers[] = [
+                'userid' => (int) $user_id,
+                'firstname' => (string) $name["firstname"],
+                'lastname' => (string) $name['lastname']
+            ];
+        }
+        usort($sortedMembers, function ($a, $b) {
+            return $a['lastname'] <=> $b['lastname'];
+        });
 
         $events = [];
         foreach ($tree->getSubtree($tree->getNodeData($this->course_ref_id), false, ['sess']) as $event_id) {
@@ -124,37 +138,36 @@ class ilSessionOverviewGUI
             }
             $events[] = $tmp_event;
         }
-        
+
         $this->csv = new ilCSVWriter();
         $this->csv->addColumn($this->lng->txt("lastname"));
         $this->csv->addColumn($this->lng->txt("firstname"));
         $this->csv->addColumn($this->lng->txt("login"));
-        
+
         foreach ($events as $event_obj) {
             // TODO: do not export relative dates
             $this->csv->addColumn($event_obj->getTitle() . ' (' . $event_obj->getFirstAppointment()->appointmentToString() . ')');
         }
-        
+
         $this->csv->addRow();
-        
-        foreach ($members as $user_id) {
-            $name = ilObjUser::_lookupName($user_id);
-            
-            $this->csv->addColumn($name['lastname']);
-            $this->csv->addColumn($name['firstname']);
-            $this->csv->addColumn(ilObjUser::_lookupLogin($user_id));
-            
+
+        foreach ($sortedMembers as $member) {
+            $this->csv->addColumn($member['lastname']);
+            $this->csv->addColumn($member['firstname']);
+            $this->csv->addColumn(ilObjUser::_lookupLogin($member['userid']));
+
             foreach ($events as $event_obj) {
                 $event_part = new ilEventParticipants($event_obj->getId());
-                
+
                 $this->csv->addColumn($event_part->hasParticipated($user_id) ?
                                         $this->lng->txt('event_participated') :
                                         $this->lng->txt('event_not_participated'));
             }
-            
+
             $this->csv->addRow();
         }
         $date = new ilDate(time(), IL_CAL_UNIX);
+
         ilUtil::deliverData(
             $this->csv->getCSVString(),
             $date->get(IL_CAL_FKT_DATE, 'Y-m-d') . "_course_events.csv",

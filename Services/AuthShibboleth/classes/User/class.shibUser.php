@@ -1,17 +1,19 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Class shibUser
@@ -21,9 +23,9 @@
 class shibUser extends ilObjUser
 {
     protected shibServerData $shibServerData;
-    
 
-    public static function buildInstance(shibServerData $shibServerData) : shibUser
+
+    public static function buildInstance(shibServerData $shibServerData): shibUser
     {
         $shibUser = new self();
         $shibUser->setLastPasswordChangeToNow();
@@ -40,7 +42,7 @@ class shibUser extends ilObjUser
         return $shibUser;
     }
 
-    public function updateFields() : void
+    public function updateFields(): void
     {
         $shibConfig = shibConfig::getInstance();
         if ($shibConfig->getUpdateFirstname()) {
@@ -97,7 +99,7 @@ class shibUser extends ilObjUser
         $this->setDescription($this->getEmail());
     }
 
-    public function createFields() : void
+    public function createFields(): void
     {
         $this->setFirstname($this->shibServerData->getFirstname());
         $this->setLastname($this->shibServerData->getLastname());
@@ -129,15 +131,18 @@ class shibUser extends ilObjUser
         $this->setActive(true);
     }
 
-    public function create() : int
+    public function create(): int
     {
         $c = shibConfig::getInstance();
-        if ($c->isActivateNew()) {
+        $registration_settings = new ilRegistrationSettings();
+        $recipients = array_filter($registration_settings->getApproveRecipients(), function ($v) {
+            return is_int($v);
+        });
+        if ($c->isActivateNew() && $recipients !== []) {
             $this->setActive(false);
-            $ilRegistrationSettings = new ilRegistrationSettings();
             $mail = new ilRegistrationMailNotification();
             $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_CONFIRMATION);
-            $mail->setRecipients($ilRegistrationSettings->getApproveRecipients());
+            $mail->setRecipients($registration_settings->getApproveRecipients());
             $mail->setAdditionalInformation(array('usr' => $this));
             $mail->send();
         }
@@ -149,7 +154,7 @@ class shibUser extends ilObjUser
         throw new ilUserException('No Login-name created');
     }
 
-    protected function returnNewLoginName() : ?string
+    protected function returnNewLoginName(): ?string
     {
         $login = substr(self::cleanName($this->getFirstname()), 0, 1) . '.' . self::cleanName($this->getLastname());
         //remove whitespaces see mantis 0023123: https://www.ilias.de/mantis/view.php?id=23123
@@ -164,12 +169,12 @@ class shibUser extends ilObjUser
         return $login;
     }
 
-    public function isNew() : bool
+    public function isNew(): bool
     {
         return $this->getId() === 0;
     }
 
-    protected static function cleanName(string $name) : string
+    protected static function cleanName(string $name): string
     {
         return strtolower(strtr(
             utf8_decode($name),
@@ -178,7 +183,7 @@ class shibUser extends ilObjUser
         ));
     }
 
-    private static function loginExists(string $login, int $usr_id) : bool
+    private static function loginExists(string $login, int $usr_id): bool
     {
         global $DIC;
 

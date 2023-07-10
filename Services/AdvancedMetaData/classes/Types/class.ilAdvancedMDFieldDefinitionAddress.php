@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,12 +11,12 @@
  */
 class ilAdvancedMDFieldDefinitionAddress extends ilAdvancedMDFieldDefinitionGroupBased
 {
-    public function getType() : int
+    public function getType(): int
     {
         return self::TYPE_ADDRESS;
     }
 
-    public function getADTGroup() : ilADTDefinition
+    public function getADTGroup(): ilADTDefinition
     {
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType("Group");
 
@@ -30,7 +32,7 @@ class ilAdvancedMDFieldDefinitionAddress extends ilAdvancedMDFieldDefinitionGrou
         return $def;
     }
 
-    public function getTitles() : array
+    public function getTitles(): array
     {
         global $lng;
 

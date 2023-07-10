@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php
 
-/******************************************************************************
- *
+declare(strict_types=1);
+
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +13,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 namespace ILIAS\BookingManager;
 
@@ -52,22 +53,22 @@ class InternalService
         );
     }
 
-    public function data() : InternalDataService
+    public function data(): InternalDataService
     {
         return $this->data;
     }
 
-    public function repo() : InternalRepoService
+    public function repo(): InternalRepoService
     {
         return $this->repo;
     }
 
-    public function domain() : InternalDomainService
+    public function domain(): InternalDomainService
     {
         return $this->domain;
     }
 
-    public function gui() : InternalGUIService
+    public function gui(): InternalGUIService
     {
         return $this->gui;
     }

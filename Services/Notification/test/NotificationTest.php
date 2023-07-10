@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  */
 class NotificationTest extends TestCase
 {
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -21,18 +21,18 @@ class NotificationTest extends TestCase
         };
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $dic = new ILIAS\DI\Container();
         $GLOBALS['DIC'] = $dic;
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function initDBMock() : \PHPUnit\Framework\MockObject\MockObject
+    protected function initDBMock(): \PHPUnit\Framework\MockObject\MockObject
     {
         $db_mock = $this->createMock(ilDBInterface::class);
         $this->setGlobalVariable(
@@ -42,7 +42,7 @@ class NotificationTest extends TestCase
         return $db_mock;
     }
 
-    public function testRemoveForUser() : void
+    public function testRemoveForUser(): void
     {
         $db_mock = $this->initDBMock();
         $db_mock->expects($this->once())

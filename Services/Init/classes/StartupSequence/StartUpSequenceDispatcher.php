@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Init\StartupSequence;
@@ -29,7 +31,7 @@ class StartUpSequenceDispatcher
         $this->initSequence();
     }
 
-    protected function initSequence() : void
+    protected function initSequence(): void
     {
         $this->sequence = new SplQueue();
         $this->sequence->push(new ilTermsOfServiceWithdrawalStartUpStep(
@@ -49,7 +51,7 @@ class StartUpSequenceDispatcher
         ));
     }
 
-    protected function storeRequest() : void
+    protected function storeRequest(): void
     {
         if (!ilSession::get('orig_request_target')) {
             //#16324 don't use the complete REQUEST_URI
@@ -62,7 +64,7 @@ class StartUpSequenceDispatcher
     /**
      * @return bool
      */
-    public function dispatch() : bool
+    public function dispatch(): bool
     {
         $this->dic->logger()->init()->debug('Started request interception checks ...');
 

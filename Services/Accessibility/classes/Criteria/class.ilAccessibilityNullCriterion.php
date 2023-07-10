@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
@@ -21,24 +24,24 @@ use ILIAS\UI\Factory;
  */
 class ilAccessibilityNullCriterion implements ilAccessibilityCriterionType
 {
-    public function getTypeIdent() : string
+    public function getTypeIdent(): string
     {
         return 'null';
     }
 
-    public function evaluate(ilObjUser $user, ilAccessibilityCriterionConfig $config) : bool
+    public function evaluate(ilObjUser $user, ilAccessibilityCriterionConfig $config): bool
     {
         return true;
     }
 
-    public function hasUniqueNature() : bool
+    public function hasUniqueNature(): bool
     {
         return false;
     }
 
-    public function ui(ilLanguage $lng) : ilAccessibilityCriterionTypeGUI
+    public function ui(ilLanguage $lng): ilAccessibilityCriterionTypeGUI
     {
-        return new class($lng) implements ilAccessibilityCriterionTypeGUI {
+        return new class ($lng) implements ilAccessibilityCriterionTypeGUI {
             protected ilLanguage $lng;
 
             public function __construct(ilLanguage $lng)
@@ -46,16 +49,16 @@ class ilAccessibilityNullCriterion implements ilAccessibilityCriterionType
                 $this->lng = $lng;
             }
 
-            public function appendOption(ilRadioGroupInputGUI $option, ilAccessibilityCriterionConfig $config) : void
+            public function appendOption(ilRadioGroupInputGUI $option, ilAccessibilityCriterionConfig $config): void
             {
             }
 
-            public function getConfigByForm(ilPropertyFormGUI $form) : ilAccessibilityCriterionConfig
+            public function getConfigByForm(ilPropertyFormGUI $form): ilAccessibilityCriterionConfig
             {
                 return new ilAccessibilityCriterionConfig();
             }
 
-            public function getIdentPresentation() : string
+            public function getIdentPresentation(): string
             {
                 return $this->lng->txt('deleted');
             }
@@ -63,11 +66,11 @@ class ilAccessibilityNullCriterion implements ilAccessibilityCriterionType
             public function getValuePresentation(
                 ilAccessibilityCriterionConfig $config,
                 Factory $uiFactory
-            ) : Component {
+            ): Component {
                 return $uiFactory->legacy('-');
             }
 
-            public function getSelection(ilAccessibilityCriterionConfig $config) : ilSelectInputGUI
+            public function getSelection(ilAccessibilityCriterionConfig $config): ilSelectInputGUI
             {
                 return new ilSelectInputGUI("", "");
             }

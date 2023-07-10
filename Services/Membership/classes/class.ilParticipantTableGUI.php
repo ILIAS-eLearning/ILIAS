@@ -1,7 +1,7 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
 
-    
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,7 +17,10 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /*
  * Abstract base class for course, group participants table guis
  * @author Stefan Meyer <smeyer.ilias@gmx.de
@@ -37,10 +40,22 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
     protected array $current_filter = [];
     protected ilObject $rep_object;
 
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
+
+    public function __construct(mixed $a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
+    {
+        parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+
+        global $DIC;
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
+    }
+
     /**
      * Init table filter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->setDefaultFilterVisiblity(true);
 
@@ -50,8 +65,8 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
             false,
             $this->lng->txt('name')
         );
-        $this->current_filter['login'] = $login->getValue();
-
+        $this->current_filter['login'] = (string) $login->getValue();
+        $this->current_filter['roles'] = 0;
         if ($this->isColumnSelected('roles')) {
             $role = $this->addFilterItemByMetaType(
                 'roles',
@@ -63,7 +78,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
             $options = array();
             $options[0] = $this->lng->txt('all_roles');
             $role->setOptions($options + $this->getParentObject()->getLocalRoles());
-            $this->current_filter['roles'] = $role->getValue();
+            $this->current_filter['roles'] = (int) $role->getValue();
         }
 
         if ($this->isColumnSelected('org_units')) {
@@ -89,7 +104,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         }
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         global $DIC;
 
@@ -125,17 +140,17 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         return self::$all_columns;
     }
 
-    protected function getRepositoryObject() : ilObject
+    protected function getRepositoryObject(): ilObject
     {
         return $this->rep_object;
     }
 
-    protected function getParticipants() : ?\ilParticipants
+    protected function getParticipants(): ?\ilParticipants
     {
         return $this->participants;
     }
 
-    public function checkAcceptance(int $a_usr_id) : bool
+    public function checkAcceptance(int $a_usr_id): bool
     {
         if (!self::$confirmation_required) {
             return true;
@@ -146,7 +161,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         return in_array($a_usr_id, self::$accepted_ids);
     }
 
-    protected function initSettings() : void
+    protected function initSettings(): void
     {
         if (self::$accepted_ids !== null) {
             return;
@@ -162,46 +177,39 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         self::$has_odf_definitions = (bool) ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
     }
 
-    protected function showActionLinks($a_set) : void
+    protected function showActionLinks($a_set): void
     {
         $loc_enabled = (
             $this->getRepositoryObject()->getType() === 'crs' and
             $this->getRepositoryObject()->getViewMode() === ilCourseConstants::IL_CRS_VIEW_OBJECTIVE
         );
 
-        if (!self::$has_odf_definitions && !$loc_enabled) {
-            $this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
-            $this->tpl->setCurrentBlock('link');
-            $this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTarget($this->parent_obj, 'editMember'));
-            $this->tpl->setVariable('LINK_TXT', $this->lng->txt('edit'));
-            $this->tpl->parseCurrentBlock();
-            return;
-        }
-
-        // show action menu
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setSelectionHeaderClass('small');
-        $list->setItemLinkClass('small');
-        $list->setId('actl_' . $a_set['usr_id'] . '_' . $this->getId());
-        $list->setListTitle($this->lng->txt('actions'));
-
         $this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
-        $list->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'editMember'));
+
+        $dropDownItems = array();
+        $dropDownItems[] = $this->uiFactory->button()->shy(
+            $this->lng->txt('edit'),
+            $this->ctrl->getLinkTarget($this->parent_obj, 'editMember')
+        );
 
         if (self::$has_odf_definitions) {
             $this->ctrl->setParameterByClass('ilobjectcustomuserfieldsgui', 'member_id', $a_set['usr_id']);
-            $trans = $this->lng->txt($this->getRepositoryObject()->getType() . '_cdf_edit_member');
-            $list->addItem($trans, '', $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui', 'editMember'));
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt($this->getRepositoryObject()->getType() . '_cdf_edit_member'),
+                $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui', 'editMember')
+            );
         }
 
         if ($loc_enabled) {
             $this->ctrl->setParameterByClass('illomembertestresultgui', 'uid', $a_set['usr_id']);
-            $list->addItem(
+            $dropDownItems[] = $this->uiFactory->button()->shy(
                 $this->lng->txt('crs_loc_mem_show_res'),
-                '',
                 $this->ctrl->getLinkTargetByClass('illomembertestresultgui', '')
             );
         }
-        $this->tpl->setVariable('ACTION_USER', $list->getHTML());
+
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withLabel($this->lng->txt('actions'));
+        $this->tpl->setVariable('ACTION_USER', $this->renderer->render($dropDown));
     }
 }

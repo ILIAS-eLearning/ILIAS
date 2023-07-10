@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
@@ -25,9 +27,7 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateSettingsExerciseRepository implements ilCertificateFormRepository
 {
-    private ilLanguage $language;
-    private ilCertificateSettingsFormRepository $settingsFromFactory;
-    private ilObject $object;
+    private readonly ilCertificateSettingsFormRepository $settingsFormFactory;
 
     public function __construct(
         ilObject $object,
@@ -40,28 +40,23 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ?ilCertificateSettingsFormRepository $settingsFormFactory = null
     ) {
-        $this->object = $object;
-        $this->language = $language;
+        global $DIC;
 
-        if (null === $settingsFormFactory) {
-            $settingsFormFactory = new ilCertificateSettingsFormRepository(
-                $object->getId(),
-                $certificatePath,
-                $hasAdditionalElements,
-                $language,
-                $ctrl,
-                $access,
-                $toolbar,
-                $placeholderDescriptionObject
-            );
-        }
-
-        $this->settingsFromFactory = $settingsFormFactory;
+        $this->settingsFormFactory = $settingsFormFactory ?? new ilCertificateSettingsFormRepository(
+            $object->getId(),
+            $certificatePath,
+            $hasAdditionalElements,
+            $language,
+            $ctrl,
+            $access,
+            $toolbar,
+            $placeholderDescriptionObject,
+            $DIC->ui()->factory(),
+            $DIC->ui()->renderer()
+        );
     }
 
     /**
-     * @param ilCertificateGUI $certificateGUI
-     * @return ilPropertyFormGUI
      * @throws FileAlreadyExistsException
      * @throws FileNotFoundException
      * @throws IOException
@@ -69,17 +64,17 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
+    public function createForm(ilCertificateGUI $certificateGUI): ilPropertyFormGUI
     {
-        return $this->settingsFromFactory->createForm($certificateGUI);
+        return $this->settingsFormFactory->createForm($certificateGUI);
     }
 
-    public function save(array $formFields) : void
+    public function save(array $formFields): void
     {
     }
 
-    public function fetchFormFieldData(string $content) : array
+    public function fetchFormFieldData(string $content): array
     {
-        return $this->settingsFromFactory->fetchFormFieldData($content);
+        return $this->settingsFormFactory->fetchFormFieldData($content);
     }
 }

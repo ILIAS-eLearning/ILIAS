@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -20,7 +22,7 @@ class ilLPStatusPlugin extends ilLPStatus
         return $olp->getPluginInstance();
     }
 
-    public static function _getNotAttempted(int $a_obj_id) : array
+    public static function _getNotAttempted(int $a_obj_id): array
     {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
@@ -29,14 +31,15 @@ class ilLPStatusPlugin extends ilLPStatus
             } else {
                 // re-use existing data for inactive plugin
                 return self::getLPStatusData(
-                    $a_obj_id, self::LP_STATUS_NOT_ATTEMPTED_NUM
+                    $a_obj_id,
+                    self::LP_STATUS_NOT_ATTEMPTED_NUM
                 );
             }
         }
         return array();
     }
 
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
@@ -45,14 +48,15 @@ class ilLPStatusPlugin extends ilLPStatus
             } else {
                 // re-use existing data for inactive plugin
                 return self::getLPStatusData(
-                    $a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM
+                    $a_obj_id,
+                    self::LP_STATUS_IN_PROGRESS_NUM
                 );
             }
         }
         return array();
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
@@ -61,14 +65,15 @@ class ilLPStatusPlugin extends ilLPStatus
             } else {
                 // re-use existing data for inactive plugin
                 return self::getLPStatusData(
-                    $a_obj_id, self::LP_STATUS_COMPLETED_NUM
+                    $a_obj_id,
+                    self::LP_STATUS_COMPLETED_NUM
                 );
             }
         }
         return array();
     }
 
-    public static function _getFailed(int $a_obj_id) : array
+    public static function _getFailed(int $a_obj_id): array
     {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
@@ -77,7 +82,8 @@ class ilLPStatusPlugin extends ilLPStatus
             } else {
                 // re-use existing data for inactive plugin
                 return self::getLPStatusData(
-                    $a_obj_id, self::LP_STATUS_FAILED_NUM
+                    $a_obj_id,
+                    self::LP_STATUS_FAILED_NUM
                 );
             }
         }
@@ -88,7 +94,7 @@ class ilLPStatusPlugin extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
             if ($plugin !== ilPluginLP::INACTIVE_PLUGIN) {
@@ -107,7 +113,7 @@ class ilLPStatusPlugin extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         ?object $a_obj = null
-    ) : int {
+    ): int {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
             if ($plugin !== ilPluginLP::INACTIVE_PLUGIN) {
@@ -128,7 +134,7 @@ class ilLPStatusPlugin extends ilLPStatus
     protected static function getLPStatusData(
         int $a_obj_id,
         int $a_status
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -152,7 +158,7 @@ class ilLPStatusPlugin extends ilLPStatus
     protected static function getLPDataForUser(
         int $a_obj_id,
         int $a_user_id
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -174,7 +180,7 @@ class ilLPStatusPlugin extends ilLPStatus
     protected static function getPercentageForUser(
         int $a_obj_id,
         int $a_user_id
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -186,6 +192,6 @@ class ilLPStatusPlugin extends ilLPStatus
             " AND usr_id = " . $ilDB->quote($a_user_id, "integer")
         );
         $row = $ilDB->fetchAssoc($set);
-        return (int) $row["percentage"];
+        return (int) ($row["percentage"] ?? 0);
     }
 }

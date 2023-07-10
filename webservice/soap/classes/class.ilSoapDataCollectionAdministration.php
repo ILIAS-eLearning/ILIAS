@@ -28,14 +28,9 @@ require_once('./webservice/soap/classes/class.ilSoapAdministration.php');
  */
 class ilSoapDataCollectionAdministration extends ilSoapAdministration
 {
-
     /**
      * Export DataCollection async
-     * @param               $sid
-     * @param               $target_ref_id
-     * @param null|int      $table_id
-     * @param string        $format
-     * @param null|string   $filepath
+     * @return soap_fault|SoapFault|null|bool
      */
     public function exportDataCollectionContent(
         string $sid,

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
@@ -34,13 +35,12 @@ namespace ILIAS\FileDelivery\FileDeliveryTypes;
  */
 trait HeaderBasedDeliveryHelper
 {
-
     /**
      * @param \Closure $closure which sets the output-headers, e.g.
      *                          $response = $response->withHeader(self::X_SENDFILE,
      *                          realpath($path_to_file));
      */
-    protected function sendFileUnbufferedUsingHeaders(\Closure $closure) : void
+    protected function sendFileUnbufferedUsingHeaders(\Closure $closure): void
     {
         ignore_user_abort(true);
         set_time_limit(0);

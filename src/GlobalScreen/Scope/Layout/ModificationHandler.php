@@ -1,4 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Layout;
 
 use Closure;
 use ILIAS\GlobalScreen\Scope\Layout\Builder\DecoratedPageBuilder;
@@ -15,19 +34,6 @@ use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ModifierServices
  * @internal
@@ -36,7 +42,7 @@ use ILIAS\UI\Component\MainControls\MetaBar;
 class ModificationHandler
 {
     use SingletonTrait;
-    
+
     /**
      * @var DecoratedPageBuilder
      */
@@ -45,7 +51,7 @@ class ModificationHandler
      * @var PagePartProvider
      */
     private $current_page_part_provider;
-    
+
     /**
      * LayoutServices constructor.
      */
@@ -54,10 +60,10 @@ class ModificationHandler
         $this->current_page_builder = new StandardPageBuilder();
         $this->current_page_part_provider = new StandardPagePartProvider();
     }
-    
-    
-    
-    
+
+
+
+
     //
     // Modifiers
     //
@@ -67,43 +73,43 @@ class ModificationHandler
      * MUST return a Page as well.
      * Have a look at the README.md for an example.
      */
-    public function modifyPageWithClosure(Closure $closure_returning_page) : void
+    public function modifyPageWithClosure(Closure $closure_returning_page): void
     {
         $this->current_page_builder = new DecoratedPageBuilder($this->current_page_builder, $closure_returning_page);
     }
-    
+
     /**
      * @param Closure $closure_returning_content
      * Have a look at the README.md for an example.
      */
-    public function modifyContentWithClosure(Closure $closure_returning_content) : void
+    public function modifyContentWithClosure(Closure $closure_returning_content): void
     {
         $this->replaceWithAutoWiredInstance(Legacy::class, $closure_returning_content);
     }
-    
+
     /**
      * @param Closure $closure_returning_main_bar
      * Have a look at the README.md for an example.
      */
-    public function modifyMainBarWithClosure(Closure $closure_returning_main_bar) : void
+    public function modifyMainBarWithClosure(Closure $closure_returning_main_bar): void
     {
         $this->replaceWithAutoWiredInstance(MainBar::class, $closure_returning_main_bar);
     }
-    
+
     /**
      * @param Closure $closure_returning_meta_bar
      * Have a look at the README.md for an example.
      */
-    public function modifyMetaBarWithClosure(Closure $closure_returning_meta_bar) : void
+    public function modifyMetaBarWithClosure(Closure $closure_returning_meta_bar): void
     {
         $this->replaceWithAutoWiredInstance(MetaBar::class, $closure_returning_meta_bar);
     }
-    
+
     /**
      * @param Closure $closure_returning_image
      * Have a look at the README.md for an example.
      */
-    public function modifyLogoWithClosure(Closure $closure_returning_image) : void
+    public function modifyLogoWithClosure(Closure $closure_returning_image): void
     {
         $this->replaceWithAutoWiredInstance(DecoratedPagePartProvider::PURPOSE_LOGO, $closure_returning_image);
     }
@@ -120,64 +126,64 @@ class ModificationHandler
      * @param Closure $closure_returning_breadcrumbs
      * Have a look at the README.md for an example.
      */
-    public function modifyBreadCrumbsWithClosure(Closure $closure_returning_breadcrumbs) : void
+    public function modifyBreadCrumbsWithClosure(Closure $closure_returning_breadcrumbs): void
     {
         $this->replaceWithAutoWiredInstance(Breadcrumbs::class, $closure_returning_breadcrumbs);
     }
-    
+
     /**
      * @param Closure $closure_returning_page
      */
-    public function modifyPageBuilderWithClosure(Closure $closure_returning_page) : void
+    public function modifyPageBuilderWithClosure(Closure $closure_returning_page): void
     {
         $this->current_page_builder = new DecoratedPageBuilder($this->current_page_builder, $closure_returning_page);
     }
-    
+
     /**
      * @param Closure $closure_returning_footer
      */
-    public function modifyFooterWithClosure(Closure $closure_returning_footer) : void
+    public function modifyFooterWithClosure(Closure $closure_returning_footer): void
     {
         $this->replaceWithAutoWiredInstance(Footer::class, $closure_returning_footer);
     }
-    
+
     /**
      * @return Page
      */
-    public function getPageWithPagePartProviders() : Page
+    public function getPageWithPagePartProviders(): Page
     {
         return $this->current_page_builder->build($this->current_page_part_provider);
     }
-    
-    public function modifyTitleWithClosure(Closure $closure_returning_title) : void
+
+    public function modifyTitleWithClosure(Closure $closure_returning_title): void
     {
         $this->replaceWithAutoWiredInstance(
             DecoratedPagePartProvider::PURPOSE_TITLE,
             $closure_returning_title
         );
     }
-    
-    public function modifyShortTitleWithClosure(Closure $closure_returning_short_title) : void
+
+    public function modifyShortTitleWithClosure(Closure $closure_returning_short_title): void
     {
         $this->replaceWithAutoWiredInstance(
             DecoratedPagePartProvider::PURPOSE_SHORTTITLE,
             $closure_returning_short_title
         );
     }
-    
-    public function modifyViewTitleWithClosure(Closure $closure_returning_view_title) : void
+
+    public function modifyViewTitleWithClosure(Closure $closure_returning_view_title): void
     {
         $this->replaceWithAutoWiredInstance(
             DecoratedPagePartProvider::PURPOSE_VIEWTITLE,
             $closure_returning_view_title
         );
     }
-    
+
     /**
      * @param string  $interface
      * @param Closure $closure
      */
-    private function replaceWithAutoWiredInstance(string $interface, Closure $closure) : void
+    private function replaceWithAutoWiredInstance(string $interface, Closure $closure): void
     {
         $this->current_page_part_provider = new DecoratedPagePartProvider($this->current_page_part_provider, $closure, $interface);
     }

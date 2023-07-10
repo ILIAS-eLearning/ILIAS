@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\Portfolio\StandardGUIRequest;
@@ -50,7 +53,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         $this->lng->loadLanguageModule("prtf");
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -59,7 +62,6 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
-
             case "ilpropertyformgui":
                 $form = $this->getPortfolioForm(true);
                 $this->ctrl->forwardCommand($form);
@@ -71,12 +73,12 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         }
     }
 
-    protected function isTemplate() : bool
+    protected function isTemplate(): bool
     {
         return ($this->getPage()->getParentType() === "prtt");
     }
 
-    public function insert(Form\Standard $form = null) : void
+    public function insert(Form\Standard $form = null): void
     {
         $tpl = $this->tpl;
 
@@ -88,7 +90,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         $tpl->setContent($this->ui->renderer()->render($form));
     }
 
-    public function edit() : void
+    public function edit(): void
     {
         if ($this->isTemplate()) {
             $this->editTemplate();
@@ -97,7 +99,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         $this->editPortfolio();
     }
 
-    public function editTemplate(Form\Standard $form = null) : void
+    public function editTemplate(Form\Standard $form = null): void
     {
         $tpl = $this->tpl;
 
@@ -109,7 +111,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         $tpl->setContent($this->ui->renderer()->render($form));
     }
 
-    public function getTemplateForm(bool $edit = false) : Form\Standard
+    public function getTemplateForm(bool $edit = false): Form\Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -139,7 +141,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    public function create() : void
+    public function create(): void
     {
         $request = $this->http_request;
         $form = $this->getTemplateForm();
@@ -168,7 +170,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
 
-    protected function getRecordIdsFromForm(Form\Standard $form) : array
+    protected function getRecordIdsFromForm(Form\Standard $form): array
     {
         $data = $form->getData();
         $ids = [];
@@ -185,7 +187,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         return $ids;
     }
 
-    protected function getAdvRecords() : array
+    protected function getAdvRecords(): array
     {
         if ($this->isTemplate()) {
             $id = $this->requested_ref_id;
@@ -199,7 +201,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         return $recs;
     }
 
-    public function update() : void
+    public function update(): void
     {
         $request = $this->http_request;
         $form = $this->getTemplateForm(true);
@@ -234,7 +236,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
     /**
      * Edit courses form
      */
-    public function editPortfolio(?ilPropertyFormGUI $form = null) : void
+    public function editPortfolio(?ilPropertyFormGUI $form = null): void
     {
         $tpl = $this->tpl;
 
@@ -246,7 +248,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function getPortfolioForm(bool $edit = false) : ilPropertyFormGUI
+    public function getPortfolioForm(bool $edit = false): ilPropertyFormGUI
     {
         $content_obj = $this->content_obj;
         if (is_null($content_obj)) {
@@ -290,7 +292,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         return $form;
     }
 
-    public function updateAdvancedMetaData() : void
+    public function updateAdvancedMetaData(): void
     {
         $lng = $this->lng;
 

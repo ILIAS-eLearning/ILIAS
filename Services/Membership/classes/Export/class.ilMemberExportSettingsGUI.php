@@ -1,6 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-    
+declare(strict_types=1);
+
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,7 +18,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Export settings gui
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -57,12 +59,12 @@ class ilMemberExportSettingsGUI
         $this->refinery = $DIC->refinery();
     }
 
-    private function getLang() : ilLanguage
+    private function getLang(): ilLanguage
     {
         return $this->lng;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd('printViewSettings');
@@ -74,7 +76,7 @@ class ilMemberExportSettingsGUI
         }
     }
 
-    protected function printViewSettings(?ilPropertyFormGUI $form = null) : void
+    protected function printViewSettings(?ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initForm(self::TYPE_PRINT_VIEW_SETTINGS);
@@ -82,7 +84,7 @@ class ilMemberExportSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function initForm(string $a_type) : ilPropertyFormGUI
+    protected function initForm(string $a_type): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -199,7 +201,7 @@ class ilMemberExportSettingsGUI
     /**
      * Save print view settings
      */
-    protected function savePrintViewSettings() : void
+    protected function savePrintViewSettings(): void
     {
         $form = $this->initForm(self::TYPE_PRINT_VIEW_SETTINGS);
         if ($form->checkInput()) {

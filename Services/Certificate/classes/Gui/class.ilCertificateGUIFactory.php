@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 
 /**
@@ -23,7 +25,7 @@ use ILIAS\DI\Container;
  */
 class ilCertificateGUIFactory
 {
-    private Container $dic;
+    private readonly Container $dic;
 
     public function __construct(?Container $dic = null)
     {
@@ -35,11 +37,9 @@ class ilCertificateGUIFactory
     }
 
     /**
-     * @param ilObject $object
-     * @return ilCertificateGUI
      * @throws ilException
      */
-    public function create(ilObject $object) : ilCertificateGUI
+    public function create(ilObject $object): ilCertificateGUI
     {
         global $DIC;
 
@@ -63,7 +63,6 @@ class ilCertificateGUIFactory
                     $objectId,
                     $certificatePath,
                     false,
-                    $object,
                     $DIC->language(),
                     $DIC->ctrl(),
                     $DIC->access(),
@@ -72,14 +71,11 @@ class ilCertificateGUIFactory
                 );
 
                 $deleteAction = new ilCertificateTestTemplateDeleteAction(
-                    $deleteAction,
-                    new ilCertificateObjectHelper()
+                    $deleteAction
                 );
 
                 break;
             case 'crs':
-                $hasAdditionalElements = true;
-
                 $placeholderDescriptionObject = new ilCoursePlaceholderDescription($objectId);
                 $placeholderValuesObject = new ilCoursePlaceholderValues();
 
@@ -157,10 +153,8 @@ class ilCertificateGUIFactory
                 );
                 break;
             case 'prg':
-                $placeholderDescriptionObject =
-                    new ilStudyProgrammePlaceholderDescription();
-                $placeholderValuesObject =
-                    new ilStudyProgrammePlaceholderValues();
+                $placeholderDescriptionObject = new ilStudyProgrammePlaceholderDescription();
+                $placeholderValuesObject = new ilStudyProgrammePlaceholderValues();
                 $formFactory = new ilCertificateSettingsStudyProgrammeFormRepository(
                     $object,
                     $certificatePath,

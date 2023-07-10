@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,11 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilMailSearchResultsTableGUI extends ilTable2GUI
 {
-    public function __construct(ilMailSearchGUI $gui, string $context)
+    public function __construct(ilMailSearchGUI $gui, string $parent_cmd, string $context)
     {
         $this->setId('mail_sr_' . $context);
-        parent::__construct($gui);
+        parent::__construct($gui, $parent_cmd);
     }
 }

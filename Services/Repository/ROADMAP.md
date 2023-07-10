@@ -6,6 +6,10 @@
 
 ## Mid Term
 
+### Refactoring Deletion / Trash Process
+
+The deletion process should be organised in decent service business logic class. Currently the ilRepUtil holds this code in static methods. The process is vulnerable against errors in the object type specific deletion methods. If these methods fail, objects may remain in the trash, even if deactivated, see https://mantis.ilias.de/view.php?id=35943
+
 ### Listing Panels
 
 The repository container should use Listing Panels and Deck of Cards consistently, see [Container Roadmap](../Container/ROADMAP.md).

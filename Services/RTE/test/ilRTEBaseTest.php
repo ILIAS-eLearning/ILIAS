@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ use ILIAS\HTTP\Services as HttpServiceImpl;
  */
 abstract class ilRTEBaseTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $GLOBALS['DIC'] = new Container();
         $this->setMocks();
@@ -39,7 +41,7 @@ abstract class ilRTEBaseTest extends TestCase
      * @param string $name
      * @param mixed $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -51,7 +53,7 @@ abstract class ilRTEBaseTest extends TestCase
         };
     }
 
-    protected function setMocks() : void
+    protected function setMocks(): void
     {
         $tpl_mock = $this->createMock(ilGlobalTemplateInterface::class);
         $this->setGlobalVariable('tpl', $tpl_mock);

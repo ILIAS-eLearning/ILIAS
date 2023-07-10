@@ -1,6 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Description of class
@@ -24,7 +39,7 @@ class ilSCTasks
         $this->read();
     }
 
-    public static function getInstanceByGroupId(int $a_group_id) : ilSCTasks
+    public static function getInstanceByGroupId(int $a_group_id): ilSCTasks
     {
         if (!array_key_exists($a_group_id, self::$instances)) {
             return self::$instances[$a_group_id] = new self($a_group_id);
@@ -35,7 +50,7 @@ class ilSCTasks
     /**
      * @throws \ilDatabaseException
      */
-    public static function lookupIdentifierForTask(int $a_task_id) : string
+    public static function lookupIdentifierForTask(int $a_task_id): string
     {
         global $DIC;
 
@@ -44,12 +59,12 @@ class ilSCTasks
             'where id = ' . $db->quote($a_task_id, ilDBConstants::T_INTEGER);
         $res = $db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->identifier;
+            return (string) $row->identifier;
         }
         return '';
     }
 
-    public function updateFromComponentDefinition(string $a_identifier) : int
+    public function updateFromComponentDefinition(string $a_identifier): int
     {
         foreach ($this->getTasks() as $task) {
             if ($task->getIdentifier() === $a_identifier) {
@@ -65,7 +80,7 @@ class ilSCTasks
         return $task->getId();
     }
 
-    public static function lookupGroupId(int $a_task_id) : int
+    public static function lookupGroupId(int $a_task_id): int
     {
         global $DIC;
 
@@ -75,12 +90,12 @@ class ilSCTasks
             'WHERE id = ' . $ilDB->quote($a_task_id, ilDBConstants::T_INTEGER);
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->grp_id;
+            return (int) $row->grp_id;
         }
         return 0;
     }
 
-    public static function lookupCompleted(int $a_grp_id) : int
+    public static function lookupCompleted(int $a_grp_id): int
     {
         $tasks = self::getInstanceByGroupId($a_grp_id);
 
@@ -96,7 +111,7 @@ class ilSCTasks
         return $num_completed;
     }
 
-    public static function lookupFailed(int $a_grp_id) : int
+    public static function lookupFailed(int $a_grp_id): int
     {
         $tasks = self::getInstanceByGroupId($a_grp_id);
 
@@ -113,7 +128,7 @@ class ilSCTasks
         return $num_failed;
     }
 
-    public static function lookupLastUpdate(int $a_grp_id) : ilDateTime
+    public static function lookupLastUpdate(int $a_grp_id): ilDateTime
     {
         global $DIC;
 
@@ -130,7 +145,7 @@ class ilSCTasks
         return new ilDateTime(time(), IL_CAL_UNIX);
     }
 
-    public function getGroupId() : int
+    public function getGroupId(): int
     {
         return $this->grp_id;
     }
@@ -138,12 +153,12 @@ class ilSCTasks
     /**
      * @return ilSCTask[]
      */
-    public function getTasks() : array
+    public function getTasks(): array
     {
         return $this->tasks;
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $query = 'SELECT id, grp_id FROM sysc_tasks ' .
             'ORDER BY id ';
@@ -151,7 +166,7 @@ class ilSCTasks
 
         $this->tasks = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->tasks[] = ilSCComponentTaskFactory::getTask($row->grp_id, $row->id);
+            $this->tasks[] = ilSCComponentTaskFactory::getTask((int) $row->grp_id, (int) $row->id);
         }
     }
 }

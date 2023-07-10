@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -25,40 +27,41 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMailOptionsGUI
 {
-    private ilGlobalTemplateInterface $tpl;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
-    private ilSetting $settings;
-    private ilObjUser $user;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $lng;
+    private readonly ilSetting $settings;
+    private readonly ilObjUser $user;
     protected GlobalHttpState $http;
     protected Refinery $refinery;
     protected ilMailOptionsFormGUI $form;
+    protected ilMailOptions $mail_options;
 
     public function __construct(
         ilGlobalTemplateInterface $tpl = null,
         ilCtrlInterface $ctrl = null,
-        ilSetting $setting = null,
         ilLanguage $lng = null,
         ilObjUser $user = null,
         GlobalHttpState $http = null,
-        Refinery $refinery = null
+        Refinery $refinery = null,
+        ilMailOptions $mail_options
     ) {
         global $DIC;
         $this->tpl = $tpl ?? $DIC->ui()->mainTemplate();
         $this->ctrl = $ctrl ?? $DIC->ctrl();
-        $this->settings = $setting ?? $DIC->settings();
         $this->lng = $lng ?? $DIC->language();
         $this->user = $user ?? $DIC->user();
         $this->http = $http ?? $DIC->http();
         $this->refinery = $refinery ?? $DIC->refinery();
+        $this->mail_options = $mail_options ?? new ilMailOptions($this->user->getId());
 
         $this->lng->loadLanguageModule('mail');
         $this->ctrl->saveParameter($this, 'mobj_id');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
-        if (!$this->settings->get('show_mail_settings', '0')) {
+        if (!$this->mail_options->mayManageInvididualSettings()) {
             $referrer = '';
             if ($this->http->wrapper()->query()->has('referrer')) {
                 $referrer = $this->http->wrapper()->query()->retrieve(
@@ -72,33 +75,27 @@ class ilMailOptionsGUI
             $this->ctrl->redirectByClass(ilMailGUI::class);
         }
 
-        $nextClass = $this->ctrl->getNextClass($this);
-        switch ($nextClass) {
-            default:
-                if (!($cmd = $this->ctrl->getCmd())) {
-                    $cmd = 'showOptions';
-                }
-
-                $this->$cmd();
-                break;
+        if (!($cmd = $this->ctrl->getCmd())) {
+            $cmd = 'showOptions';
         }
+        $this->$cmd();
     }
 
-    public function setForm(ilMailOptionsFormGUI $form) : void
+    public function setForm(ilMailOptionsFormGUI $form): void
     {
         $this->form = $form;
     }
 
-    protected function getForm() : ilMailOptionsFormGUI
+    protected function getForm(): ilMailOptionsFormGUI
     {
         return $this->form ?? new ilMailOptionsFormGUI(
-            new ilMailOptions($this->user->getId()),
+            $this->mail_options,
             $this,
             'saveOptions'
         );
     }
 
-    protected function saveOptions() : void
+    protected function saveOptions(): void
     {
         $this->tpl->setTitle($this->lng->txt('mail'));
 
@@ -111,7 +108,7 @@ class ilMailOptionsGUI
         $this->showOptions($form);
     }
 
-    protected function showOptions(ilMailOptionsFormGUI $form = null) : void
+    protected function showOptions(ilMailOptionsFormGUI $form = null): void
     {
         if (null === $form) {
             $form = $this->getForm();

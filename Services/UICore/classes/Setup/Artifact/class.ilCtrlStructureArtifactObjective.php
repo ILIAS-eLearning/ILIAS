@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -22,7 +24,7 @@ class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
     /**
      * @inheritDoc
      */
-    public function getArtifactPath() : string
+    public function getArtifactPath(): string
     {
         return self::ARTIFACT_PATH;
     }
@@ -30,7 +32,7 @@ class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
     /**
      * @inheritDoc
      */
-    public function build() : Artifact
+    public function build(): Artifact
     {
         $ilias_path = dirname(__FILE__, 6);
         $class_map = require $ilias_path . "/libs/composer/vendor/composer/autoload_classmap.php";

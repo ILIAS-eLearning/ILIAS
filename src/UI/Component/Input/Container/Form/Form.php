@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Input\Container\Form;
 
@@ -19,7 +35,7 @@ interface Form extends Component
      *
      * @return    array<mixed,FormInput>
      */
-    public function getInputs() : array;
+    public function getInputs(): array;
 
     /**
      * Get a form like this where data from the request is attached.
@@ -50,5 +66,20 @@ interface Form extends Component
     /**
      * @return null|string
      */
-    public function getError() : ?string;
+    public function getError(): ?string;
+
+    /**
+     * Sets an optional dedicated name for this form which adds a NAME attribute
+     * to the form's HTML (otherwise no NAME attribute is set).
+     *
+     * The dedicated name is inherited by all child inputs of the form
+     * by setting it as dedicated name for the top level group that is generated
+     * for every form.
+     *
+     * Please see the description of withDedicatedName() on Field/Input for more details.
+     *
+     * @param string $dedicated_name
+     * @return $this
+     */
+    public function withDedicatedName(string $dedicated_name): self;
 }

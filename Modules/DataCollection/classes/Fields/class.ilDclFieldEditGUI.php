@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclFieldEditGUI
@@ -12,38 +27,20 @@
  */
 class ilDclFieldEditGUI
 {
+    protected int $obj_id;
+    protected int $table_id;
 
-    /**
-     * @var int
-     */
-    protected $obj_id;
-    /**
-     * @var int
-     */
-    protected $table_id;
-    /**
-     * @var ilObjDataCollectionGUI|object
-     */
-    protected $parent_obj;
-    /**
-     * @var ilDclTable
-     */
-    protected $table;
-    /**
-     * @var ilPropertyFormGUI
-     */
-    protected $form;
-    /**
-     * @var ilDclBaseFieldModel
-     */
-    protected $field_obj;
-    private \ilGlobalTemplateInterface $main_tpl;
+    protected ilDclTableListGUI $parent_obj;
+    protected ilDclTable $table;
+    protected ilPropertyFormGUI $form;
+    protected ilDclBaseFieldModel $field_obj;
+    private ilGlobalTemplateInterface $main_tpl;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
+    protected int $field_id;
 
     /**
      * Constructor
-     * @param ilDclTableListGUI $a_parent_obj
-     * @param int               $table_id We need a table_id if no field_id is set (creation mode). We ignore the table_id by edit mode
-     * @param int               $field_id The field_id of a existing fiel (edit mode)
      */
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
@@ -51,19 +48,38 @@ class ilDclFieldEditGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
 
-        $this->obj_id = $a_parent_obj->obj_id;
+        $this->obj_id = $a_parent_obj->getObjId();
         $this->parent_obj = $a_parent_obj;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
-        $this->table_id = $_GET["table_id"];
-        $this->field_id = $_GET['field_id'];
+        $this->table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+
+        $hasFieldId = $this->http->wrapper()->query()->has('field_id');
+        if ($hasFieldId) {
+            $this->field_id = $this->http->wrapper()->query()->retrieve('field_id', $this->refinery->kindlyTo()->int());
+        } else {
+            $this->field_id = 0;
+        }
 
         if ($this->field_id) {
             $this->field_obj = ilDclCache::getFieldCache($this->field_id);
         } else {
             $datatype = null;
-            if (isset($_POST['datatype']) && in_array($_POST['datatype'],
-                    array_keys(ilDclDatatype::getAllDatatype()))) {
-                $datatype = $_POST['datatype'];
+
+            $has_datatype = $this->http->wrapper()->post()->has('datatype');
+
+            if ($has_datatype) {
+                $datatype_value = $this->http->wrapper()->post()->retrieve(
+                    'datatype',
+                    $this->refinery->kindlyTo()->string()
+                );
+                if (in_array(
+                    $datatype_value,
+                    array_keys(ilDclDatatype::getAllDatatype())
+                )) {
+                    $datatype = $datatype_value;
+                }
             }
             $this->field_obj = ilDclFieldFactory::getFieldModelInstance($this->field_id, $datatype);
             if (!$this->table_id) {
@@ -79,7 +95,7 @@ class ilDclFieldEditGUI
     /**
      * execute command
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -89,7 +105,6 @@ class ilDclFieldEditGUI
 
         if (!$this->checkAccess()) {
             $this->permissionDenied();
-
             return;
         }
 
@@ -101,14 +116,12 @@ class ilDclFieldEditGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
 
     /**
      * create field add form
      */
-    public function create()
+    public function create(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -120,7 +133,7 @@ class ilDclFieldEditGUI
     /**
      * create field edit form
      */
-    public function edit()
+    public function edit(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -135,7 +148,7 @@ class ilDclFieldEditGUI
     /*
      * permissionDenied
      */
-    public function permissionDenied()
+    public function permissionDenied(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -145,7 +158,7 @@ class ilDclFieldEditGUI
     /**
      * confirmDelete
      */
-    public function confirmDelete()
+    public function confirmDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -167,7 +180,7 @@ class ilDclFieldEditGUI
     /**
      * cancelDelete
      */
-    public function cancelDelete()
+    public function cancelDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -178,7 +191,7 @@ class ilDclFieldEditGUI
     /*
      * delete
      */
-    public function delete()
+    public function delete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -190,7 +203,7 @@ class ilDclFieldEditGUI
     /*
      * cancel
      */
-    public function cancel()
+    public function cancel(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -201,7 +214,7 @@ class ilDclFieldEditGUI
      * initEditCustomForm
      * @param string $a_mode values: create | edit
      */
-    public function initForm($a_mode = "create")
+    public function initForm(string $a_mode = "create"): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -214,7 +227,7 @@ class ilDclFieldEditGUI
             $hidden_prop = new ilHiddenInputGUI("field_id");
             $this->form->addItem($hidden_prop);
 
-            $this->form->setFormAction($ilCtrl->getFormAction($this), "update");
+            $this->form->setFormAction($ilCtrl->getFormAction($this));
 
             $this->form->addCommandButton('update', $lng->txt('dcl_update_field'));
         } else {
@@ -223,7 +236,7 @@ class ilDclFieldEditGUI
             $hidden_prop->setValue($this->field_obj->getTableId());
             $this->form->addItem($hidden_prop);
 
-            $this->form->setFormAction($ilCtrl->getFormAction($this), "save");
+            $this->form->setFormAction($ilCtrl->getFormAction($this));
 
             $this->form->addCommandButton('save', $lng->txt('dcl_create_field'));
         }
@@ -231,8 +244,10 @@ class ilDclFieldEditGUI
 
         $text_prop = new ilTextInputGUI($lng->txt("title"), "title");
         $text_prop->setRequired(true);
-        $text_prop->setInfo(sprintf($lng->txt('fieldtitle_allow_chars'),
-            ilDclBaseFieldModel::_getTitleInvalidChars(false)));
+        $text_prop->setInfo(sprintf(
+            $lng->txt('fieldtitle_allow_chars'),
+            ilDclBaseFieldModel::_getTitleInvalidChars(false)
+        ));
         $text_prop->setValidationRegexp(ilDclBaseFieldModel::_getTitleInvalidChars(true));
         $this->form->addItem($text_prop);
 
@@ -271,7 +286,7 @@ class ilDclFieldEditGUI
      * save Field
      * @param string $a_mode values: create | update
      */
-    public function save($a_mode = "create")
+    public function save(string $a_mode = "create"): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -331,7 +346,7 @@ class ilDclFieldEditGUI
      * @param $a_mode 'create' | 'update'
      * @return bool
      */
-    protected function checkInput($a_mode)
+    protected function checkInput(string $a_mode): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -370,21 +385,26 @@ class ilDclFieldEditGUI
     /**
      * @return bool
      */
-    protected function checkAccess()
+    protected function checkAccess(): bool
     {
         if ($field_id = $this->field_obj->getId()) {
-            return ilObjDataCollectionAccess::hasAccessToField($this->getDataCollectionObject()->ref_id,
-                $this->table_id, $field_id);
+            return ilObjDataCollectionAccess::hasAccessToField(
+                $this->getDataCollectionObject()->getRefId(),
+                $this->table_id,
+                $field_id
+            );
         } else {
-            return ilObjDataCollectionAccess::hasAccessToFields($this->getDataCollectionObject()->ref_id,
-                $this->table_id);
+            return ilObjDataCollectionAccess::hasAccessToFields(
+                $this->getDataCollectionObject()->getRefId(),
+                $this->table_id
+            );
         }
     }
 
     /**
      * @return ilObjDataCollection
      */
-    public function getDataCollectionObject()
+    public function getDataCollectionObject(): ilObjDataCollection
     {
         return $this->parent_obj->getDataCollectionObject();
     }

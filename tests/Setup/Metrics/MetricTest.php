@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup\Metrics;
 
 use ILIAS\Setup\Metrics;
@@ -32,7 +34,7 @@ class MetricTest extends TestCase
     /**
      * @dataProvider metricProvider
      */
-    public function testConstructMetric(string $stability, string $type, $value, string $description, bool $success) : void
+    public function testConstructMetric(string $stability, string $type, $value, string $description, bool $success): void
     {
         if (!$success) {
             $this->expectException(\InvalidArgumentException::class);
@@ -44,7 +46,7 @@ class MetricTest extends TestCase
         $this->assertEquals($description, $metric->getDescription());
     }
 
-    public function metricProvider() : array
+    public function metricProvider(): array
     {
         $config = Metrics\Metric::STABILITY_CONFIG;
         $stable = Metrics\Metric::STABILITY_STABLE;
@@ -116,12 +118,12 @@ class MetricTest extends TestCase
     /**
      * @dataProvider typedMetricsProvider
      */
-    public function testToYAML(M $metric, string $expected) : void
+    public function testToYAML(M $metric, string $expected): void
     {
         $this->assertEquals($expected, $metric->toYAML());
     }
 
-    public function typedMetricsProvider() : array
+    public function typedMetricsProvider(): array
     {
         return [
             "bool_true" => [new M(M::STABILITY_STABLE, M::TYPE_BOOL, true), "true"],
@@ -137,7 +139,7 @@ class MetricTest extends TestCase
         ];
     }
 
-    public function testIndentation() : void
+    public function testIndentation(): void
     {
         $metrics = new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
             "a" => new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
@@ -176,7 +178,7 @@ METRIC;
         $this->assertEquals($expected, $metrics->toYAML());
     }
 
-    public function testExtractBySeverity() : void
+    public function testExtractBySeverity(): void
     {
         $metrics = new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
             "a" => new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
@@ -229,12 +231,12 @@ METRIC;
     /**
      * @dataProvider typedMetricsProvider
      */
-    public function testToArrayWithFlatValues(M $metric, string $expected) : void
+    public function testToArrayWithFlatValues(M $metric, string $expected): void
     {
         $this->assertEquals($expected, $metric->toArray());
     }
 
-    public function testToArrayWithDeepOne() : void
+    public function testToArrayWithDeepOne(): void
     {
         $metric = new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
            "bool_true" => new M(M::STABILITY_STABLE, M::TYPE_BOOL, true)
@@ -243,7 +245,7 @@ METRIC;
         $this->assertEquals(["bool_true" => "true"], $metric->toArray());
     }
 
-    public function testToArrayWithDeepTwo() : void
+    public function testToArrayWithDeepTwo(): void
     {
         $metric = new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
             "db" => new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
@@ -254,7 +256,7 @@ METRIC;
         $this->assertEquals(["db" => ["bool_true" => "true"]], $metric->toArray());
     }
 
-    public function testToUIReport() : void
+    public function testToUIReport(): void
     {
         $factory = $this->createMock(Factory::class);
         $listing_f = new LF();

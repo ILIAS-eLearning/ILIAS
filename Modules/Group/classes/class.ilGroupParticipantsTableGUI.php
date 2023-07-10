@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 *
@@ -15,7 +32,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
     protected ilAccessHandler $access;
     protected ilRbacReview $rbacreview;
     protected ilObjUser $user;
-    
+
 
     public function __construct(
         ?object $a_parent_obj,
@@ -28,14 +45,14 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         $this->rep_object = $rep_object;
 
         $this->privacy = ilPrivacySettings::getInstance();
-        
+
         $this->participants = ilParticipants::getInstanceByObjId($this->getRepositoryObject()->getId());
 
         $this->access = $DIC->access();
         $this->rbacreview = $DIC->rbac()->review();
         $this->user = $DIC->user();
 
-        
+
         $this->setPrefix('participants');
         $this->setId('grp_' . $this->getRepositoryObject()->getId());
         parent::__construct($a_parent_obj, 'participants');
@@ -65,7 +82,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         $this->addColumn($this->lng->txt('grp_mem_contacts'), 'contact');
         $this->addColumn($this->lng->txt('grp_notification'), 'notification');
 
-        $this->addColumn($this->lng->txt(''), 'optional');
+        $this->addColumn($this->lng->txt('actions'), 'optional', '', false, 'ilMembershipRowActionsHeader');
         $this->setDefaultOrderField('roles');
 
         $this->setRowTemplate("tpl.show_participants_row.html", "Modules/Group");
@@ -76,15 +93,15 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         $this->enable('header');
         $this->enable('numinfo');
         $this->enable('select_all');
-        
+
         $this->initFilter();
-        
+
         $this->addMultiCommand('editParticipants', $this->lng->txt('edit'));
         $this->addMultiCommand('confirmDeleteParticipants', $this->lng->txt('remove'));
         $this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
         $this->lng->loadLanguageModule('user');
         $this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
-        
+
         $this->setSelectAllCheckbox('participants', true);
         $this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
     }
@@ -92,7 +109,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
     /**
      * @inheritDoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -114,7 +131,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        
+
         foreach ($this->getSelectedColumns() as $field) {
             switch ($field) {
                 case 'gender':
@@ -123,7 +140,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                     $this->tpl->setVariable('VAL_CUST', $a_set[$field]);
                     $this->tpl->parseCurrentBlock();
                     break;
-                    
+
                 case 'birthday':
                     $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate($a_set['birthday'], IL_CAL_DATE)) : $this->lng->txt('no_date');
                     $this->tpl->setCurrentBlock('custom_fields');
@@ -148,7 +165,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                     $this->tpl->setVariable('VAL_CUST', $dt_string) ;
                     $this->tpl->parseCurrentBlock();
                     break;
-                    
+
                 case 'prtf':
                     $tmp = array();
                     if (is_array($a_set['prtf'])) {
@@ -160,26 +177,28 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                     $this->tpl->setVariable('VAL_CUST', implode('<br />', $tmp)) ;
                     $this->tpl->parseCurrentBlock();
                     break;
-                    
+
                 case 'odf_last_update':
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST', (string) $a_set['odf_info_txt']);
                     $this->tpl->parseCurrentBlock();
                     break;
-                
+
                 case 'roles':
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST', (string) $a_set['roles_label']);
                     $this->tpl->parseCurrentBlock();
                     break;
-                    
+
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST',
-                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable(
+                        'VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                    );
                     $this->tpl->parseCurrentBlock();
                     break;
-                    
+
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST', isset($a_set[$field]) ? (string) $a_set[$field] : '');
@@ -187,38 +206,22 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                     break;
             }
         }
-        
+
         if ($this->privacy->enabledGroupAccessTimes()) {
             $this->tpl->setVariable('VAL_ACCESS', $a_set['access_time']);
         }
-        
+
         if ($this->show_learning_progress) {
             $this->tpl->setCurrentBlock('lp');
-            switch ($a_set['progress']) {
-                case ilLPStatus::LP_STATUS_COMPLETED:
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/complete.svg'));
-                    break;
-                    
-                case ilLPStatus::LP_STATUS_IN_PROGRESS:
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/incomplete.svg'));
-                    break;
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+            $icon_rendered = $icons->renderIconForStatus($icons->lookupNumStatus($a_set['progress']));
 
-                case ilLPStatus::LP_STATUS_NOT_ATTEMPTED:
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/not_attempted.svg'));
-                    break;
+            $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
+            $this->tpl->setVariable('LP_STATUS_ICON', $icon_rendered);
 
-                case ilLPStatus::LP_STATUS_FAILED:
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/failed.svg'));
-                    break;
-                                
-            }
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable('VAL_POSTNAME', 'participants');
 
         if ($this->getParticipants()->isAdmin($a_set['usr_id'])) {
@@ -241,8 +244,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         $this->showActionLinks($a_set);
         $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
     }
-    
-    public function parse() : void
+
+    public function parse(): void
     {
         $this->determineOffsetAndOrder(true);
         $part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
@@ -252,18 +255,18 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
             $this->getRepositoryObject()->getRefId(),
             $part
         );
-        
+
         if (!$part) {
             $this->setData(array());
             return;
         }
-        
+
 
         $group_user_data = (array) $this->getParentObject()->readMemberData(
             $part,
             $this->getSelectedColumns()
         );
-        
+
 
         $additional_fields = $this->getSelectedColumns();
         unset($additional_fields["firstname"]);
@@ -274,9 +277,9 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         unset($additional_fields['prtf']);
         unset($additional_fields['roles']);
         unset($additional_fields['org_units']);
-                
-        
-        
+
+
+
         $udf_ids = $usr_data_fields = $odf_ids = array();
         foreach ($additional_fields as $field) {
             if (substr($field, 0, 3) == 'udf') {
@@ -287,7 +290,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                 $odf_ids[] = substr($field, 4);
                 continue;
             }
-            
+
             $usr_data_fields[] = $field;
         }
 
@@ -307,7 +310,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
             $usr_data_fields,
             $part
         );
-        
+
         $a_user_data = array();
         $filtered_user_ids = array();
         $local_roles = $this->getParentObject()->getLocalRoles();
@@ -325,7 +328,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                     continue;
                 }
             }
-            
+
             $filtered_user_ids[] = $user_id;
             $a_user_data[$user_id] = array_merge($ud, (array) $group_user_data[$user_id]);
 
@@ -349,7 +352,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                 if (!$this->checkAcceptance($usr_id)) {
                     continue;
                 }
-                
+
                 foreach ($fields as $field_id => $value) {
                     $a_user_data[$usr_id]['udf_' . $field_id] = $value;
                 }
@@ -364,7 +367,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                     continue;
                 }
                 foreach ($fields as $field_id => $value) {
-                    if ($a_user_data[$usr_id]) {
+                    if ($a_user_data[$usr_id] ?? false) {
                         $a_user_data[$usr_id]['odf_' . $field_id] = $value;
                     }
                 }
@@ -374,7 +377,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                 if (!isset($a_user_data[$usr_id])) {
                     continue;
                 }
-                
+
                 if ($usr_id == $edit_info['update_user']) {
                     $a_user_data[$usr_id]['odf_last_update'] = '';
                     $a_user_data[$usr_id]['odf_info_txt'] = $this->lng->txt('cdf_edited_by_self');
@@ -385,7 +388,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                 } else {
                     $a_user_data[$usr_id]['odf_last_update'] = $edit_info['edit_user'];
                     $a_user_data[$usr_id]['odf_last_update'] .= ('_' . $edit_info['editing_time']->get(IL_CAL_UNIX));
-                    
+
                     $name = ilObjUser::_lookupName($edit_info['update_user']);
                     $a_user_data[$usr_id]['odf_info_txt'] = ($name['firstname'] . ' ' . $name['lastname'] . ', ' . ilDatePresentation::formatDate($edit_info['editing_time']));
                 }

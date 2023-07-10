@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Base class for Course and Group registration
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -76,22 +78,22 @@ abstract class ilRegistrationGUI
         $this->refinery = $DIC->refinery();
     }
 
-    public function getContainer() : ilObject
+    public function getContainer(): ilObject
     {
         return $this->container;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    protected function isRegistrationPossible() : bool
+    protected function isRegistrationPossible(): bool
     {
         return $this->registration_possible;
     }
 
-    protected function enableRegistration(bool $a_status) : void
+    protected function enableRegistration(bool $a_status): void
     {
         $this->registration_possible = $a_status;
     }
@@ -99,29 +101,29 @@ abstract class ilRegistrationGUI
     /**
      * Init participants object (course or group participants)
      */
-    abstract protected function initParticipants() : ilParticipants;
+    abstract protected function initParticipants(): ilParticipants;
 
     /**
      * Init waiting list (course or group waiting list)
      */
-    abstract protected function initWaitingList() : ilWaitingList;
+    abstract protected function initWaitingList(): ilWaitingList;
 
     /**
      * Check if the waiting list is active
      * Maximum of members exceeded or
      * any user on the waiting list
      */
-    abstract protected function isWaitingListActive() : bool;
+    abstract protected function isWaitingListActive(): bool;
 
     /**
      * Get waiting list object
      */
-    protected function getWaitingList() : ilWaitingList
+    protected function getWaitingList(): ilWaitingList
     {
         return $this->waiting_list;
     }
 
-    protected function leaveWaitingList() : void
+    protected function leaveWaitingList(): void
     {
         $this->getWaitingList()->removeFromList($this->user->getId());
         $parent = $this->tree->getParentId($this->container->getRefId());
@@ -138,32 +140,32 @@ abstract class ilRegistrationGUI
     /**
      * Get title for property form
      */
-    abstract protected function getFormTitle() : string;
+    abstract protected function getFormTitle(): string;
 
     /**
      * fill informations
      */
-    abstract protected function fillInformations() : void;
+    abstract protected function fillInformations(): void;
 
     /**
      * show informations about the registration period
      */
-    abstract protected function fillRegistrationPeriod() : void;
+    abstract protected function fillRegistrationPeriod(): void;
 
     /**
      * show informations about the maximum number of user.
      */
-    abstract protected function fillMaxMembers() : void;
+    abstract protected function fillMaxMembers(): void;
 
     /**
      * show informations about registration procedure
      */
-    abstract protected function fillRegistrationType() : void;
+    abstract protected function fillRegistrationType(): void;
 
     /**
      * Show membership limitations
      */
-    protected function fillMembershipLimitation() : void
+    protected function fillMembershipLimitation(): void
     {
         if (!$items = ilObjCourseGrouping::_getGroupingItems($this->container)) {
             return;
@@ -182,13 +184,13 @@ abstract class ilRegistrationGUI
                     'LINK_ITEM',
                     $this->ctrl->getLinkTargetByClass("ilrepositorygui", "")
                 );
-                $get_ref_id = 0;
-                if ($this->http->wrapper()->query()->has('ref_id')) {
-                    $get_ref_id = $this->http->wrapper()->query()->retrieve(
-                        'ref_id',
-                        $this->refinery->kindlyTo()->int()
-                    );
-                }
+                $get_ref_id = $this->http->wrapper()->query()->retrieve(
+                    'ref_id',
+                    $this->refinery->byTrying([
+                        $this->refinery->kindlyTo()->int(),
+                        $this->refinery->always(0)
+                    ])
+                );
 
                 $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $get_ref_id);
                 $tpl->setVariable('ITEM_LINKED_TITLE', $title);
@@ -208,7 +210,7 @@ abstract class ilRegistrationGUI
         $this->form->addItem($mem);
     }
 
-    protected function fillAgreement() : void
+    protected function fillAgreement(): void
     {
         if (!$this->isRegistrationPossible()) {
             return;
@@ -239,21 +241,21 @@ abstract class ilRegistrationGUI
         }
     }
 
-    protected function showCustomFields() : void
+    protected function showCustomFields(): void
     {
         if (!count($cdf_fields = ilCourseDefinedFieldDefinition::_getFields($this->container->getId()))) {
             return;
         }
 
-        $cdf_values = [];
-        if ($this->http->wrapper()->post()->has('cdf')) {
-            $cdf_values = $this->http->wrapper()->post()->retrieve(
-                'cdf',
+        $cdf_values = $this->http->wrapper()->post()->retrieve(
+            'cdf',
+            $this->refinery->byTrying([
                 $this->refinery->kindlyTo()->dictOf(
                     $this->refinery->kindlyTo()->string()
-                )
-            );
-        }
+                ),
+                $this->refinery->always([])
+            ])
+        );
 
         $cdf = new ilNonEditableValueGUI($this->lng->txt('ps_crs_user_fields'));
         $cdf->setValue($this->lng->txt($this->type . '_ps_cdf_info'));
@@ -285,15 +287,15 @@ abstract class ilRegistrationGUI
         $this->form->addItem($cdf);
     }
 
-    protected function validateAgreement() : bool
+    protected function validateAgreement(): bool
     {
-        $agreement = null;
-        if ($this->http->wrapper()->post()->has('agreement')) {
-            $agreement = $this->http->wrapper()->post()->retrieve(
-                'agreement',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
+        $agreement = $this->http->wrapper()->post()->retrieve(
+            'agreement',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always(null)
+            ])
+        );
 
         if ($agreement) {
             return true;
@@ -304,47 +306,47 @@ abstract class ilRegistrationGUI
         return false;
     }
 
-    protected function validateCustomFields() : bool
+    protected function validateCustomFields(): bool
     {
         $required_fullfilled = true;
         $value = '';
         foreach (ilCourseDefinedFieldDefinition::_getFields($this->container->getId()) as $field_obj) {
             switch ($field_obj->getType()) {
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
-                    $cdf_value = '';
-                    if ($this->http->wrapper()->post()->has('cdf_' . $field_obj->getId())) {
-                        $cdf_value = $this->http->wrapper()->post()->retrieve(
-                            'cdf_' . $field_obj->getId(),
-                            $this->refinery->kindlyTo()->string()
-                        );
-                    }
+                    $cdf_value = $this->http->wrapper()->post()->retrieve(
+                        'cdf_' . $field_obj->getId(),
+                        $this->refinery->byTrying([
+                            $this->refinery->kindlyTo()->string(),
+                            $this->refinery->always('')
+                        ])
+                    );
 
                     // Split value id from post
-                    list($field_id, $option_id) = explode('_', $cdf_value);
+                    $cdf_parts = explode('_', $cdf_value);
+                    $option_id = (int) ($cdf_parts[1] ?? 0);
 
                     $open_answer_indexes = $field_obj->getValueOptions();
                     if (in_array($option_id, $open_answer_indexes)) {
-                        $value = '';
-                        if ($this->http->wrapper()->post()->has('cdf_oa_' . $field_obj->getId() . '_' . $option_id)) {
-                            $value = $this->http->wrapper()->post()->retrieve(
-                                'cdf_oa_' . $field_obj->getId() . '_' . $option_id,
-                                $this->refinery->kindlyTo()->string()
-                            );
-                        }
+                        $value = $this->http->wrapper()->post()->retrieve(
+                            'cdf_oa_' . $field_obj->getId() . '_' . $option_id,
+                            $this->refinery->byTrying([
+                                $this->refinery->kindlyTo()->string(),
+                                $this->refinery->always('')
+                            ])
+                        );
                     } else {
                         $value = $field_obj->getValueById((int) $option_id);
                     }
                     break;
 
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT:
-                    $value = '';
-                    if ($this->http->wrapper()->post()->has('cdf_' . $field_obj->getId())) {
-                        $value = $this->http->wrapper()->post()->retrieve(
-                            'cdf_' . $field_obj->getId(),
-                            $this->refinery->kindlyTo()->string()
-                        );
-                    }
-
+                    $value = $this->http->wrapper()->post()->retrieve(
+                        'cdf_' . $field_obj->getId(),
+                        $this->refinery->byTrying([
+                            $this->refinery->kindlyTo()->string(),
+                            $this->refinery->always('')
+                        ])
+                    );
                     break;
             }
 
@@ -360,9 +362,9 @@ abstract class ilRegistrationGUI
         return $required_fullfilled;
     }
 
-    protected function setAccepted(bool $a_status) : void
+    protected function setAccepted(bool $a_status): void
     {
-        if (!$this->privacy->confirmationRequired($this->type) and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId())) {
+        if (!$this->privacy->confirmationRequired($this->type) && !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId())) {
             return;
         }
 
@@ -375,7 +377,7 @@ abstract class ilRegistrationGUI
     /**
      * cancel subscription
      */
-    public function cancel() : void
+    public function cancel(): void
     {
         $this->ctrl->setParameterByClass(
             "ilrepositorygui",
@@ -385,7 +387,7 @@ abstract class ilRegistrationGUI
         $this->ctrl->redirectByClass("ilrepositorygui", "");
     }
 
-    public function show(?ilPropertyFormGUI $form = null) : void
+    public function show(?ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $this->initForm();
@@ -397,7 +399,7 @@ abstract class ilRegistrationGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    public function join() : void
+    public function join(): void
     {
         $form = $this->initForm();
         if (!$form->checkInput() || !$this->validate()) {
@@ -413,7 +415,7 @@ abstract class ilRegistrationGUI
         $this->add();
     }
 
-    protected function validate() : bool
+    protected function validate(): bool
     {
         return true;
     }
@@ -421,7 +423,7 @@ abstract class ilRegistrationGUI
     /**
      * @todo get rid $this->form
      */
-    protected function initForm() : ilPropertyFormGUI
+    protected function initForm(): ilPropertyFormGUI
     {
         if (is_object($this->form)) {
             return $this->form;
@@ -452,7 +454,7 @@ abstract class ilRegistrationGUI
     /**
      * @todo get rid of $this->form
      */
-    protected function addCommandButtons() : void
+    protected function addCommandButtons(): void
     {
         if (
             $this->isRegistrationPossible() &&
@@ -475,15 +477,15 @@ abstract class ilRegistrationGUI
         }
     }
 
-    protected function updateSubscriptionRequest() : void
+    protected function updateSubscriptionRequest(): void
     {
-        $subject = '';
-        if ($this->http->wrapper()->post()->has('subject')) {
-            $subject = $this->http->wrapper()->post()->retrieve(
-                'subject',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
+        $subject = $this->http->wrapper()->post()->retrieve(
+            'subject',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
 
         $this->participants->updateSubject($this->user->getId(), ilUtil::stripSlashes($subject));
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('sub_request_saved'), true);
@@ -495,7 +497,7 @@ abstract class ilRegistrationGUI
         $this->ctrl->redirectByClass("ilrepositorygui", "");
     }
 
-    protected function cancelSubscriptionRequest() : void
+    protected function cancelSubscriptionRequest(): void
     {
         $this->participants->deleteSubscriber($this->user->getId());
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('sub_request_deleted'), true);

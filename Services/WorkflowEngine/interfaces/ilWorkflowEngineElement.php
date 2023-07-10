@@ -1,5 +1,22 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * ilWorkflowEngineElement Interface is part of the petri net based workflow engine.
@@ -10,9 +27,6 @@
  * the workflow instance itself.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- *
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 interface ilWorkflowEngineElement
@@ -21,18 +35,11 @@ interface ilWorkflowEngineElement
      * This method returns the context of the element. Due to the hierarchical
      * structure of the workflow engine, this is a reference to the parent object.
      * Using this, the caller can traverse through the tree of elements.
-     *
+     * @return mixed;
      */
     public function getContext();
 
-    /**
-     * @param $name
-     * @return mixed
-     */
-    public function setName($name);
+    public function setName(?string $name): void;
 
-    /**
-     * @return mixed
-     */
-    public function getName();
+    public function getName(): ?string;
 }

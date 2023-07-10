@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ContentPage;
 
 use ILIAS\ContentPage\PageMetrics\ValueObject\PageReadingTime;
@@ -29,7 +31,7 @@ use stdClass;
  */
 class PageReadingTimeTest extends TestCase
 {
-    public function mixedReadingTypesProvider() : array
+    public function mixedReadingTypesProvider(): array
     {
         return [
             'Float Type' => [4.0],
@@ -46,14 +48,14 @@ class PageReadingTimeTest extends TestCase
      * @param mixed $mixedType
      * @dataProvider mixedReadingTypesProvider
      */
-    public function testPageReadingTimeValueThrowsExceptionWhenConstructedWithInvalidTypes($mixedType) : void
+    public function testPageReadingTimeValueThrowsExceptionWhenConstructedWithInvalidTypes($mixedType): void
     {
         $this->expectException(TypeError::class);
 
         $readingTime = new PageReadingTime($mixedType);
     }
 
-    public function testRawReadingTimeCanBeRetrievedFromValueObject() : void
+    public function testRawReadingTimeCanBeRetrievedFromValueObject(): void
     {
         $readingTime = new PageReadingTime(5);
         $this->assertSame(5, $readingTime->minutes());

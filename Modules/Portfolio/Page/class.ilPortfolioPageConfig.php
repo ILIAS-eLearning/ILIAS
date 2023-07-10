@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Portfolio page configuration
@@ -22,7 +25,7 @@ class ilPortfolioPageConfig extends ilPageConfig
     protected ilSetting $settings;
     protected ilRbacSystem $rbacsystem;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -35,7 +38,7 @@ class ilPortfolioPageConfig extends ilPageConfig
             ->standardRequest();
 
         $rbacsystem = $this->rbacsystem;
-        
+
         $prfa_set = new ilSetting("prfa");
         $this->setPreventHTMLUnmasking(!(bool) $prfa_set->get("mask", false));
 
@@ -58,14 +61,14 @@ class ilPortfolioPageConfig extends ilPageConfig
         if ($skmg_set->get("enable_skmg")) {
             $this->setEnablePCType("Skills", true);
         }
-            
+
         $settings = ilCalendarSettings::_getInstance();
         if ($settings->isEnabled() &&
             $rbacsystem->checkAccess('add_consultation_hours', $settings->getCalendarSettingsId()) &&
             $settings->areConsultationHoursEnabled()) {
             $this->setEnablePCType("ConsultationHours", true);
         }
-        
+
         $prfa_set = new ilSetting("prfa");
         if ($prfa_set->get("mycrs", true)) {
             $this->setEnablePCType("MyCourses", true);

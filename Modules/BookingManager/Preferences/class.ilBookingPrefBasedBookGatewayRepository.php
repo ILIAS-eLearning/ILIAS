@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Manages the booking storage of the preference based calculated bookings
@@ -37,7 +36,7 @@ class ilBookingPrefBasedBookGatewayRepository
      * Get pools with overdue preference booking
      * @return int[]
      */
-    public function getPoolsWithOverdueBooking() : array
+    public function getPoolsWithOverdueBooking(): array
     {
         $db = $this->db;
 
@@ -55,13 +54,13 @@ class ilBookingPrefBasedBookGatewayRepository
         }
         return $pool_ids;
     }
-    
-    
+
+
     /**
      * Semaphore like hash setting/checking to ensure that no
      * other process is doing the same
      */
-    protected function checkProcessHash(int $pool_id) : bool
+    protected function checkProcessHash(int $pool_id): bool
     {
         $db = $this->db;
 
@@ -85,6 +84,33 @@ class ilBookingPrefBasedBookGatewayRepository
         return $rec["pref_booking_hash"] === $hash;
     }
 
+    public function hasRun($pool_id): bool
+    {
+        $db = $this->db;
+        $set = $db->queryF(
+            "SELECT pref_booking_hash FROM booking_settings " .
+            " WHERE booking_pool_id = %s ",
+            array("integer"),
+            array($pool_id)
+        );
+        $rec = $db->fetchAssoc($set);
+
+        if ($rec["pref_booking_hash"] !== "0") {
+            return true;
+        }
+        return false;
+    }
+
+    public function resetRun($pool_id): void
+    {
+        $db = $this->db;
+        $db->update("booking_settings", array(
+            "pref_booking_hash" => array("text", "0")
+        ), array(	// where
+                     "booking_pool_id" => array("integer", $pool_id)
+        ));
+    }
+
     /**
      * Store bookings
      * see similar code in ilObjBookingPoolGUI::confirmedBookingObject
@@ -94,7 +120,7 @@ class ilBookingPrefBasedBookGatewayRepository
     public function storeBookings(
         int $pool_id,
         array $bookings
-    ) : void {
+    ): void {
         if ($this->checkProcessHash($pool_id)) {
             foreach ($bookings as $user_id => $obj_ids) {
                 foreach ($obj_ids as $obj_id) {
@@ -104,8 +130,8 @@ class ilBookingPrefBasedBookGatewayRepository
                         $reservation->setObjectId($obj_id);
                         $reservation->setUserId($user_id);
                         $reservation->setAssignerId($user_id);
-                        $reservation->setFrom(null);
-                        $reservation->setTo(null);
+                        $reservation->setFrom(0);
+                        $reservation->setTo(0);
                         $reservation->save();
                     }
                 }
@@ -115,7 +141,7 @@ class ilBookingPrefBasedBookGatewayRepository
 
     public function getBookings(
         array $obj_ids
-    ) : array {
+    ): array {
         $bookings = [];
         foreach (ilBookingReservation::getList(
             $obj_ids,

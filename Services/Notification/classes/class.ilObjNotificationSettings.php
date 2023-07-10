@@ -37,17 +37,17 @@ class ilObjNotificationSettings
         $this->read();
     }
 
-    public function setMode(int $a_val) : void
+    public function setMode(int $a_val): void
     {
         $this->mode = $a_val;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $db = $this->db;
 
@@ -60,7 +60,7 @@ class ilObjNotificationSettings
         }
     }
 
-    public function read() : void
+    public function read(): void
     {
         $db = $this->db;
 
@@ -72,7 +72,7 @@ class ilObjNotificationSettings
         $this->setMode((int) ($rec["noti_mode"] ?? 0));
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $db = $this->db;
 

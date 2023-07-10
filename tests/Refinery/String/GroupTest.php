@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\String;
 
 use ILIAS\Data\Factory as DataFactory;
@@ -30,7 +32,7 @@ class GroupTest extends TestCase
 {
     private StringGroup $group;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $dataFactory = new DataFactory();
         $language = $this->getMockBuilder(ilLanguage::class)
@@ -40,19 +42,19 @@ class GroupTest extends TestCase
         $this->group = new StringGroup($dataFactory, $language);
     }
 
-    public function testGreaterThanInstance() : void
+    public function testGreaterThanInstance(): void
     {
         $instance = $this->group->hasMaxLength(42);
         $this->assertInstanceOf(HasMaxLength::class, $instance);
     }
 
-    public function testLowerThanInstance() : void
+    public function testLowerThanInstance(): void
     {
         $instance = $this->group->hasMinLength(42);
         $this->assertInstanceOf(HasMinLength::class, $instance);
     }
 
-    public function testMakeClickable() : void
+    public function testMakeClickable(): void
     {
         $instance = $this->group->makeClickable();
         $this->assertInstanceOf(MakeClickable::class, $instance);

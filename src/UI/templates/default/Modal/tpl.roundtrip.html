@@ -2,19 +2,25 @@
 	<div class="modal-dialog" role="document" data-replace-marker="component">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<button type="button" class="close" data-dismiss="modal" aria-label="{CLOSE_LABEL}"><span aria-hidden="true">&times;</span></button>
 				<span class="modal-title">{TITLE}</span>
 			</div>
 			<div class="modal-body">
 				<!-- BEGIN with_content -->
 				{CONTENT}
 				<!-- END with_content -->
+				<!-- BEGIN with_form -->
+				{FORM}
+				<!-- END with_form -->
 			</div>
 			<div class="modal-footer">
 				<!-- BEGIN with_buttons -->
 				{BUTTON}
 				<!-- END with_buttons -->
-				<button class="btn btn-default" data-dismiss="modal" aria-label="Close">{CANCEL_BUTTON_LABEL}</button>
+				<button class="btn btn-default" data-dismiss="modal">{CANCEL_BUTTON_LABEL}</button>
+				<!-- BEGIN with_submit -->
+				{SUBMIT_BUTTON}
+				<!-- END with_submit -->
 			</div>
 		</div>
 	</div>

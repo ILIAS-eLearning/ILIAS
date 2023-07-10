@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a role + autocomplete feature form input
@@ -33,12 +38,12 @@ class ilRoleAutoCompleteInputGUI extends ilTextInputGUI
 
         $this->ctrl = $DIC->ctrl();
         $ilCtrl = $DIC->ctrl();
-        
+
         if (is_object($a_class)) {
             $a_class = get_class($a_class);
         }
         $a_class = strtolower($a_class);
-        
+
         parent::__construct($a_title, $a_postvar);
         $this->setInputType("raci");
         $this->setMaxLength(70);
@@ -49,7 +54,7 @@ class ilRoleAutoCompleteInputGUI extends ilTextInputGUI
     /**
      * Static asynchronous default auto complete function.
      */
-    public static function echoAutoCompleteList() : void
+    public static function echoAutoCompleteList(): void
     {
         global $DIC;
 

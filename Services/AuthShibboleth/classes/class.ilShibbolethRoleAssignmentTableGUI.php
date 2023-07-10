@@ -42,7 +42,7 @@ class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("desc");
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_TYPE', $a_set['type']);
@@ -68,7 +68,7 @@ class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
     }
 
 
-    public function parse(array $rule_objs) : void
+    public function parse(array $rule_objs): void
     {
         $records_arr = [];
         foreach ($rule_objs as $rule) {

@@ -1,14 +1,32 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
  * @author            Jesús López Reyes <lopez@leifos.com>
- * @version           $Id$
  * @ilCtrl_IsCalledBy ilAppointmentPresentationCourseGUI: ilCalendarAppointmentPresentationGUI
  * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions() : void
+    public function collectPropertiesAndActions(): void
     {
         $settings = ilCalendarSettings::_getInstance();
         $this->lng->loadLanguageModule("crs");
@@ -78,7 +96,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 
             $names = [];
             foreach ($sorted_ids as $usr_id) {
-                $name_presentation = $this->getUserName($usr_id, true);
+                $name_presentation = $this->getUserName((int) $usr_id, true);
                 if (strlen($name_presentation)) {
                     $names[] = $name_presentation;
                 }

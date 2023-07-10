@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -28,7 +30,7 @@ class LocalClock implements ClockInterface
         $this->time_zone = $time_zone;
     }
 
-    public function now() : DateTimeImmutable
+    public function now(): DateTimeImmutable
     {
         return new DateTimeImmutable('now', $this->time_zone);
     }

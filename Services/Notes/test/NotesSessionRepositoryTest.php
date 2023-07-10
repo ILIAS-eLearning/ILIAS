@@ -11,20 +11,20 @@ class NotesSessionRepositoryTest extends TestCase
 {
     protected \ILIAS\Notes\NotesSessionRepository $repo;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repo = new \ILIAS\Notes\NotesSessionRepository();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test sort
      */
-    public function testSortAscending() : void
+    public function testSortAscending(): void
     {
         $repo = $this->repo;
         $repo->setSortAscending(true);

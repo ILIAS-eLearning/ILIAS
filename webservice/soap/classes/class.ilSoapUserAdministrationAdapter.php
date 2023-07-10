@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -35,14 +37,14 @@ class ilSoapUserAdministrationAdapter
         $this->registerMethods();
     }
 
-    public function start() : void
+    public function start(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->server->handle();
         }
     }
 
-    private function registerMethods() : void
+    private function registerMethods(): void
     {
         include_once './webservice/soap/include/inc.soap_functions.php';
 

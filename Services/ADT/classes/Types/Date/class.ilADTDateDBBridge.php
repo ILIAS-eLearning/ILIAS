@@ -1,15 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTDateDBBridge extends ilADTDBBridge
 {
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTDate);
     }
 
     // CRUD
 
-    public function readRecord(array $a_row) : void
+    public function readRecord(array $a_row): void
     {
         $date = null;
         if ($a_row[$this->getElementId()]) {
@@ -18,7 +20,7 @@ class ilADTDateDBBridge extends ilADTDBBridge
         $this->getADT()->setDate($date);
     }
 
-    public function prepareInsert(array &$a_fields) : void
+    public function prepareInsert(array &$a_fields): void
     {
         $date = $this->getADT()->getDate();
         if ($date instanceof ilDate) {

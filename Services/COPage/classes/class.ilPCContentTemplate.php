@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Content templates are not existing in the page. Once they are inserted into a page
@@ -21,23 +24,20 @@
  */
 class ilPCContentTemplate extends ilPageContent
 {
-    public function init() : void
+    public function init(): void
     {
         $this->setType("templ");
     }
 
-    /**
-     * Set node (in fact this will never be called, since these types of nodes do not exist
-     */
-    public function setNode(php4DOMElement $a_node) : void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-    }
-
-    public function create(ilPageObject $a_pg_obj, string $a_hier_id, string $a_pc_id, int $a_page_templ) : void
+    protected function getTemplatePage(string $a_page_templ): ilPageObject
     {
         $source_id = explode(":", $a_page_templ);
-        $source_page = ilPageObjectFactory::getInstance($source_id[1], $source_id[0]);
+        return $this->getPageManager()->get($source_id[1], (int) $source_id[0]);
+    }
+
+    public function create(ilPageObject $a_pg_obj, string $a_hier_id, string $a_pc_id, string $a_page_templ): void
+    {
+        $source_page = $this->getTemplatePage($a_page_templ);
         $source_page->buildDom();
         $source_page->addHierIDs();
         $hier_ids = $source_page->getHierIds();
@@ -52,28 +52,25 @@ class ilPCContentTemplate extends ilPageContent
             }
         }
         arsort($copy_ids);
-
         foreach ($copy_ids as $copy_id) {
             $source_content = $source_page->getContentObject($copy_id);
 
-            $source_node = $source_content->getNode();
-            $clone_node = $source_node->clone_node(true);
-            $clone_node->unlink_node($clone_node);
+            $source_node = $source_content->getDomNode();
+            $clone_node = $source_node->cloneNode(true);
+            $clone_node = $this->getPage()->getDomDoc()->importNode($clone_node, true);
 
             // insert cloned node at target
-            $source_content->setNode($clone_node);
+            $source_content->setDomNode($clone_node);
             $this->getPage()->insertContent($source_content, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-
             $xpath = new DOMXpath($this->getPage()->getDomDoc());
-            if ($clone_node->get_attribute("PCID") != "") {
-                $clone_node->set_attribute("PCID", "");
+            if ($clone_node->getAttribute("PCID") != "") {
+                $clone_node->setAttribute("PCID", "");
             }
-            $els = $xpath->query(".//*[@PCID]", $clone_node->myDOMNode);
+            $els = $xpath->query(".//*[@PCID]", $clone_node);
             foreach ($els as $el) {
                 $el->setAttribute("PCID", "");
             }
         }
-
         $this->getPage()->update();
     }
 }

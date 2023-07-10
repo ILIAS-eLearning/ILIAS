@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,44 +16,26 @@
  *
  *********************************************************************/
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
+declare(strict_types=1);
+
 class ilCertificatePathFactory
 {
-    public function create(ilObject $object) : string
+    public function create(ilObject $object): string
     {
         $type = $object->getType();
 
-        switch ($type) {
-            case 'tst':
-                $certificatePath = ilCertificatePathConstants::TEST_PATH . $object->getId() . '/';
-                break;
-            case 'crs':
-                $certificatePath = ilCertificatePathConstants::COURSE_PATH . $object->getId() . '/';
-                break;
-            case 'sahs':
-                $certificatePath = ilCertificatePathConstants::SCORM_PATH . $object->getId() . '/';
-                break;
-            case 'exc':
-                $certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $object->getId() . '/';
-                break;
-            case 'lti':
-                $certificatePath = ilCertificatePathConstants::LTICON_PATH . $object->getId() . '/';
-                break;
-            case 'cmix':
-                $certificatePath = ilCertificatePathConstants::CMIX_PATH . $object->getId() . '/';
-                break;
-            case 'prg':
-                $certificatePath = ilCertificatePathConstants::STUDY_PROGRAMME_PATH . $object->getId() . '/';
-                break;
-            default:
-                throw new ilException(sprintf(
-                    'The type "%s" is currently not supported for certificates',
-                    $type
-                ));
-        }
-
-        return $certificatePath;
+        return match ($type) {
+            'tst' => ilCertificatePathConstants::TEST_PATH . $object->getId() . '/',
+            'crs' => ilCertificatePathConstants::COURSE_PATH . $object->getId() . '/',
+            'sahs' => ilCertificatePathConstants::SCORM_PATH . $object->getId() . '/',
+            'exc' => ilCertificatePathConstants::EXERCISE_PATH . $object->getId() . '/',
+            'lti' => ilCertificatePathConstants::LTICON_PATH . $object->getId() . '/',
+            'cmix' => ilCertificatePathConstants::CMIX_PATH . $object->getId() . '/',
+            'prg' => ilCertificatePathConstants::STUDY_PROGRAMME_PATH . $object->getId() . '/',
+            default => throw new ilException(sprintf(
+                'The type "%s" is currently not supported for certificates',
+                $type
+            )),
+        };
     }
 }

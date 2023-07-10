@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Refinery\Factory as Refinery;
@@ -21,36 +37,36 @@ class ilStudyProgrammeTypeInfo
         $this->lng_code = $lng_code;
     }
 
-    public function getTitle() : ?string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function withTitle(string $title) : ilStudyProgrammeTypeInfo
+    public function withTitle(string $title): ilStudyProgrammeTypeInfo
     {
         $clone = clone $this;
         $clone->title = $title;
         return $clone;
     }
 
-    public function getDescription() : ?string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function withDescription(string $description) : ilStudyProgrammeTypeInfo
+    public function withDescription(string $description): ilStudyProgrammeTypeInfo
     {
         $clone = clone $this;
         $clone->description = $description;
         return $clone;
     }
 
-    public function getLanguageCode() : ?string
+    public function getLanguageCode(): ?string
     {
         return $this->lng_code;
     }
 
-    public function withLanguageCode(string $lng_code) : ilStudyProgrammeTypeInfo
+    public function withLanguageCode(string $lng_code): ilStudyProgrammeTypeInfo
     {
         $clone = clone $this;
         $clone->lng_code = $lng_code;
@@ -61,7 +77,7 @@ class ilStudyProgrammeTypeInfo
         Field\Factory $input,
         ilLanguage $lng,
         Refinery $refinery
-    ) : Field\Input {
+    ): Field\Input {
         $title = $input
             ->text($lng->txt('title'), '')
             ->withValue($this->getTitle() ?? "")

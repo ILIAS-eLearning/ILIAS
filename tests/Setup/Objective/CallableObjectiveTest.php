@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup\Objective;
 
 use ILIAS\Setup;
@@ -31,15 +33,15 @@ class CallableObjectiveTest extends TestCase
     protected Setup\Objective $p;
     protected Objective\CallableObjective $o;
 
-    public function myMethod(Setup\Environment $environment) : Setup\Environment
+    public function myMethod(Setup\Environment $environment): Setup\Environment
     {
         $this->env = $environment;
         return $environment;
     }
 
-    const NAME = "CALL MY METHOD!";
+    public const NAME = "CALL MY METHOD!";
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->p = $this->newObjective();
 
@@ -51,22 +53,22 @@ class CallableObjectiveTest extends TestCase
         );
     }
 
-    public function testGetHash() : void
+    public function testGetHash(): void
     {
         $this->assertIsString($this->o->getHash());
     }
 
-    public function testGetLabel() : void
+    public function testGetLabel(): void
     {
         $this->assertEquals(self::NAME, $this->o->getLabel());
     }
 
-    public function testIsNotable() : void
+    public function testIsNotable(): void
     {
         $this->assertFalse($this->o->isNotable());
     }
 
-    public function testGetPreconditions() : void
+    public function testGetPreconditions(): void
     {
         $env = $this->createMock(Setup\Environment::class);
 
@@ -75,7 +77,7 @@ class CallableObjectiveTest extends TestCase
     }
 
 
-    public function testAchieve() : void
+    public function testAchieve(): void
     {
         $this->env = null;
 

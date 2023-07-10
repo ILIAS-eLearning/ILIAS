@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMd5PasswordEncoder
  * This class implements the ILIAS password encryption mechanism used in ILIAS3/ILIAS4
@@ -25,9 +27,9 @@
  * @package ServicesPassword
  * @deprecated
  */
-class ilMd5PasswordEncoder extends ilBasePasswordEncoder
+final class ilMd5PasswordEncoder extends ilBasePasswordEncoder
 {
-    public function encodePassword(string $raw, string $salt) : string
+    public function encodePassword(string $raw, string $salt): string
     {
         if ($this->isPasswordTooLong($raw)) {
             throw new ilPasswordException('Invalid password.');
@@ -36,12 +38,12 @@ class ilMd5PasswordEncoder extends ilBasePasswordEncoder
         return md5($raw);
     }
 
-    public function isPasswordValid(string $encoded, string $raw, string $salt) : bool
+    public function isPasswordValid(string $encoded, string $raw, string $salt): bool
     {
         return !$this->isPasswordTooLong($raw) && $this->comparePasswords($encoded, $this->encodePassword($raw, $salt));
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return 'md5';
     }

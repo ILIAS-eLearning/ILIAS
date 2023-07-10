@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Refinery\URI;
 
 use ILIAS\Refinery\URI\Group as URIGroup;
@@ -24,7 +26,7 @@ use ILIAS\Tests\Refinery\TestCase;
 
 class GroupTest extends TestCase
 {
-    public function testStringTransformationInstance() : void
+    public function testStringTransformationInstance(): void
     {
         $group = new URIGroup();
         $transformation = $group->toString();

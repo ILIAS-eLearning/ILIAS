@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Taxonomy explorer GUI class
@@ -12,7 +26,10 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
     protected string $onclick = "";
     protected ilTaxonomyTree $tax_tree;
     protected string $id;
-    protected mixed $target_gui;
+    /**
+     * @var mixed|string
+     */
+    protected string $target_gui;
     protected string $target_cmd;
 
     /**
@@ -48,7 +65,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $rn = $this->getRootNode();
         if ($rn["child"] == $a_node["child"]) {
@@ -63,7 +80,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
      * @return string
      * @throws ilCtrlException
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         $ilCtrl = $this->ctrl;
 
@@ -89,7 +106,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
      * @param array|object $a_node
      * @return string
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         return ilUtil::getImagePath("icon_taxn.svg");
     }
@@ -98,13 +115,13 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
      * @param array|object $a_node
      * @return bool
      */
-    public function isNodeHighlighted($a_node) : bool
+    public function isNodeHighlighted($a_node): bool
     {
         return (!$this->onclick && $a_node["child"] == $this->requested_tax_node) ||
             ($this->onclick && is_array($this->selected_nodes) && in_array($a_node["child"], $this->selected_nodes));
     }
 
-    public function setOnClick(string $a_value) : void
+    public function setOnClick(string $a_value): void
     {
         $this->onclick = $a_value;
     }
@@ -113,7 +130,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
      * @param array|object $a_node
      * @return string
      */
-    public function getNodeOnClick($a_node) : string
+    public function getNodeOnClick($a_node): string
     {
         if ($this->onclick !== '') {
             return str_replace("{NODE_CHILD}", $a_node["child"], $this->onclick);

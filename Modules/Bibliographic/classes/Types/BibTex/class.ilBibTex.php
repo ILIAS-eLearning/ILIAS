@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBibTexInterface
  *
@@ -24,11 +24,10 @@
  */
 class ilBibTex implements ilBiblTypeInterface
 {
-
     /**
      * @inheritDoc
      */
-    public function getId() : int
+    public function getId(): int
     {
         return ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
     }
@@ -37,7 +36,7 @@ class ilBibTex implements ilBiblTypeInterface
     /**
      * @inheritDoc
      */
-    public function getStringRepresentation() : string
+    public function getStringRepresentation(): string
     {
         return "bib";
     }
@@ -46,7 +45,7 @@ class ilBibTex implements ilBiblTypeInterface
     /**
      * @inheritDoc
      */
-    public function getStandardFieldIdentifiers() : array
+    public function getStandardFieldIdentifiers(): array
     {
         return self::$standard_fields;
     }
@@ -104,7 +103,7 @@ class ilBibTex implements ilBiblTypeInterface
     /**
      * @inheritdoc
      */
-    public function isStandardField(string $field_name) : bool
+    public function isStandardField(string $field_name): bool
     {
         return in_array($field_name, self::$standard_fields);
     }
@@ -113,7 +112,7 @@ class ilBibTex implements ilBiblTypeInterface
     /**
      * @inheritdoc
      */
-    public function isEntryType(string $entry_ype) : bool
+    public function isEntryType(string $entry_ype): bool
     {
         return in_array($entry_ype, self::$entry_types);
     }

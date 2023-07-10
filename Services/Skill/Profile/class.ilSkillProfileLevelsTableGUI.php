@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -20,6 +22,7 @@
 use ILIAS\Skill\Tree;
 use ILIAS\Skill\Service\SkillAdminGUIRequest;
 use ILIAS\Skill\Service\SkillInternalManagerService;
+use ILIAS\Skill\Profile;
 
 /**
  * TableGUI class for skill profile levels
@@ -29,8 +32,8 @@ use ILIAS\Skill\Service\SkillInternalManagerService;
 class ilSkillProfileLevelsTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
-    protected ilSkillProfile $profile;
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected Profile\SkillProfile $profile;
+    protected ilSkillTreeRepository $tree_repo;
     protected SkillInternalManagerService $skill_manager;
     protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_ref_id = 0;
@@ -38,7 +41,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
     public function __construct(
         $a_parent_obj,
         string $a_parent_cmd,
-        ilSkillProfile $a_profile
+        Profile\SkillProfile $a_profile
     ) {
         global $DIC;
 
@@ -51,12 +54,25 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         $this->skill_manager = $DIC->skills()->internal()->manager();
         $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
-        
+
         $this->profile = $a_profile;
         $this->requested_ref_id = $this->admin_gui_request->getRefId();
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->setData($this->profile->getSkillLevels());
+        // convert skill levels to array structure, because tables can only handle arrays
+        $levels = $this->skill_manager->getProfileManager()->getSkillLevels($this->profile->getId());
+        $levels_array = [];
+        foreach ($levels as $level) {
+            $levels_array[] = [
+                "profile_id" => $level->getProfileId(),
+                "base_skill_id" => $level->getBaseSkillId(),
+                "tref_id" => $level->getTrefId(),
+                "level_id" => $level->getLevelId(),
+                "order_nr" => $level->getOrderNr()
+            ];
+        }
+
+        $this->setData($levels_array);
         $this->setTitle($lng->txt("skmg_target_levels"));
 
         $access_manager = $this->skill_manager->getTreeAccessManager($this->requested_ref_id);
@@ -66,19 +82,19 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         }
         $this->addColumn($this->lng->txt("skmg_skill"));
         $this->addColumn($this->lng->txt("skmg_level"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.skill_profile_level_row.html", "Services/Skill");
 
         if ($access_manager->hasManageProfilesPermission()) {
             $this->addMultiCommand("confirmLevelAssignmentRemoval", $lng->txt("skmg_remove_levels"));
-            if (count($this->profile->getSkillLevels()) > 0) {
+            if (count($this->skill_manager->getProfileManager()->getSkillLevels($this->profile->getId())) > 0) {
                 $this->addCommandButton("saveLevelOrder", $lng->txt("skmg_save_order"));
             }
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $tree_id = $this->tree_repo->getTreeIdForNodeId($a_set["base_skill_id"]);
         $node_manager = $this->skill_manager->getTreeNodeManager($tree_id);
@@ -89,7 +105,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
                 $a_set["tref_id"]
             )
         );
-        
+
         $this->tpl->setVariable("LEVEL_TITLE", ilBasicSkill::lookupLevelTitle($a_set["level_id"]));
 
         $access_manager = $this->skill_manager->getTreeAccessManager($this->requested_ref_id);
@@ -97,14 +113,14 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock("checkbox");
             $this->tpl->setVariable(
                 "ID",
-                ((int) $a_set["base_skill_id"]) . ":" . ((int) $a_set["tref_id"]) . ":" . ((int) $a_set["level_id"]) .
-                ":" . ((int) $a_set["order_nr"])
+                ($a_set["base_skill_id"]) . ":" . ($a_set["tref_id"]) . ":" . ($a_set["level_id"]) .
+                ":" . ($a_set["order_nr"])
             );
-            $this->tpl->setVariable("SKILL_ID", (int) $a_set["base_skill_id"]);
-            $this->tpl->setVariable("TREF_ID", (int) $a_set["tref_id"]);
+            $this->tpl->setVariable("SKILL_ID", $a_set["base_skill_id"]);
+            $this->tpl->setVariable("TREF_ID", $a_set["tref_id"]);
             $this->tpl->parseCurrentBlock();
             $this->tpl->setCurrentBlock("order");
-            $this->tpl->setVariable("ORDER_NR", (int) $a_set["order_nr"]);
+            $this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);
             $this->tpl->parseCurrentBlock();
         }
     }

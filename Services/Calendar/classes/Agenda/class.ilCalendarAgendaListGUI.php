@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Item\Item;
 
@@ -28,15 +44,26 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         $this->initEndPeriod();
     }
 
-    protected function initPeriod() : void
+    protected function initCalendarPeriodFromRequest(): int
+    {
+        if ($this->http->wrapper()->query()->has('cal_agenda_per')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'cal_agenda_per',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initPeriod(): void
     {
         global $DIC;
 
         $cal_setting = ilCalendarSettings::_getInstance();
 
-        $qp = $DIC->http()->request()->getQueryParams();
-        if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
-            $this->period = $qp["cal_agenda_per"];
+        $calendar_period = $this->initCalendarPeriodFromRequest();
+        if ($calendar_period > 0 && $calendar_period <= 4) {
+            $this->period = $calendar_period;
         } elseif (!empty($this->user->getPref('cal_list_view'))) {
             $this->period = intval($this->user->getPref('cal_list_view'));
         } else {
@@ -48,7 +75,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
     /**
      * Initialises end date for calendar list view
      */
-    protected function initEndPeriod() : void
+    protected function initEndPeriod(): void
     {
         $end_date = clone $this->seed;
         switch ($this->period) {
@@ -71,7 +98,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         $this->period_end_day = $end_date->get(IL_CAL_DATE);
     }
 
-    public function executeCommand() : ?string
+    public function executeCommand(): ?string
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("getHTML");
@@ -79,10 +106,13 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         switch ($next_class) {
             case "ilcalendarappointmentpresentationgui":
                 $this->ctrl->setReturn($this, "");
-                $gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate(
-                    $this->seed->get(IL_CAL_DATE),
-                    IL_CAL_DATE
-                ), $this->getCurrentApp());
+                $gui = ilCalendarAppointmentPresentationGUI::_getInstance(
+                    new ilDate(
+                        $this->seed->get(IL_CAL_DATE),
+                        IL_CAL_DATE
+                    ),
+                    (array) $this->getCurrentApp()
+                );
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -92,10 +122,10 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
                     return $this->$cmd();
                 }
         }
-        return null;
+        return '';
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $navigation = new ilCalendarHeaderNavigationGUI(
             $this,
@@ -175,8 +205,6 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
             $cat_id = ilCalendarCategoryAssignments::_lookupCategory($e["event"]->getEntryId());
             $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
 
-            $properties = array();
-
             /*TODO:
              * All this code related with the ctrl and shy button can be centralized in
              * ilCalendarViewGUI refactoring the method getAppointmentShyButton or
@@ -188,9 +216,11 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
             $this->ctrl->setParameter($this, 'dt', $e['dstart']);
             $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
 
+
             $url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
             $this->ctrl->setParameter($this, "app_id", $this->initAppointmentIdFromQuery());
-            $this->ctrl->setParameter($this, "dt", $this->initInitialDateFromQuery());
+            $this->ctrl->setParameter($this, "dt", $this->initInitialDateTimeFromQuery());
+            $this->ctrl->setParameter($this, "idate", (new ilDate(time(), IL_CAL_UNIX))->get(IL_CAL_DATE));
 
             $modal_title = '';
             if ($this->http->wrapper()->query()->has('modal_title')) {
@@ -215,7 +245,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
             $li = $this->ui_factory->item()->standard($shy)
                                    ->withDescription("" . nl2br(strip_tags($e["event"]->getDescription())))
                                    ->withLeadText($lead_text)
-                                   ->withProperties($properties)
+                                   ->withProperties([])
                                    ->withColor($df->color('#' . $cat_info["color"]));
 
             if ($li_edited_by_plugin = $this->getPluginAgendaItem($li, $e['event'])) {
@@ -223,10 +253,13 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
             }
 
             // add type specific actions/properties
-            $app_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate(
-                $this->seed->get(IL_CAL_DATE),
-                IL_CAL_DATE
-            ), $e);
+            $app_gui = ilCalendarAppointmentPresentationGUI::_getInstance(
+                new ilDate(
+                    $this->seed->get(IL_CAL_DATE),
+                    IL_CAL_DATE
+                ),
+                $e
+            );
             $app_gui->setListItemMode($li);
             $this->ctrl->getHTML($app_gui);
             $items[] = $app_gui->getListItem();
@@ -242,14 +275,8 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         // list actions
         $images = array_fill(1, 4, "<span class=\"ilAdvNoImg\"></span>");
 
-        $cal_agenda_per = 0;
-        if ($this->http->wrapper()->query()->has('cal_agenda_per')) {
-            $cal_agenda_per = $this->http->wrapper()->query()->retrieve(
-                'cal_agenda_per',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        if ($cal_agenda_per = (int) $cal_agenda_per) {
+        $cal_agenda_per = $this->initCalendarPeriodFromRequest();
+        if ($cal_agenda_per > 0) {
             $images[$cal_agenda_per] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
         } else {
             $images[$this->period] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
@@ -258,7 +285,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         #21479 Set seed if the view does not contain any event.
         $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
 
-        $items = array();
+        $items = [];
         $this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_DAY);
         $items[] = $this->ui_factory->button()->shy(
             $images[1] . "1 " . $this->lng->txt("day"),
@@ -281,7 +308,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         );
         $this->ctrl->setParameter($this, "cal_agenda_per", $this->period);
 
-        $actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("days"));
+        $actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("cal_period"));
 
         $list_title =
             $this->lng->txt("cal_agenda") . ": " . ilDatePresentation::formatDate(new ilDate(
@@ -296,19 +323,15 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
         $list = $this->ui_factory->panel()->listing()->standard($list_title, $groups)
                                  ->withActions($actions);
-
         $comps = array_merge($modals, array($list));
-
         $html = $this->ui_renderer->render($comps);
-
         if (count($groups) == 0) {
             $html .= ilUtil::getSystemMessageHTML($this->lng->txt("cal_no_events_info"));
         }
-
         return $html;
     }
 
-    public function getPluginAgendaItem(Item $a_item, ilCalendarEntry $appointment) : ?Item
+    public function getPluginAgendaItem(Item $a_item, ilCalendarEntry $appointment): ?Item
     {
         //"capg" is the plugin slot id for AppointmentCustomGrid
         $li = null;
@@ -324,16 +347,17 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
      * needed in CalendarInboxGUI to get events using a proper period.
      * todo define default period only once (self::PERIOD_WEEK, protected $period = self::PERIOD_WEEK)
      */
-    public static function getPeriod() : int
+    public static function getPeriod(): int
     {
         global $DIC;
 
         $user = $DIC->user();
 
         $settings = ilCalendarSettings::_getInstance();
-        $qp = $DIC->http()->request()->getQueryParams();
-        if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
-            return $qp["cal_agenda_per"];
+
+        $calendar_agenda_period = (int) ($DIC->http()->request()->getQueryParams()['cal_agenda_per'] ?? 0);
+        if ($calendar_agenda_period > 0 && $calendar_agenda_period <= 4) {
+            return $calendar_agenda_period;
         } elseif ($period = $user->getPref('cal_list_view')) {
             return (int) $period;
         } else {

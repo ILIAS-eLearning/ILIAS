@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,11 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilSamlIdpSelectionTableGUI
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlIdpSelectionTableGUI extends ilTable2GUI
+final class ilSamlIdpSelectionTableGUI extends ilTable2GUI
 {
     public function __construct(object $parent_gui, string $parent_cmd)
     {
@@ -33,7 +35,7 @@ class ilSamlIdpSelectionTableGUI extends ilTable2GUI
         $this->disable('numinfo');
         $this->setLimit(PHP_INT_MAX);
         $this->setShowRowsSelector(false);
-        
+
         $this->setTitle($this->lng->txt('auth_saml_idp_selection_table_title'));
         $this->setDescription($this->lng->txt('auth_saml_idp_selection_table_desc'));
 

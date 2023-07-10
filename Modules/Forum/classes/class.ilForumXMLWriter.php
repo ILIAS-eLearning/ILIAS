@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * XML writer class
  * Class to simplify manual writing of xml documents.
@@ -32,23 +34,18 @@ class ilForumXMLWriter extends ilXmlWriter
     private ?string $target_dir_relative;
     private ?string $target_dir_absolute;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function setForumId(int $id) : void
+    public function setForumId(int $id): void
     {
         $this->forum_id = $id;
     }
 
-    public function setFileTargetDirectories(string $a_rel, string $a_abs) : void
+    public function setFileTargetDirectories(string $a_rel, string $a_abs): void
     {
         $this->target_dir_relative = $a_rel;
         $this->target_dir_absolute = $a_abs;
     }
 
-    public function start() : bool
+    public function start(): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -77,12 +74,12 @@ class ilForumXMLWriter extends ilXmlWriter
         $this->xmlElement("Pseudonyms", null, (int) $row->anonymized);
         $this->xmlElement("Statistics", null, (int) $row->statistics_enabled);
         $this->xmlElement("ThreadRatings", null, (int) $row->thread_rating);
-        $this->xmlElement("Sorting", null, (int) $row->thread_sorting);
         $this->xmlElement("MarkModeratorPosts", null, (int) $row->mark_mod_posts);
         $this->xmlElement("PostingActivation", null, (int) $row->post_activation);
         $this->xmlElement("PresetSubject", null, (int) $row->preset_subject);
         $this->xmlElement("PresetRe", null, (int) $row->add_re_subject);
         $this->xmlElement("NotificationType", null, $row->notification_type);
+        $this->xmlElement("NotificationEvents", null, (int) $row->interested_events);
         $this->xmlElement("ForceNotification", null, (int) $row->admin_force_noti);
         $this->xmlElement("ToggleNotification", null, (int) $row->user_toggle_noti);
         $this->xmlElement("LastPost", null, $row->top_last_post);
@@ -151,7 +148,7 @@ class ilForumXMLWriter extends ilXmlWriter
                 $this->xmlElement("isAuthorModerator", null, $is_moderator_string);
 
                 $media_exists = false;
-                $mobs = ilObjMediaObject::_getMobsOfObject('frm:html', $rowPost->pos_pk);
+                $mobs = ilObjMediaObject::_getMobsOfObject('frm:html', (int) $rowPost->pos_pk);
                 foreach ($mobs as $mob) {
                     $moblabel = "il_" . IL_INST_ID . "_mob_" . $mob;
                     if (ilObjMediaObject::_exists($mob)) {
@@ -184,16 +181,13 @@ class ilForumXMLWriter extends ilXmlWriter
                     (int) $rowPost->pos_pk
                 );
 
-                if (count($tmp_file_obj->getFilesOfPost())) {
-                    foreach ($tmp_file_obj->getFilesOfPost() as $file) {
-                        $this->xmlStartTag("Attachment");
+                foreach ($tmp_file_obj->getFilesOfPost() as $file) {
+                    $this->xmlStartTag("Attachment");
+                    copy($file['path'], $this->target_dir_absolute . "/" . basename($file['name']));
+                    $content = $this->target_dir_relative . "/" . basename($file['name']);
+                    $this->xmlElement("Content", null, $content);
 
-                        copy($file['path'], $this->target_dir_absolute . "/" . basename($file['path']));
-                        $content = $this->target_dir_relative . "/" . basename($file['path']);
-                        $this->xmlElement("Content", null, $content);
-
-                        $this->xmlEndTag("Attachment");
-                    }
+                    $this->xmlEndTag("Attachment");
                 }
 
                 $this->xmlEndTag("Post");
@@ -205,7 +199,7 @@ class ilForumXMLWriter extends ilXmlWriter
         return true;
     }
 
-    public function getXML() : string
+    public function getXML(): string
     {
         // Replace ascii code 11 characters because of problems with xml sax parser
         return str_replace('&#11;', '', $this->xmlDumpMem(false));

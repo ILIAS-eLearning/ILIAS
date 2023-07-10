@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\AgentFinder;
@@ -57,7 +59,7 @@ class UpdateCommand extends Command
         $this->preconditions = $preconditions;
     }
 
-    protected function configure() : void
+    protected function configure(): void
     {
         $this->setDescription("Updates an existing ILIAS installation");
         $this->addArgument("config", InputArgument::OPTIONAL, "Configuration file for the update");
@@ -67,7 +69,7 @@ class UpdateCommand extends Command
         $this->configureCommandForPlugins();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // ATTENTION: This is a hack to get around the usage of the echo/exit pattern in
         // the setup for the command line version of the setup. Do not use this.

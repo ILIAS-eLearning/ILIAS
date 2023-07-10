@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Booking preferences. Reflects the booking preferences of one
@@ -42,7 +41,7 @@ class ilBookingPreferences
             if ($user_id > 0 && is_array($obj_ids)) {
                 foreach ($obj_ids as $obj_id) {
                     if (!isset($this->preferences[$user_id]) || !in_array($obj_id, $this->preferences[$user_id])) {
-                        $this->preferences[$user_id][] = $obj_id;
+                        $this->preferences[$user_id][] = (int) $obj_id;
                     }
                 }
             }
@@ -53,7 +52,7 @@ class ilBookingPreferences
      * Get user preferences
      * @return int[][]
      */
-    public function getPreferences() : array
+    public function getPreferences(): array
     {
         return $this->preferences;
     }

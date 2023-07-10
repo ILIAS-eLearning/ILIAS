@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Nadia Ahmad
  * @version $Id$
@@ -23,12 +25,9 @@
 class ilMailForm
 {
     /**
-     * @param string $quotedTerm
-     * @param string $term
-     * @param bool $doRecipientSearch
      * @return array{hasMoreResults: bool, items: array}
      */
-    public function getRecipientAsync(string $quotedTerm, string $term, bool $doRecipientSearch = true) : array
+    public function getRecipientAsync(string $quotedTerm, string $term, bool $doRecipientSearch = true): array
     {
         global $DIC;
 

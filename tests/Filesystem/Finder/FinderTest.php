@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Data\DataSize;
 use ILIAS\Filesystem;
@@ -6,27 +24,16 @@ use ILIAS\Filesystem\Finder\Finder;
 use ILIAS\Filesystem\MetadataType;
 use PHPUnit\Framework\TestCase;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
-
+/**
+ * @author                 Michael Jansen <mjansen@databay.de>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
+ */
 class FinderTest extends TestCase
 {
     /**
-     * @return Filesystem\Filesystem
      * @throws ReflectionException
      */
-    private function getFlatFileSystemStructure() : Filesystem\Filesystem
+    private function getFlatFileSystemStructure(): \PHPUnit\Framework\MockObject\MockObject
     {
         $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
 
@@ -51,10 +58,9 @@ class FinderTest extends TestCase
     }
 
     /**
-     * @return Filesystem\Filesystem
      * @throws ReflectionException
      */
-    private function getNestedFileSystemStructure() : Filesystem\Filesystem
+    private function getNestedFileSystemStructure(): \PHPUnit\Framework\MockObject\MockObject
     {
         $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
 
@@ -92,7 +98,8 @@ class FinderTest extends TestCase
             ) {
                 if ('/' === $path) {
                     return $rootMetadata;
-                } elseif ('dir_1' === $path) {
+                }
+                if ('dir_1' === $path) {
                     return $level1Metadata;
                 } elseif ('dir_1/dir_1_1' === $path) {
                     return $level11Metadata;
@@ -109,7 +116,7 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFinderWillFindNoFilesOrFoldersInAnEmptyDirectory() : void
+    public function testFinderWillFindNoFilesOrFoldersInAnEmptyDirectory(): void
     {
         $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
 
@@ -125,7 +132,7 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFinderWillFindFilesAndFoldersInFlatStructure() : void
+    public function testFinderWillFindFilesAndFoldersInFlatStructure(): void
     {
         $finder = (new Finder($this->getFlatFileSystemStructure()))->in(['/']);
 
@@ -137,7 +144,7 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFinderWillFindFilesAndFoldersInNestedStructure() : void
+    public function testFinderWillFindFilesAndFoldersInNestedStructure(): void
     {
         $finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
 
@@ -149,7 +156,7 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFinderWillFindFilesAndFoldersForACertainDirectoryDepth() : void
+    public function testFinderWillFindFilesAndFoldersForACertainDirectoryDepth(): void
     {
         $finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
 
@@ -187,7 +194,7 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFinderWillNotSearchInExcludedFolders() : void
+    public function testFinderWillNotSearchInExcludedFolders(): void
     {
         $finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
 
@@ -203,10 +210,9 @@ class FinderTest extends TestCase
     }
 
     /**
-     * @return Filesystem\Filesystem
      * @throws ReflectionException
      */
-    public function testFinderWillFilterFilesAndFoldersByCreationTimestamp() : Filesystem\Filesystem
+    public function testFinderWillFilterFilesAndFoldersByCreationTimestamp(): Filesystem\Filesystem
     {
         $now = new \DateTimeImmutable('2019-03-30 13:00:00');
 
@@ -216,38 +222,23 @@ class FinderTest extends TestCase
         $fs
             ->expects($this->atLeast(1))
             ->method('getTimestamp')
-            ->willReturnCallback(function ($path) use ($now) : \DateTimeImmutable {
-                switch ($path) {
-                    case'file_1.txt':
-                        return $now;
-
-                    case 'file_2.mp3':
-                        return $now->modify('+1 hour');
-
-                    case 'dir_1/file_3.log':
-                        return $now->modify('+2 hour');
-
-                    case 'dir_1/file_4.php':
-                        return $now->modify('+3 hour');
-
-                    case 'dir_1/dir_1_1/file_5.cpp':
-                        return $now->modify('+4 hour');
-
-                    case 'dir_1/dir_1_2/file_6.py':
-                        return $now->modify('+5 hour');
-
-                    case 'dir_1/dir_1_2/file_7.cpp':
-                        return $now->modify('+6 hour');
-
-                    default:
-                        return new \DateTimeImmutable('now');
-                }
+            ->willReturnCallback(function ($path) use ($now): \DateTimeImmutable {
+                return match ($path) {
+                    'file_1.txt' => $now,
+                    'file_2.mp3' => $now->modify('+1 hour'),
+                    'dir_1/file_3.log' => $now->modify('+2 hour'),
+                    'dir_1/file_4.php' => $now->modify('+3 hour'),
+                    'dir_1/dir_1_1/file_5.cpp' => $now->modify('+4 hour'),
+                    'dir_1/dir_1_2/file_6.py' => $now->modify('+5 hour'),
+                    'dir_1/dir_1_2/file_7.cpp' => $now->modify('+6 hour'),
+                    default => new \DateTimeImmutable('now'),
+                };
             });
 
         $finder = (new Finder($fs))->in(['/']);
 
         for ($i = 1; $i <= 7; $i++) {
-            $this->assertCount(8 - $i, $finder->date('>= 2019-03-30 1' . (string) (2 + $i) . ':00')->files());
+            $this->assertCount(8 - $i, $finder->date('>= 2019-03-30 1' . (2 + $i) . ':00')->files());
         }
         $this->assertCount(3, $finder->date('>= 2019-03-30 15:00 + 2hours')->files());
         $this->assertCount(2, $finder->date('> 2019-03-30 15:00 + 2hours')->files());
@@ -262,39 +253,24 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFinderWillFilterFilesBySize() : void
+    public function testFinderWillFilterFilesBySize(): void
     {
         $fs = $this->getNestedFileSystemStructure();
         $fs->method('has')->willReturn(true);
 
         $fs->expects($this->atLeast(1))
             ->method('getSize')
-            ->willReturnCallback(function ($path) : \ILIAS\Data\DataSize {
-                switch ($path) {
-                    case'file_1.txt':
-                        return new DataSize(PHP_INT_MAX, DataSize::Byte);
-
-                    case 'file_2.mp3':
-                        return new DataSize(1024, DataSize::Byte);
-
-                    case 'dir_1/file_3.log':
-                        return new DataSize(1024 * 1024 * 1024, DataSize::Byte);
-
-                    case 'dir_1/file_4.php':
-                        return new DataSize(1024 * 1024 * 127, DataSize::Byte);
-
-                    case 'dir_1/dir_1_1/file_5.cpp':
-                        return new DataSize(1024 * 7, DataSize::Byte);
-
-                    case 'dir_1/dir_1_2/file_6.py':
-                        return new DataSize(1024 * 100, DataSize::Byte);
-
-                    case 'dir_1/dir_1_2/file_7.cpp':
-                        return new DataSize(1, DataSize::Byte);
-
-                    default:
-                        return new DataSize(0, DataSize::Byte);
-                }
+            ->willReturnCallback(function ($path): \ILIAS\Data\DataSize {
+                return match ($path) {
+                    'file_1.txt' => new DataSize(PHP_INT_MAX, DataSize::Byte),
+                    'file_2.mp3' => new DataSize(1024, DataSize::Byte),
+                    'dir_1/file_3.log' => new DataSize(1024 * 1024 * 1024, DataSize::Byte),
+                    'dir_1/file_4.php' => new DataSize(1024 * 1024 * 127, DataSize::Byte),
+                    'dir_1/dir_1_1/file_5.cpp' => new DataSize(1024 * 7, DataSize::Byte),
+                    'dir_1/dir_1_2/file_6.py' => new DataSize(1024 * 100, DataSize::Byte),
+                    'dir_1/dir_1_2/file_7.cpp' => new DataSize(1, DataSize::Byte),
+                    default => new DataSize(0, DataSize::Byte),
+                };
             });
 
         $finder = (new Finder($fs))->in(['/']);
@@ -310,10 +286,9 @@ class FinderTest extends TestCase
     }
 
     /**
-     * @param Filesystem\Filesystem $fs
      * @depends testFinderWillFilterFilesAndFoldersByCreationTimestamp
      */
-    public function testSortingWorksAsExpected(Filesystem\Filesystem $fs) : void
+    public function testSortingWorksAsExpected(Filesystem\Filesystem $fs): void
     {
         $finder = (new Finder($fs))->in(['/']);
 
@@ -329,7 +304,7 @@ class FinderTest extends TestCase
         $this->assertEquals('dir_1', $finder->sortByType()->getIterator()->current()->getPath());
         $this->assertEquals('file_2.mp3', $finder->sortByType()->reverseSorting()->getIterator()->current()->getPath());
 
-        $customSortFinder = $finder->sort(function (Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right) : int {
+        $customSortFinder = $finder->sort(function (Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right): int {
             if ('dir_1/dir_1_1/file_5.cpp' === $left->getPath()) {
                 return -1;
             }

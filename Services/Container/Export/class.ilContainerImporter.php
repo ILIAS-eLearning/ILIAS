@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * container xml importer
@@ -22,23 +25,27 @@ class ilContainerImporter extends ilXmlImporter
 {
     private string $structure_xml;
     protected ilLogger $cont_log;
+    protected \ILIAS\Skill\Service\SkillProfileService $skill_profile_service;
 
-    public function init() : void
+    public function init(): void
     {
+        global $DIC;
+
         $this->cont_log = ilLoggerFactory::getLogger('cont');
+        $this->skill_profile_service = $DIC->skills()->profile();
     }
-    
+
     /**
      * Import XML
      *
      * @inheritdoc
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         $this->structure_xml = $a_xml;
         $this->cont_log->debug('Import xml: ' . $a_xml);
         $this->cont_log->debug('Using id: ' . $a_id);
-        
+
         $parser = new ilContainerXmlParser($a_mapping, trim($a_xml));
         $parser->parse($a_id);
     }
@@ -46,7 +53,7 @@ class ilContainerImporter extends ilXmlImporter
     /**
      * @inheritdoc
      */
-    public function finalProcessing(ilImportMapping $a_mapping) : void
+    public function finalProcessing(ilImportMapping $a_mapping): void
     {
         $this->handleOfflineStatus($this->structure_xml, $a_mapping);
         // pages
@@ -64,7 +71,7 @@ class ilContainerImporter extends ilXmlImporter
                 $this->cont_log->debug('write parent id, type: ' . $pg_type . ", page id: " . $new_pg_id . ", parent id: " . $new_obj_id);
             }
         }
-        
+
         // style
         $sty_map = $a_mapping->getMappingsOfEntity('Services/Style', 'sty');
         foreach ($sty_map as $old_sty_id => $new_sty_id) {
@@ -83,16 +90,19 @@ class ilContainerImporter extends ilXmlImporter
 
         $skl_local_prof_map = $a_mapping->getMappingsOfEntity('Services/Skill', 'skl_local_prof');
         foreach ($skl_local_prof_map as $old_prof_id => $new_prof_id) {
-            $prof = new ilSkillProfile((int) $new_prof_id);
-            $prof->updateRefIdAfterImport((int) $new_crs_ref_id);
-            $prof->addRoleToProfile(ilParticipants::getDefaultMemberRole((int) $new_crs_ref_id));
+            $this->skill_profile_service->updateProfileRefIdAfterImport((int) $new_prof_id, (int) $new_crs_ref_id);
+            $this->skill_profile_service->addRoleToProfile(
+                (int) $new_prof_id,
+                ilParticipants::getDefaultMemberRole((int) $new_crs_ref_id)
+            );
         }
     }
 
-    protected function handleOfflineStatus(string $xml, ilImportMapping $mapping) : void
+    protected function handleOfflineStatus(string $xml, ilImportMapping $mapping): void
     {
-        libxml_use_internal_errors(true);
+        $use_internal_errors = libxml_use_internal_errors(true);
         $root = simplexml_load_string($xml);
+        libxml_use_internal_errors($use_internal_errors);
         if ($root === false) {
             $errors = '';
             foreach (libxml_get_errors() as $err) {
@@ -126,14 +136,15 @@ class ilContainerImporter extends ilXmlImporter
                 if ($this->isRootNode($obj->getRefId(), $mapping)) {
                     $obj->setOfflineStatus(true);
                 } else {
-                    $obj->setOfflineStatus(false);
+                    // use the offline status of the imported XML file and set the offline status for the new container objects accordingly
+                    $obj->setOfflineStatus(!((string) $offline === "0"));
                 }
                 $obj->update();
             }
         }
     }
 
-    protected function isRootNode(int $ref_id, ilImportMapping $mapping) : bool
+    protected function isRootNode(int $ref_id, ilImportMapping $mapping): bool
     {
         global $DIC;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilObjFolderListGUI extends ilObjectListGUI
 {
     protected StandardGUIRequest $folder_request;
 
-    public function init() : void
+    public function init(): void
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
@@ -48,10 +50,10 @@ class ilObjFolderListGUI extends ilObjectListGUI
             ->standardRequest();
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         $ilCtrl = $this->ctrl;
-        
+
         // BEGIN WebDAV: Mount webfolder.
         switch ($cmd) {
             default:
@@ -74,7 +76,7 @@ class ilObjFolderListGUI extends ilObjectListGUI
                 );
                 break;
         }
-        
+
         return $cmd_link;
     }
 }

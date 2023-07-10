@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
  * Table GUI for ecs trees
@@ -48,7 +51,7 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
     /**
      * Get setting
      */
-    public function getServer() : \ilECSSetting
+    public function getServer(): \ilECSSetting
     {
         return ilECSSetting::getInstanceByServerId($this->server_id);
     }
@@ -56,7 +59,7 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
     /**
      * Get mid
      */
-    public function getMid() : int
+    public function getMid(): int
     {
         return $this->mid;
     }
@@ -65,7 +68,7 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
      * Fill row
      * @param array $a_set
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         // show title if available
         if ($a_set['term']) {
@@ -82,12 +85,12 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
         $list->setItemLinkClass('small');
         $list->setId('actl_' . $a_set['id']);
         $list->setListTitle($this->lng->txt('actions'));
-        
+
         $this->ctrl->setParameter($this->getParentObject(), 'tid', $a_set['id']);
         $this->tpl->setVariable('EDIT_TITLE', $this->ctrl->getLinkTarget($this->getParentObject(), 'dInitEditTree'));
-        
+
         $list->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'dInitEditTree'));
-        
+
         if ($a_set['status'] !== ilECSMappingUtils::MAPPED_UNMAPPED &&
                 ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(), $this->getMid())->isDirectoryMappingEnabled()) {
             $list->addItem(
@@ -96,7 +99,7 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
                 $this->ctrl->getLinkTarget($this->getParentObject(), 'dSynchronizeTree')
             );
         }
-        
+
         $list->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'dConfirmDeleteTree'));
         $this->tpl->setVariable('ACTIONS', $list->getHTML());
 
@@ -106,7 +109,7 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
     /**
      * Parse campusconnect
      */
-    public function parse() : void
+    public function parse(): void
     {
         $data = array();
         $counter = 0;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,8 +29,13 @@ class ilSkillAppEventListener implements ilAppEventListener
     /**
      * @inheritDoc
      */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
+        global $DIC;
+
+        $profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
+        $personal_manager = $DIC->skills()->internal()->manager()->getPersonalSkillManager();
+
         switch ($a_component) {
             case 'Services/Tracking':
                 switch ($a_event) {
@@ -46,15 +53,14 @@ class ilSkillAppEventListener implements ilAppEventListener
                                     );
 
                                     if ($sk["tref_id"] > 0) {
-                                        ilPersonalSkill::addPersonalSkill($usr_id, $sk["tref_id"]);
+                                        $personal_manager->addPersonalSkill($usr_id, $sk["tref_id"]);
                                     } else {
-                                        ilPersonalSkill::addPersonalSkill($usr_id, $sk["base_skill_id"]);
+                                        $personal_manager->addPersonalSkill($usr_id, $sk["base_skill_id"]);
                                     }
                                 }
                             }
                             //write profile completion entries if fulfilment status has changed
-                            $prof_manager = new ilSkillProfileCompletionManager($usr_id);
-                            $prof_manager->writeCompletionEntryForAllProfiles();
+                            $profile_completion_manager->writeCompletionEntryForAllProfiles($usr_id);
                         }
                         break;
                 }
@@ -68,7 +74,6 @@ class ilSkillAppEventListener implements ilAppEventListener
                         break;
                 }
                 break;
-
         }
     }
 }

@@ -1,11 +1,26 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Checks if certain actions can be performed
  * @author Alex Killing <alex.killing@gmx.de>
- * @ingroup
  */
 class ilCalendarActions
 {
@@ -32,9 +47,8 @@ class ilCalendarActions
 
     /**
      * Get instance
-     * @return ilCalendarActions
      */
-    public static function getInstance() : ilCalendarActions
+    public static function getInstance(): ilCalendarActions
     {
         if (!self::$instance instanceof self) {
             self::$instance = new self();
@@ -45,30 +59,30 @@ class ilCalendarActions
     /**
      * Check calendar editing
      */
-    public function checkSettingsCal(int $a_cat_id) : bool
+    public function checkSettingsCal(int $a_cat_id): bool
     {
         $info = $this->cats->getCategoryInfo($a_cat_id);
-        return (bool) $info['accepted'];
+        return (bool) ($info['settings'] ?? false);
     }
 
     /**
      * Check sharing (own) calendar
      */
-    public function checkShareCal(int $a_cat_id) : bool
+    public function checkShareCal(int $a_cat_id): bool
     {
         $info = $this->cats->getCategoryInfo($a_cat_id);
         return
-            $info['type'] == ilCalendarCategory::TYPE_USR &&
-            $info['obj_id'] == $this->user_id;
+            ($info['type'] ?? 0) == ilCalendarCategory::TYPE_USR &&
+            ($info['obj_id'] ?? '') == $this->user_id;
     }
 
     /**
      * Check un-sharing (other users) calendar
      */
-    public function checkUnshareCal(int $a_cat_id) : bool
+    public function checkUnshareCal(int $a_cat_id): bool
     {
         $info = $this->cats->getCategoryInfo($a_cat_id);
-        if ($info['accepted']) {
+        if ($info['accepted'] ?? false) {
             return true;
         }
         return false;
@@ -77,10 +91,10 @@ class ilCalendarActions
     /**
      * Check synchronize remote calendar
      */
-    public function checkSynchronizeCal(int $a_cat_id) : bool
+    public function checkSynchronizeCal(int $a_cat_id): bool
     {
         $info = $this->cats->getCategoryInfo($a_cat_id);
-        if ($info['remote']) {
+        if ($info['remote'] ?? false) {
             return true;
         }
         return false;
@@ -89,22 +103,22 @@ class ilCalendarActions
     /**
      * Check if adding an event is possible
      */
-    public function checkAddEvent(int $a_cat_id) : bool
+    public function checkAddEvent(int $a_cat_id): bool
     {
         $info = $this->cats->getCategoryInfo($a_cat_id);
-        return $info['editable'];
+        return $info['editable'] ?? false;
     }
 
     /**
      * Check if adding an event is possible
      */
-    public function checkDeleteCal(int $a_cat_id) : bool
+    public function checkDeleteCal(int $a_cat_id): bool
     {
         $info = $this->cats->getCategoryInfo($a_cat_id);
-        if ($info['type'] == ilCalendarCategory::TYPE_USR && $info['obj_id'] == $this->user_id) {
+        if (($info['type'] ?? 0) == ilCalendarCategory::TYPE_USR && ($info['obj_id'] ?? 0) == $this->user_id) {
             return true;
         }
-        if ($info['type'] == ilCalendarCategory::TYPE_GLOBAL && $info['settings']) {
+        if (($info['type'] ?? 0) == ilCalendarCategory::TYPE_GLOBAL && ($info['settings'] ?? false)) {
             return true;
         }
         return false;

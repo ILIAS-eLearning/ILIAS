@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -30,7 +32,7 @@ class PositiveInteger
         $this->value = $value;
     }
 
-    public function getValue() : int
+    public function getValue(): int
     {
         return $this->value;
     }

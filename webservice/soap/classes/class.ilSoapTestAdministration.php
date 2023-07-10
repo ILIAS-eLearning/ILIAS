@@ -31,7 +31,7 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapTestAdministration extends ilSoapAdministration
 {
-    private function hasWritePermissionForTest(int $active_id) : bool
+    private function hasWritePermissionForTest(int $active_id): bool
     {
         global $DIC;
 
@@ -59,7 +59,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         return $permission_ok;
     }
 
-    public function isAllowedCall(string $sid, int $active_id, bool $saveaction = true) : bool
+    public function isAllowedCall(string $sid, int $active_id, bool $saveaction = true): bool
     {
         global $DIC;
 
@@ -108,6 +108,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
         return (int) $row['user_fi'] === $ilUser->getId();
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function saveQuestion(string $sid, int $active_id, int $question_id, int $pass, array $solution)
     {
         $this->initAuth($sid);
@@ -195,7 +198,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
     }
 
     /**
-     * Save the solution of a question
+     * @return soap_fault|SoapFault|string|null
      */
     public function saveQuestionSolution(string $sid, int $active_id, int $question_id, int $pass, int $solution)
     {
@@ -268,7 +271,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
     }
 
     /**
-     * Get the the answers of a given question and pass for a given user
+     * @return array|soap_fault|SoapFault|null
      */
     public function getQuestionSolution(string $sid, int $active_id, int $question_id, int $pass)
     {
@@ -330,6 +333,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
         return $solution;
     }
 
+    /**
+     * @return array|soap_fault|SoapFault|null
+     */
     public function getTestUserData(string $sid, int $active_id)
     {
         $this->initAuth($sid);
@@ -397,7 +403,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
     }
 
     /**
-     * get active user data
+     * @return false|int|soap_fault|SoapFault|string|null
      */
     public function getPositionOfQuestion(string $sid, int $active_id, int $question_id, int $pass)
     {
@@ -433,7 +439,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
     }
 
     /**
-     * Returns the previous reached points in a given pass
+     * @return array|int|soap_fault|SoapFault|null
      */
     public function getPreviousReachedPoints(string $sid, int $active_id, int $question_id, int $pass)
     {
@@ -489,6 +495,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
         return $pointsforposition;
     }
 
+    /**
+     * @return int|soap_fault|SoapFault|null
+     */
     public function getNrOfQuestionsInPass(string $sid, int $active_id, int $pass)
     {
         $this->initAuth($sid);
@@ -522,6 +531,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
         return $sequence->getUserQuestionCount();
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function removeTestResults(string $sid, int $test_ref_id, array $a_user_ids)
     {
         $this->initAuth($sid);
@@ -583,11 +595,8 @@ class ilSoapTestAdministration extends ilSoapAdministration
     }
 
     /**
-     * get results of test
-     *    sum only = true: user_id, login, firstname, lastname, matriculation, maximum points, received points
-     *  sum only = false: user_id, login, firstname, lastname, matriculation, question id, question title, question points, received points
+     * @return soap_fault|SoapFault|string|null
      */
-
     public function getTestResults(string $sid, int $test_ref_id, bool $sum_only)
     {
         $this->initAuth($sid);
@@ -660,8 +669,10 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $participantList = new ilTestParticipantList($test_obj);
         $participantList->initializeFromDbRows($participants);
         $participantList = $participantList->getAccessFilteredList($accessFilter);
+        $participantList = $participantList->getScoredParticipantList();
         foreach ($participants as $activeId => $part) {
             if ($participantList->isActiveIdInList($activeId)) {
+                $participants[$activeId]['passed'] = $participantList->getParticipantByActiveId($activeId)->getScoring()->isPassed();
                 continue;
             }
 
@@ -673,7 +684,8 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
             $xmlResultSet->addColumn("maximum_points");
             $xmlResultSet->addColumn("received_points");
-
+            $xmlResultSet->addColumn("passed");
+            // skip titles
             $titles = array_shift($data);
             foreach ($data as $row) {
                 $xmlRow = new ilXMLResultSetRow();
@@ -684,6 +696,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 $xmlRow->setValue(4, $row["matriculation"]);
                 $xmlRow->setValue(5, $row["max_points"]);
                 $xmlRow->setValue(6, $row["reached_points"]);
+                $xmlRow->setValue(7, $row["passed"]);
                 $xmlResultSet->addRow($xmlRow);
             }
         } else {
@@ -693,6 +706,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             $xmlResultSet->addColumn("question_title");
             $xmlResultSet->addColumn("maximum_points");
             $xmlResultSet->addColumn("received_points");
+            $xmlResultSet->addColumn("passed");
             foreach ($data as $row) {
                 $xmlRow = new ilXMLResultSetRow();
                 $xmlRow->setValue(0, $row["user_id"]);
@@ -704,6 +718,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 $xmlRow->setValue(6, $row["question_title"]);
                 $xmlRow->setValue(7, $row["max_points"]);
                 $xmlRow->setValue(8, $row["reached_points"]);
+                $xmlRow->setValue(9, $row["passed"]);
                 $xmlResultSet->addRow($xmlRow);
             }
         }
@@ -713,17 +728,17 @@ class ilSoapTestAdministration extends ilSoapAdministration
         return $xmlWriter->getXML();
     }
 
-    protected function checkManageParticipantsAccess(int $refId) : bool
+    protected function checkManageParticipantsAccess(int $refId): bool
     {
         return $this->getTestAccess($refId)->checkManageParticipantsAccess();
     }
 
-    protected function checkParticipantsResultsAccess(int $refId) : bool
+    protected function checkParticipantsResultsAccess(int $refId): bool
     {
         return $this->getTestAccess($refId)->checkParticipantsResultsAccess();
     }
 
-    protected function getTestAccess(int $refId) : ilTestAccess
+    protected function getTestAccess(int $refId): ilTestAccess
     {
         require_once 'Modules/Test/classes/class.ilTestAccess.php';
 

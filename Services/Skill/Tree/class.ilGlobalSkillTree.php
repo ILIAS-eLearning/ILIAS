@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,7 +30,7 @@ class ilGlobalSkillTree extends ilSkillTree
 {
     protected SkillTreeManager $skill_tree_manager;
     protected SkillTreeFactory $skill_tree_factory;
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected ilSkillTreeRepository $tree_repo;
 
     public function __construct()
     {
@@ -43,7 +45,7 @@ class ilGlobalSkillTree extends ilSkillTree
     /**
      * @return array{child: int, parent: int}
      */
-    public function getNodeData(int $a_node_id, ?int $a_tree_pk = null) : array
+    public function getNodeData(int $a_node_id, ?int $a_tree_pk = null): array
     {
         if ($a_node_id == 0) {
             return $this->getRootNode();
@@ -54,7 +56,7 @@ class ilGlobalSkillTree extends ilSkillTree
     /**
      * @return array{parent: int, depth: int, obj_id: int, child: int}
      */
-    public function getRootNode() : array
+    public function getRootNode(): array
     {
         $root_node = [];
 
@@ -66,7 +68,7 @@ class ilGlobalSkillTree extends ilSkillTree
         return $root_node;
     }
 
-    public function readRootId() : int
+    public function readRootId(): int
     {
         return 0;
     }
@@ -74,7 +76,7 @@ class ilGlobalSkillTree extends ilSkillTree
     /**
      * @return array{child: int, parent: int}[]
      */
-    public function getChilds(int $a_node_id, string $a_order = "", string $a_direction = "ASC") : array
+    public function getChilds(int $a_node_id, string $a_order = "", string $a_direction = "ASC"): array
     {
         if ($a_node_id == 0) {
             $childs = [];

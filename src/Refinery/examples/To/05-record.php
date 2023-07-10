@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,7 +16,9 @@
  *
  *********************************************************************/
 
-function toRecord() : bool
+declare(strict_types=1);
+
+function toRecord(): bool
 {
     global $DIC;
 

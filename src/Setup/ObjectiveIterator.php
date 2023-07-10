@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 /**
@@ -23,6 +25,7 @@ namespace ILIAS\Setup;
  * can be achieved (i.e. have no further preconditions on their own) will be
  * returned first. Will also attempt to only return every objective once. This thus
  * expects, that returned objectives will be achieved somehow.
+ * @implements \Iterator<string, Objective>
  */
 class ObjectiveIterator implements \Iterator
 {
@@ -59,12 +62,12 @@ class ObjectiveIterator implements \Iterator
         $this->rewind();
     }
 
-    public function setEnvironment(Environment $environment) : void
+    public function setEnvironment(Environment $environment): void
     {
         $this->environment = $environment;
     }
 
-    public function markAsFailed(Objective $objective) : void
+    public function markAsFailed(Objective $objective): void
     {
         if (!isset($this->returned[$objective->getHash()])) {
             throw new \LogicException(
@@ -75,7 +78,7 @@ class ObjectiveIterator implements \Iterator
         $this->failed[$objective->getHash()] = true;
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
         $this->stack = [$this->objective];
         $this->current = null;
@@ -85,7 +88,7 @@ class ObjectiveIterator implements \Iterator
         $this->next();
     }
 
-    public function current() : \ILIAS\Setup\Objective
+    public function current(): \ILIAS\Setup\Objective
     {
         if ($this->current === null) {
             throw new \LogicException(
@@ -95,12 +98,12 @@ class ObjectiveIterator implements \Iterator
         return $this->current;
     }
 
-    public function key()
+    public function key(): string
     {
         return $this->current()->getHash();
     }
 
-    public function next() : void
+    public function next(): void
     {
         if ($this->stack === []) {
             $this->current = null;
@@ -136,8 +139,14 @@ class ObjectiveIterator implements \Iterator
             $this->returned[$hash] = true;
             $this->markAsFailed($cur);
             if ($this->stack === []) {
+                // Since the current objective doesn't need to be achieved,
+                // we are fine and can simply stop here.
+                if ($cur instanceof Objective\Tentatively) {
+                    return;
+                }
                 throw new UnachievableException(
-                    "Objective had failed preconditions."
+                    "Objective '" . $cur->getLabel() . "' had failed preconditions:\n  - " .
+                    implode("\n  - ", array_map(fn ($o) => $o->getLabel(), $failed_preconditions))
                 );
             }
             $this->next();
@@ -160,12 +169,12 @@ class ObjectiveIterator implements \Iterator
         $this->next();
     }
 
-    public function valid() : bool
+    public function valid(): bool
     {
         return $this->current !== null;
     }
 
-    protected function detectDependencyCycles(string $cur, string $next) : void
+    protected function detectDependencyCycles(string $cur, string $next): void
     {
         if (!isset($this->reverse_dependencies[$next])) {
             return;
@@ -180,7 +189,7 @@ class ObjectiveIterator implements \Iterator
         }
     }
 
-    protected function setReverseDependency(string $other, string $cur) : void
+    protected function setReverseDependency(string $other, string $cur): void
     {
         if (!isset($this->reverse_dependencies[$other])) {
             $this->reverse_dependencies[$other] = [];

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,17 +14,18 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-use ILIAS\UI\Component\Dropzone\File\File as FileInterface;
-use ILIAS\UI\Renderer as RenderInterface;
-use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Component\Dropzone\File\File as FileInterface;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Renderer as RenderInterface;
 use LogicException;
 
 /**
@@ -34,7 +35,7 @@ use LogicException;
  */
 class Renderer extends AbstractComponentRenderer
 {
-    public function render(Component $component, RenderInterface $default_renderer) : string
+    public function render(Component $component, RenderInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -47,18 +48,16 @@ class Renderer extends AbstractComponentRenderer
         throw new LogicException("Cannot render '" . get_class($component) . "'");
     }
 
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
-        parent::registerResources($registry);
         $registry->register("./src/UI/templates/js/Dropzone/File/dropzone.js");
+
+        parent::registerResources($registry);
     }
 
-    protected function renderWrapper(Wrapper $dropzone, RenderInterface $default_renderer) : string
+    protected function renderWrapper(Wrapper $dropzone, RenderInterface $default_renderer): string
     {
-        $modal = $this->getUIFactory()->modal()->roundtrip(
-            $dropzone->getTitle(),
-            [$dropzone->getForm()]
-        );
+        $modal = $dropzone->getModal();
 
         $template = $this->getTemplate("tpl.dropzone.html", true, true);
         $template->setVariable('MODAL', $default_renderer->render($modal));
@@ -73,16 +72,15 @@ class Renderer extends AbstractComponentRenderer
         return $template->get();
     }
 
-    protected function renderStandard(Standard $dropzone, RenderInterface $default_renderer) : string
+    protected function renderStandard(Standard $dropzone, RenderInterface $default_renderer): string
     {
-        $modal = $this->getUIFactory()->modal()->roundtrip(
-            $dropzone->getTitle(),
-            [$dropzone->getForm()]
-        );
+        $modal = $dropzone->getModal();
 
         $template = $this->getTemplate("tpl.dropzone.html", true, true);
         $template->setVariable('MODAL', $default_renderer->render($modal));
+        $template->setCurrentBlock('with_message');
         $template->setVariable('MESSAGE', $dropzone->getMessage());
+        $template->parseCurrentBlock();
 
         $upload_button = $dropzone->getUploadButton();
         if (null !== $upload_button) {
@@ -103,29 +101,30 @@ class Renderer extends AbstractComponentRenderer
         return $template->get();
     }
 
-    protected function initClientsideDropzone(FileInterface $dropzone) : FileInterface
+    protected function initClientsideDropzone(FileInterface $dropzone): FileInterface
     {
-        return $dropzone->withAdditionalOnLoadCode(static function ($id) {
-            // the file-input JS-ID would be nice here too, but I don't see
-            // how it could be retrieved without being hacky.
+        return $dropzone->withAdditionalOnLoadCode(static function ($id) use ($dropzone) {
             return "
-                $(document).ready(function() {
-                    il.UI.Dropzone.init('$id');
+                il.UI.Dropzone.init('$id');
+                
+                // @TODO: we need to refactor the signal-management to prevent using jQuery here.
+                $(document).on('{$dropzone->getClearSignal()}', function () {
+                    il.UI.Dropzone.removeAllFilesFromQueue('$id');
                 });
             ";
         });
     }
 
-    protected function bindAndApplyJavaScript(FileInterface $dropzone, Template $template) : void
+    protected function bindAndApplyJavaScript(FileInterface $dropzone, Template $template): void
     {
         $template->setVariable('ID', $this->bindJavaScript($dropzone));
     }
 
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
-        return array(
+        return [
             \ILIAS\UI\Component\Dropzone\File\Standard::class,
             \ILIAS\UI\Component\Dropzone\File\Wrapper::class,
-        );
+        ];
     }
 }

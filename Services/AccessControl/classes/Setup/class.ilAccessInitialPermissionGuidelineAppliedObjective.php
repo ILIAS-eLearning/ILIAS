@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -127,22 +129,22 @@ class ilAccessInitialPermissionGuidelineAppliedObjective implements Setup\Object
         $this->used_for_authoring = $used_for_authoring;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Apply initial permission guideline";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
 
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -150,7 +152,7 @@ class ilAccessInitialPermissionGuidelineAppliedObjective implements Setup\Object
         ];
     }
 
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Environment $environment): Environment
     {
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
@@ -247,7 +249,7 @@ class ilAccessInitialPermissionGuidelineAppliedObjective implements Setup\Object
         return $environment;
     }
 
-    public function isApplicable(Environment $environment) : bool
+    public function isApplicable(Environment $environment): bool
     {
         if (!ilObject::_getObjectTypeIdByTitle($this->object_type)) {
             throw new Exception("Something went wrong, there MUST be valid id for object_type " . $this->object_type);

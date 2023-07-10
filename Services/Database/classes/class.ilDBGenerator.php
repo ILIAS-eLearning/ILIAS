@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class provides methods for building a DB generation script,
@@ -42,7 +58,7 @@ class ilDBGenerator
      * @return string[]
      * @deprecated abstraction_progress is no longer used in ILIAS
      */
-    public static function lookupAbstractedTables() : array
+    public static function lookupAbstractedTables(): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -123,12 +139,12 @@ class ilDBGenerator
      * $value = mb_convert_encoding($value,'UTF-16','UTF-8');
      * </code>
      */
-    public function setTargetEncoding(string $a_encoding) : void
+    public function setTargetEncoding(string $a_encoding): void
     {
         $this->target_encoding = $a_encoding;
     }
 
-    public function getTargetEncoding() : string
+    public function getTargetEncoding(): string
     {
         return $this->target_encoding;
     }
@@ -138,12 +154,12 @@ class ilDBGenerator
      * (Tables that should not be included in the processing)
      * @param string[] $a_blacklist Table Black List
      */
-    public function setBlackList(array $a_blacklist) : void
+    public function setBlackList(array $a_blacklist): void
     {
         $this->blacklist = $a_blacklist;
     }
 
-    public function getBlackList() : array
+    public function getBlackList(): array
     {
         return $this->blacklist;
     }
@@ -154,17 +170,17 @@ class ilDBGenerator
      * list ist provided, only them will be used.
      * @param string[] $a_whitelist Table White List
      */
-    public function setWhiteList(array $a_whitelist) : void
+    public function setWhiteList(array $a_whitelist): void
     {
         $this->whitelist = $a_whitelist;
     }
 
-    public function getWhiteList() : array
+    public function getWhiteList(): array
     {
         return $this->whitelist;
     }
 
-    public function setFilter(string $a_filter, string $a_value) : void
+    public function setFilter(string $a_filter, string $a_value): void
     {
         $this->filter[$a_filter] = $a_value;
     }
@@ -172,7 +188,7 @@ class ilDBGenerator
     /**
      * @return string[]
      */
-    public function getTables() : array
+    public function getTables(): array
     {
         return $this->tables = $this->manager->listTables();
     }
@@ -180,7 +196,7 @@ class ilDBGenerator
     /**
      * Check whether a table should be processed or not
      */
-    public function checkProcessing(string $a_table) : bool
+    public function checkProcessing(string $a_table): bool
     {
         // check black list
         if (in_array($a_table, $this->blacklist, true)) {
@@ -211,7 +227,7 @@ class ilDBGenerator
     /**
      * @param resource $fp
      */
-    protected function closeFile($fp) : void
+    protected function closeFile($fp): void
     {
         fclose($fp);
     }
@@ -220,7 +236,7 @@ class ilDBGenerator
      * Build DB generation script
      * @param string        output filename, if no filename is given, script is echoed
      */
-    public function buildDBGenerationScript(string $a_filename = "") : void
+    public function buildDBGenerationScript(string $a_filename = ""): void
     {
         if (@is_dir($a_filename)) {
             $is_dir = true;
@@ -304,7 +320,7 @@ class ilDBGenerator
      * @param resource $a_file
      * @throws ilDatabaseException
      */
-    public function buildCreateTableStatement(string $a_table, $a_file = null) : void
+    public function buildCreateTableStatement(string $a_table, $a_file = null): void
     {
         $fields = $this->analyzer->getFieldInformation($a_table, true);
         $this->fields = $fields;
@@ -351,7 +367,7 @@ class ilDBGenerator
     /**
      * @param resource $a_file
      */
-    public function buildAddPrimaryKeyStatement(string $a_table, $a_file = null) : void
+    public function buildAddPrimaryKeyStatement(string $a_table, $a_file = null): void
     {
         $pk = $this->analyzer->getPrimaryKeyInformation($a_table);
 
@@ -376,7 +392,7 @@ class ilDBGenerator
     /**
      * @param resource $a_file
      */
-    public function buildAddIndexStatements(string $a_table, $a_file = null) : void
+    public function buildAddIndexStatements(string $a_table, $a_file = null): void
     {
         $ind = $this->analyzer->getIndicesInformation($a_table, true);
 
@@ -408,7 +424,7 @@ class ilDBGenerator
     /**
      * @param resource $file_handle
      */
-    private function printOrWrite(string $string, $file_handle = null) : void
+    private function printOrWrite(string $string, $file_handle = null): void
     {
         if ($file_handle === null) {
             echo $string;
@@ -420,7 +436,7 @@ class ilDBGenerator
     /**
      * @param resource $file_handle
      */
-    public function buildAddUniqueConstraintStatements(string $a_table, $file_handle = null) : void
+    public function buildAddUniqueConstraintStatements(string $a_table, $file_handle = null): void
     {
         $con = $this->analyzer->getConstraintsInformation($a_table, true);
 
@@ -444,7 +460,7 @@ class ilDBGenerator
      * @param resource $file_handle
      * @throws ilDatabaseException
      */
-    public function buildCreateSequenceStatement(string $a_table, $file_handle = null) : void
+    public function buildCreateSequenceStatement(string $a_table, $file_handle = null): void
     {
         $seq = $this->analyzer->hasSequence($a_table);
         if ($seq !== false) {
@@ -457,7 +473,7 @@ class ilDBGenerator
     /**
      * @param resource $file_handle
      */
-    public function buildSingularSequenceStatement($file_handle = null) : void
+    public function buildSingularSequenceStatement($file_handle = null): void
     {
         $r = $this->manager->listSequences();
 
@@ -478,7 +494,7 @@ class ilDBGenerator
     /**
      * Write seerialized insert data to array
      */
-    public function buildInsertStatement(string $a_table, string $a_basedir) : bool
+    public function buildInsertStatement(string $a_table, string $a_basedir): bool
     {
         global $DIC;
         $ilLogger = $DIC->logger()->root();
@@ -539,7 +555,7 @@ class ilDBGenerator
     /**
      * @param resource $file_handle
      */
-    public function buildInsertStatements(string $a_table, $file_handle = null) : void
+    public function buildInsertStatements(string $a_table, $file_handle = null): void
     {
         if ($a_table === "lng_data") {
             return;
@@ -571,7 +587,7 @@ class ilDBGenerator
     /**
      * Shorten text depending on target encoding
      */
-    protected function shortenText(string $table, string $field, string $a_value, int $a_size) : string
+    protected function shortenText(string $table, string $field, string $a_value, int $a_size): string
     {
         global $DIC;
         $ilLogger = $DIC->logger()->root();

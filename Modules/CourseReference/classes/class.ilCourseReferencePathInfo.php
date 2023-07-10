@@ -81,7 +81,7 @@ class ilCourseReferencePathInfo
      * @param int $target_ref_id
      * @return \ilCourseReferencePathInfo
      */
-    public static function getInstanceByRefId(int $ref_id, int $target_ref_id = 0) : \ilCourseReferencePathInfo
+    public static function getInstanceByRefId(int $ref_id, int $target_ref_id = 0): \ilCourseReferencePathInfo
     {
         if (!array_key_exists($ref_id, self::$instances)) {
             self::$instances[$ref_id] = new self($ref_id, $target_ref_id);
@@ -95,7 +95,7 @@ class ilCourseReferencePathInfo
      * @param int[] $participants
      * @return bool
      */
-    public static function isReferenceMemberUpdateConfirmationRequired(int $course_ref_id, array $participants) : bool
+    public static function isReferenceMemberUpdateConfirmationRequired(int $course_ref_id, array $participants): bool
     {
         global $DIC;
 
@@ -125,7 +125,7 @@ class ilCourseReferencePathInfo
     /**
      * @return int
      */
-    public function getParentCourseRefId() : int
+    public function getParentCourseRefId(): int
     {
         return $this->parent_course_ref_id;
     }
@@ -133,7 +133,7 @@ class ilCourseReferencePathInfo
     /**
      * @return bool
      */
-    public function hasParentCourse() : bool
+    public function hasParentCourse(): bool
     {
         return $this->has_parent_course;
     }
@@ -141,7 +141,7 @@ class ilCourseReferencePathInfo
     /**
      * @return int
      */
-    public function getTargetId() : int
+    public function getTargetId(): int
     {
         return $this->target_ref_id;
     }
@@ -149,7 +149,7 @@ class ilCourseReferencePathInfo
     /**
      * @return bool
      */
-    public function isMemberUpdateEnabled() : bool
+    public function isMemberUpdateEnabled(): bool
     {
         return $this->member_update_enabled;
     }

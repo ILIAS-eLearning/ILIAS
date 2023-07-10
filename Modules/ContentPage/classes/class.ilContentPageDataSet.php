@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilContentPageDataSet
  */
@@ -24,35 +26,32 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     /** @var int[] */
     protected array $newMobIds = [];
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return [
             '5.4.0',
         ];
     }
 
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return 'http://www.ilias.de/xml/Modules/ContentPage/' . $a_entity;
     }
 
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
-        switch ($a_entity) {
-            case self::OBJ_TYPE:
-                return [
-                    'id' => 'integer',
-                    'title' => 'text',
-                    'description' => 'text',
-                    'info-tab' => 'integer'
-                ];
-
-            default:
-                return [];
-        }
+        return match ($a_entity) {
+            self::OBJ_TYPE => [
+                'id' => 'integer',
+                'title' => 'text',
+                'description' => 'text',
+                'info-tab' => 'integer'
+            ],
+            default => [],
+        };
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $this->data = [];
 
@@ -65,15 +64,14 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
 
 
     /**
-     * @param string $entity
      * @param int[] $ids
      */
-    protected function readEntityData(string $entity, array $ids) : void
+    protected function readEntityData(string $entity, array $ids): void
     {
         switch ($entity) {
             case self::OBJ_TYPE:
                 foreach ($ids as $objId) {
-                    if (ilObject::_lookupType($objId) === self::OBJ_TYPE) {
+                    if (ilObject::_lookupType((int) $objId) === self::OBJ_TYPE) {
                         /** @var ilObjContentPage $obj */
                         $obj = ilObjectFactory::getInstanceByObjId((int) $objId);
 
@@ -102,7 +100,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case self::OBJ_TYPE:
                 if ($newObjId = $a_mapping->getMapping('Services/Container', 'objs', (string) $a_rec['id'])) {
@@ -135,6 +133,12 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                     'pg',
                     self::OBJ_TYPE . ':' . $a_rec['id'],
                     self::OBJ_TYPE . ':' . $newObject->getId()
+                );
+                $a_mapping->addMapping(
+                    'Services/MetaData',
+                    'md',
+                    $a_rec['id'] . ':0:' . self::OBJ_TYPE,
+                    $newObject->getId() . ':0:' . self::OBJ_TYPE
                 );
                 break;
         }

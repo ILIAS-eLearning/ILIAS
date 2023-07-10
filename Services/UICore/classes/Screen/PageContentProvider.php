@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2022 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UICore;
 
@@ -29,41 +45,41 @@ class PageContentProvider extends AbstractModificationProvider
     private static string $short_title = "";
     private static string $view_title = "";
 
-    public static function setContent(string $content) : void
+    public static function setContent(string $content): void
     {
         self::$content = $content;
     }
 
-    public static function setTitle(string $title) : void
+    public static function setTitle(string $title): void
     {
         self::$title = $title;
     }
 
-    public static function setShortTitle(string $short_title) : void
+    public static function setShortTitle(string $short_title): void
     {
         self::$short_title = $short_title;
     }
 
-    public static function setViewTitle(string $view_title) : void
+    public static function setViewTitle(string $view_title): void
     {
         self::$view_title = $view_title;
     }
 
-    public static function setPermaLink(string $perma_link) : void
+    public static function setPermaLink(string $perma_link): void
     {
         self::$perma_link = $perma_link;
     }
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main();
     }
 
-    public function getContentModification(CalledContexts $screen_context_stack) : ?ContentModification
+    public function getContentModification(CalledContexts $screen_context_stack): ?ContentModification
     {
         return $this->globalScreen()->layout()->factory()->content()->withModification(function (
-            Legacy $content
-        ) : Legacy {
+            ?Legacy $content
+        ): ?Legacy {
             $ui = $this->dic->ui();
             return $ui->factory()->legacy(
                 $ui->renderer()->render($content) . self::$content
@@ -71,44 +87,44 @@ class PageContentProvider extends AbstractModificationProvider
         })->withLowPriority();
     }
 
-    public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification
+    public function getTitleModification(CalledContexts $screen_context_stack): ?TitleModification
     {
         /** @var $modification TitleModification */
         $modification = $this->globalScreen()->layout()->factory()->title()->withModification(
-            fn (string $content) : string => self::$title
+            fn (?string $content): ?string => self::$title
         )->withLowPriority();
 
         return $modification;
     }
 
-    public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification
+    public function getShortTitleModification(CalledContexts $screen_context_stack): ?ShortTitleModification
     {
         /** @var $modification ShortTitleModification */
         $modification = $this->globalScreen()->layout()->factory()->short_title()->withModification(
-            fn (string $content) : string => self::$short_title
+            fn (?string $content): ?string => self::$short_title
         )->withLowPriority();
 
         return $modification;
     }
 
-    public function getViewTitleModification(CalledContexts $screen_context_stack) : ?ViewTitleModification
+    public function getViewTitleModification(CalledContexts $screen_context_stack): ?ViewTitleModification
     {
         /** @var $modification ViewTitleModification */
         $modification = $this->globalScreen()->layout()->factory()->view_title()->withModification(
-            fn (string $content) : string => self::$view_title
+            fn (?string $content): ?string => self::$view_title
         )->withLowPriority();
 
         return $modification;
     }
 
-    public function getFooterModification(CalledContexts $screen_context_stack) : ?FooterModification
+    public function getFooterModification(CalledContexts $screen_context_stack): ?FooterModification
     {
-        return $this->globalScreen()->layout()->factory()->footer()->withModification(function () : Footer {
+        return $this->globalScreen()->layout()->factory()->footer()->withModification(function (?Footer $footer): ?Footer {
             $f = $this->dic->ui()->factory();
 
             $links = [];
             // ILIAS Version and Text
-            $ilias_version = $this->dic->settings()->get('ilias_version');
+            $ilias_version = ILIAS_VERSION;
             $text = "powered by ILIAS (v{$ilias_version})";
 
             // Imprint

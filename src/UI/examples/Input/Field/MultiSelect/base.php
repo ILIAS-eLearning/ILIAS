@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\MultiSelect;
 
@@ -28,10 +30,15 @@ function base()
     //define form and form actions
     $form = $ui->input()->container()->form()->standard('#', ['multi' => $multi]);
 
+
     //implement some form data processing.
     if ($request->getMethod() == "POST") {
-        $form = $form->withRequest($request);
-        $result = $form->getData();
+        try {
+            $form = $form->withRequest($request);
+            $result = $form->getData();
+        } catch (\InvalidArgumentException $e) {
+            $result = "No result. Probably, the other form was used.";
+        }
     } else {
         $result = "No result yet.";
     }

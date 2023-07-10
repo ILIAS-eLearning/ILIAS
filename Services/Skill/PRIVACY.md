@@ -1,9 +1,14 @@
 # Skill (Competence) Service Privacy
 
-This documentation does not warrant completeness or correctness. Please report any
+Disclaimer: This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
 or contribute a fix via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).
 
+## General Information
+
+The details on **how competence data is presented in other components** (survey,
+course, portfolios, staff, ...) should be **documented in the privacy documentation
+of these components**.
 
 ## Data being stored
 
@@ -11,7 +16,7 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
 - **Competence profile assignments**. Competence management administrators can
   assign competence profiles to users directly or via roles and organisational
   units. Course administrators can assign competence profiles to the local member
-  role. (Profile ID + User ID/Role ID/OrgUnit ID).
+  role (Profile ID + User ID/Role ID/OrgUnit ID).
 - Documents to prove personal skill level achievements: Users can **assign workspace
   files to single skill levels**. The documents are organised in the workspace
   service. The skill service stores the reference "user/document/skill level".
@@ -21,8 +26,7 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
   achievement, triggering object (e.g. test ID) and level of fulfillment (e.g.
   60% of level 3).
 
-
-## Data presentation
+## Data being presented
 
 - **Administrators** of the competence management system have an overview on the
   **assignment** of **users to competence profiles**.
@@ -44,15 +48,10 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
 - The **staff (MyStaff) service** presents competence achievement data for superiors,
   too.
 
-In General: The details on **how competence data is presented in other components**
-(survey, course, portfolios, staff, ...) should be **documented in the privacy
-documentation of these components**.
-
-
-## Data Deletion
+## Data being deleted
 
 - Personal selected competences can be deselected by the user anytime. They are
-also deleted on user deletion
+  also deleted on user deletion.
 - Personally assigned workspace documents can be removed by the user anytime.
 - Assignments to competence profiles are deleted when either the assignment is
   removed by tutors/admins or the profile or the user is deleted.

@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -14,7 +29,7 @@ class ilTestFinalMarkLangVarBuilderTest extends TestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../');
@@ -75,27 +90,5 @@ class ilTestFinalMarkLangVarBuilderTest extends TestCase
                 'expected' => 'mark_tst_passed_obligations_answered'
             )
         );
-        // OTX: Test breaks with fatal error...
-//		foreach($testCases as $case)
-//		{
-//			// arrange
-//
-//			$passedStatus = $case['param_passedStatus'];
-//			$obligationsAnsweredStatus = $case['param_obligationsAnsweredStatus'];
-//			$obligationsEnabled = $case['param_obligationsEnabled'];
-//
-//			$expected = $case['expected'];
-//
-//			require_once './Modules/Test/classes/class.ilTestFinalMarkLangVarBuilder.php';
-//			$instance = new ilTestFinalMarkLangVarBuilder($passedStatus, $obligationsAnsweredStatus, $obligationsEnabled);
-//
-//			// act
-//
-//			$actual = $instance->build();
-//
-//			// assert
-//
-//			$this->assertEquals($expected, $actual);
-//		}
     }
 }

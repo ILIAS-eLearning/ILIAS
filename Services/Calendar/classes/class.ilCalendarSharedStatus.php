@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -47,21 +49,21 @@ class ilCalendarSharedStatus
         $this->read();
     }
 
-    public function isAccepted(int $a_cal_id) : bool
+    public function isAccepted(int $a_cal_id): bool
     {
         return
             isset($this->calendars[$a_cal_id]) &&
             $this->calendars[$a_cal_id] == self::STATUS_ACCEPTED;
     }
 
-    public function isDeclined(int $a_cal_id) : bool
+    public function isDeclined(int $a_cal_id): bool
     {
         return
             isset($this->calendars[$a_cal_id]) &&
             $this->calendars[$a_cal_id] == self::STATUS_DECLINED;
     }
 
-    public static function getAcceptedCalendars(int $a_usr_id) : array
+    public static function getAcceptedCalendars(int $a_usr_id): array
     {
         global $DIC;
 
@@ -76,7 +78,7 @@ class ilCalendarSharedStatus
         return $cal_ids ?? [];
     }
 
-    public static function hasStatus(int $a_usr_id, int $a_calendar_id) : bool
+    public static function hasStatus(int $a_usr_id, int $a_calendar_id): bool
     {
         global $DIC;
 
@@ -88,7 +90,7 @@ class ilCalendarSharedStatus
         return (bool) $res->numRows();
     }
 
-    public static function deleteUser(int $a_usr_id) : void
+    public static function deleteUser(int $a_usr_id): void
     {
         global $DIC;
 
@@ -98,7 +100,7 @@ class ilCalendarSharedStatus
         $res = $ilDB->manipulate($query);
     }
 
-    public static function deleteCalendar(int $a_calendar_id) : void
+    public static function deleteCalendar(int $a_calendar_id): void
     {
         global $DIC;
 
@@ -108,7 +110,7 @@ class ilCalendarSharedStatus
         $res = $ilDB->manipulate($query);
     }
 
-    public static function deleteStatus(int $a_id, int $a_calendar_id) : void
+    public static function deleteStatus(int $a_id, int $a_calendar_id): void
     {
         global $DIC;
 
@@ -134,7 +136,7 @@ class ilCalendarSharedStatus
         }
     }
 
-    public function accept(int $a_calendar_id) : void
+    public function accept(int $a_calendar_id): void
     {
         self::deleteStatus($this->usr_id, $a_calendar_id);
         $query = "INSERT INTO cal_shared_status (cal_id,usr_id,status) " .
@@ -148,7 +150,7 @@ class ilCalendarSharedStatus
         $this->calendars[$a_calendar_id] = self::STATUS_ACCEPTED;
     }
 
-    public function decline(int $a_calendar_id) : void
+    public function decline(int $a_calendar_id): void
     {
         self::deleteStatus($this->usr_id, $a_calendar_id);
         $query = "INSERT INTO cal_shared_status (cal_id,usr_id,status) " .
@@ -171,7 +173,7 @@ class ilCalendarSharedStatus
         }
     }
 
-    public function getOpenInvitations() : array
+    public function getOpenInvitations(): array
     {
         $shared = ilCalendarShared::getSharedCalendarsForUser($this->usr_id);
 

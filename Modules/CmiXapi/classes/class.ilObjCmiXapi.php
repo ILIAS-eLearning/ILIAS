@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilObjCmiXapi
  *
@@ -24,12 +29,12 @@
  */
 class ilObjCmiXapi extends ilObject2
 {
-    const PLUGIN = false;
+    public const PLUGIN = false;
 
-    const DB_TABLE_NAME = 'cmix_settings';
-    const DB_USERS_TABLE_NAME = 'cmix_users';
-    const DB_RESULTS_TABLE_NAME = 'cmix_results';
-    
+    public const DB_TABLE_NAME = 'cmix_settings';
+    public const DB_USERS_TABLE_NAME = 'cmix_users';
+    public const DB_RESULTS_TABLE_NAME = 'cmix_results';
+
     /**
      * repository object activation settings (handled by ilObject)
      */
@@ -37,215 +42,126 @@ class ilObjCmiXapi extends ilObject2
     protected ?int $activationStartingTime = null;
     protected ?int $activationEndingTime = null;
     protected ?bool $activationVisibility = null;
-    
-    /**
-     * @var int
-     */
-    protected int $lrsTypeId;
-    
-    /**
-     * @var ilCmiXapiLrsType
-     */
+
+    protected ?int $lrsTypeId;
+
     protected ilCmiXapiLrsType $lrsType;
-    
-    /**
-     * @var string
-     */
+
     protected string $contentType;
-    const CONT_TYPE_GENERIC = 'generic';
-    const CONT_TYPE_CMI5 = 'cmi5';
-    
-    /**
-     * @var string
-     */
+    public const CONT_TYPE_GENERIC = 'generic';
+    public const CONT_TYPE_CMI5 = 'cmi5';
+
     protected string $sourceType;
-    const SRC_TYPE_REMOTE = 'remoteSource';
-    const SRC_TYPE_LOCAL = 'localSource';
-    const SRC_TYPE_EXTERNAL = 'externalSource';
-    
-    /**
-     * @var string
-     */
+    public const SRC_TYPE_REMOTE = 'remoteSource';
+    public const SRC_TYPE_LOCAL = 'localSource';
+    public const SRC_TYPE_EXTERNAL = 'externalSource';
+
     protected string $activityId;
-    
-    /**
-     * @var string
-     */
+
     protected string $publisherId;
 
-    /**
-     * @var string
-     */
     protected string $instructions;
-    
-    /**
-     * @var string
-     */
+
     protected string $launchUrl;
 
-    /**
-     * @var string
-     */
     protected string $launchParameters;
-    
-    /**
-     * @var string
-     */
+
     protected string $moveOn;
 
-    /**
-     * @var string
-     */
     protected string $entitlementKey;
 
-    /**
-     * @var bool
-     */
     protected bool $authFetchUrlEnabled = false;
-    
-    /**
-     * @var bool;
-     */
-    protected bool $anonymousHomePage = false;
-    const ANONYMOUS_HOMEPAGE = 'https://example.org';
 
-    /**
-     * @var string
-     */
+    protected bool $anonymousHomePage = false;
+    public const ANONYMOUS_HOMEPAGE = 'https://example.org';
+
     protected string $launchMethod;
-    const LAUNCH_METHOD_OWN_WIN = 'ownWin';
-    const LAUNCH_METHOD_NEW_WIN = 'newWin';
-    const LAUNCH_METHOD_IFRAME = 'iframe';
-    
-    /**
-     * @var string
-     */
+    public const LAUNCH_METHOD_OWN_WIN = 'ownWin';
+    public const LAUNCH_METHOD_NEW_WIN = 'newWin';
+    public const LAUNCH_METHOD_IFRAME = 'iframe';
+
     protected string $launchMode;
-    const LAUNCH_MODE_NORMAL = 'Normal';
-    const LAUNCH_MODE_BROWSE = 'Browse';
-    const LAUNCH_MODE_REVIEW = 'Review';
-    
-    /**
-     * @var bool
-     */
+    public const LAUNCH_MODE_NORMAL = 'Normal';
+    public const LAUNCH_MODE_BROWSE = 'Browse';
+    public const LAUNCH_MODE_REVIEW = 'Review';
+
     protected bool $switchToReviewEnabled = false;
 
-    /**
-     * @var float
-     */
     protected float $masteryScore;
-    const LMS_MASTERY_SCORE = 0.7;
+    public const LMS_MASTERY_SCORE = 0.7;
 
-    /**
-     * @var bool
-     */
     protected bool $keepLpStatusEnabled = false;
-    
-    /**
-     * @var int
-     */
-    protected int $userIdent;
-    const PRIVACY_IDENT_IL_UUID_USER_ID = 0;
-    const PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT = 1;
-    const PRIVACY_IDENT_IL_UUID_LOGIN = 2;
-    const PRIVACY_IDENT_REAL_EMAIL = 3;
-    const PRIVACY_IDENT_IL_UUID_RANDOM = 4;
-    
-    /**
-     * @var int
-     */
-    protected int $userName;
-    const PRIVACY_NAME_NONE = 0;
-    const PRIVACY_NAME_FIRSTNAME = 1;
-    const PRIVACY_NAME_LASTNAME = 2;
-    const PRIVACY_NAME_FULLNAME = 3;
 
-    
-    /**
-     * @var string
-     */
+    protected int $userIdent;
+    public const PRIVACY_IDENT_IL_UUID_USER_ID = 0;
+    public const PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT = 1;
+    public const PRIVACY_IDENT_IL_UUID_LOGIN = 2;
+    public const PRIVACY_IDENT_REAL_EMAIL = 3;
+    public const PRIVACY_IDENT_IL_UUID_RANDOM = 4;
+
+    protected int $userName;
+    public const PRIVACY_NAME_NONE = 0;
+    public const PRIVACY_NAME_FIRSTNAME = 1;
+    public const PRIVACY_NAME_LASTNAME = 2;
+    public const PRIVACY_NAME_FULLNAME = 3;
+
     protected string $userPrivacyComment = "";
-    
-    /**
-     * @var bool
-     */
+
     protected bool $statementsReportEnabled = false;
-    
-    /**
-     * @var string
-     */
+
     protected string $xmlManifest = "";
-    
-    /**
-     * @var int
-     */
+
     protected int $version;
-    
-    /**
-     * @var bool
-     */
+
     protected bool $bypassProxyEnabled = false;
 
-    /** @var bool $only_moveon */
     protected bool $only_moveon = false;
 
-    /** @var bool $achieved */
     protected bool $achieved = true;
 
-    /** @var bool $answered */
     protected bool $answered = true;
 
-    /** @var bool $completed */
     protected bool $completed = true;
 
-    /** @var bool $failed */
     protected bool $failed = true;
 
-    /** @var bool $initialized */
     protected bool $initialized = true;
 
-    /** @var bool $passed */
     protected bool $passed = true;
 
-    /** @var bool $progressed */
     protected bool $progressed = true;
 
-    /** @var bool $satisfied */
     protected bool $satisfied = true;
 
-    /** @var bool $terminated */
     protected bool $terminated = true;
 
-    /** @var bool $hide_data */
     protected bool $hide_data = false;
 
-    /** @var bool $timestamp */
     protected bool $timestamp = false;
 
-    /** @var bool $duration */
     protected bool $duration = true;
 
-    /** @var bool $no_substatements */
     protected bool $no_substatements = false;
 
-    /** @var ilCmiXapiUser $currentCmixUser */
     protected ?ilCmiXapiUser $currentCmixUser = null;
+
+    private ilDBInterface $database;
 
     /**
      * ilObjCmiXapi constructor.
-     * @param int $a_id
-     * @param bool $a_reference
      */
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
+        global $DIC;
+        $this->database = $DIC->database();
+
         $this->lrsTypeId = 0;
-        //$this->lrsType = $lrsType;
-        
+
         $this->contentType = self::CONT_TYPE_GENERIC;
         $this->sourceType = self::SRC_TYPE_REMOTE;
-        
+
         $this->activityId = '';
-        
+
         $this->publisherId = '';
 
         $this->instructions = '';
@@ -254,17 +170,17 @@ class ilObjCmiXapi extends ilObject2
         $this->launchParameters = '';
         $this->moveOn = '';
         $this->entitlementKey = '';
-        
+
         $this->authFetchUrlEnabled = false;
-        
+
         $this->launchMethod = self::LAUNCH_METHOD_NEW_WIN;
         $this->launchMode = self::LAUNCH_MODE_NORMAL;
 
         $this->switchToReviewEnabled = true;
-        
+
         $this->masteryScore = self::LMS_MASTERY_SCORE;
         $this->keepLpStatusEnabled = true;
-        
+
         $this->userIdent = self::PRIVACY_IDENT_IL_UUID_USER_ID;
         $this->userName = self::PRIVACY_NAME_NONE;
         $this->userPrivacyComment = '';
@@ -275,54 +191,54 @@ class ilObjCmiXapi extends ilObject2
 
         $this->xmlManifest = '';
         $this->version = 0;
-        
+
         $this->bypassProxyEnabled = false;
 
         parent::__construct($a_id, $a_reference);
     }
 
 
-    public static function getInstance(int $a_id = 0, bool $a_reference = true) : \ilObjCmiXapi
+    public static function getInstance(int $a_id = 0, bool $a_reference = true): \ilObjCmiXapi
     {
         return new self($a_id, $a_reference);
     }
-    
-    protected function initType() : void
+
+    protected function initType(): void
     {
         $this->type = "cmix";
     }
-    
-    public function getLrsTypeId() : int
+
+    public function getLrsTypeId(): ?int
     {
         return $this->lrsTypeId;
     }
-    
-    public function setLrsTypeId(int $lrsTypeId) : void
+
+    public function setLrsTypeId(int $lrsTypeId): void
     {
         $this->lrsTypeId = $lrsTypeId;
     }
-    
-    public function getLrsType() : \ilCmiXapiLrsType
+
+    public function getLrsType(): \ilCmiXapiLrsType
     {
         return $this->lrsType;
     }
-    
-    public function setLrsType(\ilCmiXapiLrsType $lrsType) : void
+
+    public function setLrsType(\ilCmiXapiLrsType $lrsType): void
     {
         $this->lrsType = $lrsType;
     }
-    
-    public function initLrsType() : void
+
+    public function initLrsType(): void
     {
         $this->setLrsType(new ilCmiXapiLrsType($this->getLrsTypeId()));
     }
-    
-    public function getContentType() : string
+
+    public function getContentType(): string
     {
         return $this->contentType;
     }
-    
-    public function setContentType(string $contentType) : void
+
+    public function setContentType(string $contentType): void
     {
         //bug before 21-07-24
         if ($contentType == "learning") {
@@ -331,10 +247,7 @@ class ilObjCmiXapi extends ilObject2
         $this->contentType = $contentType;
     }
 
-    /**
-     * @return bool
-     */
-    public function isMixedContentType() : bool
+    public function isMixedContentType(): bool
     {
         // after 21-07-24 and before cmi5 refactoring
         // launched before cmi5 refactoring ident in:    statement.actor.mbox
@@ -342,72 +255,72 @@ class ilObjCmiXapi extends ilObject2
         return (($this->getContentType() == self::CONT_TYPE_CMI5) && empty($this->getPublisherId()));
     }
 
-    public function getSourceType() : string
+    public function getSourceType(): string
     {
         return $this->sourceType;
     }
-    
-    public function isSourceTypeRemote() : bool
+
+    public function isSourceTypeRemote(): bool
     {
         return $this->sourceType == self::SRC_TYPE_REMOTE;
     }
-    
-    public function isSourceTypeExternal() : bool
+
+    public function isSourceTypeExternal(): bool
     {
         return $this->sourceType == self::SRC_TYPE_EXTERNAL;
     }
-    
-    public function setSourceType(string $sourceType) : void
+
+    public function setSourceType(string $sourceType): void
     {
         $this->sourceType = $sourceType;
     }
-    
-    public function getActivityId() : string
+
+    public function getActivityId(): string
     {
         return $this->activityId;
     }
-    
-    public function setActivityId(string $activityId) : void
+
+    public function setActivityId(string $activityId): void
     {
         $this->activityId = $activityId;
     }
-    
-    public function getPublisherId() : string
+
+    public function getPublisherId(): string
     {
         return $this->publisherId;
     }
-    
-    public function setPublisherId(string $publisherId) : void
+
+    public function setPublisherId(string $publisherId): void
     {
         $this->publisherId = $publisherId;
     }
 
-    public function getInstructions() : string
+    public function getInstructions(): string
     {
         return $this->instructions;
     }
-    
-    public function setInstructions(string $instructions) : void
+
+    public function setInstructions(string $instructions): void
     {
         $this->instructions = $instructions;
     }
 
-    public function getLaunchUrl() : string
+    public function getLaunchUrl(): string
     {
         return $this->launchUrl;
     }
-    
-    public function setLaunchUrl(string $launchUrl) : void
+
+    public function setLaunchUrl(string $launchUrl): void
     {
         $this->launchUrl = $launchUrl;
     }
-    
-    public function getLaunchParameters() : string
+
+    public function getLaunchParameters(): string
     {
         return $this->launchParameters;
     }
-    
-    public function setLaunchParameters(string $launchParameters) : void
+
+    public function setLaunchParameters(string $launchParameters): void
     {
         $this->launchParameters = $launchParameters;
     }
@@ -415,9 +328,8 @@ class ilObjCmiXapi extends ilObject2
     /**
      * Attention: this is the original imported moveOn
      * for using in LaunchData and LaunchStatement use getLMSMoveOn!
-     * @return string
      */
-    public function getMoveOn() : string
+    public function getMoveOn(): string
     {
         return $this->moveOn;
     }
@@ -425,9 +337,8 @@ class ilObjCmiXapi extends ilObject2
     /**
      * Attention: this is the original moveOn from course import
      * should only be set on import!
-     * @param string $moveOn
      */
-    public function setMoveOn(string $moveOn) : void
+    public function setMoveOn(string $moveOn): void
     {
         $this->moveOn = $moveOn;
     }
@@ -436,7 +347,7 @@ class ilObjCmiXapi extends ilObject2
      * only for internal LMS usage
      * @return int ilLPObjSettings::const
      */
-    public function getLPMode() : int
+    public function getLPMode(): int
     {
         $olp = ilObjectLP::getInstance($this->getId());
         return $olp->getCurrentMode();
@@ -446,456 +357,361 @@ class ilObjCmiXapi extends ilObject2
      * for CMI5 statements | state moveOn values
      * @return string ilCmiXapiLP::const
      */
-    public function getLMSMoveOn() : string
+    public function getLMSMoveOn(): string
     {
         $moveOn = ilCmiXapiLP::MOVEON_NOT_APPLICABLE;
         switch ($this->getLPMode()) {
             case ilLPObjSettings::LP_MODE_DEACTIVATED:
                 $moveOn = ilCmiXapiLP::MOVEON_NOT_APPLICABLE;
-            break;
+                break;
             case ilLPObjSettings::LP_MODE_CMIX_COMPLETED:
             case ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED:
                 $moveOn = ilCmiXapiLP::MOVEON_COMPLETED;
-            break;
+                break;
             case ilLPObjSettings::LP_MODE_CMIX_PASSED:
             case ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED:
                 $moveOn = ilCmiXapiLP::MOVEON_PASSED;
-            break;
-                case ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED:
-                case ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED:
+                break;
+            case ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED:
+            case ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED:
                 $moveOn = ilCmiXapiLP::MOVEON_COMPLETED_OR_PASSED;
-            break;
+                break;
         }
         return $moveOn;
     }
 
-    public function getEntitlementKey() : string
+    public function getEntitlementKey(): string
     {
         return $this->entitlementKey;
     }
 
-    public function setEntitlementKey(string $entitlementKey) : void
+    public function setEntitlementKey(string $entitlementKey): void
     {
         $this->entitlementKey = $entitlementKey;
     }
 
-    public function isAuthFetchUrlEnabled() : bool
+    public function isAuthFetchUrlEnabled(): bool
     {
         return $this->authFetchUrlEnabled;
     }
-    
-    public function setAuthFetchUrlEnabled(bool $authFetchUrlEnabled) : void
+
+    public function setAuthFetchUrlEnabled(bool $authFetchUrlEnabled): void
     {
         $this->authFetchUrlEnabled = $authFetchUrlEnabled;
     }
-    
-    public function getLaunchMethod() : string
+
+    public function getLaunchMethod(): string
     {
         return $this->launchMethod;
     }
-    
-    public function setLaunchMethod(string $launchMethod) : void
+
+    public function setLaunchMethod(string $launchMethod): void
     {
         $this->launchMethod = $launchMethod;
     }
-    
-    public function getLaunchMode() : string
+
+    public function getLaunchMode(): string
     {
         return ucfirst($this->launchMode);
     }
-    
-    public function setLaunchMode(string $launchMode) : void
+
+    public function setLaunchMode(string $launchMode): void
     {
         $this->launchMode = ucfirst($launchMode);
     }
-    
-    public function isSwitchToReviewEnabled() : bool
+
+    public function isSwitchToReviewEnabled(): bool
     {
         return $this->switchToReviewEnabled;
     }
-    
-    public function getSwitchToReviewEnabled() : bool
+
+    public function getSwitchToReviewEnabled(): bool
     {
         return $this->switchToReviewEnabled;
     }
-    
-    public function setSwitchToReviewEnabled(bool $switchToReviewEnabled) : void
+
+    public function setSwitchToReviewEnabled(bool $switchToReviewEnabled): void
     {
         $this->switchToReviewEnabled = $switchToReviewEnabled;
     }
 
-    public function getMasteryScore() : float
+    public function getMasteryScore(): float
     {
         return $this->masteryScore;
     }
-    
-    public function setMasteryScore(float $masteryScore) : void
+
+    public function setMasteryScore(float $masteryScore): void
     {
         $this->masteryScore = $masteryScore;
     }
-    
-    /**
-     * @return float
-     */
-    public function getMasteryScorePercent() : float
+
+    public function getMasteryScorePercent(): float
     {
         return $this->masteryScore * 100;
     }
-    
-    public function setMasteryScorePercent(float $masteryScorePercent) : void
+
+    public function setMasteryScorePercent(float $masteryScorePercent): void
     {
         $this->masteryScore = $masteryScorePercent / 100;
     }
-    
-    public function isKeepLpStatusEnabled() : bool
+
+    public function isKeepLpStatusEnabled(): bool
     {
         return $this->keepLpStatusEnabled;
     }
-    
-    public function setKeepLpStatusEnabled(bool $keepLpStatusEnabled) : void
+
+    public function setKeepLpStatusEnabled(bool $keepLpStatusEnabled): void
     {
         $this->keepLpStatusEnabled = $keepLpStatusEnabled;
     }
-    
-    public function getPrivacyIdent() : int
+
+    public function getPrivacyIdent(): int
     {
         return $this->userIdent;
     }
-    
-    public function setPrivacyIdent(int $userIdent) : void
+
+    public function setPrivacyIdent(int $userIdent): void
     {
         $this->userIdent = $userIdent;
     }
-    
-    public function getPrivacyName() : int
+
+    public function getPrivacyName(): int
     {
         return $this->userName;
     }
-    
-    public function setPrivacyName(int $userName) : void
+
+    public function setPrivacyName(int $userName): void
     {
         $this->userName = $userName;
     }
 
-    /**
-     * @return bool
-     */
-    public function getOnlyMoveon() : bool
+    public function getOnlyMoveon(): bool
     {
         return $this->only_moveon;
     }
 
-    /**
-     * @param bool $only_moveon
-     */
-    public function setOnlyMoveon(bool $only_moveon) : void
+    public function setOnlyMoveon(bool $only_moveon): void
     {
         $this->only_moveon = $only_moveon;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAchieved() : bool
+    public function getAchieved(): bool
     {
         return $this->achieved;
     }
 
-    /**
-     * @param bool $achieved
-     */
-    public function setAchieved(bool $achieved) : void
+    public function setAchieved(bool $achieved): void
     {
         $this->achieved = $achieved;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAnswered() : bool
+    public function getAnswered(): bool
     {
         return $this->answered;
     }
 
-    /**
-     * @param bool $answered
-     */
-    public function setAnswered(bool $answered) : void
+    public function setAnswered(bool $answered): void
     {
         $this->answered = $answered;
     }
 
-    /**
-     * @return bool
-     */
-    public function getCompleted() : bool
+    public function getCompleted(): bool
     {
         return $this->completed;
     }
 
-    /**
-     * @param bool $completed
-     */
-    public function setCompleted(bool $completed) : void
+    public function setCompleted(bool $completed): void
     {
         $this->completed = $completed;
     }
 
-    /**
-     * @return bool
-     */
-    public function getFailed() : bool
+    public function getFailed(): bool
     {
         return $this->failed;
     }
 
-    /**
-     * @param bool $failed
-     */
-    public function setFailed(bool $failed) : void
+    public function setFailed(bool $failed): void
     {
         $this->failed = $failed;
     }
 
-    /**
-     * @return bool
-     */
-    public function getInitialized() : bool
+    public function getInitialized(): bool
     {
         return $this->initialized;
     }
 
-    /**
-     * @param bool $initialized
-     */
-    public function setInitialized(bool $initialized) : void
+    public function setInitialized(bool $initialized): void
     {
         $this->initialized = $initialized;
     }
 
-    /**
-     * @return bool
-     */
-    public function getPassed() : bool
+    public function getPassed(): bool
     {
         return $this->passed;
     }
 
-    /**
-     * @param bool $passed
-     */
-    public function setPassed(bool $passed) : void
+    public function setPassed(bool $passed): void
     {
         $this->passed = $passed;
     }
 
-    /**
-     * @return bool
-     */
-    public function getProgressed() : bool
+    public function getProgressed(): bool
     {
         return $this->progressed;
     }
 
-    /**
-     * @param bool $progressed
-     */
-    public function setProgressed(bool $progressed) : void
+    public function setProgressed(bool $progressed): void
     {
         $this->progressed = $progressed;
     }
 
-    /**
-     * @return bool
-     */
-    public function getSatisfied() : bool
+    public function getSatisfied(): bool
     {
         return $this->satisfied;
     }
 
-    /**
-     * @param bool $satisfied
-     */
-    public function setSatisfied(bool $satisfied) : void
+    public function setSatisfied(bool $satisfied): void
     {
         $this->satisfied = $satisfied;
     }
 
-    /**
-     * @return bool
-     */
-    public function getTerminated() : bool
+    public function getTerminated(): bool
     {
         return $this->terminated;
     }
 
-    /**
-     * @param bool $terminated
-     */
-    public function setTerminated(bool $terminated) : void
+    public function setTerminated(bool $terminated): void
     {
         $this->terminated = $terminated;
     }
 
-    /**
-     * @return bool
-     */
-    public function getHideData() : bool
+    public function getHideData(): bool
     {
         return $this->hide_data;
     }
 
-    /**
-     * @param bool $hide_data
-     */
-    public function setHideData(bool $hide_data) : void
+    public function setHideData(bool $hide_data): void
     {
         $this->hide_data = $hide_data;
     }
 
-    /**
-     * @return bool
-     */
-    public function getTimestamp() : bool
+    public function getTimestamp(): bool
     {
         return $this->timestamp;
     }
 
-    /**
-     * @param bool $timestamp
-     */
-    public function setTimestamp(bool $timestamp) : void
+    public function setTimestamp(bool $timestamp): void
     {
         $this->timestamp = $timestamp;
     }
 
-    /**
-     * @return bool
-     */
-    public function getDuration() : bool
+    public function getDuration(): bool
     {
         return $this->duration;
     }
 
-    /**
-     * @param bool $duration
-     */
-    public function setDuration(bool $duration) : void
+    public function setDuration(bool $duration): void
     {
         $this->duration = $duration;
     }
 
-    /**
-     * @return bool
-     */
-    public function getNoSubstatements() : bool
+    public function getNoSubstatements(): bool
     {
         return $this->no_substatements;
     }
 
-    /**
-     * @param bool $no_substatements
-     */
-    public function setNoSubstatements(bool $no_substatements) : void
+    public function setNoSubstatements(bool $no_substatements): void
     {
         $this->no_substatements = $no_substatements;
     }
 
-    public function getUserPrivacyComment() : string
+    public function getUserPrivacyComment(): string
     {
         return $this->userPrivacyComment;
     }
-    
-    public function setUserPrivacyComment(string $userPrivacyComment) : void
+
+    public function setUserPrivacyComment(string $userPrivacyComment): void
     {
         $this->userPrivacyComment = $userPrivacyComment;
     }
-    
-    public function isStatementsReportEnabled() : bool
+
+    public function isStatementsReportEnabled(): bool
     {
         return $this->statementsReportEnabled;
     }
-    
-    public function setStatementsReportEnabled(bool $statementsReportEnabled) : void
+
+    public function setStatementsReportEnabled(bool $statementsReportEnabled): void
     {
         $this->statementsReportEnabled = $statementsReportEnabled;
     }
-    
-    public function getXmlManifest() : string
+
+    public function getXmlManifest(): string
     {
         return $this->xmlManifest;
     }
-    
-    public function setXmlManifest(string $xmlManifest) : void
+
+    public function setXmlManifest(string $xmlManifest): void
     {
         $this->xmlManifest = $xmlManifest;
     }
-    
-    public function getVersion() : int
+
+    public function getVersion(): int
     {
         return $this->version;
     }
-    
-    public function setVersion(int $version) : void
+
+    public function setVersion(int $version): void
     {
         $this->version = $version;
     }
-    
-    /**
-     * @return bool
-     */
-    public function isBypassProxyEnabled() : bool
+
+    public function isBypassProxyEnabled(): bool
     {
         return $this->bypassProxyEnabled;
     }
-    
-    /**
-     * @param bool $bypassProxyEnabled
-     */
-    public function setBypassProxyEnabled(bool $bypassProxyEnabled) : void
+
+    public function setBypassProxyEnabled(bool $bypassProxyEnabled): void
     {
         $this->bypassProxyEnabled = $bypassProxyEnabled;
     }
 
     //todo?
-    protected function doRead() : void
+    protected function doRead(): void
     {
         $this->load();
     }
-    
-    public function load() : void
+
+    protected function load(): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         $query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s";
-        $res = $DIC->database()->queryF($query, ['integer'], [$this->getId()]);
-        
-        while ($row = $DIC->database()->fetchAssoc($res)) {
+        $res = $this->database->queryF($query, ['integer'], [$this->getId()]);
+
+        while ($row = $this->database->fetchAssoc($res)) {
             if ($row['lrs_type_id']) {
                 $this->setLrsTypeId((int) $row['lrs_type_id']);
                 $this->initLrsType();
             }
-            
+
             $this->setContentType($row['content_type']);
             $this->setSourceType($row['source_type']);
-            
+
             $this->setActivityId($row['activity_id']);
             $this->setPublisherId($row['publisher_id']);
             $this->setInstructions($row['instructions']);
-            
+
             $this->setLaunchUrl($row['launch_url']);
             $this->setLaunchParameters($row['launch_parameters']);
             $this->setMoveOn($row['moveon']);
             $this->setEntitlementKey($row['entitlement_key']);
             $this->setAuthFetchUrlEnabled((bool) $row['auth_fetch_url']);
-            
+
             $this->setLaunchMethod($row['launch_method']);
-            
+
             $this->setLaunchMode($row['launch_mode']);
             $this->setSwitchToReviewEnabled((bool) $row['switch_to_review']);
             $this->setMasteryScore((float) $row['mastery_score']);
             $this->setKeepLpStatusEnabled((bool) $row['keep_lp']);
-            
+
             $this->setPrivacyIdent((int) $row['privacy_ident']);
             $this->setPrivacyName((int) $row['privacy_name']);
 
@@ -915,12 +731,12 @@ class ilObjCmiXapi extends ilObject2
             $this->setNoSubstatements((bool) $row['no_substatements']);
 
             $this->setUserPrivacyComment($row['usr_privacy_comment']);
-            
+
             $this->setStatementsReportEnabled((bool) $row['show_statements']);
-            
+
             $this->setXmlManifest($row['xml_manifest']);
             $this->setVersion((int) $row['version']);
-            
+
             $this->setBypassProxyEnabled((bool) $row['bypass_proxy']);
 
             $this->setHighscoreEnabled((bool) $row['highscore_enabled']);
@@ -931,20 +747,20 @@ class ilObjCmiXapi extends ilObject2
             $this->setHighscoreTopTable((bool) $row['highscore_top_table']);
             $this->setHighscoreTopNum((int) $row['highscore_top_num']);
         }
-        
+
         $this->loadRepositoryActivationSettings();
     }
 
     //todo?
-    protected function doUpdate() : void
+    protected function doUpdate(): void
     {
         $this->save();
     }
-    
-    public function save() : void
+
+    public function save(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // not possible: Move Global Access to Constructor
         $DIC->database()->replace(self::DB_TABLE_NAME, [
             'obj_id' => ['integer', $this->getId()]
         ], [
@@ -977,7 +793,7 @@ class ilObjCmiXapi extends ilObject2
             'highscore_wtime' => ['integer', (int) $this->getHighscoreWTime()],
             'highscore_own_table' => ['integer', (int) $this->getHighscoreOwnTable()],
             'highscore_top_table' => ['integer', (int) $this->getHighscoreTopTable()],
-            'highscore_top_num' => ['integer', (int) $this->getHighscoreTopNum()],
+            'highscore_top_num' => ['integer', $this->getHighscoreTopNum()],
             'only_moveon' => ['integer', (int) $this->getOnlyMoveon()],
             'achieved' => ['integer', (int) $this->getAchieved()],
             'answered' => ['integer', (int) $this->getAnswered()],
@@ -993,11 +809,11 @@ class ilObjCmiXapi extends ilObject2
             'duration' => ['integer', (int) $this->getDuration()],
             'no_substatements' => ['integer', (int) $this->getNoSubstatements()]
         ]);
-        
+
         $this->saveRepositoryActivationSettings();
     }
-    
-    protected function loadRepositoryActivationSettings() : void
+
+    protected function loadRepositoryActivationSettings(): void
     {
         if ($this->ref_id) {
             $activation = ilObjectActivation::getItem($this->ref_id);
@@ -1008,20 +824,20 @@ class ilObjCmiXapi extends ilObject2
                     $this->setActivationEndingTime($activation["timing_end"]);
                     $this->setActivationVisibility($activation["visible"]);
                     break;
-                
+
                 default:
                     $this->setActivationLimited(false);
                     break;
             }
         }
     }
-    
-    protected function saveRepositoryActivationSettings() : void
+
+    protected function saveRepositoryActivationSettings(): void
     {
         if ($this->ref_id) {
             ilObjectActivation::getItem($this->ref_id);
-            
-            $item = new ilObjectActivation;
+
+            $item = new ilObjectActivation();
             if (!$this->isActivationLimited()) {
                 $item->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
             } else {
@@ -1030,38 +846,38 @@ class ilObjCmiXapi extends ilObject2
                 $item->setTimingEnd($this->getActivationEndingTime());
                 $item->toggleVisible($this->getActivationVisibility());
             }
-            
+
             $item->update($this->ref_id);
         }
     }
-    
-    public static function updatePrivacySettingsFromLrsType(ilCmiXapiLrsType $lrsType) : void
+
+    public static function updatePrivacySettingsFromLrsType(ilCmiXapiLrsType $lrsType): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        //not possible: Move Global Access to Constructor
         $tableName = self::DB_TABLE_NAME;
-        
+
         $query = "
 			UPDATE {$tableName}
-			SET privacy_ident = %s, 
-                privacy_name = %s, 
-                only_moveon = %s, 
-                achieved = %s, 
-                answered = %s, 
-                completed = %s, 
-                failed = %s, 
-                initialized = %s, 
-                passed = %s, 
-                progressed = %s, 
-                satisfied = %s, 
-                c_terminated = %s, 
-                hide_data = %s, 
-                c_timestamp = %s, 
-                duration = %s, 
+			SET privacy_ident = %s,
+                privacy_name = %s,
+                only_moveon = %s,
+                achieved = %s,
+                answered = %s,
+                completed = %s,
+                failed = %s,
+                initialized = %s,
+                passed = %s,
+                progressed = %s,
+                satisfied = %s,
+                c_terminated = %s,
+                hide_data = %s,
+                c_timestamp = %s,
+                duration = %s,
                 no_substatements = %s
             WHERE lrs_type_id = %s
 		";
-        
+
         $DIC->database()->manipulateF(
             $query,
             ['integer',
@@ -1102,19 +918,19 @@ class ilObjCmiXapi extends ilObject2
             ]
         );
     }
-    
-    public static function updateByPassProxyFromLrsType(ilCmiXapiLrsType $lrsType) : void
+
+    public static function updateByPassProxyFromLrsType(ilCmiXapiLrsType $lrsType): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // not possible: Move Global Access to Constructor
         $tableName = self::DB_TABLE_NAME;
-        
+
         $query = "
 			UPDATE {$tableName}
 			SET bypass_proxy = %s
 			WHERE lrs_type_id = %s
 		";
-        
+
         $DIC->database()->manipulateF(
             $query,
             ['integer', 'integer'],
@@ -1125,24 +941,24 @@ class ilObjCmiXapi extends ilObject2
     /**
      * @return mixed[]
      */
-    public static function getObjectsHavingBypassProxyEnabledAndRegisteredUsers() : array
+    public static function getObjectsHavingBypassProxyEnabledAndRegisteredUsers(): array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // not possible: Move Global Access to Constructor
         $query = "
 			SELECT DISTINCT s.obj_id FROM " . self::DB_TABLE_NAME . " s
 			INNER JOIN " . self::DB_USERS_TABLE_NAME . " u ON u.obj_id = s.obj_id
 			WHERE bypass_proxy = %s
 		";
-        
+
         $res = $DIC->database()->queryF($query, array('integer'), array(1));
-        
+
         $objects = array();
-        
+
         while ($row = $DIC->database()->fetchAssoc($res)) {
             $objects[] = (int) $row['obj_id'];
         }
-        
+
         return $objects;
     }
 
@@ -1151,157 +967,127 @@ class ilObjCmiXapi extends ilObject2
     /////////////////////////////////////////
     /// HIGHSCORE
 
-    /**
-     * @var bool
-     */
     protected bool $_highscore_enabled = false;
 
-
-    /**
-     * @var int
-     */
     protected int $anonymity = 0;
 
-    /**
-     * @var bool
-     */
     protected bool $_highscore_achieved_ts = true;
 
-    /**
-     * @var bool
-     */
     protected bool $_highscore_percentage = true;
 
-    /**
-     * @var bool
-     */
     protected bool $_highscore_wtime = true;
 
-    /**
-     * @var bool
-     */
     protected bool $_highscore_own_table = true;
 
-    /**
-     * @var bool
-     */
     protected bool $_highscore_top_table = true;
 
-    /**
-     * @var int
-     */
     protected int $_highscore_top_num = 10;
-    
-    const HIGHSCORE_SHOW_ALL_TABLES = 1;
-    const HIGHSCORE_SHOW_TOP_TABLE = 2;
-    const HIGHSCORE_SHOW_OWN_TABLE = 3;
+
+    public const HIGHSCORE_SHOW_ALL_TABLES = 1;
+    public const HIGHSCORE_SHOW_TOP_TABLE = 2;
+    public const HIGHSCORE_SHOW_OWN_TABLE = 3;
 
     /**
      * Sets if the highscore feature should be enabled.
-     * @param bool $a_enabled
      */
-    public function setHighscoreEnabled(bool $a_enabled) : void
+    public function setHighscoreEnabled(bool $a_enabled): void
     {
-        $this->_highscore_enabled = (bool) $a_enabled;
+        $this->_highscore_enabled = $a_enabled;
     }
 
     /**
      * Gets the setting which determines if the highscore feature is enabled.
      * @return bool True, if highscore is enabled.
      */
-    public function getHighscoreEnabled() : bool
+    public function getHighscoreEnabled(): bool
     {
-        return (bool) $this->_highscore_enabled;
+        return $this->_highscore_enabled;
     }
 
     /**
      * Sets if the date and time of the scores achievement should be displayed.
-     * @param bool $a_achieved_ts
      */
-    public function setHighscoreAchievedTS(bool $a_achieved_ts) : void
+    public function setHighscoreAchievedTS(bool $a_achieved_ts): void
     {
-        $this->_highscore_achieved_ts = (bool) $a_achieved_ts;
+        $this->_highscore_achieved_ts = $a_achieved_ts;
     }
 
     /**
      * Returns if date and time of the scores achievement should be displayed.
      * @return bool True, if column should be shown.
      */
-    public function getHighscoreAchievedTS() : bool
+    public function getHighscoreAchievedTS(): bool
     {
-        return (bool) $this->_highscore_achieved_ts;
+        return $this->_highscore_achieved_ts;
     }
 
     /**
      * Sets if the percentages of the scores pass should be shown.
-     * @param bool $a_percentage
      */
-    public function setHighscorePercentage(bool $a_percentage) : void
+    public function setHighscorePercentage(bool $a_percentage): void
     {
-        $this->_highscore_percentage = (bool) $a_percentage;
+        $this->_highscore_percentage = $a_percentage;
     }
 
     /**
      * Gets if the percentage column should be shown.
      * @return bool True, if percentage column should be shown.
      */
-    public function getHighscorePercentage() : bool
+    public function getHighscorePercentage(): bool
     {
-        return (bool) $this->_highscore_percentage;
+        return $this->_highscore_percentage;
     }
 
     /**
      * Sets if the workingtime of the scores should be shown.
-     * @param bool $a_wtime
      */
-    public function setHighscoreWTime(bool $a_wtime) : void
+    public function setHighscoreWTime(bool $a_wtime): void
     {
-        $this->_highscore_wtime = (bool) $a_wtime;
+        $this->_highscore_wtime = $a_wtime;
     }
 
     /**
      * Gets if the column with the workingtime should be shown.
      * @return bool True, if the workingtime column should be shown.
      */
-    public function getHighscoreWTime() : bool
+    public function getHighscoreWTime(): bool
     {
-        return (bool) $this->_highscore_wtime;
+        return $this->_highscore_wtime;
     }
 
     /**
      * Sets if the table with the own ranking should be shown.
      * @param bool $a_own_table True, if table with own ranking should be shown.
      */
-    public function setHighscoreOwnTable(bool $a_own_table) : void
+    public function setHighscoreOwnTable(bool $a_own_table): void
     {
-        $this->_highscore_own_table = (bool) $a_own_table;
+        $this->_highscore_own_table = $a_own_table;
     }
 
     /**
      * Gets if the own rankings table should be shown.
      * @return bool True, if the own rankings table should be shown.
      */
-    public function getHighscoreOwnTable() : bool
+    public function getHighscoreOwnTable(): bool
     {
-        return (bool) $this->_highscore_own_table;
+        return $this->_highscore_own_table;
     }
 
     /**
      * Sets if the top-rankings table should be shown.
-     * @param bool $a_top_table
      */
-    public function setHighscoreTopTable(bool $a_top_table) : void
+    public function setHighscoreTopTable(bool $a_top_table): void
     {
-        $this->_highscore_top_table = (bool) $a_top_table;
+        $this->_highscore_top_table = $a_top_table;
     }
 
     /**
      * Gets, if the top-rankings table should be shown.
      * @return bool True, if top-rankings table should be shown.
      */
-    public function getHighscoreTopTable() : bool
+    public function getHighscoreTopTable(): bool
     {
-        return (bool) $this->_highscore_top_table;
+        return $this->_highscore_top_table;
     }
 
     /**
@@ -1309,9 +1095,9 @@ class ilObjCmiXapi extends ilObject2
      * table.
      * @param integer $a_top_num Number of entries in the top-rankings table.
      */
-    public function setHighscoreTopNum(int $a_top_num) : void
+    public function setHighscoreTopNum(int $a_top_num): void
     {
-        $this->_highscore_top_num = (int) $a_top_num;
+        $this->_highscore_top_num = $a_top_num;
     }
 
     /**
@@ -1320,20 +1106,17 @@ class ilObjCmiXapi extends ilObject2
      * @param int|null $a_retval Optional return value if nothing is set, defaults to 10.
      * @return integer Number of entries to be shown in the top-rankings table.
      */
-    public function getHighscoreTopNum(?int $a_retval = 10) : int
+    public function getHighscoreTopNum(?int $a_retval = 10): ?int
     {
         $retval = $a_retval;
-        if ((int) $this->_highscore_top_num != 0) {
+        if ($this->_highscore_top_num != 0) {
             $retval = $this->_highscore_top_num;
         }
 
         return $retval;
     }
 
-    /**
-     * @return int
-     */
-    public function getHighscoreMode() : int
+    public function getHighscoreMode(): int
     {
         switch (true) {
             case $this->getHighscoreOwnTable() && $this->getHighscoreTopTable():
@@ -1348,10 +1131,8 @@ class ilObjCmiXapi extends ilObject2
         }
     }
 
-    /**
-     * @param $mode int
-     */
-    public function setHighscoreMode(int $mode) : void
+
+    public function setHighscoreMode(int $mode): void
     {
         switch ($mode) {
             case self::HIGHSCORE_SHOW_ALL_TABLES:
@@ -1377,12 +1158,12 @@ class ilObjCmiXapi extends ilObject2
     /**
      * @return array<string, float>|array<string, int>|array<string, string>
      */
-    public function getDataSetMapping() : array
+    public function getDataSetMapping(): array
     {
         if (null === ($lrsTypeId = $this->getLrsTypeId())) {
             $this->doRead();
         }
-        $mapping = [
+        return [
             'obj_id' => $this->getId(),
             'lrs_type_id' => $this->getLrsTypeId(),
             'content_type' => $this->getContentType(),
@@ -1412,7 +1193,7 @@ class ilObjCmiXapi extends ilObject2
             'highscore_wtime' => (int) $this->getHighscoreWTime(),
             'highscore_own_table' => (int) $this->getHighscoreOwnTable(),
             'highscore_top_table' => (int) $this->getHighscoreTopTable(),
-            'highscore_top_num' => (int) $this->getHighscoreTopNum(),
+            'highscore_top_num' => $this->getHighscoreTopNum(),
             'only_moveon' => (int) $this->getOnlyMoveon(),
             'achieved' => (int) $this->getAchieved(),
             'answered' => (int) $this->getAnswered(),
@@ -1429,7 +1210,6 @@ class ilObjCmiXapi extends ilObject2
             'no_substatements' => (int) $this->getNoSubstatements()
             //'bypass_proxy' => (int) $this->isBypassProxyEnabled()
         ];
-        return $mapping;
     }
 
     /**
@@ -1437,12 +1217,10 @@ class ilObjCmiXapi extends ilObject2
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null): void
     {
         assert($new_obj instanceof ilObjCmiXapi);
-        
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $this->cloneMetaData($new_obj);
 
         $new_obj->setLrsTypeId($this->getLrsTypeId());
@@ -1490,7 +1268,7 @@ class ilObjCmiXapi extends ilObject2
         $new_obj->setDuration($this->getDuration());
         $new_obj->setNoSubstatements($this->getNoSubstatements());
         $new_obj->update();
-        
+
         if ($this->getSourceType() == self::SRC_TYPE_LOCAL) {
             $dirUtil = new ilCmiXapiContentUploadImporter($new_obj);
             $dirUtil->ensureCreatedObjectDirectory();
@@ -1501,14 +1279,11 @@ class ilObjCmiXapi extends ilObject2
         }
     }
 
-    protected function doDelete() : void
+    protected function doDelete(): void
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-
         // delete file data entry
-        $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer');
-        $ilDB->manipulate($query);
+        $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE obj_id = " . $this->database->quote($this->getId(), 'integer');
+        $this->database->manipulate($query);
         ilHistory::_removeEntriesForObject($this->getId());
 
         // delete entire directory and its content
@@ -1523,51 +1298,49 @@ class ilObjCmiXapi extends ilObject2
 
         //delete results
         $query = "DELETE FROM " . self::DB_RESULTS_TABLE_NAME .
-                "WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer') . " ";
-        $ilDB->manipulate($query);
+                "WHERE obj_id = " . $this->database->quote($this->getId(), 'integer') . " ";
+        $this->database->manipulate($query);
 
         // TODO check xapidel
     }
 
-    /**
-     * @return mixed[]
-     */
-    public function getRegistrations() : array
-    {
-        global $DIC;
-        $res = $DIC->database()->queryF(
-            "SELECT DISTINCT registration FROM " . self::DB_USERS_TABLE_NAME . " WHERE obj_id = %s",
-            array('text'),
-            array($this->getId())
-        );
-        $ret = [];
-        while ($row = $DIC->database()->fetchAssoc($res)) {
-            $ret[] = (string) $row['registration'];
-        }
-        return $ret;
-    }
+//    /**
+//     * @return string[]
+//     */
+//    public function getRegistrations() : array
+//    {
+//        global $DIC;
+//        $res = $DIC->database()->queryF(
+//            "SELECT DISTINCT registration FROM " . self::DB_USERS_TABLE_NAME . " WHERE obj_id = %s",
+//            array('text'),
+//            array($this->getId())
+//        );
+//        $ret = [];
+//        while ($row = $DIC->database()->fetchAssoc($res)) {
+//            $ret[] = (string) $row['registration'];
+//        }
+//        return $ret;
+//    }
 
     /**
-     * @param string|null $data
-     * @return string
      * @throws Exception
      */
-    public static function guidv4(?string $data = null) : string
+    public static function guidv4(?string $data = null): string
     {
         // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
         $data ??= random_bytes(16);
         assert(strlen($data) == 16);
-    
+
         // Set version to 0100
         $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
         // Set bits 6-7 to 10
         $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
-    
+
         // Output the 36 character UUID.
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 
-    public function getCurrentCmixUser() : \ilCmiXapiUser
+    public function getCurrentCmixUser(): \ilCmiXapiUser
     {
         global $DIC;
         if (null === $this->currentCmixUser) {
@@ -1577,11 +1350,9 @@ class ilObjCmiXapi extends ilObject2
     }
 
     /**
-     * @param ilCmiXapiUser $cmixUser
-     * @return string
      * @throws ilCmiXapiException
      */
-    public function getSessionId(?ilCmiXapiUser $cmixUser = null) : string
+    public function getSessionId(?ilCmiXapiUser $cmixUser = null): string
     {
         if (null === $cmixUser) {
             $cmixUser = $this->getCurrentCmixUser();
@@ -1591,11 +1362,9 @@ class ilObjCmiXapi extends ilObject2
 
     /**
      * LMS.LaunchData
-     * @param ilCmiXapiUser|null $cmixUser
-     * @param string             $lang
      * @return array<string, mixed>
      */
-    public function getLaunchData(?ilCmiXapiUser $cmixUser = null, string $lang = 'en') : array
+    public function getLaunchData(?ilCmiXapiUser $cmixUser = null, string $lang = 'en'): array
     {
         if (null === $cmixUser) {
             $cmixUser = $this->getCurrentCmixUser();
@@ -1641,10 +1410,9 @@ class ilObjCmiXapi extends ilObject2
     }
 
     /**
-     * @param ilCmiXapiUser|null $cmixUser
      * @return array<string, mixed>
      */
-    public function getLaunchedContextTemplate(?ilCmiXapiUser $cmixUser = null) : array
+    public function getLaunchedContextTemplate(?ilCmiXapiUser $cmixUser = null): array
     {
         if (null === $cmixUser) {
             $cmixUser = $this->getCurrentCmixUser();
@@ -1667,21 +1435,18 @@ class ilObjCmiXapi extends ilObject2
         if (!empty($this->getMasteryScore())) {
             $extensions['https://w3id.org/xapi/cmi5/context/extensions/masteryscore'] = $this->getMasteryScore();
         }
-        $contextTemplate = array(
+        return array(
             "contextActivities" => $this->getStatementContextActivities(),
             "extensions" => $extensions
         );
-        return $contextTemplate;
     }
 
     /**
      * blueprint statement
-     * @param string             $verb
-     * @param ilCmiXapiUser|null $cmixUser
      * @return array<string, mixed>
      * @throws Exception
      */
-    public function getStatement(string $verb, ?ilCmiXapiUser $cmixUser = null) : array
+    public function getStatement(string $verb, ?ilCmiXapiUser $cmixUser = null): array
     {
         if (null === $cmixUser) {
             $cmixUser = $this->getCurrentCmixUser();
@@ -1693,7 +1458,7 @@ class ilObjCmiXapi extends ilObject2
         $registration = $cmixUser->getRegistration();
         $contextActivities = $this->getStatementContextActivities();
         $object = $this->getStatementObject();
-        $statement = array(
+        return array(
             'id' => $id,
             'actor' => $actor,
             'verb' =>
@@ -1708,15 +1473,13 @@ class ilObjCmiXapi extends ilObject2
             ),
             'object' => $object
         );
-        return $statement;
     }
 
     /**
      * statement actor
-     * @param ilCmiXapiUser|null $cmixUser
      * @return array<string, mixed[]>
      */
-    public function getStatementActor(?ilCmiXapiUser $cmixUser = null) : array
+    public function getStatementActor(?ilCmiXapiUser $cmixUser = null): array
     {
         global $DIC;
         if (null === $cmixUser) {
@@ -1754,34 +1517,32 @@ class ilObjCmiXapi extends ilObject2
 
     /**
      * Minimal extensions
-     * @param ilCmiXapiUser|null $cmixUser
      * @return array<string, mixed>
      * @throws ilCmiXapiException
      */
-    public function getStatementExtensions(?ilCmiXapiUser $cmixUser = null) : array
+    public function getStatementExtensions(?ilCmiXapiUser $cmixUser = null): array
     {
         if (null === $cmixUser) {
             $cmixUser = $this->getCurrentCmixUser();
         }
-        $extensions = array(
+        return array(
             'https://w3id.org/xapi/cmi5/context/extensions/sessionid' => $this->getSessionId($cmixUser),
             'https://ilias.de/cmi5/activityid' => $this->getActivityId()
         );
-        return $extensions;
     }
 
     /**
      * Minimal statementActivities
      * @return array<string, array<int, array<string, array<string, array<string, string>>|string>>>
      */
-    public function getStatementContextActivities() : array
+    public function getStatementContextActivities(): array
     {
         $publisherId = $this->getPublisherId();
         $activityId = $this->getActivityId();
         if (empty($publisherId)) {
             $publisherId = $activityId;
         }
-        $ctxActivities = array(
+        return array(
             "grouping" => [
                 [
                 "objectType" => "Activity",
@@ -1807,15 +1568,14 @@ class ilObjCmiXapi extends ilObject2
                 ]
             ]
         );
-        return $ctxActivities;
     }
 
     /**
      * @return array<string, mixed[]>
      */
-    public function getStatementObject() : array
+    public function getStatementObject(): array
     {
-        $object = array(
+        return array(
                 'id' => $this->getActivityId(),
                 'definition' =>
                 array(
@@ -1831,15 +1591,13 @@ class ilObjCmiXapi extends ilObject2
                     )
                 )
             );
-        return $object;
     }
 
     /**
-     * @param ilCmiXapiUser|null $cmixUser
      * @return array<string, mixed>
      * @throws Exception
      */
-    public function getLaunchedStatement(?ilCmiXapiUser $cmixUser = null) : array
+    public function getLaunchedStatement(?ilCmiXapiUser $cmixUser = null): array
     {
         if (null === $cmixUser) {
             $cmixUser = $this->getCurrentCmixUser();
@@ -1851,7 +1609,7 @@ class ilObjCmiXapi extends ilObject2
                 $launchMode = self::LAUNCH_MODE_REVIEW;
             }
         }
-        
+
         $statement = $this->getStatement('launched', $cmixUser);
         $statement['context']['extensions']['https://w3id.org/xapi/cmi5/context/extensions/launchmode'] = $launchMode;
         if (!empty($this->getLMSMoveOn())) {
@@ -1867,13 +1625,10 @@ class ilObjCmiXapi extends ilObject2
     }
 
     /**
-     * @param string|null        $sessionId
-     * @param string|null        $duration
-     * @param ilCmiXapiUser|null $cmixUser
      * @return array<string, mixed>
      * @throws Exception
      */
-    public function getAbandonedStatement(?string $sessionId, ?string $duration, ?ilCmiXapiUser $cmixUser = null) : array
+    public function getAbandonedStatement(?string $sessionId, ?string $duration, ?ilCmiXapiUser $cmixUser = null): array
     {
         if (null === $cmixUser) {
             $cmixUser = $this->getCurrentCmixUser();
@@ -1888,11 +1643,10 @@ class ilObjCmiXapi extends ilObject2
     }
 
     /**
-     * @param ilCmiXapiUser|null $cmixUser
      * @return array<string, mixed>
      * @throws Exception
      */
-    public function getSatisfiedStatement(?ilCmiXapiUser $cmixUser = null) : array
+    public function getSatisfiedStatement(?ilCmiXapiUser $cmixUser = null): array
     {
         if (null === $cmixUser) {
             $cmixUser = $this->getCurrentCmixUser();
@@ -1908,7 +1662,6 @@ class ilObjCmiXapi extends ilObject2
 
     /**
      * get latest statement from session
-     * @param string $sess
      * @return mixed|null
      */
     public function getLastStatement(string $sess)
@@ -1961,19 +1714,18 @@ class ilObjCmiXapi extends ilObject2
     }
 
     /**
-     * @param string $sess
      * @return array<int, mixed[]>
      */
-    public function getLastStatementPipline(string $sess) : array
+    public function getLastStatementPipline(string $sess): array
     {
         global $DIC;
         $pipeline = array();
-        
+
         // filter activityId
         $match = array();
         $match['statement.object.objectType'] = 'Activity';
         $match['statement.actor.objectType'] = 'Agent';
-        
+
         $activityId = array();
 
         if ($this->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$this->isMixedContentType()) {
@@ -2003,66 +1755,62 @@ class ilObjCmiXapi extends ilObject2
         return $pipeline;
     }
 
-    public static function iliasUrl() : string
+    public static function iliasUrl(): string
     {
-        //todo
-//        $regex = '/^(https?:\/\/[^\/]+).*/';
-//        preg_match($regex, $GLOBALS['DIC']->http()->request()->getUri(), $request_parts);
-//        return $request_parts[1];
-        return "";
+        global $DIC;
+        $regex = '/^(https?:\/\/[^\/]+).*/';
+        preg_match($regex, (string) $DIC->http()->request()->getUri(), $request_parts);
+        return $request_parts[1];
     }
 
-    /**
-     * @return CliLog|ilLogger
-     */
-    public static function log()
+    public static function log(): ilLogger
     {
-        global $log;
         if (self::PLUGIN) {
+            global $log;
             return $log;
         } else {
             return \ilLoggerFactory::getLogger('cmix');
         }
     }
-    
-    
-    public function isActivationLimited() : ?bool
+
+
+    public function isActivationLimited(): ?bool
     {
         return $this->activationLimited;
     }
 
-   
-    public function setActivationLimited(bool $activationLimited) : void
+
+    public function setActivationLimited(bool $activationLimited): void
     {
         $this->activationLimited = $activationLimited;
     }
-    
-    public function getActivationStartingTime() : ?int
+
+    public function getActivationStartingTime(): ?int
     {
         return $this->activationStartingTime;
     }
-    
-    public function setActivationStartingTime(int $activationStartingTime) : void
+
+    public function setActivationStartingTime(int $activationStartingTime): void
     {
         $this->activationStartingTime = $activationStartingTime;
     }
-    
-    public function getActivationEndingTime() : ?int
+
+    public function getActivationEndingTime(): ?int
     {
         return $this->activationEndingTime;
     }
-    
-    public function setActivationEndingTime(int $activationEndingTime) : void
+
+    public function setActivationEndingTime(int $activationEndingTime): void
     {
         $this->activationEndingTime = $activationEndingTime;
     }
-    
-    public function getActivationVisibility() : ?bool
+
+    public function getActivationVisibility(): ?bool
     {
         return $this->activationVisibility;
     }
-    
-    public function setActivationVisibility(bool $activationVisibility) : void
+
+    public function setActivationVisibility(bool $activationVisibility): void
     {
         $this->activationVisibility = $activationVisibility;
     }

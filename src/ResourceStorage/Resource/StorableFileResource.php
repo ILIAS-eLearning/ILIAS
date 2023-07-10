@@ -1,38 +1,43 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Resource;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\RevisionCollection;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class StorableFileResource
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class StorableFileResource implements StorableResource
 {
-    private \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
     private \ILIAS\ResourceStorage\Revision\RevisionCollection $revisions;
     /**
      * @var ResourceStakeholder[]
      */
     private array $stakeholders = [];
     private string $storage_id = '';
+    private ResourceIdentification $identification;
 
     /**
      * StorableFileResource constructor.
@@ -46,7 +51,7 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
-    public function getIdentification() : ResourceIdentification
+    public function getIdentification(): ResourceIdentification
     {
         return $this->identification;
     }
@@ -54,7 +59,7 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
-    public function getCurrentRevision() : Revision
+    public function getCurrentRevision(): Revision
     {
         return $this->revisions->getCurrent();
     }
@@ -62,7 +67,7 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
-    public function getSpecificRevision(int $number) : ?Revision
+    public function getSpecificRevision(int $number): ?Revision
     {
         foreach ($this->getAllRevisions() as $revision) {
             if ($revision->getVersionNumber() === $number) {
@@ -75,7 +80,7 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
-    public function hasSpecificRevision(int $number) : bool
+    public function hasSpecificRevision(int $number): bool
     {
         foreach ($this->getAllRevisions() as $revision) {
             if ($revision->getVersionNumber() === $number) {
@@ -88,7 +93,7 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
-    public function getAllRevisions() : array
+    public function getAllRevisions(): array
     {
         return $this->revisions->getAll();
     }
@@ -96,12 +101,12 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
-    public function addRevision(Revision $revision) : void
+    public function addRevision(Revision $revision): void
     {
         $this->revisions->add($revision);
     }
 
-    public function removeRevision(Revision $revision) : void
+    public function removeRevision(Revision $revision): void
     {
         $this->revisions->remove($revision);
     }
@@ -109,7 +114,7 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
-    public function replaceRevision(Revision $revision) : void
+    public function replaceRevision(Revision $revision): void
     {
         $this->revisions->replaceSingleRevision($revision);
     }
@@ -117,7 +122,7 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
-    public function setRevisions(RevisionCollection $collection) : void
+    public function setRevisions(RevisionCollection $collection): void
     {
         $this->revisions = $collection;
     }
@@ -125,7 +130,7 @@ class StorableFileResource implements StorableResource
     /**
      * @return ResourceStakeholder[]
      */
-    public function getStakeholders() : array
+    public function getStakeholders(): array
     {
         return $this->stakeholders;
     }
@@ -133,7 +138,7 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
-    public function addStakeholder(ResourceStakeholder $s) : void
+    public function addStakeholder(ResourceStakeholder $s): void
     {
         $this->stakeholders[] = $s;
     }
@@ -141,7 +146,7 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
-    public function removeStakeholder(ResourceStakeholder $s) : void
+    public function removeStakeholder(ResourceStakeholder $s): void
     {
         foreach ($this->stakeholders as $k => $stakeholder) {
             if ($stakeholder->getId() === $s->getId()) {
@@ -153,7 +158,7 @@ class StorableFileResource implements StorableResource
     /**
      * @param ResourceStakeholder[] $stakeholders
      */
-    public function setStakeholders(array $stakeholders) : self
+    public function setStakeholders(array $stakeholders): self
     {
         $this->stakeholders = $stakeholders;
 
@@ -163,7 +168,7 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
-    public function getStorageId() : string
+    public function getStorageId(): string
     {
         return $this->storage_id;
     }
@@ -171,7 +176,7 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
-    public function setStorageId(string $storage_id) : void
+    public function setStorageId(string $storage_id): void
     {
         $this->storage_id = $storage_id;
     }
@@ -179,8 +184,14 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
-    public function getMaxRevision() : int
+    public function getMaxRevision(): int
     {
         return $this->revisions->getMax();
+    }
+
+
+    public function getFullSize(): int
+    {
+        return $this->revisions->getFullSize();
     }
 }

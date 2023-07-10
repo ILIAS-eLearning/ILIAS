@@ -1,37 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 23.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
+<!-- Generator: Adobe Illustrator 26.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#000000;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st1{fill:none;stroke:#000000;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}
-	.st3{fill:none;stroke:#000000;stroke-linecap:square;stroke-miterlimit:10;}
-	.st4{fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st5{fill:none;stroke:#000000;stroke-linecap:round;stroke-miterlimit:10;}
-	.st6{fill:none;stroke:#000000;stroke-linecap:square;stroke-linejoin:round;}
-	.st7{fill:none;stroke:#000000;stroke-width:0.9701;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st8{stroke:#000000;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st9{display:none;fill:none;stroke:#000000;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st10{fill:none;stroke:#000000;stroke-width:1.0026;stroke-miterlimit:10;}
-	.st11{fill:none;stroke:#000000;stroke-width:1.0305;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st12{fill:none;stroke:#000000;stroke-width:0.907;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st13{fill:#FFFFFF;}
-	.st14{fill:none;stroke:#000000;stroke-width:1.45;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st15{fill:none;stroke:#000000;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st16{fill:none;stroke:#000000;stroke-width:1.45;stroke-miterlimit:10;}
-	.st17{fill:#333333;}
-	.st18{fill:none;stroke:#FFFFFF;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st19{clip-path:url(#SVGID_3_);}
-	.st20{clip-path:url(#SVGID_4_);fill:none;stroke:#FFFFFF;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st21{fill:none;stroke:#FFFFFF;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st0{fill:none;stroke:#1A1A18;stroke-linejoin:round;}
+	.st1{clip-path:url(#SVGID_00000092428248601721574640000004228668008488188557_);fill:#4C6586;}
 </style>
-<g id="cat-pg">
-	<path class="st15" d="M3.8,17.6c0,0,3.5-8.8,12.2-8.8s12.2,8.8,12.2,8.8S25.4,27.7,16,27.7S3.8,17.6,3.8,17.6z"/>
+<path class="st0" d="M90,97"/>
+<g>
 	<g>
-		<ellipse class="st15" cx="16" cy="18.2" rx="4.5" ry="5"/>
+		<defs>
+			<rect id="SVGID_1_" width="320" height="320"/>
+		</defs>
+		<clipPath id="SVGID_00000109010059379014542840000001948781156988019859_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<path style="clip-path:url(#SVGID_00000109010059379014542840000001948781156988019859_);fill:#4C6586;" d="M205,160
+			c0,24.8-20.2,45-45,45s-45-20.2-45-45s20.2-45,45-45S205,135.2,205,160 M220,160c0-33.1-26.9-60-60-60s-60,26.9-60,60
+			s26.9,60,60,60S220,193.1,220,160 M284.9,160c-2,4.8-15.4,21.4-40.5,38.9C227.6,210.5,194.5,230,160,230s-67.6-19.5-84.3-31.1
+			c-25.1-17.5-38.5-34.1-40.5-38.9c2-4.8,15.4-21.4,40.5-38.9C92.4,109.5,125.5,90,160,90s67.6,19.5,84.3,31.1
+			C269.4,138.6,282.9,155.2,284.9,160 M300,160c0-12.9-26.8-36.7-44.8-49.5C236.7,97.2,199.7,75,160,75s-76.7,22.2-95.2,35.5
+			C46.8,123.3,20,147.1,20,160s26.8,36.7,44.8,49.5C83.3,222.8,120.3,245,160,245s76.7-22.2,95.2-35.5
+			C273.2,196.7,300,172.9,300,160"/>
 	</g>
-</g>
-<g id="Guidelines">
 </g>
 </svg>

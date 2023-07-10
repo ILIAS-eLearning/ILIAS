@@ -1,10 +1,26 @@
 <?php
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\Setup;
 use ILIAS\DI;
+use ILIAS\Services\Logging\NullLogger;
 
 class ilComponentActivatePluginsObjective implements Setup\Objective
 {
@@ -18,7 +34,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class . $this->plugin_name);
     }
@@ -26,7 +42,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Activate plugin $this->plugin_name.";
     }
@@ -34,7 +50,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
@@ -42,7 +58,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [
             new \ilIniFilesLoadedObjective(),
@@ -56,7 +72,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
         $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
@@ -85,7 +101,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
         $plugin = $component_repository->getPluginByName($this->plugin_name);
@@ -93,13 +109,13 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         return $plugin->isActivationPossible($environment);
     }
 
-    protected function initEnvironment(Setup\Environment $environment) : ?ILIAS\DI\Container
+    protected function initEnvironment(Setup\Environment $environment)
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $plugin_admin = $environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN);
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
 
         // ATTENTION: This is a total abomination. It only exists to allow various
         // sub components of the various readers to run. This is a memento to the
@@ -107,41 +123,20 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         // component could just service locate the whole world via the global $DIC.
         $DIC = $GLOBALS["DIC"];
         $GLOBALS["DIC"] = new DI\Container();
+        $GLOBALS["DIC"]["component.repository"] = $component_repository;
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
-        $GLOBALS["DIC"]["ilLog"] = new class() extends ilLogger {
-            public function __construct()
-            {
-            }
-            public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
-            {
-            }
-            public function info(string $a_message) : void
-            {
-            }
-            public function warning(string $a_message) : void
-            {
-            }
-            public function error(string $a_message) : void
-            {
-            }
-            public function debug(string $a_message, array $a_context = []) : void
-            {
-            }
-            public function dump($a_variable, int $a_level = ilLogLevel::INFO) : void
-            {
-            }
-        };
+        $GLOBALS["DIC"]["ilLog"] = new NullLogger();
         $GLOBALS["DIC"]["ilLoggerFactory"] = new class() extends ilLoggerFactory {
             public function __construct()
             {
             }
-            public static function getRootLogger() : ilLogger
+            public static function getRootLogger(): ilLogger
             {
                 return $GLOBALS["DIC"]["ilLog"];
             }
-            public static function getLogger(string $a_component_id) : ilLogger
+            public static function getLogger(string $a_component_id): ilLogger
             {
                 return $GLOBALS["DIC"]["ilLog"];
             }
@@ -168,10 +163,6 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
                 $this->prefs["language"] = "en";
             }
         };
-
-        if (!defined('DEBUG')) {
-            define('DEBUG', false);
-        }
 
         if (!defined('SYSTEM_ROLE_ID')) {
             define('SYSTEM_ROLE_ID', '2');

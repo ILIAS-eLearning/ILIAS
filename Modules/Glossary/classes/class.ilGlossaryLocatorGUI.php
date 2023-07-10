@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Glossary\Presentation\PresentationGUIRequest;
 
@@ -22,7 +25,6 @@ use ILIAS\Glossary\Presentation\PresentationGUIRequest;
 class ilGlossaryLocatorGUI
 {
     protected PresentationGUIRequest $presentation_request;
-    protected ?ilGlossaryDefinition $definition = null;
     protected ?ilGlossaryTerm $term = null;
     protected ilCtrl $ctrl;
     protected ilLocatorGUI $locator;
@@ -56,27 +58,22 @@ class ilGlossaryLocatorGUI
             ->request();
     }
 
-    public function setTemplateVariable(string $a_temp_var) : void
+    public function setTemplateVariable(string $a_temp_var): void
     {
         $this->temp_var = $a_temp_var;
     }
 
-    public function setTerm(ilGlossaryTerm $a_term) : void
+    public function setTerm(ilGlossaryTerm $a_term): void
     {
         $this->term = $a_term;
     }
 
-    public function setGlossary(ilObjGlossary $a_glossary) : void
+    public function setGlossary(ilObjGlossary $a_glossary): void
     {
         $this->glossary = $a_glossary;
     }
 
-    public function setDefinition(ilGlossaryDefinition $a_def) : void
-    {
-        $this->definition = $a_def;
-    }
-
-    public function setMode(string $a_mode) : void
+    public function setMode(string $a_mode): void
     {
         $this->mode = $a_mode;
     }
@@ -84,15 +81,15 @@ class ilGlossaryLocatorGUI
     /**
      * display locator
      */
-    public function display() : void
+    public function display(): void
     {
         $ilCtrl = $this->ctrl;
         $ilLocator = $this->locator;
         $tpl = $this->tpl;
-        
+
         // repository links
         $ilLocator->addRepositoryItems();
-        
+
         // glossary link
         $title = $this->glossary->getTitle();
         if ($this->mode == "edit") {
@@ -105,7 +102,7 @@ class ilGlossaryLocatorGUI
             }
         }
         $ilLocator->addItem($title, $link, "");
-        
+
         if (is_object($this->term) && $this->mode != "edit") {
             $ilCtrl->setParameterByClass("ilglossarypresentationgui", "term_id", $this->term->getId());
             $ilLocator->addItem(
@@ -117,23 +114,12 @@ class ilGlossaryLocatorGUI
                 "term_id",
                 $this->presentation_request->getTermId()
             );
-        }
-
-        if (is_object($this->definition)) {
-            $title = $this->term->getTerm() . " (" . $this->lng->txt("cont_definition") . " " . $this->definition->getNr() . ")";
-            if ($this->mode == "edit") {
-                $link = $ilCtrl->getLinkTargetByClass("ilglossarydefpagegui", "edit");
-            } else {
-                $ilCtrl->setParameterByClass(
-                    "ilglossarypresentationgui",
-                    "def",
-                    $this->presentation_request->getDefinitionId()
-                );
-                $link = $ilCtrl->getLinkTargetByClass("ilglossarypresentationgui", "view");
-            }
+        } elseif (is_object($this->term)) {
+            $title = $this->term->getTerm() . " (" . $this->lng->txt("cont_definition") . ")";
+            $link = $ilCtrl->getLinkTargetByClass("ilglossarydefpagegui", "edit");
             $ilLocator->addItem($title, $link);
         }
-        
+
         $tpl->setLocator();
     }
 }

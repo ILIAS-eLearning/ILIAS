@@ -9,16 +9,16 @@ use PHPUnit\Framework\TestCase;
  */
 class AccordionStandardGUIRequestTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\Accordion\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\Accordion\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -32,7 +32,7 @@ class AccordionStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testUserId() : void
+    public function testUserId(): void
     {
         $request = $this->getRequest(
             [
@@ -48,7 +48,7 @@ class AccordionStandardGUIRequestTest extends TestCase
     }
 
 
-    public function testTabNr() : void
+    public function testTabNr(): void
     {
         $request = $this->getRequest(
             [

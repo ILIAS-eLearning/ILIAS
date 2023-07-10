@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * folder xml importer
@@ -22,7 +27,7 @@ class ilCategoryImporter extends ilXmlImporter
 {
     private ?ilObject $category = null;
 
-    public function init() : void
+    public function init(): void
     {
     }
 
@@ -35,7 +40,7 @@ class ilCategoryImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $refs = ilObject::_getAllReferences((int) $new_id);
             $this->category = ilObjectFactory::getInstanceByRefId(end($refs), false);
@@ -60,10 +65,10 @@ class ilCategoryImporter extends ilXmlImporter
 
         foreach ($a_mapping->getMappingsOfEntity('Services/Container', 'objs') as $old => $new) {
             $type = ilObject::_lookupType((int) $new);
-            
+
             // see ilGlossaryImporter::importXmlRepresentation()
             // see ilTaxonomyDataSet::importRecord()
-            
+
             $a_mapping->addMapping(
                 "Services/Taxonomy",
                 "tax_item",
@@ -80,16 +85,16 @@ class ilCategoryImporter extends ilXmlImporter
             );
         }
     }
-    
+
     public function finalProcessing(
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $maps = $a_mapping->getMappingsOfEntity("Modules/Category", "cat");
         foreach ($maps as $old => $new) {
             if ($old !== "new_id" && (int) $old > 0) {
                 // get all new taxonomys of this object
-                $new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $old);
-                $tax_ids = explode(":", $new_tax_ids);
+                $new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", (string) $old);
+                $tax_ids = explode(":", (string) $new_tax_ids);
                 foreach ($tax_ids as $tid) {
                     ilObjTaxonomy::saveUsage((int) $tid, (int) $new);
                 }

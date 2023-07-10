@@ -1,32 +1,27 @@
 # Roadmap
+- All the steps in this roadmap depend on the availability of funding for
+refactoring.
+- There are currently no new features on the roadmap.
 
 ## Short Term
-
-### Common Settings Subservice
-
-The Common Settings subservice has been introduced with ILIAS 5.4 but is far from complete. The approach should be transfered to the following settings:
-
-- Title and Description (being aware of partial multilingual support)
-- Availability (including online/offline)
-- Sorting
-- Additional Features: These settings should move to a subtab, see https://docu.ilias.de/goto_docu_wiki_wpage_5271_1357.html so the handling will be different from the settings being embedded in the main settings form. However this subservice should provide functions to manage the subtab as well.
+- Apply Sustainability Package from PHP8-Refactoring
+- Allow common settings to be accessed as Kitchensink-Forms. The previous access
+ilPropertyForms will be depricated.
 
 ## Mid Term
 
-### Factories
+### Further Refactoring
+- Continue application of the Sustainability Package from PHP8-Refactoring
+- Move all used UI-Elements to Kitchensink
+- Removal of static methods
+- Consolidation of ilObject and ilObject2 as well as ilObjectGUI and ilObject2GUI
 
-Factories for `ilObj...`, `ilObj...GUI`, `ilObj...ListGUI`, `ilObj...Access` instances should be provided through `$DIC->object()` service object.
 
-### PHP8 Improvements
-
-There are several places in the Object folder where the $_REQUEST variables has to be refactored. 
-Perhaps the $_SESSION variables can be refactored, too.
 ## Long Term
 
-### Refactor ilObject and related classes
-
-The code of `ilObject` and related classes should be refactored into multiple subservices being accessible through `$DIC->object()`.
-
-### Introduce Repository Pattern
-
-The Repository Pattern should be introduced to decouple the persistence layer.
+### Refactoring and Restructuring
+Work on a more encompasing refactoring of Services\Object will be started in
+the short term, but it will take a while to produce results.
+In the Long Term Services\Objects will be moved to a more collaborative maintenance
+model. The refactoring aims to facilitate this and provide an easy to understand
+Service.

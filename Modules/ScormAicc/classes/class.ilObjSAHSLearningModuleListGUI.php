@@ -1,18 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilObjSAHSLearningModuleListGUI
  *
@@ -37,7 +42,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     *
     * this method should be overwritten by derived classes
     */
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -52,11 +57,11 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     /**
      * @inheritdoc
      */
-    public function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "") : void
+    public function initItem(int $ref_id, int $obj_id, string $type, string $title = "", string $description = ""): void
     {
         // general commands array
-        $this->commands = ilObjSAHSLearningModuleAccess::_getCommands($a_obj_id);
-        parent::initItem($a_ref_id, $a_obj_id, $type, $a_title, $a_description);
+        $this->commands = ilObjSAHSLearningModuleAccess::_getCommands($obj_id);
+        parent::initItem($ref_id, $obj_id, $type, $title, $description);
     }
 
     /**
@@ -66,7 +71,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
      * be realised in the future.
      * @throws ilCtrlException
      */
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -74,12 +79,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
         switch ($cmd) {
             case "view":
                 $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->ref_id;
-
                 break;
-
-//            case "editContent":
-//                $cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=editContent";
-//                break;
 
             case "edit":
                 $cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=" . $this->ref_id;
@@ -99,34 +99,34 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     }
 
 
-//    /**
-//    * Get command target frame
-//    *
-//    * @param	string		$a_cmd			command
-//    *
-//    * @return	string		command target frame
-//    */
-//    public function getCommandFrame($a_cmd) : string
-//    {
-//        switch ($a_cmd) {
-//            case "view":
-//                $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
-//                $frame = "ilContObj" . $this->obj_id;
-//                break;
-//
-//            case "edit":
+    //    /**
+    //    * Get command target frame
+    //    *
+    //    * @param	string		$a_cmd			command
+    //    *
+    //    * @return	string		command target frame
+    //    */
+    //    public function getCommandFrame($a_cmd) : string
+    //    {
+    //        switch ($a_cmd) {
+    //            case "view":
+    //                $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
+    //                $frame = "ilContObj" . $this->obj_id;
+    //                break;
+    //
+    //            case "edit":
     ////            case "editContent":
-//            case "infoScreen":
-//                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-//                break;
-//
-//            default:
-//                $frame = "";
-//                break;
-//        }
-//
-//        return $frame;
-//    }
+    //            case "infoScreen":
+    //                $frame = ilFrameTargetInfo::_getFrame("MainContent");
+    //                break;
+    //
+    //            default:
+    //                $frame = "";
+    //                break;
+    //        }
+    //
+    //        return $frame;
+    //    }
 
 
     /**
@@ -137,7 +137,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         global $DIC;
         $lng = $DIC->language();

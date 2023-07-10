@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Data;
 
@@ -23,7 +25,7 @@ class ObjectId
         $this->object_id = $object_id;
     }
 
-    public function toInt() : int
+    public function toInt(): int
     {
         return $this->object_id;
     }
@@ -31,7 +33,7 @@ class ObjectId
     /**
      * @return ReferenceId[]
      */
-    public function toReferenceIds() : array
+    public function toReferenceIds(): array
     {
         $ref_ids = [];
         foreach (ilObject2::_getAllReferences($this->object_id) as $reference) {

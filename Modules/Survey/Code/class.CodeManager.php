@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Code;
 
@@ -25,6 +30,7 @@ use ILIAS\Survey\Access\AccessManager;
  */
 class CodeManager
 {
+    protected int $survey_ref_id = 0;
     protected CodeDBRepo $code_repo;
     protected InternalDataService $data;
     protected int $survey_id;
@@ -41,6 +47,7 @@ class CodeManager
         $this->data = $data;
         $this->code_repo = $code_repo;
         $this->survey_id = $survey->getSurveyId();
+        $this->survey_ref_id = $survey->getRefId();
         $this->access = $domain_service->access(
             $survey->getRefId(),
             $user_id
@@ -51,10 +58,11 @@ class CodeManager
     /**
      * @throws \ilPermissionException
      */
-    protected function checkPermission() : void
+    protected function checkPermission(): void
     {
         if (!$this->access->canManageCodes()) {
-            throw new \ilPermissionException($this->lng->txt("permission_denied"));
+            throw new \ilPermissionException($this->lng->txt("permission_denied") .
+                " (" . $this->survey_ref_id . ")");
         }
     }
 
@@ -62,9 +70,11 @@ class CodeManager
      * Delete all codes of survey
      * @throws \ilPermissionException
      */
-    public function deleteAll() : void
+    public function deleteAll(bool $force = false): void
     {
-        $this->checkPermission();
+        if (!$force) {
+            $this->checkPermission();
+        }
         $repo = $this->code_repo;
         $repo->deleteAll($this->survey_id);
     }
@@ -73,7 +83,7 @@ class CodeManager
      * Delete single code
      * @throws \ilPermissionException
      */
-    public function delete(string $code) : void
+    public function delete(string $code): void
     {
         $this->checkPermission();
         $repo = $this->code_repo;
@@ -83,7 +93,7 @@ class CodeManager
     /**
      * Does code exist in survey?
      */
-    public function exists(string $code) : bool
+    public function exists(string $code): bool
     {
         $repo = $this->code_repo;
         return $repo->exists($this->survey_id, $code);
@@ -95,7 +105,7 @@ class CodeManager
      */
     public function add(
         Code $code
-    ) : int {
+    ): int {
         //$this->checkPermission();
         $repo = $this->code_repo;
         return $repo->add(
@@ -117,7 +127,7 @@ class CodeManager
      * @throws \ilSurveyException
      * @throws \ilPermissionException
      */
-    public function addCodes(int $nr) : array
+    public function addCodes(int $nr): array
     {
         $this->checkPermission();
         return $this->code_repo->addCodes($this->survey_id, $nr);
@@ -133,7 +143,7 @@ class CodeManager
         string $last_name,
         string $first_name,
         int $sent
-    ) : bool {
+    ): bool {
         $this->checkPermission();
         return $this->code_repo->updateExternalData(
             $code_id,
@@ -149,7 +159,7 @@ class CodeManager
      * @return string[]
      * @throws \ilPermissionException
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         $this->checkPermission();
         return $this->code_repo->getAll($this->survey_id);
@@ -160,7 +170,7 @@ class CodeManager
      * @return Code[]
      * @throws \ilPermissionException
      */
-    public function getAllData() : array
+    public function getAllData(): array
     {
         $this->checkPermission();
         return $this->code_repo->getAllData($this->survey_id);
@@ -173,8 +183,7 @@ class CodeManager
     public function bindUser(
         string $code,
         int $user_id
-    ) : void {
-        $this->checkPermission();
+    ): void {
         if ($user_id === ANONYMOUS_USER_ID) {
             return;
         }
@@ -186,14 +195,20 @@ class CodeManager
      */
     public function getByUserId(
         int $user_id
-    ) : string {
+    ): string {
         return $this->code_repo->getByUserId($this->survey_id, $user_id);
+    }
+
+    public function getByCodeId(
+        int $code_id
+    ): string {
+        return $this->code_repo->getByCodeId($this->survey_id, $code_id);
     }
 
     /**
      * Get code object for an access key
      */
-    public function getByUserKey(string $user_key) : ?Code
+    public function getByUserKey(string $user_key): ?Code
     {
         return $this->code_repo->getByUserKey($this->survey_id, $user_key);
     }

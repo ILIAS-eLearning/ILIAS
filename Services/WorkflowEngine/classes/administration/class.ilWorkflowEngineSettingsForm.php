@@ -1,26 +1,32 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Settings Form
  *
  * @author Maximilian Becker <mbecker@databay.de>
- *
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilWorkflowEngineSettingsForm
 {
-    /** @var ilPropertyFormGUI $form */
+    private \ILIAS\WorkflowEngine\Service $service;
     protected ilPropertyFormGUI $form;
-
     protected \ILIAS\DI\Container $dic;
-
-    /** @var \ilLanguage $lng */
     protected ilLanguage $lng;
 
     public function __construct()
@@ -31,7 +37,7 @@ class ilWorkflowEngineSettingsForm
         $this->service = $DIC->workflowEngine();
     }
 
-    public function getForm($action) : ilPropertyFormGUI
+    public function getForm(string $action): ilPropertyFormGUI
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($action);

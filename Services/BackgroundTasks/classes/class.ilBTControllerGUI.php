@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 use ILIAS\Modules\OrgUnit\ARHelper\DIC;
 
@@ -28,17 +28,17 @@ use ILIAS\Modules\OrgUnit\ARHelper\DIC;
 class ilBTControllerGUI implements ilCtrlBaseClassInterface
 {
     use DIC;
-    const FROM_URL = 'from_url';
-    const OBSERVER_ID = 'observer_id';
-    const SELECTED_OPTION = 'selected_option';
-    const CMD_ABORT = 'abortBucket';
-    const CMD_REMOVE = 'abortBucket';
-    const CMD_USER_INTERACTION = 'userInteraction';
-    const IS_ASYNC = 'bt_task_is_async';
-    const CMD_GET_REPLACEMENT_ITEM = "getAsyncReplacementItem";
+    public const FROM_URL = 'from_url';
+    public const OBSERVER_ID = 'observer_id';
+    public const SELECTED_OPTION = 'selected_option';
+    public const CMD_ABORT = 'abortBucket';
+    public const CMD_REMOVE = 'abortBucket';
+    public const CMD_USER_INTERACTION = 'userInteraction';
+    public const IS_ASYNC = 'bt_task_is_async';
+    public const CMD_GET_REPLACEMENT_ITEM = "getAsyncReplacementItem";
 
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl()->getCmd();
         switch ($cmd) {
@@ -58,7 +58,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
     }
 
 
-    protected function userInteraction() : void
+    protected function userInteraction(): void
     {
         $observer_id = (int) $this->http()->request()->getQueryParams()[self::OBSERVER_ID];
         $selected_option = $this->http()->request()->getQueryParams()[self::SELECTED_OPTION];
@@ -74,7 +74,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
     }
 
 
-    protected function abortBucket() : void
+    protected function abortBucket(): void
     {
         $observer_id = (int) $this->http()->request()->getQueryParams()[self::OBSERVER_ID];
         $from_url = $this->getFromURL();
@@ -93,7 +93,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
      * Loads one single aggregate notification item representing a button async
      * to replace an existing one.
      */
-    protected function getAsyncReplacementItem() : void
+    protected function getAsyncReplacementItem(): void
     {
         $observer_id = (int) $this->http()->request()->getQueryParams()[self::OBSERVER_ID];
         $bucket = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
@@ -106,7 +106,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
     }
 
 
-    protected function getFromURL() : string
+    protected function getFromURL(): string
     {
         return self::unhash($this->http()->request()->getQueryParams()[self::FROM_URL]);
     }
@@ -115,7 +115,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
     /**
      * @param $url
      */
-    public static function hash($url) : string
+    public static function hash($url): string
     {
         return base64_encode($url);
     }
@@ -124,7 +124,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
     /**
      * @param $url
      */
-    public static function unhash($url) : string
+    public static function unhash($url): string
     {
         return base64_decode($url);
     }

@@ -1,6 +1,20 @@
 <?php
-
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Hook-Class for exporting data-collections (used in SOAP-Class)
@@ -10,70 +24,62 @@
  */
 class ilDclContentImporter
 {
-
     //const SOAP_FUNCTION_NAME = 'exportDataCollectionContent';
 
-    const EXPORT_EXCEL = 'xlsx';
-    /**
-     * @var int
-     */
-    protected $max_imports = 100;
-    /**
-     * @var array
-     */
-    protected $supported_import_datatypes
-        = array(
+    public const EXPORT_EXCEL = 'xlsx';
+    protected int $max_imports = 100;
+    protected array $supported_import_datatypes
+        = [
             ilDclDatatype::INPUTFORMAT_BOOLEAN,
             ilDclDatatype::INPUTFORMAT_NUMBER,
             ilDclDatatype::INPUTFORMAT_REFERENCE,
             ilDclDatatype::INPUTFORMAT_TEXT,
             ilDclDatatype::INPUTFORMAT_DATETIME,
             ilDclDatatype::INPUTFORMAT_PLUGIN,
-            ilDclDataType::INPUTFORMAT_TEXT_SELECTION,
+            ilDclDatatype::INPUTFORMAT_TEXT_SELECTION,
             ilDclDatatype::INPUTFORMAT_DATE_SELECTION,
-        );
-    protected $warnings;
+        ];
+    protected array $warnings;
     /**
-     * @var int $ref_id Ref-ID of DataCollection
+     * Ref-ID of DataCollection
      */
-    protected $ref_id;
+    protected int $ref_id;
     /**
-     * @var int $table_id Table-Id for export
+     * Table-Id for export
      */
-    protected $table_id;
-    /**
-     * @var ilObjDataCollection
-     */
-    protected $dcl;
+    protected int $table_id;
+
+    protected ilObjDataCollection $dcl;
     /**
      * @var ilDclTable[]
      */
-    protected $tables;
-    /**
-     * @var
-     */
-    protected $lng;
+    protected array $tables;
 
-    public function __construct($ref_id, $table_id = null)
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+
+    public function __construct(int $ref_id, ?int $table_id = null)
     {
         global $DIC;
-        $lng = $DIC['lng'];
 
         $this->ref_id = $ref_id;
         $this->table_id = $table_id;
 
-        $this->lng = $lng;
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
 
         $this->dcl = new ilObjDataCollection($ref_id);
-        $this->tables = ($table_id) ? array($this->dcl->getTableById($table_id)) : $this->dcl->getTables();
+        $this->tables = ($table_id) ? [$this->dcl->getTableById($table_id)] : $this->dcl->getTables();
     }
 
-    public function import($file, $simulate = false)
+    /**
+     * @throws ilException
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws ilDateTimeException
+     */
+    public function import(string $file, bool $simulate = false): array
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-
-        $this->warnings = array();
+        $this->warnings = [];
         try {
             $excel = new ilExcel();
             $excel->loadFromFile($file);
@@ -89,7 +95,7 @@ class ilDclContentImporter
         }
 
         if (count($this->warnings)) {
-            return array('line' => 0, 'warnings' => $this->warnings);
+            return ['line' => 0, 'warnings' => $this->warnings];
         }
 
         for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
@@ -103,7 +109,7 @@ class ilDclContentImporter
                 continue;
             }
 
-            $field_names = array();
+            $field_names = [];
             $sheet_data = $excel->getSheetAsArray();
 
             foreach ($sheet_data[0] as $column) {
@@ -114,9 +120,11 @@ class ilDclContentImporter
             $records_failed = 0;
             for ($i = 2; $i <= count($sheet_data); $i++) {
                 $record = new ilDclBaseRecordModel();
-                $record->setOwner($ilUser->getId());
+                $record->setOwner($this->user->getId());
                 $date_obj = new ilDateTime(time(), IL_CAL_UNIX);
-                $record->setCreateDate($date_obj->get(IL_CAL_DATETIME));
+                $record->setCreateDate($date_obj);
+                $record->setLastUpdate($date_obj);
+                $record->setLastEditBy($this->user->getId());
                 $record->setTableId($table->getId());
                 if (!$simulate) {
                     $record->doCreate();
@@ -169,11 +177,7 @@ class ilDclContentImporter
         return array('line' => ($i - 2 < 0 ? 0 : $i - 2), 'warnings' => $this->warnings);
     }
 
-    /**
-     * @param ilDclBaseFieldModel $field
-     * @return bool
-     */
-    protected function checkImportType($field)
+    protected function checkImportType(ilDclBaseFieldModel $field): bool
     {
         if (in_array($field->getDatatypeId(), $this->supported_import_datatypes)) {
             return true;
@@ -185,11 +189,10 @@ class ilDclContentImporter
     }
 
     /**
-     * @param ilDclTable $table
-     * @param            $titles string[]
+     * @param string[] $titles
      * @return ilDclBaseFieldModel[]
      */
-    protected function getImportFieldsFromTitles($table, $titles)
+    protected function getImportFieldsFromTitles(ilDclTable $table, array $titles): array
     {
         $fields = $table->getRecordFields();
         $import_fields = array();

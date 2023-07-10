@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -24,37 +27,33 @@ class ilECSEvent
     public const DESTROYED = 'destroyed';
     public const NEW_EXPORT = 'new_export';
 
-    protected $json_obj;
+    protected object $json_obj;
     public string $status = '';
     public string $ressource = '';
-    public $ressource_id = 0;
+    public int $ressource_id = 0;
     public ?string $ressource_type = '';
-    
+
     /**
-     * Constructor
-     *
-     * @access public
      * @param object json object
-     *
      */
     public function __construct($json_obj)
     {
         $this->json_obj = $json_obj;
         $this->read();
     }
-    
+
     /**
      * get title
      */
-    public function getStatus() : string
+    public function getStatus(): string
     {
         return $this->status;
     }
-    
+
     /**
      * getDescription
      */
-    public function getRessource() : string
+    public function getRessource(): string
     {
         return $this->ressource;
     }
@@ -62,7 +61,7 @@ class ilECSEvent
     /**
      * Get ressource id
      */
-    public function getRessourceId() : int
+    public function getRessourceId(): int
     {
         return $this->ressource_id;
     }
@@ -71,23 +70,23 @@ class ilECSEvent
     /**
      * Get ressource type
      */
-    public function getRessourceType() : ?string
+    public function getRessourceType(): ?string
     {
         return $this->ressource_type;
     }
 
-    
+
     /**
      * Read community entries and participants
      */
-    private function read() : void
+    private function read(): void
     {
         $this->status = $this->json_obj->status;
         $this->ressource = $this->json_obj->ressource;
 
         $res_arr = (array) explode('/', $this->getRessource());
 
-        $this->ressource_id = array_pop($res_arr);
+        $this->ressource_id = (int) array_pop($res_arr);
         $this->ressource_type = array_pop($res_arr);
     }
 }

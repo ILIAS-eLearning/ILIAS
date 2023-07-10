@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,35 +16,33 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceUserHasCountryCriterion
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTermsOfServiceUserHasCountryCriterion implements ilTermsOfServiceCriterionType
 {
-    /** @var string[] */
-    protected array $countryCodes = [];
-
     /**
      * ilTermsOfServiceUserHasCountryCriterion constructor.
      * @param string[] $countryCodes
      */
-    public function __construct(array $countryCodes)
+    public function __construct(protected array $countryCodes)
     {
-        $this->countryCodes = $countryCodes;
     }
 
-    public function getTypeIdent() : string
+    public function getTypeIdent(): string
     {
         return 'usr_country';
     }
 
-    public function hasUniqueNature() : bool
+    public function hasUniqueNature(): bool
     {
         return true;
     }
 
-    public function evaluate(ilObjUser $user, ilTermsOfServiceCriterionConfig $config) : bool
+    public function evaluate(ilObjUser $user, ilTermsOfServiceCriterionConfig $config): bool
     {
         $country = $config['country'] ?? '';
 
@@ -55,7 +53,7 @@ class ilTermsOfServiceUserHasCountryCriterion implements ilTermsOfServiceCriteri
         return strtolower($country) === strtolower($user->getSelectedCountry());
     }
 
-    public function ui(ilLanguage $lng) : ilTermsOfServiceCriterionTypeGUI
+    public function ui(ilLanguage $lng): ilTermsOfServiceCriterionTypeGUI
     {
         return new ilTermsOfServiceUserHasCountryCriterionGUI($this, $lng, $this->countryCodes);
     }

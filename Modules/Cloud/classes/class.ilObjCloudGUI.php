@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=0);
 
 /**
@@ -41,7 +42,7 @@ class ilObjCloudGUI extends ilObject2GUI
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         //Only deleting items remains possible
         if ($this->ctrl->getCmd() == "delete") {
@@ -52,7 +53,7 @@ class ilObjCloudGUI extends ilObject2GUI
         ilObjectGUI::redirectToRefId($this->parent_id);
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return 'cld';
     }

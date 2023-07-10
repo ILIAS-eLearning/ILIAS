@@ -1,6 +1,24 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * This will set progresses to FAILED,
@@ -8,77 +26,77 @@
  */
 class ilPrgUpdateProgressCronJob extends ilCronJob
 {
-    const ID = 'prg_update_progress';
+    private const ID = 'prg_update_progress';
 
     protected Pimple\Container $dic;
     protected ilLanguage $lng;
+    protected ilStudyProgrammeSettingsDBRepository $settings_repo;
+    protected ilPRGAssignmentDBRepository $assignment_repo;
+    protected int $acting_user_id;
 
     public function __construct()
     {
         global $DIC;
-
         $this->lng = $DIC['lng'];
         $this->lng->loadLanguageModule('prg');
-        $this->dic = ilStudyProgrammeDIC::dic();
+
+        $dic = ilStudyProgrammeDIC::dic();
+        $this->settings_repo = $dic['model.Settings.ilStudyProgrammeSettingsRepository'];
+        $this->assignment_repo = $dic['repo.assignment'];
+        $this->acting_user_id = $dic['current_user']->getId();
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('prg_update_progress_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt('prg_update_progress_description');
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_IN_DAYS;
+        return CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return 1;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $result = new ilCronJobResult();
         $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
-        $acting_user = $this->getActingUserId();
-        foreach ($this->getProgressRepository()->getPassedDeadline() as $progress) {
-            if ($progress->getStatus() === ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
-                $programme = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
-                $programme->markFailed($progress->getId(), $acting_user);
-                $result->setStatus(ilCronJobResult::STATUS_OK);
-            }
+
+        $now = new DateTimeImmutable();
+
+        foreach ($this->assignment_repo->getPassedDeadline($now) as $assignment) {
+            $assignment = $assignment->markProgressesFailedForExpiredDeadline(
+                $this->settings_repo,
+                $this->acting_user_id
+            );
+            $this->assignment_repo->store($assignment);
         }
+
+        $result->setStatus(ilCronJobResult::STATUS_OK);
         return $result;
-    }
-
-    protected function getProgressRepository() : ilStudyProgrammeProgressDBRepository
-    {
-        return $this->dic['ilStudyProgrammeUserProgressDB'];
-    }
-
-    protected function getActingUserId() : int
-    {
-        return $this->dic['current_user']->getId();
     }
 }

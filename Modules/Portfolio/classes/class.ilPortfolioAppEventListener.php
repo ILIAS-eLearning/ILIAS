@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilLearningSequenceAppEventListener
@@ -23,7 +26,7 @@ class ilPortfolioAppEventListener
         string $component,
         string $event,
         array $parameter
-    ) : void {
+    ): void {
         switch ($component) {
             case "Services/Object":
                 switch ($event) {
@@ -44,7 +47,7 @@ class ilPortfolioAppEventListener
 
     protected static function beforeDeletion(
         array $parameter
-    ) : void {
+    ): void {
         if (is_object($parameter["object"])) {
             /** @var ilObject $obj */
             $obj = $parameter["object"];
@@ -58,7 +61,7 @@ class ilPortfolioAppEventListener
 
     protected static function firstLogin(
         array $parameter
-    ) : void {
+    ): void {
         $manager = new \ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager();
         if (isset($parameter["user_obj"]) && is_object($parameter["user_obj"])) {
             /** @var ilObjUser $obj */

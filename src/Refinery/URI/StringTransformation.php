@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Refinery\URI;
 
 use ILIAS\Data\URI;
@@ -32,7 +34,7 @@ class StringTransformation implements Transformation
     /**
      * @inheritDoc
      */
-    public function transform($from) : string
+    public function transform($from): string
     {
         if (false === $from instanceof URI) {
             throw new ConstraintViolationException(

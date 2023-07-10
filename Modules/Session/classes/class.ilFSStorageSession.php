@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,17 +32,17 @@ class ilFSStorageSession extends ilFileSystemAbstractionStorage
         parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $a_event_id);
     }
 
-    public function createDirectory() : bool
+    public function createDirectory(): bool
     {
         return ilFileUtils::makeDirParents($this->getAbsolutePath());
     }
 
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return 'sess';
     }
 
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return 'ilSession';
     }

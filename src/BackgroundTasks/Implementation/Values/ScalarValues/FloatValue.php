@@ -15,14 +15,14 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Values\ScalarValues;
 
 use ILIAS\BackgroundTasks\Value;
 
 class FloatValue extends ScalarValue
 {
-    public function setValue($value) : void
+    public function setValue($value): void
     {
         if (!is_float($value)) {
             throw new \InvalidArgumentException("The value given must be a float! See php-documentation is_float().");

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,27 +16,26 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
-    private ilLanguage $language;
+    private readonly ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private readonly ilLanguage $language;
     private array $placeholder;
-    private ilObject $object;
-    private ilObjectLP $learningProgressObject;
+    private readonly ilObjectLP $learningProgressObject;
 
     public function __construct(
-        ilObject $object,
+        private readonly ilObject $object,
         ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
         ?ilLanguage $language = null,
         ?ilObjectLP $learningProgressObject = null,
         ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
-
-        $this->object = $object;
 
         if (null === $language) {
             $language = $DIC->language();
@@ -76,7 +75,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
      * @param ilTemplate|null $template
      * @return string - [PLACEHOLDER] => 'description'
      */
-    public function createPlaceholderHtmlDescription(ilTemplate $template = null) : string
+    public function createPlaceholderHtmlDescription(ilTemplate $template = null): string
     {
         if (null === $template) {
             $template = new ilTemplate('tpl.scorm_description.html', true, true, 'Services/Certificate');
@@ -94,7 +93,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 
         $collection = $this->learningProgressObject->getCollectionInstance();
         $items = [];
-        if ($collection) {
+        if ($collection !== null) {
             $items = $collection->getPossibleItems();
         }
 
@@ -114,7 +113,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
         }
         $template->parseCurrentBlock();
 
-        if ($collection) {
+        if ($collection !== null) {
             $counter = 0;
             foreach ($items as $item_id => $sahs_item) {
                 if ($collection->isAssignedEntry($item_id)) {
@@ -138,7 +137,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
      * the the description as array value.
      * @return array - [PLACEHOLDER] => 'description'
      */
-    public function getPlaceholderDescriptions() : array
+    public function getPlaceholderDescriptions(): array
     {
         return $this->placeholder;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -57,7 +59,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         $this->requested_tag_code = trim($body["tag"] ?? ($params["tag"] ?? ""));
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $tags_set = new ilSetting("tags");
         $this->enable_all_users = (bool) $tags_set->get("enable_all_users", '0');
@@ -70,7 +72,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         int $a_parent_ref_id,
         int $a_parent_obj_id,
         string $a_parent_obj_type
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -100,12 +102,11 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     public function render(
         array &$a_html,
         object $a_parent_gui
-    ) : void {
+    ): void {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
         $lng->loadLanguageModule("tagging");
-
         $all_tags = $this->getSubTreeTags();
         if ($all_tags) {
             $map = array(
@@ -113,7 +114,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                 "other" => $lng->txt("tagging_other_users")
             );
             foreach ($map as $type => $title) {
-                $tags = $all_tags[$type];
+                $tags = $all_tags[$type] ?? null;
                 if ($tags) {
                     $max = 1;
                     foreach ($tags as $tag => $counter) {
@@ -126,22 +127,24 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                     $tpl->setCurrentBlock("tag_bl");
                     foreach ($tags as $tag => $counter) {
                         $ctrl->setParameter($a_parent_gui, "tag_type", $type);
-                        $ctrl->setParameter($a_parent_gui, "tag", md5($tag));
+                        $ctrl->setParameter($a_parent_gui, "tag", md5((string) $tag));
                         $tpl->setVariable("HREF", $ctrl->getLinkTarget($a_parent_gui, "toggle"));
 
                         $tpl->setVariable("TAG_TYPE", $type);
                         $tpl->setVariable("TAG_TITLE", $tag);
-                        $tpl->setVariable("TAG_CODE", md5($tag));
+                        $tpl->setVariable("TAG_CODE", md5((string) $tag));
                         $tpl->setVariable(
                             "REL_CLASS",
                             ilTagging::getRelevanceClass($counter, $max)
                         );
-                        if (is_array($this->selection[$type]) &&
+                        if (isset($this->selection[$type]) &&
                             in_array($tag, $this->selection[$type])) {
                             $tpl->setVariable("HIGHL_CLASS", ' ilHighlighted');
                         }
 
                         $tpl->parseCurrentBlock();
+                        $ctrl->setParameter($a_parent_gui, "tag_type", "");
+                        $ctrl->setParameter($a_parent_gui, "tag", "");
                     }
 
                     $a_html[] = array(
@@ -156,7 +159,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    public function importPostData(?array $a_saved = null) : array
+    public function importPostData(?array $a_saved = null): array
     {
         $type = $this->requested_type;
         $tag_code = $this->requested_tag_code;
@@ -173,7 +176,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
             }
             if ($found) {
                 // multi select
-                if (is_array($a_saved[$type]) &&
+                if (isset($a_saved[$type]) &&
                     in_array($found, $a_saved[$type])) {
                     $key = array_search($found, $a_saved[$type]);
                     unset($a_saved[$type][$key]);
@@ -192,7 +195,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    public function setSelection(array $a_value) : void
+    public function setSelection(array $a_value): void
     {
         $this->selection = $a_value;
     }
@@ -200,7 +203,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    public function getFilteredObjects() : array
+    public function getFilteredObjects(): array
     {
         $ilUser = $this->user;
 
@@ -215,13 +218,13 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 
         $found = array();
         foreach ($types as $type) {
-            if (is_array($this->selection[$type])) {
+            if (isset($this->selection[$type])) {
                 $invert = ($type == "personal")
                     ? false
                     : true;
 
                 foreach ($this->selection[$type] as $tag) {
-                    $found[$tag] = array_keys(ilTagging::_findObjectsByTag($tag, $ilUser->getId(), $invert));
+                    $found[$tag] = array_keys(ilTagging::_findObjectsByTag((string) $tag, $ilUser->getId(), $invert));
                 }
             }
         }
@@ -250,10 +253,8 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         return [];
     }
 
-    protected function getSubTreeTags() : array
+    protected function getSubTreeTags(): array
     {
-        return [];
-        /*
         $tree = $this->tree;
         $ilUser = $this->user;
         $sub_ids = array();
@@ -263,7 +264,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
             foreach ($tree->getChilds($this->parent_ref_id) as $sub_item) {
                 if ($sub_item["ref_id"] != $this->parent_ref_id &&
                     $sub_item["type"] != "rolf" &&
-                    !$tree->isDeleted($sub_item["ref_id"])) {
+                    !$tree->isDeleted((int) $sub_item["ref_id"])) {
                     $sub_ids[$sub_item["obj_id"]] = $sub_item["type"];
                 }
             }
@@ -271,7 +272,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
             foreach ($tree->getSubTree($tree->getNodeData($this->parent_ref_id)) as $sub_item) {
                 if ($sub_item["ref_id"] != $this->parent_ref_id &&
                     $sub_item["type"] != "rolf" &&
-                    !$tree->isDeleted($sub_item["ref_id"])) {
+                    !$tree->isDeleted((int) $sub_item["ref_id"])) {
                     $sub_ids[$sub_item["obj_id"]] = $sub_item["type"];
                 }
             }
@@ -284,10 +285,10 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 
             return ilTagging::_getTagCloudForObjects($sub_ids, $only_user, $ilUser->getId());
         }
-        return [];*/
+        return [];
     }
 
-    public function initListGUI(ilObjectListGUI $a_list_gui) : void
+    public function initListGUI(ilObjectListGUI $a_list_gui): void
     {
         $a_list_gui->enableTags(true);
     }

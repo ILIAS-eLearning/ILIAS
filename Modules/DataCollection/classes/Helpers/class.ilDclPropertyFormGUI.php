@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilDclPropertyFormGUI
  * @author       Michael Herren <mh@studer-raimann.ch>
  * @version      1.0.0
@@ -8,47 +24,35 @@
  */
 class ilDclPropertyFormGUI extends ilPropertyFormGUI
 {
-
     /**
      * Expose method for save confirmation
-     * @param      $a_hash
-     * @param      $a_field
-     * @param      $a_tmp_name
-     * @param      $a_name
-     * @param      $a_type
-     * @param null $a_index
-     * @param null $a_sub_index
      */
     public function keepTempFileUpload(
-        $a_hash,
-        $a_field,
-        $a_tmp_name,
-        $a_name,
-        $a_type,
-        $a_index = null,
-        $a_sub_index = null
-    ) {
+        string $a_hash,
+        string $a_field,
+        string $a_tmp_name,
+        string $a_name,
+        string $a_type,
+        ?string $a_index = null,
+        ?string $a_sub_index = null
+    ): void {
         $this->keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index, $a_sub_index);
     }
 
-    /**
-     * return temp-filename
-     * @param      $a_hash
-     * @param      $a_field
-     * @param      $a_name
-     * @param      $a_type
-     * @param null $a_index
-     * @param null $a_sub_index
-     * @return string
-     */
-    public static function getTempFilename($a_hash, $a_field, $a_name, $a_type, $a_index = null, $a_sub_index = null)
-    {
+    public static function getTempFilename(
+        string $a_hash,
+        string $a_field,
+        string $a_name,
+        string $a_type,
+        ?string $a_index = null,
+        ?string $a_sub_index = null
+    ): string {
         $a_name = ilFileUtils::getAsciiFileName($a_name);
 
         $tmp_file_name = implode(
             "~~",
             array(
-                session_id(),
+                mb_substr(session_id(), 0, 8),
                 $a_hash,
                 $a_field,
                 $a_index,
@@ -65,11 +69,9 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
     }
 
     /**
-     * Return temp files
-     * @param $hash
      * @throws ilDclException
      */
-    public static function rebuildTempFileByHash($hash)
+    public static function rebuildTempFileByHash(string $hash): void
     {
         $temp_path = ilFileUtils::getDataDir() . "/temp";
         if (is_dir($temp_path)) {
@@ -84,7 +86,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
                     $name = $file[7];
 
                     if ($idx2 != "") {
-                        if (!$_FILES[$field]["tmp_name"][$idx][$idx2]) {
+                        if (!($_FILES[$field]["tmp_name"][$idx][$idx2] ?? false)) {
                             $_FILES[$field]["tmp_name"][$idx][$idx2] = $full_file;
                             $_FILES[$field]["name"][$idx][$idx2] = $name;
                             $_FILES[$field]["type"][$idx][$idx2] = $type;
@@ -93,7 +95,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
                         }
                     } else {
                         if ($idx != "") {
-                            if (!$_FILES[$field]["tmp_name"][$idx]) {
+                            if (!($_FILES[$field]["tmp_name"][$idx] ?? false)) {
                                 $_FILES[$field]["tmp_name"][$idx] = $full_file;
                                 $_FILES[$field]["name"][$idx] = $name;
                                 $_FILES[$field]["type"][$idx] = $type;
@@ -101,7 +103,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
                                 $_FILES[$field]["size"][$idx] = filesize($full_file);
                             }
                         } else {
-                            if (!$_FILES[$field]["tmp_name"]) {
+                            if (!($_FILES[$field]["tmp_name"] ?? false)) {
                                 $_FILES[$field]["tmp_name"] = $full_file;
                                 $_FILES[$field]["name"] = $name;
                                 $_FILES[$field]["type"] = $type;
@@ -119,9 +121,8 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
 
     /**
      * Cleanup temp-files
-     * @param $hash
      */
-    public function cleanupTempFiles($hash)
+    public function cleanupTempFiles(string $hash): void
     {
         $files = glob(ilFileUtils::getDataDir() . "/temp/" . session_id() . "~~" . $hash . "~~*");
 

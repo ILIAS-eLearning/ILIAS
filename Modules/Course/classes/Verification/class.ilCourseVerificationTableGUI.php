@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\DI\Container;
 
 /**
@@ -59,7 +61,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
-    protected function getItems() : void
+    protected function getItems(): void
     {
         $certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByTypeForPresentation(
             $this->dic->user()->getId(),
@@ -78,7 +80,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->dic->ctrl();
 

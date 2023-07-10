@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Refinery\Factory as Refinery;
@@ -30,32 +46,32 @@ class ilIndividualAssessmentInfoSettings
         $this->consultation_hours = $consultation_hours;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getContact() : ?string
+    public function getContact(): ?string
     {
         return $this->contact;
     }
 
-    public function getResponsibility() : ?string
+    public function getResponsibility(): ?string
     {
         return $this->responsibility;
     }
 
-    public function getPhone() : ?string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function getMails() : ?string
+    public function getMails(): ?string
     {
         return $this->mails;
     }
 
-    public function getConsultationHours() : ?string
+    public function getConsultationHours(): ?string
     {
         return $this->consultation_hours;
     }
@@ -64,7 +80,7 @@ class ilIndividualAssessmentInfoSettings
         Field\Factory $input,
         ilLanguage $lng,
         Refinery $refinery
-    ) : Field\Input {
+    ): Field\Input {
         return $input->section(
             [
                 $input->text($lng->txt("iass_contact"))

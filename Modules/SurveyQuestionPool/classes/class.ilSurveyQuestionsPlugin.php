@@ -7,5 +7,5 @@
  */
 abstract class ilSurveyQuestionsPlugin extends ilPlugin
 {
-    abstract public function getQuestionType() : string;
+    abstract public function getQuestionType(): string;
 }

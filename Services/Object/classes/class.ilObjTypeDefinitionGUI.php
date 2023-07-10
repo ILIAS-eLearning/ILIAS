@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjTypeDefinitionGUI
  *
@@ -34,7 +36,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     /**
      * list operations of object type
      */
-    public function viewObject() : void
+    public function viewObject(): void
     {
         //prepare object list
         $this->data = [];
@@ -88,7 +90,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     /**
      * display object list
      */
-    public function displayList() : void
+    public function displayList(): void
     {
         // load template for table
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table.html");
@@ -165,7 +167,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     /**
      * save (de-)activation of operations on object
      */
-    public function saveObject() : void
+    public function saveObject(): void
     {
         $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
         $obj_id = $this->request_wrapper->retrieve("obj_id", $this->refinery->kindlyTo()->int());
@@ -205,7 +207,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     /**
      * display edit form
      */
-    public function editObject() : void
+    public function editObject(): void
     {
         $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
         if (!$this->rbac_system->checkAccess("edit_permission", $ref_id)) {
@@ -324,8 +326,8 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
             }
         }
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -337,7 +339,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         $this->$cmd();
     }
 
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(

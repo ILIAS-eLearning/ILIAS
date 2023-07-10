@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestSuite;
 
 require_once __DIR__ . '/bootstrap.php';
@@ -24,9 +26,9 @@ require_once __DIR__ . '/bootstrap.php';
  * Class ilServicesHtmlSuite
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilServicesHtmlSuite extends TestSuite
+final class ilServicesHtmlSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
 

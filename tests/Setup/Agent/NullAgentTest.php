@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup\Agent;
 
 use ILIAS\Setup\Objective\NullObjective;
@@ -25,15 +27,18 @@ use PHPUnit\Framework\TestCase;
 
 class NullAgentTest extends TestCase
 {
-    public function setUp() : void
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected Metrics\Storage $storage;
+    protected NullAgent $agent;
+
+    public function setUp(): void
     {
         $this->refinery = $this->createMock(\ILIAS\Refinery\Factory::class);
         $this->storage = $this->createMock(Metrics\Storage::class);
-        $this->refinery = $this->createMock(\ILIAS\Refinery\Factory::class);
         $this->agent = new NullAgent($this->refinery);
     }
 
-    public function testIsNull() : void
+    public function testIsNull(): void
     {
         $null = new NullObjective();
         $this->assertFalse($this->agent->hasConfig());
@@ -44,7 +49,7 @@ class NullAgentTest extends TestCase
         $this->assertEquals([], $this->agent->getMigrations());
     }
 
-    public function testGetArrayToConfigTransformationThrows() : void
+    public function testGetArrayToConfigTransformationThrows(): void
     {
         $this->expectException(\LogicException::class);
         $this->agent->getArrayToConfigTransformation();

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblFactoryFacade
  *
@@ -62,7 +62,7 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function typeFactory() : \ilBiblTypeFactoryInterface
+    public function typeFactory(): \ilBiblTypeFactoryInterface
     {
         return $this->type_factory;
     }
@@ -71,7 +71,7 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function type() : \ilBiblTypeInterface
+    public function type(): \ilBiblTypeInterface
     {
         return $this->type;
     }
@@ -80,7 +80,7 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function libraryFactory() : \ilBiblLibraryFactoryInterface
+    public function libraryFactory(): \ilBiblLibraryFactoryInterface
     {
         return $this->library_factory;
     }
@@ -89,7 +89,7 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function fieldFactory() : \ilBiblFieldFactoryInterface
+    public function fieldFactory(): \ilBiblFieldFactoryInterface
     {
         return $this->field_factory;
     }
@@ -98,7 +98,7 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function translationFactory() : \ilBiblTranslationFactoryInterface
+    public function translationFactory(): \ilBiblTranslationFactoryInterface
     {
         return $this->translation_factory;
     }
@@ -107,7 +107,7 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function entryFactory() : \ilBiblEntryFactoryInterface
+    public function entryFactory(): \ilBiblEntryFactoryInterface
     {
         return $this->entry_factory;
     }
@@ -116,7 +116,7 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function fileReaderFactory() : \ilBiblFileReaderFactoryInterface
+    public function fileReaderFactory(): \ilBiblFileReaderFactoryInterface
     {
         return $this->file_reader_factory;
     }
@@ -125,7 +125,7 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function filterFactory() : \ilBiblFieldFilterFactoryInterface
+    public function filterFactory(): \ilBiblFieldFilterFactoryInterface
     {
         return $this->filter_factory;
     }
@@ -134,7 +134,7 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function attributeFactory() : \ilBiblAttributeFactoryInterface
+    public function attributeFactory(): \ilBiblAttributeFactoryInterface
     {
         return $this->attribute_factory;
     }
@@ -143,7 +143,7 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function iliasObjId() : int
+    public function iliasObjId(): int
     {
         return $this->object_id;
     }
@@ -152,13 +152,13 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function iliasRefId() : int
+    public function iliasRefId(): int
     {
         return $this->ref_id;
     }
 
 
-    public function dataFactory() : \ilBiblDataFactoryInterface
+    public function dataFactory(): \ilBiblDataFactoryInterface
     {
         return $this->data_factory;
     }
@@ -167,7 +167,7 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function overviewModelFactory() : \ilBiblOverviewModelFactoryInterface
+    public function overviewModelFactory(): \ilBiblOverviewModelFactoryInterface
     {
         return $this->overview_factory;
     }

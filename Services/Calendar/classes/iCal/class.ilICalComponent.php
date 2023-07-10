@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -45,7 +47,7 @@ class ilICalComponent extends ilICalItem
      * @access public
      * @param string name
      */
-    public function getItemsByName(string $a_name, bool $a_recursive = true) : array
+    public function getItemsByName(string $a_name, bool $a_recursive = true): array
     {
         $found = [];
         foreach ($this->getItems() as $item) {

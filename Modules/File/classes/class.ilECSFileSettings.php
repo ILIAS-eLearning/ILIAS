@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilECSFileSettings
  *
@@ -26,7 +26,7 @@
  */
 class ilECSFileSettings extends ilECSObjectSettings
 {
-    protected function getECSObjectType() : string
+    protected function getECSObjectType(): string
     {
         return '/campusconnect/files';
     }

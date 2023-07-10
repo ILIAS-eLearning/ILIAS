@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -25,15 +28,15 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
 {
     public const SHOW_FOLDERS_TOOL = 'show_folders_tool';
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->repository();
     }
 
-    public function getToolsForContextStack(CalledContexts $called_contexts) : array
+    public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
         global $DIC;
-        
+
         $access = $DIC->access();
 
         $tools = [];
@@ -52,7 +55,7 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
             }
 
             $title = "Folders";
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fldm.svg"), $title);
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_fldm.svg"), $title);
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle($title)
                 ->withSymbol($icon)
@@ -65,7 +68,7 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
     }
 
 
-    private function getTree(int $ref_id) : string
+    private function getTree(int $ref_id): string
     {
         try {
             /** @var ilObjMediaPool $pool */

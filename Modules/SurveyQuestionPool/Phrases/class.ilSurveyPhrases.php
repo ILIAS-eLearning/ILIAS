@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Survey phrases class
@@ -28,7 +31,7 @@ class ilSurveyPhrases
     protected ilObjUser $user;
 
     protected array $arrData;
-    
+
     public function __construct()
     {
         global $DIC;
@@ -37,7 +40,7 @@ class ilSurveyPhrases
         $this->user = $DIC->user();
         $this->arrData = array();
     }
-    
+
     /**
      * Gets the available phrases from the database
      * @param bool $useronly Returns only the user
@@ -46,13 +49,13 @@ class ilSurveyPhrases
      */
     public static function _getAvailablePhrases(
         bool $useronly = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilUser = $DIC->user();
         $ilDB = $DIC->database();
         $lng = $DIC->language();
-        
+
         $phrases = array();
         $result = $ilDB->queryF(
             "SELECT * FROM svy_phrase WHERE defaultvalue = %s OR owner_fi = %s ORDER BY title",
@@ -77,7 +80,7 @@ class ilSurveyPhrases
         }
         return $phrases;
     }
-    
+
     /**
      * Gets the available categories for a given phrase
      * @param int $phrase_id The database id of the given phrase
@@ -85,12 +88,12 @@ class ilSurveyPhrases
      */
     public static function _getCategoriesForPhrase(
         int $phrase_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
         $lng = $DIC->language();
-        
+
         $categories = array();
         $result = $ilDB->queryF(
             "SELECT svy_category.* FROM svy_category, svy_phrase_cat WHERE svy_phrase_cat.category_fi = svy_category.category_id AND svy_phrase_cat.phrase_fi = %s ORDER BY svy_phrase_cat.sequence",
@@ -106,25 +109,25 @@ class ilSurveyPhrases
         }
         return $categories;
     }
-    
+
     /**
      * Delete phrases from the database
      * @param array $phrase_array An array containing phrase id's to delete
      */
     public function deletePhrases(
         array $phrase_array
-    ) : void {
+    ): void {
         $ilDB = $this->db;
-        
+
         if (count($phrase_array) > 0) {
             $ilDB->manipulate("DELETE FROM svy_phrase WHERE " . $ilDB->in('phrase_id', $phrase_array, false, 'integer'));
             $ilDB->manipulate("DELETE FROM svy_phrase_cat WHERE " . $ilDB->in('phrase_fi', $phrase_array, false, 'integer'));
         }
     }
-    
+
     public function updatePhrase(
         int $phrase_id
-    ) : void {
+    ): void {
         $ilUser = $this->user;
         $ilDB = $this->db;
 
@@ -159,11 +162,11 @@ class ilSurveyPhrases
             $counter++;
         }
     }
-    
+
     /**
      * Saves a set of categories to a default phrase
      */
-    public function savePhrase() : void
+    public function savePhrase(): void
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -195,8 +198,11 @@ class ilSurveyPhrases
             $counter++;
         }
     }
-    
-    public function __get(string $value) : ?string
+
+    /**
+     * @return mixed|null
+     */
+    public function __get(string $value)
     {
         switch ($value) {
             default:
@@ -204,7 +210,10 @@ class ilSurveyPhrases
         }
     }
 
-    public function __set(string $key, string $value) : void
+    /**
+     * @param mixed|null $value
+     */
+    public function __set(string $key, $value): void
     {
         switch ($key) {
             default:

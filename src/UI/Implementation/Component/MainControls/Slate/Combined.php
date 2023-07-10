@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
@@ -25,7 +41,7 @@ class Combined extends Slate implements ISlate\Combined
     /**
      * @inheritdoc
      */
-    public function withAdditionalEntry($entry) : ISlate\Combined
+    public function withAdditionalEntry($entry): ISlate\Combined
     {
         $classes = [
             IBulkyButton::class,
@@ -44,12 +60,12 @@ class Combined extends Slate implements ISlate\Combined
     /**
      * @inheritdoc
      */
-    public function getContents() : array
+    public function getContents(): array
     {
         return $this->contents;
     }
 
-    public function getTriggerSignal(string $entry_id) : Signal
+    public function getTriggerSignal(string $entry_id): Signal
     {
         $signal = $this->signal_generator->create();
         $signal->addOption('entry_id', $entry_id);
@@ -57,7 +73,7 @@ class Combined extends Slate implements ISlate\Combined
         return $signal;
     }
 
-    public function withMappedSubNodes(callable $f) : ISlate\Combined
+    public function withMappedSubNodes(callable $f): ISlate\Combined
     {
         $clone = clone $this;
         $new_contents = [];

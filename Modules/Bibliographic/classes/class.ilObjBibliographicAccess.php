@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjBibliographicAccess
  *
@@ -25,7 +25,6 @@
  */
 class ilObjBibliographicAccess extends ilObjectAccess
 {
-
     /**
      * get commands
      *
@@ -39,7 +38,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
      *    );
      * @return array<int, array<string, string>>|array<int, array<string, string|bool>>
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         return array(
             array(
@@ -54,7 +53,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
     }
 
 
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -70,7 +69,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
      * checks whether a user may invoke a command or not
      * (this method is called by ilAccessHandler::checkAccess)
      */
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -101,7 +100,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
                     return false;
                 }
                 break;
-            // for permission query feature
+                // for permission query feature
             case "infoScreen":
                 if (!self::_lookupOnline($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
@@ -127,7 +126,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
     }
 
 
-    private static function checkEntryIdMatch(int $obj_id, int $entry_id) : bool
+    private static function checkEntryIdMatch(int $obj_id, int $entry_id): bool
     {
         /**
          * @var ilBiblEntry $ilBiblEntry
@@ -144,14 +143,14 @@ class ilObjBibliographicAccess extends ilObjectAccess
     /**
      * Check wether bibliographic is online or not
      */
-    public static function _lookupOnline(int $a_id) : bool
+    public static function _lookupOnline(int $a_id): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $q = "SELECT is_online FROM il_bibl_data WHERE id = " . $ilDB->quote($a_id, "integer");
         $bibl_set = $ilDB->query($q);
         $bibl_rec = $ilDB->fetchAssoc($bibl_set);
-    
+
         return (bool) $bibl_rec["is_online"] ?? false;
     }
 }

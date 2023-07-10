@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,21 +16,21 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjMailAccess
  * @author Alex Killing <alex.killing@gmx.de>
  */
 class ilObjMailAccess extends ilObjectAccess
 {
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
-        $mail = new ilMail($DIC->user()->getId());
-        if ($DIC->rbac()->system()->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
-            return true;
-        }
-
-        return false;
+        return $DIC->rbac()->system()->checkAccess(
+            'internal_mail',
+            (new ilMail($DIC->user()->getId()))->getMailObjectReferenceId()
+        );
     }
 }

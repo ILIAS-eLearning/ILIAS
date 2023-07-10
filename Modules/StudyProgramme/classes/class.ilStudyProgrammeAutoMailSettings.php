@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Refinery\Factory as Refinery;
@@ -29,22 +45,22 @@ class ilStudyProgrammeAutoMailSettings
         $this->processing_ends_not_successful_days = $processing_ends_not_successful_days;
     }
 
-    public function getSendReAssignedMail() : bool
+    public function getSendReAssignedMail(): bool
     {
         return $this->send_re_assigned_mail;
     }
 
-    public function getReminderNotRestartedByUserDays() : ?int
+    public function getReminderNotRestartedByUserDays(): ?int
     {
         return $this->reminder_not_restarted_by_user_days;
     }
 
-    public function getProcessingEndsNotSuccessfulDays() : ?int
+    public function getProcessingEndsNotSuccessfulDays(): ?int
     {
         return $this->processing_ends_not_successful_days;
     }
 
-    public function withSendReAssignedMail(bool $do_it) : ilStudyProgrammeAutoMailSettings
+    public function withSendReAssignedMail(bool $do_it): ilStudyProgrammeAutoMailSettings
     {
         $clone = clone $this;
         $clone->send_re_assigned_mail = $do_it;
@@ -53,7 +69,7 @@ class ilStudyProgrammeAutoMailSettings
 
     public function withReminderNotRestartedByUserDays(
         ?int $days
-    ) : ilStudyProgrammeAutoMailSettings {
+    ): ilStudyProgrammeAutoMailSettings {
         if (!is_null($days) && 1 > $days) {
             throw new InvalidArgumentException('Numbers less than 1 are not allowed');
         }
@@ -65,7 +81,7 @@ class ilStudyProgrammeAutoMailSettings
 
     public function withProcessingEndsNotSuccessfulDays(
         ?int $days
-    ) : ilStudyProgrammeAutoMailSettings {
+    ): ilStudyProgrammeAutoMailSettings {
         if (!is_null($days) && 1 > $days) {
             throw new InvalidArgumentException('Numbers less than 1 are not allowed');
         }
@@ -74,7 +90,7 @@ class ilStudyProgrammeAutoMailSettings
         return $clone;
     }
 
-    public function toFormInput(Field\Factory $input, ilLanguage $ilLng, Refinery $refinery) : Field\Input
+    public function toFormInput(Field\Factory $input, ilLanguage $ilLng, Refinery $refinery): Field\Input
     {
         $reminder = null;
         if (!is_null($this->getReminderNotRestartedByUserDays())) {

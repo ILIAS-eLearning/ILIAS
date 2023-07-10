@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilFileException extends ilException
 {
     public static int $ID_MISMATCH = 0;

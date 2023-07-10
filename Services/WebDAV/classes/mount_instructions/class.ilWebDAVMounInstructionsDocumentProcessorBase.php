@@ -1,21 +1,26 @@
-<?php declare(strict_types = 1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 abstract class ilWebDAVMountInstructionsDocumentProcessorBase implements ilWebDAVMountInstructionsDocumentProcessor
 {
-    public function parseInstructionsToAssocArray(string $a_raw_mount_instructions) : array
+    public function parseInstructionsToAssocArray(string $a_raw_mount_instructions): array
     {
         $processing_text = $a_raw_mount_instructions;
 
@@ -45,7 +50,7 @@ abstract class ilWebDAVMountInstructionsDocumentProcessorBase implements ilWebDA
                 }
             }
         } while ($pair_found || $open_with_no_close_tag_found);
-        
+
         if (count($found_instructions) === 0) {
             $found_instructions = [ $a_raw_mount_instructions ];
         }

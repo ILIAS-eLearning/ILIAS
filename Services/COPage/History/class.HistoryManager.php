@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\History;
 
@@ -24,6 +29,7 @@ use ILIAS\COPage\InternalDomainService;
  */
 class HistoryManager
 {
+    protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected HistoryDBRepository $history_repo;
 
     public function __construct(
@@ -32,6 +38,9 @@ class HistoryManager
         InternalDomainService $domain_service
     ) {
         $this->history_repo = $repo_service->history();
+        $this->pc_definition = $domain_service
+            ->pc()
+            ->definition();
     }
 
     /**
@@ -39,18 +48,18 @@ class HistoryManager
      * @param int $keep_entries entries that should be kept as minimum
      * @throws \ilDateTimeException
      */
-    public function deleteOldHistoryEntries(int $x_days, int $keep_entries) : bool
+    public function deleteOldHistoryEntries(int $x_days, int $keep_entries): bool
     {
         $deleted = false;
 
         foreach ($this->history_repo->getMaxHistEntryPerPageOlderThanX($x_days) as $page) {
-            $max_deletable = $this->history_repo->getMaxDeletableNr($keep_entries, $page["parent_type"], $page["page_id"], $page["lang"]);
+            $max_deletable = $this->history_repo->getMaxDeletableNr($keep_entries, $page["parent_type"], (int) $page["page_id"], $page["lang"]);
             $delete_lower_than_nr = min($page["max_nr"], $max_deletable);
             if ($delete_lower_than_nr > 0) {
                 $this->deleteHistoryEntriesOlderEqualThanNr(
                     $delete_lower_than_nr,
                     $page["parent_type"],
-                    $page["page_id"],
+                    (int) $page["page_id"],
                     $page["lang"]
                 );
                 $deleted = true;
@@ -65,8 +74,8 @@ class HistoryManager
         string $parent_type,
         int $page_id,
         string $lang
-    ) : void {
-        $defs = \ilCOPagePCDef::getPCDefinitions();
+    ): void {
+        $defs = $this->pc_definition->getPCDefinitions();
         foreach ($defs as $def) {
             $cl = $def["pc_class"];
             $cl::deleteHistoryLowerEqualThan(

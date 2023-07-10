@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -37,7 +40,7 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt("user_action"));
         $this->addColumn($this->lng->txt("active"), "", "1");
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.user_action_admin_row.html", "Services/User/Actions");
 
@@ -50,7 +53,7 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
     /**
      * @param array<string,string> $a_set
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($a_set["active"]) {
             $this->tpl->touchBlock("checked");

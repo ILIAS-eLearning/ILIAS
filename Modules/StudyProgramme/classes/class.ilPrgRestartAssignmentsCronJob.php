@@ -1,9 +1,25 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Denis Klöpfer <denis.kloepfer@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-/* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use Pimple\Container;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Re-assign users (according to restart-date).
@@ -11,13 +27,15 @@ use Pimple\Container;
  */
 class ilPrgRestartAssignmentsCronJob extends ilCronJob
 {
-    const ID = 'prg_restart_assignments_temporal_progress';
-    const ACTING_USR_ID = -1;
+    private const ID = 'prg_restart_assignments_temporal_progress';
+    private const ACTING_USR_ID = -1;
 
-    protected ilStudyProgrammeAssignmentDBRepository $user_assignments_db;
-    protected ilLogger $log;
+    protected ilComponentLogger $log;
     protected ilLanguage $lng;
-    protected Container $dic;
+    protected ilPRGAssignmentDBRepository $assignment_repo;
+    protected ilPrgCronJobAdapter $adapter;
+
+    protected array $prgs = [];
 
     public function __construct()
     {
@@ -26,53 +44,53 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         $this->lng = $DIC['lng'];
         $this->lng->loadLanguageModule('prg');
 
-        $this->dic = ilStudyProgrammeDIC::dic();
+        $dic = ilStudyProgrammeDIC::dic();
+        $this->assignment_repo = $dic['repo.assignment'];
+        $this->adapter = $dic['cron.restart'];
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('prg_restart_assignments_temporal_progress_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt('prg_restart_assignments_temporal_progress_desc');
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_IN_DAYS;
+        return CronJobScheduleType::SCHEDULE_TYPE_IN_DAYS;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return 1;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $result = new ilCronJobResult();
         $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
 
-        $programmes_to_reassign = $this->getSettingsRepository()
-            ->getProgrammeIdsWithReassignmentForExpiringValidity();
-
-        if (count($programmes_to_reassign) == 0) {
+        $programmes_to_reassign = $this->adapter->getRelevantProgrammeIds();
+        if (count($programmes_to_reassign) === 0) {
             return $result;
         }
 
@@ -85,46 +103,39 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
             $programmes_and_due[$programme_obj_id] = $due;
         }
 
-        //TODO: expire for assignment, not progress!!!
-        $progresses = $this->getProgressRepository()
-            ->getAboutToExpire($programmes_and_due, false);
+        $assignments = $this->assignment_repo->getAboutToExpire($programmes_and_due, false);
 
-        if (count($progresses) == 0) {
+        if (count($assignments) === 0) {
             return $result;
         }
-    
-        $events = $this->getEvents();
-        $assignment_repo = $this->getAssignmentRepository();
-        foreach ($progresses as $progress) {
-            $ass = $assignment_repo->get($progress->getAssignmentId());
+
+        foreach ($assignments as $ass) {
             if ($ass->getRestartedAssignmentId() < 0) {
-                if ($ass->getRootId() != $progress->getNodeId()) {
-                    $this->log(
-                        sprintf(
-                            'PRG, RestartAssignments: progress %s is not root of assignment %s. skipping.',
-                            $progress->getId(),
-                            $ass->getId()
-                        )
-                    );
+                $prg = $this->getStudyProgramme($ass->getRootId());
+
+                $restart_settings = $prg->getSettings()->getValidityOfQualificationSettings();
+                if ($restart_settings->getRestartRecheck()
+                    && !$ass->isManuallyAssigned()
+                    && !$prg->getApplicableMembershipSourceForUser($ass->getUserId(), null)
+                ) {
                     continue;
                 }
 
                 $this->log(
                     sprintf(
                         'PRG, RestartAssignments: user %s\'s assignment %s is being restarted (Programme %s)',
-                        $progress->getUserId(),
+                        $ass->getUserId(),
                         $ass->getId(),
-                        $progress->getNodeId()
+                        $ass->getRootId()
                     )
                 );
-            
-                $prg = ilObjStudyProgramme::getInstanceByObjId($ass->getRootId());
-                $restarted = $prg->assignUser($ass->getUserId(), self::ACTING_USR_ID);
-                $ass = $ass->withRestarted($restarted->getId(), $today);
-               
-                $assignment_repo->update($ass);
 
-                $events->userReAssigned($restarted);
+                $restarted = $prg->assignUser($ass->getUserId(), self::ACTING_USR_ID, false);
+                $ass = $ass->withRestarted($restarted->getId(), $today);
+                $this->assignment_repo->store($ass);
+
+                $this->adapter->actOnSingleAssignment($restarted);
+
                 $result->setStatus(ilCronJobResult::STATUS_OK);
             }
         }
@@ -132,32 +143,20 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         return $result;
     }
 
-    protected function getNow() : DateTimeImmutable
+    protected function getStudyProgramme(int $prg_obj_id): ilObjStudyProgramme
+    {
+        if (!array_key_exists($prg_obj_id, $this->prgs)) {
+            $this->prgs[$prg_obj_id] = ilObjStudyProgramme::getInstanceByObjId($prg_obj_id);
+        }
+        return $this->prgs[$prg_obj_id];
+    }
+
+    protected function getNow(): DateTimeImmutable
     {
         return new DateTimeImmutable();
     }
 
-    protected function getSettingsRepository() : ilStudyProgrammeSettingsDBRepository
-    {
-        return $this->dic['model.Settings.ilStudyProgrammeSettingsRepository'];
-    }
-
-    protected function getProgressRepository() : ilStudyProgrammeProgressDBRepository
-    {
-        return $this->dic['ilStudyProgrammeUserProgressDB'];
-    }
-
-    protected function getAssignmentRepository() : ilStudyProgrammeAssignmentDBRepository
-    {
-        return $this->dic['ilStudyProgrammeUserAssignmentDB'];
-    }
-
-    protected function getEvents() : ilStudyProgrammeEvents
-    {
-        return $this->dic['ilStudyProgrammeEvents'];
-    }
-
-    protected function log(string $msg) : void
+    protected function log(string $msg): void
     {
         $this->log->write($msg);
     }

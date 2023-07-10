@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
-/******************************************************************************
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilSCORMTrackingItems
  * @author  Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
@@ -22,7 +27,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedRawColumns() : array
+    public static function exportSelectedRawColumns(): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -48,7 +53,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, string>
      */
-    public static function userDataHeaderForExport() : array
+    public static function userDataHeaderForExport(): array
     {
         $privacy = ilPrivacySettings::getInstance();
         $allowExportPrivacy = $privacy->enabledExportSCORM();
@@ -65,7 +70,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedCoreColumns(bool $b_orderBySCO, bool $b_allowExportPrivacy) : array
+    public static function exportSelectedCoreColumns(bool $b_orderBySCO, bool $b_allowExportPrivacy): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -91,7 +96,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedInteractionsColumns() : array
+    public static function exportSelectedInteractionsColumns(): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -116,7 +121,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedObjectivesColumns() : array
+    public static function exportSelectedObjectivesColumns(): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -141,7 +146,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedSuccessColumns() : array
+    public static function exportSelectedSuccessColumns(): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -164,13 +169,7 @@ class ilSCORMTrackingItems
     }
 
     /**
-     * @param array  $a_user
-     * @param array  $a_sco
-     * @param bool   $b_orderBySCO
-     * @param bool   $allowExportPrivacy
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array<int, mixed[]>
+     * @return array<int, array>
      */
     public function exportSelectedRaw(
         array $a_user,
@@ -179,7 +178,7 @@ class ilSCORMTrackingItems
         bool $allowExportPrivacy,
         int $obj_id,
         string $lmTitle
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
         $lng = $DIC->language();
@@ -187,9 +186,9 @@ class ilSCORMTrackingItems
 
         $returnData = array();
 
-        $scoTitles = self::scoTitlesForExportSelected($obj_id);
+        $scoTitles = $this->scoTitlesForExportSelected($obj_id);
 
-        $scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
+        $scoProgress = $this->markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
         $query = 'SELECT user_id, st.obj_id, sco_id, identifierref, c_timestamp, lvalue, rvalue '
             . 'FROM scorm_tracking st '
@@ -207,7 +206,7 @@ class ilSCORMTrackingItems
         while ($data = $ilDB->fetchAssoc($res)) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["sco_id"]];
             $data["sco_title"] = $scoTitles[$data["sco_id"]];
             $data["rvalue"] = "" . $data["rvalue"];
@@ -219,10 +218,9 @@ class ilSCORMTrackingItems
     }
 
     /**
-     * @param int $obj_id
      * @return array<int|string, mixed>
      */
-    public function scoTitlesForExportSelected(int $obj_id) : array
+    public function scoTitlesForExportSelected(int $obj_id): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -243,11 +241,9 @@ class ilSCORMTrackingItems
     }
 
     /**
-     * @param array $a_scos
-     * @param int   $obj_id
-     * @return array
+     * @return mixed[]
      */
-    public function markedLearningStatusForExportSelected(array $a_scos, int $obj_id) : array
+    public function markedLearningStatusForExportSelected(array $a_scos, int $obj_id): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -264,12 +260,7 @@ class ilSCORMTrackingItems
         return $a_scos;
     }
 
-    /**
-     * @param int  $user
-     * @param bool $b_allowExportPrivacy
-     * @return array
-     */
-    public static function userDataArrayForExport(int $user, bool $b_allowExportPrivacy = false) : array
+    public static function userDataArrayForExport(int $user, bool $b_allowExportPrivacy = false): array
     {
         $userArray = array();
         if ($b_allowExportPrivacy == false) {
@@ -281,7 +272,7 @@ class ilSCORMTrackingItems
             $userArray["user"] = "";
             $userArray["email"] = "";
             $userArray["department"] = "";
-            if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
+            if (ilObject::_exists($user) && ilObject::_lookUpType($user) === 'usr') {
                 $e_user = new ilObjUser($user);
                 $userArray["login"] = $e_user->getLogin();
                 $userArray["user"] = $e_user->getLastname() . ', ' . $e_user->getFirstname();
@@ -293,13 +284,7 @@ class ilSCORMTrackingItems
     }
 
     /**
-     * @param array  $a_user
-     * @param array  $a_sco
-     * @param bool   $b_orderBySCO
-     * @param bool   $allowExportPrivacy
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array<int, mixed[]>
+     * @return array<int, array>
      */
     public function exportSelectedCore(
         array $a_user,
@@ -308,7 +293,7 @@ class ilSCORMTrackingItems
         bool $allowExportPrivacy,
         int $obj_id,
         string $lmTitle
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
         $lng = $DIC->language();
@@ -316,14 +301,14 @@ class ilSCORMTrackingItems
 
         $returnData = array();
 
-        $scoTitles = self::scoTitlesForExportSelected($obj_id);
+        $scoTitles = $this->scoTitlesForExportSelected($obj_id);
 
-        $scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
+        $scoProgress = $this->markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
         //data-arrays to fill for all users
         $a_empty = array();
-        for ($i = 0, $iMax = count($a_user); $i < $iMax; $i++) {
-            $a_empty[$a_user[$i]] = array();
+        foreach ($a_user as $value) {
+            $a_empty[$value] = array();
         }
 
         $dbdata = array();
@@ -344,23 +329,23 @@ class ilSCORMTrackingItems
             $a_empty[$row["user_id"]][$row["sco_id"]] = "";
         }
 
-        $a_lesson_status = self::getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.lesson_status');
-        $a_credit = self::getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.credit');
-        $a_c_entry = self::getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.entry');
-        $a_c_exit = self::getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.exit');
-        $a_c_max = self::getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.score.max');
-        $a_c_min = self::getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.score.min');
-        $a_c_raw = self::getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.score.raw');
-        $a_session_time = self::getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.session_time');
-        $a_total_time = self::getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.total_time');
-        $a_suspend_data = self::getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.suspend_data');
-        $a_launch_data = self::getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.launch_data');
+        $a_lesson_status = $this->getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.lesson_status');
+        $a_credit = $this->getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.credit');
+        $a_c_entry = $this->getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.entry');
+        $a_c_exit = $this->getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.exit');
+        $a_c_max = $this->getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.score.max');
+        $a_c_min = $this->getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.score.min');
+        $a_c_raw = $this->getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.score.raw');
+        $a_session_time = $this->getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.session_time');
+        $a_total_time = $this->getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.core.total_time');
+        $a_suspend_data = $this->getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.suspend_data');
+        $a_launch_data = $this->getScormTrackingValue($obj_id, $a_user, $a_sco, $a_empty, 'cmi.launch_data');
 
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
 
-            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
 
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["sco_id"]];
             $data["sco_title"] = $scoTitles[$data["sco_id"]];
@@ -394,14 +379,9 @@ class ilSCORMTrackingItems
     }
 
     /**
-     * @param int    $obj_id
-     * @param array  $a_user
-     * @param array  $a_sco
-     * @param array  $a_empty
-     * @param string $lvalue
-     * @return array
+     * @return mixed[]
      */
-    public function getScormTrackingValue(int $obj_id, array $a_user, array $a_sco, array $a_empty, string $lvalue) : array
+    public function getScormTrackingValue(int $obj_id, array $a_user, array $a_sco, array $a_empty, string $lvalue): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -426,13 +406,7 @@ class ilSCORMTrackingItems
     }
 
     /**
-     * @param array  $a_user
-     * @param array  $a_sco
-     * @param bool   $b_orderBySCO
-     * @param bool   $allowExportPrivacy
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array<int, mixed[]>
+     * @return array<int, array>
      */
     public function exportSelectedInteractions(
         array $a_user,
@@ -441,15 +415,15 @@ class ilSCORMTrackingItems
         bool $allowExportPrivacy,
         int $obj_id,
         string $lmTitle
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
 
         $returnData = array();
 
-        $scoTitles = self::scoTitlesForExportSelected($obj_id);
+        $scoTitles = $this->scoTitlesForExportSelected($obj_id);
 
-        $scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
+        $scoProgress = $this->markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
         $dbdata = array();
 
@@ -505,90 +479,90 @@ class ilSCORMTrackingItems
         $a_student_response = array();
         $a_latency = array();
         $a_time = array();
-        for ($i = 0, $iMax = count($interactionsCounter); $i < $iMax; $i++) {
+        foreach ($interactionsCounter as $value) {
             $a_id = array_merge(
                 $a_id,
-                self::getScormTrackingValueForInteractionsOrObjectives(
+                $this->getScormTrackingValueForInteractionsOrObjectives(
                     $obj_id,
                     $a_user,
                     $a_sco,
                     'id',
-                    (int) $interactionsCounter[$i],
+                    (int) $value,
                     'interactions'
                 )
-            );
+            );//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $a_weighting = array_merge(
                 $a_weighting,
-                self::getScormTrackingValueForInteractionsOrObjectives(
+                $this->getScormTrackingValueForInteractionsOrObjectives(
                     $obj_id,
                     $a_user,
                     $a_sco,
                     'weighting',
-                    (int) $interactionsCounter[$i],
+                    (int) $value,
                     'interactions'
                 )
-            );
+            );//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $a_type = array_merge(
                 $a_type,
-                self::getScormTrackingValueForInteractionsOrObjectives(
+                $this->getScormTrackingValueForInteractionsOrObjectives(
                     $obj_id,
                     $a_user,
                     $a_sco,
                     'type',
-                    (int) $interactionsCounter[$i],
+                    (int) $value,
                     'interactions'
                 )
-            );
+            );//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $a_result = array_merge(
                 $a_result,
-                self::getScormTrackingValueForInteractionsOrObjectives(
+                $this->getScormTrackingValueForInteractionsOrObjectives(
                     $obj_id,
                     $a_user,
                     $a_sco,
                     'result',
-                    (int) $interactionsCounter[$i],
+                    (int) $value,
                     'interactions'
                 )
-            );
+            );//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $a_student_response = array_merge(
                 $a_student_response,
-                self::getScormTrackingValueForInteractionsOrObjectives(
+                $this->getScormTrackingValueForInteractionsOrObjectives(
                     $obj_id,
                     $a_user,
                     $a_sco,
                     'student_response',
-                    (int) $interactionsCounter[$i],
+                    (int) $value,
                     'interactions'
                 )
-            );
+            );//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $a_latency = array_merge(
                 $a_latency,
-                self::getScormTrackingValueForInteractionsOrObjectives(
+                $this->getScormTrackingValueForInteractionsOrObjectives(
                     $obj_id,
                     $a_user,
                     $a_sco,
                     'latency',
-                    (int) $interactionsCounter[$i],
+                    (int) $value,
                     'interactions'
                 )
-            );
+            );//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $a_time = array_merge(
                 $a_time,
-                self::getScormTrackingValueForInteractionsOrObjectives(
+                $this->getScormTrackingValueForInteractionsOrObjectives(
                     $obj_id,
                     $a_user,
                     $a_sco,
                     'time',
-                    (int) $interactionsCounter[$i],
+                    (int) $value,
                     'interactions'
                 )
-            );
+            );//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
         }
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
 
-            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
 
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["sco_id"]];
             $data["sco_title"] = $scoTitles[$data["sco_id"]];
@@ -625,12 +599,6 @@ class ilSCORMTrackingItems
     }
 
     /**
-     * @param int    $obj_id
-     * @param array  $a_user
-     * @param array  $a_sco
-     * @param string $lvalue
-     * @param int    $counter
-     * @param string $topic
      * @return array<string, mixed>
      */
     public function getScormTrackingValueForInteractionsOrObjectives(
@@ -640,7 +608,7 @@ class ilSCORMTrackingItems
         string $lvalue,
         int $counter,
         string $topic
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
         $a_return = array();
@@ -664,13 +632,7 @@ class ilSCORMTrackingItems
     }
 
     /**
-     * @param array  $a_user
-     * @param array  $a_sco
-     * @param bool   $b_orderBySCO
-     * @param bool   $allowExportPrivacy
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array<int, mixed[]>
+     * @return array<int, array>
      */
     public function exportSelectedObjectives(
         array $a_user,
@@ -679,15 +641,15 @@ class ilSCORMTrackingItems
         bool $allowExportPrivacy,
         int $obj_id,
         string $lmTitle
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
 
         $returnData = array();
 
-        $scoTitles = self::scoTitlesForExportSelected($obj_id);
+        $scoTitles = $this->scoTitlesForExportSelected($obj_id);
 
-        $scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
+        $scoProgress = $this->markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
         $dbdata = array();
 
@@ -737,68 +699,68 @@ class ilSCORMTrackingItems
         $a_c_min = array();
         $a_c_raw = array();
         $a_status = array();
-        for ($i = 0, $iMax = count($objectivesCounter); $i < $iMax; $i++) {
+        foreach ($objectivesCounter as $value) {
             $a_id = array_merge(
                 $a_id,
-                self::getScormTrackingValueForInteractionsOrObjectives(
+                $this->getScormTrackingValueForInteractionsOrObjectives(
                     $obj_id,
                     $a_user,
                     $a_sco,
                     'id',
-                    (int) $objectivesCounter[$i],
+                    (int) $value,
                     'objectives'
                 )
-            );
+            );//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $a_c_max = array_merge(
                 $a_c_max,
-                self::getScormTrackingValueForInteractionsOrObjectives(
+                $this->getScormTrackingValueForInteractionsOrObjectives(
                     $obj_id,
                     $a_user,
                     $a_sco,
                     'score.max',
-                    (int) $objectivesCounter[$i],
+                    (int) $value,
                     'objectives'
                 )
-            );
+            );//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $a_c_min = array_merge(
                 $a_c_min,
-                self::getScormTrackingValueForInteractionsOrObjectives(
+                $this->getScormTrackingValueForInteractionsOrObjectives(
                     $obj_id,
                     $a_user,
                     $a_sco,
                     'score.min',
-                    (int) $objectivesCounter[$i],
+                    (int) $value,
                     'objectives'
                 )
-            );
+            );//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $a_c_raw = array_merge(
                 $a_c_raw,
-                self::getScormTrackingValueForInteractionsOrObjectives(
+                $this->getScormTrackingValueForInteractionsOrObjectives(
                     $obj_id,
                     $a_user,
                     $a_sco,
                     'score.raw',
-                    (int) $objectivesCounter[$i],
+                    (int) $value,
                     'objectives'
                 )
-            );
+            );//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $a_status = array_merge(
                 $a_status,
-                self::getScormTrackingValueForInteractionsOrObjectives(
+                $this->getScormTrackingValueForInteractionsOrObjectives(
                     $obj_id,
                     $a_user,
                     $a_sco,
                     'status',
-                    (int) $objectivesCounter[$i],
+                    (int) $value,
                     'objectives'
                 )
-            );
+            );//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
         }
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
 
-            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
 
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["sco_id"]];
             $data["sco_title"] = $scoTitles[$data["sco_id"]];
@@ -829,13 +791,9 @@ class ilSCORMTrackingItems
     }
 
     /**
-     * @param array  $a_user
-     * @param bool   $allowExportPrivacy
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array<int, mixed[]>
+     * @return array<int, array>
      */
-    public function exportSelectedSuccess(array $a_user, bool $allowExportPrivacy, int $obj_id, string $lmTitle) : array
+    public function exportSelectedSuccess(array $a_user, bool $allowExportPrivacy, int $obj_id, string $lmTitle): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -860,10 +818,10 @@ class ilSCORMTrackingItems
         $u_startedSCO = array();
         $u_completedSCO = array();
         $u_passedSCO = array();
-        for ($i = 0, $iMax = count($a_user); $i < $iMax; $i++) {
-            $u_startedSCO[$a_user[$i]] = 0;
-            $u_completedSCO[$a_user[$i]] = 0;
-            $u_passedSCO[$a_user[$i]] = 0;
+        foreach ($a_user as $value) {
+            $u_startedSCO[$value] = 0;
+            $u_completedSCO[$value] = 0;
+            $u_passedSCO[$value] = 0;
         }
 
         $query = 'SELECT user_id, count(distinct(SCO_ID)) counter '
@@ -927,16 +885,7 @@ class ilSCORMTrackingItems
     }
 
     /**
-     * @param array  $a_user
-     * @param bool   $allowExportPrivacy
-     * @param array  $dbdata
-     * @param int    $scoCounter
-     * @param array  $u_startedSCO
-     * @param array  $u_completedSCO
-     * @param array  $u_passedSCO
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array<int, mixed[]>
+     * @return array<int, array>
      */
     public function exportSelectedSuccessRows(
         array $a_user,
@@ -948,7 +897,7 @@ class ilSCORMTrackingItems
         array $u_passedSCO,
         int $obj_id,
         string $lmTitle
-    ) : array {
+    ): array {
         $returnData = array();
         foreach ($dbdata as $data) {
             $dat = array();
@@ -956,7 +905,7 @@ class ilSCORMTrackingItems
             $dat["LearningModuleTitle"] = "" . $lmTitle;
             $dat["LearningModuleVersion"] = "" . $data["module_version"];
 
-            $dat = array_merge($dat, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));
+            $dat = array_merge($dat, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
 
             $dat["status"] = "" . $data["status"];
             $dat["Percentage"] = "" . $data["percentage_completed"];
@@ -978,10 +927,9 @@ class ilSCORMTrackingItems
     }
 
     /**
-     * @param $a_time
      * @return float|string
      */
-    public function SCORMTimeToSeconds($a_time)
+    public function SCORMTimeToSeconds(string $a_time)
     {
         if ($a_time == "") {
             return "";

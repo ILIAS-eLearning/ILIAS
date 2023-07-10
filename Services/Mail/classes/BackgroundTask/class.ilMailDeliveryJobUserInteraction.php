@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Types\SingleType;
@@ -30,24 +32,24 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
 {
-    public const OPTION_CANCEL = 'cancel';
+    final public const OPTION_CANCEL = 'cancel';
 
-    public function getOptions(array $input) : array
+    public function getOptions(array $input): array
     {
         return [];
     }
 
-    public function getRemoveOption() : Option
+    public function getRemoveOption(): Option
     {
         return new UserInteractionOption('remove', self::OPTION_CANCEL);
     }
 
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return [];
     }
 
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
@@ -56,16 +58,16 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
         array $input,
         ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option,
         ILIAS\BackgroundTasks\Bucket $bucket
-    ) : Value {
+    ): Value {
         return $input[0];
     }
 
-    public function getMessage(array $input) : string
+    public function getMessage(array $input): string
     {
         return '';
     }
 
-    public function canBeSkipped(array $input) : bool
+    public function canBeSkipped(array $input): bool
     {
         return true;
     }

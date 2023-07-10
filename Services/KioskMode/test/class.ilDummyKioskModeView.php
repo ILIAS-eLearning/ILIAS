@@ -10,7 +10,7 @@ use ILIAS\UI\Component\Component;
 
 class ilDummyKioskModeView extends ilKioskModeView
 {
-    protected function getObjectClass() : string
+    protected function getObjectClass(): string
     {
         return'ilObject';
     }
@@ -19,12 +19,12 @@ class ilDummyKioskModeView extends ilKioskModeView
     {
     }
 
-    protected function hasPermissionToAccessKioskMode() : bool
+    protected function hasPermissionToAccessKioskMode(): bool
     {
         return true;
     }
 
-    public function buildInitialState(State $empty_state) : State
+    public function buildInitialState(State $empty_state): State
     {
         return new State();
     }
@@ -37,11 +37,11 @@ class ilDummyKioskModeView extends ilKioskModeView
         State $state,
         string $command,
         int $parameter = null
-    ) : State {
+    ): State {
         return new State();
     }
 
-    public function updatePost(State $state, string $command, array $post) : State
+    public function updatePost(State $state, string $command, array $post): State
     {
         return new State();
     }
@@ -51,7 +51,7 @@ class ilDummyKioskModeView extends ilKioskModeView
         Factory $factory,
         URLBuilder $url_builder,
         array $post = null
-    ) : Component {
+    ): Component {
         return new ILIAS\UI\Implementation\Component\Button\Close();
     }
 }

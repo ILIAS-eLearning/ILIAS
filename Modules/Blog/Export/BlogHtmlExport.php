@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Blog\Export;
 
@@ -81,22 +86,22 @@ class BlogHtmlExport
             $this->content_style_domain = $cs->domain()->styleForObjId($this->blog->getId());
         }
     }
-    protected function init() : void
+    protected function init(): void
     {
     }
 
-    public function setPrintVersion(bool $print_version) : void
+    public function setPrintVersion(bool $print_version): void
     {
         $this->print_version = $print_version;
     }
 
     public function includeComments(
         bool $a_include_comments
-    ) : void {
+    ): void {
         $this->include_comments = $a_include_comments;
     }
 
-    protected function initDirectories() : void
+    protected function initDirectories(): void
     {
         // initialize temporary target directory
         ilFileUtils::delDir($this->target_dir);
@@ -108,7 +113,7 @@ class BlogHtmlExport
      * @throws \ILIAS\UI\NotImplementedException
      * @throws \ilTemplateException
      */
-    public function exportHTML() : string
+    public function exportHTML(): string
     {
         $this->initDirectories();
         $this->export_util->exportSystemStyle();
@@ -136,7 +141,7 @@ class BlogHtmlExport
         return $this->zipPackage();
     }
 
-    protected function exportUserImages() : void
+    protected function exportUserImages(): void
     {
         if ($this->include_comments) {
             $user_export = new \ILIAS\Notes\Export\UserImageExporter();
@@ -144,7 +149,7 @@ class BlogHtmlExport
         }
     }
 
-    protected function exportBanner() : void
+    protected function exportBanner(): void
     {
         // banner / profile picture
         $blga_set = new \ilSetting("blga");
@@ -158,7 +163,7 @@ class BlogHtmlExport
         \ilObjUser::copyProfilePicturesToDirectory($this->blog->getOwner(), $this->target_dir);
     }
 
-    public function zipPackage() : string
+    public function zipPackage(): string
     {
         // zip it all
         $date = time();
@@ -183,7 +188,7 @@ class BlogHtmlExport
         ?\Closure $a_tpl_callback = null,
         ?\ilCOPageHTMLExport $a_co_page_html_export = null,
         string $a_index_name = "index.html"
-    ) : void {
+    ): void {
         if (!$a_link_template) {
             $a_link_template = "bl{TYPE}_{ID}.html";
         }
@@ -291,7 +296,7 @@ class BlogHtmlExport
     /**
      * Export all pages as one print version
      */
-    public function exportHTMLPagesPrint() : void
+    public function exportHTMLPagesPrint(): void
     {
         $this->collectAllPagesPageElements($this->co_page_html_export);
 
@@ -303,7 +308,7 @@ class BlogHtmlExport
     }
 
 
-    public function collectAllPagesPageElements(\ilCOPageHTMLExport $co_page_html_export) : void
+    public function collectAllPagesPageElements(\ilCOPageHTMLExport $co_page_html_export): void
     {
         $pages = \ilBlogPosting::getAllPostings($this->blog->getId(), 0);
         foreach ($pages as $page) {
@@ -321,7 +326,7 @@ class BlogHtmlExport
         string $a_type,
         string $a_id,
         array $keywords
-    ) : string {
+    ): string {
         switch ($a_type) {
             case "list":
                 $a_type = "m";
@@ -331,7 +336,7 @@ class BlogHtmlExport
                 if (!isset(self::$keyword_export_map)) {
                     self::$keyword_export_map = array_flip(array_keys($keywords));
                 }
-                $a_id = self::$keyword_export_map[$a_id];
+                $a_id = (string) (self::$keyword_export_map[$a_id] ?? "");
                 $a_type = "k";
                 break;
 
@@ -348,7 +353,7 @@ class BlogHtmlExport
      */
     protected function getInitialisedTemplate(
         string $a_back_url = ""
-    ) : \ilGlobalPageTemplate {
+    ): \ilGlobalPageTemplate {
         global $DIC;
 
         $this->global_screen->layout()->meta()->reset();
@@ -375,9 +380,9 @@ class BlogHtmlExport
         return $tpl;
     }
 
-
     /**
      * Write HTML to file
+     * @throws \ilTemplateException
      */
     protected function writeExportFile(
         string $a_file,
@@ -386,7 +391,7 @@ class BlogHtmlExport
         string $a_right_content = "",
         bool $a_back = false,
         string $comments = ""
-    ) : string {
+    ): string {
         $file = $this->target_dir . "/" . $a_file;
         // return if file is already existing
         if (is_file($file)) {

@@ -1,28 +1,43 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilObjStudyProgrammeIndividualPlanGUI
 {
-    const POST_VAR_STATUS = "status";
-    const POST_VAR_REQUIRED_POINTS = "required_points";
-    const POST_VAR_DEADLINE = "deadline";
-    const MANUAL_STATUS_NONE = -1;
+    public const POST_VAR_STATUS = "status";
+    public const POST_VAR_REQUIRED_POINTS = "required_points";
+    public const POST_VAR_DEADLINE = "deadline";
+    public const MANUAL_STATUS_NONE = -1;
 
     public ilGlobalTemplateInterface $tpl;
     public ilCtrl $ctrl;
     public ilLanguage $lng;
     public ilObjUser $user;
-    protected ilStudyProgrammeProgressRepository $progress_repository;
-    protected ilStudyProgrammeAssignmentRepository $assignment_repository;
+    protected ilPRGAssignmentDBRepository $assignment_repository;
     protected ilPRGMessagePrinter $messages;
     protected ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
 
-    protected ?ilStudyProgrammeAssignment $assignment_object;
+    protected ?ilPRGAssignment $assignment_object;
     public ?ilObjStudyProgramme $object;
     protected ?ilPRGPermissionsHelper $permissions;
-    protected $parent_gui;
+    protected ilObjStudyProgrammeMembersGUI $parent_gui;
     protected int $ref_id;
 
     public function __construct(
@@ -30,8 +45,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         ilCtrl $ilCtrl,
         ilLanguage $lng,
         ilObjUser $ilUser,
-        ilStudyProgrammeProgressRepository $progress_repository,
-        ilStudyProgrammeAssignmentRepository $assignment_repository,
+        ilPRGAssignmentDBRepository $assignment_repository,
         ilPRGMessagePrinter $messages,
         ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper,
         ILIAS\Refinery\Factory $refinery
@@ -40,13 +54,11 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->user = $ilUser;
-        $this->progress_repository = $progress_repository;
+        $this->assignment_object = null;
         $this->assignment_repository = $assignment_repository;
         $this->messages = $messages;
         $this->http_wrapper = $http_wrapper;
         $this->refinery = $refinery;
-
-        $this->assignment_object = null;
         $this->object = null;
         $this->permissions = null;
 
@@ -55,23 +67,23 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->tpl->addCss("Modules/StudyProgramme/templates/css/ilStudyProgramme.css");
     }
 
-    public function setParentGUI($parent_gui) : void
+    public function setParentGUI(ilObjStudyProgrammeMembersGUI $parent_gui): void
     {
         $this->parent_gui = $parent_gui;
     }
 
-    public function setRefId(int $ref_id) : void
+    public function setRefId(int $ref_id): void
     {
         $this->ref_id = $ref_id;
         $this->object = ilObjStudyProgramme::getInstanceByRefId($ref_id);
         $this->permissions = ilStudyProgrammeDIC::specificDicFor($this->object)['permissionhelper'];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
-        if ($cmd == "") {
+        if ($cmd === "" || $cmd === null) {
             $cmd = "view";
         }
 
@@ -89,21 +101,21 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->tpl->setContent($cont);
     }
 
-    protected function getAssignmentId() : int
+    protected function getAssignmentId(): int
     {
         return $this->http_wrapper->query()->retrieve("ass_id", $this->refinery->kindlyTo()->int());
     }
 
-    protected function getAssignmentObject() : ?ilStudyProgrammeAssignment
+    protected function getAssignmentObject(): ilPRGAssignment
     {
         if ($this->assignment_object === null) {
             $id = $this->getAssignmentId();
-            $this->assignment_object = $this->assignment_repository->getInstanceById($id);
+            $this->assignment_object = $this->assignment_repository->get((int) $id);
         }
         return $this->assignment_object;
     }
 
-    protected function view() : string
+    protected function view(): string
     {
         $ass = $this->getAssignmentObject();
 
@@ -115,9 +127,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
                 "may not access individual plan of user"
             );
         }
-        $prg = ilObjStudyProgramme::getInstanceByObjId($ass->getRootId());
-        $progress = $prg->getProgressForAssignment($ass->getId());
-        
+        $progress = $ass->getProgressForNode($ass->getRootId());
         $gui = new ilStudyProgrammeIndividualPlanProgressListGUI($progress);
         $gui->setOnlyRelevant(true);
         // Wrap a frame around the original gui element to correct rendering.
@@ -126,7 +136,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         return $this->buildFrame("view", $tpl->get());
     }
 
-    protected function manage() : string
+    protected function manage(): string
     {
         $ass = $this->getAssignmentObject();
 
@@ -140,14 +150,13 @@ class ilObjStudyProgrammeIndividualPlanGUI
         }
 
         $this->ctrl->setParameter($this, "ass_id", $ass->getId());
-        $this->ctrl->setParameter($this, "cmd", "manage");
-        $table = new ilStudyProgrammeIndividualPlanTableGUI($this, $ass, $this->progress_repository);
+        $table = new ilStudyProgrammeIndividualPlanTableGUI($this, $ass);
         $frame = $this->buildFrame("manage", $table->getHTML());
         $this->ctrl->setParameter($this, "ass_id", null);
         return $frame;
     }
 
-    protected function updateFromCurrentPlan()
+    protected function updateFromCurrentPlan(): void
     {
         $ass = $this->getAssignmentObject();
 
@@ -159,12 +168,9 @@ class ilObjStudyProgrammeIndividualPlanGUI
                 "may not access individual plan of user"
             );
         }
-
-        $prg = $this->parent_gui->getStudyProgramme();
-        $progress = $prg->getProgressForAssignment($ass->getId());
         $msgs = $this->messages->getMessageCollection('msg_update_individual_plan');
         $this->object->updatePlanFromRepository(
-            $progress->getId(),
+            $ass->getId(),
             $this->user->getId(),
             $msgs
         );
@@ -173,25 +179,19 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->showSuccessMessage("update_from_plan_successful");
         $this->ctrl->redirect($this, "manage");
     }
-    
-    protected function updateFromInput() : void
-    {
-        $retrieve =
-            $this->refinery->logical()->sequential([
-                $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->string()
-                ),
-                $this->refinery->custom()->transformation(function($a) {
-                    krsort($a, SORT_NUMERIC);
-                    return $a;
-                })
-            ]);
 
+    protected function updateFromInput(): void
+    {
+        $retrieve =  $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string());
 
         $msgs = $this->messages->getMessageCollection('msg_update_individual_plan');
+        if ($this->http_wrapper->post()->has(self::POST_VAR_DEADLINE)) {
+            $this->updateDeadlines($this->http_wrapper->post()->retrieve(self::POST_VAR_DEADLINE, $retrieve), $msgs);
+        }
         $this->updateStatus($this->http_wrapper->post()->retrieve(self::POST_VAR_STATUS, $retrieve), $msgs);
-        $this->updateDeadlines($this->http_wrapper->post()->retrieve(self::POST_VAR_DEADLINE, $retrieve), $msgs);
-        $this->updateRequiredPoints($this->http_wrapper->post()->retrieve(self::POST_VAR_REQUIRED_POINTS, $retrieve), $msgs);
+        if ($this->http_wrapper->post()->has(self::POST_VAR_REQUIRED_POINTS)) {
+            $this->updateRequiredPoints($this->http_wrapper->post()->retrieve(self::POST_VAR_REQUIRED_POINTS, $retrieve), $msgs);
+        }
 
         if ($msgs->hasAnyMessages()) {
             $this->messages->showMessages($msgs);
@@ -201,32 +201,31 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->ctrl->redirect($this, "manage");
     }
 
-    protected function updateStatus(array $progress_updates, ilPRGMessageCollection $msgs) : void
+    protected function updateStatus(array $progress_updates, ilPRGMessageCollection $msgs): void
     {
-        $programme = $this->parent_gui->getStudyProgramme();
-        $acting_user_id = $this->user->getId();
+        $ass = $this->getAssignmentObject();
+        $acting_user_id = (int) $this->user->getId();
 
         foreach ($progress_updates as $progress_id => $target_status) {
+            $programme = ilObjStudyProgramme::getInstanceByObjId($progress_id);
+            $progress = $ass->getProgressForNode($progress_id);
             switch ($target_status) {
-                case ilStudyProgrammeProgress::STATUS_IN_PROGRESS:
-
-                    $progress = $this->progress_repository->get($progress_id);
+                case ilPRGProgress::STATUS_IN_PROGRESS:
                     $cur_status = $progress->getStatus();
-
-                    if ($cur_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
-                        $programme->unmarkAccredited($progress_id, $acting_user_id, $msgs);
+                    if ($cur_status == ilPRGProgress::STATUS_ACCREDITED) {
+                        $programme->unmarkAccredited($ass->getId(), $acting_user_id, $msgs);
                     }
-                    if ($cur_status == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
-                        $programme->markRelevant($progress_id, $acting_user_id, $msgs);
+                    if ($cur_status == ilPRGProgress::STATUS_NOT_RELEVANT) {
+                        $programme->markRelevant($ass->getId(), $acting_user_id, $msgs);
                     }
                     break;
 
-                case ilStudyProgrammeProgress::STATUS_ACCREDITED:
-                    $programme->markAccredited($progress_id, $acting_user_id, $msgs);
+                case ilPRGProgress::STATUS_ACCREDITED:
+                    $programme->markAccredited($ass->getId(), $acting_user_id, $msgs);
                     break;
-                
-                case ilStudyProgrammeProgress::STATUS_NOT_RELEVANT:
-                    $programme->markNotRelevant($progress_id, $acting_user_id, $msgs);
+
+                case ilPRGProgress::STATUS_NOT_RELEVANT:
+                    $programme->markNotRelevant($ass->getId(), $acting_user_id, $msgs);
                     break;
 
                 case self::MANUAL_STATUS_NONE:
@@ -238,55 +237,56 @@ class ilObjStudyProgrammeIndividualPlanGUI
         }
     }
 
-    protected function updateDeadlines(array $deadlines, ilPRGMessageCollection $msgs) : void
+    protected function updateDeadlines(array $deadlines, ilPRGMessageCollection $msgs): void
     {
-        $programme = $this->parent_gui->getStudyProgramme();
-        $acting_user_id = $this->user->getId();
+        $ass = $this->getAssignmentObject();
+        $acting_user_id = (int) $this->user->getId();
 
         foreach ($deadlines as $progress_id => $deadline) {
+            $programme = ilObjStudyProgramme::getInstanceByObjId($progress_id);
+            $progress = $ass->getProgressForNode($progress_id);
+
             if (trim($deadline) === '') {
                 $deadline = null;
             } else {
                 $deadline = DateTimeImmutable::createFromFormat('d.m.Y', $deadline);
             }
-            
-            $progress = $this->progress_repository->get($progress_id);
-            $cur_deadline = $progress->getDeadline();
 
+            $cur_deadline = $progress->getDeadline();
             if ($deadline != $cur_deadline) {
-                $programme->changeProgressDeadline($progress_id, $acting_user_id, $msgs, $deadline);
+                $programme->changeProgressDeadline($ass->getId(), $acting_user_id, $msgs, $deadline);
             }
         }
     }
 
-    protected function updateRequiredPoints(array $required_points, ilPRGMessageCollection $msgs) : void
+    protected function updateRequiredPoints(array $required_points, ilPRGMessageCollection $msgs): void
     {
-        $programme = $this->parent_gui->getStudyProgramme();
-        $acting_user_id = $this->user->getId();
+        $ass = $this->getAssignmentObject();
+        $acting_user_id = (int) $this->user->getId();
 
         foreach ($required_points as $progress_id => $points) {
             $points = (int) $points;
-            
+
             if ($points < 0) {
                 $msgs->add(false, 'msg_points_must_be_positive', $progress_id);
                 continue;
             }
-
-            $progress = $this->progress_repository->get($progress_id);
+            $programme = ilObjStudyProgramme::getInstanceByObjId($progress_id);
+            $progress = $ass->getProgressForNode($progress_id);
             $cur_points = $progress->getAmountOfPoints();
 
             if ($points != $cur_points) {
-                $programme->changeAmountOfPoints($progress_id, $acting_user_id, $msgs, $points);
+                $programme->changeAmountOfPoints($ass->getId(), $acting_user_id, $msgs, $points);
             }
         }
     }
 
-    protected function showSuccessMessage(string $lng_var) : void
+    protected function showSuccessMessage(string $lng_var): void
     {
         $this->tpl->setOnScreenMessage("success", $this->lng->txt("prg_$lng_var"), true);
     }
 
-    protected function buildFrame(string $tab, string $content) : string
+    protected function buildFrame(string $tab, string $content): string
     {
         $tabs = [];
         if ($this->permissions->may(ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN)) {
@@ -303,7 +303,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
 
         foreach ($tabs as $_tab) {
             $tpl->setCurrentBlock("sub_tab");
-            $tpl->setVariable("CLASS", $_tab == $tab ? "active" : "");
+            $tpl->setVariable("CLASS", $_tab === $tab ? "active" : "");
             $tpl->setVariable("LINK", $this->getLinkTargetForSubTab($_tab, $ass->getId()));
             $tpl->setVariable("TITLE", $this->lng->txt("prg_$_tab"));
             $tpl->parseCurrentBlock();
@@ -313,7 +313,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         return $tpl->get();
     }
 
-    protected function getLinkTargetForSubTab(string $tab, int $ass_id) : string
+    protected function getLinkTargetForSubTab(string $tab, int $ass_id): string
     {
         $this->ctrl->setParameter($this, "ass_id", $ass_id);
         $lnk = $this->ctrl->getLinkTarget($this, $tab);
@@ -321,14 +321,14 @@ class ilObjStudyProgrammeIndividualPlanGUI
         return $lnk;
     }
 
-    public function appendIndividualPlanActions(ilTable2GUI $table) : void
+    public function appendIndividualPlanActions(ilTable2GUI $table): void
     {
         $table->setFormAction($this->ctrl->getFormAction($this));
         $table->addCommandButton("updateFromCurrentPlan", $this->lng->txt("prg_update_from_current_plan"));
         $table->addCommandButton("updateFromInput", $this->lng->txt("save"));
     }
 
-    public function getLinkTargetView(int $ass_id) : string
+    public function getLinkTargetView(int $ass_id): string
     {
         $cl = "ilObjStudyProgrammeIndividualPlanGUI";
         $this->ctrl->setParameterByClass($cl, "ass_id", $ass_id);

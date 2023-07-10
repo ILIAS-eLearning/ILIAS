@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,14 +16,16 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testCertificateWillBeSavedToTheDatabase() : void
+    public function testCertificateWillBeSavedToTheDatabase(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -50,7 +52,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => ['clob', '[]'],
                     'version' => ['integer', 1],
                     'ilias_version' => ['text', 'v5.4.0'],
-                    'created_timestamp' => ['integer', 123456789],
+                    'created_timestamp' => ['integer', 123_456_789],
                     'currently_active' => ['integer', true],
                     'background_image_path' => ['text', '/some/where/background.jpg'],
                     'deleted' => ['integer', 0],
@@ -69,9 +71,9 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
             '[]',
             1,
             'v5.4.0',
-            123456789,
+            123_456_789,
             true,
-            $backgroundImagePath = '/some/where/background.jpg',
+            '/some/where/background.jpg',
             'some/path/test.svg'
         );
 
@@ -80,9 +82,9 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
         $repository->save($template);
     }
 
-    public function testFetchCertificateTemplatesByObjId() : void
+    public function testFetchCertificateTemplatesByObjId(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -99,7 +101,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => '[]',
                     'version' => 1,
                     'ilias_version' => 'v5.4.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => true,
                     'background_image_path' => '/some/where/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -113,7 +115,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => '[]',
                     'version' => 55,
                     'ilias_version' => 'v5.3.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => false,
                     'background_image_path' => '/some/where/else/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -134,9 +136,9 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertSame(30, $templates[1]->getId());
     }
 
-    public function testFetchCurrentlyActiveCertificate() : void
+    public function testFetchCurrentlyActiveCertificate(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -153,7 +155,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => '[]',
                     'version' => 1,
                     'ilias_version' => 'v5.4.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => true,
                     'background_image_path' => '/some/where/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -167,7 +169,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => '[]',
                     'version' => 55,
                     'ilias_version' => 'v5.3.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => false,
                     'background_image_path' => '/some/where/else/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -187,7 +189,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertSame(1, $template->getId());
     }
 
-    public function testFetchPreviousCertificate() : void
+    public function testFetchPreviousCertificate(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -208,7 +210,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => '[]',
                     'version' => 1,
                     'ilias_version' => 'v5.4.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => true,
                     'background_image_path' => '/some/where/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -222,7 +224,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => '[]',
                     'version' => 55,
                     'ilias_version' => 'v5.3.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => false,
                     'background_image_path' => '/some/where/else/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -245,9 +247,9 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testDeleteTemplateFromDatabase() : void
+    public function testDeleteTemplateFromDatabase(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -274,9 +276,9 @@ AND obj_id = 200');
         $repository->deleteTemplate(10, 200);
     }
 
-    public function testActivatePreviousCertificate() : void
+    public function testActivatePreviousCertificate(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -296,7 +298,7 @@ AND obj_id = 200');
                 'template_values' => '[]',
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
-                'created_timestamp' => 123456789,
+                'created_timestamp' => 123_456_789,
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg',
                 'thumbnail_image_path' => 'some/path/test.svg'
@@ -310,7 +312,7 @@ AND obj_id = 200');
                 'template_values' => '[]',
                 'version' => 55,
                 'ilias_version' => 'v5.3.0',
-                'created_timestamp' => 123456789,
+                'created_timestamp' => 123_456_789,
                 'currently_active' => false,
                 'background_image_path' => '/some/where/else/background.jpg',
                 'thumbnail_image_path' => 'some/path/test.svg'
@@ -340,9 +342,9 @@ WHERE id = 30'
         $this->assertSame(30, $template->getId());
     }
 
-    public function testFetchAllObjectIdsByType() : void
+    public function testFetchAllObjectIdsByType(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -362,7 +364,7 @@ WHERE id = 30'
                 'template_values' => '[]',
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
-                'created_timestamp' => 123456789,
+                'created_timestamp' => 123_456_789,
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg'
@@ -376,7 +378,7 @@ WHERE id = 30'
                 'template_values' => '[]',
                 'version' => 55,
                 'ilias_version' => 'v5.3.0',
-                'created_timestamp' => 123456789,
+                'created_timestamp' => 123_456_789,
                 'currently_active' => false,
                 'background_image_path' => '/some/where/else/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg'
@@ -394,11 +396,11 @@ WHERE id = 30'
     /**
      *
      */
-    public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved() : void
+    public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved(): never
     {
         $this->expectException(ilException::class);
 
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -425,9 +427,9 @@ WHERE id = 30'
         $this->fail();
     }
 
-    public function fetchFirstCreateTemplate() : void
+    public function fetchFirstCreateTemplate(): void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -454,7 +456,7 @@ WHERE id = 30'
                 'template_values' => '[]',
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
-                'created_timestamp' => 123456789,
+                'created_timestamp' => 123_456_789,
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg'
             ]

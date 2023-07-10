@@ -1,20 +1,35 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Deal with ilias rbac-system
  */
 class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessHandler
 {
-    const DEFAULT_ROLE = 'il_iass_member';
+    public const DEFAULT_ROLE = 'il_iass_member';
 
     protected ilObjIndividualAssessment $iass;
     protected ilAccessHandler $handler;
     protected ilRbacAdmin $admin;
     protected ilRbacReview $review;
     protected ilObjUser $usr;
-    protected array $mass_global_permissions_cache = [];
 
     public function __construct(
         ilObjIndividualAssessment $iass,
@@ -33,8 +48,17 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
     /**
      * @inheritdoc
      */
-    public function checkAccessToObj(string $operation) : bool
+    public function checkRBACAccessToObj(string $operation): bool
     {
+        return $this->isSystemAdmin() || $this->handler->checkAccessOfUser($this->usr->getId(), $operation, '', $this->iass->getRefId(), 'iass');
+    }
+
+    public function checkRBACOrPositionAccessToObj(string $operation)
+    {
+        if ($this->isSystemAdmin()) {
+            return true;
+        }
+
         if ($operation == "read_learning_progress") {
             return $this->handler->checkRbacOrPositionPermissionAccess(
                 "read_learning_progress",
@@ -51,13 +75,13 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
             );
         }
 
-        return $this->handler->checkAccessOfUser($this->usr->getId(), $operation, '', $this->iass->getRefId(), 'iass');
+        throw new \LogicException("Unknown rbac/position-operation: $operation");
     }
 
     /**
      * @inheritdoc
      */
-    public function initDefaultRolesForObject(ilObjIndividualAssessment $iass) : void
+    public function initDefaultRolesForObject(ilObjIndividualAssessment $iass): void
     {
         ilObjRole::createDefaultRole(
             $this->getRoleTitleByObj($iass),
@@ -70,7 +94,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
     /**
      * @inheritdoc
      */
-    public function assignUserToMemberRole(ilObjUser $usr, ilObjIndividualAssessment $iass) : bool
+    public function assignUserToMemberRole(ilObjUser $usr, ilObjIndividualAssessment $iass): bool
     {
         $this->admin->assignUser($this->getMemberRoleIdForObj($iass), $usr->getId());
         return true;
@@ -79,13 +103,13 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
     /**
      * @inheritdoc
      */
-    public function deassignUserFromMemberRole(ilObjUser $usr, ilObjIndividualAssessment $iass) : bool
+    public function deassignUserFromMemberRole(ilObjUser $usr, ilObjIndividualAssessment $iass): bool
     {
         $this->admin->deassignUser($this->getMemberRoleIdForObj($iass), $usr->getId());
         return true;
     }
 
-    protected function getRoleTitleByObj(ilObjIndividualAssessment $iass) : string
+    protected function getRoleTitleByObj(ilObjIndividualAssessment $iass): string
     {
         return self::DEFAULT_ROLE . '_' . $iass->getRefId();
     }
@@ -98,100 +122,82 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
         return current($this->review->getLocalRoles($iass->getRefId()));
     }
 
-    public function mayViewObject(bool $use_cache = true) : bool
+    public function mayReadObject(): bool
     {
-        if ($use_cache) {
-            return $this->cacheCheckAccessToObj('read');
-        }
-
-        return $this->isSystemAdmin() || $this->checkAccessToObj('read');
+        return $this->checkRBACAccessToObj('read');
     }
 
-    public function mayEditObject(bool $use_cache = true) : bool
+    public function mayEditObject(): bool
     {
-        if ($use_cache) {
-            return $this->cacheCheckAccessToObj('write');
-        }
-
-        return $this->isSystemAdmin() || $this->checkAccessToObj('write');
+        return $this->checkRBACAccessToObj('write');
     }
 
-    public function mayEditPermissions(bool $use_cache = true) : bool
+    public function mayEditPermissions(): bool
     {
-        if ($use_cache) {
-            return $this->cacheCheckAccessToObj('edit_permission');
-        }
-
-        return $this->isSystemAdmin() || $this->checkAccessToObj('edit_permission');
+        return $this->checkRBACAccessToObj('edit_permission');
     }
 
-    public function mayEditMembers(bool $use_cache = true) : bool
+    public function mayEditMembers(): bool
     {
-        if ($use_cache) {
-            return $this->cacheCheckAccessToObj('edit_members');
-        }
-
-        return $this->isSystemAdmin() || $this->checkAccessToObj('edit_members');
+        return $this->checkRBACAccessToObj('edit_members');
     }
 
-    public function mayViewUser(bool $use_cache = true) : bool
+    public function mayViewAnyUser(): bool
     {
-        if ($use_cache) {
-            return $this->cacheCheckAccessToObj('read_learning_progress');
-        }
-
-        return $this->isSystemAdmin() || $this->checkAccessToObj('read_learning_progress');
+        return $this->mayViewAllUsers()
+            || $this->checkRBACOrPositionAccessToObj('read_learning_progress')
+            || $this->checkRBACOrPositionAccessToObj('edit_learning_progress');
     }
 
-    public function mayGradeUser(bool $use_cache = true) : bool
+    public function mayViewAllUsers(): bool
     {
-        if ($use_cache) {
-            return $this->cacheCheckAccessToObj('edit_learning_progress');
-        }
-
-        return $this->isSystemAdmin() || $this->checkAccessToObj('edit_learning_progress');
+        return $this->checkRBACAccessToObj('read_learning_progress');
     }
 
-    public function mayGradeUserById(int $user_id) : bool
+    public function mayGradeAnyUser(): bool
+    {
+        return $this->mayGradeAllUsers() || $this->checkRBACOrPositionAccessToObj('edit_learning_progress');
+    }
+
+    public function mayGradeAllUsers(): bool
+    {
+        return $this->checkRBACAccessToObj('edit_learning_progress');
+    }
+
+    public function mayGradeUser(int $user_id): bool
     {
         return
-            $this->isSystemAdmin() ||
-            (
-                $this->mayGradeUser() &&
-                count(
-                    $this->handler->filterUserIdsByRbacOrPositionOfCurrentUser(
-                        "edit_learning_progress",
-                        "set_lp",
-                        $this->iass->getRefId(),
-                        [$user_id]
-                    )
-                ) > 0
-            );
+            $this->mayGradeAllUsers() ||
+            (count(
+                $this->handler->filterUserIdsByRbacOrPositionOfCurrentUser(
+                    "edit_learning_progress",
+                    "write_learning_progress",
+                    $this->iass->getRefId(),
+                    [$user_id]
+                )
+            ) > 0);
     }
 
-    public function mayAmendGradeUser(bool $use_cache = true) : bool
+    public function mayViewUser(int $user_id): bool
     {
-        if ($use_cache) {
-            return $this->cacheCheckAccessToObj('amend_grading');
-        }
-
-        return $this->checkAccessToObj('amend_grading');
+        return
+            $this->mayViewAllUsers() ||
+            (count(
+                $this->handler->filterUserIdsByRbacOrPositionOfCurrentUser(
+                    "read_learning_progress",
+                    "read_learning_progress",
+                    $this->iass->getRefId(),
+                    [$user_id]
+                )
+            ) > 0);
     }
 
-    protected function cacheCheckAccessToObj(string $operation) : bool
+    public function mayAmendAllUsers(): bool
     {
-        $iass_id = $this->iass->getId();
-        $user_id = $this->usr->getId();
-
-        if (!isset($this->mass_global_permissions_cache[$iass_id][$user_id][$operation])) {
-            $this->mass_global_permissions_cache[$iass_id][$user_id][$operation]
-                = $this->checkAccessToObj($operation);
-        }
-
-        return $this->mass_global_permissions_cache[$iass_id][$user_id][$operation];
+        return $this->checkRBACAccessToObj('amend_grading');
     }
 
-    public function isSystemAdmin() : bool
+    public function isSystemAdmin(): bool
     {
         return $this->review->isAssigned($this->usr->getId(), SYSTEM_ROLE_ID);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjRole
  * @author     Stefan Meyer <meyer@leifos.com>
@@ -59,7 +61,7 @@ class ilObjRole extends ilObject
         string $a_description,
         string $a_tpl_name,
         int $a_ref_id
-    ) : ?ilObjRole {
+    ): ?ilObjRole {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -102,7 +104,7 @@ class ilObjRole extends ilObject
         return $role;
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         global $DIC;
 
@@ -115,22 +117,28 @@ class ilObjRole extends ilObject
         return true;
     }
 
-    public function getPresentationTitle() : string
+    public function getPresentationTitle(): string
     {
-        return ilObjRole::_getTranslation($this->getTitle());
+        $r = ilObjRole::_getTranslation($this->getTitle());
+
+        if ($r === $this->getUntranslatedTitle()) {
+            return $r;
+        }
+
+        return $r . ' (' . $this->getUntranslatedTitle() . ')';
     }
 
-    public function toggleAssignUsersStatus(bool $a_assign_users) : void
+    public function toggleAssignUsersStatus(bool $a_assign_users): void
     {
         $this->assign_users = $a_assign_users;
     }
 
-    public function getAssignUsersStatus() : bool
+    public function getAssignUsersStatus(): bool
     {
         return $this->assign_users;
     }
 
-    public static function _getAssignUsersStatus(int $a_role_id) : bool
+    public static function _getAssignUsersStatus(int $a_role_id): bool
     {
         global $DIC;
 
@@ -147,7 +155,7 @@ class ilObjRole extends ilObject
      * loads "role" from database
      * @access private
      */
-    public function read() : void
+    public function read(): void
     {
         $query = "SELECT * FROM role_data WHERE role_id= " . $this->db->quote($this->id, 'integer') . " ";
         $res = $this->db->query($query);
@@ -162,7 +170,7 @@ class ilObjRole extends ilObject
         parent::read();
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         $query = "UPDATE role_data SET " .
             "allow_register= " . $this->db->quote($this->allow_register, 'integer') . ", " .
@@ -177,7 +185,7 @@ class ilObjRole extends ilObject
         return true;
     }
 
-    public function create() : int
+    public function create(): int
     {
         global $DIC;
 
@@ -193,12 +201,12 @@ class ilObjRole extends ilObject
         return $this->id;
     }
 
-    public function setAllowRegister(bool $a_allow_register) : void
+    public function setAllowRegister(bool $a_allow_register): void
     {
         $this->allow_register = $a_allow_register;
     }
 
-    public function getAllowRegister() : bool
+    public function getAllowRegister(): bool
     {
         return $this->allow_register;
     }
@@ -206,7 +214,7 @@ class ilObjRole extends ilObject
     /**
      * get all roles that are activated in user registration
      */
-    public static function _lookupRegisterAllowed() : array
+    public static function _lookupRegisterAllowed(): array
     {
         global $DIC;
 
@@ -229,7 +237,7 @@ class ilObjRole extends ilObject
     /**
      * check whether role is allowed in user registration or not
      **/
-    public static function _lookupAllowRegister(int $a_role_id) : bool
+    public static function _lookupAllowRegister(int $a_role_id): bool
     {
         global $DIC;
 
@@ -251,7 +259,7 @@ class ilObjRole extends ilObject
      * set reference id of parent object
      * this is neccessary for non RBAC protected objects!!!
      */
-    public function setParent(int $a_parent_ref) : void
+    public function setParent(int $a_parent_ref): void
     {
         $this->parent = $a_parent_ref;
     }
@@ -259,7 +267,7 @@ class ilObjRole extends ilObject
     /**
      * get reference id of parent object
      */
-    public function getParent() : ?int
+    public function getParent(): ?int
     {
         return $this->parent;
     }
@@ -269,7 +277,7 @@ class ilObjRole extends ilObject
      * @access    public
      * @return    bool    true if all object data were removed; false if only a references were removed
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         global $DIC;
 
@@ -289,7 +297,7 @@ class ilObjRole extends ilObject
             // only need to consider _global_ roles. We don't need
             // to check for _local_ roles, because a user who has
             // a local role _always_ has a global role too.
-            $last_role_user_ids = array();
+            $last_role_user_ids = [];
             if ($this->getParent() == ROLE_FOLDER_ID) {
                 ilLoggerFactory::getLogger('ac')->debug('Handling global role...');
                 // The role is a global role: check if
@@ -310,7 +318,7 @@ class ilObjRole extends ilObject
 
             // users with last role found?
             if ($last_role_user_ids !== []) {
-                $user_names = array();
+                $user_names = [];
                 foreach ($last_role_user_ids as $user_id) {
                     // GET OBJECT TITLE
                     $user_names[] = ilObjUser::_lookupLogin($user_id);
@@ -348,29 +356,34 @@ class ilObjRole extends ilObject
     /**
      * Get number of users assigned to role
      */
-    public function getCountMembers() : int
+    public function getCountMembers(): int
     {
         return count($this->rbac_review->assignedUsers($this->getId()));
     }
 
-    public static function _getTranslation(string $a_role_title) : string
+    public static function _getTranslation(string $a_role_title): string
     {
         global $DIC;
 
         $lng = $DIC->language();
+        $objDefinition = $DIC['objDefinition'];
 
         $role_title = self::_removeObjectId($a_role_title);
-        if (preg_match("/^il_./", $role_title)) {
+
+        if (preg_match("/^il_([a-z]{1,4})_./", $role_title, $type)) {
+            //BT ID 0032909: language variables for roles from plugins were not resolved properly
+            if ($objDefinition->isPlugin($type[1])) {
+                return ilObjectPlugin::lookupTxtById($type[1], $role_title);
+            }
             return $lng->txt($role_title);
         }
-
         return $a_role_title;
     }
 
     /**
      * @todo rename of remove method
      */
-    public static function _removeObjectId(string $a_role_title) : string
+    public static function _removeObjectId(string $a_role_title): string
     {
         $role_title_parts = explode('_', $a_role_title);
 
@@ -385,7 +398,7 @@ class ilObjRole extends ilObject
     /**
      * Get and sort sub object types
      */
-    public static function getSubObjects(string $a_obj_type, bool $a_add_admin_objects) : array
+    public static function getSubObjects(string $a_obj_type, bool $a_add_admin_objects): array
     {
         global $DIC;
         /**
@@ -395,8 +408,8 @@ class ilObjRole extends ilObject
         $lng = $DIC->language();
         $subs = $objDefinition->getSubObjectsRecursively($a_obj_type, true, $a_add_admin_objects);
 
-        $filter = array();
-        $sorted = array();
+        $filter = [];
+        $sorted = [];
 
         if (!ilECSSetting::ecsConfigured()) {
             $filter = array_merge($filter, ilECSUtils::getPossibleRemoteTypes(false));
@@ -423,7 +436,7 @@ class ilObjRole extends ilObject
         return ilArrayUtil::sortArray($sorted, 'translation', 'asc', true, true);
     }
 
-    public static function _updateAuthMode(array $a_roles) : void
+    public static function _updateAuthMode(array $a_roles): void
     {
         global $DIC;
 
@@ -436,7 +449,7 @@ class ilObjRole extends ilObject
         }
     }
 
-    public static function _getAuthMode(int $a_role_id) : string
+    public static function _getAuthMode(int $a_role_id): string
     {
         global $DIC;
 
@@ -456,7 +469,7 @@ class ilObjRole extends ilObject
      * @param string auth mode
      * @return int[]
      */
-    public static function _getRolesByAuthMode(string $a_auth_mode) : array
+    public static function _getRolesByAuthMode(string $a_auth_mode): array
     {
         global $DIC;
 
@@ -465,7 +478,7 @@ class ilObjRole extends ilObject
         $query = "SELECT * FROM role_data " .
             "WHERE auth_mode = " . $ilDB->quote($a_auth_mode, 'text');
         $res = $ilDB->query($query);
-        $roles = array();
+        $roles = [];
         while ($row = $ilDB->fetchObject($res)) {
             $roles[] = $row->role_id;
         }
@@ -475,7 +488,7 @@ class ilObjRole extends ilObject
     /**
      * Reset auth mode to default
      */
-    public static function _resetAuthMode(string $a_auth_mode) : void
+    public static function _resetAuthMode(string $a_auth_mode): void
     {
         global $DIC;
 
@@ -485,7 +498,7 @@ class ilObjRole extends ilObject
         $res = $ilDB->manipulate($query);
     }
 
-    public function __getPermissionDefinitions() : array
+    public function __getPermissionDefinitions(): array
     {
         $operation_info = $this->rbac_review->getOperationAssignment();
         $rbac_objects = $rbac_operations = [];
@@ -517,7 +530,7 @@ class ilObjRole extends ilObject
         return array($rbac_objects, $rbac_operations);
     }
 
-    public static function isAutoGenerated(int $a_role_id) : bool
+    public static function isAutoGenerated(int $a_role_id): bool
     {
         return substr(ilObject::_lookupTitle($a_role_id), 0, 3) == 'il_';
     }
@@ -530,10 +543,10 @@ class ilObjRole extends ilObject
         int $a_start_node,
         int $a_mode,
         array $a_filter,
-        array $a_exclusion_filter = array(),
+        array $a_exclusion_filter = [],
         int $a_operation_mode = self::MODE_READ_OPERATIONS,
         array $a_operation_stack = []
-    ) : void {
+    ): void {
         // Get node info of subtree
         $nodes = $this->tree->getRbacSubtreeInfo($a_start_node);
 
@@ -541,7 +554,7 @@ class ilObjRole extends ilObject
         $all_local_policies = $this->rbac_review->getObjectsWithStopedInheritance($this->getId());
 
         // filter relevant roles
-        $local_policies = array();
+        $local_policies = [];
         foreach ($all_local_policies as $lp) {
             if (isset($nodes[$lp])) {
                 $local_policies[] = $lp;
@@ -566,12 +579,12 @@ class ilObjRole extends ilObject
         );
     }
 
-    protected function deleteLocalPolicies(int $a_start, array $a_policies, array $a_filter) : array
+    protected function deleteLocalPolicies(int $a_start, array $a_policies, array $a_filter): array
     {
         global $DIC;
         $rbacadmin = $DIC['rbacadmin'];
 
-        $local_policies = array();
+        $local_policies = [];
         foreach ($a_policies as $policy) {
             if ($policy == $a_start || $policy == SYSTEM_FOLDER_ID) {
                 $local_policies[] = $policy;
@@ -596,13 +609,13 @@ class ilObjRole extends ilObject
         array $a_nodes,
         array $a_policies,
         array $a_filter,
-        array $a_exclusion_filter = array(),
+        array $a_exclusion_filter = [],
         int $a_operation_mode = self::MODE_READ_OPERATIONS,
         array $a_operation_stack = []
-    ) : void {
-        $operation_stack = array();
-        $policy_stack = array();
-        $node_stack = array();
+    ): void {
+        $operation_stack = [];
+        $policy_stack = [];
+        $node_stack = [];
 
         $start_node = current($a_nodes);
         $node_stack[] = $start_node;
@@ -659,7 +672,7 @@ class ilObjRole extends ilObject
                     $perms = end($operation_stack);
                     $this->changeExistingObjectsGrantPermissions(
                         $this->getId(),
-                        (array) $perms[$node['type']],
+                        (array) ($perms[$node['type']] ?? []),
                         $node['child'],
                         $a_operation_mode
                     );
@@ -699,7 +712,12 @@ class ilObjRole extends ilObject
             ) {
                 // Copy role permission intersection
                 $perms = end($operation_stack);
-                $this->createPermissionIntersection($policy_stack, $perms[$node['type']], $node['child'], $node['type']);
+                $this->createPermissionIntersection(
+                    $policy_stack,
+                    $perms[$node['type']] ?? [],
+                    $node['child'],
+                    $node['type']
+                );
                 if ($this->updateOperationStack($operation_stack, $node['child'])) {
                     $this->updatePolicyStack($policy_stack, $node['child']);
                     $node_stack[] = $node;
@@ -710,7 +728,7 @@ class ilObjRole extends ilObject
             $perms = end($operation_stack);
             $this->changeExistingObjectsGrantPermissions(
                 $this->getId(),
-                (array) $perms[$node['type']],
+                (array) ($perms[$node['type']] ?? []),
                 $node['child'],
                 $a_operation_mode
             );
@@ -727,7 +745,7 @@ class ilObjRole extends ilObject
         array $a_permissions,
         int $a_ref_id,
         int $a_operation_mode
-    ) : void {
+    ): void {
         global $DIC;
 
         $admin = $DIC->rbac()->admin();
@@ -773,7 +791,7 @@ class ilObjRole extends ilObject
         }
     }
 
-    protected function isHandledObjectType(array $a_filter, array $a_exclusion_filter, string $a_type) : bool
+    protected function isHandledObjectType(array $a_filter, array $a_exclusion_filter, string $a_type): bool
     {
         if (in_array($a_type, $a_exclusion_filter)) {
             return false;
@@ -792,7 +810,7 @@ class ilObjRole extends ilObject
         array &$a_stack,
         int $a_node,
         bool $a_init = false
-    ) : bool {
+    ): bool {
         $has_policies = null;
 
         if ($a_node == ROOT_FOLDER_ID) {
@@ -825,7 +843,7 @@ class ilObjRole extends ilObject
         return true;
     }
 
-    protected function updatePolicyStack(array &$a_stack, int $a_node) : bool
+    protected function updatePolicyStack(array &$a_stack, int $a_node): bool
     {
         $has_policies = null;
 
@@ -853,7 +871,7 @@ class ilObjRole extends ilObject
         array $a_current_ops,
         int $a_id,
         string $a_type
-    ) : void {
+    ): void {
         static $course_non_member_id = null;
         static $group_non_member_id = null;
         static $group_open_id = null;
@@ -870,7 +888,7 @@ class ilObjRole extends ilObject
                             $query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_closed'";
                             $res = $this->db->query($query);
                             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                                $group_closed_id = $row->obj_id;
+                                $group_closed_id = (int) $row->obj_id;
                             }
                         }
                         $template_id = $group_closed_id;
@@ -883,7 +901,7 @@ class ilObjRole extends ilObject
                             $query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_open'";
                             $res = $this->db->query($query);
                             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                                $group_open_id = $row->obj_id;
+                                $group_open_id = (int) $row->obj_id;
                             }
                         }
                         $template_id = $group_open_id;
@@ -896,7 +914,7 @@ class ilObjRole extends ilObject
                     $query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_crs_non_member'";
                     $res = $this->db->query($query);
                     while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                        $course_non_member_id = $row->obj_id;
+                        $course_non_member_id = (int) $row->obj_id;
                     }
                 }
                 $template_id = $course_non_member_id;
@@ -904,7 +922,7 @@ class ilObjRole extends ilObject
         }
 
         // Create intersection template permissions
-        if ($template_id) {
+        if ($template_id && $policy_stack !== []) {
             $this->rbac_admin->copyRolePermissionIntersection(
                 $template_id,
                 ROLE_FOLDER_ID,

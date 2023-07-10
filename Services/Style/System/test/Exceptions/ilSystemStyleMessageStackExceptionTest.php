@@ -23,7 +23,7 @@ include_once('Services/Style/System/test/Exceptions/ilSystemStyleExceptionBaseTe
 
 class ilSystemStyleMessageStackExceptionTest extends ilSystemStyleExceptionBaseTest
 {
-    protected function getClassName() : string
+    protected function getClassName(): string
     {
         return 'ilSystemStyleMessageStackException';
     }

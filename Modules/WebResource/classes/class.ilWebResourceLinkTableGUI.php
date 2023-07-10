@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,22 +17,30 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * TableGUI class for search results
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ModulesWebResource
  */
 class ilWebResourceLinkTableGUI extends ilTable2GUI
 {
     protected bool $editable = false;
-    protected ilLinkResourceItems $webresource_items;
 
     protected int $link_sort_mode;
     protected bool $link_sort_enabled = false;
 
     protected ilAccessHandler $access;
+    protected ilWebLinkRepository $web_link_repo;
 
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
+
+    /**
+     * TODO Move most of this stuff to an init method.
+     */
     public function __construct(
         ?object $a_parent_obj,
         string $a_parent_cmd,
@@ -40,7 +50,13 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
+
         $this->access = $DIC->access();
+        $this->web_link_repo = new ilWebLinkDatabaseRepository(
+            $this->getParentObject()->getObject()->getId()
+        );
 
         // Initialize
         if ($this->access->checkAccess(
@@ -52,9 +68,6 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         }
 
         $this->enableLinkSorting($a_sorting);
-        $this->webresource_items = new ilLinkResourceItems(
-            $this->getParentObject()->getObject()->getId()
-        );
 
         $this->setTitle($this->lng->txt('web_resources'));
 
@@ -77,8 +90,6 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt('title'), '', '100%');
         }
 
-        $this->initSorting();
-
         $this->setEnableHeader(true);
         $this->setFormAction(
             $this->ctrl->getFormAction($this->getParentObject())
@@ -88,38 +99,39 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         $this->setEnableNumInfo(false);
     }
 
-    public function enableLinkSorting(bool $a_status) : void
+    public function enableLinkSorting(bool $a_status): void
     {
         $this->link_sort_enabled = $a_status;
     }
 
-    public function isLinkSortingEnabled() : bool
+    public function isLinkSortingEnabled(): bool
     {
         return $this->link_sort_enabled;
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $rows = [];
 
-        $items = $this->getWebResourceItems()->getActivatedItems();
-        $items = $this->getWebResourceItems()->sortItems($items);
+        $items = $this->web_link_repo->getAllItemsAsContainer(true)
+                                     ->sort()
+                                     ->getItems();
 
         $counter = 1;
-        foreach ($items as $link) {
+        foreach ($items as $item) {
             $tmp['position'] = ($counter++) * 10;
-            $tmp['title'] = $link['title'];
-            $tmp['description'] = $link['description'];
-            $tmp['target'] = $link['target'];
-            $tmp['link_id'] = $link['link_id'];
-            $tmp['internal'] = ilLinkInputGUI::isInternalLink($link["target"]);
+            $tmp['title'] = $item->getTitle();
+            $tmp['description'] = $item->getDescription();
+            $tmp['target'] = $item->getTarget();
+            $tmp['link_id'] = $item->getLinkId();
+            $tmp['internal'] = $item->isInternal();
 
             $rows[] = $tmp;
         }
         $this->setData($rows);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->ctrl->setParameterByClass(
             get_class($this->getParentObject()),
@@ -128,7 +140,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         );
 
         $this->tpl->setVariable('TITLE', $a_set['title']);
-        if (strlen($a_set['description']) !== 0) {
+        if ($a_set['description']) {
             $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
         }
         // $this->tpl->setVariable('TARGET',$a_set['target']);
@@ -151,62 +163,27 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_ITEM', $a_set['link_id']);
         }
 
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setSelectionHeaderClass("small");
-        $actions->setItemLinkClass("xsmall");
-
-        $actions->setListTitle($this->lng->txt('actions'));
-        $actions->setId((string) $a_set['link_id']);
-
-        $actions->addItem(
-            $this->lng->txt('edit'),
-            '',
-            $this->ctrl->getLinkTargetByClass(
-                get_class($this->getParentObject()),
-                'editLink'
+        $dropDownItems = array(
+            $this->uiFactory->button()->shy(
+                $this->lng->txt('edit'),
+                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'editLink')
+            ),
+            $this->uiFactory->button()->shy(
+                $this->lng->txt('webr_deactivate'),
+                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'deactivateLink')
+            ),
+            $this->uiFactory->button()->shy(
+                $this->lng->txt('delete'),
+                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'confirmDeleteLink')
             )
         );
-        $actions->addItem(
-            $this->lng->txt('webr_deactivate'),
-            '',
-            $this->ctrl->getLinkTargetByClass(
-                get_class($this->getParentObject()),
-                'deactivateLink'
-            )
-        );
-        $actions->addItem(
-            $this->lng->txt('delete'),
-            '',
-            $this->ctrl->getLinkTargetByClass(
-                get_class($this->getParentObject()),
-                'confirmDeleteLink'
-            )
-        );
-        $this->tpl->setVariable('ACTION_HTML', $actions->getHTML());
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withLabel($this->lng->txt('actions'));
+        $this->tpl->setVariable('ACTION_HTML', $this->renderer->render($dropDown));
     }
 
-    /**
-     * Get Web resource items object
-     * @return object    ilLinkResourceItems
-     */
-    protected function getWebResourceItems() : \ilLinkResourceItems
-    {
-        return $this->webresource_items;
-    }
-
-    /**
-     * Check if links are editable
-     * @return
-     */
-    protected function isEditable() : bool
+    protected function isEditable(): bool
     {
         return $this->editable;
-    }
-
-    protected function initSorting() : void
-    {
-        $this->link_sort_mode = ilContainerSortingSettings::_lookupSortMode(
-            $this->getParentObject()->getObject()->getId()
-        );
     }
 }

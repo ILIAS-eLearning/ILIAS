@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Toast;
 
@@ -33,12 +51,12 @@ interface Factory
      *     1: The Toast SHOULD always have the same size on full display and be independent from the display size.
      * ---
      *
-     * @param string|\ILIAS\UI\Implementation\Component\Button\Shy|\ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link $title Title of the item
+     * @param string|\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link\Link $title Title of the item
      * @param \ILIAS\UI\Component\Symbol\Icon\Icon $icon lead icon
      *
      * @return  \ILIAS\UI\Component\Toast\Toast
      */
-    public function standard($title, Icon $icon) : Toast;
+    public function standard($title, Icon $icon): Toast;
 
     /**
      * ---
@@ -63,5 +81,5 @@ interface Factory
      *
      * @return  \ILIAS\UI\Component\Toast\Container
      */
-    public function container() : Container;
+    public function container(): Container;
 }

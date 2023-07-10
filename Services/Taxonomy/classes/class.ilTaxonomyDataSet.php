@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Taxonomy data set class
@@ -15,12 +29,12 @@ class ilTaxonomyDataSet extends ilDataSet
 {
     protected ilObjTaxonomy $current_obj;
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("4.3.0");
     }
 
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "http://www.ilias.de/xml/Services/Taxonomy/" . $a_entity;
     }
@@ -28,7 +42,7 @@ class ilTaxonomyDataSet extends ilDataSet
     /**
      * @inheritDoc
      */
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         // tax
         if ($a_entity == "tax") {
@@ -88,7 +102,7 @@ class ilTaxonomyDataSet extends ilDataSet
     /**
      * @inheritDoc
      */
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
 
@@ -156,16 +170,16 @@ class ilTaxonomyDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         switch ($a_entity) {
             case "tax":
                 return array(
-                    "tax_tree" => array("ids" => $a_rec["Id"]),
-                    "tax_usage" => array("ids" => $a_rec["Id"])
+                    "tax_tree" => array("ids" => $a_rec["Id"] ?? null),
+                    "tax_usage" => array("ids" => $a_rec["Id"] ?? null)
                 );
             case "tax_tree":
                 return array(
-                    "tax_node_assignment" => array("ids" => $a_rec["Child"])
+                    "tax_node_assignment" => array("ids" => $a_rec["Child"] ?? null)
                 );
         }
         return [];
@@ -181,7 +195,7 @@ class ilTaxonomyDataSet extends ilDataSet
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case "tax":
                 $newObj = new ilObjTaxonomy();
@@ -217,24 +231,27 @@ class ilTaxonomyDataSet extends ilDataSet
                             $node->getId()
                         );
                         break;
-
                 }
 
-            // no break
+                // no break
             case "tax_node_assignment":
                 $new_item_id = (int) $a_mapping->getMapping(
                     "Services/Taxonomy",
                     "tax_item",
-                    $a_rec["Component"] . ":" . $a_rec["ItemType"] . ":" . $a_rec["ItemId"]
+                    ($a_rec["Component"] ?? "") .
+                    ":" . ($a_rec["ItemType"] ?? "") . ":" .
+                    ($a_rec["ItemId"] ?? "")
                 );
-                $new_node_id = (int) $a_mapping->getMapping("Services/Taxonomy", "tax_tree", $a_rec["NodeId"]);
+                $new_node_id = (int) $a_mapping->getMapping("Services/Taxonomy", "tax_tree", $a_rec["NodeId"] ?? "");
 
                 // this is needed since 4.4 (but not exported with 4.3)
                 // with 4.4 this should be part of export/import
                 $new_item_id_obj = (int) $a_mapping->getMapping(
                     "Services/Taxonomy",
                     "tax_item_obj_id",
-                    $a_rec["Component"] . ":" . $a_rec["ItemType"] . ":" . $a_rec["ItemId"]
+                    ($a_rec["Component"] ?? "") .
+                    ":" . ($a_rec["ItemType"] ?? "") . ":" .
+                    ($a_rec["ItemId"] ?? "")
                 );
                 if ($new_item_id > 0 && $new_node_id > 0 && $new_item_id_obj > 0) {
                     $node_ass = new ilTaxNodeAssignment(

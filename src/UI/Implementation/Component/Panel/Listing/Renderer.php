@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Panel\Listing;
 
@@ -8,13 +24,14 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Item\Group;
+use ILIAS\UI\Implementation\Render\Template as Template;
 
 class Renderer extends AbstractComponentRenderer
 {
     /**
      * @inheritdoc
      */
-    public function render(C\Component $component, RendererInterface $default_renderer) : string
+    public function render(C\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -24,9 +41,11 @@ class Renderer extends AbstractComponentRenderer
         return '';
     }
 
-    protected function renderStandard(C\Panel\Listing\Listing $component, RendererInterface $default_renderer) : string
+    protected function renderStandard(C\Panel\Listing\Listing $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.listing_standard.html", true, true);
+
+        $tpl = $this->parseHeader($component, $default_renderer, $tpl);
 
         foreach ($component->getItemGroups() as $group) {
             if ($group instanceof Group) {
@@ -36,22 +55,40 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $title = $component->getTitle();
-        $tpl->setVariable("LIST_TITLE", $title);
-
-        // actions
-        $actions = $component->getActions();
-        if ($actions !== null) {
-            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-        }
-
         return $tpl->get();
+    }
+
+    protected function parseHeader(
+        C\Panel\Listing\Standard $component,
+        RendererInterface $default_renderer,
+        Template $tpl
+    ): Template {
+        $title = $component->getTitle();
+        $actions = $component->getActions();
+        $view_controls = $component->getViewControls();
+
+        if ($title !== "" || $actions || $view_controls) {
+            $tpl->setVariable("TITLE", $title);
+            if ($actions) {
+                $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+            }
+            if ($view_controls) {
+                foreach ($view_controls as $view_control) {
+                    $tpl->setCurrentBlock("view_controls");
+                    $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
+                    $tpl->parseCurrentBlock();
+                }
+            }
+            $tpl->setCurrentBlock("heading");
+            $tpl->parseCurrentBlock();
+        }
+        return $tpl;
     }
 
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(C\Panel\Listing\Standard::class);
     }

@@ -1,25 +1,31 @@
 <?php
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\DI;
 
 use ILIAS\BackgroundTasks\BackgroundTaskServices;
+use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\Filesystem\Util\Archive\LegacyArchives;
+use ILIAS\Cache\Services;
+use ILIAS\Filesystem\Util\Convert\Converters;
 use ILIAS\Repository;
 use ILIAS\Skill\Service\SkillService;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case, or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Customizing of pimple-DIC for ILIAS.
  *
@@ -28,18 +34,25 @@ use ILIAS\Skill\Service\SkillService;
  */
 class Container extends \Pimple\Container
 {
+    private ?\ilFileServicesSettings $file_service_settings = null;
+
     /**
      * Get interface to the Database.
      */
-    public function database() : \ilDBInterface
+    public function database(): \ilDBInterface
     {
         return $this["ilDB"];
+    }
+
+    public function globalCache(): Services
+    {
+        return $this["global_cache"] ?? new Services(null);
     }
 
     /**
      * Get interface to get interfaces to all things rbac.
      */
-    public function rbac() : \ILIAS\DI\RBACServices
+    public function rbac(): \ILIAS\DI\RBACServices
     {
         return new RBACServices($this);
     }
@@ -47,7 +60,7 @@ class Container extends \Pimple\Container
     /**
      * Get the interface to the control structure.
      */
-    public function ctrl() : \ilCtrlInterface
+    public function ctrl(): \ilCtrlInterface
     {
         return $this["ilCtrl"];
     }
@@ -55,7 +68,7 @@ class Container extends \Pimple\Container
     /**
      * Get the current user.
      */
-    public function user() : \ilObjUser
+    public function user(): \ilObjUser
     {
         return $this["ilUser"];
     }
@@ -63,7 +76,7 @@ class Container extends \Pimple\Container
     /**
      * Get interface for access checks.
      */
-    public function access() : \ilAccessHandler
+    public function access(): \ilAccessHandler
     {
         return $this["ilAccess"];
     }
@@ -71,7 +84,7 @@ class Container extends \Pimple\Container
     /**
      * Get interface to the repository tree.
      */
-    public function repositoryTree() : \ilTree
+    public function repositoryTree(): \ilTree
     {
         return $this["tree"];
     }
@@ -79,7 +92,7 @@ class Container extends \Pimple\Container
     /**
      * Get interface to the i18n service.
      */
-    public function language() : \ilLanguage
+    public function language(): \ilLanguage
     {
         return $this["lng"];
     }
@@ -87,7 +100,7 @@ class Container extends \Pimple\Container
     /**
      * Get interface to get interfaces to different loggers.
      */
-    public function logger() : \ILIAS\DI\LoggingServices
+    public function logger(): \ILIAS\DI\LoggingServices
     {
         return new LoggingServices($this);
     }
@@ -95,7 +108,7 @@ class Container extends \Pimple\Container
     /**
      * Get interface to the toolbar.
      */
-    public function toolbar() : \ilToolbarGUI
+    public function toolbar(): \ilToolbarGUI
     {
         return $this["ilToolbar"];
     }
@@ -103,7 +116,7 @@ class Container extends \Pimple\Container
     /**
      * Get interface to the tabs
      */
-    public function tabs() : \ilTabsGUI
+    public function tabs(): \ilTabsGUI
     {
         return $this["ilTabs"];
     }
@@ -111,7 +124,7 @@ class Container extends \Pimple\Container
     /**
      * Get the interface to get services from UI framework.
      */
-    public function ui() : \ILIAS\DI\UIServices
+    public function ui(): \ILIAS\DI\UIServices
     {
         return new UIServices($this);
     }
@@ -119,7 +132,7 @@ class Container extends \Pimple\Container
     /**
      * Get the interface to the settings
      */
-    public function settings() : \ilSetting
+    public function settings(): \ilSetting
     {
         return $this["ilSetting"];
     }
@@ -128,7 +141,7 @@ class Container extends \Pimple\Container
     /**
      * Get the Filesystem service interface.
      */
-    public function filesystem() : \ILIAS\Filesystem\Filesystems
+    public function filesystem(): \ILIAS\Filesystem\Filesystems
     {
         return $this['filesystem'];
     }
@@ -137,18 +150,18 @@ class Container extends \Pimple\Container
     /**
      * Gets the file upload interface.
      */
-    public function upload() : \ILIAS\FileUpload\FileUpload
+    public function upload(): \ILIAS\FileUpload\FileUpload
     {
         return $this['upload'];
     }
 
-    public function backgroundTasks() : BackgroundTaskServices
+    public function backgroundTasks(): BackgroundTaskServices
     {
         return new BackgroundTaskServices($this);
     }
 
 
-    public function globalScreen() : \ILIAS\GlobalScreen\Services
+    public function globalScreen(): \ILIAS\GlobalScreen\Services
     {
         return $this['global_screen'];
     }
@@ -157,37 +170,37 @@ class Container extends \Pimple\Container
     /**
      * @return \ILIAS\HTTP\Services
      */
-    public function http() : \ILIAS\HTTP\Services
+    public function http(): \ILIAS\HTTP\Services
     {
         return $this['http'];
     }
 
-    public function event() : \ilAppEventHandler
+    public function event(): \ilAppEventHandler
     {
         return $this['ilAppEventHandler'];
     }
 
-    public function iliasIni() : \ilIniFile
+    public function iliasIni(): \ilIniFile
     {
         return $this['ilIliasIniFile'];
     }
 
-    public function clientIni() : \ilIniFile
+    public function clientIni(): \ilIniFile
     {
         return $this['ilClientIniFile'];
     }
 
-    public function systemStyle() : \ilStyleDefinition
+    public function systemStyle(): \ilStyleDefinition
     {
         return $this['styleDefinition'];
     }
 
-    public function help() : \ilHelpGUI
+    public function help(): \ilHelpGUI
     {
         return $this['ilHelp'];
     }
 
-    public function question() : \ilAsqFactory
+    public function question(): \ilAsqFactory
     {
         return new \ilAsqFactory();
     }
@@ -195,12 +208,12 @@ class Container extends \Pimple\Container
     /**
      * Get conditions service
      */
-    public function conditions() : \ilConditionService
+    public function conditions(): \ilConditionService
     {
         return \ilConditionService::getInstance(new \ilConditionObjectAdapter());
     }
 
-    public function learningHistory() : \ilLearningHistoryService
+    public function learningHistory(): \ilLearningHistoryService
     {
         return new \ilLearningHistoryService(
             $this->user(),
@@ -211,187 +224,244 @@ class Container extends \Pimple\Container
         );
     }
 
-    public function news() : \ilNewsService
+    public function news(): \ILIAS\News\Service
     {
-        return new \ilNewsService($this->language(), $this->settings(), $this->user());
+        return new \ILIAS\News\Service($this);
     }
 
-    public function object() : \ilObjectService
+    public function object(): \ilObjectService
     {
-        return new \ilObjectService($this->language(), $this->settings(), $this->filesystem(), $this->upload());
+        return new \ilObjectService(
+            $this->database(),
+            $this->language(),
+            $this->filesystem()->web(),
+            $this->upload(),
+            $this['object.customicons.factory']
+        );
     }
 
-    public function exercise() : \ILIAS\Exercise\Service
+    public function exercise(): \ILIAS\Exercise\Service
     {
         return new \ILIAS\Exercise\Service();
     }
 
-    public function task() : \ilTaskService
+    public function task(): \ilTaskService
     {
         return new \ilTaskService($this->user(), $this->language(), $this->ui(), $this->access());
     }
 
 
-    public function refinery() : \ILIAS\Refinery\Factory
+    public function refinery(): \ILIAS\Refinery\Factory
     {
         return $this['refinery'];
     }
 
 
-    public function uiService() : \ilUIService
+    public function uiService(): \ilUIService
     {
         return new \ilUIService($this->http()->request(), $this->ui());
     }
 
 
-    public function bookingManager() : \ILIAS\BookingManager\Service
+    public function bookingManager(): \ILIAS\BookingManager\Service
     {
         return new \ILIAS\BookingManager\Service($this);
     }
 
-    public function skills() : \ILIAS\Skill\Service\SkillService
+    public function skills(): \ILIAS\Skill\Service\SkillService
     {
         return new SkillService();
     }
 
-    public function resourceStorage() : \ILIAS\ResourceStorage\Services
+    public function resourceStorage(): \ILIAS\ResourceStorage\Services
     {
         return $this['resource_storage'];
     }
 
-    public function repository() : Repository\Service
+    public function repository(): Repository\Service
     {
         return new Repository\Service($this);
     }
 
-    public function container() : \ILIAS\Container\Service
+    public function container(): \ILIAS\Container\Service
     {
         return new \ILIAS\Container\Service($this);
     }
 
-    public function containerReference() : \ILIAS\ContainerReference\Service
+    public function containerReference(): \ILIAS\ContainerReference\Service
     {
         return new \ILIAS\ContainerReference\Service($this);
     }
 
-    public function category() : \ILIAS\Category\Service
+    public function category(): \ILIAS\Category\Service
     {
         return new \ILIAS\Category\Service($this);
     }
 
-    public function folder() : \ILIAS\Folder\Service
+    public function folder(): \ILIAS\Folder\Service
     {
         return new \ILIAS\Folder\Service($this);
     }
 
-    public function rootFolder() : \ILIAS\RootFolder\Service
+    public function rootFolder(): \ILIAS\RootFolder\Service
     {
         return new \ILIAS\RootFolder\Service($this);
     }
 
-    public function copage() : \ILIAS\COPage\Service
+    public function copage(): \ILIAS\COPage\Service
     {
         return new \ILIAS\COPage\Service($this);
     }
 
-    public function learningModule() : \ILIAS\LearningModule\Service
+    public function learningModule(): \ILIAS\LearningModule\Service
     {
         return new \ILIAS\LearningModule\Service($this);
     }
 
-    public function wiki() : \ILIAS\Wiki\Service
+    public function wiki(): \ILIAS\Wiki\Service
     {
         return new \ILIAS\Wiki\Service($this);
     }
 
-    public function mediaObjects() : \ILIAS\MediaObjects\Service
+    public function mediaObjects(): \ILIAS\MediaObjects\Service
     {
         return new \ILIAS\MediaObjects\Service($this);
     }
 
-    public function survey() : \ILIAS\Survey\Service
+    public function survey(): \ILIAS\Survey\Service
     {
         return new \ILIAS\Survey\Service();
     }
 
-    public function surveyQuestionPool() : \ILIAS\SurveyQuestionPool\Service
+    public function surveyQuestionPool(): \ILIAS\SurveyQuestionPool\Service
     {
         return new \ILIAS\SurveyQuestionPool\Service($this);
     }
 
-    public function test() : \ILIAS\Test\Service
+    public function test(): \ILIAS\Test\Service
     {
         return new \ILIAS\Test\Service($this);
     }
 
-    public function testQuestionPool() : \ILIAS\TestQuestionPool\Service
+    public function testQuestionPool(): \ILIAS\TestQuestionPool\Service
     {
         return new \ILIAS\TestQuestionPool\Service($this);
     }
 
-    public function workflowEngine() : \ILIAS\WorkflowEngine\Service
+    public function workflowEngine(): \ILIAS\WorkflowEngine\Service
     {
         return new \ILIAS\WorkflowEngine\Service($this);
     }
 
-    public function mediaPool() : \ILIAS\MediaPool\Service
+    public function mediaPool(): \ILIAS\MediaPool\Service
     {
         return new \ILIAS\MediaPool\Service($this);
     }
 
-    public function notes() : \ILIAS\Notes\Service
+    public function notes(): \ILIAS\Notes\Service
     {
         return new \ILIAS\Notes\Service($this);
     }
 
-    public function glossary() : \ILIAS\Glossary\Service
+    public function glossary(): \ILIAS\Glossary\Service
     {
         return new \ILIAS\Glossary\Service($this);
     }
 
-    public function portfolio() : \ILIAS\Portfolio\Service
+    public function portfolio(): \ILIAS\Portfolio\Service
     {
         return new \ILIAS\Portfolio\Service($this);
     }
 
-    public function blog() : \ILIAS\Blog\Service
+    public function blog(): \ILIAS\Blog\Service
     {
         return new \ILIAS\Blog\Service($this);
     }
 
-    public function mediaCast() : \ILIAS\MediaCast\Service
+    public function mediaCast(): \ILIAS\MediaCast\Service
     {
         return new \ILIAS\MediaCast\Service($this);
     }
 
-    public function itemGroup() : \ILIAS\ItemGroup\Service
+    public function itemGroup(): \ILIAS\ItemGroup\Service
     {
         return new \ILIAS\ItemGroup\Service($this);
     }
 
-    public function htmlLearningModule() : \ILIAS\HTMLLearningModule\Service
+    public function htmlLearningModule(): \ILIAS\HTMLLearningModule\Service
     {
         return new \ILIAS\HTMLLearningModule\Service($this);
     }
 
-    public function awareness() : \ILIAS\Awareness\Service
+    public function awareness(): \ILIAS\Awareness\Service
     {
         return new \ILIAS\Awareness\Service($this);
     }
-    
-    public function fileServiceSettings() : \ilFileServicesSettings
+
+    public function export(): \ILIAS\Export\Service
     {
-        return new \ilFileServicesSettings($this->settings());
+        return new \ILIAS\Export\Service();
     }
 
-    public function contentStyle() : \ILIAS\Style\Content\Service
+    public function personalWorkspace(): \ILIAS\PersonalWorkspace\Service
+    {
+        return new \ILIAS\PersonalWorkspace\Service();
+    }
+
+    public function fileServiceSettings(): \ilFileServicesSettings
+    {
+        if ($this->file_service_settings === null) {
+            $this->file_service_settings = new \ilFileServicesSettings(
+                $this->settings(),
+                $this->clientIni(),
+                $this->database()
+            );
+        }
+        return $this->file_service_settings;
+    }
+
+
+    public function archives(): Archives
+    {
+        return new Archives();
+    }
+
+    /**
+     * @deprecated Use archives() instead
+     */
+    public function legacyArchives(): LegacyArchives
+    {
+        return new LegacyArchives();
+    }
+
+    public function fileConverters(): Converters
+    {
+        return new Converters();
+    }
+
+    public function contentStyle(): \ILIAS\Style\Content\Service
     {
         return new \ILIAS\Style\Content\Service($this);
     }
 
-    public function cron() : \ilCronServices
+    public function notifications(): \ILIAS\Notifications\Service
+    {
+        return new \ILIAS\Notifications\Service($this);
+    }
+
+    public function cron(): \ilCronServices
     {
         return new \ilCronServicesImpl($this);
+    }
+
+    public function mail(): \ILIAS\Mail\Service\MailService
+    {
+        return new \ILIAS\Mail\Service\MailService($this);
+    }
+
+    public function certificate(): \ILIAS\Certificate\Service\CertificateService
+    {
+        return new \ILIAS\Certificate\Service\CertificateService($this);
     }
 
     /**
@@ -411,7 +481,7 @@ class Container extends \Pimple\Container
      * //interface of the component
      * $DIC->isDependencyAvailable("systemStyle")
      */
-    public function isDependencyAvailable(string $name) : bool
+    public function isDependencyAvailable(string $name): bool
     {
         try {
             $this->$name();

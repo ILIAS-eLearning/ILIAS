@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblEntry
  * @author     Gabriel Comte
@@ -22,18 +22,18 @@
  */
 class ilBiblEntry extends ActiveRecord implements ilBiblEntryInterface
 {
-    const TABLE_NAME = 'il_bibl_entry';
-    
-    public static function returnDbTableName() : string
+    public const TABLE_NAME = 'il_bibl_entry';
+
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
-    
-    public function getConnectorContainerName() : string
+
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
-    
+
     /**
      * @con_has_field  true
      * @con_fieldtype  integer
@@ -57,40 +57,40 @@ class ilBiblEntry extends ActiveRecord implements ilBiblEntryInterface
      * @con_is_notnull true
      */
     protected ?string $type = null;
-    
+
     protected string $overview = '';
-    
-    public function getId() : ?int
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    public function setId(int $id) : void
+
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
-    
-    public function getDataId() : int
+
+    public function getDataId(): int
     {
         return $this->data_id;
     }
-    
-    public function setDataId(int $data_id) : void
+
+    public function setDataId(int $data_id): void
     {
         $this->data_id = $data_id;
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return $this->type;
     }
-    
-    public function setType(string $type) : void
+
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
-    
-    public function getOverview() : string
+
+    public function getOverview(): string
     {
         return $this->overview;
     }

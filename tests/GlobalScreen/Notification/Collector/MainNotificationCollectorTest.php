@@ -9,7 +9,7 @@ require_once(__DIR__ . "/../BaseNotificationSetUp.php");
  */
 class MainNotificationCollectorTest extends BaseNotificationSetUp
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $povider = $this->getDummyNotificationsProviderWithNotifications([]);
         $collector = new MainNotificationCollector([$povider]);
@@ -17,7 +17,7 @@ class MainNotificationCollectorTest extends BaseNotificationSetUp
     }
 
 
-    public function testHasNotifications() : void
+    public function testHasNotifications(): void
     {
         $povider = $this->getDummyNotificationsProviderWithNotifications([]);
         $collector = new MainNotificationCollector([$povider]);
@@ -30,7 +30,7 @@ class MainNotificationCollectorTest extends BaseNotificationSetUp
     }
 
 
-    public function testGetNotifications() : void
+    public function testGetNotifications(): void
     {
         $povider = $this->getDummyNotificationsProviderWithNotifications([]);
         $collector = new MainNotificationCollector([$povider]);
@@ -48,7 +48,7 @@ class MainNotificationCollectorTest extends BaseNotificationSetUp
     }
 
 
-    public function testGetAmountOfNewNotifications() : void
+    public function testGetAmountOfNewNotifications(): void
     {
         $povider = $this->getDummyNotificationsProviderWithNotifications([]);
         $collector = new MainNotificationCollector([$povider]);
@@ -70,7 +70,7 @@ class MainNotificationCollectorTest extends BaseNotificationSetUp
     }
 
 
-    public function testGetAmountOfOldNotifications() : void
+    public function testGetAmountOfOldNotifications(): void
     {
         $povider = $this->getDummyNotificationsProviderWithNotifications([]);
         $collector = new MainNotificationCollector([$povider]);
@@ -92,7 +92,7 @@ class MainNotificationCollectorTest extends BaseNotificationSetUp
     }
 
 
-    public function testGetNotificationsIdentifiersAsArray() : void
+    public function testGetNotificationsIdentifiersAsArray(): void
     {
         $provider = $this->getDummyNotificationsProviderWithNotifications([]);
         $collector = new MainNotificationCollector([$provider]);

@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Symbol;
 
@@ -42,14 +60,14 @@ interface Factory
      *     1: Icons MUST have a class indicating their usage.
      *     2: Icons MUST be tagged with a CSS-class indicating their size.
      *   accessibility:
-     *     1: Icons MUST bear an alt-text.
+     *     1: Icons MUST bear an alt-text. If the Icon has a purely decorative purpose, the aria-label MUST be set to "".
      *     2: Disabled Icons MUST bear an aria-label indicating the disabled status.
      *   wording:
      *     1: The alt-text MUST state the represented object-type.
      * ---
      * @return \ILIAS\UI\Component\Symbol\Icon\Factory
      **/
-    public function icon() : Icon\Factory;
+    public function icon(): Icon\Factory;
 
     /**
      * ---
@@ -96,10 +114,11 @@ interface Factory
      *       1: >
      *          The functionality triggered by the Glyph MUST be indicated to
      *          screen readers with the attributes aria-label or aria-labelledby.
+     *          If the Glyph has a purely decorative purpose, the aria-label MUST be set to "" or be completely omitted.
      * ---
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Factory
      */
-    public function glyph() : Glyph\Factory;
+    public function glyph(): Glyph\Factory;
 
     /**
      * ---
@@ -153,5 +172,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Symbol\Avatar\Factory
      **/
-    public function avatar() : Avatar\Factory;
+    public function avatar(): Avatar\Factory;
 }

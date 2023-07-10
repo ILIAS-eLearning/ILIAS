@@ -1,21 +1,26 @@
-<?php declare(strict_types = 1);
+<?php
 
-use ILIAS\DI\UIServices;
-use ILIAS\HTTP\Services;
+declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\DI\UIServices;
+use ILIAS\HTTP\Services;
+
 /**
  * @author Raphael Heer <raphael.heer@hslu.ch>
  * $Id$
@@ -27,7 +32,7 @@ class ilWebDAVMountInstructionsGUI
     protected ilLanguage$lang;
     protected UIServices $ui;
     protected Services $http;
-    
+
     public function __construct(ilWebDAVBaseMountInstructions $mount_instruction, ilLanguage $lang, UIServices $ui, Services $http)
     {
         $this->uri_builder = new ilWebDAVUriBuilder($http->request());
@@ -40,15 +45,15 @@ class ilWebDAVMountInstructionsGUI
     /**
      * @param mixed[] $mount_instructions
      */
-    public function buildGUIFromGivenMountInstructions(array $mount_instructions, bool $render_async = false) : string
+    public function buildGUIFromGivenMountInstructions(array $mount_instructions, bool $render_async = false): string
     {
         $os = $this->determineOSfromUserAgent();
-        
+
         $f = $this->ui->factory();
         $r = $this->ui->renderer();
-        
+
         $components = [];
-        
+
         $js_function_legacy = $f->legacy('<script>'
             . 'il.UI.showMountInstructions = function (e, id){'
             . "obj = $(e['target']);"
@@ -57,17 +62,17 @@ class ilWebDAVMountInstructionsGUI
             . "obj.addClass('engaged ilSubmitInactive').attr('aria-pressed', 'true');"
             . '$(".instructions").hide();'
             . '$("#"+id).show();}</script>');
-        
+
         if (count($mount_instructions) === 1) {
             $content = $f->legacy("<div class='instructions'>" . array_shift($mount_instructions) . "</div>");
-            
+
             return $render_async ? $r->renderAsync($content) : $r->render($content);
         }
-        
+
         $view_control_actions = [];
-        
+
         $selected = array_key_first($mount_instructions);
-        
+
         foreach ($mount_instructions as $title => $text) {
             foreach ($os as $os_string) {
                 if (stristr($title, $os_string) !== false) {
@@ -76,19 +81,19 @@ class ilWebDAVMountInstructionsGUI
                 }
             }
         }
-        
+
         foreach ($mount_instructions as $title => $text) {
             if ($title == $selected) {
                 $hidden = '';
             } else {
                 $hidden = 'style="display: none;"';
             }
-            
+
             $legacy = $f->legacy("<div id='$title' class='instructions' $hidden>$text</div>")
                 ->withCustomSignal($title, "il.UI.showMountInstructions(event, '$title');");
-            
+
             $view_control_actions[$title] = $legacy->getCustomSignal($title);
-            
+
             $components[] = $legacy;
         }
 
@@ -106,7 +111,7 @@ class ilWebDAVMountInstructionsGUI
         return $render_async ? $r->renderAsync($components) : $r->render($components);
     }
 
-    public function renderMountInstructionsContent() : void
+    public function renderMountInstructionsContent(): void
     {
         try {
             $instructions = $this->mount_instruction->getMountInstructionsAsArray();
@@ -122,27 +127,27 @@ class ilWebDAVMountInstructionsGUI
         echo $this->buildGUIFromGivenMountInstructions($instructions, true);
         exit;
     }
-    
-    private function determineOSfromUserAgent() : array
+
+    private function determineOSfromUserAgent(): array
     {
         $ua = $this->http->request()->getHeader('User-Agent')[0];
-        
+
         if (stristr($ua, 'windows') !== false
             || strpos($ua, 'microsoft') !== false) {
             return ['win'];
         }
-        
+
         if (stristr($ua, 'darwin') !== false
             || stristr($ua, 'macintosh') !== false) {
             return ['mac', 'osx'];
         }
-            
+
         if (stristr($ua, 'linux') !== false
             || stristr($ua, 'solaris') !== false
             || stristr($ua, 'aix') !== false
             || stristr($ua, 'unix') !== false
             || stristr($ua, 'gvfs') !== false // nautilus browser uses this ID
-            ) {
+        ) {
             return ['linux'];
         }
 

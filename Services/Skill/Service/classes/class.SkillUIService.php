@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -29,7 +31,7 @@ class SkillUIService
     {
     }
 
-    public function getGapUI() : void //int $user_id, int $profile_id,...
+    public function getGapUI(): void //int $user_id, int $profile_id,...
     {
     }
 }

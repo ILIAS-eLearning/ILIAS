@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Refinery\In;
 
 use ILIAS\Refinery\Transformation;
@@ -28,7 +30,7 @@ class Group
      * @param Transformation[] $inTransformations
      * @return Transformation
      */
-    public function series(array $inTransformations) : Transformation
+    public function series(array $inTransformations): Transformation
     {
         return new Series($inTransformations);
     }
@@ -39,7 +41,7 @@ class Group
      * @param Transformation[] $inTransformations
      * @return Transformation
      */
-    public function parallel(array $inTransformations) : Transformation
+    public function parallel(array $inTransformations): Transformation
     {
         return new Parallel($inTransformations);
     }

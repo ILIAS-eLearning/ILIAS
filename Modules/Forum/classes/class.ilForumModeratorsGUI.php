@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilForumModeratorsGUI
@@ -63,14 +65,14 @@ class ilForumModeratorsGUI
             );
         }
 
-        if (!$this->access->checkAccess('write', '', (int) $this->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $this->oForumModerators = new ilForumModerators((int) $this->ref_id);
+        $this->oForumModerators = new ilForumModerators($this->ref_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -92,7 +94,7 @@ class ilForumModeratorsGUI
         }
     }
 
-    public function addModerator($users = []) : void
+    public function addModerator($users = []): void
     {
         if (!$users) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_moderators_select_one'));
@@ -120,7 +122,7 @@ class ilForumModeratorsGUI
         $this->ctrl->redirect($this, 'showModerators');
     }
 
-    public function detachModeratorRole() : void
+    public function detachModeratorRole(): void
     {
         $usr_ids = [];
         if ($this->http_wrapper->post()->has('usr_id')) {
@@ -162,7 +164,7 @@ class ilForumModeratorsGUI
         $this->ctrl->redirect($this, 'showModerators');
     }
 
-    public function showModerators() : void
+    public function showModerators(): void
     {
         ilRepositorySearchGUI::fillAutoCompleteToolbar(
             $this,

@@ -1,9 +1,25 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\GlobalHttpState;
-
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -84,20 +100,21 @@ class ilAdvancedMDRecordGUI
         global $DIC;
 
         $this->user = $DIC->user();
+        $this->lng = $DIC->language();
         $this->mode = $a_mode;
         $this->obj_type = $a_obj_type;
         $this->obj_id = $a_obj_id;
         $this->sub_type = $a_sub_type;
         $this->sub_id = $a_sub_id;
 
+        $this->in_repository = $in_repository;
         if ($a_obj_id && $this->in_repository) {
             $refs = ilObject::_getAllReferences($a_obj_id);
             $this->ref_id = end($refs);
         }
-        $this->in_repository = $in_repository;
+
         $this->refinery = $DIC->refinery();
         $this->http = $DIC->http();
-
     }
 
     /**
@@ -105,7 +122,7 @@ class ilAdvancedMDRecordGUI
      * context may set another object (e.g. media pool for media objects)
      * @param int $a_adv_id ref id, if $in_repository is true, otherwise object id
      */
-    public function setAdvMdRecordObject(int $a_adv_id, string $a_adv_type, string $a_adv_subtype = "-") : void
+    public function setAdvMdRecordObject(int $a_adv_id, string $a_adv_type, string $a_adv_subtype = "-"): void
     {
         $this->adv_id = $a_adv_id;
         $this->adv_type = $a_adv_type;
@@ -116,7 +133,7 @@ class ilAdvancedMDRecordGUI
      * Get adv md record parameters
      * @return array adv type
      */
-    public function getAdvMdRecordObject() : array
+    public function getAdvMdRecordObject(): array
     {
         if ($this->adv_type == null) {
             if ($this->in_repository) {
@@ -132,12 +149,12 @@ class ilAdvancedMDRecordGUI
      * Set ref_id for context. In case of object creations this is the reference id
      * of the parent container.
      */
-    public function setRefId(int $a_ref_id) : void
+    public function setRefId(int $a_ref_id): void
     {
         $this->ref_id = $a_ref_id;
     }
 
-    public function setPropertyForm(ilPropertyFormGUI $form) : void
+    public function setPropertyForm(ilPropertyFormGUI $form): void
     {
         $this->form = $form;
     }
@@ -145,7 +162,7 @@ class ilAdvancedMDRecordGUI
     /**
      * Set values for search form
      */
-    public function setSearchValues(array $a_values) : void
+    public function setSearchValues(array $a_values): void
     {
         $this->search_values = $a_values;
     }
@@ -154,7 +171,7 @@ class ilAdvancedMDRecordGUI
      * get info sections
      * @todo use another required parameter injection for modes
      */
-    public function setInfoObject(ilInfoScreenGUI $info) : void
+    public function setInfoObject(ilInfoScreenGUI $info): void
     {
         $this->info = $info;
     }
@@ -163,7 +180,7 @@ class ilAdvancedMDRecordGUI
      * Set advanced record filter
      * @param ?int[] $filter
      */
-    public function setRecordFilter(?array $filter = null) : void
+    public function setRecordFilter(?array $filter = null): void
     {
         $this->record_filter = $filter;
     }
@@ -171,7 +188,7 @@ class ilAdvancedMDRecordGUI
     /**
      * Check filter
      */
-    protected function checkFilter($record_id) : bool
+    protected function checkFilter($record_id): bool
     {
         return !(is_array($this->record_filter) && !in_array($record_id, $this->record_filter));
     }
@@ -221,7 +238,7 @@ class ilAdvancedMDRecordGUI
     /**
      * Parse property form in editor mode
      */
-    protected function parseEditor() : void
+    protected function parseEditor(): void
     {
         $this->editor_form = array();
         foreach ($this->getActiveRecords() as $record_obj) {
@@ -277,12 +294,8 @@ class ilAdvancedMDRecordGUI
     /**
      * Load edit form values from post
      */
-    public function importEditFormPostValues() : bool
+    public function importEditFormPostValues(): bool
     {
-        // #13774
-        if (!count($this->editor_form)) {
-            return false;
-        }
         $valid = true;
         foreach ($this->editor_form as $item) {
             $item["form"]->importFromPost();
@@ -298,9 +311,9 @@ class ilAdvancedMDRecordGUI
      * Write edit form values to db
      * @todo throw exception in case of missing parameters
      */
-    public function writeEditForm(?int $a_obj_id = null, ?int $a_sub_id = null) : bool
+    public function writeEditForm(?int $a_obj_id = null, ?int $a_sub_id = null): bool
     {
-        if (!sizeof($this->editor_form)) {
+        if (!count($this->editor_form)) {
             return false;
         }
 
@@ -326,7 +339,7 @@ class ilAdvancedMDRecordGUI
     /**
      * Parse search
      */
-    private function parseSearch() : void
+    private function parseSearch(): void
     {
         // this is NOT used for the global search, see ilLuceneAdvancedSearchFields::getFormElement()
         // (so searchable flag is NOT relevant)
@@ -382,7 +395,7 @@ class ilAdvancedMDRecordGUI
     /**
      * Load edit form values from post
      */
-    public function importSearchForm() : ?array
+    public function importSearchForm(): ?array
     {
         if (!is_array($this->search_form)) {
             return null;
@@ -407,7 +420,7 @@ class ilAdvancedMDRecordGUI
         return null;
     }
 
-    public function setSearchFormValues(array $a_values) : void
+    public function setSearchFormValues(array $a_values): void
     {
         $this->search_form_values = $a_values;
     }
@@ -416,7 +429,7 @@ class ilAdvancedMDRecordGUI
      * Presentation for info page
      * @return void
      */
-    private function parseInfoPage() : void
+    private function parseInfoPage(): void
     {
         foreach (ilAdvancedMDValues::getInstancesForObjectId(
             $this->obj_id,
@@ -436,9 +449,15 @@ class ilAdvancedMDRecordGUI
                     $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($record_id);
                     $title = $field_translations->getTitleForLanguage($element_id, $this->user->getLanguage());
 
+                    $presentation_bridge = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element);
+
+                    if ($element instanceof ilADTLocation) {
+                        $presentation_bridge->setSize('500px', '300px');
+                    }
+
                     $this->info->addProperty(
                         $title,
-                        ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML()
+                        $presentation_bridge->getHTML()
                     );
                 }
             }
@@ -448,7 +467,7 @@ class ilAdvancedMDRecordGUI
     /**
      * Presentation for calendar agenda list.
      */
-    private function parseAppointmentPresentationa() : array
+    private function parseAppointmentPresentationa(): array
     {
         $sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->obj_type);
 
@@ -478,12 +497,16 @@ class ilAdvancedMDRecordGUI
                     $presentation_bridge = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element);
                     #21615
                     if (get_class($element) == 'ilADTLocation') {
-                        $presentation_bridge->setSize(100, 200);
+                        /**
+                         * TODO replace this by presentation_bridge->getHTML() when maps
+                         *  work in modals (36490). Note that at that point formatting of
+                         *  maps in appointment lists has to be improved.
+                         **/
+                        $presentation_value = $presentation_bridge->getSortable();
+                    } elseif (get_class($element) == 'ilADTExternalLink' || get_class($element) == 'ilADTInternalLink') {
                         #22638
                         $presentation_value = $presentation_bridge->getHTML();
-                        $presentation_value .= "<script>ilInitMaps();</script>";
                     } else {
-                        #22638
                         $presentation_value = strip_tags($presentation_bridge->getHTML());
                     }
                     $array_elements[$positions[$element_id]] =
@@ -505,7 +528,7 @@ class ilAdvancedMDRecordGUI
     /**
      * handle ecs definitions
      */
-    private function handleECSDefinitions($a_definition) : bool
+    private function handleECSDefinitions($a_definition): bool
     {
         if (ilECSServerSettings::getInstance()->activeServerExists() or
             ($this->obj_type != 'crs' and $this->obj_type != 'rcrs')
@@ -519,7 +542,7 @@ class ilAdvancedMDRecordGUI
      * Parse property form in editor mode
      * @todo the parameter is never filled.
      */
-    public function parseRecordSelection(string $a_sec_head = "") : void
+    public function parseRecordSelection(string $a_sec_head = ""): void
     {
         $first = true;
         foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType(
@@ -551,7 +574,7 @@ class ilAdvancedMDRecordGUI
     /**
      * Save selection per object
      */
-    public function saveSelection() : void
+    public function saveSelection(): void
     {
         $post_amet_use_rec = [];
         if ($this->http->wrapper()->post()->has('amet_use_rec')) {
@@ -568,12 +591,12 @@ class ilAdvancedMDRecordGUI
     /**
      * Set table for self::MODE_TABLE_FILTER
      */
-    public function setTableGUI(ilTable2GUI $a_val) : void
+    public function setTableGUI(ilTable2GUI $a_val): void
     {
         $this->table_gui = $a_val;
     }
 
-    public function getTableGUI() : ?ilTable2GUI
+    public function getTableGUI(): ?ilTable2GUI
     {
         return $this->table_gui;
     }
@@ -582,7 +605,7 @@ class ilAdvancedMDRecordGUI
      * Set row data
      * @param array $a_val assoc array of row data (containing md record data)
      */
-    public function setRowData(array $a_val) : void
+    public function setRowData(array $a_val): void
     {
         $this->row_data = $a_val;
     }
@@ -591,7 +614,7 @@ class ilAdvancedMDRecordGUI
      * Get row data
      * @return array assoc array of row data (containing md record data)
      */
-    public function getRowData() : ?array
+    public function getRowData(): ?array
     {
         return $this->row_data;
     }
@@ -599,7 +622,7 @@ class ilAdvancedMDRecordGUI
     /**
      * @return ilAdvancedMDRecord[]
      */
-    protected function getActiveRecords() : array
+    protected function getActiveRecords(): array
     {
         list($adv_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
         return ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_type, $adv_id, $adv_subtype, $this->in_repository);
@@ -608,7 +631,7 @@ class ilAdvancedMDRecordGUI
     /**
      * Parse property for filter (table)
      */
-    private function parseFilter() : void
+    private function parseFilter(): void
     {
         $this->adt_search = array();
 
@@ -644,7 +667,7 @@ class ilAdvancedMDRecordGUI
     /**
      * Import filter (post) values
      */
-    public function importFilter() : void
+    public function importFilter(): void
     {
         if (!is_array($this->adt_search)) {
             return;
@@ -658,7 +681,7 @@ class ilAdvancedMDRecordGUI
     /**
      * Get SQL conditions for current filter value(s)
      */
-    public function getFilterElements(bool $a_only_non_empty = true) : array
+    public function getFilterElements(bool $a_only_non_empty = true): array
     {
         if (!is_array($this->adt_search)) {
             return [];
@@ -677,7 +700,7 @@ class ilAdvancedMDRecordGUI
     /**
      * Parse property for table head
      */
-    private function parseTableHead() : void
+    private function parseTableHead(): void
     {
         foreach ($this->getActiveRecords() as $record_obj) {
             $record_id = $record_obj->getRecordId();
@@ -701,7 +724,7 @@ class ilAdvancedMDRecordGUI
     /**
      * Parse table cells
      */
-    private function parseTableCells() : string
+    private function parseTableCells(): string
     {
         $data = $this->getRowData();
         $html = "";
@@ -715,7 +738,20 @@ class ilAdvancedMDRecordGUI
                     continue;
                 }
 
-                $html .= "<td class='std'>" . $data['md_' . $def->getFieldId()] . "</td>";
+                $res = '';
+                $res_raw = $data['md_' . $def->getFieldId()] ?? null;
+                $res_presentation = $data['md_' . $def->getFieldId() . '_presentation'] ?? null;
+                if ($res_raw) {
+                    $res = $res_raw;
+                }
+                if (
+                    $res_presentation instanceof ilADTPresentationBridge &&
+                    !($res_presentation instanceof ilADTLocationPresentationBridge)
+                ) {
+                    $res = $res_presentation->getHTML();
+                }
+
+                $html .= "<td class='std'>" . $res . "</td>";
             }
         }
         return $html;

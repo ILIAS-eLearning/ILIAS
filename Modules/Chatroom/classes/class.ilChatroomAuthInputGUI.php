@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\Response\ResponseHeader;
 
 /**
@@ -32,8 +34,6 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         self::NAME_AUTH_PROP_1 => '',
         self::NAME_AUTH_PROP_2 => ''
     ];
-
-    protected \ILIAS\HTTP\Services $http;
     /** @var string[]  */
     protected array $ctrl_path = [];
     protected int $size = 10;
@@ -41,18 +41,17 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
     protected array $values = self::DEFAULT_SHAPE;
     protected bool $isReadOnly = false;
 
-    public function __construct(string $title, string $httpPostVariableName, \ILIAS\HTTP\Services $http)
+    public function __construct(string $title, string $httpPostVariableName, protected \ILIAS\HTTP\Services $http)
     {
         parent::__construct($title, $httpPostVariableName);
-        $this->http = $http;
     }
 
-    public function setIsReadOnly(bool $isReadOnly) : void
+    public function setIsReadOnly(bool $isReadOnly): void
     {
         $this->isReadOnly = $isReadOnly;
     }
 
-    protected function getRandomValues() : void
+    protected function getRandomValues(): void
     {
         $response = new stdClass();
 
@@ -69,7 +68,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         $this->http->close();
     }
 
-    private function uuidV4() : string
+    private function uuidV4(): string
     {
         return sprintf(
             '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
@@ -95,16 +94,16 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param string[] $ctrl_path
      */
-    public function setCtrlPath(array $ctrl_path) : void
+    public function setCtrlPath(array $ctrl_path): void
     {
         $this->ctrl_path = $ctrl_path;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $this->values = [
-            self::NAME_AUTH_PROP_1 => $a_values[$this->getPostVar()][self::NAME_AUTH_PROP_1],
-            self::NAME_AUTH_PROP_2 => $a_values[$this->getPostVar()][self::NAME_AUTH_PROP_2]
+            self::NAME_AUTH_PROP_1 => $a_values[$this->getPostVar()][self::NAME_AUTH_PROP_1] ?? '',
+            self::NAME_AUTH_PROP_2 => $a_values[$this->getPostVar()][self::NAME_AUTH_PROP_2] ?? ''
         ];
 
         foreach ($this->getSubItems() as $item) {
@@ -112,7 +111,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         }
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $post = $this->http->request()->getParsedBody()[$this->getPostVar()] ?? [];
 
@@ -127,19 +126,19 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @return array{key: string, secret: string}
      */
-    public function getInput() : array
+    public function getInput(): array
     {
         $input = self::DEFAULT_SHAPE;
 
-        $as_sanizited_string = $this->refinery->custom()->transformation(function (string $value) : string {
+        $as_sanizited_string = $this->refinery->custom()->transformation(function (string $value): string {
             return $this->stripSlashesAddSpaceFallback($value);
         });
 
-        $null_to_empty_string = $this->refinery->custom()->transformation(static function ($value) : string {
+        $null_to_empty_string = $this->refinery->custom()->transformation(static function ($value): string {
             if ($value === null) {
                 return '';
             }
-            
+
             throw new ilException('Expected null in transformation');
         });
 
@@ -160,18 +159,18 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
                 ])
             );
         }
-        
+
         return $input;
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $a_tpl->setCurrentBlock('prop_generic');
         $a_tpl->setVariable('PROP_GENERIC', $this->render());
         $a_tpl->parseCurrentBlock();
     }
 
-    public function render() : string
+    public function render(): string
     {
         global $DIC;
 
@@ -214,12 +213,12 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         return $tpl->get();
     }
 
-    public function getSize() : int
+    public function getSize(): int
     {
         return $this->size;
     }
 
-    public function setSize(int $size) : void
+    public function setSize(int $size): void
     {
         $this->size = $size;
     }

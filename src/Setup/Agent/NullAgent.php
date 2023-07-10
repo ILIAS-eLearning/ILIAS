@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\Agent;
 
 use ILIAS\Setup\Agent;
@@ -42,7 +44,7 @@ class NullAgent implements Agent
     /**
       * @inheritdocs
       */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return false;
     }
@@ -50,7 +52,7 @@ class NullAgent implements Agent
     /**
      * @inheritdocs
      */
-    public function getArrayToConfigTransformation() : Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         throw new \LogicException(
             self::class . " has no config."
@@ -60,7 +62,7 @@ class NullAgent implements Agent
     /**
      * @inheritdocs
      */
-    public function getInstallObjective(Config $config = null) : Objective
+    public function getInstallObjective(Config $config = null): Objective
     {
         return new NullObjective();
     }
@@ -68,7 +70,7 @@ class NullAgent implements Agent
     /**
      * @inheritdocs
      */
-    public function getUpdateObjective(Config $config = null) : Objective
+    public function getUpdateObjective(Config $config = null): Objective
     {
         return new NullObjective();
     }
@@ -76,7 +78,7 @@ class NullAgent implements Agent
     /**
      * @inheritdocs
      */
-    public function getBuildArtifactObjective() : Objective
+    public function getBuildArtifactObjective(): Objective
     {
         return new NullObjective();
     }
@@ -84,7 +86,7 @@ class NullAgent implements Agent
     /**
      * @inheritdocs
      */
-    public function getStatusObjective(Metrics\Storage $storage) : Objective
+    public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new NullObjective();
     }
@@ -92,12 +94,12 @@ class NullAgent implements Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }
 
-    public function getNamedObjectives(?Config $config = null) : array
+    public function getNamedObjectives(?Config $config = null): array
     {
         return [];
     }

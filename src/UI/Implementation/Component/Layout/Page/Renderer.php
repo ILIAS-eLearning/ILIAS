@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts.and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
@@ -21,7 +37,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -35,8 +51,10 @@ class Renderer extends AbstractComponentRenderer
     protected function renderStandardPage(
         Component\Layout\Page\Standard $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl = $this->getTemplate("tpl.standardpage.html", true, true);
+
+        $tpl->setVariable('FAVICON_PATH', $component->getFaviconPath());
 
         if ($component->hasOverlay()) {
             $tpl->setVariable('OVERLAY', $default_renderer->render($component->getOverlay()));
@@ -90,20 +108,17 @@ class Renderer extends AbstractComponentRenderer
         if ($component->getWithHeaders()) {
             $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());
         }
-    
-        foreach ($component->getMetaData() as $meta_key => $meta_value) {
-            $tpl->setCurrentBlock('meta_datum');
-            $tpl->setVariable('META_KEY', $meta_key);
-            $tpl->setVariable('META_VALUE', $meta_value);
-            $tpl->parseCurrentBlock();
-        }
+
+        $tpl->setVariable('META_DATA', $this->getDataFactory()->htmlMetadata()->collection(
+            $component->getMetaData()
+        )->toHtml());
 
         return $tpl->get();
     }
 
     protected function convertBreadcrumbsToDropdownLocator(
         Component\Breadcrumbs\Breadcrumbs $breadcrumbs
-    ) : Component\Dropdown\Dropdown {
+    ): Component\Dropdown\Dropdown {
         $f = $this->getUIFactory();
         $buttons = [];
         $items = array_reverse($breadcrumbs->getItems());
@@ -124,7 +139,7 @@ class Renderer extends AbstractComponentRenderer
      * with resources set as properties at the page or similar mechanisms.
      * Please also see ROADMAP.md, "Page-Layout and ilTemplate, CSS/JS Header".
      */
-    protected function setHeaderVars(Template $tpl, bool $for_ui_demo = false) : Template
+    protected function setHeaderVars(Template $tpl, bool $for_ui_demo = false): Template
     {
         global $DIC;
         $il_tpl = $DIC["tpl"] ?? null;
@@ -155,10 +170,10 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("BASE", $base_url);
 
             $additional_js_files = [
-                './Services/JavaScript/js/Basic.js',
-                ilUIFramework::BOWER_BOOTSTRAP_JS,
-                './libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js',
                 iljQueryUtil::getLocaljQueryPath(),
+                './Services/JavaScript/js/Basic.js',
+                ilUIFramework::BOOTSTRAP_JS,
+                './node_modules/jquery-migrate/jquery-migrate.min.js',
             ];
 
             array_unshift($js_files, ...$additional_js_files);
@@ -186,7 +201,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Page/stdpage.js');
@@ -195,7 +210,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(
             Component\Layout\Page\Standard::class

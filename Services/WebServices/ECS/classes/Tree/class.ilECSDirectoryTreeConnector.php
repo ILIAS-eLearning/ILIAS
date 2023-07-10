@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
  *
@@ -24,10 +27,9 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
 {
     /**
      * Get directory tree
-     * @return ilECSResult
      * @throws ilECSConnectorException
      */
-    public function getDirectoryTrees($a_mid = 0) : ?\ilECSResult
+    public function getDirectoryTrees(int $a_mid = 0): ?\ilECSUriList
     {
         $this->path_postfix = '/campusconnect/directory_trees';
 
@@ -37,7 +39,7 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
             $this->addHeader('Accept', 'text/uri-list');
             $this->addHeader('X-EcsQueryStrings', 'all=true');
             if ($a_mid) {
-                $this->addHeader('X-EcsReceiverMemberships', $a_mid);
+                $this->addHeader('X-EcsReceiverMemberships', (string) $a_mid);
             }
 
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
@@ -53,7 +55,7 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
      * Get single directory tree
      * @return ilECSResult an array of ecs cms directory tree entries
      */
-    public function getDirectoryTree($tree_id) : ilECSResult
+    public function getDirectoryTree($tree_id): ilECSResult
     {
         $this->path_postfix = '/campusconnect/directory_trees/' . (int) $tree_id;
 
@@ -63,7 +65,7 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
             $this->addHeader('Accept', 'text/uri-list');
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $res = $this->call();
-            
+
             if (strpos($res, 'http') === 0) {
                 $json = file_get_contents($res);
                 $ecs_result = new ilECSResult($json);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  +-----------------------------------------------------------------------------+
  | ILIAS open source                                                           |
@@ -36,12 +38,12 @@ class ilXMLResultSetColumn
         $this->index = $index;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getIndex() : int
+    public function getIndex(): int
     {
         return $this->index;
     }

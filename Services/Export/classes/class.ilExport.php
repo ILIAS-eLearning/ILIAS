@@ -1,18 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 /**
  * Export
  * @author    Alex Killing <alex.killing@gmx.de>
@@ -57,7 +61,7 @@ class ilExport
      * @return ilExportConfig $a_comp configuration object
      * @throws ilExportException thronw if no config exists
      */
-    public function getConfig(string $a_comp) : ilExportConfig
+    public function getConfig(string $a_comp): ilExportConfig
     {
         // if created, return existing config object
         if (isset($this->configs[$a_comp])) {
@@ -67,10 +71,6 @@ class ilExport
         // create instance of export config object
         $comp_arr = explode("/", $a_comp);
         $a_class = "il" . $comp_arr[1] . "ExportConfig";
-        $export_config_file = "./" . $a_comp . "/classes/class." . $a_class . ".php";
-        if (!is_file($export_config_file)) {
-            throw new ilExportException('Component "' . $a_comp . '" does not provide ExportConfig class.');
-        }
         $exp_config = new $a_class();
         $this->configs[$a_comp] = $exp_config;
         return $exp_config;
@@ -81,7 +81,7 @@ class ilExport
      * the export. Includes also information on last export file.
      * @return array<int, array<string, int|string>>
      */
-    public static function _getValidExportSubItems(int $a_ref_id) : array
+    public static function _getValidExportSubItems(int $a_ref_id): array
     {
         global $DIC;
 
@@ -109,7 +109,7 @@ class ilExport
      * @param string $a_type     export type ("xml", "html", ...), default "xml"
      * @param string $a_obj_type object type (optional, if not given, type is looked up)
      */
-    public static function _getLastExportFileDate(int $a_obj_id, string $a_type = "", string $a_obj_type = "") : int
+    public static function _getLastExportFileDate(int $a_obj_id, string $a_type = "", string $a_obj_type = ""): int
     {
         $files = ilExport::_getExportFiles($a_obj_id, $a_type, $a_obj_type);
         if (is_array($files)) {
@@ -130,7 +130,7 @@ class ilExport
         int $a_obj_id,
         string $a_type = "",
         string $a_obj_type = ""
-    ) : ?array {
+    ): ?array {
         $files = ilExport::_getExportFiles($a_obj_id, $a_type, $a_obj_type);
         if (is_array($files)) {
             $files = ilArrayUtil::sortArray($files, "timestamp", "desc");
@@ -152,7 +152,7 @@ class ilExport
         string $a_type = "xml",
         string $a_obj_type = "",
         string $a_entity = ""
-    ) : string {
+    ): string {
         global $DIC;
 
         $logger = $DIC->logger()->exp();
@@ -193,7 +193,7 @@ class ilExport
      * @param string       $a_obj_type
      * @return array
      */
-    public static function _getExportFiles(int $a_obj_id, $a_export_types = "", string $a_obj_type = "") : array
+    public static function _getExportFiles(int $a_obj_id, $a_export_types = "", string $a_obj_type = ""): array
     {
         if ($a_obj_type == "") {
             $a_obj_type = ilObject::_lookupType($a_obj_id);
@@ -252,7 +252,7 @@ class ilExport
         int $a_obj_id,
         string $a_export_type = "xml",
         string $a_obj_type = ""
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilErr = $DIC['ilErr'];
@@ -275,7 +275,7 @@ class ilExport
         int $a_obj_id,
         array $a_files,
         string $a_type = ""
-    ) : void {
+    ): void {
         global $DIC;
 
         $lng = $DIC->language();
@@ -329,7 +329,7 @@ class ilExport
         string $a_type,
         int $a_id,
         string $a_target_release = ""
-    ) : array {
+    ): array {
         $this->log->debug("export type: $a_type, id: $a_id, target_release: " . $a_target_release);
 
         // if no target release specified, use latest major release number
@@ -347,7 +347,7 @@ class ilExport
             array(
                 "MainEntity" => $a_type,
                 "Title" => ilObject::_lookupTitle($a_id),
-                "TargetRelease" => $a_target_release,
+                /* "TargetRelease" => $a_target_release, */
                 "InstallationId" => IL_INST_ID,
                 "InstallationUrl" => ILIAS_HTTP_PATH
             )
@@ -414,7 +414,7 @@ class ilExport
         string $a_title,
         string $a_export_dir,
         string $a_type_for_file = ""
-    ) : array {
+    ): array {
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];
@@ -442,7 +442,7 @@ class ilExport
             array(
                 "MainEntity" => $a_entity,
                 "Title" => $a_title,
-                "TargetRelease" => $a_target_release,
+                /* "TargetRelease" => $a_target_release, */
                 "InstallationId" => IL_INST_ID,
                 "InstallationUrl" => ILIAS_HTTP_PATH
             )
@@ -490,7 +490,7 @@ class ilExport
         string $a_entity,
         string $a_target_release,
         array $a_id = null
-    ) : bool {
+    ): bool {
         $success = true;
         $this->log->debug("process exporter, comp: " . $a_comp . ", class: " . $a_class . ", entity: " . $a_entity .
             ", target release " . $a_target_release . ", id: " . print_r($a_id, true));
@@ -549,6 +549,7 @@ class ilExport
 
         $sv = $exp->determineSchemaVersion($a_entity, $a_target_release);
         $sv["uses_dataset"] ??= false;
+        $sv['xsd_file'] ??= '';
         $this->log->debug("schema version for entity: $a_entity, target release: $a_target_release");
         $this->log->debug("...is: " . $sv["schema_version"] . ", namespace: " . $sv["namespace"] .
             ", xsd file: " . $sv["xsd_file"] . ", uses_dataset: " . ((int) $sv["uses_dataset"]));
@@ -557,7 +558,7 @@ class ilExport
                          "InstallationUrl" => ILIAS_HTTP_PATH,
                          "Entity" => $a_entity,
                          "SchemaVersion" => $sv["schema_version"],
-                         "TargetRelease" => $a_target_release,
+                         /* "TargetRelease" => $a_target_release, */
                          "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
                          "xmlns:exp" => "http://www.ilias.de/Services/Export/exp/4_1",
                          "xsi:schemaLocation" => "http://www.ilias.de/Services/Export/exp/4_1 " . ILIAS_HTTP_PATH . "/xml/ilias_export_4_1.xsd"
@@ -618,7 +619,7 @@ class ilExport
         return $success;
     }
 
-    protected static function createPathFromId(int $a_container_id, string $a_name) : string
+    protected static function createPathFromId(int $a_container_id, string $a_name): string
     {
         $max_exponent = 3;
         $factor = 100;

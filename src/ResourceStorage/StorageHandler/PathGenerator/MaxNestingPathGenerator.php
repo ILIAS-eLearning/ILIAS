@@ -1,25 +1,30 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\StorageHandler\PathGenerator;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class MaxNestingPathGenerator
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  * @internal
  */
 class MaxNestingPathGenerator implements PathGenerator
@@ -44,14 +49,13 @@ class MaxNestingPathGenerator implements PathGenerator
             case self::MAX_NESTING_65536:
                 $this->splitter = 4;
                 break;
-            case self::MAX_NESTING_256:
             default:
                 $this->splitter = 2;
                 break;
         }
     }
 
-    public function getPathFor(ResourceIdentification $i) : string
+    public function getPathFor(ResourceIdentification $i): string
     {
         $splitted = str_split(str_replace("-", "", $i->serialize()), $this->splitter);
 
@@ -61,7 +65,7 @@ class MaxNestingPathGenerator implements PathGenerator
         return implode("/", $first_part) . implode("", $second_part);
     }
 
-    public function getIdentificationFor(string $path) : ResourceIdentification
+    public function getIdentificationFor(string $path): ResourceIdentification
     {
         $str = str_replace("/", "", $path);
 

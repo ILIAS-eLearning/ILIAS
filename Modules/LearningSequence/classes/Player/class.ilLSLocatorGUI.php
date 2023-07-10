@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Component\Component;
 
@@ -34,14 +36,14 @@ class ilLSLocatorGUI
         $this->ui_factory = $ui_factory;
     }
 
-    public function withItems(array $items) : ilLSLocatorGUI
+    public function withItems(array $items): ilLSLocatorGUI
     {
         $clone = clone $this;
         $clone->items = $items;
         return $clone;
     }
 
-    public function getComponent() : Component
+    public function getComponent(): Component
     {
         $crumbs = array_map(
             function ($item) {

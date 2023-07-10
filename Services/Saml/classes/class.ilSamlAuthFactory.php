@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,21 +16,21 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Exception\IOException;
 
 /**
  * Class ilSamlAuthFactory
  */
-class ilSamlAuthFactory
+final class ilSamlAuthFactory
 {
     private const METADATA_PATH = 'auth/saml/config';
 
     /**
-     * @param string $authSourceName
-     * @return ilSamlAuth
      * @throws Exception
      */
-    public function auth(string $authSourceName = 'default-sp') : ilSamlAuth
+    public function auth(string $authSourceName = 'default-sp'): ilSamlAuth
     {
         return new ilSimpleSAMLphpWrapper(
             $authSourceName,
@@ -39,10 +39,9 @@ class ilSamlAuthFactory
     }
 
     /**
-     * @return string
      * @throws IOException
      */
-    public function getConfigDirectory() : string
+    public function getConfigDirectory(): string
     {
         global $DIC;
 

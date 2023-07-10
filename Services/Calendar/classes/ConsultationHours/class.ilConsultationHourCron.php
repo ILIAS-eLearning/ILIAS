@@ -1,5 +1,24 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Reminders for consultation hours
@@ -21,47 +40,47 @@ class ilConsultationHourCron extends ilCronJob
         $this->setting = $DIC->settings();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "cal_consultation";
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt("cal_ch_cron_reminder");
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt("cal_ch_cron_reminder_info");
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
 
-    public function hasCustomSettings() : bool
+    public function hasCustomSettings(): bool
     {
         return true;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $status = ilCronJobResult::STATUS_NO_ACTION;
 
@@ -71,7 +90,6 @@ class ilConsultationHourCron extends ilCronJob
         $limit->increment(IL_CAL_DAY, $days_before);
 
         $counter = 0;
-
         $query = 'SELECT * FROM booking_user ' .
             'JOIN cal_entries ON entry_id = cal_id ' .
             'WHERE notification_sent = ' . $this->db->quote(0, 'integer') . ' ' .
@@ -80,8 +98,8 @@ class ilConsultationHourCron extends ilCronJob
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $mail = new ilCalendarMailNotification();
-            $mail->setAppointmentId($row->entry_id);
-            $mail->setRecipients(array($row->user_id));
+            $mail->setAppointmentId((int) $row->entry_id);
+            $mail->setRecipients(array((int) $row->user_id));
             $mail->setType(ilCalendarMailNotification::TYPE_BOOKING_REMINDER);
             $mail->send();
 
@@ -102,20 +120,20 @@ class ilConsultationHourCron extends ilCronJob
         return $result;
     }
 
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
         $consultation_days = new ilNumberInputGUI($this->lng->txt('cal_ch_cron_reminder_days'), 'ch_reminder_days');
         $consultation_days->setMinValue(1);
         $consultation_days->setMaxLength(2);
         $consultation_days->setSize(2);
-        $consultation_days->setValue($this->setting->get('ch_reminder_days', '2'));
+        $consultation_days->setValue((string) $this->setting->get('ch_reminder_days', '2'));
         $consultation_days->setRequired(true);
         $a_form->addItem($consultation_days);
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
-        $this->setting->set('ch_reminder_days', $a_form->getInput('ch_reminder_days'));
+        $this->setting->set('ch_reminder_days', (string) $a_form->getInput('ch_reminder_days'));
         return true;
     }
 }

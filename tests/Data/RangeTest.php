@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Data\Range;
 use PHPUnit\Framework\TestCase;
@@ -8,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 class RangeTest extends TestCase
 {
-    public function testFactory() : Range
+    public function testFactory(): Range
     {
         $f = new ILIAS\Data\Factory();
         $range = $f->range(1, 2);
@@ -19,7 +21,7 @@ class RangeTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testValues(Range $range) : void
+    public function testValues(Range $range): void
     {
         $this->assertEquals(1, $range->getStart());
         $this->assertEquals(2, $range->getLength());
@@ -28,7 +30,7 @@ class RangeTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testEndCalculation(Range $range) : void
+    public function testEndCalculation(Range $range): void
     {
         $this->assertEquals(3, $range->getEnd());
     }
@@ -36,7 +38,7 @@ class RangeTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testWithLength(Range $range) : Range
+    public function testWithLength(Range $range): Range
     {
         $range = $range->withLength(3);
         $this->assertEquals(1, $range->getStart());
@@ -48,7 +50,7 @@ class RangeTest extends TestCase
     /**
      * @depends testWithLength
      */
-    public function testWithStart(Range $range) : Range
+    public function testWithStart(Range $range): Range
     {
         $range = $range->withStart(3);
         $this->assertEquals(3, $range->getStart());
@@ -60,7 +62,7 @@ class RangeTest extends TestCase
     /**
      * @depends testWithStart
      */
-    public function testUnpack(Range $range) : void
+    public function testUnpack(Range $range): void
     {
         $this->assertEquals(
             [3,3],
@@ -71,7 +73,7 @@ class RangeTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testNegativeStart(Range $range) : void
+    public function testNegativeStart(Range $range): void
     {
         $this->expectException(InvalidArgumentException::class);
         $range = $range->withStart(-5);
@@ -80,7 +82,7 @@ class RangeTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testNegativeLength(Range $range) : void
+    public function testNegativeLength(Range $range): void
     {
         $this->expectException(InvalidArgumentException::class);
         $range = $range->withLength(-1);
@@ -89,27 +91,27 @@ class RangeTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testNullLength(Range $range) : void
+    public function testNullLength(Range $range): void
     {
         $this->expectException(InvalidArgumentException::class);
         $range = $range->withLength(0);
     }
 
-    public function testConstructionWrongStart() : void
+    public function testConstructionWrongStart(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $f = new ILIAS\Data\Factory();
         $range = $f->range(-1, 2);
     }
 
-    public function testConstructionWrongLength() : void
+    public function testConstructionWrongLength(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $f = new ILIAS\Data\Factory();
         $range = $f->range(1, -2);
     }
 
-    public function testConstructionNullLength() : void
+    public function testConstructionNullLength(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $f = new ILIAS\Data\Factory();

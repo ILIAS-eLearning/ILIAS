@@ -28,7 +28,7 @@ class ilSkinTest extends ilSystemStyleBaseFSTest
     protected ilSkinStyle $substyle1;
     protected ilSkinStyle $substyle2;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -53,13 +53,13 @@ class ilSkinTest extends ilSystemStyleBaseFSTest
         $this->substyle2->setSubstyleOf($this->style2->getId());
     }
 
-    public function testSkinNameAndId() : void
+    public function testSkinNameAndId(): void
     {
         $this->assertEquals('skin1', $this->skin->getId());
         $this->assertEquals('skin 1', $this->skin->getName());
     }
 
-    public function testAddStyle() : void
+    public function testAddStyle(): void
     {
         $this->assertCount(0, $this->skin);
         $this->assertCount(0, $this->skin->getStyles());
@@ -74,7 +74,7 @@ class ilSkinTest extends ilSystemStyleBaseFSTest
         $this->assertCount(3, $this->skin->getStyles());
     }
 
-    public function testGetStyles() : void
+    public function testGetStyles(): void
     {
         $this->skin->addStyle($this->style1);
         $this->skin->addStyle($this->style2);
@@ -83,7 +83,7 @@ class ilSkinTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($this->style2, $this->skin->getStyle('style2'));
     }
 
-    public function testAddSubstyle() : void
+    public function testAddSubstyle(): void
     {
         $this->skin->addStyle($this->substyle1);
         $this->assertCount(1, $this->skin->getStyles());
@@ -91,7 +91,7 @@ class ilSkinTest extends ilSystemStyleBaseFSTest
         $this->assertCount(2, $this->skin);
     }
 
-    public function testGetSubStyles() : void
+    public function testGetSubStyles(): void
     {
         $this->skin->addStyle($this->substyle1);
         $this->skin->addStyle($this->substyle2);
@@ -100,7 +100,7 @@ class ilSkinTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($this->substyle2, $this->skin->getStyle('substyle2'));
     }
 
-    public function testGetAllSubStyles() : void
+    public function testGetAllSubStyles(): void
     {
         $this->skin->addStyle($this->style1);
         $this->skin->addStyle($this->style2);
@@ -121,7 +121,7 @@ class ilSkinTest extends ilSystemStyleBaseFSTest
         ], $this->skin->getSubstylesOfStyle('style1'));
     }
 
-    public function testUpdateParentOfStyle() : void
+    public function testUpdateParentOfStyle(): void
     {
         $this->skin->addStyle($this->style1);
         $this->skin->addStyle($this->style2);
@@ -142,7 +142,7 @@ class ilSkinTest extends ilSystemStyleBaseFSTest
         );
     }
 
-    public function testRemoveStyles() : void
+    public function testRemoveStyles(): void
     {
         $this->skin->addStyle($this->style1);
         $this->skin->addStyle($this->style2);
@@ -153,7 +153,7 @@ class ilSkinTest extends ilSystemStyleBaseFSTest
         $this->assertCount(0, $this->skin);
     }
 
-    public function testRemoveTestTwice() : void
+    public function testRemoveTestTwice(): void
     {
         $this->skin->addStyle($this->style1);
         $this->skin->addStyle($this->style2);
@@ -170,7 +170,7 @@ class ilSkinTest extends ilSystemStyleBaseFSTest
         }
     }
 
-    public function testAsXML() : void
+    public function testAsXML(): void
     {
         $this->skin->addStyle($this->style1);
         $this->skin->addStyle($this->style2);
@@ -180,7 +180,7 @@ class ilSkinTest extends ilSystemStyleBaseFSTest
         );
     }
 
-    public function testWriteXML() : void
+    public function testWriteXML(): void
     {
         $this->skin->addStyle($this->style1);
         $this->skin->addStyle($this->style2);

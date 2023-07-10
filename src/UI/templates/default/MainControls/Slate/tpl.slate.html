@@ -1,5 +1,14 @@
 <div class="il-maincontrols-slate <!-- BEGIN engaged -->engaged<!-- END engaged --><!-- BEGIN disengaged -->disengaged<!-- END disengaged -->" id="{ID}"<!-- BEGIN depth --> data-depth-level="{TREE_DEPTH}"<!-- END depth --><!-- BEGIN with_aria_role --> role="{ARIA_ROLE}"<!-- END with_aria_role -->>
 	<div class="il-maincontrols-slate-content" data-replace-marker="content">
-		{CONTENTS}
+		<!-- BEGIN as_list -->
+		<ul>
+			<!-- BEGIN list_content_component -->
+			<li>{LIST_COMPONENT_CONTENT}</li>
+			<!-- END list_content_component -->
+		</ul>
+		<!-- END as_list -->
+		<!-- BEGIN none_list_content_component -->
+		{NONE_LIST_COMPONENT_CONTENT}
+		<!-- END none_list_content_component -->
 	</div>
 </div>

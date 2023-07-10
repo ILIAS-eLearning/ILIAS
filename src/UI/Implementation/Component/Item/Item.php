@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
@@ -55,7 +71,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function withDescription(string $description) : C\Item\Item
+    public function withDescription(string $description): C\Item\Item
     {
         $clone = clone $this;
         $clone->desc = $description;
@@ -65,7 +81,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function getDescription() : ?string
+    public function getDescription(): ?string
     {
         return $this->desc;
     }
@@ -73,7 +89,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function withProperties(array $properties) : C\Item\Item
+    public function withProperties(array $properties): C\Item\Item
     {
         $clone = clone $this;
         $clone->props = $properties;
@@ -83,7 +99,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         return $this->props;
     }
@@ -91,7 +107,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function withActions(C\Dropdown\Standard $actions) : C\Item\Item
+    public function withActions(C\Dropdown\Standard $actions): C\Item\Item
     {
         $clone = clone $this;
         $clone->actions = $actions;
@@ -101,7 +117,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function getActions() : ?C\Dropdown\Standard
+    public function getActions(): ?C\Dropdown\Standard
     {
         return $this->actions;
     }

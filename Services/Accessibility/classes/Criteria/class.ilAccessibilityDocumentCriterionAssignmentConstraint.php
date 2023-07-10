@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Custom\Constraint;
@@ -51,7 +54,7 @@ class ilAccessibilityDocumentCriterionAssignmentConstraint extends Constraint
      */
     protected function filterEqualValues(
         ilAccessibilityDocumentCriterionAssignment $value
-    ) : array {
+    ): array {
         $otherValues = $this->document->criteria();
 
         return array_filter(
@@ -83,7 +86,7 @@ class ilAccessibilityDocumentCriterionAssignmentConstraint extends Constraint
     protected function haveSameNature(
         ilAccessibilityDocumentCriterionAssignment $value,
         ilAccessibilityDocumentCriterionAssignment $otherValue
-    ) : bool {
+    ): bool {
         if ($value->getCriterionId() !== $otherValue->getCriterionId()) {
             return false;
         }

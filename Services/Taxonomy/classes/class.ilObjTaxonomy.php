@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Taxonomy
@@ -28,32 +42,32 @@ class ilObjTaxonomy extends ilObject2
         parent::__construct($a_id, false);
     }
 
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = "tax";
     }
 
-    public function setSortingMode(int $a_val) : void
+    public function setSortingMode(int $a_val): void
     {
         $this->sorting_mode = $a_val;
     }
 
-    public function getSortingMode() : int
+    public function getSortingMode(): int
     {
         return $this->sorting_mode;
     }
 
-    public function setItemSorting(bool $a_val) : void
+    public function setItemSorting(bool $a_val): void
     {
         $this->item_sorting = $a_val;
     }
 
-    public function getItemSorting() : bool
+    public function getItemSorting(): bool
     {
         return $this->item_sorting;
     }
 
-    public function getTree() : ?ilTaxonomyTree
+    public function getTree(): ?ilTaxonomyTree
     {
         if ($this->getId() > 0) {
             return new ilTaxonomyTree($this->getId());
@@ -62,12 +76,12 @@ class ilObjTaxonomy extends ilObject2
     }
 
     // node mapping is used during cloning
-    public function getNodeMapping() : array
+    public function getNodeMapping(): array
     {
         return $this->node_mapping;
     }
 
-    protected function doCreate(bool $clone_mode = false) : void
+    protected function doCreate(bool $clone_mode = false): void
     {
         $ilDB = $this->db;
 
@@ -87,7 +101,7 @@ class ilObjTaxonomy extends ilObject2
         $tax_tree->addTree($this->getId(), $node->getId());
     }
 
-    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null): void
     {
         assert($new_obj instanceof ilObjTaxonomy);
         $new_obj->setTitle($this->getTitle());
@@ -106,9 +120,9 @@ class ilObjTaxonomy extends ilObject2
     // clone nodes of taxonomy
     public function cloneNodes(
         ilObjTaxonomy $a_new_obj,
-        string $a_target_parent,
-        string $a_source_parent
-    ) : void {
+        int $a_target_parent,
+        int $a_source_parent
+    ): void {
         // get all childs
         $nodes = $this->getTree()->getChilds($a_source_parent);
         foreach ($nodes as $node) {
@@ -130,7 +144,7 @@ class ilObjTaxonomy extends ilObject2
         }
     }
 
-    protected function doDelete() : void
+    protected function doDelete(): void
     {
         $ilDB = $this->db;
 
@@ -161,7 +175,7 @@ class ilObjTaxonomy extends ilObject2
         );
     }
 
-    protected function doRead() : void
+    protected function doRead(): void
     {
         $ilDB = $this->db;
 
@@ -174,7 +188,7 @@ class ilObjTaxonomy extends ilObject2
         $this->setItemSorting((bool) $rec["item_sorting"]);
     }
 
-    protected function doUpdate() : void
+    protected function doUpdate(): void
     {
         $ilDB = $this->db;
 
@@ -186,7 +200,7 @@ class ilObjTaxonomy extends ilObject2
         );
     }
 
-    public static function loadLanguageModule() : void
+    public static function loadLanguageModule(): void
     {
         global $DIC;
 
@@ -195,7 +209,7 @@ class ilObjTaxonomy extends ilObject2
         $lng->loadLanguageModule("tax");
     }
 
-    public static function saveUsage(int $a_tax_id, int $a_obj_id) : void
+    public static function saveUsage(int $a_tax_id, int $a_obj_id): void
     {
         global $DIC;
 
@@ -217,7 +231,7 @@ class ilObjTaxonomy extends ilObject2
      * @param bool $a_include_titles include titles in array
      * @return array array of tax IDs or array of arrays with keys tax_id, title
      */
-    public static function getUsageOfObject(int $a_obj_id, bool $a_include_titles = false) : array
+    public static function getUsageOfObject(int $a_obj_id, bool $a_include_titles = false): array
     {
         global $DIC;
 
@@ -241,7 +255,7 @@ class ilObjTaxonomy extends ilObject2
     }
 
     // Delete all usages of a taxonomy
-    public static function deleteUsagesOfTaxonomy(int $a_id) : void
+    public static function deleteUsagesOfTaxonomy(int $a_id): void
     {
         global $DIC;
 
@@ -269,7 +283,7 @@ class ilObjTaxonomy extends ilObject2
         string $a_item_type,
         int $a_tax_id,
         $a_node
-    ) : array {
+    ): array {
         $tree = new ilTaxonomyTree($a_tax_id);
 
         $sub_nodes = $tree->getSubTreeIds($a_node);
@@ -281,7 +295,7 @@ class ilObjTaxonomy extends ilObject2
     }
 
     // lookup property in tax_data record
-    protected static function lookup(string $a_field, int $a_id) : string
+    protected static function lookup(string $a_field, int $a_id): string
     {
         global $DIC;
 
@@ -296,7 +310,7 @@ class ilObjTaxonomy extends ilObject2
         return $rec[$a_field];
     }
 
-    public static function lookupSortingMode(int $a_id) : int
+    public static function lookupSortingMode(int $a_id): int
     {
         return (int) self::lookup("sorting_mode", $a_id);
     }

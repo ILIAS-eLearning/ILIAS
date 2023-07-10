@@ -1,5 +1,21 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Advanced metadata permission helper
@@ -19,6 +35,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     public const CONTEXT_SUBSTITUTION_IASS = 8;
     public const CONTEXT_SUBSTITUTION_GROUP = 9;
     public const CONTEXT_SUBSTITUTION_EXERCISE = 10;
+    public const CONTEXT_SUBSTITUTION_FILE = 11;
 
     public const ACTION_MD_CREATE_RECORD = 1;
     public const ACTION_MD_IMPORT_RECORDS = 2;
@@ -58,6 +75,9 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     public const ACTION_SUBSTITUTION_EXERCISE_SHOW_FIELD = 29;
     public const ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY = 30;
 
+    public const ACTION_SUBSTITUTION_FILE_SHOW_FIELD = 31;
+    public const ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY = 32;
+
     public const SUBACTION_RECORD_TITLE = 1;
     public const SUBACTION_RECORD_DESCRIPTION = 2;
     public const SUBACTION_RECORD_OBJECT_TYPES = 3;
@@ -70,7 +90,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     public const SUBACTION_SUBSTITUTION_BOLD = 8;
     public const SUBACTION_SUBSTITUTION_NEWLINE = 9;
 
-    protected function readContextIds(int $a_context_type) : array
+    protected function readContextIds(int $a_context_type): array
     {
         global $DIC;
 
@@ -92,6 +112,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
             case self::CONTEXT_SUBSTITUTION_CATEGORY:
             case self::CONTEXT_SUBSTITUTION_IASS:
             case self::CONTEXT_SUBSTITUTION_EXERCISE:
+            case self::CONTEXT_SUBSTITUTION_FILE:
                 $set = $ilDB->query("SELECT field_id id" .
                     " FROM adv_mdf_definition");
                 break;
@@ -112,7 +133,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 
     // permissions
 
-    protected function buildPermissionMap() : array
+    protected function buildPermissionMap(): array
     {
         return array(
             self::CONTEXT_MD => array(
@@ -253,13 +274,26 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
                             self::SUBACTION_SUBSTITUTION_NEWLINE
                         )
                 )
+            ),
+            self::CONTEXT_SUBSTITUTION_FILE => array(
+                "actions" => array(
+                    self::ACTION_SUBSTITUTION_FILE_SHOW_FIELD
+                ),
+                "subactions" => array(
+                    self::ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY =>
+                        array(
+                            self::SUBACTION_SUBSTITUTION_BOLD
+                            ,
+                            self::SUBACTION_SUBSTITUTION_NEWLINE
+                        )
+                )
             )
         );
     }
 
     // plugins
 
-    protected function getActivePlugins() : array
+    protected function getActivePlugins(): array
     {
         global $DIC;
 
@@ -269,10 +303,10 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 
     protected function checkPermission(
         int $a_context_type,
-        int $a_context_id,
+        string $a_context_id,
         int $a_action_id,
         ?int $a_action_sub_id = null
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilAccess = $DIC['ilAccess'];

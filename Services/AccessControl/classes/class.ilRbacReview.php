@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,7 +16,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ********************************************************************
+ */
 
 /**
  * class ilRbacReview
@@ -38,8 +42,8 @@ class ilRbacReview
     // Cache operation ids
     private static ?array $_opsCache = null;
 
-    protected static array $assigned_users_cache = array();
-    protected static array $is_assigned_cache = array();
+    protected static array $assigned_users_cache = [];
+    protected static array $is_assigned_cache = [];
 
     protected ilLogger $log;
     protected ilDBInterface $db;
@@ -63,7 +67,7 @@ class ilRbacReview
      * @param    ?int    obj_id of role to exclude in the check. Commonly this is the current role you want to edit
      * @return  bool
      */
-    public function roleExists(string $a_title, int $a_id = 0) : ?int
+    public function roleExists(string $a_title, int $a_id = 0): ?int
     {
         $clause = ($a_id) ? " AND obj_id != " . $this->db->quote($a_id, ilDBConstants::T_TEXT) . " " : "";
 
@@ -88,15 +92,15 @@ class ilRbacReview
      * @param bool    true for role templates (default: false)
      * @return    array    array with all parent roles (obj_ids)
      */
-    protected function __getParentRoles(array $a_path, bool $a_templates) : array
+    protected function __getParentRoles(array $a_path, bool $a_templates): array
     {
         $parent_roles = [];
         $role_hierarchy = [];
         foreach ($a_path as $ref_id) {
             $roles = $this->getRoleListByObject($ref_id, $a_templates);
             foreach ($roles as $role) {
-                $id = $role["obj_id"];
-                $role["parent"] = $ref_id;
+                $id = (int) $role["obj_id"];
+                $role["parent"] = (int) $ref_id;
                 $parent_roles[$id] = $role;
 
                 if (!array_key_exists($role['obj_id'], $role_hierarchy)) {
@@ -115,7 +119,7 @@ class ilRbacReview
      * @return    array       array(role_ids => role_data)
      * @todo move tree to construct. Currently this is not possible due to init sequence
      */
-    public function getParentRoleIds(int $a_endnode_id, bool $a_templates = false) : array
+    public function getParentRoleIds(int $a_endnode_id, bool $a_templates = false): array
     {
         global $DIC;
 
@@ -132,9 +136,9 @@ class ilRbacReview
     /**
      * Returns a list of roles in an container
      */
-    public function getRoleListByObject(int $a_ref_id, bool $a_templates = false) : array
+    public function getRoleListByObject(int $a_ref_id, bool $a_templates = false): array
     {
-        $role_list = array();
+        $role_list = [];
         $where = $this->__setTemplateFilter($a_templates);
 
         $query = "SELECT * FROM object_data " .
@@ -147,6 +151,9 @@ class ilRbacReview
         while ($row = $this->db->fetchAssoc($res)) {
             $row["desc"] = $row["description"];
             $row["user_id"] = (int) $row["owner"];
+            $row['obj_id'] = (int) $row['obj_id'];
+            $row['rol_id'] = (int) $row['rol_id'];
+            $row['parent'] = (int) $row['parent'];
             $role_list[] = $row;
         }
 
@@ -160,8 +167,8 @@ class ilRbacReview
         bool $a_templates = false,
         bool $a_internal_roles = false,
         string $title_filter = ''
-    ) : array {
-        $role_list = array();
+    ): array {
+        $role_list = [];
         $where = $this->__setTemplateFilter($a_templates);
         $query = "SELECT * FROM object_data " .
             "JOIN rbac_fa ON obj_id = rol_id " .
@@ -192,7 +199,7 @@ class ilRbacReview
      * Returns a list of assignable roles in a subtree of the repository
      * @todo move tree to construct. Currently this is not possible due to init sequence
      */
-    public function getAssignableRolesInSubtree(int $ref_id) : array
+    public function getAssignableRolesInSubtree(int $ref_id): array
     {
         global $DIC;
 
@@ -208,7 +215,7 @@ class ilRbacReview
 
         $res = $this->db->query($query);
 
-        $role_list = array();
+        $role_list = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $role_list[] = (int) $row->rol_id;
         }
@@ -218,7 +225,7 @@ class ilRbacReview
     /**
      * Get all assignable roles directly under a specific node
      */
-    public function getAssignableChildRoles(int $a_ref_id) : array
+    public function getAssignableChildRoles(int $a_ref_id): array
     {
         $query = "SELECT fa.*, rd.* " .
             "FROM object_data rd " .
@@ -241,7 +248,7 @@ class ilRbacReview
     /**
      * get roles and templates or only roles; returns string for where clause
      */
-    protected function __setTemplateFilter(bool $a_templates) : string
+    protected function __setTemplateFilter(bool $a_templates): string
     {
         if ($a_templates) {
             $where = "WHERE " . $this->db->in('object_data.type', array('role', 'rolt'), false, 'text') . " ";
@@ -258,7 +265,7 @@ class ilRbacReview
      * linked: roles with stoppped inheritance
      * template: role templates
      */
-    protected function __setRoleType(array $a_role_list) : array
+    protected function __setRoleType(array $a_role_list): array
     {
         foreach ($a_role_list as $key => $val) {
             // determine role type
@@ -289,7 +296,7 @@ class ilRbacReview
      * Get the number of assigned users to roles (not properly deleted user accounts are not counted)
      * @param int[] $a_roles
      */
-    public function getNumberOfAssignedUsers(array $a_roles) : int
+    public function getNumberOfAssignedUsers(array $a_roles): int
     {
         $query = 'select count(distinct(ua.usr_id)) as num from rbac_ua ua ' .
             'join object_data on ua.usr_id = obj_id ' .
@@ -297,26 +304,25 @@ class ilRbacReview
             'where ' . $this->db->in('rol_id', $a_roles, false, 'integer');
 
         $res = $this->db->query($query);
-        if ($res->numRows()) {
+        if ($res->numRows() > 0) {
             $row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT);
-            return $row->num;
+            return isset($row->num) && is_numeric($row->num) ? (int) $row->num : 0;
         }
         return 0;
     }
 
     /**
      * get all assigned users to a given role
-     * @access    public
-     * @param int    role_id
-     * @return    array    all users (id) assigned to role
+     * @param int $a_rol_id
+     * @return int[] all users (id) assigned to role
      */
-    public function assignedUsers(int $a_rol_id) : array
+    public function assignedUsers(int $a_rol_id): array
     {
         if (isset(self::$assigned_users_cache[$a_rol_id])) {
             return self::$assigned_users_cache[$a_rol_id];
         }
 
-        $result_arr = array();
+        $result_arr = [];
         $query = "SELECT usr_id FROM rbac_ua WHERE rol_id= " . $this->db->quote($a_rol_id, 'integer');
         $res = $this->db->query($query);
         while ($row = $this->db->fetchAssoc($res)) {
@@ -329,7 +335,7 @@ class ilRbacReview
     /**
      * check if a specific user is assigned to specific role
      */
-    public function isAssigned(int $a_usr_id, int $a_role_id) : bool
+    public function isAssigned(int $a_usr_id, int $a_role_id): bool
     {
         if (isset(self::$is_assigned_cache[$a_role_id][$a_usr_id])) {
             return self::$is_assigned_cache[$a_role_id][$a_usr_id];
@@ -353,7 +359,7 @@ class ilRbacReview
      * @param int        usr_id
      * @param int[]        role_ids
      */
-    public function isAssignedToAtLeastOneGivenRole(int $a_usr_id, array $a_role_ids) : bool
+    public function isAssignedToAtLeastOneGivenRole(int $a_usr_id, array $a_role_ids): bool
     {
         global $DIC;
 
@@ -373,7 +379,7 @@ class ilRbacReview
      * @param int        usr_id
      * @return    int[]    all roles (id) the user is assigned to
      */
-    public function assignedRoles(int $a_usr_id) : array
+    public function assignedRoles(int $a_usr_id): array
     {
         $query = "SELECT rol_id FROM rbac_ua WHERE usr_id = " . $this->db->quote($a_usr_id, 'integer');
 
@@ -388,7 +394,7 @@ class ilRbacReview
     /**
      * Get assigned global roles for an user
      */
-    public function assignedGlobalRoles(int $a_usr_id) : array
+    public function assignedGlobalRoles(int $a_usr_id): array
     {
         $query = "SELECT ua.rol_id FROM rbac_ua ua " .
             "JOIN rbac_fa fa ON ua.rol_id = fa.rol_id " .
@@ -401,13 +407,13 @@ class ilRbacReview
         while ($row = $this->db->fetchObject($res)) {
             $role_arr[] = $row->rol_id;
         }
-        return $role_arr !== [] ? $role_arr : array();
+        return $role_arr !== [] ? $role_arr : [];
     }
 
     /**
      * Check if its possible to assign users
      */
-    public function isAssignable(int $a_rol_id, int $a_ref_id) : bool
+    public function isAssignable(int $a_rol_id, int $a_ref_id): bool
     {
         // exclude system role from rbac
         if ($a_rol_id == SYSTEM_ROLE_ID) {
@@ -418,12 +424,13 @@ class ilRbacReview
             "WHERE rol_id = " . $this->db->quote($a_rol_id, 'integer') . " " .
             "AND parent = " . $this->db->quote($a_ref_id, 'integer') . " ";
         $res = $this->db->query($query);
-        $row = $this->db->fetchObject($res);
-
-        return $row->assign == 'y';
+        while ($row = $this->db->fetchObject($res)) {
+            return $row->assign == 'y';
+        }
+        return false;
     }
 
-    public function hasMultipleAssignments(int $a_role_id) : bool
+    public function hasMultipleAssignments(int $a_role_id): bool
     {
         $query = "SELECT * FROM rbac_fa WHERE rol_id = " . $this->db->quote($a_role_id, 'integer') . ' ' .
             "AND assign = " . $this->db->quote('y', 'text');
@@ -440,7 +447,7 @@ class ilRbacReview
      * @param bool        get only rolefolders where role is assignable (true)
      * @return    int[]        reference IDs of role folders
      */
-    public function getFoldersAssignedToRole(int $a_rol_id, bool $a_assignable = false) : array
+    public function getFoldersAssignedToRole(int $a_rol_id, bool $a_assignable = false): array
     {
         $where = '';
         if ($a_assignable) {
@@ -461,7 +468,7 @@ class ilRbacReview
     /**
      * Get roles of object
      */
-    public function getRolesOfObject(int $a_ref_id, bool $a_assignable_only = false) : array
+    public function getRolesOfObject(int $a_ref_id, bool $a_assignable_only = false): array
     {
         $and = '';
         if ($a_assignable_only === true) {
@@ -473,7 +480,7 @@ class ilRbacReview
 
         $res = $this->db->query($query);
 
-        $role_ids = array();
+        $role_ids = [];
         while ($row = $this->db->fetchObject($res)) {
             $role_ids[] = (int) $row->rol_id;
         }
@@ -490,7 +497,7 @@ class ilRbacReview
      * @deprecated since version 4.5.0
      * @todo       refactor rolf => RENAME
      */
-    public function getRolesOfRoleFolder(int $a_ref_id, bool $a_nonassignable = true) : array
+    public function getRolesOfRoleFolder(int $a_ref_id, bool $a_nonassignable = true): array
     {
         $and = '';
         if ($a_nonassignable === false) {
@@ -515,7 +522,7 @@ class ilRbacReview
      * @return    int[]        Array with rol_ids
      * @todo refactor rolf => DONE
      */
-    public function getGlobalRoles() : array
+    public function getGlobalRoles(): array
     {
         return $this->getRolesOfRoleFolder(ROLE_FOLDER_ID, false);
     }
@@ -523,9 +530,9 @@ class ilRbacReview
     /**
      * Get local roles of object
      */
-    public function getLocalRoles(int $a_ref_id) : array
+    public function getLocalRoles(int $a_ref_id): array
     {
-        $lroles = array();
+        $lroles = [];
         foreach ($this->getRolesOfRoleFolder($a_ref_id) as $role_id) {
             if ($this->isAssignable($role_id, $a_ref_id)) {
                 $lroles[] = $role_id;
@@ -538,9 +545,9 @@ class ilRbacReview
      * Get all roles with local policies
      * @return int[]
      */
-    public function getLocalPolicies(int $a_ref_id) : array
+    public function getLocalPolicies(int $a_ref_id): array
     {
-        $lroles = array();
+        $lroles = [];
         foreach ($this->getRolesOfRoleFolder($a_ref_id) as $role_id) {
             $lroles[] = $role_id;
         }
@@ -550,7 +557,7 @@ class ilRbacReview
     /**
      * get only 'global' roles
      */
-    public function getGlobalRolesArray() : array
+    public function getGlobalRolesArray(): array
     {
         $ga = [];
         foreach ($this->getRolesOfRoleFolder(ROLE_FOLDER_ID, false) as $role_id) {
@@ -564,7 +571,7 @@ class ilRbacReview
     /**
      * get only 'global' roles (with flag 'assign_users')
      */
-    public function getGlobalAssignableRoles() : array
+    public function getGlobalAssignableRoles(): array
     {
         $ga = [];
         foreach ($this->getGlobalRoles() as $role_id) {
@@ -580,7 +587,7 @@ class ilRbacReview
     /**
      * Check if role is assigned to an object
      */
-    public function isRoleAssignedToObject(int $a_role_id, int $a_parent_id) : bool
+    public function isRoleAssignedToObject(int $a_role_id, int $a_parent_id): bool
     {
         $query = 'SELECT * FROM rbac_fa ' .
             'WHERE rol_id = ' . $this->db->quote($a_role_id, 'integer') . ' ' .
@@ -592,7 +599,7 @@ class ilRbacReview
     /**
      * get all possible operations
      */
-    public function getOperations() : array
+    public function getOperations(): array
     {
         $query = 'SELECT * FROM rbac_operations ORDER BY ops_id ';
         $res = $this->db->query($query);
@@ -609,7 +616,7 @@ class ilRbacReview
     /**
      * get one operation by operation id
      */
-    public function getOperation(int $ops_id) : array
+    public function getOperation(int $ops_id): array
     {
         $query = 'SELECT * FROM rbac_operations WHERE ops_id = ' . $this->db->quote($ops_id, 'integer');
         $res = $this->db->query($query);
@@ -627,7 +634,7 @@ class ilRbacReview
      * get all possible operations of a specific role
      * The ref_id of the role folder (parent object) is necessary to distinguish local roles
      */
-    public function getAllOperationsOfRole(int $a_rol_id, int $a_parent = 0) : array
+    public function getAllOperationsOfRole(int $a_rol_id, int $a_parent = 0): array
     {
         if (!$a_parent) {
             $a_parent = ROLE_FOLDER_ID;
@@ -647,7 +654,7 @@ class ilRbacReview
     /**
      * Get active operations for a role
      */
-    public function getActiveOperationsOfRole(int $a_ref_id, int $a_role_id) : array
+    public function getActiveOperationsOfRole(int $a_ref_id, int $a_role_id): array
     {
         $query = 'SELECT * FROM rbac_pa ' .
             'WHERE ref_id = ' . $this->db->quote($a_ref_id, 'integer') . ' ' .
@@ -664,7 +671,7 @@ class ilRbacReview
      * get all possible operations of a specific role
      * The ref_id of the role folder (parent object) is necessary to distinguish local roles
      */
-    public function getOperationsOfRole(int $a_rol_id, string $a_type, int $a_parent = 0) : array
+    public function getOperationsOfRole(int $a_rol_id, string $a_type, int $a_parent = 0): array
     {
         $ops_arr = [];
         // if no rolefolder id is given, assume global role folder as target
@@ -683,7 +690,7 @@ class ilRbacReview
         return $ops_arr;
     }
 
-    public function getRoleOperationsOnObject(int $a_role_id, int $a_ref_id) : array
+    public function getRoleOperationsOnObject(int $a_role_id, int $a_ref_id): array
     {
         $query = "SELECT * FROM rbac_pa " .
             "WHERE rol_id = " . $this->db->quote($a_role_id, 'integer') . " " .
@@ -700,7 +707,7 @@ class ilRbacReview
     /**
      * all possible operations of a type
      */
-    public function getOperationsOnType(int $a_typ_id) : array
+    public function getOperationsOnType(int $a_typ_id): array
     {
         $query = 'SELECT * FROM rbac_ta ta JOIN rbac_operations o ON ta.ops_id = o.ops_id ' .
             'WHERE typ_id = ' . $this->db->quote($a_typ_id, 'integer') . ' ' .
@@ -717,7 +724,7 @@ class ilRbacReview
     /**
      * all possible operations of a type
      */
-    public function getOperationsOnTypeString(string $a_type) : array
+    public function getOperationsOnTypeString(string $a_type): array
     {
         $query = "SELECT * FROM object_data WHERE type = 'typ' AND title = " . $this->db->quote($a_type, 'text') . " ";
         $res = $this->db->query($query);
@@ -730,7 +737,7 @@ class ilRbacReview
     /**
      * Get operations by type and class
      */
-    public function getOperationsByTypeAndClass(string $a_type, string $a_class) : array
+    public function getOperationsByTypeAndClass(string $a_type, string $a_class): array
     {
         if ($a_class != 'create') {
             $condition = "AND class != " . $this->db->quote('create', 'text');
@@ -747,7 +754,7 @@ class ilRbacReview
             "ORDER BY op_order ";
 
         $res = $this->db->query($query);
-        $ops = array();
+        $ops = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $ops[] = (int) $row->ops_id;
         }
@@ -758,7 +765,7 @@ class ilRbacReview
      * get all objects in which the inheritance of role with role_id was stopped
      * the function returns all reference ids of objects containing a role folder.
      */
-    public function getObjectsWithStopedInheritance(int $a_rol_id, array $a_filter = array()) : array
+    public function getObjectsWithStopedInheritance(int $a_rol_id, array $a_filter = []): array
     {
         $query = 'SELECT parent p FROM rbac_fa ' .
             'WHERE assign = ' . $this->db->quote('n', 'text') . ' ' .
@@ -769,7 +776,7 @@ class ilRbacReview
         }
 
         $res = $this->db->query($query);
-        $parent = array();
+        $parent = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $parent[] = (int) $row->p;
         }
@@ -780,7 +787,7 @@ class ilRbacReview
      * Checks if a rolefolder is set as deleted (negative tree_id)
      * @todo delete this method
      */
-    public function isDeleted(int $a_node_id) : bool
+    public function isDeleted(int $a_node_id): bool
     {
         $q = "SELECT tree FROM tree WHERE child =" . $this->db->quote($a_node_id, ilDBConstants::T_INTEGER) . " ";
         $r = $this->db->query($q);
@@ -801,12 +808,12 @@ class ilRbacReview
     /**
      * Check if role is a global role
      */
-    public function isGlobalRole(int $a_role_id) : bool
+    public function isGlobalRole(int $a_role_id): bool
     {
         return in_array($a_role_id, $this->getGlobalRoles());
     }
 
-    public function getRolesByFilter(int $a_filter = 0, int $a_user_id = 0, string $title_filter = '') : array
+    public function getRolesByFilter(int $a_filter = 0, int $a_user_id = 0, string $title_filter = ''): array
     {
         $assign = "y";
         switch ($a_filter) {
@@ -814,29 +821,29 @@ class ilRbacReview
             case self::FILTER_ALL:
                 return $this->getAssignableRoles(true, true, $title_filter);
 
-            // all (assignable) global roles
+                // all (assignable) global roles
             case self::FILTER_ALL_GLOBAL:
                 $where = 'WHERE ' . $this->db->in('rbac_fa.rol_id', $this->getGlobalRoles(), false, 'integer') . ' ';
                 break;
 
-            // all (assignable) local roles
+                // all (assignable) local roles
             case self::FILTER_ALL_LOCAL:
             case self::FILTER_INTERNAL:
             case self::FILTER_NOT_INTERNAL:
                 $where = 'WHERE ' . $this->db->in('rbac_fa.rol_id', $this->getGlobalRoles(), true, 'integer');
                 break;
 
-            // all role templates
+                // all role templates
             case self::FILTER_TEMPLATES:
                 $where = "WHERE object_data.type = 'rolt'";
                 $assign = "n";
                 break;
 
-            // only assigned roles, handled by ilObjUserGUI::roleassignmentObject()
+                // only assigned roles, handled by ilObjUserGUI::roleassignmentObject()
             case 0:
             default:
                 if (!$a_user_id) {
-                    return array();
+                    return [];
                 }
 
                 $where = 'WHERE ' . $this->db->in(
@@ -848,7 +855,7 @@ class ilRbacReview
                 break;
         }
 
-        $roles = array();
+        $roles = [];
 
         $query = "SELECT * FROM object_data " .
             "JOIN rbac_fa ON obj_id = rol_id " .
@@ -889,7 +896,7 @@ class ilRbacReview
         return $this->__setRoleType($roles);
     }
 
-    public function getTypeId(string $a_type) : int
+    public function getTypeId(string $a_type): int
     {
         $q = "SELECT obj_id FROM object_data " .
             "WHERE title=" . $this->db->quote($a_type, 'text') . " AND type='typ'";
@@ -904,13 +911,13 @@ class ilRbacReview
      * get ops_id's by name.
      * Example usage: $rbacadmin->grantPermission($roles,ilRbacReview::_getOperationIdsByName(array('visible','read'),$ref_id));
      */
-    public static function _getOperationIdsByName(array $operations) : array
+    public static function _getOperationIdsByName(array $operations): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         if ($operations === []) {
-            return array();
+            return [];
         }
 
         $query = 'SELECT ops_id FROM rbac_operations ' .
@@ -927,7 +934,7 @@ class ilRbacReview
     /**
      * get operation id by name of operation
      */
-    public static function _getOperationIdByName(string $a_operation) : int
+    public static function _getOperationIdByName(string $a_operation): int
     {
         global $DIC;
 
@@ -935,7 +942,7 @@ class ilRbacReview
 
         // Cache operation ids
         if (!is_array(self::$_opsCache)) {
-            self::$_opsCache = array();
+            self::$_opsCache = [];
 
             $q = "SELECT ops_id, operation FROM rbac_operations";
             $r = $ilDB->query($q);
@@ -956,19 +963,19 @@ class ilRbacReview
      * @param array $a_type_arr e.g array('cat','crs','grp'). The operation name (e.g. 'create_cat') is generated automatically
      * @return int[] Array with operation ids
      */
-    public static function lookupCreateOperationIds(array $a_type_arr) : array
+    public static function lookupCreateOperationIds(array $a_type_arr): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
-        $operations = array();
+        $operations = [];
         foreach ($a_type_arr as $type) {
             $operations[] = ('create_' . $type);
         }
 
         if ($operations === []) {
-            return array();
+            return [];
         }
 
         $query = 'SELECT ops_id, operation FROM rbac_operations ' .
@@ -976,7 +983,7 @@ class ilRbacReview
 
         $res = $ilDB->query($query);
 
-        $ops_ids = array();
+        $ops_ids = [];
         while ($row = $ilDB->fetchObject($res)) {
             $type_arr = explode('_', $row->operation);
             $type = $type_arr[1];
@@ -986,17 +993,23 @@ class ilRbacReview
         return $ops_ids;
     }
 
-    public function isProtected(int $a_ref_id, int $a_role_id) : bool
+    /**
+     * ref_id not used yet. Protected permission acts 'global' for each role,
+     */
+    public function isProtected(int $a_ref_id, int $a_role_id): bool
     {
-        // ref_id not used yet. protected permission acts 'global' for each role,
-        $query = "SELECT protected FROM rbac_fa " .
-            "WHERE rol_id = " . $this->db->quote($a_role_id, 'integer') . " ";
+        $query = 'SELECT protected FROM rbac_fa ' .
+            'WHERE rol_id = ' . $this->db->quote($a_role_id, ilDBConstants::T_INTEGER);
         $res = $this->db->query($query);
-        $row = $this->db->fetchAssoc($res);
-        return ilUtil::yn2tf($row['protected']);
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            if ($row->protected === 'y') {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public function isBlockedAtPosition(int $a_role_id, int $a_ref_id) : bool
+    public function isBlockedAtPosition(int $a_role_id, int $a_ref_id): bool
     {
         $query = 'SELECT blocked from rbac_fa ' .
             'WHERE rol_id = ' . $this->db->quote($a_role_id, 'integer') . ' ' .
@@ -1012,7 +1025,7 @@ class ilRbacReview
      * Check if role is blocked in upper context
      * @todo move tree to construct. Currently this is not possible due to init sequence
      */
-    public function isBlockedInUpperContext(int $a_role_id, int $a_ref_id) : bool
+    public function isBlockedInUpperContext(int $a_role_id, int $a_ref_id): bool
     {
         global $DIC;
 
@@ -1026,7 +1039,7 @@ class ilRbacReview
             'AND blocked = ' . $this->db->quote(1, 'integer');
         $res = $this->db->query($query);
 
-        $parent_ids = array();
+        $parent_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $parent_ids[] = (int) $row->parent;
         }
@@ -1041,7 +1054,7 @@ class ilRbacReview
 
     // this method alters the protected status of role regarding the current user's role assignment
     // and current postion in the hierarchy.
-    protected function __setProtectedStatus(array $a_parent_roles, array $a_role_hierarchy, int $a_ref_id) : array
+    protected function __setProtectedStatus(array $a_parent_roles, array $a_role_hierarchy, int $a_ref_id): array
     {
         global $DIC;
 
@@ -1079,12 +1092,12 @@ class ilRbacReview
     /**
      * get operation list by object type
      */
-    public static function _getOperationList(string $a_type = '') : array
+    public static function _getOperationList(string $a_type = ''): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        $arr = array();
+        $arr = [];
         if ($a_type) {
             $query = sprintf(
                 'SELECT * FROM rbac_operations ' .
@@ -1112,9 +1125,9 @@ class ilRbacReview
         return $arr;
     }
 
-    public static function _groupOperationsByClass(array $a_ops_arr) : array
+    public static function _groupOperationsByClass(array $a_ops_arr): array
     {
-        $arr = array();
+        $arr = [];
         foreach ($a_ops_arr as $ops) {
             $arr[$ops['class']][] = array('ops_id' => (int) $ops['ops_id'],
                                           'name' => $ops['operation']
@@ -1127,10 +1140,10 @@ class ilRbacReview
      * Get object id of objects a role is assigned to
      * @todo refactor rolf (due to performance reasons the new version does not check for deleted roles only in object reference)
      */
-    public function getObjectOfRole(int $a_role_id) : int
+    public function getObjectOfRole(int $a_role_id): int
     {
         // internal cache
-        static $obj_cache = array();
+        static $obj_cache = [];
 
         if (isset($obj_cache[$a_role_id]) && $obj_cache[$a_role_id]) {
             return $obj_cache[$a_role_id];
@@ -1150,7 +1163,7 @@ class ilRbacReview
         return $obj_cache[$a_role_id];
     }
 
-    public function getObjectReferenceOfRole(int $a_role_id) : int
+    public function getObjectReferenceOfRole(int $a_role_id): int
     {
         $query = 'SELECT parent p_ref FROM rbac_fa ' .
             'WHERE rol_id = ' . $this->db->quote($a_role_id, 'integer') . ' ' .
@@ -1166,7 +1179,7 @@ class ilRbacReview
     /**
      * return if role is only attached to deleted role folders
      */
-    public function isRoleDeleted(int $a_role_id) : bool
+    public function isRoleDeleted(int $a_role_id): bool
     {
         $rolf_list = $this->getFoldersAssignedToRole($a_role_id, false);
         $deleted = true;
@@ -1182,7 +1195,7 @@ class ilRbacReview
         return $deleted;
     }
 
-    public function getRolesForIDs(array $role_ids, bool $use_templates) : array
+    public function getRolesForIDs(array $role_ids, bool $use_templates): array
     {
         $where = $this->__setTemplateFilter($use_templates);
         $query = "SELECT * FROM object_data " .
@@ -1205,7 +1218,7 @@ class ilRbacReview
      * get operation assignments
      * @return array array(array('typ_id' => $typ_id,'title' => $title,'ops_id => '$ops_is,'operation' => $operation),...
      */
-    public function getOperationAssignment() : array
+    public function getOperationAssignment(): array
     {
         global $DIC;
 
@@ -1231,7 +1244,7 @@ class ilRbacReview
     /**
      * Check if role is deleteable at a specific position
      */
-    public function isDeleteable(int $a_role_id, int $a_rolf_id) : bool
+    public function isDeleteable(int $a_role_id, int $a_rolf_id): bool
     {
         if (!$this->isAssignable($a_role_id, $a_rolf_id)) {
             return false;
@@ -1248,13 +1261,13 @@ class ilRbacReview
     /**
      * Check if the role is system generate role or role template
      */
-    public function isSystemGeneratedRole(int $a_role_id) : bool
+    public function isSystemGeneratedRole(int $a_role_id): bool
     {
         $title = ilObject::_lookupTitle($a_role_id);
         return substr($title, 0, 3) == 'il_';
     }
 
-    public function getRoleFolderOfRole(int $a_role_id) : int
+    public function getRoleFolderOfRole(int $a_role_id): int
     {
         if (ilObject::_lookupType($a_role_id) == 'role') {
             $and = ('AND assign = ' . $this->db->quote('y', 'text'));
@@ -1275,7 +1288,7 @@ class ilRbacReview
     /**
      * Get all user permissions on an object
      */
-    public function getUserPermissionsOnObject(int $a_user_id, int $a_ref_id) : array
+    public function getUserPermissionsOnObject(int $a_user_id, int $a_ref_id): array
     {
         $query = "SELECT ops_id FROM rbac_pa JOIN rbac_ua " .
             "ON (rbac_pa.rol_id = rbac_ua.rol_id) " .
@@ -1283,7 +1296,7 @@ class ilRbacReview
             "AND rbac_pa.ref_id = " . $this->db->quote($a_ref_id, 'integer') . " ";
 
         $res = $this->db->query($query);
-        $all_ops = array();
+        $all_ops = [];
         while ($row = $this->db->fetchObject($res)) {
             $ops = unserialize($row->ops_id);
             $all_ops = array_merge($all_ops, $ops);
@@ -1292,7 +1305,7 @@ class ilRbacReview
 
         $set = $this->db->query("SELECT operation FROM rbac_operations " .
             " WHERE " . $this->db->in("ops_id", $all_ops, false, "integer"));
-        $perms = array();
+        $perms = [];
         while ($rec = $this->db->fetchAssoc($set)) {
             $perms[] = $rec["operation"];
         }
@@ -1302,12 +1315,12 @@ class ilRbacReview
     /**
      * set entry of assigned_chache
      */
-    public function setAssignedCacheEntry(int $a_role_id, int $a_user_id, bool $a_value) : void
+    public function setAssignedCacheEntry(int $a_role_id, int $a_user_id, bool $a_value): void
     {
         self::$is_assigned_cache[$a_role_id][$a_user_id] = $a_value;
     }
 
-    public function getAssignedCacheEntry(int $a_role_id, int $a_user_id) : bool
+    public function getAssignedCacheEntry(int $a_role_id, int $a_user_id): bool
     {
         return self::$is_assigned_cache[$a_role_id][$a_user_id];
     }
@@ -1315,21 +1328,23 @@ class ilRbacReview
     /**
      * Clear assigned users caches
      */
-    public function clearCaches() : void
+    public function clearCaches(): void
     {
-        self::$is_assigned_cache = array();
-        self::$assigned_users_cache = array();
+        self::$is_assigned_cache = [];
+        self::$assigned_users_cache = [];
     }
 
-    public static function _getCustomRBACOperationId(string $operation) : ?int
+    public static function _getCustomRBACOperationId(string $operation, \ilDBInterface $ilDB = null): ?int
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        if (!$ilDB) {
+            global $DIC;
+            $ilDB = $DIC->database();
+        }
 
         $sql =
             "SELECT ops_id" . PHP_EOL
-            ."FROM rbac_operations" . PHP_EOL
-            ."WHERE operation = " . $ilDB->quote($operation, "text") . PHP_EOL
+            . "FROM rbac_operations" . PHP_EOL
+            . "WHERE operation = " . $ilDB->quote($operation, "text") . PHP_EOL
         ;
 
         $res = $ilDB->query($sql);
@@ -1341,16 +1356,18 @@ class ilRbacReview
         return (int) $row["ops_id"] ?? null;
     }
 
-    public static function _isRBACOperation(int $type_id, int $ops_id) : bool
+    public static function _isRBACOperation(int $type_id, int $ops_id, \ilDBInterface $ilDB = null): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        if (!$ilDB) {
+            global $DIC;
+            $ilDB = $DIC->database();
+        }
 
         $sql =
             "SELECT typ_id" . PHP_EOL
-            ."FROM rbac_ta" . PHP_EOL
-            ."WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
-            ."AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
+            . "FROM rbac_ta" . PHP_EOL
+            . "WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
+            . "AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
         ;
 
         return (bool) $ilDB->numRows($ilDB->query($sql));

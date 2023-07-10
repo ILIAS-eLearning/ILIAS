@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * INIFile Parser
@@ -65,13 +82,14 @@ class ilIniFile
     /**
      * read from ini file
      */
-    public function read() : bool
+    public function read(): bool
     {
         //check if file exists
         if (!file_exists($this->INI_FILE_NAME)) {
             $this->error("file_does_not_exist");
             return false;
-        } elseif ($this->parse() == false) {
+        }
+        if (!$this->parse()) {
             //parse the file
             return false;
         }
@@ -81,22 +99,25 @@ class ilIniFile
     /**
      * load and parse an inifile
      */
-    public function parse() : bool
+    public function parse(): bool
     {
-        //use php4 function parse_ini_file
-        $this->GROUPS = @parse_ini_file($this->INI_FILE_NAME, true);
-
-        //check if groups are filled
-        if ($this->GROUPS == false) {
-            // second try
-            $this->fixIniFile();
-
-            $this->GROUPS = @parse_ini_file($this->INI_FILE_NAME, true);
-            if ($this->GROUPS == false) {
+        try {
+            $ini_file_readable= is_readable($this->INI_FILE_NAME);
+            if (!$ini_file_readable) {
                 $this->error("file_not_accessible");
                 return false;
             }
+            $this->GROUPS = parse_ini_file($this->INI_FILE_NAME, true);
+            if (!$this->GROUPS) {
+                $this->error("error_parseing_inifile");
+                return false;
+            }
+        } catch (Exception $e) {
+            $this->error($e->getMessage());
+            return false;
         }
+
+
         //set current group
         $temp = array_keys($this->GROUPS);
         $this->CURRENT_GROUP = $temp[count($temp) - 1];
@@ -104,51 +125,11 @@ class ilIniFile
     }
 
     /**
-     * Fix ini file (make it compatible for PHP 5.3)
-     */
-    public function fixIniFile() : void
-    {
-        // first read content
-        $lines = array();
-        $fp = @fopen($this->INI_FILE_NAME, "r");
-        $starttag = '';
-        while (!feof($fp)) {
-            $l = fgets($fp, 4096);
-            $skip = false;
-            if ((substr($l, 0, 2) == "/*" && $starttag) ||
-                substr($l, 0, 5) == "*/ ?>") {
-                $skip = true;
-            }
-            $starttag = false;
-            if (substr($l, 0, 5) == "<?php") {
-                $l = "; <?php exit; ?>";
-                $starttag = true;
-            }
-            if (!$skip) {
-                $l = str_replace("\n", "", $l);
-                $l = str_replace("\r", "", $l);
-                $lines[] = $l;
-            }
-        }
-        fclose($fp);
-
-        // now write it back
-        $fp = @fopen($this->INI_FILE_NAME, "w");
-
-        if (!empty($fp)) {
-            foreach ($lines as $l) {
-                fwrite($fp, $l . "\r\n");
-            }
-        }
-        fclose($fp);
-    }
-
-    /**
      * save ini-file-data to filesystem
      */
-    public function write() : bool
+    public function write(): bool
     {
-        $fp = @fopen($this->INI_FILE_NAME, "w");
+        $fp = fopen($this->INI_FILE_NAME, "wb");
 
         if (empty($fp)) {
             $this->error("Cannot create file $this->INI_FILE_NAME");
@@ -164,7 +145,7 @@ class ilIniFile
         for ($i = 0; $i < $group_cnt; $i++) {
             $group_name = $groups[$i];
             //prevent empty line at beginning of ini-file
-            if ($i == 0) {
+            if ($i === 0) {
                 $res = sprintf("[%s]\r\n", $group_name);
             } else {
                 $res = sprintf("\r\n[%s]\r\n", $group_name);
@@ -186,7 +167,7 @@ class ilIniFile
     /**
      * returns the content of IniFile
      */
-    public function show() : string
+    public function show(): string
     {
         $groups = $this->readGroups();
         $group_cnt = count($groups);
@@ -198,7 +179,7 @@ class ilIniFile
         for ($i = 0; $i < $group_cnt; $i++) {
             $group_name = $groups[$i];
             //prevent empty line at beginning of ini-file
-            if ($i == 0) {
+            if ($i === 0) {
                 $content = sprintf("[%s]\n", $group_name);
             } else {
                 $content .= sprintf("\n[%s]\n", $group_name);
@@ -218,7 +199,7 @@ class ilIniFile
     /**
      * returns number of groups
      */
-    public function getGroupCount() : int
+    public function getGroupCount(): int
     {
         return count($this->GROUPS);
     }
@@ -226,7 +207,7 @@ class ilIniFile
     /**
      * returns an array with the names of all the groups
      */
-    public function readGroups() : array
+    public function readGroups(): array
     {
         $groups = array();
 
@@ -240,7 +221,7 @@ class ilIniFile
     /**
      * checks if a group exists
      */
-    public function groupExists(string $a_group_name) : bool
+    public function groupExists(string $a_group_name): bool
     {
         if (!isset($this->GROUPS[$a_group_name])) {
             return false;
@@ -252,7 +233,7 @@ class ilIniFile
     /**
      * returns an associative array of the variables in one group
      */
-    public function readGroup(string $a_group_name) : array
+    public function readGroup(string $a_group_name): array
     {
         if (!$this->groupExists($a_group_name)) {
             $this->error("Group '" . $a_group_name . "' does not exist");
@@ -265,7 +246,7 @@ class ilIniFile
     /**
      * adds a new group
      */
-    public function addGroup(string $a_group_name) : bool
+    public function addGroup(string $a_group_name): bool
     {
         if ($this->groupExists($a_group_name)) {
             $this->error("Group '" . $a_group_name . "' exists");
@@ -279,7 +260,7 @@ class ilIniFile
     /**
      * removes a group
      */
-    public function removeGroup(string $a_group_name) : bool
+    public function removeGroup(string $a_group_name): bool
     {
         if (!$this->groupExists($a_group_name)) {
             $this->error("Group '" . $a_group_name . "' does not exist");
@@ -293,7 +274,7 @@ class ilIniFile
     /**
      * returns if a variable exists or not
      */
-    public function variableExists(string $a_group, string $a_var_name) : bool
+    public function variableExists(string $a_group, string $a_var_name): bool
     {
         return isset($this->GROUPS[$a_group][$a_var_name]);
     }
@@ -301,7 +282,7 @@ class ilIniFile
     /**
      * reads a single variable from a group
      */
-    public function readVariable(string $a_group, string $a_var_name) : string
+    public function readVariable(string $a_group, string $a_var_name): string
     {
         if (!isset($this->GROUPS[$a_group][$a_var_name])) {
             $this->error("'" . $a_var_name . "' does not exist in '" . $a_group . "'");
@@ -314,7 +295,7 @@ class ilIniFile
     /**
      * sets a variable in a group
      */
-    public function setVariable(string $a_group_name, string $a_var_name, string $a_var_value) : bool
+    public function setVariable(string $a_group_name, string $a_var_name, string $a_var_value): bool
     {
         if (!$this->groupExists($a_group_name)) {
             $this->error("Group '" . $a_group_name . "' does not exist");
@@ -325,14 +306,14 @@ class ilIniFile
         return true;
     }
 
-    public function error(string $a_errmsg) : bool
+    public function error(string $a_errmsg): bool
     {
         $this->ERROR = $a_errmsg;
 
         return true;
     }
 
-    public function getError() : string
+    public function getError(): string
     {
         return $this->ERROR;
     }

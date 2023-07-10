@@ -1,7 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 
-    
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,7 +19,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+use ILIAS\Notes\Service;
+
 /**
  * Manage data for ilMembershipCronNotifications cron job
  * @author  Alex Killing <killing@leifos.de>
@@ -25,6 +29,7 @@
  */
 class ilMembershipCronNotificationsData
 {
+    protected Service $notes;
     /**
      * @todo convert to DateTime
      */
@@ -61,13 +66,14 @@ class ilMembershipCronNotificationsData
         $this->last_run_date = date('Y-m-d H:i:s', $last_run);
         $this->cron_id = $cron_id;
         $this->log = ilLoggerFactory::getLogger("mmbr");
+        $this->notes = $DIC->notes();
         $this->load();
     }
 
     /**
      * Load
      */
-    protected function load() : void
+    protected function load(): void
     {
         $ilAccess = $this->access;
 
@@ -82,14 +88,15 @@ class ilMembershipCronNotificationsData
 
             foreach ($this->objects as $ref_id => $user_ids) {
                 $this->log->debug("handle ref id " . $ref_id . ", users: " . count($user_ids));
-
+                $this->log->debug("last run unix: " . $this->last_run_unix);
+                $this->log->debug("last run date: " . $this->last_run_date);
                 // gather news per object
                 $news_item = new ilNewsItem();
                 $objs = $this->getObjectsForRefId($ref_id);
                 if (
                     isset($objs["obj_id"]) &&
                     is_array($objs["obj_id"]) &&
-                    $news_item->checkNewsExistsForObjects($objs["obj_id"], $this->last_run_unix)
+                    $news_item->checkNewsExistsForObjects($objs["obj_id"], $this->last_run_date)
                 ) {
                     $this->log->debug("Got news");
                     foreach ($user_ids as $user_id) {
@@ -98,7 +105,7 @@ class ilMembershipCronNotificationsData
                             $ref_id,
                             false,
                             false,
-                            $this->last_run_unix,
+                            $this->last_run_date,
                             false,
                             false,
                             false,
@@ -148,12 +155,12 @@ class ilMembershipCronNotificationsData
                 $like_data = new ilLikeData(array_keys($objs["obj_id"]));
                 foreach (array_keys($objs["obj_id"]) as $obj_id) {
                     $this->log->debug("Get like data for obj_id: " . $obj_id);
-                    foreach ($like_data->getExpressionEntriesForObject($obj_id, $this->last_run_unix) as $like) {
+                    foreach ($like_data->getExpressionEntriesForObject($obj_id, $this->last_run_date) as $like) {
                         reset($user_ids);
                         foreach ($user_ids as $user_id) {
                             $has_perm = false;
                             foreach ($ref_for_obj_id[$obj_id] as $perm_ref_id) {
-                                if ($ilAccess->checkAccessOfUser($user_id, "read", "", $perm_ref_id)) {
+                                if ($ilAccess->checkAccessOfUser($user_id, "read", "", (int) $perm_ref_id)) {
                                     $has_perm = true;
                                     break;
                                 }
@@ -171,31 +178,31 @@ class ilMembershipCronNotificationsData
 
                 // gather comments
                 foreach (array_keys($objs["obj_id"]) as $obj_id) {
-                    $coms = ilNote::_getAllNotesOfSingleRepObject(
-                        $obj_id,
-                        ilNote::PUBLIC,
-                        false,
-                        false,
-                        $this->last_run_date
-                    );
+                    $coms = $this->notes
+                        ->domain()
+                        ->getAllCommentsForObjId(
+                            $obj_id,
+                            $this->last_run_date
+                        );
                     foreach ($coms as $c) {
-                        if ($c->getNewsId() == 0) {
+                        $comment_context = $c->getContext();
+                        if ($comment_context->getNewsId() === 0) {
                             continue;
                         }
                         reset($user_ids);
                         foreach ($user_ids as $user_id) {
                             $has_perm = false;
                             foreach ($ref_for_obj_id[$obj_id] as $perm_ref_id) {
-                                if ($ilAccess->checkAccessOfUser($user_id, "read", "", $perm_ref_id)) {
+                                if ($ilAccess->checkAccessOfUser($user_id, "read", "", (int) $perm_ref_id)) {
                                     $has_perm = true;
                                     break;
                                 }
                             }
                             if ($has_perm) {
-                                $this->comments[$user_id][$c->getNewsId()][] = $c;
+                                $this->comments[$user_id][$comment_context->getNewsId()][] = $c;
 
                                 // get news data for news that are not included above
-                                $this->checkMissingNews($user_id, $ref_id, $c->getNewsId());
+                                $this->checkMissingNews($user_id, $ref_id, $comment_context->getNewsId());
                                 $this->ping();
                             }
                         }
@@ -209,7 +216,7 @@ class ilMembershipCronNotificationsData
     /**
      * Get missing news*
      */
-    protected function checkMissingNews(int $user_id, int $ref_id, int $news_id) : void
+    protected function checkMissingNews(int $user_id, int $ref_id, int $news_id): void
     {
         $this->log->debug("Check missing news: " . $user_id . "-" . $ref_id . "-" . $news_id);
         if (!is_array($this->news_per_user[$user_id][$ref_id]) ||
@@ -223,7 +230,7 @@ class ilMembershipCronNotificationsData
     /**
      * Load missing news (news for new likes and/or comments)
      */
-    protected function loadMissingNews() : void
+    protected function loadMissingNews(): void
     {
         foreach (ilNewsItem::queryNewsByIds($this->missing_news) as $news) {
             $this->log->debug("Got missing news: " . $news["id"]);
@@ -243,7 +250,7 @@ class ilMembershipCronNotificationsData
     /**
      * Get subtree object IDs for ref id
      */
-    protected function getObjectsForRefId(int $a_ref_id) : array
+    protected function getObjectsForRefId(int $a_ref_id): array
     {
         global $DIC;
 
@@ -275,7 +282,7 @@ class ilMembershipCronNotificationsData
     /**
      * Ping
      */
-    protected function ping() : void
+    protected function ping(): void
     {
         global $DIC;
 
@@ -285,7 +292,7 @@ class ilMembershipCronNotificationsData
     /**
      * Get aggregated news
      */
-    public function getAggregatedNews() : array
+    public function getAggregatedNews(): array
     {
         return $this->user_news_aggr;
     }
@@ -293,9 +300,9 @@ class ilMembershipCronNotificationsData
     /**
      * Get likes for a news and user
      */
-    public function getLikes(int $news_id, int $user_id) : array
+    public function getLikes(int $news_id, int $user_id): array
     {
-        if (is_array($this->likes[$user_id][$news_id])) {
+        if (isset($this->likes[$user_id][$news_id])) {
             return $this->likes[$user_id][$news_id];
         }
         return [];
@@ -304,9 +311,9 @@ class ilMembershipCronNotificationsData
     /**
      * Get comments for a news and user
      **/
-    public function getComments(int $news_id, int $user_id) : array
+    public function getComments(int $news_id, int $user_id): array
     {
-        if (is_array($this->comments[$user_id][$news_id])) {
+        if (isset($this->comments[$user_id][$news_id])) {
             return $this->comments[$user_id][$news_id];
         }
         return [];

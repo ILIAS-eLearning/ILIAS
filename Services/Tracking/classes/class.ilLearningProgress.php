@@ -29,16 +29,18 @@
  */
 class ilLearningProgress
 {
-
     // Static
     public static function _tracProgress(
         int $a_user_id,
         int $a_obj_id,
         int $a_ref_id,
         string $a_obj_type = ''
-    ) : bool {
+    ): bool {
         ilChangeEvent::_recordReadEvent(
-            $a_obj_type, $a_ref_id, $a_obj_id, $a_user_id
+            $a_obj_type,
+            $a_ref_id,
+            $a_obj_id,
+            $a_user_id
         );
 
         ilLPStatus::setInProgressIfNotAttempted($a_obj_id, $a_user_id);
@@ -46,7 +48,7 @@ class ilLearningProgress
         return true;
     }
 
-    public static function _getProgress(int $a_user_id, int $a_obj_id) : array
+    public static function _getProgress(int $a_user_id, int $a_obj_id): array
     {
         $events = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_user_id);
 
@@ -61,10 +63,12 @@ class ilLearningProgress
             if ($progress) {
                 $progress['spent_seconds'] += (int) $row['spent_seconds'];
                 $progress['access_time'] = max(
-                    $progress['access_time'], (int) $row['last_access']
+                    $progress['access_time'],
+                    (int) $row['last_access']
                 );
                 $progress['access_time_min'] = min(
-                    $progress['access_time_min'], (int) $row['first_access']
+                    $progress['access_time_min'],
+                    (int) $row['first_access']
                 );
             } else {
                 $progress['obj_id'] = (int) $row['obj_id'];
@@ -81,7 +85,7 @@ class ilLearningProgress
     /**
      * lookup progress for a specific object
      */
-    public static function _lookupProgressByObjId(int $a_obj_id) : array
+    public static function _lookupProgressByObjId(int $a_obj_id): array
     {
         $progress = [];
         foreach (ilChangeEvent::_lookupReadEvents($a_obj_id) as $row) {

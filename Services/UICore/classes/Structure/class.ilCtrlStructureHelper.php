@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -39,7 +41,7 @@ class ilCtrlStructureHelper
      * structure the mappings are wished to be complete.
      * @return self
      */
-    public function mapStructureReferences() : self
+    public function mapStructureReferences(): self
     {
         $this->ctrl_structure = (new ilCtrlStructureMapper(
             $this->ctrl_structure
@@ -57,11 +59,11 @@ class ilCtrlStructureHelper
      * unless they are a baseclass itself.
      * @return self
      */
-    public function filterUnnecessaryEntries() : self
+    public function filterUnnecessaryEntries(): self
     {
         $this->ctrl_structure = array_filter(
             $this->ctrl_structure,
-            function (array $value, string $key) : bool {
+            function (array $value, string $key): bool {
                 // if the entry is not a baseclass and has no
                 // references, the entry will be removed.
                 return !(
@@ -80,7 +82,7 @@ class ilCtrlStructureHelper
      * Returns the current ctrl structure.
      * @return array<string, mixed>
      */
-    public function getStructure() : array
+    public function getStructure(): array
     {
         return $this->ctrl_structure;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -43,36 +45,36 @@ class ilLuceneAdvancedSearchSettings
         $this->storage = new ilSetting('lucene_adv_search');
         $this->read();
     }
-    
-    public static function getInstance() : ilLuceneAdvancedSearchSettings
+
+    public static function getInstance(): ilLuceneAdvancedSearchSettings
     {
         if (self::$instance instanceof ilLuceneAdvancedSearchSettings) {
             return self::$instance;
         }
         return self::$instance = new ilLuceneAdvancedSearchSettings();
     }
-    
+
     /**
      * check if field is active
      */
-    public function isActive(string $a_field) : bool
+    public function isActive(string $a_field): bool
     {
         return $this->fields[$a_field] ?: false;
     }
-    
-    public function setActive(string $a_field, bool $a_status) : void
+
+    public function setActive(string $a_field, bool $a_status): void
     {
         $this->fields[$a_field] = $a_status;
     }
-    
-    public function save() : void
+
+    public function save(): void
     {
         foreach ($this->fields as $name => $status) {
             $this->storage->set($name, $status ? "1" : "0");
         }
     }
-    
-    private function read() : void
+
+    private function read(): void
     {
         foreach (ilLuceneAdvancedSearchFields::getFields() as $name => $translation) {
             $this->fields[$name] = (bool) $this->storage->get($name, 'true');

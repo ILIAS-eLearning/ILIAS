@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Table for object role permissions
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -79,17 +81,17 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
         $this->initTemplatePermissions();
     }
 
-    public function setShowChangeExistingObjects(bool $a_status) : void
+    public function setShowChangeExistingObjects(bool $a_status): void
     {
         $this->show_change_existing_objects = $a_status;
     }
 
-    public function getShowChangeExistingObjects() : bool
+    public function getShowChangeExistingObjects(): bool
     {
         return $this->show_change_existing_objects;
     }
 
-    protected function initTemplatePermissions() : void
+    protected function initTemplatePermissions(): void
     {
         if (self::$template_permissions !== null) {
             return;
@@ -103,37 +105,37 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
     /**
      * Get permissions by type
      */
-    protected function getPermissions(string $a_type) : array
+    protected function getPermissions(string $a_type): array
     {
-        return !self::$template_permissions[$a_type] ? [] : self::$template_permissions[$a_type];
+        return !isset(self::$template_permissions[$a_type]) ? [] : self::$template_permissions[$a_type];
     }
 
-    public function getTemplateType() : string
+    public function getTemplateType(): string
     {
         return $this->tpl_type;
     }
 
-    public function getRoleId() : int
+    public function getRoleId(): int
     {
         return $this->role_id;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return ilObject::_lookupObjId($this->getRefId());
     }
 
-    public function getObjType() : string
+    public function getObjType(): string
     {
         return ilObject::_lookupType($this->getObjId());
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if (isset($a_set['show_ce'])) {
             $this->tpl->setCurrentBlock('ce_td');
@@ -182,7 +184,8 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
             $this->tpl->setVariable('DESC_TYPE', $this->getTemplateType());
             $this->tpl->setVariable('DESC_PERM_ID', $a_set['ops_id']);
 
-            if ($a_set["create_type"] != "" && $this->objDefinition->isPlugin($a_set['create_type'])) {
+            $create_type = $a_set["create_type"] ?? "";
+            if ($create_type != "" && $this->objDefinition->isPlugin($a_set['create_type'])) {
                 $this->tpl->setVariable(
                     'TXT_PERMISSION',
                     ilObjectPlugin::lookupTxtById(
@@ -190,7 +193,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
                         $this->getTemplateType() . "_" . $a_set['name']
                     )
                 );
-            } elseif ($a_set["create_type"] == "" && $this->objDefinition->isPlugin($this->getTemplateType())) {
+            } elseif ($create_type == "" && $this->objDefinition->isPlugin($this->getTemplateType())) {
                 $this->tpl->setVariable(
                     'TXT_PERMISSION',
                     ilObjectPlugin::lookupTxtById(
@@ -219,7 +222,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
      * Parse permissions
      * @return
      */
-    public function parse() : void
+    public function parse(): void
     {
         $operations = $this->getPermissions($this->getTemplateType());
 
@@ -242,7 +245,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
         $ops_ids = ilRbacReview::lookupCreateOperationIds(array_keys($objects));
 
         foreach ($objects as $type => $info) {
-            $ops_id = $ops_ids[$type];
+            $ops_id = $ops_ids[$type] ?? null;
 
             if (!$ops_id) {
                 continue;

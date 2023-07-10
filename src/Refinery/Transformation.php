@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Refinery;
 
@@ -60,7 +62,7 @@ interface Transformation
      * some boundary, the reification of exceptions might help you to write cleaner
      * code.
      */
-    public function applyTo(Result $result) : Result;
+    public function applyTo(Result $result): Result;
 
     /**
      * Transformations should be callable. This MUST do the same as transform.

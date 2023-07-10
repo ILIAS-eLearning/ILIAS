@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\DI;
@@ -19,7 +37,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
@@ -27,15 +45,15 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
-        return "Module- and Servicedefinitions are stored. Events are initialized.";
+        return "Module- and Servicedefinitions are stored.";
     }
 
     /**
      * @inheritdoc
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
@@ -43,7 +61,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [
             new \ilDatabaseUpdatedObjective(),
@@ -57,7 +75,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $ilias_path = __DIR__ . "/../../../..";
 
@@ -82,32 +100,32 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["ilObjDataCache"] = null;
-        $GLOBALS["DIC"]["lng"] = new class() {
-            public function loadLanguageModule() : void
+        $GLOBALS["DIC"]["lng"] = new class () {
+            public function loadLanguageModule(): void
             {
             }
         };
-        $GLOBALS["DIC"]["ilLog"] = new class() {
-            public function write() : void
+        $GLOBALS["DIC"]["ilLog"] = new class () {
+            public function write(): void
             {
             }
-            public function debug() : void
+            public function debug(): void
             {
             }
         };
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
+        $GLOBALS["DIC"]["ilLoggerFactory"] = new class () {
             public function getRootLogger()
             {
-                return new class() {
-                    public function write() : void
+                return new class () {
+                    public function write(): void
                     {
                     }
                 };
             }
             public function getLogger()
             {
-                return new class() {
-                    public function write() : void
+                return new class () {
+                    public function write(): void
                     {
                     }
                 };
@@ -124,7 +142,6 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             new \ilBadgeDefinitionProcessor($db),
             new \ilCOPageDefinitionProcessor($db),
             new \ilComponentInfoDefinitionProcessor(),
-            new \ilEventDefinitionProcessor($db),
             new \ilLoggingDefinitionProcessor($db),
             new \ilCronDefinitionProcessor(
                 $db,
@@ -149,7 +166,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return true;
     }

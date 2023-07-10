@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Style\Content;
 
@@ -44,11 +49,11 @@ class ilStyleColorTableGUI extends ilTable2GUI
         $this->access_manager = $access_manager;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setTitle($lng->txt("sty_colors"));
         $this->setDescription($lng->txt("sty_color_info"));
         $this->style_obj = $a_style_obj;
-        
+
         $this->addColumn("", "", "1");	// checkbox
         $this->addColumn($this->lng->txt("sty_color_name"));
         $this->addColumn($this->lng->txt("sty_color_code"));
@@ -65,16 +70,16 @@ class ilStyleColorTableGUI extends ilTable2GUI
         if ($this->access_manager->checkWrite()) {
             $this->addMultiCommand("deleteColorConfirmation", $lng->txt("delete"));
         }
-        
+
         $this->setEnableTitle(true);
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $this->setData($this->style_obj->getColors());
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -88,11 +93,11 @@ class ilStyleColorTableGUI extends ilTable2GUI
             );
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable("COLOR_NAME_ENC", ilLegacyFormElementsUtil::prepareFormOutput($a_set["name"]));
         $this->tpl->setVariable("COLOR_NAME", $a_set["name"]);
         $this->tpl->setVariable("COLOR_CODE", $a_set["code"]);
-        
+
         if ($this->access_manager->checkWrite()) {
             $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
             $ilCtrl->setParameter($this->parent_obj, "c_name", rawurlencode($a_set["name"]));

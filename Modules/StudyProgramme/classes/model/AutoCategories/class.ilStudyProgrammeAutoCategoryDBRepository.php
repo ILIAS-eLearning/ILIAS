@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilStudyProgrammeAutoCategoryDBRepository
@@ -7,11 +25,11 @@
  */
 class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCategoryRepository
 {
-    const TABLE = 'prg_auto_content';
-    const FIELD_PRG_OBJ_ID = 'prg_obj_id';
-    const FIELD_CAT_REF_ID = 'cat_ref_id';
-    const FIELD_EDITOR_ID = 'last_usr_id';
-    const FIELD_LAST_EDITED = 'last_edited';
+    private const TABLE = 'prg_auto_content';
+    private const FIELD_PRG_OBJ_ID = 'prg_obj_id';
+    private const FIELD_CAT_REF_ID = 'cat_ref_id';
+    private const FIELD_EDITOR_ID = 'last_usr_id';
+    private const FIELD_LAST_EDITED = 'last_edited';
 
     protected ilDBInterface $db;
     protected int $current_usr_id;
@@ -27,7 +45,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     /**
      * @inheritdoc
      */
-    public function getFor(int $prg_obj_id) : array
+    public function getFor(int $prg_obj_id): array
     {
         $query = 'SELECT '
             . self::FIELD_PRG_OBJ_ID . ','
@@ -59,7 +77,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
         int $category_ref_id,
         int $last_edited_usr_id = null,
         DateTimeImmutable $last_edited = null
-    ) : ilStudyProgrammeAutoCategory {
+    ): ilStudyProgrammeAutoCategory {
         if (is_null($last_edited_usr_id)) {
             $last_edited_usr_id = $this->current_usr_id;
         }
@@ -78,7 +96,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     /**
      * @inheritdoc
      */
-    public function update(ilStudyProgrammeAutoCategory $ac) : void
+    public function update(ilStudyProgrammeAutoCategory $ac): void
     {
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(self::TABLE);
@@ -113,7 +131,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     /**
      * @inheritdoc
      */
-    public function delete(int $prg_obj_id, array $cat_ref_ids) : void
+    public function delete(int $prg_obj_id, array $cat_ref_ids): void
     {
         $ids = array_map(
             function ($id) {
@@ -134,7 +152,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     /**
      * @inheritdoc
      */
-    public function deleteFor(int $prg_obj_id) : void
+    public function deleteFor(int $prg_obj_id): void
     {
         $query =
              'DELETE FROM ' . self::TABLE . PHP_EOL
@@ -147,7 +165,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     /**
      * @inheritdoc
      */
-    public static function getProgrammesFor(int $cat_ref_id) : array
+    public static function getProgrammesFor(int $cat_ref_id): array
     {
         global $ilDB;
         $query = 'SELECT ' . self::FIELD_PRG_OBJ_ID

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /* This file is part of ILIAS, a powerful learning management system
 * published by ILIAS open source e-Learning e.V.
 *
@@ -32,5 +34,5 @@ interface ilSkillUsageInfo
      *
      * @return array<string, array<string, array{key: string}[]>>
      */
-    public static function getUsageInfo(array $a_cskill_ids) : array;
+    public static function getUsageInfo(array $a_cskill_ids): array;
 }

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks;
 
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
@@ -34,33 +34,33 @@ use ILIAS\BackgroundTasks\Types\Type;
  */
 interface Task
 {
-    public function getType() : string;
-    
+    public function getType(): string;
+
     /**
      * @return Type[] A list of types that are taken as input.
      */
-    public function getInputTypes() : array;
-    
-    public function getOutputType() : Type;
-    
-    public function getOutput() : Value;
-    
+    public function getInputTypes(): array;
+
+    public function getOutputType(): Type;
+
+    public function getOutput(): Value;
+
     /**
      * @param $values (Value|Task)[]
      */
-    public function setInput(array $values) : void;
-    
+    public function setInput(array $values): void;
+
     /**
      * @return Value[]
      */
-    public function getInput() : array;
-    
+    public function getInput(): array;
+
     /**
      * @return Task[] A list of tasks that is chained with this task. The first element will be
      *                this tasks, the following his dependencies.
      */
-    public function unfoldTask() : array;
-    
+    public function unfoldTask(): array;
+
     /**
      * @return Option   An Option to remove the current task and do some cleanup if possible. This
      *                  Option is displayed if the Bucket is completed. You do not have to provide
@@ -68,12 +68,12 @@ interface Task
      *                  is added to the list of Options (last position)
      * @see self::getAbortOption();
      */
-    public function getRemoveOption() : Option;
-    
+    public function getRemoveOption(): Option;
+
     /**
      * @return Option   In case a Job is failed or did not respond for some time, an Abort-Option
      *                  is displayed. There is already a Standard-Abort-Option registered, you can
      *                  override with your own and do some cleanup if possible.
      */
-    public function getAbortOption() : Option;
+    public function getAbortOption(): Option;
 }

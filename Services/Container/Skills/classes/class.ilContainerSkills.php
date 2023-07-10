@@ -44,22 +44,22 @@ class ilContainerSkills
         }
     }
 
-    public function setId(int $a_val) : void
+    public function setId(int $a_val): void
     {
         $this->id = $a_val;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function resetSkills() : void
+    public function resetSkills(): void
     {
         $this->skills = [];
     }
 
-    public function addSkill(int $a_skill_id, int $a_tref_id) : void
+    public function addSkill(int $a_skill_id, int $a_tref_id): void
     {
         $this->skills[$a_skill_id . "-" . $a_tref_id] = [
             "skill_id" => $a_skill_id,
@@ -67,12 +67,12 @@ class ilContainerSkills
         ];
     }
 
-    public function removeSkill(int $a_skill_id, int $a_tref_id) : void
+    public function removeSkill(int $a_skill_id, int $a_tref_id): void
     {
         unset($this->skills[$a_skill_id . "-" . $a_tref_id]);
     }
 
-    public function getSkills() : array
+    public function getSkills(): array
     {
         return $this->skills;
     }
@@ -80,13 +80,13 @@ class ilContainerSkills
     /**
      * @return array[]|string[]
      */
-    public function getOrderedSkills() : array
+    public function getOrderedSkills(): array
     {
         $vtree = $this->tree_service->getGlobalVirtualSkillTree();
         return $vtree->getOrderedNodeset($this->getSkills(), "skill_id", "tref_id");
     }
 
-    public function read() : void
+    public function read(): void
     {
         $db = $this->db;
 
@@ -98,7 +98,7 @@ class ilContainerSkills
         }
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $db = $this->db;
 
@@ -106,7 +106,7 @@ class ilContainerSkills
             " id = " . $db->quote($this->getId(), "integer"));
     }
 
-    public function save() : void
+    public function save(): void
     {
         $db = $this->db;
 

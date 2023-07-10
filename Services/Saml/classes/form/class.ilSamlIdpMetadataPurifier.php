@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,24 +16,20 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilSamlIdpMetadataPurifier
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlIdpMetadataPurifier implements ilHtmlPurifierInterface
+final class ilSamlIdpMetadataPurifier implements ilHtmlPurifierInterface
 {
-    /**
-     * @inheritdoc
-     */
-    public function purify(string $html) : string
+    public function purify(string $html): string
     {
         return $html;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function purifyArray(array $htmlCollection) : array
+    public function purifyArray(array $htmlCollection): array
     {
         foreach ($htmlCollection as $key => $html) {
             $html = $this->purify($html);

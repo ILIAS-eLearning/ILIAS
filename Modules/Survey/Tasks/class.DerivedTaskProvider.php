@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Tasks;
 
@@ -58,12 +61,12 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
         );
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return true;
     }
 
-    public function getTasks(int $user_id) : array
+    public function getTasks(int $user_id): array
     {
         $lng = $this->lng;
 
@@ -137,7 +140,7 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
         string $perm,
         int $obj_id,
         int $user_id
-    ) : int {
+    ): int {
         $access = $this->access;
 
         foreach (\ilObject::_getAllReferences($obj_id) as $ref_id) {

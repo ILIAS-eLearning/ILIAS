@@ -1,7 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
- *
+declare(strict_types=1);
+
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +13,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * A factory that builds ilSettings that can be used for DI.
@@ -34,7 +35,7 @@ class ilSettingsFactory
     /**
      * Get setting instance for module
      */
-    public function settingsFor(string $a_module = "common") : ilSetting
+    public function settingsFor(string $a_module = "common"): ilSetting
     {
         // @todo: this function contains some open review issues which might be addressed by rklees.
         $tmp_dic = $GLOBALS["DIC"] ?? null;//PHP8Review: This may not be a critical Global but i still would recommend to use a global call here or even better to integrate it into the classes attributes

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,11 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 class CronJobManagerTest extends TestCase
 {
-    public function testCronManagerActivatesJobWhenJobWasReset() : void
+    public function testCronManagerActivatesJobWhenJobWasReset(): void
     {
         $db = $this->createMock(ilDBInterface::class);
         $setting = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
@@ -65,7 +67,7 @@ class CronJobManagerTest extends TestCase
         $cronManager->resetJob($job, $user);
     }
 
-    public function testCronManagerNotifiesJobWhenJobGetsActivated() : void
+    public function testCronManagerNotifiesJobWhenJobGetsActivated(): void
     {
         $db = $this->createMock(ilDBInterface::class);
         $setting = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
@@ -99,7 +101,7 @@ class CronJobManagerTest extends TestCase
         $cronManager->activateJob($job, $user, false);
     }
 
-    public function testCronManagerNotifiesJobWhenJobGetsDeactivated() : void
+    public function testCronManagerNotifiesJobWhenJobGetsDeactivated(): void
     {
         $db = $this->createMock(ilDBInterface::class);
         $setting = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();

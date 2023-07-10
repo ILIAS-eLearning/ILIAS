@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for repository taxonomies
@@ -38,7 +52,7 @@ class ilTaxonomyAdministrationRepositoryTableGUI extends ilTable2GUI
         $this->initItems();
     }
 
-    protected function initItems() : void
+    protected function initItems(): void
     {
         $data = array();
 
@@ -70,7 +84,7 @@ class ilTaxonomyAdministrationRepositoryTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         foreach ($a_set["references"] as $ref) {
             $this->tpl->setCurrentBlock("obj_bl");

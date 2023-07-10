@@ -36,6 +36,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
     public const ADMIN = 4;
     public const OWNER = 8;
 
+    /**
+     * @return int|soap_fault|SoapFault|string|null
+     */
     public function addCourse(string $sid, int $target_id, string $crs_xml)
     {
         $this->initAuth($sid);
@@ -80,6 +83,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         return $newObj->getRefId() ?: "0";
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function deleteCourse(string $sid, int $course_id)
     {
         $this->initAuth($sid);
@@ -131,6 +137,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function assignCourseMember(string $sid, int $course_id, int $user_id, string $type)
     {
         $this->initAuth($sid);
@@ -205,6 +214,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function excludeCourseMember(string $sid, int $course_id, int $user_id)
     {
         $this->initAuth($sid);
@@ -251,6 +263,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return int|soap_fault|SoapFault|string|null
+     */
     public function isAssignedToCourse(string $sid, int $course_id, int $user_id)
     {
         $this->initAuth($sid);
@@ -303,6 +318,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         return "0";
     }
 
+    /**
+     * @return ilObjCourse|soap_fault|SoapFault|string|null
+     */
     public function getCourseXML(string $sid, int $course_id)
     {
         $this->initAuth($sid);
@@ -328,6 +346,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         return $xml_writer->getXML();
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function updateCourse(string $sid, int $course_id, string $xml)
     {
         $this->initAuth($sid);
@@ -384,10 +405,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
     }
 
     /**
-     * get courses which belong to a specific user, fullilling the status
-     * @param string $sid
-     * @param string $parameters following xmlresultset, columns (user_id, status with values  1 = "MEMBER", 2 = "TUTOR", 4 = "ADMIN", 8 = "OWNER" and any xor operation e.g.  1 + 4 = 5 = ADMIN and TUTOR, 7 = ADMIN and TUTOR and MEMBER)
-     * @return string XMLResultSet, columns (ref_id, xml, parent_ref_id)
+     * @return soap_fault|SoapFault|string|null
      */
     public function getCoursesForUser(string $sid, string $parameters)
     {

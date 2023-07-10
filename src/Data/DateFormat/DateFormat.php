@@ -1,6 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 namespace ILIAS\Data\DateFormat;
 
@@ -25,6 +40,12 @@ class DateFormat
     public const MONTH_SPELLED_SHORT = 'M';
     public const YEAR = 'Y';
     public const YEAR_TWO_DIG = 'y';
+    public const HOURS12 = 'h';
+    public const HOURS24 = 'H';
+    public const MINUTES = 'i';
+    public const SECONDS = 's';
+    public const MERIDIEM = 'a';
+    public const COLON = ':';
 
     public const TOKENS = [
         self::DOT,
@@ -41,7 +62,13 @@ class DateFormat
         self::MONTH_SPELLED,
         self::MONTH_SPELLED_SHORT,
         self::YEAR,
-        self::YEAR_TWO_DIG
+        self::YEAR_TWO_DIG,
+        self::HOURS12,
+        self::HOURS24,
+        self::MINUTES,
+        self::SECONDS,
+        self::MERIDIEM,
+        self::COLON
     ];
 
     /** @var string[] */
@@ -53,7 +80,7 @@ class DateFormat
         $this->format = $format;
     }
 
-    public function validateFormatElelements(array $format) : void
+    public function validateFormatElelements(array $format): void
     {
         foreach ($format as $entry) {
             if (!in_array($entry, self::TOKENS, true)) {
@@ -66,7 +93,7 @@ class DateFormat
      * Get the elements of the format as array.
      * @return string[]
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         return $this->format;
     }
@@ -74,8 +101,18 @@ class DateFormat
     /**
      * Get the format as string.
      */
-    public function toString() : string
+    public function toString(): string
     {
         return implode('', $this->format);
+    }
+
+    public function __toString(): string
+    {
+        return $this->toString();
+    }
+
+    public function applyTo(\DateTimeImmutable $datetime): string
+    {
+        return $datetime->format($this->toString());
     }
 }

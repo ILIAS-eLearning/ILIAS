@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 if (!file_exists(getcwd() . '/ilias.ini.php')) {
     exit();
 }
@@ -25,5 +27,5 @@ ilInitialisation::initILIAS();
 
 /** @var ILIAS\DI\Container $DIC */
 $DIC->ctrl()->setCmd('confirmRegistration');
-$DIC->ctrl()->callBaseClass();
+$DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
 $DIC->http()->close();

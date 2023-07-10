@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilObjGroup
@@ -96,7 +113,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $this->logger = $DIC->logger()->grp();
     }
 
-    public static function lookupGroupTye(int $a_id) : int
+    public static function lookupGroupTye(int $a_id): int
     {
         global $DIC;
 
@@ -111,237 +128,237 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         return ilGroupConstants::GRP_TYPE_UNKNOWN;
     }
 
-    public function setInformation(string $a_information) : void
+    public function setInformation(string $a_information): void
     {
         $this->information = $a_information;
     }
 
-    public function getInformation() : string
+    public function getInformation(): string
     {
         return $this->information;
     }
 
-    public function setGroupType(int $a_type) : void
+    public function setGroupType(int $a_type): void
     {
         $this->group_type = $a_type;
     }
 
-    public function getGroupType() : int
+    public function getGroupType(): int
     {
         return $this->group_type;
     }
 
-    public function setRegistrationType(int $a_type) : void
+    public function setRegistrationType(int $a_type): void
     {
         $this->reg_type = $a_type;
     }
 
-    public function getRegistrationType() : int
+    public function getRegistrationType(): int
     {
         return $this->reg_type;
     }
 
-    public function isRegistrationEnabled() : bool
+    public function isRegistrationEnabled(): bool
     {
         return $this->getRegistrationType() != ilGroupConstants::GRP_REGISTRATION_DEACTIVATED;
     }
 
-    public function enableUnlimitedRegistration(bool $a_status) : void
+    public function enableUnlimitedRegistration(bool $a_status): void
     {
         $this->reg_unlimited = $a_status;
     }
 
-    public function isRegistrationUnlimited() : bool
+    public function isRegistrationUnlimited(): bool
     {
         return $this->reg_unlimited;
     }
 
-    public function setRegistrationStart(?ilDateTime $a_start) : void
+    public function setRegistrationStart(?ilDateTime $a_start): void
     {
         $this->reg_start = $a_start;
     }
 
-    public function getRegistrationStart() : ?ilDateTime
+    public function getRegistrationStart(): ?ilDateTime
     {
         return $this->reg_start;
     }
 
 
-    public function setRegistrationEnd(?ilDateTime $a_end) : void
+    public function setRegistrationEnd(?ilDateTime $a_end): void
     {
         $this->reg_end = $a_end;
     }
 
-    public function getRegistrationEnd() : ?ilDateTime
+    public function getRegistrationEnd(): ?ilDateTime
     {
         return $this->reg_end;
     }
 
-    public function setPassword(string $a_pass) : void
+    public function setPassword(string $a_pass): void
     {
         $this->reg_password = $a_pass;
     }
 
-    public function getPassword() : string
+    public function getPassword(): string
     {
         return $this->reg_password;
     }
 
-    public function enableMembershipLimitation(bool $a_status) : void
+    public function enableMembershipLimitation(bool $a_status): void
     {
         $this->reg_membership_limitation = $a_status;
     }
 
-    public function isMembershipLimited() : bool
+    public function isMembershipLimited(): bool
     {
         return $this->reg_membership_limitation;
     }
 
-    public function setMinMembers(int $a_max) : void
+    public function setMinMembers(int $a_max): void
     {
         $this->reg_min_members = $a_max;
     }
 
-    public function getMinMembers() : int
+    public function getMinMembers(): int
     {
         return $this->reg_min_members;
     }
 
-    public function setMaxMembers(int $a_max) : void
+    public function setMaxMembers(int $a_max): void
     {
         $this->reg_max_members = $a_max;
     }
 
-    public function getMaxMembers() : int
+    public function getMaxMembers(): int
     {
         return $this->reg_max_members;
     }
 
-    public function enableWaitingList(bool $a_status) : void
+    public function enableWaitingList(bool $a_status): void
     {
         $this->waiting_list = $a_status;
     }
 
-    public function isWaitingListEnabled() : bool
+    public function isWaitingListEnabled(): bool
     {
         return $this->waiting_list;
     }
 
-    public function setWaitingListAutoFill(bool $a_value) : void
+    public function setWaitingListAutoFill(bool $a_value): void
     {
         $this->auto_fill_from_waiting = $a_value;
     }
 
-    public function hasWaitingListAutoFill() : bool
+    public function hasWaitingListAutoFill(): bool
     {
         return $this->auto_fill_from_waiting;
     }
 
-    public function setLatitude(string $a_latitude) : void
+    public function setLatitude(string $a_latitude): void
     {
         $this->latitude = $a_latitude;
     }
 
-    public function getLatitude() : string
+    public function getLatitude(): string
     {
         return $this->latitude;
     }
 
-    public function setLongitude(string $a_longitude) : void
+    public function setLongitude(string $a_longitude): void
     {
         $this->longitude = $a_longitude;
     }
 
-    public function getLongitude() : string
+    public function getLongitude(): string
     {
         return $this->longitude;
     }
 
-    public function setLocationZoom(int $a_locationzoom) : void
+    public function setLocationZoom(int $a_locationzoom): void
     {
         $this->locationzoom = $a_locationzoom;
     }
 
-    public function getLocationZoom() : int
+    public function getLocationZoom(): int
     {
         return $this->locationzoom;
     }
 
-    public function setEnableGroupMap(bool $a_enablemap) : void
+    public function setEnableGroupMap(bool $a_enablemap): void
     {
         $this->enablemap = $a_enablemap;
     }
 
-    public function getEnableMap() : bool
+    public function getEnableMap(): bool
     {
         return $this->getEnableGroupMap();
     }
 
-    public function getEnableGroupMap() : bool
+    public function getEnableGroupMap(): bool
     {
         return $this->enablemap;
     }
 
-    public function getRegistrationAccessCode() : string
+    public function getRegistrationAccessCode(): string
     {
         return $this->reg_access_code;
     }
 
-    public function setRegistrationAccessCode(string $a_code) : void
+    public function setRegistrationAccessCode(string $a_code): void
     {
         $this->reg_access_code = $a_code;
     }
 
-    public function isRegistrationAccessCodeEnabled() : bool
+    public function isRegistrationAccessCodeEnabled(): bool
     {
         return $this->reg_access_code_enabled;
     }
 
-    public function enableRegistrationAccessCode(bool $a_status) : void
+    public function enableRegistrationAccessCode(bool $a_status): void
     {
         $this->reg_access_code_enabled = $a_status;
     }
 
-    public function setMailToMembersType(int $a_type) : void
+    public function setMailToMembersType(int $a_type): void
     {
         $this->mail_members = $a_type;
     }
 
-    public function getMailToMembersType() : int
+    public function getMailToMembersType(): int
     {
         return $this->mail_members;
     }
 
-    public function setCancellationEnd(?ilDate $a_value) : void
+    public function setCancellationEnd(?ilDate $a_value): void
     {
         $this->leave_end = $a_value;
     }
 
-    public function getCancellationEnd() : ?ilDate
+    public function getCancellationEnd(): ?ilDate
     {
         return $this->leave_end;
     }
 
-    public function setShowMembers(bool $a_status) : void
+    public function setShowMembers(bool $a_status): void
     {
         $this->show_members = $a_status;
     }
-    public function getShowMembers() : bool
+    public function getShowMembers(): bool
     {
         return $this->show_members;
     }
 
-    public function setAutoNotification(bool $a_status) : void
+    public function setAutoNotification(bool $a_status): void
     {
         $this->auto_notification = $a_status;
     }
 
-    public function getAutoNotification() : bool
+    public function getAutoNotification(): bool
     {
         return $this->auto_notification;
     }
 
-    public function setPeriod(?\ilDateTime $start = null, ?\ilDateTime $end = null) : void
+    public function setPeriod(?\ilDateTime $start = null, ?\ilDateTime $end = null): void
     {
         if (
             ($start instanceof \ilDate && !$end instanceof ilDate) ||
@@ -359,63 +376,63 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $this->setEnd($end);
     }
 
-    protected function toggleStartTimeIndication(bool $time_indication) : void
+    protected function toggleStartTimeIndication(bool $time_indication): void
     {
         $this->start_time_indication = $time_indication;
     }
 
-    public function getStartTimeIndication() : bool
+    public function getStartTimeIndication(): bool
     {
         return $this->start_time_indication;
     }
 
 
-    protected function setStart(ilDateTime $a_value = null) : void
+    protected function setStart(ilDateTime $a_value = null): void
     {
         $this->grp_start = $a_value;
     }
 
-    public function getStart() : ?\ilDateTime
+    public function getStart(): ?\ilDateTime
     {
         return $this->grp_start;
     }
 
-    protected function setEnd(ilDateTime $a_value = null) : void
+    protected function setEnd(ilDateTime $a_value = null): void
     {
         $this->grp_end = $a_value;
     }
 
-    public function getEnd() : ?\ilDateTime
+    public function getEnd(): ?\ilDateTime
     {
         return $this->grp_end;
     }
 
-    public function enableSessionLimit(bool $a_status) : void
+    public function enableSessionLimit(bool $a_status): void
     {
         $this->session_limit = $a_status;
     }
 
-    public function isSessionLimitEnabled() : bool
+    public function isSessionLimitEnabled(): bool
     {
         return $this->session_limit;
     }
 
-    public function setNumberOfPreviousSessions(int $a_num) : void
+    public function setNumberOfPreviousSessions(int $a_num): void
     {
         $this->session_prev = $a_num;
     }
 
-    public function getNumberOfPreviousSessions() : int
+    public function getNumberOfPreviousSessions(): int
     {
         return $this->session_prev;
     }
 
-    public function setNumberOfNextSessions(int $a_num) : void
+    public function setNumberOfNextSessions(int $a_num): void
     {
         $this->session_next = $a_num;
     }
 
-    public function getNumberOfNextSessions() : int
+    public function getNumberOfNextSessions(): int
     {
         return $this->session_next;
     }
@@ -424,7 +441,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * validate group settings
      */
-    public function validate() : bool
+    public function validate(): bool
     {
         if (!$this->getTitle()) {
             $this->title = '';
@@ -460,7 +477,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
     * @inheritDoc
     */
-    public function create() : int
+    public function create(): int
     {
         if (!parent::create()) {
             return 0;
@@ -517,7 +534,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
     */
-    public function update() : bool
+    public function update(): bool
     {
         if (!parent::update()) {
             return false;
@@ -571,7 +588,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
     */
-    public function delete() : bool
+    public function delete(): bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -598,7 +615,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
     * @inheritDoc
     */
-    public function read() : void
+    public function read(): void
     {
         parent::read();
 
@@ -613,16 +630,16 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             $this->enableUnlimitedRegistration((bool) $row->registration_unlimited);
             $this->setRegistrationStart(new ilDateTime($row->registration_start, IL_CAL_DATETIME));
             $this->setRegistrationEnd(new ilDateTime($row->registration_end, IL_CAL_DATETIME));
-            $this->setPassword($row->registration_password);
+            $this->setPassword((string) $row->registration_password);
             $this->enableMembershipLimitation((bool) $row->registration_mem_limit);
             $this->setMaxMembers((int) $row->registration_max_members);
             $this->enableWaitingList((bool) $row->waiting_list);
-            $this->setLatitude($row->latitude);
-            $this->setLongitude($row->longitude);
+            $this->setLatitude((string) $row->latitude);
+            $this->setLongitude((string) $row->longitude);
             $this->setLocationZoom((int) $row->location_zoom);
             $this->setEnableGroupMap((bool) $row->enablemap);
             $this->enableRegistrationAccessCode((bool) $row->reg_ac_enabled);
-            $this->setRegistrationAccessCode($row->reg_ac);
+            $this->setRegistrationAccessCode((string) $row->reg_ac);
             $this->setViewMode((int) $row->view_mode);
             $this->setMailToMembersType((int) $row->mail_members_type);
             $this->setCancellationEnd($row->leave_end ? new ilDate((int) $row->leave_end, IL_CAL_UNIX) : null);
@@ -655,7 +672,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
      */
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false): ?ilObject
     {
         /**
          * @var ilObjGroup $new_obj
@@ -719,7 +736,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
      */
-    public function cloneDependencies(int $a_target_id, int $a_copy_id) : bool
+    public function cloneDependencies(int $a_target_id, int $a_copy_id): bool
     {
         parent::cloneDependencies($a_target_id, $a_copy_id);
 
@@ -737,7 +754,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * Clone group admin and member role permissions
      */
-    public function cloneAutoGeneratedRoles(ilObjGroup $new_obj) : void
+    public function cloneAutoGeneratedRoles(ilObjGroup $new_obj): void
     {
         $admin = $this->getDefaultAdminRole();
         $new_admin = $new_obj->getDefaultAdminRole();
@@ -760,7 +777,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
     * returns object id of created default member role
     */
-    public function getDefaultMemberRole() : int
+    public function getDefaultMemberRole(): int
     {
         $local_group_Roles = $this->getLocalGroupRoles();
         return $local_group_Roles["il_grp_member_" . $this->getRefId()];
@@ -769,13 +786,13 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
     * returns object id of created default adminstrator role
     */
-    public function getDefaultAdminRole() : int
+    public function getDefaultAdminRole(): int
     {
         $local_group_Roles = $this->getLocalGroupRoles();
         return $local_group_Roles["il_grp_admin_" . $this->getRefId()];
     }
 
-    public function leaveGroup() : int
+    public function leaveGroup(): int
     {
         $member_ids = $this->getGroupMemberIds();
         if (count($member_ids) <= 1 || !in_array($this->user->getId(), $member_ids)) {
@@ -793,7 +810,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
     * deassign member from group role
     */
-    public function leave(int $a_user_id) : bool
+    public function leave(int $a_user_id): bool
     {
         $arr_groupRoles = $this->getMemberRoles($a_user_id);
         foreach ($arr_groupRoles as $groupRole) {
@@ -807,7 +824,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     * @return    array array of users (obj_ids) that are assigned to
     * the groupspecific roles (grp_member,grp_admin)
     */
-    public function getGroupMemberIds() : array
+    public function getGroupMemberIds(): array
     {
         $usr_arr = array();
         $rol = $this->getLocalGroupRoles();
@@ -824,7 +841,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     * get all group Members regardless of group role.
     * fetch all users data in one shot to improve performance
     */
-    public function getGroupMemberData(array $a_mem_ids, int $active = 1) : array
+    public function getGroupMemberData(array $a_mem_ids, int $active = 1): array
     {
         $usr_arr = array();
         $q = "SELECT login,firstname,lastname,title,usr_id,last_login " .
@@ -851,12 +868,12 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         return $mem_arr;
     }
 
-    public function getCountMembers() : int
+    public function getCountMembers(): int
     {
         return count($this->getGroupMemberIds());
     }
 
-    public function getGroupAdminIds(int $a_grpId = 0) : array
+    public function getGroupAdminIds(int $a_grpId = 0): array
     {
         if (!empty($a_grpId)) {
             $grp_id = $a_grpId;
@@ -877,7 +894,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     * get default group roles, returns the defaultlike create roles il_grp_member, il_grp_admin
     * @param array the obj_ids of group specific roles(il_grp_member,il_grp_admin)
     */
-    protected function getDefaultGroupRoles() : array
+    protected function getDefaultGroupRoles(): array
     {
         $grp_id = $this->getRefId();
         $role_arr = $this->rbac_review->getRolesOfRoleFolder($grp_id);
@@ -903,7 +920,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     * only fetch data once from database. info is stored in object variable
     * @return array [title|id] of roles...
     */
-    public function getLocalGroupRoles(bool $a_translate = false) : array
+    public function getLocalGroupRoles(bool $a_translate = false): array
     {
         if (empty($this->local_roles)) {
             $this->local_roles = array();
@@ -927,7 +944,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
     * get group status closed template
     */
-    public function getGrpStatusClosedTemplateId() : int
+    public function getGrpStatusClosedTemplateId(): int
     {
         $q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_closed'";
         $res = $this->ilias->db->query($q);
@@ -939,7 +956,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
     * get group status open template
     */
-    public function getGrpStatusOpenTemplateId() : int
+    public function getGrpStatusOpenTemplateId(): int
     {
         $q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_open'";
         $res = $this->ilias->db->query($q);
@@ -948,7 +965,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         return (int) $row["obj_id"];
     }
 
-    public static function lookupGroupStatusTemplateId(int $a_obj_id) : int
+    public static function lookupGroupStatusTemplateId(int $a_obj_id): int
     {
         global $DIC;
 
@@ -972,9 +989,9 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      * Revokes permissions of all parent non-protected roles
      * and initiates these roles with the according il_grp_(open|closed) template.
      */
-    public function updateGroupType(int $a_group_type = ilGroupConstants::GRP_TYPE_OPEN
-    ) : void
-    {
+    public function updateGroupType(
+        int $a_group_type = ilGroupConstants::GRP_TYPE_OPEN
+    ): void {
         if ($a_group_type == ilGroupConstants::GRP_TYPE_OPEN) {
             $this->applyDidacticTemplate(0);
             return;
@@ -992,7 +1009,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     }
 
 
-    public function setGroupStatus(int $a_status) : void
+    public function setGroupStatus(int $a_status): void
     {
         $this->group_status = $a_status;
     }
@@ -1000,7 +1017,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * get group status
      */
-    public function getGroupStatus() : int
+    public function getGroupStatus(): int
     {
         return $this->group_status;
     }
@@ -1009,7 +1026,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      * Read group type
      * @return int
     */
-    public function readGroupStatus() : int
+    public function readGroupStatus(): int
     {
         $tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($this->getRefId());
         if (!$tpl_id) {
@@ -1018,7 +1035,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         return ilGroupConstants::GRP_TYPE_CLOSED;
     }
 
-    public function getMemberRoles(int $a_user_id) : array
+    public function getMemberRoles(int $a_user_id): array
     {
         return array_intersect(
             $this->rbac_review->assignedRoles($a_user_id),
@@ -1026,7 +1043,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         );
     }
 
-    public function isAdmin(int $a_userId) : bool
+    public function isAdmin(int $a_userId): bool
     {
         $grp_Roles = $this->getDefaultGroupRoles();
         if (in_array($a_userId, $this->rbac_review->assignedUsers($grp_Roles["grp_admin_role"]))) {
@@ -1038,7 +1055,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
     */
-    public function initDefaultRoles() : void
+    public function initDefaultRoles(): void
     {
         $role = ilObjRole::createDefaultRole(
             'il_grp_admin_' . $this->getRefId(),
@@ -1065,7 +1082,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      * Each permission is granted by computing the intersection of the
      * template il_grp_status and the permission template of the parent role.
      */
-    public function setParentRolePermissions(int $a_parent_ref) : bool
+    public function setParentRolePermissions(int $a_parent_ref): bool
     {
         $parent_roles = $this->rbac_review->getParentRoleIds($a_parent_ref);
         foreach ($parent_roles as $parent_role) {
@@ -1101,7 +1118,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
      */
-    public function applyDidacticTemplate(int $a_tpl_id) : void
+    public function applyDidacticTemplate(int $a_tpl_id): void
     {
         parent::applyDidacticTemplate($a_tpl_id);
 
@@ -1112,7 +1129,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     }
 
 
-    public static function _lookupIdByTitle(string $a_title) : int
+    public static function _lookupIdByTitle(string $a_title): int
     {
         global $DIC;
 
@@ -1127,7 +1144,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     }
 
 
-    public function _isMember(int $a_user_id, int $a_ref_id, string $a_field = '') : bool
+    public function _isMember(int $a_user_id, int $a_ref_id, string $a_field = ''): bool
     {
         $local_roles = $this->rbac_review->getRolesOfRoleFolder($a_ref_id, false);
         $user_roles = $this->rbac_review->assignedRoles($a_user_id);
@@ -1170,7 +1187,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         return true;
     }
 
-    public function _getMembers(int $a_obj_id) : array
+    public function _getMembers(int $a_obj_id): array
     {
         // get reference
         $ref_ids = ilObject::_getAllReferences($a_obj_id);
@@ -1189,7 +1206,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      * Get effective container view mode
      * @return int
      */
-    public function getViewMode() : int
+    public function getViewMode(): int
     {
         $tree = $this->tree;
 
@@ -1215,12 +1232,12 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     }
 
 
-    public function setViewMode(int $a_view_mode) : void
+    public function setViewMode(int $a_view_mode): void
     {
         $this->view_mode = $a_view_mode;
     }
 
-    public static function lookupViewMode($a_obj_id) : int
+    public static function lookupViewMode($a_obj_id): int
     {
         global $DIC;
 
@@ -1237,7 +1254,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         return $view_mode;
     }
 
-    public static function translateViewMode(int $a_obj_id, int $a_view_mode, ?int $a_ref_id = null) : int
+    public static function translateViewMode(int $a_obj_id, int $a_view_mode, ?int $a_ref_id = null): int
     {
         global $DIC;
 
@@ -1277,21 +1294,21 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     * Add additional information to sub item, e.g. used in
     * courses for timings information etc.
     */
-    public function addAdditionalSubItemInformation(array &$object) : void
+    public function addAdditionalSubItemInformation(array &$object): void
     {
         ilObjectActivation::addAdditionalSubItemInformation($object);
     }
 
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function setMessage(string $a_message) : void
+    public function setMessage(string $a_message): void
     {
         $this->message = $a_message;
     }
-    public function appendMessage(string $a_message) : void
+    public function appendMessage(string $a_message): void
     {
         if ($this->getMessage()) {
             $this->message .= "<br /> ";
@@ -1303,7 +1320,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      * Prepare calendar appointments
      * @return ilCalendarAppointmentTemplate[]
      */
-    protected function prepareAppointments($a_mode = 'create') : array
+    protected function prepareAppointments($a_mode = 'create'): array
     {
         switch ($a_mode) {
             case 'create':
@@ -1360,12 +1377,12 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     }
 
 
-    protected function initParticipants() : void
+    protected function initParticipants(): void
     {
         $this->members_obj = ilGroupParticipants::_getInstanceByObjId($this->getId());
     }
 
-    public function getMembersObject() : ilGroupParticipants
+    public function getMembersObject(): ilGroupParticipants
     {
         // #17886
         if (!$this->members_obj instanceof ilGroupParticipants) {
@@ -1378,7 +1395,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      * @return int[]
      *@see interface.ilMembershipRegistrationCodes
           */
-    public static function lookupObjectsByCode(string $a_code) : array
+    public static function lookupObjectsByCode(string $a_code): array
     {
         global $DIC;
 
@@ -1404,7 +1421,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         int $a_user_id,
         int $a_role = ilParticipants::IL_GRP_MEMBER,
         bool $a_force_registration = false
-    ) : void {
+    ): void {
         $part = ilGroupParticipants::_getInstanceByObjId($this->getId());
 
         if ($part->isAssigned($a_user_id)) {
@@ -1464,7 +1481,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $part->sendNotification(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION, $a_user_id);
     }
 
-    public function handleAutoFill() : void
+    public function handleAutoFill(): void
     {
         if ($this->isWaitingListEnabled() &&
             $this->hasWaitingListAutoFill()) {
@@ -1494,7 +1511,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         }
     }
 
-    public static function mayLeave(int $a_group_id, int $a_user_id = null, ?ilDate &$a_date = null) : bool
+    public static function mayLeave(int $a_group_id, int $a_user_id = null, ?ilDate &$a_date = null): bool
     {
         global $DIC;
 
@@ -1509,18 +1526,18 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             " FROM grp_settings" .
             " WHERE obj_id = " . $ilDB->quote($a_group_id, "integer"));
         $row = $ilDB->fetchAssoc($set);
-        if ($row && $row["leave_end"]) {
+        if ($row && isset($row["leave_end"]) && is_numeric($row["leave_end"])) {
             // timestamp to date
-            $limit = date("Ymd", $row["leave_end"]);
+            $limit = date("Ymd", (int) $row["leave_end"]);
             if ($limit < date("Ymd")) {
-                $a_date = new ilDate(date("Y-m-d", $row["leave_end"]), IL_CAL_DATE);
+                $a_date = new ilDate(date("Y-m-d", (int) $row["leave_end"]), IL_CAL_DATE);
                 return false;
             }
         }
         return true;
     }
 
-    public static function findGroupsWithNotEnoughMembers() : array
+    public static function findGroupsWithNotEnoughMembers(): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1528,8 +1545,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
         $res = array();
         $before = new ilDateTime(time(), IL_CAL_UNIX);
-        $before->increment(IL_CAL_DAY, -1);
-        $now_date = $before->get(IL_CAL_DATETIME);
+        $now_date = $before->get(IL_CAL_DATETIME, '', ilTimeZone::UTC);
         $now = $before->get(IL_CAL_UNIX);
 
         $set = $ilDB->query($q = "SELECT obj_id, registration_min_members" .
@@ -1541,7 +1557,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                 " OR (leave_end IS NULL" .
                 " AND registration_end IS NOT NULL" .
                 " AND registration_end < " . $ilDB->quote($now_date, "text") . "))" .
-            " AND (period_start IS NULL OR period_start > " . $ilDB->quote($now, "integer") . ")");
+            " AND (period_start IS NULL OR period_start > " . $ilDB->quote($now_date, ilDBConstants::T_TEXT) . ")");
         while ($row = $ilDB->fetchAssoc($set)) {
             $refs = ilObject::_getAllReferences((int) $row['obj_id']);
             $ref = end($refs);
@@ -1550,7 +1566,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                 continue;
             }
 
-            $part = new ilGroupParticipants($row["obj_id"]);
+            $part = new ilGroupParticipants((int) $row["obj_id"]);
             $reci = $part->getNotificationRecipients();
             if (sizeof($reci)) {
                 $missing = (int) $row["registration_min_members"] - $part->getCountMembers();
@@ -1562,7 +1578,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         return $res;
     }
 
-    public static function lookupShowMembersEnabled(int $a_obj_id) : bool
+    public static function lookupShowMembersEnabled(int $a_obj_id): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1586,9 +1602,12 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         bool $a_include_side_block = false,
         int $a_get_single = 0,
         \ilContainerUserFilter $container_user_filter = null
-    ) : array {
+    ): array {
         // Caching
-        if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])) {
+        if (
+            isset($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]) &&
+            is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])
+        ) {
             return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
         }
         // Results are stored in $this->items

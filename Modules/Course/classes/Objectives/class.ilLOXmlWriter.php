@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilLOXmlWriter
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -46,7 +48,7 @@ class ilLOXmlWriter
         $this->log = $DIC->logger()->crs();
     }
 
-    protected function getWriter() : ilXmlWriter
+    protected function getWriter(): ilXmlWriter
     {
         return $this->writer;
     }
@@ -54,7 +56,7 @@ class ilLOXmlWriter
     /**
      * Write xml
      */
-    public function write() : void
+    public function write(): void
     {
         $this->getWriter()->xmlStartTag('Objectives');
 
@@ -78,7 +80,7 @@ class ilLOXmlWriter
         $this->getWriter()->xmlEndTag('Objectives');
     }
 
-    public function getXml() : string
+    public function getXml(): string
     {
         return $this->getWriter()->xmlDumpMem(false);
     }

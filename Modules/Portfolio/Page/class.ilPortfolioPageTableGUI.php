@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Portfolio page table
@@ -22,10 +25,10 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 {
     protected array $blogs;
     protected ilObjUser $user;
-    protected ilObjPortfolio $portfolio;
+    protected ilObjPortfolioBase $portfolio;
     protected bool $is_template;
     protected string $page_gui;
-    
+
     public function __construct(
         ilObjPortfolioBaseGUI $a_parent_obj,
         string $a_parent_cmd
@@ -47,8 +50,8 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $this->portfolio = $portfolio;
         $this->page_gui = $this->parent_obj->getPageGUIClassName();
         $this->is_template = ($this->portfolio->getType() === "prtt");
-        
-        $this->setTitle($lng->txt("tabs"));
+
+        $this->setTitle($lng->txt("content"));
 
         //$this->addColumn($this->lng->txt(""), "", "1");
         $this->addColumn($this->lng->txt("user_order"));
@@ -61,24 +64,24 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 
         //$this->addMultiCommand("confirmPortfolioPageDeletion", $lng->txt("delete"));
         //$this->addMultiCommand("copyPageForm", $lng->txt("prtf_copy_page"));
-        
+
         $this->addCommandButton(
             "savePortfolioPagesOrdering",
             $lng->txt("user_save_ordering_and_titles")
         );
 
         $this->getItems();
-                
+
         $lng->loadLanguageModule("blog");
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $ilUser = $this->user;
-            
+
         $data = ilPortfolioPage::getAllPortfolioPages($this->portfolio->getId());
         $this->setData($data);
-                
+
         if (!$this->is_template) {
             $this->blogs = array();
             $tree = new ilWorkspaceTree($ilUser->getId());
@@ -94,12 +97,11 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $action_items = [];
-
         switch ($a_set["type"]) {
             case ilPortfolioPage::TYPE_PAGE:
                 $this->tpl->setCurrentBlock("title_field");
@@ -120,7 +122,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 
                 $this->tpl->setVariable("TYPE", $lng->txt("page"));
                 break;
-            
+
             case ilPortfolioPage::TYPE_BLOG:
                 if (!$this->is_template) {
                     $this->tpl->setCurrentBlock("title_static");
@@ -148,14 +150,14 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("TYPE", $lng->txt("obj_blog"));
                 }
                 break;
-                
+
             case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
                 if ($this->is_template) {
                     $this->tpl->setCurrentBlock("title_field");
                     $this->tpl->setVariable("ID", $a_set["id"]);
                     $this->tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
                     $this->tpl->parseCurrentBlock();
-                    
+
                     $this->tpl->setCurrentBlock("title_static");
                     //$this->tpl->setVariable("VAL_TITLE_STATIC", $lng->txt("obj_blog"));
                     $this->tpl->parseCurrentBlock();
@@ -168,7 +170,11 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 
         // copy
         $action_item = ilLinkButton::getInstance();
-        $action_item->setCaption('prtf_copy_tab');
+        if ((int) $a_set["type"] === ilPortfolioPage::TYPE_PAGE) {
+            $action_item->setCaption('prtf_copy_pg');
+        } else {
+            $action_item->setCaption('prtf_copy_blog_pg');
+        }
         $action_item->setUrl($ilCtrl->getLinkTarget($this->parent_obj, "copyPageForm"));
         $action_items[] = $action_item;
 

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * GUI class for glossary term definition editor
@@ -27,7 +30,6 @@ class ilTermDefinitionEditorGUI
     public ilGlobalTemplateInterface $tpl;
     public ilLanguage $lng;
     public ilObjGlossary $glossary;
-    public ilGlossaryDefinition $definition;
     public ilGlossaryTerm $term;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
@@ -53,12 +55,11 @@ class ilTermDefinitionEditorGUI
 
 
         $this->glossary = new ilObjGlossary($this->request->getRefId(), true);
-        $this->definition = new ilGlossaryDefinition($this->request->getDefinitionId());
-        $this->term = new ilGlossaryTerm($this->definition->getTermId());
-        $this->term_glossary = new ilObjGlossary(ilGlossaryTerm::_lookGlossaryID($this->definition->getTermId()), false);
+        $this->term = new ilGlossaryTerm($this->request->getTermId());
+        $this->term_glossary = new ilObjGlossary(ilGlossaryTerm::_lookGlossaryID($this->term->getId()), false);
         $this->tabs_gui = $ilTabs;
 
-        $this->ctrl->saveParameter($this, array("def"));
+        $this->ctrl->saveParameter($this, array("term"));
 
         $cs = $DIC->contentStyle();
         $this->content_style_gui = $cs->gui();
@@ -66,12 +67,12 @@ class ilTermDefinitionEditorGUI
     }
 
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
@@ -93,22 +94,15 @@ class ilTermDefinitionEditorGUI
         $gloss_loc = new ilGlossaryLocatorGUI();
         $gloss_loc->setTerm($this->term);
         $gloss_loc->setGlossary($this->glossary);
-        $gloss_loc->setDefinition($this->definition);
 
         $this->tpl->setTitle($this->term->getTerm() . " - " .
-            $this->lng->txt("cont_definition") . " " .
-            $this->definition->getNr());
+            $this->lng->txt("cont_definition"));
         if ($this->ctrl->getNextClass() == "ilglossarydefpagegui") {
             $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
         }
 
         switch ($next_class) {
-
             case "ilglossarydefpagegui":
-                // this part contained "broken" code, so most probable it
-                // will never be called. Abandon, if no issues occur in ILIAS 8.
-                throw new ilGlossaryException("ilGlossaryDefPageGUI error in ilTermDefinitionEditorGUI.");
-                /*
                 // output number of usages
                 if ($ilCtrl->getCmd() == "edit" &&
                     $ilCtrl->getCmdClass() == "ilglossarydefpagegui") {
@@ -117,7 +111,7 @@ class ilTermDefinitionEditorGUI
                         $link = "[<a href='" .
                             $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listUsages") .
                             "'>" . $lng->txt("glo_list_usages") . "</a>]";
-                        ilUtil::sendInfo(sprintf(
+                        $this->tpl->setOnScreenMessage("info", sprintf(
                             $lng->txt("glo_term_is_used_n_times"),
                             $nr
                         ) . " " . $link);
@@ -132,23 +126,24 @@ class ilTermDefinitionEditorGUI
                 $this->setTabs();
                 $this->ctrl->setReturnByClass("ilGlossaryDefPageGUI", "edit");
                 $this->ctrl->setReturn($this, "listDefinitions");
-                $page_gui = new ilGlossaryDefPageGUI($this->definition->getId());
+                $page_gui = new ilGlossaryDefPageGUI($this->term->getId());
                 // @var ilGlossaryDefPage $page
                 $page = $page_gui->getPageObject();
-                $this->definition->assignPageObject($page);
+                /** @var ilGlossaryDefPage $page */
+                $this->term->assignPageObject($page);
                 $page->addUpdateListener($this, "saveShortText");
                 $page_gui->setEditPreview(true);
 
                 // metadata
                 // ... set title to term, if no title is given
-                $md = new ilMD($this->term_glossary->getId(), $this->definition->getId(), "gdf");
+                $md = new ilMD($this->term_glossary->getId(), $this->term->getId(), "term");
                 $md_gen = $md->getGeneral();
-                if ($md_gen->getTitle() == "") {
-                    $md_gen->setTitle($this->term->getTerm());
-                    $md_gen->update();
-                }
+                //if ($md_gen->getTitle() == "") {
+                //    $md_gen->setTitle($this->term->getTerm());
+                //    $md_gen->update();
+                //}
 
-                $page_gui->activateMetaDataEditor($this->term_glossary, "gdf", $this->definition->getId());
+                $page_gui->activateMetaDataEditor($this->term_glossary, "term", $this->term->getId());
 
                 $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->request->getRefId());
                 $page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=fullscreen&amp;ref_id=" . $this->request->getRefId());
@@ -157,7 +152,6 @@ class ilTermDefinitionEditorGUI
 
                 $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
 
-                $page_gui->setLocator($gloss_loc);
                 $page_gui->setIntLinkReturn($this->ctrl->getLinkTargetByClass(
                     "ilobjglossarygui",
                     "quickList",
@@ -175,28 +169,26 @@ class ilTermDefinitionEditorGUI
                     $tpl->setContent($ret);
                 }
                 break;
-                */
 
             default:
                 $this->setTabs();
                 $gloss_loc->display();
                 $this->$cmd();
                 break;
-
         }
     }
 
-    public function setTabs() : void
+    public function setTabs(): void
     {
         $this->getTabs();
     }
 
-    public function getTabs() : void
+    public function getTabs(): void
     {
         // back to glossary
         $this->tabs_gui->setBack2Target(
             $this->lng->txt("glossary"),
-            $this->ctrl->getParentReturn($this)
+            $this->ctrl->getLinkTargetByClass("ilobjglossarygui", "")
         );
 
         // back to upper context
@@ -206,8 +198,8 @@ class ilTermDefinitionEditorGUI
         );
     }
 
-    public function saveShortText() : void
+    public function saveShortText(): void
     {
-        $this->definition->updateShortText();
+        $this->term->updateShortText();
     }
 }

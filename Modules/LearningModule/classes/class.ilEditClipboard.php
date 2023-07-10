@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilEditClipboard
@@ -23,7 +26,7 @@
  */
 class ilEditClipboard
 {
-    public static function getContentObjectType() : string
+    public static function getContentObjectType(): string
     {
         global $DIC;
         $user = $DIC->user();
@@ -35,21 +38,21 @@ class ilEditClipboard
         }
     }
 
-    public static function setAction(string $a_action) : void
+    public static function setAction(string $a_action): void
     {
         global $DIC;
         $user = $DIC->user();
         $user->writePref("lm_clipboard_action", $a_action);
     }
 
-    public static function getAction() : string
+    public static function getAction(): string
     {
         global $DIC;
         $user = $DIC->user();
         return (string) $user->getPref("lm_clipboard_action");
     }
 
-    public static function getContentObjectId() : int
+    public static function getContentObjectId(): int
     {
         global $DIC;
         $user = $DIC->user();
@@ -64,7 +67,7 @@ class ilEditClipboard
         string $a_type,
         int $a_id,
         string $a_action = "cut"
-    ) : void {
+    ): void {
         global $DIC;
         $user = $DIC->user();
         $user->writePref("lm_clipboard_id", $a_id);
@@ -72,7 +75,7 @@ class ilEditClipboard
         self::setAction($a_action);
     }
 
-    public static function clear() : void
+    public static function clear(): void
     {
         global $DIC;
         $user = $DIC->user();

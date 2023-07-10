@@ -9,11 +9,10 @@ var ClearAction = function ClearAction() {};
 
 /**
  * @param {number} roomId
- * @param {number} subRoomId
- * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number}}
+ * @returns {{type: string, timestamp: number, content: string, roomId: number}}
  */
-ClearAction.prototype.create = function(roomId, subRoomId) {
-	return Message.create('clear', 'history_has_been_cleared', roomId, subRoomId);
+ClearAction.prototype.create = function(roomId) {
+	return Message.create('clear', 'history_has_been_cleared', roomId);
 };
 
 /**

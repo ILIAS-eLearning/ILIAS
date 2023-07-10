@@ -1,37 +1,40 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\ResourceStorage\Revision;
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\ResourceStorage\AbstractBaseTest;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandler;
+use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class DirectoryNestingTest
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 class DirectoryNestingTest extends AbstractBaseTest
 {
     private const NESTING_256 = 256; // 16^2
     private const NESTING_4096 = 4096; // 16^3
     private const NESTING_65536 = 65536; // 16^4
-    private const NESTING_4294967296 = 4294967296; // 16^8
-    private const NESTING_281474976710656 = 281474976710656; // 16^12
+    private const NESTING_4294967296 = 4_294_967_296; // 16^8
+    private const NESTING_281474976710656 = 281_474_976_710_656; // 16^12
 
     private const MAX_NESTING = self::NESTING_65536;
     private const MIN_NESTING = self::NESTING_256;
@@ -42,13 +45,13 @@ class DirectoryNestingTest extends AbstractBaseTest
      */
     protected $file_system_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->file_system_mock = $this->createMock(Filesystem::class);
     }
 
-    private function withImplementation(StorageHandler $h, int $min, int $max) : void
+    private function withImplementation(StorageHandler $h, int $min, int $max): void
     {
         $id_generator = $h->getIdentificationGenerator();
 
@@ -69,13 +72,13 @@ class DirectoryNestingTest extends AbstractBaseTest
         }
     }
 
-    public function testMaxNestingV1() : void
+    public function testMaxNestingV1(): void
     {
         $storage_handler = new FileSystemStorageHandler($this->file_system_mock, 2);
         $this->withImplementation($storage_handler, self::NESTING_256, self::NESTING_281474976710656);
     }
 
-    public function testMaxNestingV2() : void
+    public function testMaxNestingV2(): void
     {
         $storage_handler = new MaxNestingFileSystemStorageHandler($this->file_system_mock, 2);
         $this->withImplementation($storage_handler, self::NESTING_4096 - 1, self::NESTING_4096);

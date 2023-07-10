@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * List booking schedules (for booking pool)
@@ -23,6 +22,8 @@
  */
 class ilBookingSchedulesTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\BookingManager\InternalGUIService $gui;
+    protected \ILIAS\BookingManager\InternalDomainService $domain;
     protected ilAccessHandler $access;
     protected ilObjectDataCache $obj_data_cache;
     protected int $ref_id;
@@ -45,7 +46,7 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
         $this->setId("bksd");
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("book_is_used"));
         $this->addColumn($this->lng->txt("actions"));
@@ -53,7 +54,15 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.booking_schedule_row.html", "Modules/BookingManager");
-    
+        $this->domain = $DIC
+            ->bookingManager()
+            ->internal()
+            ->domain();
+        $this->gui = $DIC
+            ->bookingManager()
+            ->internal()
+            ->gui();
+
         $this->getItems($ilObjDataCache->lookupObjId($this->ref_id));
     }
 
@@ -61,19 +70,21 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
      * Build summary item rows for given object and filter(s)
      * @param int $a_pool_id (aka parent obj id)
      */
-    public function getItems(int $a_pool_id) : void
+    public function getItems(int $a_pool_id): void
     {
-        $data = ilBookingSchedule::getList($a_pool_id);
-        
+        $data = $this->domain->schedules($a_pool_id)->getScheduleData();
+
         $this->setMaxCount(count($data));
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
+        $ui_factory = $this->gui->ui()->factory();
+        $ui_renderer = $this->gui->ui()->renderer();
 
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 
@@ -85,18 +96,25 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 
         $ilCtrl->setParameter($this->parent_obj, 'schedule_id', $a_set['booking_schedule_id']);
 
-        $alist = new ilAdvancedSelectionListGUI();
-        $alist->setId($a_set['booking_schedule_id']);
-        $alist->setListTitle($lng->txt("actions"));
-    
+        $actions = [];
+
         if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
-            $alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTarget($this->parent_obj, 'edit')); // #12306
-            
+            $actions[] = $ui_factory->link()->standard(
+                $lng->txt('edit'),
+                $ilCtrl->getLinkTarget($this->parent_obj, 'edit')
+            );
+
             if (!$a_set["is_used"]) {
-                $alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
+                $actions[] = $ui_factory->link()->standard(
+                    $lng->txt('delete'),
+                    $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete')
+                );
             }
         }
 
-        $this->tpl->setVariable("LAYER", $alist->getHTML());
+        if (count($actions) > 0) {
+            $dd = $ui_factory->dropdown()->standard($actions);
+            $this->tpl->setVariable("LAYER", $ui_renderer->render($dd));
+        }
     }
 }

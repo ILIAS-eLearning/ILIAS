@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilSoapHook
@@ -18,7 +20,7 @@ class ilSoapHook
      *
      * @return ilSoapMethod[]
      */
-    public function getSoapMethods() : array
+    public function getSoapMethods(): array
     {
         static $methods = null;
         if ($methods !== null) {
@@ -38,7 +40,7 @@ class ilSoapHook
      *
      * @return ilWsdlType[]
      */
-    public function getWsdlTypes() : array
+    public function getWsdlTypes(): array
     {
         static $types = null;
         if ($types !== null) {
@@ -60,7 +62,7 @@ class ilSoapHook
      * @param string $name
      * @return ilSoapMethod|null
      */
-    public function getMethodByName(string $name) : ?ilSoapMethod
+    public function getMethodByName(string $name): ?ilSoapMethod
     {
         $array = array_filter($this->getSoapMethods(), static function (ilSoapMethod $method) use ($name) {
             return ($method->getName() === $name);

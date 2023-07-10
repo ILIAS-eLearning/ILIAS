@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -31,7 +33,7 @@ class ilMDFactory
     /**
      * @return null|ilMDTechnical|ilMDTechnical|ilMDRequirement|ilMDLocation|ilMDFormat|ilMDLifecycle|ilMDEntity|ilMDContribute|ilMDIdentifier|ilMDDescription|ilMDKeyword|ilMDLanguage|ilMDRights|ilMDEducational|ilMDTypicalAgeRange|ilMDRelation|ilMDIdentifier_|ilMDAnnotation|ilMDClassification|ilMDTaxonPath|ilMDTaxon|ilMDMetaMetadata
      */
-    public static function _getInstance(string $a_type, int $a_index, ?int $a_technical_id = 0) : ?object
+    public static function _getInstance(string $a_type, int $a_index, ?int $a_technical_id = 0): ?object
     {
         switch ($a_type) {
             case 'meta_technical':

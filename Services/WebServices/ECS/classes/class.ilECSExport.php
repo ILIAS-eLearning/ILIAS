@@ -1,18 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * Storage of an ECS exported object.
@@ -35,7 +38,7 @@ class ilECSExport
 
         $this->server_id = $a_server_id;
         $this->obj_id = $a_obj_id;
-        
+
         $this->db = $DIC->database();
         $this->read();
     }
@@ -43,7 +46,7 @@ class ilECSExport
     /**
      * Get server id
      */
-    public function getServerId() : int
+    public function getServerId(): int
     {
         return $this->server_id;
     }
@@ -51,26 +54,26 @@ class ilECSExport
     /**
      * Set server id
      */
-    public function setServerId(int $a_server_id) : void
+    public function setServerId(int $a_server_id): void
     {
         $this->server_id = $a_server_id;
     }
-    
+
     /**
      * Set exported
      *
      * @param bool $a_status export status
      *
      */
-    public function setExported(bool $a_status) : void
+    public function setExported(bool $a_status): void
     {
         $this->exported = $a_status;
     }
-    
+
     /**
      * check if an object is exported or not
      */
-    public function isExported() : bool
+    public function isExported(): bool
     {
         return $this->exported;
     }
@@ -80,31 +83,31 @@ class ilECSExport
      *
      * @param int $a_id econtent id (received from ECS::addResource)
      */
-    public function setEContentId(int $a_id) : void
+    public function setEContentId(int $a_id): void
     {
         $this->econtent_id = $a_id;
     }
-    
+
     /**
      * get econtent id
      *
      * @return int econtent id
      */
-    public function getEContentId() : int
+    public function getEContentId(): int
     {
         return $this->econtent_id;
     }
-    
+
     /**
      * Save
      */
-    public function save() : bool
+    public function save(): bool
     {
         $query = "DELETE FROM ecs_export " .
             "WHERE obj_id = " . $this->db->quote($this->obj_id, 'integer') . " " .
             'AND server_id = ' . $this->db->quote($this->getServerId());
         $this->db->manipulate($query);
-    
+
         if ($this->isExported()) {
             $query = "INSERT INTO ecs_export (server_id,obj_id,econtent_id) " .
                 "VALUES ( " .
@@ -114,21 +117,21 @@ class ilECSExport
                 ")";
             $this->db->manipulate($query);
         }
-        
+
         return true;
     }
-    
+
     /**
      * Read
      */
-    private function read() : void
+    private function read(): void
     {
         $query = "SELECT * FROM ecs_export WHERE " .
             "obj_id = " . $this->db->quote($this->obj_id, 'integer') . " AND " .
             'server_id = ' . $this->db->quote($this->getServerId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->econtent_id = $row->econtent_id;
+            $this->econtent_id = (int) $row->econtent_id;
             $this->exported = true;
         }
     }

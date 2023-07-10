@@ -1,7 +1,6 @@
 <?php
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * List booking objects (for booking type)
@@ -23,6 +22,7 @@
  */
 class ilBookingObjectsTableGUI extends ilTable2GUI
 {
+    protected string $process_class;
     protected \ILIAS\UI\Renderer $ui_renderer;
     protected \ILIAS\UI\Factory $ui_factory;
     protected ilAccessHandler $access;
@@ -37,7 +37,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
     protected int $current_bookings;
     protected array $advmd;
     protected array $filter;
-    protected ilAdvancedMDRecordGUI $record_gui;
+    protected ?ilAdvancedMDRecordGUI $record_gui = null;
     protected bool $active_management;
     protected \ilGlobalTemplateInterface $main_tpl;
 
@@ -74,22 +74,22 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             $ilAccess->checkAccess('write', '', $this->ref_id));
 
         $this->advmd = ilObjBookingPool::getAdvancedMDFields($this->ref_id);
-        
+
         $this->setId("bkobj");
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->setTitle($lng->txt("book_objects_list"));
+        $this->setTitle($lng->txt("book_booking_objects"));
 
         // $this->setLimit(9999);
-        
+
         $this->addColumn($this->lng->txt("title"), "title");
-        
+
         $cols = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $col) {
             $this->addColumn($cols[$col]["txt"], $col);
         }
-        
+
         if (!$this->has_schedule) {
             $this->addColumn($this->lng->txt("available"));
         }
@@ -99,24 +99,29 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.booking_object_row.html", "Modules/BookingManager");
-        
+        $this->process_class = $DIC->bookingManager()
+            ->internal()
+            ->gui()
+            ->process()
+            ->getProcessClass($a_pool_has_schedule);
+
         $this->initFilter();
         $this->getItems();
     }
-        
+
     /**
      * needed for advmd filter handling
      */
-    protected function getAdvMDRecordGUI() : ilAdvancedMDRecordGUI
+    protected function getAdvMDRecordGUI(): ?ilAdvancedMDRecordGUI
     {
         // #16827
         return $this->record_gui;
     }
-    
-    public function initFilter() : void
+
+    public function initFilter(): void
     {
         $lng = $this->lng;
-        
+
         // title/description
         $title = $this->addFilterItemByMetaType(
             "title",
@@ -142,13 +147,13 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             }
         }
     }
-    
-    public function getItems() : void
+
+    public function getItems(): void
     {
         $ilUser = $this->user;
-        
+
         $data = ilBookingObject::getList($this->pool_id, $this->filter["title"]);
-        
+
 
         // check schedule availability
         if ($this->has_schedule) {
@@ -177,10 +182,10 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                 }
             }
         }
-        
+
         foreach ($data as $idx => $item) {
             $item_id = $item["booking_object_id"];
-            
+
             // available for given period?
             if (isset($this->filter["period"]["from"]) ||
                 isset($this->filter["period"]["to"])) {
@@ -190,21 +195,21 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                 $to = is_object($this->filter["period"]["to"])
                     ? strtotime($this->filter["period"]["to"]->get(IL_CAL_DATE) . " 23:59:59")
                     : null;
-                                
+
                 $bobj = new ilBookingObject($item_id);
                 $schedule = new ilBookingSchedule($bobj->getScheduleId());
-            
+
                 if (!ilBookingReservation::isObjectAvailableInPeriod($item_id, $schedule, $from, $to)) {
                     unset($data[$idx]);
                     continue;
                 }
             }
-            
+
             // cache reservations
             $item_rsv = ilBookingReservation::getList(array($item_id), 1000, 0, array());
             $this->reservations[$item_id] = $item_rsv["data"];
         }
-        
+
         if (!$this->has_schedule &&
             $this->overall_limit) {
             $this->current_bookings = 0;
@@ -217,12 +222,12 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                     }
                 }
             }
-            
+
             if ($this->current_bookings >= $this->overall_limit) {
                 $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("book_overall_limit_warning"));
             }
         }
-        
+
         if ($this->advmd) {
             // advanced metadata
             $this->record_gui = new ilAdvancedMDRecordGUI(
@@ -233,7 +238,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             );
             $this->record_gui->setTableGUI($this);
             $this->record_gui->parse();
-            
+
             $data = ilAdvancedMDValues::queryForRecords(
                 $this->ref_id,
                 "book",
@@ -246,12 +251,12 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                 $this->record_gui->getFilterElements()
             );
         }
-        
+
         $this->setMaxCount(count($data));
         $this->setData($data);
     }
-    
-    public function numericOrdering(string $a_field) : bool
+
+    public function numericOrdering(string $a_field): bool
     {
         if (str_starts_with($a_field, "md_")) {
             $md_id = (int) substr($a_field, 3);
@@ -261,45 +266,45 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         }
         return false;
     }
-    
-    public function getSelectableColumns() : array
+
+    public function getSelectableColumns(): array
     {
         $cols = array();
-        
+
         $cols["description"] = array(
             "txt" => $this->lng->txt("description"),
             "default" => true
         );
-        
+
         foreach ($this->advmd as $field) {
             $cols["advmd" . $field["id"]] = array(
                 "txt" => $field["title"],
                 "default" => false
             );
         }
-        
+
         return $cols;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-        
+
         $has_booking = false;
         $booking_possible = true;
         $assign_possible = true;
         $has_reservations = false;
-        
+
         $selected = $this->getSelectedColumns();
 
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-        
+
         if (in_array("description", $selected, true)) {
             $this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"]));
         }
-        
+
         if (isset($a_set["full_up"])) {
             $this->tpl->setVariable("NOT_YET", $a_set["full_up"]);
             $booking_possible = false;
@@ -307,21 +312,21 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         } elseif (isset($a_set["not_yet"])) {
             $this->tpl->setVariable("NOT_YET", $a_set["not_yet"]);
         }
-        
+
         if (!$this->has_schedule) {
             $cnt = 0;
             foreach ($this->reservations[$a_set["booking_object_id"]] as $item) {
                 if ($item["status"] != ilBookingReservation::STATUS_CANCELLED) {
                     $cnt++;
-                
+
                     if ($item["user_id"] == $ilUser->getId()) {
                         $has_booking = true;
                     }
-                    
+
                     $has_reservations = true;
                 }
             }
-            
+
             $this->tpl->setVariable("VALUE_AVAIL", $a_set["nr_items"] - $cnt);
             $this->tpl->setVariable("VALUE_AVAIL_ALL", $a_set["nr_items"]);
 
@@ -345,9 +350,9 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
         //Actions
         $items = array();
-        
+
         $ilCtrl->setParameter($this->parent_obj, 'object_id', $a_set['booking_object_id']);
-        
+
         if ($booking_possible) {
             if (isset($this->filter['period']['from'])) {
                 $ilCtrl->setParameter($this->parent_obj, 'sseed', $this->filter['period']['from']->get(IL_CAL_DATE));
@@ -355,25 +360,28 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
             $items[] = $this->ui_factory->button()->shy(
                 $lng->txt('book_book'),
-                $ilCtrl->getLinkTargetByClass("ilbookingprocessgui", 'book')
+                $ilCtrl->getLinkTargetByClass($this->process_class, 'book')
             );
 
             $ilCtrl->setParameter($this->parent_obj, 'sseed', '');
         }
-        
-        // #16663
-        if (!$this->has_schedule && $has_booking) {
-            if ($a_set['post_file'] || trim($a_set['post_text'])) {
+
+        if ($has_booking || $this->may_edit) {
+            if (trim($a_set['post_text']) || $a_set['post_file']) {
                 $items[] = $this->ui_factory->button()->shy(
                     $lng->txt('book_post_booking_information'),
-                    $ilCtrl->getLinkTargetByClass("ilbookingprocessgui", 'displayPostInfo')
+                    $ilCtrl->getLinkTargetByClass($this->process_class, 'displayPostInfo')
                 );
             }
+        }
+
+        // #16663
+        if (!$this->has_schedule && $has_booking) {
             $ilCtrl->setParameterByClass("ilbookingreservationsgui", 'object_id', $a_set['booking_object_id']);
             $items[] = $this->ui_factory->button()->shy($lng->txt('book_set_cancel'), $ilCtrl->getLinkTargetByClass("ilbookingreservationsgui", 'rsvConfirmCancelUser'));
             $ilCtrl->setParameterByClass("ilbookingreservationsgui", 'object_id', "");
         }
-            
+
         if ($this->may_edit || $has_booking) {
             $ilCtrl->setParameterByClass('ilBookingReservationsGUI', 'object_id', $a_set['booking_object_id']);
             $items[] = $this->ui_factory->button()->shy(
@@ -391,7 +399,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             //if (!empty(ilBookingParticipant::getAssignableParticipants($a_set["booking_object_id"]))) {
             if (isset($this->filter['period']['from'])) {
                 $ilCtrl->setParameterByClass(
-                    "ilbookingprocessgui",
+                    $this->process_class,
                     'sseed',
                     $this->filter['period']['from']->get(IL_CAL_DATE)
                 );
@@ -399,17 +407,17 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
             $items[] = $this->ui_factory->button()->shy(
                 $lng->txt('book_assign_participant'),
-                $ilCtrl->getLinkTargetByClass("ilbookingprocessgui", 'assignParticipants')
+                $ilCtrl->getLinkTargetByClass($this->process_class, 'assignParticipants')
             );
 
-            $ilCtrl->setParameterByClass("ilbookingprocessgui", 'sseed', '');
+            $ilCtrl->setParameterByClass($this->process_class, 'sseed', '');
             //}
         }
 
         if ($a_set['info_file']) {
             $items[] = $this->ui_factory->button()->shy($lng->txt('book_download_info'), $ilCtrl->getLinkTarget($this->parent_obj, 'deliverInfo'));
         }
-        
+
         if ($this->may_edit) {
             $items[] = $this->ui_factory->button()->shy($lng->txt('edit'), $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
 
@@ -418,15 +426,15 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                 $items[] = $this->ui_factory->button()->shy($lng->txt('delete'), $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
             }
         }
-        
+
         if ($this->advmd) {
             foreach ($this->advmd as $item) {
                 $advmd_id = (int) $item["id"];
-                
+
                 if (!in_array("advmd" . $advmd_id, $selected)) {
                     continue;
                 }
-                                
+
                 $val = " ";
                 $key = "md_" . $advmd_id . "_presentation";
                 if (isset($a_set[$key])) {
@@ -435,7 +443,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                         $val = $pb;
                     }
                 }
-                
+
                 $this->tpl->setCurrentBlock("advmd_bl");
                 $this->tpl->setVariable("ADVMD_VAL", $val);
                 $this->tpl->parseCurrentBlock();

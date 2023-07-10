@@ -1,7 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 - Denis Klöpfer <denis.kloepfer@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2018 - Stefan Hecken <stefan.hecken@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Refinery\Factory as Refinery;
@@ -41,7 +56,7 @@ class ilIndividualAssessmentSettings
     /**
      * Get the id of corresponding iass-object
      */
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
@@ -49,7 +64,7 @@ class ilIndividualAssessmentSettings
     /**
      * Get the content of this assessment, e.g. corresponding topics...
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -57,7 +72,7 @@ class ilIndividualAssessmentSettings
     /**
      * Get the content of this assessment, e.g. corresponding topics...
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -65,7 +80,7 @@ class ilIndividualAssessmentSettings
     /**
      * Get the content of this assessment, e.g. corresponding topics...
      */
-    public function getContent() : string
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -74,7 +89,7 @@ class ilIndividualAssessmentSettings
      * Get the record template to be used as default record with
      * corresponding object
      */
-    public function getRecordTemplate() : string
+    public function getRecordTemplate(): string
     {
         return $this->record_template;
     }
@@ -82,7 +97,7 @@ class ilIndividualAssessmentSettings
     /**
      * Get the value of the checkbox event_time_place_require
      */
-    public function isEventTimePlaceRequired() : bool
+    public function isEventTimePlaceRequired(): bool
     {
         return $this->event_time_place_required;
     }
@@ -90,7 +105,7 @@ class ilIndividualAssessmentSettings
     /**
      * Get the value of the checkbox file_required
      */
-    public function isFileRequired() : bool
+    public function isFileRequired(): bool
     {
         return $this->file_required;
     }
@@ -99,7 +114,7 @@ class ilIndividualAssessmentSettings
         Field\Factory $input,
         ilLanguage $lng,
         Refinery $refinery
-    ) : Field\Input {
+    ): Field\Input {
         return $input->section(
             [
                 $input->text($lng->txt("title"))

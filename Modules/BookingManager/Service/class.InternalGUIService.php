@@ -1,7 +1,8 @@
-<?php declare(strict_types = 1);
+<?php
 
-/******************************************************************************
- *
+declare(strict_types=1);
+
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +13,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 namespace ILIAS\BookingManager;
 
@@ -42,13 +43,36 @@ class InternalGUIService
         $this->initGUIServices($DIC);
     }
 
-    public function preferences() : Preferences\GUIService
+    public function preferences(): Preferences\GUIService
     {
         return new Preferences\GUIService(
             $this->data_service,
             $this->domain_service,
             $this
         );
+    }
+
+    public function process() : BookingProcess\GUIService
+    {
+        return new BookingProcess\GUIService(
+            $this->data_service,
+            $this->domain_service,
+            $this
+        );
+    }
+
+    public function objects() : Objects\GUIService
+    {
+        return new Objects\GUIService(
+            $this->data_service,
+            $this->domain_service,
+            $this
+        );
+    }
+
+    public function bookingHelp(\ilObjBookingPool $pool) : \ilBookingHelpAdapter
+    {
+        return new \ilBookingHelpAdapter($pool, $this->help());
     }
 
     public function standardRequest() : StandardGUIRequest

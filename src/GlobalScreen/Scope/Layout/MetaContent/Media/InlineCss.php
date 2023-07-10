@@ -1,14 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
+<?php
 
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
 /**
  * Class InlineCss
@@ -16,12 +25,12 @@
  */
 class InlineCss extends AbstractMedia
 {
-    const MEDIA_SCREEN = "screen";
+    public const MEDIA_SCREEN = "screen";
     /**
      * @var string
      */
     private string $media;
-    
+
     /**
      * InlineCss constructor.
      * @param string $content
@@ -32,11 +41,11 @@ class InlineCss extends AbstractMedia
         parent::__construct($content, $version);
         $this->media = $media;
     }
-    
+
     /**
      * @return string
      */
-    public function getMedia() : string
+    public function getMedia(): string
     {
         return $this->media;
     }

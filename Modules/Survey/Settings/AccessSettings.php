@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Settings;
 
@@ -44,7 +49,7 @@ class AccessSettings
     /**
      * Get start date (unix ts)
      */
-    public function getStartDate() : int
+    public function getStartDate(): int
     {
         return $this->start_date;
     }
@@ -52,7 +57,7 @@ class AccessSettings
     /**
      * Get start date (unix ts)
      */
-    public function getEndDate() : int
+    public function getEndDate(): int
     {
         return $this->end_date;
     }
@@ -60,7 +65,7 @@ class AccessSettings
     /**
      * Get access by codes
      */
-    public function getAccessByCodes() : bool
+    public function getAccessByCodes(): bool
     {
         return $this->access_by_codes;
     }

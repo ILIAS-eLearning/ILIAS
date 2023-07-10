@@ -1,6 +1,25 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Component\Dropdown\Standard;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Factory;
@@ -18,16 +37,16 @@ use ILIAS\UI\Component\Modal\RoundTrip;
  */
 class ilObjStudyProgrammeAutoCategoriesGUI
 {
-    const F_CATEGORY_REF = 'f_cr';
-    const F_CATEGORY_ORIGINAL_REF = 'f_cr_org';
-    const CHECKBOX_CATEGORY_REF_IDS = 'c_catids';
+    private const F_CATEGORY_REF = 'f_cr';
+    private const F_CATEGORY_ORIGINAL_REF = 'f_cr_org';
+    public const CHECKBOX_CATEGORY_REF_IDS = 'c_catids';
 
-    const CMD_VIEW = 'view';
-    const CMD_SAVE = 'save';
-    const CMD_GET_ASYNC_MODAL = 'getAsyncModalOutput';
-    const CMD_DELETE = 'delete';
-    const CMD_DELETE_CONFIRMATION = 'deleteConfirmation';
-    const CMD_PROFILE_NOT_PUBLIC = 'profile_not_public';
+    private const CMD_VIEW = 'view';
+    private const CMD_SAVE = 'save';
+    private const CMD_GET_ASYNC_MODAL = 'getAsyncModalOutput';
+    private const CMD_DELETE = 'delete';
+    private const CMD_DELETE_CONFIRMATION = 'deleteConfirmation';
+    private const CMD_PROFILE_NOT_PUBLIC = 'profile_not_public';
 
     public ilGlobalTemplateInterface $tpl;
     public ilCtrl $ctrl;
@@ -73,7 +92,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $this->refinery = $refinery;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
@@ -107,7 +126,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     /**
      * Render.
      */
-    protected function view(bool $profile_not_public = false) : void
+    protected function view(bool $profile_not_public = false): void
     {
         if ($profile_not_public) {
             $this->tpl->setOnScreenMessage("info", $this->lng->txt('prg_profile_not_public'));
@@ -125,7 +144,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
             if (ilObject::_lookupType($ref_id, true) !== 'cat' || $this->tree->isDeleted($ref_id)) {
                 continue;
             }
-            list($title, $link) = $this->getItemPath($ref_id);
+            [$title, $link] = $this->getItemPath($ref_id);
             $usr = $this->getUserRepresentation($ac->getLastEditorId());
             $modal = $this->getModal($ref_id);
             $collected_modals[] = $modal;
@@ -142,8 +161,8 @@ class ilObjStudyProgrammeAutoCategoriesGUI
                 $title
             ];
         }
-        usort($data, function ($a, $b) {
-            return strnatcmp($a[4], $b[4]);
+        usort($data, static function (array $a, array $b): int {
+            return strnatcasecmp($a[4], $b[4]);
         });
 
         $table = new ilStudyProgrammeAutoCategoriesTableGUI($this, "view", "");
@@ -158,7 +177,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     /**
      * Store data from (modal-)form.
      */
-    protected function save() : void
+    protected function save(): void
     {
         $form = $this->getForm();
         $form->setValuesByPost();
@@ -184,7 +203,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $this->getObject()->storeAutomaticContentCategory((int) $cat_ref_id);
     }
 
-    protected function deleteConfirmation() : void
+    protected function deleteConfirmation(): void
     {
         $get = $this->request->getQueryParams();
         $post = $this->request->getParsedBody();
@@ -223,7 +242,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $this->tpl->setContent($this->ui_renderer->render($message_box));
     }
 
-    protected function delete() : void
+    protected function delete(): void
     {
         $field = self::CHECKBOX_CATEGORY_REF_IDS;
         $get = $this->request->getQueryParams();
@@ -251,7 +270,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     /**
      * Set ref-id of StudyProgramme before using this GUI.
      */
-    public function setRefId(int $prg_ref_id) : void
+    public function setRefId(int $prg_ref_id): void
     {
         $this->prg_ref_id = $prg_ref_id;
     }
@@ -259,7 +278,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     /**
      * Get current StudyProgramme-object.
      */
-    protected function getObject() : ilObjStudyProgramme
+    protected function getObject(): ilObjStudyProgramme
     {
         if ($this->object === null ||
             $this->object->getRefId() !== $this->prg_ref_id
@@ -269,7 +288,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         return $this->object;
     }
 
-    protected function getModal(int $current_ref_id = null) : RoundTrip
+    protected function getModal(int $current_ref_id = null): RoundTrip
     {
         if (!is_null($current_ref_id)) {
             $this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, (string) $current_ref_id);
@@ -284,7 +303,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         );
     }
 
-    protected function getAsyncModalOutput() : void
+    protected function getAsyncModalOutput(): void
     {
         $current_ref_id = null;
         if ($this->request_wrapper->has(self::CHECKBOX_CATEGORY_REF_IDS)) {
@@ -297,26 +316,33 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $form_id = "form_" . $form->getId();
         $submit = $this->ui_factory->button()->primary($this->lng->txt('add'), "#")->withOnLoadCode(
             function ($id) use ($form_id) {
-                return "$('#$id').click(function() { $('#$form_id').submit(); return false; });";
+                return "$('#$id').click(function() { document.getElementById('$form_id').submit(); return false; });";
             }
         );
-        $modal = $this->ui_factory->modal()->roundtrip(
-            $this->lng->txt('modal_categories_title'),
-            $this->ui_factory->legacy($form->getHtml())
-        )->withActionButtons([$submit]);
+        $modal = $this->ui_factory->modal()
+            ->roundtrip(
+                $this->lng->txt('modal_categories_title'),
+                $this->ui_factory->legacy($form->getHtml())
+            )
+            ->withActionButtons([$submit])
+            ->withAdditionalOnLoadCode(
+                function ($id) use ($form) {
+                    $selector_post_var = self::F_CATEGORY_REF;
+                    $js = $form->getItemByPostVar($selector_post_var)->getOnloadCode();
+                    return implode(';', $js);
+                }
+            );
+
 
         echo $this->ui_renderer->renderAsync($modal);
         exit;
     }
 
-    protected function getForm(?int $current_ref_id = null) : ilPropertyFormGUI
+    protected function getForm(?int $current_ref_id = null): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
-        if (is_null($current_ref_id)) {
-            $current_ref_id = "";
-        }
-        $form->setId(uniqid((string) $current_ref_id));
+        $form->setId(uniqid((string) $current_ref_id, true));
 
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
         $cat = new ilRepositorySelector2InputGUI(
@@ -326,7 +352,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         );
         $cat->getExplorerGUI()->setSelectableTypes(["cat"]);
         $cat->getExplorerGUI()->setTypeWhiteList(["root", "cat"]);
-        if ($current_ref_id != "") {
+        if ($current_ref_id !== null) {
             $cat->getExplorerGUI()->setPathOpen($current_ref_id);
             $cat->setValue($current_ref_id);
         }
@@ -335,7 +361,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $form->addItem($cat);
 
         $hi = new ilHiddenInputGUI(self::F_CATEGORY_ORIGINAL_REF);
-        $hi->setValue($current_ref_id);
+        $hi->setValue((string)$current_ref_id ?? "");
         $form->addItem($hi);
 
         return $form;
@@ -344,7 +370,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     /**
      * Setup toolbar.
      */
-    protected function getToolbar(Signal $add_cat_signal) : void
+    protected function getToolbar(Signal $add_cat_signal): void
     {
         $btn = $this->ui_factory->button()->primary($this->lng->txt('add_category'), '')
                                 ->withOnClick($add_cat_signal);
@@ -354,7 +380,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     protected function getItemAction(
         int $cat_ref_id,
         Signal $signal
-    ) : Standard {
+    ): Standard {
         $items = [];
         $items[] = $this->ui_factory
             ->button()
@@ -374,7 +400,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         return $this->ui_factory->dropdown()->standard($items);
     }
 
-    protected function getUserRepresentation(int $usr_id) : Shy
+    protected function getUserRepresentation(int $usr_id): Link
     {
         $username = ilObjUser::_lookupName($usr_id);
         $editor = implode(' ', [
@@ -387,21 +413,20 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         if (!$usr->hasPublicProfile()) {
             $url = $this->ctrl->getLinkTarget($this, self::CMD_PROFILE_NOT_PUBLIC);
         }
-        return $this->ui_factory->button()->shy($editor, $url);
+        return $this->ui_factory->link()->standard($editor, $url);
     }
 
-    protected function getItemPath(int $cat_ref_id) : array
+    protected function getItemPath(int $cat_ref_id): array
     {
         $url = ilLink::_getStaticLink($cat_ref_id, 'cat');
 
         $hops = array_map(
-            function ($c) {
-                return ilObject::_lookupTitle($c["obj_id"]);
+            static function (array $c): string {
+                return ilObject::_lookupTitle((int)$c["obj_id"]);
             },
             $this->tree->getPathFull($cat_ref_id)
         );
         $path = implode(' > ', $hops);
-        $title = array_pop($hops);
-        return [$title, $this->ui_factory->button()->shy($path, $url)];
+        return [$path, $this->ui_factory->link()->standard($path, $url)];
     }
 }

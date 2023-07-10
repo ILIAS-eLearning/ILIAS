@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\FileUpload\Processor;
 
 use ILIAS\Filesystem\Stream\FileStream;
@@ -7,19 +23,6 @@ use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use Psr\Http\Message\StreamInterface;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class PreProcessorManagerImpl
  *
@@ -34,7 +37,6 @@ use Psr\Http\Message\StreamInterface;
  */
 final class PreProcessorManagerImpl implements PreProcessorManager
 {
-
     /**
      * @var PreProcessor[] $processors
      */
@@ -43,7 +45,7 @@ final class PreProcessorManagerImpl implements PreProcessorManager
     /**
      * @inheritDoc
      */
-    public function with(PreProcessor $processor) : void
+    public function with(PreProcessor $processor): void
     {
         $this->processors[] = $processor;
     }
@@ -52,14 +54,14 @@ final class PreProcessorManagerImpl implements PreProcessorManager
     /**
      * @inheritDoc
      */
-    public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus
+    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
     {
         try {
             $result = null;
             foreach ($this->processors as $processor) {
                 $stream->rewind();
                 $result = $processor->process($stream, $metadata);
-                if ($result->getCode() === ProcessingStatus::REJECTED) {
+                if ($result->getCode() === ProcessingStatus::REJECTED || $result->getCode() === ProcessingStatus::DENIED) {
                     return $result;
                 }
             }

@@ -24,9 +24,13 @@ var ilSingleChoiceWizardInputTemplate = {
 
 		// process all rows
 		$(tbody).find(this.tag_row).each(function() {
-
 			// hidden
 			$(this).find('input:hidden[name*="[imagename]"]').each(function() {
+				that.handleId(this, 'name', rowindex);
+			});
+
+			// hidden answer id
+			$(this).find('input:hidden[name*="[answer_id]"]').each(function() {
 				that.handleId(this, 'name', rowindex);
 			});
 
@@ -64,9 +68,8 @@ var ilSingleChoiceWizardInputTemplate = {
 			});
 
 			// button
-			$(this).find('button').each(function() {
+			$(this).find('div.btn.btn-link').each(function() {
 				that.handleId(this, 'id', rowindex);
-				that.handleId(this, 'name', rowindex);
 			});
 
 			rowindex++;
@@ -77,29 +80,36 @@ var ilSingleChoiceWizardInputTemplate = {
 		var that = this;
 
 		if (typeof tinyMCE == 'undefined' || $(rootel).closest('table').find('textarea').size() == 0) {
-			$(rootel).find('button.' + this.tag_button + '_add').click(function(e) {
+			$(rootel).find('div.' + this.tag_button + '_add .glyph').click(function(e) {
 				that.addRow(e);
 			});
-			$(rootel).find('button.' + this.tag_button + '_remove').click(function(e) {
+			$(rootel).find('div.' + this.tag_button + '_remove .glyph').click(function(e) {
 				that.removeRow(e);
 			});
-			$(rootel).find('button.' + this.tag_button + '_up').click(function(e) {
+			$(rootel).find('div.' + this.tag_button + '_up .glyph').click(function(e) {
 				that.moveRowUp(e);
 			});
-			$(rootel).find('button.' + this.tag_button + '_down').click(function(e) {
+			$(rootel).find('div.' + this.tag_button + '_down .glyph').click(function(e) {
 				that.moveRowDown(e);
 			});
 		} else {
-			// skip the javascript functionality if tinyMCE is running
-			$(rootel).find('button.' + this.tag_button + '_add').attr("type", "submit");
-			$(rootel).find('button.' + this.tag_button + '_remove').attr("type", "submit");
-			$(rootel).find('button.' + this.tag_button + '_up').attr("type", "submit");
-			$(rootel).find('button.' + this.tag_button + '_down').attr("type", "submit");
+			$(rootel).find('div.' + this.tag_button + '_add .glyph').click((e) => {
+				that.onClickHandler('add', e);
+			});
+			$(rootel).find('div.' + this.tag_button + '_remove .glyph').click((e) => {
+				that.onClickHandler('remove', e);
+			});
+			$(rootel).find('div.' + this.tag_button + '_up .glyph').click((e) => {
+				that.onClickHandler('up', e);
+			});
+			$(rootel).find('div.' + this.tag_button + '_down .glyph').click((e) => {
+				that.onClickHandler('down', e);
+			});
 		}
 	}
 };
 
 $(document).ready(function() {
-	var ilSingleChoiceWizardInput = $.extend({}, ilWizardInput, ilSingleChoiceWizardInputTemplate);
+	var ilSingleChoiceWizardInput = $.extend({}, AnswerWizardInput, ilSingleChoiceWizardInputTemplate);
 	ilSingleChoiceWizardInput.init();
 });

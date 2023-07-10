@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -35,7 +37,7 @@ class ilLearningProgressAccess
         string $a_permission,
         int $a_ref_id,
         ?int $a_user_id = null
-    ) : bool {
+    ): bool {
         global $DIC;
 
         if ($a_user_id === null) {
@@ -51,7 +53,10 @@ class ilLearningProgressAccess
             );
         }
         return $DIC->access()->checkAccessOfUser(
-            $a_user_id, $a_permission, '', $a_ref_id
+            $a_user_id,
+            $a_permission,
+            '',
+            $a_ref_id
         );
     }
 
@@ -61,7 +66,7 @@ class ilLearningProgressAccess
     public static function checkAccess(
         int $a_ref_id,
         bool $a_allow_only_read = true
-    ) : bool {
+    ): bool {
         global $DIC;
 
         if ($DIC->user()->getId() == ANONYMOUS_USER_ID) {
@@ -74,8 +79,10 @@ class ilLearningProgressAccess
 
         $olp = ilObjectLP::getInstance(ilObject::_lookupObjId($a_ref_id));
         if ($DIC->access()->checkAccess(
-                'read_learning_progress', '', $a_ref_id
-            ) ||
+            'read_learning_progress',
+            '',
+            $a_ref_id
+        ) ||
             (
                 $DIC->access()->checkRbacOrPositionPermissionAccess(
                     ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
@@ -92,7 +99,9 @@ class ilLearningProgressAccess
         }
         // edit learning progress is sufficient: #0029313
         if ($DIC->access()->checkAccess(
-            'edit_learning_progress', '', $a_ref_id
+            'edit_learning_progress',
+            '',
+            $a_ref_id
         )) {
             return true;
         }

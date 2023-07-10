@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Repository\Provider;
 
@@ -54,12 +57,12 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $this->request = $dic->repository()->internal()->gui()->standardRequest();
     }
 
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
 
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $dic = $this->dic;
         $f = $this->dic->ui()->factory();
@@ -68,7 +71,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $access_helper = BasicAccessCheckClosuresSingleton::getInstance();
 
         $title = $this->getHomeItem()->getTitle();
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::ROOT, $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::ROOT, $title);
 
         // Home
         $entries[] = $this->getHomeItem()
@@ -80,7 +83,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         // Tree-View
         $title = $this->dic->language()->txt("mm_rep_tree_view");
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_reptr.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("icon_reptr.svg"), $title);
 
         \ilRepositoryExplorerGUI::init();
         $ref_id = $this->request->getRefId();
@@ -89,7 +92,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $entries[]
             = $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
             ->withVisibilityCallable($access_helper->isRepositoryVisible())
-            ->withContentWrapper(function () use ($ref_id) : Legacy {
+            ->withContentWrapper(function () use ($ref_id): Legacy {
                 return $this->dic->ui()->factory()->legacy($this->renderRepoTree($ref_id));
             })
             ->withSupportsAsynchronousLoading($asynch)
@@ -98,7 +101,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withParent($top)
             ->withPosition(20);
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_lstv.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("icon_lstv.svg"), $title);
 
         $p = $this;
         $entries[] = $this->mainmenu
@@ -109,17 +112,17 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withPosition(30)
             ->withSymbol($icon)
             ->withParent($top)
-            ->withContentWrapper(function () use ($p) : Legacy {
+            ->withContentWrapper(function () use ($p): Legacy {
                 return $this->dic->ui()->factory()->legacy($p->renderLastVisited());
             });
 
         $title = $this->dic->language()->txt("mm_favorites");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_fav.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("icon_fav.svg"), $title);
         $entries[] = $this->mainmenu->complex($this->if->identifier('mm_pd_sel_items'))
                        ->withSupportsAsynchronousLoading(true)
                        ->withTitle($title)
                        ->withSymbol($icon)
-                       ->withContentWrapper(function () use ($f) : Legacy {
+                       ->withContentWrapper(function () use ($f): Legacy {
                            $fav_list = new \ilFavouritesListGUI();
 
                            return $f->legacy($fav_list->render());
@@ -127,13 +130,13 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                        ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                        ->withPosition(10)
                        ->withAvailableCallable(
-                           function () use ($dic) : bool {
+                           function () use ($dic): bool {
                                return (bool) $dic->settings()->get('rep_favourites', "0");
                            }
                        )
                        ->withVisibilityCallable(
                            $access_helper->isUserLoggedIn($access_helper->isRepositoryReadable(
-                               static function () use ($dic) : bool {
+                               static function () use ($dic): bool {
                                    return true;
                                    $pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
 
@@ -146,11 +149,11 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     }
 
 
-    private function getHomeItem() : Link
+    private function getHomeItem(): Link
     {
         $dic = $this->dic;
 
-        $title = static function () use ($dic) : string {
+        $title = static function () use ($dic): string {
             try {
                 $nd = $dic['tree']->getNodeData(ROOT_FOLDER_ID);
                 $title = ($nd["title"] === "ILIAS" ? $dic->language()->txt("repository") : $nd["title"]);
@@ -162,7 +165,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             return $title . " - " . $dic->language()->txt("rep_main_page");
         };
 
-        $action = static function () : string {
+        $action = static function (): string {
             try {
                 $static_link = ilLink::_getStaticLink(1, 'root', true);
             } catch (InvalidArgumentException $e) {
@@ -177,7 +180,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withAction($action());
     }
 
-    protected function renderLastVisited() : string
+    protected function renderLastVisited(): string
     {
         $nav_items = [];
         if (isset($this->dic['ilNavigationHistory'])) {
@@ -217,7 +220,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     }
 
     // No favourites message box
-    public function getNoLastVisitedMessage() : MessageBox
+    public function getNoLastVisitedMessage(): MessageBox
     {
         global $DIC;
 
@@ -230,7 +233,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         return $mbox;
     }
 
-    protected function renderRepoTree(int $ref_id) : string
+    protected function renderRepoTree(int $ref_id): string
     {
         global $DIC;
         $tree = $DIC->repositoryTree();

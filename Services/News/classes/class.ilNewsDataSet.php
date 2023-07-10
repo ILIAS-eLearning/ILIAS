@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * News data set class
@@ -19,17 +22,17 @@
  */
 class ilNewsDataSet extends ilDataSet
 {
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return ["5.4.0", "4.1.0"];
     }
-    
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Services/News/" . $a_entity;
     }
-    
-    protected function getTypes(string $a_entity, string $a_version) : array
+
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity === "news") {
             switch ($a_version) {
@@ -70,14 +73,14 @@ class ilNewsDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
 
         if (!is_array($a_ids)) {
             $a_ids = [$a_ids];
         }
-                
+
         if ($a_entity === "news") {
             switch ($a_version) {
                 case "4.1.0":
@@ -109,7 +112,7 @@ class ilNewsDataSet extends ilDataSet
         }
     }
 
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
+    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version): void
     {
         switch ($a_entity) {
             case "news":
@@ -164,7 +167,6 @@ class ilNewsDataSet extends ilDataSet
                     }
                 }
                 break;
-
         }
     }
 }

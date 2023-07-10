@@ -31,6 +31,9 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapSCORMAdministration extends ilSoapAdministration
 {
+    /**
+     * @return false|soap_fault|SoapFault|string|null
+     */
     public function getIMSManifestXML(string $sid, int $requested_ref_id)
     {
         $this->initAuth($sid);
@@ -99,6 +102,9 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
         return file_get_contents($imsFilename);
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function hasSCORMCertificate(string $sid, int $ref_id, int $usr_id)
     {
         $this->initAuth($sid);
@@ -135,6 +141,9 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
         return $certValidator->validate($usr_id, $obj_id);
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function getSCORMCompletionStatus(string $sid, int $a_usr_id, int $a_ref_id)
     {
         $this->initAuth($sid);

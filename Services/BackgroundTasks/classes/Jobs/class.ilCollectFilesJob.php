@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Types\SingleType;
@@ -30,7 +30,12 @@ use ILIAS\BackgroundTasks\Value;
 class ilCollectFilesJob extends AbstractJob
 {
     private ?ilLogger $logger;
-
+    /**
+     * Holds the target mapped to the number of duplicates.
+     * @see ilCollectFilesJob::getFileDirs()
+     * @var array<string, int>
+     */
+    private static array $targets = [];
 
     /**
      * Construct
@@ -45,7 +50,7 @@ class ilCollectFilesJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return
             [
@@ -58,7 +63,7 @@ class ilCollectFilesJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(ilCopyDefinition::class);
     }
@@ -67,7 +72,7 @@ class ilCollectFilesJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
@@ -77,7 +82,7 @@ class ilCollectFilesJob extends AbstractJob
      * @inheritDoc
      * @todo use filsystem service
      */
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : Value
+    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer): Value
     {
         $this->logger->debug('Start collecting files!');
         $this->logger->dump($input);
@@ -96,8 +101,12 @@ class ilCollectFilesJob extends AbstractJob
                 $num_recursions = 0;
                 $files_from_folder = self::recurseFolder($object_ref_id, $object_name, $object_temp_dir, $num_recursions, $initiated_by_folder_action);
                 $files = array_merge($files, $files_from_folder);
-            } elseif ($object_type == "file" && self::getFileDirs($object_ref_id, $object_name, $object_temp_dir) != false) {
-                $files[] = self::getFileDirs($object_ref_id, $object_name, $object_temp_dir);
+            } elseif (($object_type == "file") && (($file_dirs = self::getFileDirs(
+                $object_ref_id,
+                $object_name,
+                $object_temp_dir
+            )) !== false)) {
+                $files[] = $file_dirs;
             }
         }
         $this->logger->debug('Collected files:');
@@ -123,6 +132,9 @@ class ilCollectFilesJob extends AbstractJob
 
     /**
      * @return bool|array<string, string>
+     * Please note that this method must only be called ONCE in order to detect
+     * duplicate entries. DO NOT call this method e.g. in an if condition and
+     * then again in its body.
      */
     private static function getFileDirs($a_ref_id, $a_file_name, $a_temp_dir)
     {
@@ -138,7 +150,17 @@ class ilCollectFilesJob extends AbstractJob
             }
             $target_dir = $a_temp_dir . '/' . ilFileUtils::getASCIIFilename($a_file_name);
 
-            return $file_dirs = [
+            // #25025: allow duplicate filenames by appending an incrementing
+            // number per duplicate in brackets to the name.
+            // Example: test.txt, test (1).txt, test (2).txt, ...
+            if (isset(self::$targets[$target_dir])) {
+                $target_info = pathinfo($target_dir);
+                $target_dir = $a_temp_dir . $target_info["filename"] . " (" . ++self::$targets[$target_dir] . ")." . $target_info["extension"];
+            } else {
+                self::$targets[$target_dir] = 0;
+            }
+
+            return [
                 "source_dir" => $source_dir,
                 "target_dir" => $target_dir,
             ];
@@ -155,7 +177,7 @@ class ilCollectFilesJob extends AbstractJob
      *
      * @return mixed[]
      */
-    private static function recurseFolder($a_ref_id, $a_folder_name, $a_temp_dir, $a_num_recursions, $a_initiated_by_folder_action) : array
+    private static function recurseFolder($a_ref_id, $a_folder_name, $a_temp_dir, $a_num_recursions, $a_initiated_by_folder_action): array
     {
         global $DIC;
 
@@ -184,8 +206,10 @@ class ilCollectFilesJob extends AbstractJob
             if ($child["type"] == "fold") {
                 $files_from_folder = self::recurseFolder($child["ref_id"], $child['title'], $temp_dir, $num_recursions, $a_initiated_by_folder_action);
                 $files = array_merge($files, $files_from_folder);
-            } elseif ($child["type"] == "file" && self::getFileDirs($child["ref_id"], $child['title'], $temp_dir) != false) {
-                $files[] = self::getFileDirs($child["ref_id"], $child['title'], $temp_dir);
+            } else {
+                if (($child["type"] == "file") && (($dirs = self::getFileDirs($child["ref_id"], $child['title'], $temp_dir)) !== false)) {
+                    $files[] = $dirs;
+                }
             }
         }
         // ensure that empty folders are also contained in the downloaded zip
@@ -203,7 +227,7 @@ class ilCollectFilesJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

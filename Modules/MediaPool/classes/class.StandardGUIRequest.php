@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\MediaPool;
 
@@ -35,22 +38,22 @@ class StandardGUIRequest
         );
     }
 
-    public function getNewType() : string
+    public function getNewType(): string
     {
         return $this->str("new_type");
     }
 
-    public function getMode() : string
+    public function getMode(): string
     {
         return $this->str("mep_mode");
     }
 
-    public function getExportFormat() : string
+    public function getExportFormat(): string
     {
         return $this->str("format");
     }
 
-    public function getUploadHash() : string
+    public function getUploadHash(): string
     {
         $hash = $this->str("mep_hash");
         if ($hash === "") {
@@ -59,54 +62,61 @@ class StandardGUIRequest
         return $hash;
     }
 
-    public function getItemId() : int
+    public function getItemId(): int
     {
         return $this->int("mepitem_id");
     }
 
     /** @return int[] */
-    public function getItemIds() : array
+    public function getItemIds(): array
     {
-        return $this->intArray("id");
+        $items = $this->intArray("id");
+        if (count($items) === 0) {
+            $id = $this->int("id");
+            if ($id > 0) {
+                return [$id];
+            }
+        }
+        return $items;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getOldNr() : int
+    public function getOldNr(): int
     {
         return $this->int("old_nr");
     }
 
-    public function getFolderEditMode() : bool
+    public function getFolderEditMode(): bool
     {
         return (bool) $this->int("foldereditmode");
     }
 
-    public function getForceFilter() : int
+    public function getForceFilter(): int
     {
         return $this->int("force_filter");
     }
 
-    public function getFolderId($par) : int
+    public function getFolderId($par): int
     {
         return $this->int($par);
     }
 
-    public function getImportLang() : string
+    public function getImportLang(): string
     {
         return $this->str("import_lang");
     }
 
     /** @return string[] */
-    public function getFiles() : array
+    public function getFiles(): array
     {
         return $this->strArray("file");
     }
 
-    public function getFileAction() : string
+    public function getFileAction(): string
     {
         return $this->str("action");
     }

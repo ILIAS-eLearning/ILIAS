@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -37,7 +39,7 @@ class ilAdvancedMDRecordTranslations
         $this->read();
     }
 
-    public static function getInstanceByRecordId(int $record_id) : ilAdvancedMDRecordTranslations
+    public static function getInstanceByRecordId(int $record_id): ilAdvancedMDRecordTranslations
     {
         if (!isset(self::$instances[$record_id])) {
             self::$instances[$record_id] = new self($record_id);
@@ -45,22 +47,22 @@ class ilAdvancedMDRecordTranslations
         return self::$instances[$record_id];
     }
 
-    public function getDefaultLanguage() : string
+    public function getDefaultLanguage(): string
     {
         return $this->default_language;
     }
 
-    public function getRecordId() : int
+    public function getRecordId(): int
     {
         return $this->record_id;
     }
 
-    public function isConfigured(string $lang_key) : bool
+    public function isConfigured(string $lang_key): bool
     {
         return isset($this->translations[$lang_key]);
     }
 
-    public function getTranslation(string $lang_key) : ?ilAdvancedMDRecordTranslation
+    public function getTranslation(string $lang_key): ?ilAdvancedMDRecordTranslation
     {
         if (!$this->isConfigured($lang_key)) {
             return null;
@@ -71,12 +73,12 @@ class ilAdvancedMDRecordTranslations
     /**
      * array<string, ilAdvancedMDRecordTranslation>
      */
-    public function getTranslations() : array
+    public function getTranslations(): array
     {
         return $this->translations;
     }
 
-    public function getDefaultTranslation() : ?ilAdvancedMDRecordTranslation
+    public function getDefaultTranslation(): ?ilAdvancedMDRecordTranslation
     {
         foreach ($this->getTranslations() as $translation) {
             if ($translation->getLangKey() == $this->default_language) {
@@ -86,7 +88,7 @@ class ilAdvancedMDRecordTranslations
         return null;
     }
 
-    public function cloneRecord(int $new_record_id) : void
+    public function cloneRecord(int $new_record_id): void
     {
         foreach ($this->getTranslations() as $recordTranslation) {
             $recordTranslation->setRecordId($new_record_id);
@@ -94,7 +96,7 @@ class ilAdvancedMDRecordTranslations
         }
     }
 
-    private function read() : void
+    private function read(): void
     {
         $query = 'select * from ' . ilAdvancedMDRecordTranslation::TABLE_NAME . ' ' .
             'where record_id = ' . $this->db->quote($this->getRecordId(), ilDBConstants::T_INTEGER);
@@ -114,7 +116,7 @@ class ilAdvancedMDRecordTranslations
         $this->default_language = $this->record->getDefaultLanguage();
     }
 
-    public function addTranslationEntry(string $language_code, bool $default = false) : void
+    public function addTranslationEntry(string $language_code, bool $default = false): void
     {
         $this->translations[$language_code] = new ilAdvancedMDRecordTranslation(
             $this->record_id,
@@ -126,7 +128,7 @@ class ilAdvancedMDRecordTranslations
         $this->translations[$language_code]->insert();
     }
 
-    public function updateDefault(string $default) : void
+    public function updateDefault(string $default): void
     {
         foreach ($this->getTranslations() as $translation) {
             if ($translation->getLangKey() != $default) {
@@ -140,7 +142,7 @@ class ilAdvancedMDRecordTranslations
         }
     }
 
-    public function getFormTranslationInfo(string $active_language) : string
+    public function getFormTranslationInfo(string $active_language): string
     {
         if (count($this->translations) <= 1) {
             return '';
@@ -161,7 +163,7 @@ class ilAdvancedMDRecordTranslations
         ilPropertyFormGUI $form,
         ilTextInputGUI $title,
         string $active_language
-    ) : void {
+    ): void {
         if (count($this->translations) <= 1) {
             return;
         }
@@ -178,7 +180,7 @@ class ilAdvancedMDRecordTranslations
         ilPropertyFormGUI $form,
         ilTextAreaInputGUI $description,
         string $active_language
-    ) : void {
+    ): void {
         if (count($this->translations) <= 1) {
             return;
         }
@@ -191,7 +193,7 @@ class ilAdvancedMDRecordTranslations
         }
     }
 
-    public function updateTranslations(string $active_language, string $title, string $description) : void
+    public function updateTranslations(string $active_language, string $title, string $description): void
     {
         $translation = $this->getTranslation($active_language);
         if (!$translation instanceof ilAdvancedMDRecordTranslation) {
@@ -202,7 +204,7 @@ class ilAdvancedMDRecordTranslations
         $translation->update();
     }
 
-    public function getTitleForLanguage(string $language) : string
+    public function getTitleForLanguage(string $language): string
     {
         if ($this->getTranslation($language) && strlen($this->getTranslation($language)->getTitle())) {
             return $this->getTranslation($language)->getTitle();
@@ -210,7 +212,7 @@ class ilAdvancedMDRecordTranslations
         return $this->record->getTitle();
     }
 
-    public function getDescriptionForLanguage(string $language) : string
+    public function getDescriptionForLanguage(string $language): string
     {
         if ($this->getTranslation($language) && strlen($this->getTranslation($language)->getDescription())) {
             return $this->getTranslation($language)->getDescription();
@@ -218,7 +220,7 @@ class ilAdvancedMDRecordTranslations
         return $this->record->getDescription();
     }
 
-    public function toXML(ilXmlWriter $writer) : ilXmlWriter
+    public function toXML(ilXmlWriter $writer): ilXmlWriter
     {
         if (!count($this->getTranslations())) {
             return $writer;

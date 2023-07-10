@@ -25,7 +25,7 @@ class ilStyleSetupConfig implements Setup\Config
         $this->path_to_lessc = $this->toLinuxConvention($path_to_lessc);
     }
 
-    protected function toLinuxConvention(?string $p) : ?string
+    protected function toLinuxConvention(?string $p): ?string
     {
         if (!$p) {
             return null;
@@ -33,12 +33,12 @@ class ilStyleSetupConfig implements Setup\Config
         return preg_replace("/\\\\/", "/", $p);
     }
 
-    public function getManageSystemStyles() : bool
+    public function getManageSystemStyles(): bool
     {
         return $this->manage_system_styles;
     }
 
-    public function getPathToLessc() : ?string
+    public function getPathToLessc(): ?string
     {
         return $this->path_to_lessc;
     }

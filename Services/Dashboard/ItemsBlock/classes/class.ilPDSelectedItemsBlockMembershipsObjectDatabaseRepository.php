@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
         'crs',
         'grp',
     ];
-    
+
     private ilDBInterface $db;
     private int $recoveryFolderId;
 
@@ -36,7 +38,7 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
     /**
      * @return string[]
      */
-    public function getValidObjectTypes() : array
+    public function getValidObjectTypes(): array
     {
         return self::VALID_OBJECT_TYPES;
     }
@@ -44,7 +46,7 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
     /**
      * @inheritDoc
      */
-    public function getForUser(ilObjUser $user, array $objTypes, string $actorLanguageCode) : Generator
+    public function getForUser(ilObjUser $user, array $objTypes, string $actorLanguageCode): Generator
     {
         $objTypes = array_intersect($objTypes, self::VALID_OBJECT_TYPES);
         if ($objTypes === []) {

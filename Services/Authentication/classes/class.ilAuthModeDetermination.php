@@ -1,39 +1,41 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
-
+ *********************************************************************/
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
 */
-
 class ilAuthModeDetermination
 {
-    private const TYPE_MANUAL = 0;
-    private const TYPE_AUTOMATIC = 1;
-    
+    public const TYPE_MANUAL = 0;
+    public const TYPE_AUTOMATIC = 1;
+
     private static ?ilAuthModeDetermination $instance = null;
-    
+
     private ilLogger $logger;
-    
+
     private ilSetting $settings;
     private ilSetting $commonSettings;
-    
+
     private int $kind = self::TYPE_MANUAL;
     private array $position = [];
-    
+
 
     /**
      * Constructor (Singleton)
@@ -44,7 +46,7 @@ class ilAuthModeDetermination
     private function __construct()
     {
         global $DIC;
-      
+
         $this->logger = $DIC->logger()->auth();
 
         $this->commonSettings = $DIC->settings();
@@ -52,11 +54,11 @@ class ilAuthModeDetermination
         $this->settings = new ilSetting("auth_mode_determination");
         $this->read();
     }
-    
+
     /**
      * Get instance
      */
-    public static function _getInstance() : ilAuthModeDetermination
+    public static function _getInstance(): ilAuthModeDetermination
     {
         if (self::$instance) {
             return self::$instance;
@@ -67,7 +69,7 @@ class ilAuthModeDetermination
     /**
      * is manual selection
      */
-    public function isManualSelection() : bool
+    public function isManualSelection(): bool
     {
         return $this->kind === self::TYPE_MANUAL;
     }
@@ -75,33 +77,33 @@ class ilAuthModeDetermination
     /**
      * get kind
      */
-    public function getKind() : int
+    public function getKind(): int
     {
         return $this->kind;
     }
-    
+
     /**
      * set kind of determination
      *
      * @param int TYPE_MANUAL or TYPE_DETERMINATION
      *
      */
-    public function setKind(int $a_kind) : void
+    public function setKind(int $a_kind): void
     {
         // TODO check value range
         $this->kind = $a_kind;
     }
-    
+
     /**
      * get auth mode sequence
      */
-    public function getAuthModeSequence(string $a_username = '') : array
+    public function getAuthModeSequence(string $a_username = ''): array
     {
         if ($a_username === '') {
             return $this->position ?: array();
         }
         $sorted = array();
-        
+
         foreach ($this->position as $auth_key) {
             $sid = ilLDAPServer::getServerIdByAuthMode((string) $auth_key);
             if ($sid) {
@@ -121,54 +123,51 @@ class ilAuthModeDetermination
             }
             $sorted[] = $auth_key;
         }
-        
+
         return $sorted;
     }
-    
+
     /**
      * get number of auth modes
      */
-    public function getCountActiveAuthModes() : int
+    public function getCountActiveAuthModes(): int
     {
         return count($this->position);
     }
-    
+
     /**
      * set auth mode sequence
      *
      * @param array position => AUTH_MODE
      *
      */
-    public function setAuthModeSequence(array $a_pos) : void
+    public function setAuthModeSequence(array $a_pos): void
     {
         $this->position = $a_pos;
     }
-    
+
     /**
      * Save settings
      */
-    public function save() : void
+    public function save(): void
     {
         $this->settings->deleteAll();
-        
+
         $this->settings->set('kind', (string) $this->getKind());
-        
+
         $counter = 0;
         foreach ($this->position as $auth_mode) {
-            $this->settings->set((string) $counter++, $auth_mode);
+            $this->settings->set((string) $counter++, (string) $auth_mode);
         }
     }
-    
-    
+
+
     /**
      * Read settings
      */
-    private function read() : void
+    private function read(): void
     {
         $this->kind = (int) $this->settings->get('kind', (string) self::TYPE_MANUAL);
-
-        $rad_settings = ilRadiusSettings::_getInstance();
-        $rad_active = $rad_settings->isActive();
 
         $soap_active = (bool) $this->commonSettings->get('soap_auth_active', "");
 
@@ -187,7 +186,7 @@ class ilAuthModeDetermination
                 //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
                 switch ((int) $auth_mode) {
                     case ilAuthUtils::AUTH_LOCAL:
-                        $this->position[] = $auth_mode;
+                        $this->position[] = (int) $auth_mode;
                         break;
                     case ilAuthUtils::AUTH_LDAP:
                         $auth_id = ilLDAPServer::getServerIdByAuthMode($auth_mode);
@@ -198,20 +197,15 @@ class ilAuthModeDetermination
                         }
                         break;
 
-                    case ilAuthUtils::AUTH_RADIUS:
-                        if ($rad_active) {
-                            $this->position[] = $auth_mode;
-                        }
-                        break;
                     case ilAuthUtils::AUTH_SOAP:
                         if ($soap_active) {
-                            $this->position[] = $auth_mode;
+                            $this->position[] = (int) $auth_mode;
                         }
                         break;
 
                     case ilAuthUtils::AUTH_APACHE:
                         if ($apache_active) {
-                            $this->position[] = $auth_mode;
+                            $this->position[] = (int) $auth_mode;
                         }
                         break;
 
@@ -238,9 +232,6 @@ class ilAuthModeDetermination
             }
         }
         // end-patch ldap_multiple
-        if ($rad_active && !in_array(ilAuthUtils::AUTH_RADIUS, $this->position, true)) {
-            $this->position[] = ilAuthUtils::AUTH_RADIUS;
-        }
         if ($soap_active && !in_array(ilAuthUtils::AUTH_SOAP, $this->position, true)) {
             $this->position[] = ilAuthUtils::AUTH_SOAP;
         }

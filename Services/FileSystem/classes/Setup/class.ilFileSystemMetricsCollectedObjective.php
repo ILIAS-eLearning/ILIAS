@@ -21,14 +21,14 @@ class ilFileSystemMetricsCollectedObjective extends Setup\Metrics\CollectedObjec
     /**
      * @return \ilIniFilesLoadedObjective[]
      */
-    protected function getTentativePreconditions(Setup\Environment $environment) : array
+    protected function getTentativePreconditions(Setup\Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    protected function collectFrom(Setup\Environment $environment, Storage $storage) : void
+    protected function collectFrom(Setup\Environment $environment, Storage $storage): void
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         if ($ini) {

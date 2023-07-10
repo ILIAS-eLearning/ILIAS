@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -34,12 +36,12 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
     private const CMD_SAVE = 'save';
     private const F_READING_TIME = 'reading_time';
 
-    private GlobalHttpState $http;
-    private Factory $uiFactory;
-    private Renderer $uiRenderer;
-    private Storage $settingsStorage;
+    private readonly GlobalHttpState $http;
+    private readonly Factory $uiFactory;
+    private readonly Renderer $uiRenderer;
+    private readonly Storage $settingsStorage;
 
-    public function __construct(array $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
 
@@ -53,7 +55,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         $this->settingsStorage = new StorageImpl($DIC->settings());
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(self::class, self::CMD_EDIT));
@@ -69,7 +71,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -101,7 +103,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         }
     }
 
-    private function getForm(array $values = []) : Form
+    private function getForm(array $values = []): Form
     {
         $action = $this->ctrl->getLinkTargetByClass(self::class, self::CMD_SAVE);
 
@@ -127,7 +129,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
             ->container()
             ->form()
             ->standard($action, [$section])
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(static function ($values) : array {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(static function ($values): array {
                 return array_merge(...$values);
             }));
     }
@@ -135,14 +137,14 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
     /**
      * @param Component[] $components
      */
-    protected function show(array $components) : void
+    protected function show(array $components): void
     {
         $this->tpl->setContent(
             $this->uiRenderer->render($components)
         );
     }
 
-    protected function edit() : void
+    protected function edit(): void
     {
         $values = [
             self::F_READING_TIME => $this->settingsStorage->getSettings()->isReadingTimeEnabled(),
@@ -153,7 +155,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         $this->show([$form]);
     }
 
-    protected function save() : void
+    protected function save(): void
     {
         if (!$this->checkPermissionBool('write')) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);

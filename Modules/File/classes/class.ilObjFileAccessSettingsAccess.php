@@ -14,14 +14,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
- * Class ilObjFileAccessSettingsAccess
- *
- * @author  Werner Randelshofer, Hochschule Luzern, werner.randelshofer@hslu.ch
- * @version $Id$
- *
- * @ingroup webdav
+ * This file only exists for backwards compatibility reasons.
  */
 class ilObjFileAccessSettingsAccess extends ilObjectAccess
 {

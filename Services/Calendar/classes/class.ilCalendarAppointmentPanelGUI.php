@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -56,7 +58,7 @@ class ilCalendarAppointmentPanelGUI
     /**
      * get singleton instance
      */
-    public static function _getInstance(ilDate $seed) : self
+    public static function _getInstance(ilDate $seed): self
     {
         if (!self::$instance instanceof self) {
             self::$instance = new self($seed);
@@ -64,12 +66,12 @@ class ilCalendarAppointmentPanelGUI
         return self::$instance;
     }
 
-    public function getSeed() : ?ilDate
+    public function getSeed(): ?ilDate
     {
         return $this->seed;
     }
 
-    public function getHTML($a_app) : string
+    public function getHTML($a_app): string
     {
         global $DIC;
 

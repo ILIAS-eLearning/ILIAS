@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Refinery\Logical;
 
 use ILIAS\Refinery\Custom\Constraint;
@@ -30,7 +32,7 @@ class Not extends Constraint
             static function ($value) use ($constraint) {
                 return !$constraint->accepts($value);
             },
-            static function ($txt, $value) use ($constraint) : string {
+            static function ($txt, $value) use ($constraint): string {
                 return (string) $txt("not_generic", $constraint->getErrorMessage($value));
             },
             $data_factory,

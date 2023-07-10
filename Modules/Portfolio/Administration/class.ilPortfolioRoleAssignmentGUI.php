@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager;
 use ILIAS\Portfolio\StandardGUIRequest;
@@ -44,7 +47,7 @@ class ilPortfolioRoleAssignmentGUI
             ->standardRequest();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -70,7 +73,7 @@ class ilPortfolioRoleAssignmentGUI
         }
     }
 
-    protected function listAssignments() : void
+    protected function listAssignments(): void
     {
         $lng = $this->lng;
         $this->toolbar->addButton(
@@ -86,14 +89,14 @@ class ilPortfolioRoleAssignmentGUI
         $this->main_tpl->setContent($table->getHTML());
     }
 
-    protected function addAssignment() : void
+    protected function addAssignment(): void
     {
         $main_tpl = $this->main_tpl;
         $form = $this->initAssignmentForm();
         $main_tpl->setContent($form->getHTML());
     }
 
-    public function initAssignmentForm() : ilPropertyFormGUI
+    public function initAssignmentForm(): ilPropertyFormGUI
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -122,7 +125,7 @@ class ilPortfolioRoleAssignmentGUI
         return $form;
     }
 
-    public function saveAssignment() : void
+    public function saveAssignment(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -142,7 +145,7 @@ class ilPortfolioRoleAssignmentGUI
         }
     }
 
-    protected function confirmAssignmentDeletion() : void
+    protected function confirmAssignmentDeletion(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -172,7 +175,7 @@ class ilPortfolioRoleAssignmentGUI
         }
     }
 
-    protected function deleteAssignments() : void
+    protected function deleteAssignments(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;

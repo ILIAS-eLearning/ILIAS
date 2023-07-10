@@ -31,7 +31,7 @@ class ilSystemStyleIconColorSet
     protected array $colors = [];
 
 
-    public function addColor(ilSystemStyleIconColor $color) : void
+    public function addColor(ilSystemStyleIconColor $color): void
     {
         $this->colors[$color->getId()] = $color;
     }
@@ -39,7 +39,7 @@ class ilSystemStyleIconColorSet
     /**
      * @return ilSystemStyleIconColor[]
      */
-    public function getColors() : array
+    public function getColors(): array
     {
         return $this->colors;
     }
@@ -47,7 +47,7 @@ class ilSystemStyleIconColorSet
     /**
      * @param ilSystemStyleIconColor[] $colors
      */
-    public function setColors(array $colors) : void
+    public function setColors(array $colors): void
     {
         $this->colors = $colors;
     }
@@ -55,7 +55,7 @@ class ilSystemStyleIconColorSet
     /**
      * @throws ilSystemStyleException
      */
-    public function getColorById(string $id = '') : ilSystemStyleIconColor
+    public function getColorById(string $id = ''): ilSystemStyleIconColor
     {
         if (!array_key_exists($id, $this->colors)) {
             throw new ilSystemStyleException(ilSystemStyleException::INVALID_ID, $id);
@@ -63,7 +63,7 @@ class ilSystemStyleIconColorSet
         return $this->colors[$id];
     }
 
-    public function doesColorExist(string $id) : bool
+    public function doesColorExist(string $id): bool
     {
         return array_key_exists($id, $this->colors);
     }
@@ -71,7 +71,7 @@ class ilSystemStyleIconColorSet
     /**
      * Merges an other colorset into this one
      */
-    public function mergeColorSet(ilSystemStyleIconColorSet $color_set) : void
+    public function mergeColorSet(ilSystemStyleIconColorSet $color_set): void
     {
         foreach ($color_set->getColors() as $color) {
             if (!$this->doesColorExist($color->getId())) {
@@ -84,7 +84,7 @@ class ilSystemStyleIconColorSet
      * Orders and sorts the colors to be displayed in GUI (form)
      * @return array [CategoryOfColor][color]
      */
-    public function getColorsSortedAsArray() : array
+    public function getColorsSortedAsArray(): array
     {
         $colors_categories = [];
         foreach ($this->getColors() as $color) {
@@ -101,7 +101,7 @@ class ilSystemStyleIconColorSet
     /**
      * Returns the ids of the colors of this color set as array
      */
-    public function asArray() : array
+    public function asArray(): array
     {
         $colors = [];
         foreach ($this->getColors() as $color) {
@@ -113,7 +113,7 @@ class ilSystemStyleIconColorSet
     /**
      * Returns the ids of the colors of this color set as string
      */
-    public function asString() : string
+    public function asString(): string
     {
         $colors = '';
         foreach ($this->getColors() as $color) {

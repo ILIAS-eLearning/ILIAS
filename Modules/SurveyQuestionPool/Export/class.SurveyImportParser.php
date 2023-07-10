@@ -81,7 +81,7 @@ class SurveyImportParser extends ilSaxParser
         int $a_spl_id,
         ?string $a_xml_file = '',
         bool $spl_exists = false,
-        array $a_mapping = null
+        ?ilImportMapping $a_mapping = null
     ) {
         global $DIC;
 
@@ -123,12 +123,12 @@ class SurveyImportParser extends ilSaxParser
             ->repo()->import();
     }
 
-    public function setSurveyObject(ilObjSurvey $a_svy) : void
+    public function setSurveyObject(ilObjSurvey $a_svy): void
     {
         $this->survey = $a_svy;
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -139,7 +139,7 @@ class SurveyImportParser extends ilSaxParser
      * @param resource $a_xml_parser
      * @param resource|null $a_fp
      */
-    public function parse($a_xml_parser, $a_fp = null) : void
+    public function parse($a_xml_parser, $a_fp = null): void
     {
         switch ($this->getInputType()) {
             case 'file':
@@ -163,7 +163,7 @@ class SurveyImportParser extends ilSaxParser
         }
     }
 
-    public function getParent() : string
+    public function getParent(): string
     {
         if ($this->depth > 0) {
             return $this->path[$this->depth - 1];
@@ -175,7 +175,7 @@ class SurveyImportParser extends ilSaxParser
     /**
      * @param resource $a_xml_parser
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         $this->depth++;
         $this->path[$this->depth] = strtolower($a_name);
@@ -194,13 +194,13 @@ class SurveyImportParser extends ilSaxParser
                 foreach ($a_attribs as $attrib => $value) {
                     switch ($attrib) {
                         case "showQuestiontext":
-                            $this->showQuestiontext = $value;
+                            $this->showQuestiontext = (int) $value;
                             break;
                         case "showBlocktitle":
-                            $this->showBlocktitle = $value;
+                            $this->showBlocktitle = (int) $value;
                             break;
                         case "compressView":
-                            $this->compressView = $value;
+                            $this->compressView = (int) $value;
                             break;
                     }
                 }
@@ -325,21 +325,21 @@ class SurveyImportParser extends ilSaxParser
                         $this->material = array();
                         break;
                 }
-                $this->material[] = array("text" => "", "image" => "", "label" => $a_attribs["label"]);
+                $this->material[] = array("text" => "", "image" => "", "label" => $a_attribs["label"] ?? "");
                 break;
             case "matimage":
-                case "label":
-                    if (array_key_exists("label", $a_attribs)) {
-                        if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $a_attribs["label"], $matches)) {
-                            // import an mediaobject which was inserted using tiny mce
-                            $this->session_repo->addMob(
-                                $a_attribs["label"],
-                                $a_attribs["uri"],
-                                $a_attribs["type"],
-                                $a_attribs["id"]
-                            );
-                        }
+            case "label":
+                if (array_key_exists("label", $a_attribs)) {
+                    if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $a_attribs["label"] ?? "", $matches)) {
+                        // import an mediaobject which was inserted using tiny mce
+                        $this->session_repo->addMob(
+                            $a_attribs["label"] ?? "",
+                            $a_attribs["uri"],
+                            $a_attribs["type"],
+                            $a_attribs["id"]
+                        );
                     }
+                }
                 break;
             case "metadata":
                 $this->metadata = array();
@@ -354,7 +354,7 @@ class SurveyImportParser extends ilSaxParser
             case "matrixrow":
                 $this->material = array();
                 $this->matrix[] = "";
-                $this->matrixrowattribs = array("id" => $a_attribs["id"], "label" => $a_attribs["label"], "other" => $a_attribs["other"]);
+                $this->matrixrowattribs = array("id" => $a_attribs["id"], "label" => $a_attribs["label"] ?? "", "other" => $a_attribs["other"] ?? "");
                 break;
             case "responses":
                 $this->material = array();
@@ -365,34 +365,39 @@ class SurveyImportParser extends ilSaxParser
                 break;
             case "response_single":
                 $this->material = array();
-                $this->responses[$a_attribs["id"]] = array("type" => "single", "id" => $a_attribs["id"], "label" => $a_attribs["label"], "other" => $a_attribs["other"], "neutral" => $a_attribs["neutral"], "scale" => $a_attribs["scale"]);
+                $this->responses[$a_attribs["id"]] = array("type" => "single",
+                                                           "id" => $a_attribs["id"],
+                                                           "label" => $a_attribs["label"] ?? "",
+                                                           "other" => $a_attribs["other"] ?? "",
+                                                           "neutral" => $a_attribs["neutral"] ?? "",
+                                                           "scale" => $a_attribs["scale"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "response_multiple":
                 $this->material = array();
-                $this->responses[$a_attribs["id"]] = array("type" => "multiple", "id" => $a_attribs["id"], "label" => $a_attribs["label"], "other" => $a_attribs["other"], "neutral" => $a_attribs["neutral"], "scale" => $a_attribs["scale"]);
+                $this->responses[$a_attribs["id"]] = array("type" => "multiple", "id" => $a_attribs["id"], "label" => $a_attribs["label"] ?? "", "other" => $a_attribs["other"] ?? "", "neutral" => $a_attribs["neutral"] ?? "", "scale" => $a_attribs["scale"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "response_text":
                 $this->material = array();
-                $this->responses[$a_attribs["id"]] = array("type" => "text", "id" => $a_attribs["id"], "columns" => $a_attribs["columns"], "maxlength" => $a_attribs["maxlength"], "rows" => $a_attribs["rows"], "label" => $a_attribs["label"]);
+                $this->responses[$a_attribs["id"]] = array("type" => "text", "id" => $a_attribs["id"], "columns" => $a_attribs["columns"], "maxlength" => $a_attribs["maxlength"] ?? null, "rows" => $a_attribs["rows"], "label" => $a_attribs["label"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "response_num":
                 $this->material = array();
-                $this->responses[$a_attribs["id"]] = array("type" => "num", "id" => $a_attribs["id"], "format" => $a_attribs["format"], "max" => $a_attribs["max"], "min" => $a_attribs["min"], "size" => $a_attribs["size"], "label" => $a_attribs["label"]);
+                $this->responses[$a_attribs["id"]] = array("type" => "num", "id" => $a_attribs["id"], "format" => $a_attribs["format"], "max" => $a_attribs["max"] ?? null, "min" => $a_attribs["min"] ?? null, "size" => $a_attribs["size"] ?? null, "label" => $a_attribs["label"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "response_time":
                 $this->material = array();
-                $this->responses[$a_attribs["id"]] = array("type" => "time", "id" => $a_attribs["id"], "format" => $a_attribs["format"], "max" => $a_attribs["max"], "min" => $a_attribs["min"], "label" => $a_attribs["label"]);
+                $this->responses[$a_attribs["id"]] = array("type" => "time", "id" => $a_attribs["id"], "format" => $a_attribs["format"], "max" => $a_attribs["max"], "min" => $a_attribs["min"], "label" => $a_attribs["label"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "bipolar_adjectives":
                 $this->adjectives = array();
                 break;
             case "adjective":
-                $this->adjectives[] = array("label" => $a_attribs["label"], "text" => "");
+                $this->adjectives[] = array("label" => $a_attribs["label"] ?? "", "text" => "");
                 break;
         }
     }
@@ -400,7 +405,7 @@ class SurveyImportParser extends ilSaxParser
     /**
      * @param resource $a_xml_parser
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         $this->texts++;
         $this->text_size += strlen($a_data);
@@ -411,7 +416,7 @@ class SurveyImportParser extends ilSaxParser
     /**
      * @param resource $a_xml_parser
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         switch ($a_name) {
             case "surveyobject":
@@ -504,7 +509,7 @@ class SurveyImportParser extends ilSaxParser
                     // duplicate the question for the survey (if pool is to be used)
                     if (is_object($this->survey) &&
                         $this->spl_id > 0) {
-                        $question_id = $this->activequestion->duplicate(true, "", "", "", $this->survey->getId());
+                        $question_id = $this->activequestion->duplicate(true, "", "", 0, $this->survey->getId());
                     } else {
                         $question_id = $this->activequestion->getId();
                     }
@@ -723,52 +728,52 @@ class SurveyImportParser extends ilSaxParser
         $this->depth--;
     }
 
-    public function getErrorCode() : ?int
+    public function getErrorCode(): ?int
     {
         return $this->error_code;
     }
 
-    public function getErrorLine() : ?int
+    public function getErrorLine(): ?int
     {
         return $this->error_line;
     }
 
-    public function getErrorColumn() : ?int
+    public function getErrorColumn(): ?int
     {
         return $this->error_col;
     }
 
-    public function getErrorMessage() : ?string
+    public function getErrorMessage(): ?string
     {
         return $this->error_msg;
     }
 
-    public function getFullError() : string
+    public function getFullError(): string
     {
         return "Error: " . $this->error_msg . " at line:" . $this->error_line . " column:" . $this->error_col;
     }
 
-    public function getXMLElements() : int
+    public function getXMLElements(): int
     {
         return $this->elements;
     }
 
-    public function getXMLAttributes() : int
+    public function getXMLAttributes(): int
     {
         return $this->attributes;
     }
 
-    public function getXMLTextSections() : int
+    public function getXMLTextSections(): int
     {
         return $this->texts;
     }
 
-    public function getXMLTextSize() : int
+    public function getXMLTextSize(): int
     {
         return $this->text_size;
     }
 
-    public function hasError() : bool
+    public function hasError(): bool
     {
         return $this->has_error;
     }

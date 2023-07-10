@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,22 +16,24 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilPasswordUtils
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesUser
  */
-class ilPasswordUtils
+final class ilPasswordUtils
 {
     /**
      * Generate random bytes using OpenSSL or Mcrypt and mt_rand() as fallback
      * @return string A byte string
      */
-    public static function getBytes(int $length) : string
+    public static function getBytes(int $length): string
     {
         try {
             return random_bytes($length);
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             if (!defined('PHP_WINDOWS_VERSION_BUILD') && extension_loaded('openssl')) {
                 $secure = null;
                 $rand = openssl_random_pseudo_bytes($length, $secure);
