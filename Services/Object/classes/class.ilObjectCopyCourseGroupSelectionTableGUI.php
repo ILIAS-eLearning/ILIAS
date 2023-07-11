@@ -27,7 +27,7 @@ class ilObjectCopyCourseGroupSelectionTableGUI extends ilObjectTableGUI
 {
     public function setObjects(array $obj_ids): void
     {
-        $ref_ids = array();
+        $ref_ids = [];
         foreach ($obj_ids as $obj_id) {
             $all_ref_ids = ilObject::_getAllReferences($obj_id);
             $ref_ids[] = end($all_ref_ids);
