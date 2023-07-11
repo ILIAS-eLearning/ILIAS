@@ -119,11 +119,11 @@ class ilUserXMLWriter extends ilXmlWriter
             $row["language"] = $lng->getDefaultLanguage();
         }
 
-        $attrs = array(
+        $attrs = [
             'Id' => "il_" . IL_INST_ID . "_usr_" . $row["usr_id"],
             'Language' => $row["language"],
             'Action' => "Update"
-        );
+        ];
 
         $this->xmlStartTag("User", $attrs);
 
@@ -215,10 +215,18 @@ class ilUserXMLWriter extends ilXmlWriter
             $this->__addElement("ExternalAccount", $row["ext_account"], null, "ext_account", true);
         }
 
-        if ($this->canExport("Look", "skin_style")) {
-            $this->__addElement("Look", null, array(
-                "Skin" => $prefs["skin"], "Style" => $prefs["style"]
-            ), "skin_style", true);
+        if (isset($prefs['skin'])
+            && isset($prefs['style'])
+            && $this->canExport('Look', 'skin_style')) {
+            $this->__addElement(
+                'Look',
+                null,
+                [
+                    'Skin' => $prefs['skin'], 'Style' => $prefs['style']
+                ],
+                'skin_style',
+                true
+            );
         }
 
 
