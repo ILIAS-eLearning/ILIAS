@@ -307,8 +307,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
     ): void {
         $user_filter = null;
 
-        if ($rbacsystem->checkAccess('create_usr', $this->object->getRefId())
-            || $rbacsystem->checkAccess('cat_administrate_users', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('create_usr', $this->object->getRefId())
+            || $this->rbac_system->checkAccess('cat_administrate_users', $this->object->getRefId())) {
             $this->toolbar->addComponent(
                 $this->ui_factory->link()->standard(
                     $this->lng->txt('usr_add'),

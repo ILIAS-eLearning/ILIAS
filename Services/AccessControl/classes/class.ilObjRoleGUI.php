@@ -925,10 +925,10 @@ class ilObjRoleGUI extends ilObjectGUI
         $ilUser = $DIC['ilUser'];
 
         if (!$this->checkAccess('edit_userassignment', 'edit_permission')) {
-            $this->ilias->raiseError(
+            $this->tpl->setOnScreenMessage(
                 $this->lng->txt("msg_no_perm_assign_user_to_role"),
-                $this->ilias->error_obj->MESSAGE
             );
+            return;
         }
 
         $this->tabs_gui->setTabActive('user_assignment');
@@ -938,13 +938,9 @@ class ilObjRoleGUI extends ilObjectGUI
         $tb = new ilToolbarGUI();
 
         // protected admin role
-        if (
-            $this->object->getId() != SYSTEM_ROLE_ID ||
-            (
-                !$this->rbac_review->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID) or
-                !ilSecuritySettings::_getInstance()->isAdminRoleProtected()
-            )
-        ) {
+        if ($this->object->getId() != SYSTEM_ROLE_ID
+            || (!$this->rbac_review->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID)
+                || !ilSecuritySettings::_getInstance()->isAdminRoleProtected())) {
             // add member
             ilRepositorySearchGUI::fillAutoCompleteToolbar(
                 $this,
