@@ -326,7 +326,7 @@ class ilECSParticipantSetting
     private function create(): bool
     {
         $query = 'INSERT INTO ecs_part_settings ' .
-            '(sid,mid,export,import,import_type,title,cname,token,dtoken,export_types, import_types, username_placeholders, incoming_auth_type, incoming_local_accounts, outgoing_auth_modes) ' .
+            '(sid,mid,export,import,import_type,title,cname,token,export_types, import_types, username_placeholders, incoming_auth_type, incoming_local_accounts, outgoing_auth_modes) ' .
             'VALUES( ' .
             $this->db->quote($this->getServerId(), 'integer') . ', ' .
             $this->db->quote($this->getMid(), 'integer') . ', ' .

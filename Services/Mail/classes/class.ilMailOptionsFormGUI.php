@@ -55,7 +55,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $this->setTitle($this->lng->txt('mail_settings'));
         $this->setFormAction($this->ctrl->getFormAction($this->parentGui, $this->positiveCmd));
 
-        if ($this->settings->get('usr_settings_hide_mail_incoming_mail', '0') !== '1') {
+        if ($this->options->maySeeIndividualTransportSettings()) {
             $incoming_mail_gui = new ilIncomingMailInputGUI(
                 $this->lng->txt('mail_incoming'),
                 'incoming_type',
@@ -115,10 +115,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
             return false;
         }
 
-        if (
-            $this->settings->get('usr_settings_hide_mail_incoming_mail', '0') !== '1' &&
-            $this->settings->get('usr_settings_disable_mail_incoming_mail', '0') !== '1'
-        ) {
+        if ($this->options->mayModifyIndividualTransportSettings()) {
             $incoming_type = (int) $this->getInput('incoming_type');
 
             $mail_address_option = $this->options->getEmailAddressMode();
@@ -174,7 +171,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
             'absence_auto_responder_body' => $this->options->getAbsenceAutoresponderBody(),
         ];
 
-        if ($this->settings->get('usr_settings_hide_mail_incoming_mail', '0') !== '1') {
+        if ($this->options->maySeeIndividualTransportSettings()) {
             $data['incoming_type'] = $this->options->getIncomingType();
 
             $mail_address_option = $this->options->getEmailAddressMode();

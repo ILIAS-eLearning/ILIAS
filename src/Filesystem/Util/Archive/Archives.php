@@ -75,9 +75,13 @@ final class Archives
         if (null === $unzip_options) {
             return $this->unzip_options;
         }
+        if ($unzip_options->getZipOutputPath() !== null) {
+            $this->unzip_options = $this->unzip_options->withZipOutputPath($unzip_options->getZipOutputPath());
+        }
+
         return $this->unzip_options
-            ->withZipOutputPath($unzip_options->getZipOutputPath())
             ->withOverwrite($unzip_options->isOverwrite())
-            ->withFlat($unzip_options->isFlat());
+            ->withFlat($unzip_options->isFlat())
+            ->withEnsureTopDirectoy($unzip_options->ensureTopDirectory());
     }
 }

@@ -50,9 +50,9 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
     {
         $this->initTable();
 
-        $users = $this->getParentObject()->object->getTrackedUsers((string) $this->filter['lastname']);
-        $attempts = $this->getParentObject()->object->getAttemptsForUsers();
-        $versions = $this->getParentObject()->object->getModuleVersionForUsers();
+        $users = $this->getParentObject()->getObject()->getTrackedUsers((string) $this->filter['lastname']);
+        $attempts = $this->getParentObject()->getObject()->getAttemptsForUsers();
+        $versions = $this->getParentObject()->getObject()->getModuleVersionForUsers();
 
         $data = array();
         foreach ($users as $user) {

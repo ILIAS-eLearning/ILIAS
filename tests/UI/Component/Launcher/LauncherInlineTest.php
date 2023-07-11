@@ -29,6 +29,7 @@ use ILIAS\Refinery\Factory as Refinery;
 class LauncherInlineTest extends ILIAS_UI_TestBase
 {
     protected ILIAS\Data\Factory $df;
+    protected ilLanguage $language;
 
     public function setUp(): void
     {

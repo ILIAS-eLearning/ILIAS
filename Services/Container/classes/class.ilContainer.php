@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\News\Service as News;
+
 /**
  * Class ilContainer
  *
@@ -25,7 +27,7 @@
  */
 class ilContainer extends ilObject
 {
-    protected ilNewsService $news;
+    protected News $news;
     // container view constants
     public const VIEW_SESSIONS = 0;
     public const VIEW_OBJECTIVE = 1;

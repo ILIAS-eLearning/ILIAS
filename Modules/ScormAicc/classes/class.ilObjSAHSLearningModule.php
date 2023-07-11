@@ -31,44 +31,44 @@ declare(strict_types=1);
 */
 class ilObjSAHSLearningModule extends ilObject
 {
-    private string $api_func_prefix;
-    private string $credit_mode;
-    private string $lesson_mode;
-    private int $style_id;
-    private string $auto_review;
-    private int $max_attempt;
-    private int $module_version;
-    private int $assigned_glossary;
-    private bool $session;
-    private bool $no_menu;
-    private bool $hide_navig;
-    private bool $ie_force_render;
-    private bool $fourth_edition;
-    private bool $interactions;
-    private bool $objectives;
-    private bool $comments;
-    private bool $time_from_lms;
-    private bool $check_values;
-    private bool $debug;
-    private bool $auto_continue;
-    private bool $auto_last_visited;
-    private bool $auto_suspend;
-    private int $open_mode;
-    private int $width;
-    private int $height;
+    private string $api_func_prefix = 'LMS';
+    private string $credit_mode = 'credit';
+    private string $lesson_mode = 'normal';
+    private int $style_id = 0;
+    private string $auto_review = 'n';
+    private int $max_attempt = 0;
+    private int $module_version = 1;
+    private int $assigned_glossary = 0;
+    private bool $session = false;
+    private bool $no_menu = false;
+    private bool $hide_navig = false;
+    private bool $ie_force_render = false;
+    private bool $fourth_edition = false;
+    private bool $interactions = true;
+    private bool $objectives = true;
+    private bool $comments = true;
+    private bool $time_from_lms = false;
+    private bool $check_values = true;
+    private bool $debug = false;
+    private bool $auto_continue = false;
+    private bool $auto_last_visited = true;
+    private bool $auto_suspend = false;
+    private int $open_mode = 0;
+    private int $width = 950;
+    private int $height = 650;
     private ?int $mastery_score = null;
-    private int $id_setting;
-    private int $name_setting;
-    private string $sub_type;
+    private int $id_setting = 0;
+    private int $name_setting = 0;
+    private string $sub_type = 'scorm';
     protected bool $sequencing = false;
 
     protected string $localization = "";
 
     protected string $mastery_score_values = "";
 
-    protected int $tries;
+    protected int $tries = 0;
 
-    protected string $api_adapter;
+    protected string $api_adapter = 'API';
 
     /**
     * Constructor
@@ -127,13 +127,13 @@ class ilObjSAHSLearningModule extends ilObject
         );
 
         while ($lm_rec = $ilDB->fetchAssoc($lm_set)) {
-            $this->setAutoReviewChar($lm_rec["auto_review"]);
-            $this->setAPIAdapterName($lm_rec["api_adapter"]);
-            $this->setDefaultLessonMode($lm_rec["default_lesson_mode"]);
-            $this->setAPIFunctionsPrefix($lm_rec["api_func_prefix"]);
-            $this->setCreditMode($lm_rec["credit"]);
-            $this->setSubType($lm_rec["c_type"]);
-//            $this->setEditable(false);
+            $this->setAutoReviewChar((string) $lm_rec["auto_review"]);
+            $this->setAPIAdapterName((string) $lm_rec["api_adapter"]);
+            $this->setDefaultLessonMode((string) $lm_rec["default_lesson_mode"]);
+            $this->setAPIFunctionsPrefix((string) $lm_rec["api_func_prefix"]);
+            $this->setCreditMode((string) $lm_rec["credit"]);
+            $this->setSubType((string) $lm_rec["c_type"]);
+            //            $this->setEditable(false);
             $this->setStyleSheetId((int) $lm_rec["stylesheet"]);
             $this->setMaxAttempt((int) $lm_rec["max_attempt"]);
             $this->setModuleVersion((int) $lm_rec["module_version"]);
@@ -150,18 +150,20 @@ class ilObjSAHSLearningModule extends ilObject
             $this->setComments(ilUtil::yn2tf($lm_rec["comments"]));
             $this->setTime_from_lms(ilUtil::yn2tf($lm_rec["time_from_lms"]));
             $this->setDebug(ilUtil::yn2tf($lm_rec["debug"]));
-//            $this->setDebugPw($lm_rec["debugpw"]);
-//            $this->setSequencingExpertMode(bool $lm_rec["seq_exp_mode"]);
+            //            $this->setDebugPw($lm_rec["debugpw"]);
+            //            $this->setSequencingExpertMode(bool $lm_rec["seq_exp_mode"]);
             $this->setOpenMode((int) $lm_rec["open_mode"]);
             $this->setWidth((int) $lm_rec["width"]);
             $this->setHeight((int) $lm_rec["height"]);
             $this->setAutoContinue(ilUtil::yn2tf($lm_rec["auto_continue"]));
             $this->setAuto_last_visited(ilUtil::yn2tf($lm_rec["auto_last_visited"]));
             $this->setCheck_values(ilUtil::yn2tf($lm_rec["check_values"]));
-//            $this->setOfflineMode(ilUtil::yn2tf($lm_rec["offline_mode"]));
+            //            $this->setOfflineMode(ilUtil::yn2tf($lm_rec["offline_mode"]));
             $this->setAutoSuspend(ilUtil::yn2tf($lm_rec["auto_suspend"]));
             $this->setIe_force_render(ilUtil::yn2tf($lm_rec["ie_force_render"]));
-            $this->setMasteryScore((int) $lm_rec["mastery_score"]);
+            if ($lm_rec["mastery_score"] != null) {
+                $this->setMasteryScore((int) $lm_rec["mastery_score"]);
+            }
             $this->setIdSetting((int) $lm_rec["id_setting"]);
             $this->setNameSetting((int) $lm_rec["name_setting"]);
             if (ilObject::_lookupType($this->getStyleSheetId()) !== "sty") {
@@ -210,15 +212,15 @@ class ilObjSAHSLearningModule extends ilObject
         return $obj_rec["c_type"];
     }
 
-//    /**
-//    * Set Editable.
-//    *
-//    * @param	boolean	$a_editable	Editable
-//    */
-//    public function setEditable(bool $a_editable) : void
-//    {
-//        $this->editable = $a_editable;
-//    }
+    //    /**
+    //    * Set Editable.
+    //    *
+    //    * @param	boolean	$a_editable	Editable
+    //    */
+    //    public function setEditable(bool $a_editable) : void
+    //    {
+    //        $this->editable = $a_editable;
+    //    }
 
     public function getEditable(): bool
     {
@@ -401,9 +403,13 @@ class ilObjSAHSLearningModule extends ilObject
     /**
      * set auto review as Char for SCORM 2004
      */
-    public function setAutoReviewChar(string $a_auto_review): void
+    public function setAutoReviewChar(?string $a_auto_review): void
     {
-        $this->auto_review = $a_auto_review;
+        if ($a_auto_review == null) {
+            $this->auto_review = 'n';
+        } else {
+            $this->auto_review = $a_auto_review;
+        }
     }
 
     /**
@@ -605,18 +611,18 @@ class ilObjSAHSLearningModule extends ilObject
         $this->check_values = $a_check_values;
     }
 
-//    /**
-//    * offlineMode
-//    */
-//    public function getOfflineMode()
-//    {
-//        return $this->offline_mode;
-//    }
-//
-//    public function setOfflineMode($a_offline_mode)
-//    {
-//        $this->offline_mode = $a_offline_mode;
-//    }
+    //    /**
+    //    * offlineMode
+    //    */
+    //    public function getOfflineMode()
+    //    {
+    //        return $this->offline_mode;
+    //    }
+    //
+    //    public function setOfflineMode($a_offline_mode)
+    //    {
+    //        $this->offline_mode = $a_offline_mode;
+    //    }
 
     public function getDebug(): bool
     {
@@ -628,21 +634,21 @@ class ilObjSAHSLearningModule extends ilObject
         $this->debug = $a_debug;
     }
 
-//    /**
-//    * debug pw
-//    */
-//    public function getDebugPw()
-//    {
-//        return $this->debug_pw;
-//    }
-//
-//    /**
-//    * debug pw
-//    */
-//    public function setDebugPw($a_debug_pw)
-//    {
-//        $this->debug_pw = $a_debug_pw;
-//    }
+    //    /**
+    //    * debug pw
+    //    */
+    //    public function getDebugPw()
+    //    {
+    //        return $this->debug_pw;
+    //    }
+    //
+    //    /**
+    //    * debug pw
+    //    */
+    //    public function setDebugPw($a_debug_pw)
+    //    {
+    //        $this->debug_pw = $a_debug_pw;
+    //    }
 
     public function setAutoContinue(bool $a_auto_continue): void
     {
@@ -665,25 +671,25 @@ class ilObjSAHSLearningModule extends ilObject
     }
 
 
-//    /**
-//     * Set sequencing expert mode
-//     *
-//     * @param boolean $a_val sequencing expert mode
-//     */
-//    public function setSequencingExpertMode(bool $a_val)
-//    {
-//        $this->seq_exp_mode = $a_val;
-//    }
-//
-//    /**
-//     * Get sequencing expert mode
-//     *
-//     * @return boolean sequencing expert mode
-//     */
-//    public function getSequencingExpertMode()
-//    {
-//        return $this->seq_exp_mode;
-//    }
+    //    /**
+    //     * Set sequencing expert mode
+    //     *
+    //     * @param boolean $a_val sequencing expert mode
+    //     */
+    //    public function setSequencingExpertMode(bool $a_val)
+    //    {
+    //        $this->seq_exp_mode = $a_val;
+    //    }
+    //
+    //    /**
+    //     * Get sequencing expert mode
+    //     *
+    //     * @return boolean sequencing expert mode
+    //     */
+    //    public function getSequencingExpertMode()
+    //    {
+    //        return $this->seq_exp_mode;
+    //    }
 
     public function setAutoSuspend(bool $a_auto_suspend): void
     {
@@ -813,11 +819,6 @@ class ilObjSAHSLearningModule extends ilObject
         $this->updateMetaData();
         parent::update();
 
-        $s_mastery_score = $this->getMasteryScore();
-        if ($s_mastery_score == "") {
-            $s_mastery_score = null;
-        }
-
         $statement = $ilDB->manipulateF(
             '
 			UPDATE sahs_lm  
@@ -926,7 +927,7 @@ class ilObjSAHSLearningModule extends ilObject
                 ilUtil::tf2yn($this->getCheck_values()),
                 ilUtil::tf2yn($this->getAutoSuspend()),
                 ilUtil::tf2yn($this->getIe_force_render()),
-                $s_mastery_score,
+                $this->getMasteryScore(),
                 $this->getIdSetting(),
                 $this->getNameSetting(),
                 $this->getId())
@@ -947,7 +948,7 @@ class ilObjSAHSLearningModule extends ilObject
             " glossary = " . $ilDB->quote($a_glo_id, "integer"));
         $sms = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
-            if (ilObject::_hasUntrashedReference($rec["id"])) {
+            if (ilObject::_hasUntrashedReference((int) $rec["id"])) {
                 $sms[] = $rec["id"];
             }
         }
@@ -1016,7 +1017,7 @@ class ilObjSAHSLearningModule extends ilObject
             array($this->getId())
         );
 
-        $ilLog->write("SAHS Delete(SAHSLM), Subtype: " . $this->getSubType());
+        $ilLog->debug("SAHS Delete(SAHSLM), Subtype: " . $this->getSubType());
 
         if ($this->getSubType() === "scorm") {
             $sc_tree = new ilSCORMTree($this->getId());
@@ -1024,7 +1025,7 @@ class ilObjSAHSLearningModule extends ilObject
             if ($r_id > 0) {
                 $items = $sc_tree->getSubTree($sc_tree->getNodeData($r_id));
                 foreach ($items as $item) {
-                    $sc_object = ilSCORMObject::_getInstance($item["obj_id"], $this->getId());
+                    $sc_object = ilSCORMObject::_getInstance((int) $item["obj_id"], $this->getId());
                     if (is_object($sc_object)) {
                         $sc_object->delete();
                     }
@@ -1195,7 +1196,7 @@ class ilObjSAHSLearningModule extends ilObject
             $new_obj->setAPIFunctionsPrefix($this->getAPIFunctionsPrefix());
             $new_obj->setAutoReviewChar($this->getAutoReviewChar());
             $new_obj->setDefaultLessonMode($this->getDefaultLessonMode());
-//        $new_obj->setEditable($this->getEditable());
+            //        $new_obj->setEditable($this->getEditable());
             $new_obj->setMaxAttempt($this->getMaxAttempt());
             $new_obj->setModuleVersion($this->getModuleVersion());
             $new_obj->setModuleVersion(1);
@@ -1213,15 +1214,15 @@ class ilObjSAHSLearningModule extends ilObject
             $new_obj->setTime_from_lms($this->getTime_from_lms());
             $new_obj->setDebug($this->getDebug());
             $new_obj->setLocalization($this->getLocalization());
-//        $new_obj->setSequencingExpertMode(0); //$this->getSequencingExpertMode()
-//        $new_obj->setDebugPw($this->getDebugPw());
+            //        $new_obj->setSequencingExpertMode(0); //$this->getSequencingExpertMode()
+            //        $new_obj->setDebugPw($this->getDebugPw());
             $new_obj->setOpenMode($this->getOpenMode());
             $new_obj->setWidth($this->getWidth());
             $new_obj->setHeight($this->getHeight());
             $new_obj->setAutoContinue($this->getAutoContinue());
             $new_obj->setAuto_last_visited($this->getAuto_last_visited());
             $new_obj->setCheck_values($this->getCheck_values());
-//        $new_obj->setOfflineMode($this->getOfflineMode());
+            //        $new_obj->setOfflineMode($this->getOfflineMode());
             $new_obj->setAutoSuspend($this->getAutoSuspend());
             $new_obj->setIe_force_render($this->getIe_force_render());
             $new_obj->setStyleSheetId($this->getStyleSheetId());
@@ -1258,13 +1259,13 @@ class ilObjSAHSLearningModule extends ilObject
             // copy data directory
             $new_obj->populateByDirectoy($source_obj->getDataDirectory());
 
-//        // copy authored content ...
-//        if ($new_obj->getEditable()) {
-//            $source_obj->copyAuthoredContent($new_obj);
-//        } else {
+            //        // copy authored content ...
+            //        if ($new_obj->getEditable()) {
+            //            $source_obj->copyAuthoredContent($new_obj);
+            //        } else {
             // ... or read manifest file
             $new_obj->readObject();
-//        }
+            //        }
             $obj_settings = new ilLPObjSettings($this->getId());
             $obj_settings->cloneSettings($new_obj->getId());
             /** @var ilScormLP $olp */
@@ -1277,12 +1278,6 @@ class ilObjSAHSLearningModule extends ilObject
         return $new_obj;
     }
 
-//    public function zipLmForOfflineMode()
-//    {
-//        $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/lm_" . $this->getId();
-//        $zipFile = ilUtil::getDataDir() . "/lm_data/lm_" . $this->getId();
-//        return ilUtil::zip($lmDir, $zipFile, true);
-//    }
 
     /**
      * Get cmi.core.student_id / cmi.learner_id for API

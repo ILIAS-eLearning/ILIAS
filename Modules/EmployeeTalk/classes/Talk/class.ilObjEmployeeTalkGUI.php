@@ -241,7 +241,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $series = $firstTalk->getParent();
 
         $dates = array_map(
-            fn (ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
+            fn(ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
             $talks
         );
         usort($dates, function (ilDateTime $a, ilDateTime $b) {
@@ -311,7 +311,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $superiorName = $superior->getFullname();
 
         $dates = array_map(
-            fn (ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
+            fn(ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
             $talks
         );
         usort($dates, function (ilDateTime $a, ilDateTime $b) {
@@ -371,7 +371,6 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $lng->loadLanguageModule('etal');
         $lng->loadLanguageModule('orgu');
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "update"));
 

@@ -401,7 +401,6 @@ adve#:#adve_autosave#:#自動保存期間
 adve#:#adve_autosave_info#:#コンテンツの自動保存。期間を短くするとサーバの負荷が増えてシステムのパフォマンスが低下します。
 adve#:#adve_autosave_info_min_10#:#この機能を有効にする際は最短10秒の値を選択して下さい。
 adve#:#adve_blocking_mode#:#ロックを編集
-adve#:#adve_char_selector_settings#:#文字セレクタ
 adve#:#adve_excass_settings#:#演習割り当て
 adve#:#adve_grp_copa#:#Content Pages
 adve#:#adve_grp_frm#:#Forums###19 08 2022 new variable
@@ -420,45 +419,6 @@ adve#:#adve_text_content_features#:#テキストコンテンツメニュー
 adve#:#adve_use_physical#:#str/emp/impに代えてb/i/uを使用
 adve#:#adve_use_physical_info#:#この設定はセマンティックスタイルクラスボタンのストロング、強調、重要を、物理的な属性ボタンb(ボールド)、i(イタリック）、u(下線)で置き換えます。スタイルエディタが使用されていて他の物理的な属性がストロング/強調/重要スタイルクラスに割り当てられていると矛盾する結果となる事に注意願います。
 adve#:#adve_use_tiny_mce#:#WYSIWYG編集用にTinyMCEを有効にする
-adve#:#char_selector_admin#:#テストと問題集内の特殊文字(Unicode)選択用のメニュー
-adve#:#char_selector_blocks#:#利用可能な特殊文字セット(Unicode)
-adve#:#char_selector_blocks_info#:#選択されたブロックの全ての文字が表示されますが現在のブラウザフォントでサポートされていな可能性のものもあります。
-adve#:#char_selector_custom_items#:#カスタム選択
-adve#:#char_selector_custom_items_info1#:#カスタム選択は選択したブロックの前に表示されます。文字は以下のスタイルで追加してください:
-adve#:#char_selector_custom_items_info2a#:#ABC
-adve#:#char_selector_custom_items_info2b#:#文字はスペース、セパレートセレクタボタンで区切られます
-adve#:#char_selector_custom_items_info3a#:#ABCD
-adve#:#char_selector_custom_items_info3b#:#1つのボタン上にさらに文字追加が可能
-adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#文字範囲は"-"で定義できます
-adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#文字はUnicode表記の定義も可能です。(大文字と小文字の区別をしない)
-adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#範囲はUnicode表記も可能です
-adve#:#char_selector_disabled_admin#:#オンにした時のみ特殊文字選択用のメニュー有効にするΩ-ボタンが表示されます
-adve#:#char_selector_disabled_info_admin#:#テストと問題集内の特殊文字(Unicode)用のメニューはアクティブになりますがΩ-ボタンはPersonal Desktop上か個別テストまたは問題集内でユーザが変更しなければなりません。テスト設定はユーザ設定で上書きされます。
-adve#:#char_selector_disabled_info_test#:#ユーザの個別設定に関わらず特殊文字セレクタはこのテスト受験ではオフになります。
-adve#:#char_selector_disabled_info_user#:#テスト中に特殊文字選択用のメニューは表示されません。しかしながら、'強制的にオン'の個別テストはここでメニュー解除されます。
-adve#:#char_selector_disabled_test#:#特殊文字選択を解除します
-adve#:#char_selector_disabled_user#:#特殊文字選択用のメニューを無効化
-adve#:#char_selector_enabled_admin#:#特殊文字選択用のメニューをアクティブ化するΩボタンは初期設定で表示されます。
-adve#:#char_selector_enabled_info_admin#:#特殊文字(Unicode)選択用メニューはテストと問題集内でアクティブです。Unicodeブロックで構成する選択の現状ユーザは次の通りです。ユーザはPersonal Desktopkの個別設定ができ設定は個別テストまたは問題集を変更できます。
-adve#:#char_selector_enabled_info_test#:#ユーザ個々の設定に関わらず特殊文字選択変更用のΩボタンはテスト中表示されます。特殊文字を入力できます。
-adve#:#char_selector_enabled_info_user#:#テスト中に特殊文字選択用のメニューは表示されます。しかしながら、個別テストはこの設定が有効にならないよう防止してメニューはそれを有効にする選択にかかわらず特殊文字表示しません。
-adve#:#char_selector_enabled_test#:#特殊文字選択はオンです。
-adve#:#char_selector_enabled_user#:#特殊文字選択メニューはオンです
-adve#:#char_selector_inactive_admin#:#特殊文字選択用メニューを有効にします
-adve#:#char_selector_inactive_info_admin#:#特殊文字選択用のメニューはシステム全体で利用不可です。ユーザは自身のPersonal Desktopでも個別テストあるいいは問題集、オン設定の問題集でも個別設定変更はできません。
-adve#:#char_selector_inherit_info_test#:#プラットフォームの管理設定またはPersonal Desktop上の個別ユーザによる変更次第でΩボタンはテスト中あるいは以外で表示されます。
-adve#:#char_selector_inherit_info_user#:#プラットフォーム全体の管理者により変更された設定が使用されます。
-adve#:#char_selector_inherit_test#:#管理者によるグローバルあるいはユーザによる設定のどちらかが適用されます。
-adve#:#char_selector_inherit_user#:#標準設定を使用
-adve#:#char_selector_menu_close#:#特殊文字セレクタを閉じる
-adve#:#char_selector_menu_open#:#特殊文字セレクタを開く
-adve#:#char_selector_msg_blocks_or_custom_needed#:#セレクタを有効にしている時は文字ブロックを選択するかスペシャルセレクションへ入力してください!
-adve#:#char_selector_test#:#特殊文字用セレクタ (Unicode)
-adve#:#char_selector_unicode_all#:#全てのUnicodeブロック
-adve#:#char_selector_user#:#テスト中の特殊文字(Unicode)選択用メニュー
 assessment#:#action#:#アクション
 assessment#:#addSuggestedSolution#:#要約用のコンテンツを追加
 assessment#:#add_answers#:#解答を追加
@@ -601,7 +561,6 @@ assessment#:#categories#:#カテゴリ
 assessment#:#category#:#カテゴリ
 assessment#:#changeSuggestedSolution#:#要約用のコンテンツタイプを選択
 assessment#:#change_adm_categories_not_allowed#:#このカテゴリに対するアクセス権が何もありません。
-assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#checkbox_checked#:#確認済み
 assessment#:#checkbox_unchecked#:#未確認
 assessment#:#circle#:#円

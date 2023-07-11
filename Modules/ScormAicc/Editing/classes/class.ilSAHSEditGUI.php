@@ -138,7 +138,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                     ilFileDelivery::deliverFileLegacy($exportDir . "/" . $fileName, $fileName, "zip");
                 } elseif ($cmd === "confirmDeletion") {
                     $exportDir = ilExport::_getExportDirectory($obj_id);
-//                $files = $_POST['file'];
+                    //                $files = $_POST['file'];
                     $files = $this->wrapper->post()->retrieve('file', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()));
                     foreach ($files as $file) {
                         $file = explode(":", $file);

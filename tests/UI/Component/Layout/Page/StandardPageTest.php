@@ -249,7 +249,8 @@ class StandardPageTest extends ILIAS_UI_TestBase
             ->withShortTitle("Short Title");
 
         $r = $this->getDefaultRenderer(
-            null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]
+            null,
+            [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]
         );
         $html = $this->brutallyTrimHTML($r->render($this->stdpage));
 
@@ -263,6 +264,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Short Title: View Title</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>
 
@@ -293,7 +295,8 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $this->stdpage = $this->stdpage->withTextDirection($this->stdpage::RTL);
 
         $r = $this->getDefaultRenderer(
-            null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]
+            null,
+            [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]
         );
         $html = $this->brutallyTrimHTML($r->render($this->stdpage));
 
@@ -307,6 +310,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>:</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>
 
@@ -343,7 +347,8 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $this->stdpage = $this->stdpage->withAdditionalMetaDatum($meta_datum_2);
 
         $r = $this->getDefaultRenderer(
-            null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]
+            null,
+            [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]
         );
         $html = $this->brutallyTrimHTML($r->render($this->stdpage));
         $expected = $this->brutallyTrimHTML(
@@ -358,6 +363,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
 ' . $meta_datum_1_html . $meta_datum_2_html . '
     <title>:</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>
 
@@ -437,6 +443,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>:</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>
 

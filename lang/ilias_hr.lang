@@ -398,7 +398,6 @@ adve#:#adve_autosave#:#Automatic Saving Intervall###04 06 2021 new variable
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.###04 06 2021 new variable
 adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###04 06 2021 new variable
 adve#:#adve_blocking_mode#:#Edit Lock
-adve#:#adve_char_selector_settings#:#Character Selector
 adve#:#adve_excass_settings#:#Exercise Assignments
 adve#:#adve_grp_copa#:#Content Pages
 adve#:#adve_grp_frm#:#Forums###29 07 2022 new variable
@@ -417,45 +416,6 @@ adve#:#adve_text_content_features#:#Text Content Menu
 adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
-adve#:#char_selector_admin#:#Menu for Selecting Special Characters (Unicode) in Tests and Question Pools
-adve#:#char_selector_blocks#:#Available Special Character Sets (Unicode)
-adve#:#char_selector_blocks_info#:#All characters of the selected blocks will be listed, but not all of them may be supported by the current browser font.
-adve#:#char_selector_custom_items#:#Custom Selection
-adve#:#char_selector_custom_items_info1#:#The custom selection will be listed before the selected blocks. Please add your characters in the following style:
-adve#:#char_selector_custom_items_info2a#:#A B C
-adve#:#char_selector_custom_items_info2b#:#Characters are separated by space, generating separate selector buttons
-adve#:#char_selector_custom_items_info3a#:#A BC D
-adve#:#char_selector_custom_items_info3b#:#It is possible to put more characters on one button
-adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#Ranges of characters can be defined with a ‘-’
-adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#A character can also be defined in Unicode notation (case insensitive)
-adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#Ranges are also possible in Unicode notation
-adve#:#char_selector_disabled_admin#:#Ω-Button for Activating the Menu for Selecting Special Characters is displayed only if switched on
-adve#:#char_selector_disabled_info_admin#:#The menu for selecting special characters (Unicode) in tests and question pools is activated but the Ω-Button has to be switched on by users on their Personal Desktop and or in individual tests or questions pools. Test Settings will override user settings.
-adve#:#char_selector_disabled_info_test#:#Regardless of a user's individual setting the special character selector is switched off for taking this test.
-adve#:#char_selector_disabled_info_user#:#In tests a menu for selecting special characters will be not displayed. However individual tests ‘force switch on’ the menu though your deactivated it here.
-adve#:#char_selector_disabled_test#:#Special Character Selector is Off
-adve#:#char_selector_disabled_user#:#Disable Menu for Selecting Special Characters
-adve#:#char_selector_enabled_admin#:#Ω-Button for Activating the Menu for Selecting Special Characters is Displayed by Default
-adve#:#char_selector_enabled_info_admin#:#The menu for selecting special characters (Unicode) is activated in tests and question pools. It will present users with the selection of Unicode blocks composed below. Users can make individual settings on their Personal Desktop and the setting can be switched on for individual tests or questions pools.
-adve#:#char_selector_enabled_info_test#:#Regardless of a user's individual setting the Ω-button for switching on the special character selector will be displayed in the test. Special characters can be entered.
-adve#:#char_selector_enabled_info_user#:#In tests a menu for selecting special characters will be displayed. However individual tests can prevent this setting from becoming effective and not display the special character menu despite your choice about activating it.
-adve#:#char_selector_enabled_test#:#Special Character Selector is On
-adve#:#char_selector_enabled_user#:#Enable Menu for Selecting Special Characters
-adve#:#char_selector_inactive_admin#:#Globally Deactivate the Menu for Selecting Special Characters
-adve#:#char_selector_inactive_info_admin#:#The menu for selecting special characters is deactivated for the whole system. Users cannot make individual settings on their Personal Desktop nor can individual tests or questions pools switch on the setting.
-adve#:#char_selector_inherit_info_test#:#Depending on the settings made in the platforms' administration or those made by individual users on their personal desktop the Ω-button is displayed in the test or not.
-adve#:#char_selector_inherit_info_user#:#The settings that were made by the administrator of the platform as a whole will be used.
-adve#:#char_selector_inherit_test#:#Settings made either Globally by Administrators or Individually by Users are Applied
-adve#:#char_selector_inherit_user#:#Use Standard-Settings
-adve#:#char_selector_menu_close#:#Close Special Character Selector
-adve#:#char_selector_menu_open#:#Open Special Character Selector
-adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!
-adve#:#char_selector_test#:#Selector Special Characters (Unicode)
-adve#:#char_selector_unicode_all#:#All Unicode Blocks
-adve#:#char_selector_user#:#Menu for Selecting Special Characters (Unicode) in Tests
 assessment#:#action#:#Akcija
 assessment#:#addSuggestedSolution#:#Sadržaji za ponavljanje
 assessment#:#add_answers#:#Dodaj odgovore
@@ -598,7 +558,6 @@ assessment#:#categories#:#Kategorije
 assessment#:#category#:#Kategorija
 assessment#:#changeSuggestedSolution#:#Odaberite vrstu sadržaja za rekapitulaciju
 assessment#:#change_adm_categories_not_allowed#:#Nemate nikakvu dozvolu za ovu kategoriju.
-assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#checkbox_checked#:#Označeno
 assessment#:#checkbox_unchecked#:#Nije označeno
 assessment#:#circle#:#Krug

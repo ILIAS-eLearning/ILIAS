@@ -27,6 +27,7 @@ use ILIAS\Setup\Agent;
 
 class HasConfigReaderTest extends TestCase
 {
+    protected ConfigReader $config_reader;
     protected $has_config_reader;
 
     public function setUp(): void

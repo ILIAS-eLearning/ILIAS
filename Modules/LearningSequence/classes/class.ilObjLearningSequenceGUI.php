@@ -118,6 +118,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
+    protected Psr\Http\Message\ServerRequestInterface $request;
 
     public static function _goto(string $target): void
     {
@@ -210,6 +211,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->rbac_review = $DIC['rbacreview'];
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
+        $this->request = $DIC->http()->request();
 
         $this->log = $DIC["ilLoggerFactory"]->getRootLogger();
         $this->app_event_handler = $DIC['ilAppEventHandler'];
@@ -482,11 +484,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->ctrl,
             $this->lng,
             $this->tpl,
-            $this->obj_service,
-            $this->post_wrapper,
             $this->refinery,
-            $this->toolbar,
-            $this->ui_factory
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->request
         );
         $this->ctrl->setCmd($cmd);
         $this->ctrl->forwardCommand($gui);
@@ -864,7 +865,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     {
         return array_filter(
             array_keys($this->obj_definition->getSubObjects('lso', false)),
-            fn ($type) => $type !== 'rolf'
+            fn($type) => $type !== 'rolf'
         );
     }
 

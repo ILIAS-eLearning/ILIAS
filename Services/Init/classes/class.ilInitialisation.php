@@ -443,6 +443,7 @@ class ilInitialisation
         }
         // we found a client_id in $GET
         if (isset($client_id_from_get) && strlen($client_id_from_get) > 0) {
+            // @todo refinery undefined
             $client_id_to_use = $_GET['client_id'] = $df->clientId($client_id_from_get)->toString();
             if ($can_set_cookie) {
                 ilUtil::setCookie('ilClientId', $client_id_to_use);
@@ -494,7 +495,6 @@ class ilInitialisation
 
         // invalid client id / client ini
         if ($ilClientIniFile->ERROR != "") {
-            $c = $_COOKIE["ilClientId"];
             $default_client = $ilIliasIniFile->readVariable("clients", "default");
             ilUtil::setCookie("ilClientId", $default_client);
             if (CLIENT_ID != "" && CLIENT_ID != $default_client) {
@@ -936,7 +936,7 @@ class ilInitialisation
                 return;
             }
             // goto will check if target is accessible or redirect to login
-            self::redirect("goto.php?target=" . $_GET["target"]);
+            self::redirect("goto.php?target=" . $target);
         }
 
         // we do not know if ref_id of request is accesible, so redirecting to root
@@ -975,9 +975,13 @@ class ilInitialisation
             $target = "target=" . $target . "&";
         }
 
-        $client_id = $DIC->http()->wrapper()->cookie()->has('ilClientId')
-            ? $DIC->http()->wrapper()->cookie()->retrieve('ilClientId', $DIC->refinery()->kindlyTo()->string())
-            : '';
+        $client_id = $DIC->http()->wrapper()->cookie()->retrieve(
+            'ilClientId',
+            $DIC->refinery()->byTrying([
+                $DIC->refinery()->kindlyTo()->string(),
+                $DIC->refinery()->always('')
+            ])
+        );
 
         $script = "login.php?" . $target . "client_id=" . $client_id .
             "&auth_stat=" . $a_auth_stat;
@@ -1577,6 +1581,7 @@ class ilInitialisation
 
         if (ilContext::hasUser()) {
             // set hits per page for all lists using table module
+            // @todo this is not fixable due to unknown sideeffects.
             $_GET['limit'] = (int) $ilUser->getPref('hits_per_page');
             ilSession::set('tbl_limit', $_GET['limit']);
 
@@ -1586,7 +1591,8 @@ class ilInitialisation
             // or not set at all (then we want the last offset, e.g. being used from a session var).
             // So I added the wrapping if statement. Seems to work (hopefully).
             // Alex April 14th 2006
-            if (isset($_GET['offset']) && $_GET['offset'] != "") {                            // added April 14th 2006
+            // @todo not replaced by refinery due to unknown sideeffects
+            if (isset($_GET['offset']) && $_GET['offset'] != "") {
                 $_GET['offset'] = (int) $_GET['offset'];        // old code
             }
 
@@ -1596,6 +1602,10 @@ class ilInitialisation
         }
     }
 
+    /**
+     * Extract current cmd from request
+     * @todo superglobal access <= refinery undefined
+     */
     protected static function getCurrentCmd(): string
     {
         $cmd = $_POST['cmd'] ?? ($_GET['cmd'] ?? '');
@@ -1651,6 +1661,7 @@ class ilInitialisation
             return true;
         }
 
+        // @todo refinery undefined
         $requestBaseClass = strtolower((string) ($_GET['baseClass'] ?? ''));
         if ($requestBaseClass == strtolower(ilStartUpGUI::class)) {
             $requestCmdClass = strtolower((string) ($_GET['cmdClass'] ?? ''));
@@ -1675,7 +1686,7 @@ class ilInitialisation
 
         $target = '';
         if ($DIC->http()->wrapper()->query()->has('target')) {
-            // @todo refinery undefind
+            // @todo refinery undefined
             $target = $_GET['target'];
         }
 
@@ -1684,6 +1695,7 @@ class ilInitialisation
             ($a_current_script == "goto.php" && $target == "impr_0") ||
             $requestBaseClass == strtolower(ilImprintGUI::class)
         ) {
+            // @todo refinery undefind
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for baseClass: ' . ($_GET['baseClass'] ?? ""));
             return true;
         }

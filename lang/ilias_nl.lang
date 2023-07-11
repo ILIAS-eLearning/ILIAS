@@ -398,7 +398,6 @@ adve#:#adve_autosave#:#Automatic Saving Intervall###29 07 2022 new variable
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.###29 07 2022 new variable
 adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###29 07 2022 new variable
 adve#:#adve_blocking_mode#:#Wijzigen Vergrendeling
-adve#:#adve_char_selector_settings#:#Karakter Selector
 adve#:#adve_excass_settings#:#Oefening
 adve#:#adve_grp_copa#:#Content Pages###10 11 2018 new variable
 adve#:#adve_grp_frm#:#Forums###29 07 2022 new variable
@@ -417,45 +416,6 @@ adve#:#adve_text_content_features#:#Tekst inhoudsopgave
 adve#:#adve_use_physical#:#Gebruik b/i/u in plaats van str/emp/imp
 adve#:#adve_use_physical_info#:#Deze instelling vervangt de semantische style class tags voor sterk, emfatisch en belangrijk met fysieke attributen: b (bold), i (italic) en u (underline). Let op, dit kan resulteren in inconsistenties, als de style editor wordt gebruikt en andere attributen zijn toegewezen voor sterkte/emfatisch/belangrijkheid van stijlen.
 adve#:#adve_use_tiny_mce#:#Inschakelen TinyMCE voor WYSIWYG Editen
-adve#:#char_selector_admin#:#Menu for Selecting Special Characters (Unicode) in Tests and Question Pools###06 02 2015 new variable
-adve#:#char_selector_blocks#:#Beschikbare Unicode blokken
-adve#:#char_selector_blocks_info#:#Alle karakters van de geselecteerde blokken zullen worden getoond, maar worden mogelijk niet allemaal ondersteund door het huidige browser font.
-adve#:#char_selector_custom_items#:#Maatwerk selectie
-adve#:#char_selector_custom_items_info1#:#De maatwerk selectie wordt getoond voor de geselecteerde blokken. Voeg je karakters toe in de volgende stijl:
-adve#:#char_selector_custom_items_info2a#:#A B C
-adve#:#char_selector_custom_items_info2b#:#Karakters zijn gescheiden door spaties en zal aparte selector knoppen genereren.
-adve#:#char_selector_custom_items_info3a#:#A BC D
-adve#:#char_selector_custom_items_info3b#:#Het is mogelijk om meer karakters op een knop te plaatsen.
-adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#Bereik van karakters wordt gedefinieerd met "-"
-adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#Een karakter kan ook worden gedefinieerd in Unicode notatie (hoofdletter ongevoelig)
-adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#Bereik is ook mogelijk in Unicode notatie
-adve#:#char_selector_disabled_admin#:#Ω-Button for Activating the Menu for Selecting Special Characters is displayed only if switched on###06 02 2015 new variable
-adve#:#char_selector_disabled_info_admin#:#Uitschakelen van selector. Gebruikers en toetsen hebben hun eigen instellingen.
-adve#:#char_selector_disabled_info_test#:#Uitschakelen van selector gedurende een test run.
-adve#:#char_selector_disabled_info_user#:#Uitschakelen van selector. Toeten hebben een eigen instellling.
-adve#:#char_selector_disabled_test#:#Special Character Selector is Off###06 02 2015 new variable
-adve#:#char_selector_disabled_user#:#Disable Menu for Selecting Special Characters###06 02 2015 new variable
-adve#:#char_selector_enabled_admin#:#Ω-Button for Activating the Menu for Selecting Special Characters is Displayed by Default###06 02 2015 new variable
-adve#:#char_selector_enabled_info_admin#:#Inschakelen van selector via een knop op het hoofd menu. Gebruikers en toetsen hebben hun eigen instellingen.
-adve#:#char_selector_enabled_info_test#:#Inschakelen van selector gedurende een test run.
-adve#:#char_selector_enabled_info_user#:#Inschakelen van selector via een knop op het hoofd menu.
-adve#:#char_selector_enabled_test#:#Special Character Selector is On###06 02 2015 new variable
-adve#:#char_selector_enabled_user#:#Enable Menu for Selecting Special Characters###06 02 2015 new variable
-adve#:#char_selector_inactive_admin#:#Globally Deactivate the Menu for Selecting Special Characters###06 02 2015 new variable
-adve#:#char_selector_inactive_info_admin#:#Uitschakelen van selector. Gebruikers en toetsen kunnen dit niet overschrijven.
-adve#:#char_selector_inherit_info_test#:#Gebruik de platforminstellingen of gebruikersspecifieke instelling.
-adve#:#char_selector_inherit_info_user#:#Gebruik de platforminstellingen.
-adve#:#char_selector_inherit_test#:#Settings made either Globally by Administrators or Individually by Users are Applied###06 02 2015 new variable
-adve#:#char_selector_inherit_user#:#Use Standard-Settings###06 02 2015 new variable
-adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
-adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
-adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!###06 02 2015 new variable
-adve#:#char_selector_test#:#Selector Special Characters (Unicode)###06 02 2015 new variable
-adve#:#char_selector_unicode_all#:#Alle Unicode Blokken
-adve#:#char_selector_user#:#Menu for Selecting Special Characters (Unicode) in Tests###06 02 2015 new variable
 assessment#:#action#:#Actie
 assessment#:#addSuggestedSolution#:#Voeg voorgestelde oplossing toe
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
@@ -598,7 +558,6 @@ assessment#:#categories#:#Categorieën
 assessment#:#category#:#Categorie
 assessment#:#changeSuggestedSolution#:#Wijzig de voorgestelde oplossing
 assessment#:#change_adm_categories_not_allowed#:#Je hebt geen rechten op deze categorie.
-assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;###30 08 2015 new variable
 assessment#:#checkbox_checked#:#Geselecteerd
 assessment#:#checkbox_unchecked#:#Niet geselecteerd
 assessment#:#circle#:#Cirkel

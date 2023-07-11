@@ -24,6 +24,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\Filesystem\Util;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -56,6 +57,19 @@ class Unzip
         }
     }
 
+    /**
+     * @return \Closure
+     */
+    protected function pathToStreamGenerator(): \Closure
+    {
+        return function (\Generator $paths): \Generator {
+            foreach ($paths as $path) {
+                $resource = $this->zip->getStream($path);
+
+                yield Streams::ofResource($resource);
+            }
+        };
+    }
 
     /**
      * @return \Generator<bool|string>
@@ -78,9 +92,22 @@ class Unzip
      */
     public function getStreams(): \Generator
     {
-        foreach ($this->getPaths() as $path) {
-            yield Streams::ofResource($this->zip->getStream($path));
+        $paths_to_stream_generator = $this->pathToStreamGenerator();
+
+        if ($this->options->isFlat()) {
+            yield from $paths_to_stream_generator($this->getFiles());
+        } else {
+            yield from $paths_to_stream_generator($this->getPaths());
         }
+    }
+    /**
+     * @return \Generator|FileStream[]
+     */
+    public function getFileStreams(): \Generator
+    {
+        $paths_to_stream_generator = $this->pathToStreamGenerator();
+
+        yield from $paths_to_stream_generator($this->getFiles());
     }
 
     public function getAmountOfDirectories(): int
@@ -162,7 +189,6 @@ class Unzip
         return false;
     }
 
-
     public function extract(): bool
     {
         if ($this->error_reading_zip) {
@@ -174,14 +200,30 @@ class Unzip
             return false;
         }
 
+        if ($this->options->ensureTopDirectory()) {
+            // top directory with same name as the ZIP without suffix
+            $zip_path = $this->stream->getMetadata(self::URI);
+            $sufix = '.' . pathinfo($zip_path, PATHINFO_EXTENSION);
+            $top_directory = basename($zip_path, $sufix);
+
+            $destination_path .= self::DIRECTORY_SEPARATOR . $top_directory;
+        }
+
         if ($this->options->isFlat()) {
+            if (!is_dir($destination_path)) {
+                if (!mkdir($destination_path, 0777, true) && !is_dir($destination_path)) {
+                    throw new \RuntimeException(sprintf('Directory "%s" was not created', $destination_path));
+                }
+            }
+
             foreach ($this->getStreams() as $stream) {
                 $uri = $stream->getMetadata(self::URI);
                 if (substr($uri, -1) === self::DIRECTORY_SEPARATOR) {
                     continue; // Skip directories
                 }
+                $file_name = Util::sanitizeFileName($destination_path . self::DIRECTORY_SEPARATOR . basename($uri));
                 file_put_contents(
-                    $destination_path . self::DIRECTORY_SEPARATOR . basename($uri),
+                    $file_name,
                     $stream->getContents()
                 );
             }

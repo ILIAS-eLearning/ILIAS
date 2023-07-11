@@ -67,6 +67,7 @@ class ilPermission2GUI
         $this->refinery = $DIC->refinery();
 
         $this->gui_obj = $a_gui_obj;
+        $this->tabs->activateTab('perm_settings');
     }
 
     // show owner sub tab
@@ -129,11 +130,11 @@ class ilPermission2GUI
     // init sub tabs
     public function __initSubTabs(string $a_cmd): void
     {
-        $perm = $a_cmd == 'perm';
-        $perm_positions = $a_cmd == ilPermissionGUI::CMD_PERM_POSITIONS;
-        $info = $a_cmd == 'perminfo';
-        $owner = $a_cmd == 'owner';
-        $log = $a_cmd == 'log';
+        $perm = $a_cmd === 'perm';
+        $perm_positions = $a_cmd === ilPermissionGUI::CMD_PERM_POSITIONS;
+        $info = $a_cmd === 'perminfo';
+        $owner = $a_cmd === 'owner';
+        $log = $a_cmd === 'log';
 
         $this->tabs->addSubTabTarget(
             "permission_settings",

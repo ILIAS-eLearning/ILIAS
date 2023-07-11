@@ -60,8 +60,6 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         $this->tabs = $DIC->tabs();
         $this->ui = $DIC->ui();
         $this->controlFlow = $DIC->ctrl();
-        $this->ui->mainTemplate()->setTitle($DIC->language()->txt('mm_org_etal'));
-        $this->ui->mainTemplate()->setTitleIcon(ilUtil::getImagePath('icon_etal.svg'));
         $this->currentUser = $DIC->user();
         $this->repository = new IliasDBEmployeeTalkRepository($DIC->database());
     }
@@ -124,6 +122,8 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
     {
         $this->loadActionBar();
         $this->loadTabs();
+        $this->ui->mainTemplate()->setTitle($this->language->txt('mm_org_etal'));
+        $this->ui->mainTemplate()->setTitleIcon(ilUtil::getImagePath('icon_etal.svg'));
         $this->ui->mainTemplate()->setContent($this->loadTable()->getHTML());
     }
 
@@ -166,7 +166,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
             $url = $this->controlFlow->getLinkTargetByClass($talk_class, ControlFlowCommand::CREATE);
             $this->controlFlow->clearParametersByClass($talk_class);
 
-            $buttons[] = $this->ui->factory()->button()->shy(
+            $buttons[] = $this->ui->factory()->link()->standard(
                 (string) $item["title"],
                 $url
             );

@@ -62,7 +62,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
             $this->bySCO = true;
         }
         if ($a_parent_obj !== null) {
-            $this->lmTitle = $a_parent_obj->object->getTitle();
+            $this->lmTitle = $a_parent_obj->getObject()->getTitle();
             $this->setId('2004' . $this->report);
             parent::__construct($a_parent_obj, $a_parent_cmd);
         }
@@ -206,7 +206,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
     {
         if ($id === "status") {
             $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM);
-            $path = $icons->getImagePathForStatus($value);
+            $path = $icons->getImagePathForStatus((int) $value);
             $text = ilLearningProgressBaseGUI::_getStatusText((int) $value);
             $value = ilUtil::img($path, $text);
         }
@@ -215,7 +215,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
             return $value;
         }
         if (is_numeric($value)) {
-            return round($value, 2);
+            return round((float) $value, 2);
         }
         return $value;
     }

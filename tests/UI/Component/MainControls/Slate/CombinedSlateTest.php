@@ -47,6 +47,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
     {
         $factory = new class () extends NoUIFactory {
             public I\SignalGenerator $sig_gen;
+            public I\Button\Factory $button_factory;
 
             public function button(): C\Button\Factory
             {
