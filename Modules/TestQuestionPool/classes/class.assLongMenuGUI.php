@@ -74,7 +74,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     {
         $form = $this->buildEditForm();
         $form->setValuesByPost();
-        $check = $form->checkInput();
+        $check = $form->checkInput() && $this->verifyAnswerOptions();
+
         $this->writeQuestionGenericPostData();
         $this->writeQuestionSpecificPostData($form);
         $custom_check = $this->object->checkQuestionCustomPart($form);
@@ -100,6 +101,22 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $this->object->setMinAutoComplete((int) $_POST["min_auto_complete"]);
         $this->object->setIdenticalScoring((int) $_POST["identical_scoring"]);
         $this->saveTaxonomyAssignments();
+    }
+
+    private function verifyAnswerOptions() : bool
+    {
+        $longmenu_text = $_POST['longmenu_text'] ?? '';
+        $hidden_text_files = $_POST['hidden_text_files'] ?? '';
+        $answer_options_from_text = preg_split(
+            "/\\[" . assLongMenu::GAP_PLACEHOLDER . " (\\d+)\\]/",
+            $longmenu_text
+        );
+        $answer_options_from_files = json_decode(ilUtil::stripSlashes($hidden_text_files));
+        if (count($answer_options_from_text) - 1 !== count($answer_options_from_files)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('longmenu_answeroptions_differ'));
+            return false;
+        }
+        return true;
     }
 
     protected function trimArrayRecursive(array $data)
@@ -510,6 +527,10 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $user_value = '';
             $return_value .= $this->object->prepareTextareaOutput($value, true);
             if ($key < sizeof($text_array) - 1) {
+                if (!array_key_exists($key, $correct_answers)) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('longmenu_answeroptions_differ'));
+                    continue;
+                }
                 if ($correct_answers[$key][2] == assLongMenu::ANSWER_TYPE_TEXT_VAL) {
                     if (array_key_exists($key, $user_solution)) {
                         $user_value = $user_solution[$key];
@@ -599,7 +620,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     public function getAnswersFrequency($relevant_answers, $questionIndex)
     {
-        $answers = array();
+        $answers = [];
 
         foreach ($relevant_answers as $row) {
             if ($row['value1'] != $questionIndex) {

@@ -904,6 +904,7 @@ assessment#:#log_user_not_entered_values#:#User did not enter values
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.
 assessment#:#longmenu#:#Longmenu
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#mailnottype#:#Send notification even if a user finishes a test pass
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.
