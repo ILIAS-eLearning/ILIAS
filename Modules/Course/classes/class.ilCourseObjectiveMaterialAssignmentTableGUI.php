@@ -71,7 +71,6 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.crs_objective_list_materials_row.html", "Modules/Course");
 
         $this->setDefaultOrderField('title');
-        $this->setLimit(200);
         $this->setShowRowsSelector(true);
 
         $this->setNoEntriesText($this->lng->txt('crs_no_objective_lms_found'));
