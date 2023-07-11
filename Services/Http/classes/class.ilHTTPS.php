@@ -210,8 +210,8 @@ class ilHTTPS
                 'lifetime' => IL_COOKIE_EXPIRE,
                 'path' => IL_COOKIE_PATH,
                 'domain' => IL_COOKIE_DOMAIN,
-                'secure' => IL_COOKIE_SECURE,
-                'httponly' => true,
+                'secure' => true,
+                'httponly' => IL_COOKIE_HTTPONLY,
                 'samesite' => (strtolower(session_get_cookie_params()['samesite'] ?? '')) === 'strict' ? session_get_cookie_params()['samesite'] : 'Lax'
             ]);
         }
