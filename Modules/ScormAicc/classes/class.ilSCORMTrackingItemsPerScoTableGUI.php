@@ -47,7 +47,7 @@ class ilSCORMTrackingItemsPerScoTableGUI extends ilTable2GUI
     {
         $this->initTable();
 
-        $scos = $this->getParentObject()->object->getTrackedItems();
+        $scos = $this->getParentObject()->getTrackedItems();
 
         $data = array();
         foreach ($scos as $row) {

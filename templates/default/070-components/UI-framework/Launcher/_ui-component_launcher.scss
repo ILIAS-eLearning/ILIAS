@@ -1,5 +1,26 @@
 @use "../../../010-settings/legacy-settings/legacy-settings_symbol" as legacy-setting-symbol;
+@use "../../../010-settings/" as s;
+@use "../../../030-tools/legacy-bootstrap-mixins/buttons" as *;
 @use "../../../050-layout/basics/" as layout-basics;
+
+.c-launcher {
+    .btn-bulky {
+        min-width: 50%;
+        width: max-content;
+        border-radius: s.$il-border-radius-secondary-large;
+        @include button-variant(s.$il-btn-primary-color, s.$il-btn-primary-bg, s.$il-btn-primary-border);
+        @include button-size(layout-basics.$il-padding-xxlarge-vertical, layout-basics.$il-padding-xxlarge-horizontal, s.$il-font-size-large, s.$il-line-height-base, s.$il-border-radius-secondary-large);
+        &[disabled] {
+            cursor: not-allowed;
+        }
+        .glyph {
+            color: s.$il-text-color-invert;
+        }
+        @media screen and (max-width: s.$il-grid-float-breakpoint-max) {
+            min-width: 100%;
+        }
+    }
+}
 
 .c-launcher__status {
     display: flex;

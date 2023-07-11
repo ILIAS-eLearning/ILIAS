@@ -566,14 +566,6 @@ class ilPersonalSettingsGUI
             $si->addOption($repobj);
         }
 
-        if ($this->settings->get('char_selector_availability') > 0) {
-            $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_USER);
-            $char_selector->getConfig()->setAvailability((int) $this->user->getPref('char_selector_availability'));
-            $char_selector->getConfig()->setDefinition((string) $this->user->getPref('char_selector_definition'));
-            $char_selector->addFormProperties($this->form);
-            $char_selector->setFormValues($this->form);
-        }
-
         $this->form->addCommandButton('saveGeneralSettings', $this->lng->txt('save'));
         $this->form->setTitle($this->lng->txt('general_settings'));
         $this->form->setFormAction($this->ctrl->getFormAction($this));
@@ -637,13 +629,6 @@ class ilPersonalSettingsGUI
                     (int) $this->form->getInput('usr_start'),
                     $s_ref_id
                 );
-            }
-
-            if ($this->settings->get('char_selector_availability') > 0) {
-                $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_USER);
-                $char_selector->getFormValues($this->form);
-                $this->user->setPref('char_selector_availability', $char_selector->getConfig()->getAvailability());
-                $this->user->setPref('char_selector_definition', $char_selector->getConfig()->getDefinition());
             }
 
             $this->user->update();

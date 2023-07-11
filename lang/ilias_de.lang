@@ -399,7 +399,6 @@ adve#:#adve_autosave#:#Intervall automatisches Speichern
 adve#:#adve_autosave_info#:#Textinhalte werden in diesem Intervall automatisch gespeichert. Kürzere Intervalle führen zu höherer Serverlast und geringerer Systemperformanz.
 adve#:#adve_autosave_info_min_10#:#Bitte setzen sie den Wert auf mindestens 10 Sekunden, falls sie Funktion nutzen.
 adve#:#adve_blocking_mode#:#Bearbeitungssperre
-adve#:#adve_char_selector_settings#:#Zeichenauswahl
 adve#:#adve_excass_settings#:#Übungseinheiten
 adve#:#adve_grp_copa#:#Inhaltsseiten
 adve#:#adve_grp_frm#:#Foren
@@ -418,45 +417,6 @@ adve#:#adve_text_content_features#:#Text Content Menü
 adve#:#adve_use_physical#:#str|emp|imp durch <b>B</b>|<i>I</i>|<u>U</u> ersetzen
 adve#:#adve_use_physical_info#:#Die Einstellung ersetzt die Buttons der semantischen Styleklassen für strong, emphatic und important durch die fest definierten Auszeichnungen <b>B</b> (bold), <i>I</i> (italic) und <u>U</u> (underline). Achtung: hierbei kann es zu Inkonsistenzen kommen, wenn über den Styleeditor den Styleklassen für strong, emphatic und important andere Auszeichnungen zugeordnet wurden.
 adve#:#adve_use_tiny_mce#:#TinyMCE für WYSIWYG-Editieren aktivieren
-adve#:#char_selector_admin#:#Auswahlmenü mit Sonderzeichen (Unicode) für Tests und Fragenpools
-adve#:#char_selector_blocks#:#Verfügbare Sonderzeichen (Unicode)
-adve#:#char_selector_blocks_info#:#Alle Zeichen der ausgewählten Blöcke werden gelistet, auch wenn die Browserschrift nicht alle unterstützt.
-adve#:#char_selector_custom_items#:#Spezielle Auswahl
-adve#:#char_selector_custom_items_info1#:#Die Spezielle Auswahl wird vor den Unicode-Blöcken gelistet. Fügen Sie hier die Zeichen im folgenden Format ein:
-adve#:#char_selector_custom_items_info2a#:#A B C
-adve#:#char_selector_custom_items_info2b#:#Einzelne Zeichen werden durch Leerzeichen getrennt und bekommen so separate Auswahlschalter
-adve#:#char_selector_custom_items_info3a#:#A BC D
-adve#:#char_selector_custom_items_info3b#:#Zusammenhängende Zeichen landen gemeinsam auf einem Auswahlschalter
-adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#Zeichenbereiche können mit einem "-" definiert werden
-adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#Ein Zeichen kann auch in Unicode-Notation angegeben werden (Groß-/Kleinschreibung beliebig).
-adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#Auch Zeichenbereiche können in Unicode-Notation angegeben werden
-adve#:#char_selector_disabled_admin#:#Ω-Button zur Aktivierung des Auswahlmenü für Sonderzeichen muss extra angeschaltet werden
-adve#:#char_selector_disabled_info_admin#:#Das Auswahlmenü für Sonderzeichen (Unicode) ist  für Tests und Fragenpools aktiviert, allerdings müssen Benutzer in den persönlichen Einstellungen entsprechende Einstellungen vornehmen oder der Test  bzw. Fragenpool können im Reiter 'Einstellungen' so konfiguriert werden, dass  das Auswahlmenü zur Verfügung steht. Test-Einstellungen setzen sich gegenüber Benutzer-Einstellungen durch.
-adve#:#char_selector_disabled_info_test#:#Unabhängig von den Einstellungen eines Benutzers ist das Menü zu Auswahl der Sonderzeichen (Unicode) bei der Testdurchführung ausgeschaltet, Zeichen können nur über die Tastatur eingegeben werden.
-adve#:#char_selector_disabled_info_user#:#In Tests wird normalerweise kein Auswahlmenü für Sonderzeichen eingeblendet. Allerdings können einzelne Tests die Anzeige dieses Menüs trotz dieser Einstellung erzwingen.
-adve#:#char_selector_disabled_test#:#Sonderzeichenauswahl nicht anzeigen
-adve#:#char_selector_disabled_user#:#Kein Auswahlmenü für Sonderzeichen in Tests anzeigen
-adve#:#char_selector_enabled_admin#:#Ω-Button zur Aktivierung des Auswahlmenü für Sonderzeichen wird standardmäßig angezeigt
-adve#:#char_selector_enabled_info_admin#:#Das Auswahlmenü für Sonderzeichen (Unicode) ist aktiviert. Es enthält die Unicode Blöcke, die in dieser Einstellung ausgewählt werden. Benutzer können aber individuelle Einstellungen in den persönlichen Einstellungen vornehmen oder Test können im Reiter 'Einstellungen' so konfiguriert werden, dass  das Auswahlmenü zur Verfügung steht.
-adve#:#char_selector_enabled_info_test#:#Unabhängig von den Einstellungen eines Benutzers wird das Menü zu Auswahl der Sonderzeichen (Unicode) bei der Testdurchführung eingeblendet, Sonderzeichen können über das Menü eingegeben werden.
-adve#:#char_selector_enabled_info_user#:#In Tests wird ein Auswahlmenü für Sonderzeichen eingeblendet. Allerdings können einzelne Tests die Anzeige dieses Menüs trotz dieser Einstellung unterdrücken.
-adve#:#char_selector_enabled_test#:#Sonderzeichenauswahl anzeigen
-adve#:#char_selector_enabled_user#:#Auswahlmenü für Sonderzeichen aktivieren
-adve#:#char_selector_inactive_admin#:#Auswahlmenü für Sonderzeichen global deaktivieren
-adve#:#char_selector_inactive_info_admin#:#Das Auswahlmenü für Sonderzeichen ist für die gesamte Plattform deaktiviert. Auch die Möglichkeit individuelle Einstellungen in den persönlichen Einstellungen oder im Reiter 'Einstellungen' in Tests  vorzunehmen ist ausgeblendet.
-adve#:#char_selector_inherit_info_test#:#Je nach den Einstellungen in der Administration und den individuellen Einstellungen, die ein Benutzer in den persönlichen Einstellungen getroffen hat, wird das Auswahlmenü für Sonderzeichen (Unicode) im Testdurchlauf angezeigt oder auch nicht.
-adve#:#char_selector_inherit_info_user#:#Es werden die Einstellungen übernommen, wie sie vom Administrator für die ganze Plattform  global aktiviert wurden.
-adve#:#char_selector_inherit_test#:#Plattform und individuelle Benutzereinstellungen übernehmen
-adve#:#char_selector_inherit_user#:#Standard-Einstellungen übernehmen
-adve#:#char_selector_menu_close#:#Sonderzeichen-Auswahl verbergen
-adve#:#char_selector_menu_open#:#Sonderzeichen-Auswahl anzeigen
-adve#:#char_selector_msg_blocks_or_custom_needed#:#Wenn Sie die Auswahl aktivieren, wählen Sie bitte einen Zeichenblock oder geben Sie eine eigene Auswahl von Zeichen ein!
-adve#:#char_selector_test#:#Auswahlmenü mit Sonderzeichen
-adve#:#char_selector_unicode_all#:#Alle Unicode-Blöcke
-adve#:#char_selector_user#:#Auswahlmenü mit Sonderzeichen (Unicode) für Tests
 assessment#:#action#:#Aktion
 assessment#:#addSuggestedSolution#:#Inhalte zur Wiederholung
 assessment#:#add_answers#:#Antworten hinzufügen
@@ -599,7 +559,6 @@ assessment#:#categories#:#Kategorien
 assessment#:#category#:#Kategorie
 assessment#:#changeSuggestedSolution#:#Art der Inhalte zur Wiederholung auswählen
 assessment#:#change_adm_categories_not_allowed#:#An dieser Stelle haben Sie keine Schreibberechtigung an der Kategorie.
-assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#checkbox_checked#:#Ausgewählt
 assessment#:#checkbox_unchecked#:#Nicht ausgewählt
 assessment#:#circle#:#Kreis
@@ -886,6 +845,7 @@ assessment#:#log_user_not_entered_values#:#Der Benutzer hat keine Werte eingetra
 assessment#:#log_user_solution_willingly_deleted#:#Der Benutzer hat seine Antwort entfernt.
 assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben.
 assessment#:#longmenu#:#Longmenu
+assessment#:#longmenu_answeroptions_differ#:#Diese Frage funktioniert nicht richtig, denn sie hat nicht die gleiche Anzahl Lücken im Text wie in den Antwortoptionen.
 assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
 assessment#:#mailnottype_desc#:#Der Besitzer des Tests wird auch dann benachrichtigt, wenn die Anzahl Durchläufe nicht beschränkt ist.
@@ -2019,7 +1979,7 @@ auth#:#auth_auth_settings#:#Einstellungen
 auth#:#auth_cas_ldap#:#Synchronisierung über LDAP-Einstellungen
 auth#:#auth_cas_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutzerdaten und Rollenzuordnungen, gemäß der LDAP-Einstellungen vorgenommen.
 auth#:#auth_cron_destroy_expired_sessions#:#Löschen abgelaufener Benutzer-Sitzungen
-auth#:#auth_cron_destroy_expired_sessions_desc#:#Dieser Cron-Job löscht bereits abgelaufene Benutzer-Sitzungen 
+auth#:#auth_cron_destroy_expired_sessions_desc#:#Dieser Cron-Job löscht bereits abgelaufene Benutzer-Sitzungen
 auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.
 auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines internen Fehlers nicht durchgeführt werden.
 auth#:#auth_err_ldap_exception#:#Die Authentifizierung konnte wegen eines Fehlers im Anmeldungsverfahren (LDAP) nicht durchgeführt werden.
@@ -2771,6 +2731,7 @@ certificate#:#certificate_settings#:#Einstellungen für Zertifikate
 certificate#:#certificate_short_name#:#Kurztitel für die Dateibenennung
 certificate#:#certificate_short_name_description#:#Bitte geben Sie einen Kurztitel für die Dateibenennung ein. Der Kurztitel wird als Teil des Zertifikat-Dateinamens verwendet: JJMMTT_[Nachname]_[SHORT_TITLE]_Zertifikat.pdf.
 certificate#:#certificate_text#:#Text des Zertifikats
+certificate#:#certificate_text_info#:#Bitte geben Sie hier den Text des Zertifikats ein. Falls der WYSIWYG-Edtior in der ILIAS-Administration deaktiviert wurde, können Sie hier dennoch gültiges XHTML zur Formatierung nutzen.
 certificate#:#certificate_unit_description#:#Geben Sie Maße immer in der Form WERT[cm|mm|in|pt|pc|px|em] an, d.h. 10mm oder 3in
 certificate#:#certificate_usage#:#Bitte beachten Sie, dass die Verwendung und Erstellung von Zertifikaten nur möglich ist, wenn Sie den Java-Server von ILIAS verwenden. Der Java-Server wird in der Hauptseite der Administration in der Kategorie Web-Services konfiguriert und ist unter anderem für die Generierung von PDF-Dateien erforderlich.
 certificate#:#certificate_var_max_points#:#46
@@ -3365,7 +3326,7 @@ cntr#:#cntr_view_info_sessions#:#Sitzungen werden in einer eigenen Liste angezei
 cntr#:#cntr_view_info_simple#:#Alle Objekte werden in einer einzigen Liste dargestellt.
 cntr#:#cntr_view_sessions#:#Sitzungsansicht
 cntr#:#cntr_view_simple#:#Einfache Liste
-cntr#:#container_import_zip_file_invalid#:#Die hochgeladene Datei ist kein gültiger ILIAS Export. Um Verzeichnisstrukturen hochzuladen benutzen Sie bitte ein Datei-Objekt.
+cntr#:#container_import_zip_file_invalid#:#Die hochgeladene Datei ist keine gültige ILIAS-Exportdatei. Um Verzeichnisstrukturen hochzuladen, benutzen Sie bitte ein Datei-Objekt.
 cntr#:#edit_questions#:#Fragen bearbeiten
 cntr#:#exc_next_deadline_single#:#Abgabefrist
 cntr#:#msg_no_downloadable_objects#:#Keine herunterladbaren Objekte gefunden.
@@ -3373,9 +3334,9 @@ cntr#:#objects_duplicated#:#Die Objekte wurden kopiert.
 cntr#:#prtf_create_portfolio_from_template#:#Portfolio aus Vorlage erstellen
 cntr#:#sorting_new_items_at_bottom#:#Unten
 cntr#:#sorting_new_items_at_top#:#Oben
-cntr#:#sorting_new_items_direction#:#Sortierungsrichtung neuer Objekte
-cntr#:#sorting_new_items_order#:#Reihenfolge neuer Objekte
-cntr#:#sorting_new_items_position#:#Position neuer Objekte
+cntr#:#sorting_new_items_direction#:#Ausrichtung
+cntr#:#sorting_new_items_order#:#Reihenfolge
+cntr#:#sorting_new_items_position#:#Einfügen neuer Objekte
 cntr#:#tab_back_to_repository#:#Zurück zum Magazin
 common#:#HH#:#SS:MM
 common#:#absolute_path#:#Absoluter Pfad
@@ -5611,7 +5572,7 @@ common#:#sorting_desc#:#Absteigend
 common#:#sorting_direction#:#Sortierungsrichtung
 common#:#sorting_header#:#Sortierung
 common#:#sorting_info_inherit#:#Wird die Sortierung des übergeordneten Kurses bzw. der Gruppe geändert, ändert sich auch diese Sortierung.
-common#:#sorting_info_manual#:#Die enthaltenen Objekte können in einer gewünschten Reihenfolge angeordnet werden. Bitte legen Sie zusätzlich fest, wie neue Objekte in eine vorhandene manuelle Reihenfolge einsortiert werden sollen.
+common#:#sorting_info_manual#:#Bestehende Objekte können in eine gewünschte Reihenfolge gebracht werden. Legen Sie zusätzlich fest, an welcher Stelle neue Objekte eingefügt und in welcher Reihenfolge und Ausrichtung diese angeordnet werden.
 common#:#sorting_info_title#:#Die enthaltenen Objekte werden automatisch nach ihrem Titel sortiert.
 common#:#sorting_manual_header#:#Manuell
 common#:#sorting_save#:#Sortierung speichern
@@ -7403,12 +7364,12 @@ crs#:#crs_groupings#:#Kursgruppierungen
 crs#:#crs_groups_nr#:#Anzahl Gruppen
 crs#:#crs_grp_added_grouping#:#Eine neue Mitgliedschaftsbeschränkung wurde angelegt.
 crs#:#crs_grp_already_assigned#:#Da Sie bereits Mitglied in einem der Kurse sind, können Sie nicht einem weiteren Kurs aus der Liste beitreten!
-crs#:#crs_grp_assign_crs#:#Kurs zuordnen
+crs#:#crs_grp_assign_crs#:#Ausgewählte Objekte der Mitgliedschaftsbeschränkung
 crs#:#crs_grp_assignments#:#Zuordnung von Kursmitgliedern zu Gruppen
 crs#:#crs_grp_enter_title#:#Bitte geben Sie einen Titel ein.
 crs#:#crs_grp_info_reg#:#Die folgenden Kurse unterliegen einer Mitgliedschaftsbeschränkung. Sie können nur einem dieser Kurse beitreten:
 crs#:#crs_grp_matriculation_required#:#Zur Aufnahme in diese Kursgruppierung ist eine eindeutige Matrikelnummer notwendig. <br />Bitte tragen Sie diese in den Einstellungen des Persönlichen Profils ein.
-crs#:#crs_grp_no_courses_assigned#:#Keine zugeordneten Kurse.
+crs#:#crs_grp_no_courses_assigned#:#Keine
 crs#:#crs_grp_table_assigned_courses#:#Zugeordnete Kurse
 crs#:#crs_header_archives#:#Kursarchive
 crs#:#crs_header_delete_members#:#Sie möchten folgende Mitglieder aus dem Kurs austragen?
@@ -7572,6 +7533,8 @@ crs#:#crs_members_groups#:#Gruppenmitgliedschaften
 crs#:#crs_members_map#:#Karte Kursmitglieder
 crs#:#crs_members_print_title#:#Kursmitglieder
 crs#:#crs_min_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet bleiben.
+crs#:#crs_my_courses_groups_enabled#:#Meine Kurse und Gruppen
+crs#:#crs_my_courses_groups_enabled_info#:#Wenn Sie diese Option aktivieren, wird die Option 'Meine Kurse und Gruppen' im Magazin angezeigt.
 crs#:#crs_new_status#:#Ihr Status:
 crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
 crs#:#crs_new_subscription_body#:#%1$s ist dem Kurs %2$s beigetreten.
@@ -7973,6 +7936,8 @@ dash#:#dash_studyprogramme#:#Meine Studienprogramme
 dash#:#dash_tile#:#Kacheln
 dash#:#dash_view_courses_groups#:#Block ‘Meine Kurse und Gruppen’
 dash#:#dash_view_favourites#:#Block ‘Favoriten’
+dash#:#favourites_disabled_info#:#Das Setzen von Favoriten ist deaktiviert. Sie können dieses in den Magazin-Einstellungen ändern.
+dash#:#memberships_disabled_info#:#Das Setzen von Mitgliedschaften ist deaktiviert. Sie können dieses in den Kurs-Einstellungen ändern.
 dateplaner#:#Fr_long#:#Freitag
 dateplaner#:#Fr_short#:#Fr
 dateplaner#:#Mo_long#:#Montag
@@ -10166,17 +10131,28 @@ init#:#init_error_redirect_info#:#Weiterleitungen werden durch Kontext nicht unt
 irss#:#action_download#:#Herunterladen
 irss#:#action_goto#:#Ressource öffnen
 irss#:#action_remove_resource#:#Ressource löschen
+irss#:#action_remove_resource_msg#:#Möchten Sie die folgende(n) Ressource(n) löschen?
 irss#:#action_show_revisions#:#Revisionen anzeigen
+irss#:#by_creation_date_asc#:#Erstellungsdatum (aufsteigend)
+irss#:#by_creation_date_desc#:#Erstellungsdatum (absteigend)
+irss#:#by_size_asc#:#Dateigrösse (aufsteigend)
+irss#:#by_size_desc#:#Dateigrösse (absteigend)
+irss#:#by_title_asc#:#Titel (aufsteigend)
+irss#:#by_title_desc#:#Titel (absteigend)
 irss#:#creation_date#:#Erstellungsdatum (Diese Revision)
 irss#:#file_size#:#Dateigrösse (Diese Revision)
 irss#:#file_size_bigger_than#:#Dateigrösse grösser als (MB)
 irss#:#full_size#:#Ressourcengrössse (Alle Revisionen)
 irss#:#max_revision#:#Max. Revision
+irss#:#msg_upload#:#Dateien zum Hinzufügen hier ablegen
 irss#:#resource_id#:#Resource ID
 irss#:#resource_no_stakeholder_uri#:#Kein Stakeholder stellt einen Link zu der Nutzung dieser Resource zur Verfügung.
 irss#:#resource_overview#:#Ressourcen-Übersicht
 irss#:#revision#:#Revision
 irss#:#revisions#:#Verfügbare Revisionen
+irss#:#rid_deleted#:#Datei entfernt
+irss#:#rids_appended#:#Ressource(n) hinzugefügt
+irss#:#rids_deleted#:#Ressource(n) gelöscht
 irss#:#sorting#:#Sortierung
 irss#:#sorting_1#:#Titel (aufsteigend)
 irss#:#sorting_2#:#Titel (absteigend)
@@ -10188,6 +10164,8 @@ irss#:#stakeholders#:#Stakeholders
 irss#:#storage_id#:#Storage ID
 irss#:#storage_info#:#Storage Information
 irss#:#type#:#Dateityp
+irss#:#upload_field_title#:#Ausgewählte Dateien
+irss#:#upload_modal_title#:#Dateien hinzufügen
 itgr#:#itgr_always_open#:#Immer offen
 itgr#:#itgr_assign_materials#:#Objekte auswählen
 itgr#:#itgr_assigned_materials#:#Objekte im Objekteblock
@@ -10535,6 +10513,7 @@ lso#:#lso_print_list#:#Liste erstellen
 lso#:#lso_read#:#Lesezugriff auf Learning Sequence
 lso#:#lso_search_users#:#Benutzer suchen
 lso#:#lso_settings_availability#:#Verfügbarkeit
+lso#:#lso_settings_availability_error#:#Das Enddatum darf nicht vor dem Startdatum liegen
 lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
 lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
 lso#:#lso_settings_old_extro#:#Alte Abschlussseite ansehen
@@ -12279,6 +12258,9 @@ notifications_adm#:#osd_vanish_desc#:#Dauer der Anzeige von Benachrichtigungen i
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
 obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.
+obj#:#copy_container_page_no_label#:#Seitengestaltung nicht übernehmen
+obj#:#copy_container_page_yes_byline#:#Die komplette Seitengestaltung des Kurses, aus dem Sie Objekte kopieren, wird in den Zielkurs übernommen. Allfällig vorhandene Seitenelemente werden überschrieben.
+obj#:#copy_container_page_yes_label#:#Seitengestaltung übernehmen
 obj#:#custom_icon#:#Angepasstes Icon
 obj#:#edit_questions#:#Fragen bearbeiten
 obj#:#obj_activate_content_lang#:#Mehrsprachigkeit für Seiteneditor aktivieren
@@ -13371,7 +13353,9 @@ rbac#:#crs_visible#:#Kurs ist sichtbar
 rbac#:#crs_write#:#Kurs bearbeiten
 rbac#:#crsr_copy#:#Kurslinks kopieren
 rbac#:#crsr_delete#:#Kurslinks verschieben oder löschen
+rbac#:#crsr_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#crsr_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#crsr_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#crsr_visible#:#Kurslinks sind sichtbar und können genutzt werden
 rbac#:#crsr_write#:#Einstellungen der Kurslinks bearbeiten
 rbac#:#crss_edit_permission#:#Rechteeinstellungen für die Kurs-Administration ändern
@@ -13530,8 +13514,6 @@ rbac#:#iass_read_learning_progress#:#Lernfortschritt in Individuellen Bewertung 
 rbac#:#iass_visible#:#Individuelle Bewertung ist sichtbar
 rbac#:#iass_write#:#Einstellungen der Individuelle Bewertung bearbeiten
 rbac#:#il_lti_global_role#:#LTI User
-rbac#:#il_orgu_employee#:#Organisationseinheit Mitarbeiter
-rbac#:#il_orgu_superior#:#Organisationseinheit Vorgesetzter
 rbac#:#il_sess_participant#:#Sitzungsteilnehmer
 rbac#:#il_sess_status_closed#:#Nicht-Teilnehmer geschlossene Sitzung
 rbac#:#ilias_id#:#ILIAS-ID
@@ -16700,6 +16682,7 @@ user#:#interests_general#:#Allgemeine Interessen
 user#:#interests_help_looking#:#Suche Hilfe
 user#:#interests_help_offered#:#Biete Hilfe
 user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
+user#:#no_deactivate_yourself#:#Sie können Ihr eigenes Benutzerkonto nicht deaktivieren.
 user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-ID existiert nicht.
 user#:#restrict_user_access#:#Eingeschränkter Zugriff auf Anmeldekonten
 user#:#restrict_user_access_info#:#Aktivieren Sie diese Option nur, wenn Sie den Zugriff auf Anmeldekonten beschränken möchten. Wenn aktiviert, benötigen Benutzer das Recht „Lesezugriff auf Anmeldekonten“, um auf lokale Anmeldekonten in Kategorien und auf die globalen Anmeldekonten zugreifen zu können.

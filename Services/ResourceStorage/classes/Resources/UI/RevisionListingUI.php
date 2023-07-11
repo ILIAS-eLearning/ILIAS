@@ -68,7 +68,7 @@ class RevisionListingUI
             $revision_to_component = new RevisionToComponent(
                 $revision
             );
-            $item = $revision_to_component->getAsItem();
+            $item = $revision_to_component->getAsItem(false);
             return $item->withLeadText($this->language->txt('revision') . ' ' . $revision->getVersionNumber());
         }, array_reverse($this->resource->getAllRevisions()));
     }

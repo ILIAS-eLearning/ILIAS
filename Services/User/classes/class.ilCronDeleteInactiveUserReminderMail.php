@@ -82,7 +82,7 @@ class ilCronDeleteInactiveUserReminderMail
         }
     }
 
-    public static function checkIfReminderMailShouldBeSend(
+    public static function sendReminderMailIfNeeded(
         ilObjUser $user,
         int $reminderTime,
         int $time_frame_for_deletion
@@ -93,7 +93,7 @@ class ilCronDeleteInactiveUserReminderMail
         $query = "SELECT ts FROM " . self::TABLE_NAME . " WHERE usr_id = %s";
         $res = $ilDB->queryF($query, array('integer'), array($user->getId()));
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        if ($row->ts == null) {
+        if ($row === false || $row->ts === null) {
             self::sendReminder($user, $reminderTime, $time_frame_for_deletion);
             return true;
         }

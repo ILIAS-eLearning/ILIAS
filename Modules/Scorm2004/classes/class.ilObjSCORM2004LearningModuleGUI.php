@@ -70,13 +70,23 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         #$this->tabs_gui = new ilTabsGUI();
     }
 
+    /**
+     * assign scorm object to scorm gui object
+     */
+    protected function assignObject(): void
+    {
+        if ($this->id != 0) {
+            if ($this->call_by_reference) {
+                $this->object = new ilObjSCORM2004LearningModule($this->id, true);
+            } else {
+                $this->object = new ilObjSCORM2004LearningModule($this->id, false);
+            }
+        }
+    }
+
     public function executeCommand(): void
     {
-//        $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
-//        $tpl = $this->tpl;
-//        $ilTabs = $this->tabs;
-//        $lng = $this->lng;
 
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
@@ -117,6 +127,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $obj_service = $this->getObjectService();
+
+        //check/select only once
+        $this->object->checkMasteryScoreValues();
 
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -273,13 +286,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         // end lesson mode
         $this->form->addItem($radg);
 
-
         // mastery_score
         if ($this->object->getMasteryScoreValues() != "") {
             $ni = new ilNumberInputGUI($this->lng->txt("cont_mastery_score_2004"), "mastery_score");
             $ni->setMaxLength(3);
             $ni->setSize(3);
-            $ni->setInfo($this->lng->txt("cont_mastery_score_2004_info") . $this->object->getMasteryScoreValues());
+            $ni->setInfo($this->lng->txt("cont_mastery_score_2004_info") . ' ' . $this->object->getMasteryScoreValues());
             $this->form->addItem($ni);
         }
 
@@ -398,9 +410,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
      */
     public function getPropertiesFormValues(): void
     {
-        //check/select only once
-        $this->object->checkMasteryScoreValues();
-
         $values = array();
         $values["Fobject_title"] = $this->object->getTitle();
         $values["Fobject_description"] = $this->object->getDescription();
@@ -444,10 +453,13 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $obj_service = $this->getObjectService();
         $this->initPropertiesForm();
         $this->form->checkInput();
-
         if ($this->dic->http()->wrapper()->post()->has('mastery_score')) {
-            $this->object->setMasteryScore($this->dic->http()->wrapper()->post()->retrieve('mastery_score', $this->dic->refinery()->kindlyTo()->int()));
-            // $this->object->updateMasteryScoreValues();
+            $sMasteryScore = $this->dic->http()->wrapper()->post()->retrieve('mastery_score', $this->dic->refinery()->kindlyTo()->string());
+            if ($sMasteryScore !== "") {
+                $this->object->setMasteryScore((int) $sMasteryScore);
+            } else {
+                $this->object->setMasteryScore(null);
+            }
         }
 
         $t_auto_review = $this->dic->http()->wrapper()->post()->retrieve('auto_review', $this->dic->refinery()->kindlyTo()->string());
@@ -525,6 +537,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $reports = array('exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','tracInteractionItem','tracInteractionUser','tracInteractionUserAnswers');
 
         $scoSelected = "all";
+        if ($this->dic->http()->wrapper()->query()->has('scoSelected')) {
+            $scoSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string()));
+        }
         if ($this->dic->http()->wrapper()->post()->has('scoSelected')) {
             $scoSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string()));
         }
@@ -532,6 +547,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->ctrl->setParameter($this, 'scoSelected', $scoSelected);
 
         $report = "choose";
+        if ($this->dic->http()->wrapper()->query()->has('report')) {
+            $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
+        }
         if ($this->dic->http()->wrapper()->post()->has('report')) {
             $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
         }
@@ -571,12 +589,18 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportObjGlobalToSystem');
 
             $userSelected = "all";
+            if ($this->dic->http()->wrapper()->query()->has('userSelected')) {
+                $userSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string()));
+            }
             if ($this->dic->http()->wrapper()->post()->has('userSelected')) {
                 $userSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string()));
             }
             $this->ctrl->setParameter($this, 'userSelected', $userSelected);
 
             $report = "choose";
+            if ($this->dic->http()->wrapper()->query()->has('report')) {
+                $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->query()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
+            }
             if ($this->dic->http()->wrapper()->post()->has('report')) {
                 $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
             }

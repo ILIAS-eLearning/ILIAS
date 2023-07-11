@@ -398,7 +398,6 @@ adve#:#adve_autosave#:#Automatic Saving Intervall###29 07 2022 new variable
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.###29 07 2022 new variable
 adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###29 07 2022 new variable
 adve#:#adve_blocking_mode#:#Verrouillage de Page
-adve#:#adve_char_selector_settings#:#Sélecteur des Caractères
 adve#:#adve_excass_settings#:#Activités d'un Exercice
 adve#:#adve_grp_copa#:#Content Pages
 adve#:#adve_grp_frm#:#Forums###29 07 2022 new variable
@@ -417,45 +416,6 @@ adve#:#adve_text_content_features#:#Options de lâ€™à‰diteur de Texte
 adve#:#adve_use_physical#:#Utiliser b/i/u au lieu de str/emp/imp
 adve#:#adve_use_physical_info#:#Ce paramètre permet de remplacer les boutons "strong", "emphatic" et "important" par les boutons "b" (bold/gras), "i" (italic/italique) et "u" (underlined/souligné). Notez que cela peut entraîner des incohérences si l'éditeur de style est utilisé et que d'autres attributs sont affectés aux classes "strong", "emphatic" et "important".
 adve#:#adve_use_tiny_mce#:#Activez TinyMCE pour une Edition WYSIWYG
-adve#:#char_selector_admin#:#Sélecteur de Caractères Unicode (TODO)
-adve#:#char_selector_blocks#:#Tables Unicode Disponibles
-adve#:#char_selector_blocks_info#:#Tous les caractères de la table sélectionnée seront proposés, mais tous ne sont peut-être pas supportés par la police de votre navigateur.
-adve#:#char_selector_custom_items#:#Sélection Personnalisée
-adve#:#char_selector_custom_items_info1#:#La sélection courante sera affichée avec les tables sélectionnées. Veuillez ajouter vos caractères avec le style suivant :
-adve#:#char_selector_custom_items_info2a#:#A B C
-adve#:#char_selector_custom_items_info2b#:#Les caractères sont séparés par des espaces, générant des boutons de sélection séparés
-adve#:#char_selector_custom_items_info3a#:#A BC D
-adve#:#char_selector_custom_items_info3b#:#Il est possible d'ajouter plus de caractères à un bouton
-adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#Les intervalles de caractères peuvent être définis avec "-"
-adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#Un caractère peut aussi être défini en notation Unicode (insensible à la casse)
-adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#Les intervalles sont aussi possibles avec la notation Unicode
-adve#:#char_selector_disabled_admin#:#Désactivé (TODO)
-adve#:#char_selector_disabled_info_admin#:#Désactive le sélecteur. Le sélecteur peut toutefois être activé pour chaque utilisateur et test.
-adve#:#char_selector_disabled_info_test#:#Désactive le sélecteur pendant l'exécution d'un test.
-adve#:#char_selector_disabled_info_user#:#Désactive le sélecteur. Le sélecteur peut toutefois être activé pour chaque test.
-adve#:#char_selector_disabled_test#:#Désactivé (TODO)
-adve#:#char_selector_disabled_user#:#Désactivé (TODO)
-adve#:#char_selector_enabled_admin#:#Activé (TODO)
-adve#:#char_selector_enabled_info_admin#:#Active le sélecteur accessible via un bouton dans le menu principal. Le sélecteur peut être (dés)activé pour chaque utilisateur et test.
-adve#:#char_selector_enabled_info_test#:#Active le sélecteur pendant l'exécution d'un test.
-adve#:#char_selector_enabled_info_user#:#Active le sélecteur accessible via un bouton dans le menu principal.
-adve#:#char_selector_enabled_test#:#Activé (TODO)
-adve#:#char_selector_enabled_user#:#Activé (TODO)
-adve#:#char_selector_inactive_admin#:#Inactif (TODO)
-adve#:#char_selector_inactive_info_admin#:#Désactive le sélecteur. Le sélecteur ne peut pas être activé dans les utilisateurs et tests.
-adve#:#char_selector_inherit_info_test#:#Utiliser les réglages de la plateforme ou de l'utilisateur.
-adve#:#char_selector_inherit_info_user#:#Utiliser les réglages de la plateforme.
-adve#:#char_selector_inherit_test#:#Inherit (TODO)
-adve#:#char_selector_inherit_user#:#Inherit (TODO)
-adve#:#char_selector_menu_close#:#Fermer le sélecteur de caractères spéciaux
-adve#:#char_selector_menu_open#:#Ouvrir le sélecteur de caractères spéciaux
-adve#:#char_selector_msg_blocks_or_custom_needed#:#Lorsque vous activez le sélecteur, veuillez choisir un bloc de caractères ou entrer une sélection spéciale !
-adve#:#char_selector_test#:#Sélecteur de Caractères Unicode (TODO)
-adve#:#char_selector_unicode_all#:#Toutes les Tables Unicode
-adve#:#char_selector_user#:#Sélecteur de Caractères Unicode (TODO)
 assessment#:#action#:#Action
 assessment#:#addSuggestedSolution#:#Ajouter solution suggérée
 assessment#:#add_answers#:#Add Antworten
@@ -598,7 +558,6 @@ assessment#:#categories#:#Catégories
 assessment#:#category#:#Catégorie
 assessment#:#changeSuggestedSolution#:#Modifier solution suggérée
 assessment#:#change_adm_categories_not_allowed#:#Vous n'avez aucune permission sur cette catégorie.
-assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#checkbox_checked#:#Coché
 assessment#:#checkbox_unchecked#:#Non coché
 assessment#:#circle#:#Cercle

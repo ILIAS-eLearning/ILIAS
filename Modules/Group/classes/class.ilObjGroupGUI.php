@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\News\Service as News;
 
 /**
  * Class ilObjGroupGUI
@@ -48,7 +49,7 @@ class ilObjGroupGUI extends ilContainerGUI
     private GlobalHttpState $http;
     protected Factory $refinery;
     protected ilRbacSystem $rbacsystem;
-    protected ilNewsService $news;
+    protected News $news;
 
     /**
      * @inheritDoc

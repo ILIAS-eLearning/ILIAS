@@ -72,7 +72,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         }
 
         $this->omitLocator();
-        $this->container->ui()->mainTemplate()->setTitle($this->container->language()->txt('mst_my_staff'));
     }
 
     private function checkAccessOrFail(): void
@@ -122,6 +121,15 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             default:
                 parent::executeCommand();
         }
+    }
+
+    /**
+     * This GUI is only called when creating a talk (series). In the creation dialog,
+     * there should not be a header.
+     */
+    protected function setTitleAndDescription(): void
+    {
+        $this->tpl->resetHeaderBlock();
     }
 
     /**
@@ -237,9 +245,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
     protected function initCreateForm(string $new_type): ilPropertyFormGUI
     {
-        // Init dom events or ui will break on page load
-        ilYuiUtil::initDomEvent();
-
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this, "save") . '&template=' . $this->getTemplateRefId());
@@ -343,7 +348,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $superiorName = $superior->getFullname();
 
         $dates = array_map(
-            fn (ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
+            fn(ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
             $talks
         );
         usort($dates, function (ilDateTime $a, ilDateTime $b) {

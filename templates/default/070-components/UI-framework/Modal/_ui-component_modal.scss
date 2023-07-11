@@ -1,7 +1,7 @@
 @use "../../../010-settings/"as *;
 @use "../../../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as *;
 @use "../../../030-tools/tool_clearfix" as *;
-@use "../../../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as *;
+@use "../../../050-layout/layout_breakpoints" as *;
 @use "../../../050-layout/basics" as *;
 
 // section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
@@ -35,6 +35,10 @@ $modal-title-line-height: $il-line-height-base;
 
 $modal-inner-padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
 
+$il-modal-transition-speed: 0.15s;
+$il-modal-light-color: $il-main-bg;
+$il-modal-dark-color: $il-neutral-color;
+
 //
 // Modals
 // --------------------------------------------------
@@ -66,11 +70,34 @@ $modal-inner-padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
 	outline: 0;
   
 	// When fading in the modal, animate it to slide down
+	&.fade {
+		transition-property: opacity;
+		transition-duration: $il-modal-transition-speed;
+		transition-timing-function: linear;
+		transition-delay: 0s;
+	}
 	&.fade .modal-dialog {
 	  @include translate(0, -25%);
-	  @include transition-transform(0.3s ease-out);
+	  @include transition-transform(unquote("#{$il-modal-transition-speed} ease-out"));
 	}
-	&.in .modal-dialog { @include translate(0, 0); }
+	&.in .modal-dialog {
+		@include translate(0, 0);
+	}
+	&.il-modal-lightbox-dark {
+		.modal-content {
+			background-color: $il-modal-dark-color;
+			color: $il-modal-light-color;
+			.modal-header {
+				border-bottom-color: $il-modal-light-color;
+			}
+		}
+		.close {
+			color: $il-modal-light-color;
+			background-color: $il-modal-dark-color;
+			opacity: 1;
+			border: 1px solid $il-main-border-color;
+		}
+	}
   }
   .modal-open .modal {
 	overflow-x: hidden;
@@ -125,6 +152,7 @@ $modal-inner-padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
   
   // Title text within header
   .modal-title {
+	font-size: $il-font-size-large;
 	margin: 0;
 	line-height: $modal-title-line-height;
   }
@@ -181,89 +209,12 @@ $modal-inner-padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
 	// Modal sizes
 	.modal-sm { width: $modal-sm; }
   }
-  /*
+  
   @media (min-width: $screen-md-min) {
 	.modal-lg { width: $modal-lg; }
-  } */
+  }
 
 // end of section based on bootstrap 3
-
-//== Modal ILIAS
-//
-//## Variables that modify and minpulate the appearance of modals
-//** Controls the speed of the fade in/out of the modal
-$il-modal-transition-speed: 0.15s;
-$il-modal-light-color: $il-main-bg;
-$il-modal-dark-color: $il-neutral-color;
-
-.modal {
-	&.fade{
-		transition-property: opacity;
-		transition-duration: $il-modal-transition-speed;
-		transition-timing-function: linear;
-		transition-delay: 0s;
-
-		.modal-title{
-			font-size: $il-font-size-large;
-		}
-		.modal-dialog {
-			@include transition-transform(unquote("#{$il-modal-transition-speed} ease-out"));
-		}
-	}
-	&.il-modal-lightbox-dark {
-		.modal-content {
-			background-color: $il-modal-dark-color;
-			color: $il-modal-light-color;
-			.modal-header {
-				border-bottom-color: $il-modal-dark-color;
-			}
-		}
-		.close {
-			color: $il-modal-light-color;
-			opacity: 1;
-		}
-	}
-}
-
-.carousel {
-	.carousel-inner {
-		min-height: 400px;
-
-		.item:not(.text-only) .item-content {
-			display: flex;
-			justify-content: center
-		}
-                .item:not(.text-only) .item-content.item-vertical {
-			flex-direction: column;
-		}
-	}
-
-	.carousel-indicators {
-		position: relative; // show indicators on top of the image
-		li {
-			border-color: $il-main-bg;
-			background-color: $il-neutral-color;
-
-			&.active {
-				background-color: $il-main-bg;
-				border-color: $il-neutral-color;
-			}
-		}
-	}
-
-	.carousel-control {
-		background: transparent;
-		color: $il-main-bg;
-		text-shadow: 0px 0px 4px $il-neutral-color;
-		opacity: 0.9;
-		&:hover, &:focus-visible {
-			position: absolute;
-			opacity: 1;
-			text-shadow: 0px 0px 8px $il-neutral-color;
-		}
-	}
-}
-
 
 .il-modal-roundtrip {
 	//Override the grid system for forms in modals, see #33172

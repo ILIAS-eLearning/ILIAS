@@ -26,6 +26,8 @@ use PHPUnit\Framework\TestCase;
 
 class ClientIdReadObjectiveTest extends TestCase
 {
+    protected ClientIdReadObjective $o;
+
     public function setUp(): void
     {
         $this->o = new class () extends ClientIdReadObjective {

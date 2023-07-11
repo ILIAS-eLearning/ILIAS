@@ -19,33 +19,28 @@
 namespace ILIAS\MyStaff\ListCertificates;
 
 use ILIAS\Certificate\API\Data\UserCertificateDto;
-use Closure;
-use ilAdvancedSelectionListGUI;
-use ilCSVWriter;
-use ilDateTime;
-use ilExcel;
 use ILIAS\MyStaff\ilMyStaffAccess;
-use ilMStListCertificatesGUI;
-use ilOrgUnitPathStorage;
-use ilSelectInputGUI;
-use ilTable2GUI;
-use ilTextInputGUI;
-use ilUserSearchOptions;
 
 /**
  * Class ilMStListCertificatesTableGUI
  * @author Martin Studer <ms@studer-raimann.ch>
  */
-class ilMStListCertificatesTableGUI extends ilTable2GUI
+class ilMStListCertificatesTableGUI extends \ilTable2GUI
 {
-    protected array $filter = array();
+    protected array $filter = [];
+    protected array $selectable_columns_cached = [];
+    protected array $usr_orgu_names = [];
     protected ilMyStaffAccess $access;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
-    public function __construct(ilMStListCertificatesGUI $parent_obj, $parent_cmd = ilMStListCertificatesGUI::CMD_INDEX)
+    public function __construct(\ilMStListCertificatesGUI $parent_obj, $parent_cmd = \ilMStListCertificatesGUI::CMD_INDEX)
     {
         global $DIC;
 
         $this->access = ilMyStaffAccess::getInstance();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $this->setPrefix('myst_lcrt');
         $this->setFormName('myst_lcrt');
@@ -118,13 +113,13 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $item = new ilTextInputGUI($DIC->language()->txt("title"), "obj_title");
+        $item = new \ilTextInputGUI($DIC->language()->txt("title"), "obj_title");
         $this->addFilterItem($item);
         $item->readFromSession();
         $this->filter['obj_title'] = $item->getValue();
 
         //user
-        $item = new ilTextInputGUI(
+        $item = new \ilTextInputGUI(
             $DIC->language()->txt("login")
             . "/" . $DIC->language()->txt("email")
             . "/" . $DIC->language()->txt("name"),
@@ -135,13 +130,13 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $item->readFromSession();
         $this->filter['user'] = $item->getValue();
 
-        if (ilUserSearchOptions::_isEnabled('org_units')) {
-            $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+        if (\ilUserSearchOptions::_isEnabled('org_units')) {
+            $paths = \ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
             $options[0] = $DIC->language()->txt('mst_opt_all');
             foreach ($paths as $org_ref_id => $path) {
                 $options[$org_ref_id] = $path;
             }
-            $item = new ilSelectInputGUI($DIC->language()->txt('obj_orgu'), 'org_unit');
+            $item = new \ilSelectInputGUI($DIC->language()->txt('obj_orgu'), 'org_unit');
             $item->setOptions($options);
             $this->addFilterItem($item);
             $item->readFromSession();
@@ -151,11 +146,20 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
     final public function getSelectableColumns(): array
     {
+        if ($this->selectable_columns_cached) {
+            return $this->selectable_columns_cached;
+        }
+
+        return $this->selectable_columns_cached = $this->initSelectableColumns();
+    }
+
+    protected function initSelectableColumns(): array
+    {
         global $DIC;
 
         $cols = array();
 
-        $arr_searchable_user_columns = ilUserSearchOptions::getSelectableColumnInfo();
+        $arr_searchable_user_columns = \ilUserSearchOptions::getSelectableColumnInfo();
 
         $cols['objectTitle'] = array(
             'txt' => $DIC->language()->txt('title'),
@@ -230,6 +234,15 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         }
     }
 
+    protected function getTextRepresentationOfUsersOrgUnits(int $user_id): string
+    {
+        if (isset($this->usr_orgu_names[$user_id])) {
+            return $this->usr_orgu_names[$user_id];
+        }
+
+        return $this->usr_orgu_names[$user_id] = \ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+    }
+
     /**
      * @param array<UserCertificateDto> $a_set
      * @return void
@@ -243,7 +256,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         $set = array_pop($a_set);
 
-        $propGetter = Closure::bind(function ($prop) {
+        $propGetter = \Closure::bind(function ($prop) {
             return $this->$prop ?? null;
         }, $set, $set);
 
@@ -254,12 +267,12 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
                         $this->tpl->setCurrentBlock('td');
                         $this->tpl->setVariable(
                             'VALUE',
-                            ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set->getUserId())
+                            $this->getTextRepresentationOfUsersOrgUnits($set->getUserId())
                         );
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'issuedOnTimestamp':
-                        $date_time = new ilDateTime($propGetter($k), IL_CAL_UNIX);
+                        $date_time = new \ilDateTime($propGetter($k), IL_CAL_UNIX);
                         $this->tpl->setCurrentBlock('td');
                         $this->tpl->setVariable('VALUE', $date_time->get(IL_CAL_DATE));
                         $this->tpl->parseCurrentBlock();
@@ -282,17 +295,13 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
             }
         }
 
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setListTitle($DIC->language()->txt("actions"));
-        $actions->setAsynch(false);
-        $actions->setId($set->getCertificateId());
-        $actions->addItem($DIC->language()->txt("mst_download_certificate"), '', $set->getDownloadLink());
-
-        $this->tpl->setVariable('ACTIONS', $actions->getHTML());
+        $button = $this->ui_fac->button()->shy($this->lng->txt("mst_download_certificate"), $set->getDownloadLink());
+        $dropdown = $this->ui_fac->dropdown()->standard([$button])->withLabel($this->lng->txt("actions"));
+        $this->tpl->setVariable('ACTIONS', $this->ui_ren->render($dropdown));
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
+    protected function fillRowExcel(\ilExcel $a_excel, int &$a_row, array $a_set): void
     {
         $set = array_pop($a_set);
 
@@ -303,7 +312,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
+    protected function fillRowCSV(\ilCSVWriter $a_csv, array $a_set): void
     {
         $set = array_pop($a_set);
 
@@ -315,7 +324,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
     private function getFieldValuesForExport(UserCertificateDto $user_certificate_dto): array
     {
-        $propGetter = Closure::bind(function ($prop) {
+        $propGetter = \Closure::bind(function ($prop) {
             return $this->$prop ?? null;
         }, $user_certificate_dto, $user_certificate_dto);
 
@@ -323,10 +332,10 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
                 case 'usr_assinged_orgus':
-                    $field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId());
+                    $field_values[$k] = $this->getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId());
                     break;
                 case 'issuedOnTimestamp':
-                    $field_values[$k] = new ilDateTime($propGetter($k), IL_CAL_UNIX);
+                    $field_values[$k] = new \ilDateTime($propGetter($k), IL_CAL_UNIX);
                     break;
                 default:
                     $field_values[$k] = strip_tags($propGetter($k) ?? "");

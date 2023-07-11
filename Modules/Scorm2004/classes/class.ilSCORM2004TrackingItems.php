@@ -140,7 +140,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["audio_captioning"] = "" . $data["audio_captioning"];
@@ -152,7 +152,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $data["c_entry"] = "" . $data["c_entry"];
             $data["c_exit"] = "" . $data["c_exit"];
             $data["c_language"] = "" . $data["c_language"];
-            $data["c_location"] = "" . str_replace('"', '', $data["c_location"]);
+            $data["c_location"] = "" . str_replace('"', '', (string) $data["c_location"]);
             $data["c_mode"] = "" . $data["c_mode"];
             $data["progress_measure"] = "" . $data["progress_measure"];
             $data["c_max"] = "" . $data["c_max"];
@@ -163,13 +163,13 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $data["session_time"] = "" . $data["session_time"];
             $data["session_time_seconds"] = "";
             if ($data["session_time"] != "") {
-                $data["session_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["session_time"]) / 100);
+                $data["session_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec((string) $data["session_time"]) / 100);
             }
             $data["success_status"] = "" . $data["success_status"];
             $data["total_time"] = "" . $data["total_time"];
             $data["total_time_seconds"] = "";
             if ($data["total_time"] != "") {
-                $data["total_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["total_time"]) / 100);
+                $data["total_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec((string) $data["total_time"]) / 100);
             }
             $data["c_timestamp"] = $data["c_timestamp"];//ilDatePresentation::formatDate(new ilDateTime($data["c_timestamp"],IL_CAL_UNIX));
             $data["suspend_data"] = "" . $data["suspend_data"];
@@ -270,7 +270,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["description"] = "" . $data["description"];
@@ -369,7 +369,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["description"] = "" . $data["description"];
@@ -693,7 +693,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $all = $correct + $incorrect + $other;
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["counter_i_correct"] = $correct;
@@ -938,7 +938,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             }
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $returnData[] = $data;

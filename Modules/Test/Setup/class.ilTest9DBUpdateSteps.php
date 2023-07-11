@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
 {
@@ -49,6 +49,20 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
                 ]
             ]);
             $this->db->addPrimaryKey("manscoring_done", ["active_id"]);
+        }
+    }
+
+    /**
+     * Drop the test settings for the special character seletor
+     */
+    public function step_3(): void
+    {
+        if ($this->db->tableColumnExists('tst_tests', 'char_selector_availability')) {
+            $this->db->dropTableColumn('tst_tests', 'char_selector_availability');
+        }
+
+        if ($this->db->tableColumnExists('tst_tests', 'char_selector_definition')) {
+            $this->db->dropTableColumn('tst_tests', 'char_selector_definition');
         }
     }
 }

@@ -900,17 +900,6 @@ file containes the following fields:
 
 [//]: # (END PersonalAndSharedResources)
 
-[//]: # (BEGIN PersonalProfile)
-
-* **Personal Profile**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
-	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
-
-[//]: # (END PersonalProfile)
-
 [//]: # (BEGIN Poll)
 
 * **Poll**

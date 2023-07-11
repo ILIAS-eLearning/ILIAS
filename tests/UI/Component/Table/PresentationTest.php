@@ -112,6 +112,8 @@ class PresentationTest extends ILIAS_UI_TestBase
     public function getUIFactory(): NoUIFactory
     {
         $factory = new class () extends NoUIFactory {
+            public I\Component\SignalGenerator $sig_gen;
+
             public function button(): C\Button\Factory
             {
                 return new I\Component\Button\Factory(
