@@ -212,7 +212,6 @@ class ilHTTPS
                 'domain' => IL_COOKIE_DOMAIN,
                 'secure' => true,
                 'httponly' => IL_COOKIE_HTTPONLY,
-                'samesite' => (strtolower(session_get_cookie_params()['samesite'] ?? '')) === 'strict' ? session_get_cookie_params()['samesite'] : 'Lax'
             ]);
         }
 
