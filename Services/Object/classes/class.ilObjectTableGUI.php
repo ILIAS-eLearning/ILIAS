@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\DI\UIServices;
+
 /**
  * Settings for LO courses
  *
@@ -28,9 +30,12 @@ class ilObjectTableGUI extends ilTable2GUI
     protected array $objects = [];
     protected bool $show_path = false;
     protected bool $row_selection_input = false;
+    protected UIServices $ui;
 
     public function __construct(?object $parent_obj, string $parent_cmd, string $id)
     {
+        global $DIC;
+        $this->ui = $DIC->ui();
         $this->setId('obj_table_' . $id);
         parent::__construct($parent_obj, $parent_cmd);
     }
@@ -103,10 +108,14 @@ class ilObjectTableGUI extends ilTable2GUI
             $this->fillRowSelectionInput($set);
         }
 
+        $type_icon = $this->ui->factory()->symbol()->icon()->custom(
+            ilObject::_getIcon($set['obj_id'], 'big', $set['type']),
+            $this->lng->txt('obj_' . $set['type'])
+        );
+
         $this->tpl->setVariable('OBJ_LINK', ilLink::_getLink($set['ref_id'], $set['type']));
         $this->tpl->setVariable('OBJ_LINKED_TITLE', $set['title']);
-        $this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon($set['obj_id'], "small", $set['type']));
-        $this->tpl->setVariable('TYPE_STR', $this->lng->txt('obj_' . $set['type']));
+        $this->tpl->setVariable('TYPE_IMG', $this->ui->renderer()->render($type_icon));
 
         if ($this->enabledObjectPath()) {
             $path_gui = new ilPathGUI();
