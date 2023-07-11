@@ -89,22 +89,30 @@ class ViewControlSortationTest extends ViewControlBaseTest
             'A' => new Order('opt', 'ASC'),
             'B' => new Order('opt', 'DESC')
         ];
-        $vc = $this->buildVCFactory()->sortation($options);
+        $vc = $this->buildVCFactory()->sortation($options)
+            ->withOnChange((new SignalGenerator())->create());
 
         $expected = $this->brutallyTrimHTML('
-<div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element">
-    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl"><span class="caret"></span></button>
-    <ul id="_ctrl" class="dropdown-menu">
+<div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_3">
+    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_ctrl"><span class="caret"></span></button>
+    <ul id="id_3_ctrl" class="dropdown-menu">
         <li><button class="btn btn-link" id="id_1">A</button></li>
         <li><button class="btn btn-link" id="id_2">B</button></li>
     </ul>
     <div class="il-viewcontrol-value" role="none">
-        <input id="id_3" type="hidden" name="" value="" />
         <input id="id_4" type="hidden" name="" value="" />
+        <input id="id_5" type="hidden" name="" value="" />
     </div>
 </div>
 ');
         $html = $this->brutallyTrimHTML($r->render($vc));
         $this->assertEquals($expected, $html);
+    }
+
+    public function testViewControlSortationRenderingOutsideContainer(): void
+    {
+        $options = ['A' => new Order('opt', 'ASC')];
+        $this->expectException(\LogicException::class);
+        $this->buildVCFactory()->sortation($options)->getOnChangeSignal();
     }
 }

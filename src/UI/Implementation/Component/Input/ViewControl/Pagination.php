@@ -46,9 +46,6 @@ class Pagination extends ViewControl implements VCInterface\Pagination
     protected ?int $total_count = null;
     protected int $number_of_entries;
 
-
-    protected Signal $change_signal;
-
     public function __construct(
         FieldFactory $field_factory,
         DataFactory $data_factory,
@@ -67,18 +64,6 @@ class Pagination extends ViewControl implements VCInterface\Pagination
         $this->internal_selection_signal = $signal_generator->create();
         $this->number_of_entries = self::NUMBER_OF_VISIBLE_SECTIONS;
         $this->operations[] = $this->getRangeTransform();
-    }
-
-    public function withOnChange(Signal $change_signal): self
-    {
-        $clone = clone $this;
-        $clone->change_signal = $change_signal;
-        return $clone;
-    }
-
-    public function getOnChangeSignal(): ?Signal
-    {
-        return $this->change_signal ?? null;
     }
 
     protected function getRangeTransform(): Transformation

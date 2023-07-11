@@ -10,15 +10,20 @@ function with_limit_options()
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
 
+    $dummy_signal = new \ILIAS\UI\Implementation\Component\Signal('');
+
     $pagination_with_value = $f->input()->viewControl()->pagination()
+        ->withOnChange($dummy_signal)
         ->withTotalCount(6932)
         ->withValue([40,10]);
 
     $pagination_with_options = $f->input()->viewControl()->pagination()
+        ->withOnChange($dummy_signal)
         ->withTotalCount(6932)
         ->withLimitOptions([10,100,500,1000]);
 
     $pagination_without_total = $f->input()->viewControl()->pagination()
+        ->withOnChange($dummy_signal)
         ->withValue([42,10]);
 
 

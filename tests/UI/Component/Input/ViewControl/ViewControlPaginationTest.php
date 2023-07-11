@@ -102,10 +102,11 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         $vc = $this->buildVCFactory()->pagination()
             ->withLimitOptions([2, 5, 10])
             ->withTotalCount(42)
-            ->withValue([12,2]);
+            ->withValue([12,2])
+            ->withOnChange((new SignalGenerator())->create());
 
         $expected = $this->brutallyTrimHTML('
-<div class="il-viewcontrol il-viewcontrol-pagination l-bar__element">
+<div class="il-viewcontrol il-viewcontrol-pagination l-bar__element" id="id_13">
     <div class="dropdown il-viewcontrol-pagination__sectioncontrol">
             <div class="btn btn-ctrl browse previous">
                 <a tabindex="0" class="glyph" aria-label="back" id="id_8">
@@ -131,10 +132,10 @@ class ViewControlPaginationTest extends ViewControlBaseTest
     </div>
 
     <div class="dropdown il-viewcontrol-pagination__num-of-items">
-        <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="pagination limit" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl_limit">
+        <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="pagination limit" aria-haspopup="true" aria-expanded="false" aria-controls="id_13_ctrl_limit">
             <span class="caret"></span>
         </button>
-        <ul id="_ctrl_limit" class="dropdown-menu">
+        <ul id="id_13_ctrl_limit" class="dropdown-menu">
             <li class="selected"><button class="btn btn-link" id="id_10">2</button></li>
             <li><button class="btn btn-link" id="id_11">5</button></li>
             <li><button class="btn btn-link" id="id_12">10</button></li>
@@ -142,8 +143,8 @@ class ViewControlPaginationTest extends ViewControlBaseTest
     </div>
 
     <div class="il-viewcontrol-value hidden" role="none">
-        <input id="id_13" type="hidden" name="" value="12" />
-        <input id="id_14" type="hidden" name="" value="2" />
+        <input id="id_14" type="hidden" name="" value="12" />
+        <input id="id_15" type="hidden" name="" value="2" />
     </div>
 </div>
         ');
@@ -197,5 +198,11 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         $this->assertEquals(36, $slices[2]->getStart());
         $this->assertEquals(42, $slices[3]->getStart());
         $this->assertEquals(198, $slices[4]->getStart());
+    }
+
+    public function testViewControlPaginationRenderingOutsideContainer(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->buildVCFactory()->pagination()->getOnChangeSignal();
     }
 }

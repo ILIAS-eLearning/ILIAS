@@ -45,54 +45,55 @@ class ViewControlFieldSelectionTest extends ViewControlBaseTest
         $this->assertFalse($vc->isDisabled());
     }
 
-        public function testViewControlFieldSelectionWithWrongValue(): void
-        {
-            $this->expectException(\Exception::class);
-            $options = [
-                'opt1' => 'A',
-                'opt2' => 'B',
-                'opt3' => 'C',
-            ];
-            $vc = $this->buildVCFactory()->fieldSelection($options)
-                ->withValue('notokvalue,something');
-        }
+    public function testViewControlFieldSelectionWithWrongValue(): void
+    {
+        $this->expectException(\Exception::class);
+        $options = [
+            'opt1' => 'A',
+            'opt2' => 'B',
+            'opt3' => 'C',
+        ];
+        $vc = $this->buildVCFactory()->fieldSelection($options)
+            ->withValue('notokvalue,something');
+    }
 
-        public function testViewControlFieldSelectionWithInput(): void
-        {
-            $options = [
-                'opt1' => 'A',
-                'opt2' => 'B',
-                'opt3' => 'C',
-            ];
-            $v = ['opt1','opt2'];
+    public function testViewControlFieldSelectionWithInput(): void
+    {
+        $options = [
+            'opt1' => 'A',
+            'opt2' => 'B',
+            'opt3' => 'C',
+        ];
+        $v = ['opt1','opt2'];
 
-            $input = $this->createMock(InputData::class);
-            $input->expects($this->once())
-                ->method("getOr")
-                ->willReturn($v);
+        $input = $this->createMock(InputData::class);
+        $input->expects($this->once())
+            ->method("getOr")
+            ->willReturn($v);
 
-            $vc = $this->buildVCFactory()->fieldSelection($options)
-                ->withNameFrom($this->getNamesource())
-                ->withInput($input);
+        $vc = $this->buildVCFactory()->fieldSelection($options)
+            ->withNameFrom($this->getNamesource())
+            ->withInput($input);
 
-            $df = $this->buildDataFactory();
-            $this->assertEquals(
-                $df->ok(['opt1','opt2']),
-                $vc->getContent()
-            );
-            $this->assertEquals($v, $vc->getValue());
-        }
+        $df = $this->buildDataFactory();
+        $this->assertEquals(
+            $df->ok(['opt1','opt2']),
+            $vc->getContent()
+        );
+        $this->assertEquals($v, $vc->getValue());
+    }
 
-        public function testViewControlFieldSelectionRendering(): void
-        {
-            $r = $this->getDefaultRenderer();
-            $options = [
-                'opt1' => 'A',
-                'opt2' => 'B'
-            ];
-            $vc = $this->buildVCFactory()->fieldSelection($options);
+    public function testViewControlFieldSelectionRendering(): void
+    {
+        $r = $this->getDefaultRenderer();
+        $options = [
+            'opt1' => 'A',
+            'opt2' => 'B'
+        ];
+        $vc = $this->buildVCFactory()->fieldSelection($options)
+            ->withOnChange((new SignalGenerator())->create());
 
-            $expected = $this->brutallyTrimHTML('
+        $expected = $this->brutallyTrimHTML('
 <div class="dropdown il-viewcontrol il-viewcontrol-fieldselection l-bar__element" id="id_3">
     <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="field selection" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_ctrl"><span class="caret"></span></button>
         <ul id="id_3_ctrl" class="dropdown-menu">
@@ -104,7 +105,13 @@ class ViewControlFieldSelectionTest extends ViewControlBaseTest
     <div class="il-viewcontrol-value" role="none"></div>
 </div>
 ');
-            $html = $this->brutallyTrimHTML($r->render($vc));
-            $this->assertEquals($expected, $html);
-        }
+        $html = $this->brutallyTrimHTML($r->render($vc));
+        $this->assertEquals($expected, $html);
+    }
+
+    public function testViewControlFieldSelectionRenderingOutsideContainer(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->buildVCFactory()->fieldSelection([])->getOnChangeSignal();
+    }
 }

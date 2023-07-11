@@ -43,7 +43,7 @@ abstract class ViewControl extends Input implements ViewControlInput, InternalFi
     use JavaScriptBindable;
     use Triggerer;
 
-    protected Signal $change_signal;
+    protected ?Signal $change_signal = null;
 
     public function withOnChange(Signal $change_signal): self
     {
@@ -52,9 +52,12 @@ abstract class ViewControl extends Input implements ViewControlInput, InternalFi
         return $clone;
     }
 
-    public function getOnChangeSignal(): ?Signal
+    public function getOnChangeSignal(): Signal
     {
-        return $this->change_signal ?? null;
+        if (! $this->change_signal) {
+            throw new \LogicException('View Control must be inside of View Control Container');
+        }
+        return $this->change_signal;
     }
 
     public function isRequired(): bool
