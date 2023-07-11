@@ -120,7 +120,7 @@ class Pagination extends ViewControl implements VCInterface\Pagination
         return $this->total_count;
     }
 
-    public function withTotalCount(int $total_count = null): self
+    public function withTotalCount(?int $total_count): self
     {
         $clone = clone $this;
         $clone->total_count = $total_count;

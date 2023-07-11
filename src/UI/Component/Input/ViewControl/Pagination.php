@@ -37,7 +37,7 @@ interface Pagination extends ViewControlInput
      * In order to calculate the sections, the pagination needs to know
      * the total amount of entries.
      */
-    public function withTotalCount(int $total_count = null): self;
+    public function withTotalCount(?int $total_count): self;
 
     /**
      * You may alter the amount of sections shown simultanously:
