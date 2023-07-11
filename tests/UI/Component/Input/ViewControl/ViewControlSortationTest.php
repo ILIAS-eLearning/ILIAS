@@ -26,9 +26,9 @@ use ILIAS\Data\Order;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Signal;
 
-require_once('VCBaseTest.php');
+require_once('ViewControlBaseTest.php');
 
-class VCSortationTest extends VCBaseTest
+class ViewControlSortationTest extends ViewControlBaseTest
 {
     public function testViewControlSortationConstruct(): void
     {

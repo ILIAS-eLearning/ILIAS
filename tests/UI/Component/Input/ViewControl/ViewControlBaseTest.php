@@ -27,7 +27,7 @@ use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
-abstract class VCBaseTest extends ILIAS_UI_TestBase
+abstract class ViewControlBaseTest extends ILIAS_UI_TestBase
 {
     protected function getNamesource()
     {

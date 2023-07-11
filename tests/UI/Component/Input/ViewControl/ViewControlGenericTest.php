@@ -26,9 +26,9 @@ use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Signal;
 
-require_once('VCBaseTest.php');
+require_once('ViewControlBaseTest.php');
 
-class VCGenericTest extends VCBaseTest
+class ViewControlGenericTest extends ViewControlBaseTest
 {
     protected function getViewControl(): Control\ViewControl
     {
@@ -83,7 +83,7 @@ class VCGenericTest extends VCBaseTest
         $this->assertEquals($v, $vc->getValue());
 
         $transform = $this->buildRefinery()->custom()->transformation(
-            fn ($v) => ['mod' => $v]
+            fn($v) => ['mod' => $v]
         );
         $vc = $vc->withAdditionalTransformation($transform);
         $this->assertEquals(

@@ -56,11 +56,11 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderStandard(ViewControl\Standard $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate("tpl.vc_container.html", true, true);
+        $tpl = $this->getTemplate("tpl.viewcontrol_container.html", true, true);
 
         $submission_signal = $component->getSubmissionSignal();
         $component = $component->withAdditionalOnLoadCode(
-            fn ($id) => "$(document).on('{$submission_signal}',
+            fn($id) => "$(document).on('{$submission_signal}',
                 function(event, signalData) { 
                     document.getElementById('{$id}').submit();
                     return false;
@@ -71,7 +71,7 @@ class Renderer extends AbstractComponentRenderer
         $input_names = $this->getComponentInternalNames($component);
         $query_params = array_filter(
             $component->getRequest()->getQueryParams(),
-            fn ($k) => ! in_array($k, $input_names),
+            fn($k) => ! in_array($k, $input_names),
             ARRAY_FILTER_USE_KEY
         );
         foreach ($query_params as $k => $v) {
@@ -82,7 +82,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $inputs = array_map(
-            fn ($input) => $input->withOnChange($submission_signal),
+            fn($input) => $input->withOnChange($submission_signal),
             $component->getInputs()
         );
 

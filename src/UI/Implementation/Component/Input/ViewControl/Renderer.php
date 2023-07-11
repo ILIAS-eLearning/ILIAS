@@ -52,7 +52,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderFieldSelection(FieldSelection $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate("tpl.vc_fieldselection.html", true, true);
+        $tpl = $this->getTemplate("tpl.viewcontrol_fieldselection.html", true, true);
         $ui_factory = $this->getUIFactory();
 
         $set_values = $component->getValue() ?? [];
@@ -124,7 +124,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderSortation(Sortation $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate("tpl.vc_sortation.html", true, true);
+        $tpl = $this->getTemplate("tpl.viewcontrol_sortation.html", true, true);
         $ui_factory = $this->getUIFactory();
 
         foreach ($component->getOptions() as $opt_label => $order) {
@@ -233,7 +233,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderPagination(Pagination $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate("tpl.vc_pagination.html", true, true);
+        $tpl = $this->getTemplate("tpl.viewcontrol_pagination.html", true, true);
         $ui_factory = $this->getUIFactory();
         $internal_signal = $component->getInternalSignal();
         $limit_options = $component->getLimitOptions();

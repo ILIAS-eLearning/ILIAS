@@ -26,7 +26,7 @@ use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Signal;
 
-require_once('VCBaseTest.php');
+require_once('ViewControlBaseTest.php');
 
 
 class VCPaginationRendererMock extends ILIAS\UI\Implementation\Component\Input\ViewControl\Renderer
@@ -45,7 +45,7 @@ class VCPaginationRendererMock extends ILIAS\UI\Implementation\Component\Input\V
     }
 }
 
-class VCPaginationTest extends VCBaseTest
+class ViewControlPaginationTest extends ViewControlBaseTest
 {
     public function testViewControlPaginationConstruct(): void
     {
