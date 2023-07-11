@@ -502,7 +502,6 @@ class ilInitialisation
 
         // invalid client id / client ini
         if ($ilClientIniFile->ERROR != "") {
-            $c = $_COOKIE["ilClientId"];
             $default_client = $ilIliasIniFile->readVariable("clients", "default");
             ilUtil::setCookie("ilClientId", $default_client);
             if (CLIENT_ID != "" && CLIENT_ID != $default_client) {
@@ -989,9 +988,13 @@ class ilInitialisation
             $target = "target=" . $target . "&";
         }
 
-        $client_id = $DIC->http()->wrapper()->cookie()->has('ilClientId')
-            ? $DIC->http()->wrapper()->cookie()->retrieve('ilClientId', $DIC->refinery()->kindlyTo()->string())
-            : '';
+        $client_id = $DIC->http()->wrapper()->cookie()->retrieve(
+            'ilClientId',
+            $DIC->refinery()->byTrying([
+                $DIC->refinery()->kindlyTo()->string(),
+                $DIC->refinery()->always('')
+            ])
+        );
 
         $script = "login.php?" . $target . "client_id=" . $client_id .
             "&auth_stat=" . $a_auth_stat;
