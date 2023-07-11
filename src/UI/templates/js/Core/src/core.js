@@ -16,6 +16,7 @@
  */
 
 import il from 'il';
+import $ from 'jquery';
 import replaceContent from './core.replaceContent';
 import Tooltip from './core.Tooltip';
 import URLBuilder from './core.URLBuilder';

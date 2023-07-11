@@ -25,7 +25,6 @@ declare(strict_types=1);
 class ilObjectPropertiesAgregator
 {
     public function __construct(
-        private ilLanguage $language,
         private ilObjectCorePropertiesRepository $core_properties_repository,
         private ilObjectAdditionalPropertiesRepository $additional_properties_repository
     ) {

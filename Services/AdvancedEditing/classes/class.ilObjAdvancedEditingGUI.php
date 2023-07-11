@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\AdvancedEditing\StandardGUIRequest;
 
@@ -98,7 +101,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             !in_array($this->ctrl->getCmd(), array(
                 "showPageEditorSettings",
                 "showGeneralPageEditorSettings",
-                "showCharSelectorSettings",
                 "",
                 "view"
             ), true)) {
@@ -176,12 +178,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 array("settings","assessment", "survey", "frmPost", "excass"),
                 "",
                 ""
-            );
-
-            $this->tabs_gui->addTarget(
-                "adve_char_selector_settings",
-                $this->ctrl->getLinkTarget($this, "showCharSelectorSettings"),
-                array("showCharSelectorSettings", "","view")
             );
         }
 
@@ -597,58 +593,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             }
         }
 
-        $form->setValuesByPost();
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    public function initCharSelectorSettingsForm(ilCharSelectorGUI $char_selector): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setTitle($this->lng->txt('settings'));
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        if ($this->checkPermissionBool("write")) {
-            $form->addCommandButton("saveCharSelectorSettings", $this->lng->txt("save"));
-        }
-        $char_selector->addFormProperties($form);
-
-        return $form;
-    }
-
-
-    /**
-     * Show the settings for the selector of unicode characters
-     */
-    public function showCharSelectorSettingsObject(): void
-    {
-        $this->tabs_gui->activateTab("adve_char_selector_settings");
-
-        $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_ADMIN);
-        $char_selector->getConfig()->setAvailability((int) $this->settings->get('char_selector_availability'));
-        $char_selector->getConfig()->setDefinition((string) $this->settings->get('char_selector_definition'));
-        $form = $this->initCharSelectorSettingsForm($char_selector);
-        $char_selector->setFormValues($form);
-        $this->tpl->setContent($form->getHTML());
-    }
-
-
-    /**
-     *  Save the settings for the selector of unicode characters
-     */
-    public function saveCharSelectorSettingsObject(): void
-    {
-        $this->checkPermission("write");
-
-        $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_ADMIN);
-        $form = $this->initCharSelectorSettingsForm($char_selector);
-        if ($form->checkInput()) {
-            $char_selector->getFormValues($form);
-
-            $this->settings->set('char_selector_availability', $char_selector->getConfig()->getAvailability());
-            $this->settings->set('char_selector_definition', $char_selector->getConfig()->getDefinition());
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-            $this->ctrl->redirect($this, "showCharSelectorSettings");
-        }
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
     }

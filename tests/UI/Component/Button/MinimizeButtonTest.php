@@ -26,6 +26,8 @@ use ILIAS\UI\Implementation as I;
  */
 class MinimizeButtonTest extends ILIAS_UI_TestBase
 {
+    protected I\Component\Button\Factory $button_factory;
+
     public function setUp(): void
     {
         $this->button_factory = new I\Component\Button\Factory();

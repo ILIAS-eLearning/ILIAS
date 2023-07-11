@@ -86,7 +86,7 @@ class ilSCORMExplorer extends ilExplorer
     }
 
     public function setOutput($a_parent_id, int $a_depth = 1, int $a_obj_id = 0, $a_highlighted_subtree = false): void
-//    public function setOutput(int $a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false) : void
+    //    public function setOutput(int $a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false) : void
     {
         $this->format_options = $this->createOutputArray($a_parent_id);
     }

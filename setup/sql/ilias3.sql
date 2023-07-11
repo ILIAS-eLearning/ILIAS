@@ -19640,7 +19640,6 @@ INSERT INTO `service_class` VALUES ('ilAdministrationGUI','Administration','clas
 INSERT INTO `service_class` VALUES ('ilAwarenessGUI','Awareness','classes');
 INSERT INTO `service_class` VALUES ('ilBadgeHandlerGUI','Badge','classes');
 INSERT INTO `service_class` VALUES ('ilBTControllerGUI','BackgroundTasks','classes');
-INSERT INTO `service_class` VALUES ('ilCharSelectorGUI','UIComponent','CharSelector/classes');
 INSERT INTO `service_class` VALUES ('ilContainerBlockPropertiesStorage','Container','classes');
 INSERT INTO `service_class` VALUES ('ilCronManagerGUI','Cron','classes');
 INSERT INTO `service_class` VALUES ('ilHelpGUI','Help','classes');
@@ -23375,8 +23374,6 @@ CREATE TABLE `tst_tests` (
   `enable_archiving` tinyint(4) DEFAULT NULL,
   `question_set_type` varchar(32) NOT NULL DEFAULT 'FIXED_QUEST_SET',
   `sign_submission` int(11) NOT NULL DEFAULT 0,
-  `char_selector_availability` int(11) NOT NULL DEFAULT 0,
-  `char_selector_definition` varchar(4000) DEFAULT NULL,
   `skill_service` tinyint(4) DEFAULT NULL,
   `result_tax_filters` varchar(255) DEFAULT NULL,
   `show_grading_status` tinyint(4) DEFAULT 0,

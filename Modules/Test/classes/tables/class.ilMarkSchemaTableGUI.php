@@ -37,7 +37,6 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
         $this->object = $object;
         $this->ctrl = $ilCtrl;
-
         $this->is_editable = $this->object->canEditMarks();
 
         $this->setId('mark_schema_gui_' . $this->object->getMarkSchemaForeignId());
@@ -63,6 +62,8 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
         $this->initColumns();
         $this->initData();
+
+        $this->initJS($DIC->ui()->mainTemplate());
     }
 
     protected function initColumns(): void
@@ -78,22 +79,41 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
     {
         $this->object->getMarkSchema()->sort();
 
-        $data = array();
+        $data = [];
 
         $marks = $this->object->getMarkSchema()->getMarkSteps();
         foreach ($marks as $key => $value) {
-            $data[] = array(
+            $data[] = [
                 'mark_id' => $key,
                 'mark_short' => $value->getShortName(),
                 'mark_official' => $value->getOfficialName(),
                 'mark_percentage' => $value->getMinimumLevel(),
-                'mark_passed' => $value->getPassed() ? 1 : 0
-            );
+                'mark_passed' => $value->getPassed()
+            ];
         }
 
         $this->setData($data);
     }
 
+    private function initJS(ilGlobalTemplateInterface $tpl)
+    {
+        $tpl->addOnloadCode("
+            let form = document.querySelector('form[name=\"{$this->getFormName()}\"]');
+            let button = form.querySelector('input[name=\"cmd[saveMarks]\"]');
+            if (form && button) {
+                form.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        form.requestSubmit(button);
+                    }
+                })
+            }
+        ");
+    }
+
+    /**
+     * @param array $row
+     */
     public function fillRow(array $a_set): void
     {
         $short_name = new ilTextInputGUI('', 'mark_short_' . $a_set['mark_id']);

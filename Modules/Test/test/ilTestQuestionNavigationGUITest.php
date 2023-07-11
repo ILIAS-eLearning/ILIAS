@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilTestQuestionNavigationGUITest
@@ -146,14 +146,5 @@ class ilTestQuestionNavigationGUITest extends ilTestBaseTestCase
 
         $this->testObj->setAnythingRendered();
         $this->assertTrue($this->testObj->isAnythingRendered());
-    }
-
-    public function testCharSelectorEnabled(): void
-    {
-        $this->testObj->setCharSelectorEnabled(false);
-        $this->assertFalse($this->testObj->isCharSelectorEnabled());
-
-        $this->testObj->setCharSelectorEnabled(true);
-        $this->assertTrue($this->testObj->isCharSelectorEnabled());
     }
 }

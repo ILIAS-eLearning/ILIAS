@@ -16,6 +16,7 @@
   - in px
   - relative to the viewport (e.g. setting "height: 80vh" as custom parameter)
   - with an aspect ratio (e.g. setting "aspect-ratio: 16/9" as custom parameter)
+- SVGs files are rendered as embed-tags inside content pages. ILIAS tries to render SVG files "image like", but please note that SVG allows to define a much more complex behaviour. You should declare a viewBox in your SVG to give it aspect ratio information. Specifying additional width and height in the SVG will currently give it a default size in most browsers. When using the page editor you should either define a size in the properties of the media object or define at least the width per css in an attached content style class, e.g. 100% if you want it to scale with its container. 
 
 ## Video
 

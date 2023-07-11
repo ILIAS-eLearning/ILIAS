@@ -32,6 +32,7 @@
  */
 class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
+    protected bool $tiny_mce_enabled;
     /**
      * assTextQuestionGUI constructor
      *
@@ -41,6 +42,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      */
     public function __construct($id = -1)
     {
+        $this->tiny_mce_enabled = (new ilSetting('advanced_editing'))->get('advanced_editing_javascript_editor')
+            === 'tinymce' ? true : false;
         parent::__construct();
         $this->object = new assTextQuestion();
         if ($id >= 0) {
@@ -463,6 +466,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $user_solution = $solution_value["value1"];
             }
         }
+        if ($this->tiny_mce_enabled) {
+            $user_solution = htmlentities($user_solution);
+        }
 
         $template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", true, true, "Modules/TestQuestionPool");
         if ($this->object->getMaxNumOfChars()) {
@@ -488,7 +494,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
 
         $template->setVariable("QID", $this->object->getId());
-        $template->setVariable("ESSAY", ilLegacyFormElementsUtil::prepareFormOutput(html_entity_decode($user_solution)));
+        $template->setVariable("ESSAY", $user_solution);
         $questiontext = $this->object->getQuestion();
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();

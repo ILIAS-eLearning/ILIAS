@@ -25,8 +25,8 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
 /**
- * @author Fabian Schmid <fabian@sr.solutions>
- * @deprecated This class is deprecated and will be removed with ILIAS 10. Please use the
+ * @author      Fabian Schmid <fabian@sr.solutions>
+ * @deprecated  This class is deprecated and will be removed with ILIAS 10. Please use the
  * Archives implementation instead.
  * @description LegacyArchives can be used to zip individual files or directories and extract a zip
  * file to a specified location. We should do without these possibilities as soon as possible,
@@ -56,7 +56,6 @@ final class LegacyArchives
         $this->unzip_options = new UnzipOptions();
     }
 
-
     /**
      * @deprecated Use \ILIAS\Filesystem\Util\Archive\Archives::zip() instead. Will be removed in ILIAS 10.
      */
@@ -85,7 +84,8 @@ final class LegacyArchives
         string $path_to_zip,
         string $extract_to_path = null,
         bool $overwrite = false,
-        bool $flat = false
+        bool $flat = false,
+        bool $ensure_top_directory = false
     ): bool {
         $extract_to_path ??= dirname($path_to_zip);
 
@@ -95,6 +95,7 @@ final class LegacyArchives
                 ->withZipOutputPath($extract_to_path)
                 ->withOverwrite($overwrite)
                 ->withFlat($flat)
+                ->withEnsureTopDirectoy($ensure_top_directory)
         );
         return $unzip->extract();
     }

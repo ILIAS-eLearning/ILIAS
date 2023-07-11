@@ -89,7 +89,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             );
         }
 
-        if ($info->isUpdateRequired()) {
+        if (!$info->isUpdateRequired()) {
             throw new \RuntimeException(
                 "Plugin $this->plugin_name is already updated."
             );

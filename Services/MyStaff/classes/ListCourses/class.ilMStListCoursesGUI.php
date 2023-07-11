@@ -35,7 +35,6 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
     protected ilTable2GUI $table;
     protected ilMyStaffAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
-    private \ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $queryWrapper;
     private ilHelpGUI $help;
 
     public function __construct()
@@ -46,7 +45,6 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->access = ilMyStaffAccess::getInstance();
         $this->help = $DIC->help();
-        $this->queryWrapper = $DIC->http()->wrapper()->query();
         $this->help->setScreenIdComponent('msta');
     }
 
@@ -134,53 +132,5 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
     {
         global $DIC;
         $DIC->ctrl()->redirect($this);
-    }
-
-    final public function getActions(): void
-    {
-        global $DIC;
-
-        $mst_co_usr_id = 0;
-        $mst_lco_crs_ref_id = 0;
-        if ($this->queryWrapper->has('mst_lco_usr_id')) {
-            $mst_co_usr_id = $this->queryWrapper->retrieve('mst_lco_usr_id', $this->refinery->kindlyTo()->int());
-        }
-
-        if ($this->queryWrapper->has('mst_lco_crs_ref_id')) {
-            $mst_lco_crs_ref_id = $this->queryWrapper->retrieve('mst_lco_crs_ref_id', $this->refinery->kindlyTo()->int());
-        }
-
-        if ($mst_co_usr_id > 0 && $mst_lco_crs_ref_id > 0) {
-            $selection = new ilAdvancedSelectionListGUI();
-
-            if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
-                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::COURSE_CONTEXT);
-                $selection->addItem(
-                    ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)),
-                    '',
-                    $link
-                );
-            };
-
-            $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits(true);
-            foreach (ilOrgUnitUserAssignment::innerjoin('object_reference', 'orgu_id', 'ref_id')->where(array(
-                'user_id' => $mst_co_usr_id,
-                'object_reference.deleted' => null
-            ), array('user_id' => '=', 'object_reference.deleted' => '!='))->get() as $org_unit_assignment) {
-                if ($DIC->access()->checkAccess("read", "", $org_unit_assignment->getOrguId())) {
-                    $link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
-                    $selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
-                }
-            }
-
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions(
-                $selection,
-                $mst_co_usr_id,
-                rawurlencode($DIC->ctrl()->getLinkTarget($this, self::CMD_INDEX))
-            );
-
-            echo $selection->getHTML(true);
-        }
-        exit;
     }
 }

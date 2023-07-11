@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 class ilObjLearningSequenceAccess extends ilObjectAccess
 {
@@ -68,7 +67,7 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
         $act = $obj->getLSActivation();
         $online = $act->getIsOnline();
 
-        if (!$online
+        if ($online
             && ($act->getActivationStart() !== null ||
                 $act->getActivationEnd() !== null)
         ) {
@@ -98,6 +97,10 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
             $obj->announceLSOOffline();
         }
 
+        $new_status = ($online)
+            ? $obj->getObjectProperties()->getPropertyIsOnline()->withOnline()
+            : $obj->getObjectProperties()->getPropertyIsOnline()->withOffline();
+        $obj->getObjectProperties()->storePropertyIsOnline($new_status);
 
         return !$online;
     }

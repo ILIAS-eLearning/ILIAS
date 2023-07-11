@@ -211,10 +211,14 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $ilAppEventHandler = $this->eventHandler;
 
         $force_login = false;
-        if (isset($_REQUEST['cmd']) &&
-            !is_array($_REQUEST['cmd']) &&
-            strcmp($_REQUEST['cmd'], 'force_login') === 0
-        ) {
+        $request_cmd = '';
+        if ($this->http->wrapper()->query()->has('cmd')) {
+            $request_cmd = $this->http->wrapper()->query()->retrieve(
+                'cmd',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        if ($request_cmd === 'force_login') {
             $force_login = true;
         }
 
@@ -401,7 +405,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     protected function processCode(): ?bool
     {
-        $uname = $_POST["uname"];
+        $uname = '';
+        if ($this->http->wrapper()->post()->has('uname')) {
+            $uname = $this->http->wrapper()->post()->retrieve(
+                'uname',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
         $form = $this->initCodeForm($uname);
         if ($uname && $form->checkInput()) {
             $code = $form->getInput("code");

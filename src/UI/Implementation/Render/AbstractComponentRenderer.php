@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Render;
 
@@ -59,7 +59,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
      */
     public function registerResources(ResourceRegistry $registry): void
     {
-        $registry->register('./src/UI/templates/js/Core/dist/ui.js');
+        $registry->register('./src/UI/templates/js/Core/dist/core.js');
     }
 
     /**
@@ -316,7 +316,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
         if ($this->tooltip_renderer === null) {
             $this->tooltip_renderer = new TooltipRenderer(
                 $this,
-                fn ($path, $f1, $f2) => $this->getTemplateRaw($path, $f1, $f2)
+                fn($path, $f1, $f2) => $this->getTemplateRaw($path, $f1, $f2)
             );
         }
         return $this->tooltip_renderer;

@@ -834,7 +834,7 @@ class ilLMObject
                         $ilUser->addObjectToClipboard(
                             $subnode["child"],
                             $subnode["type"],
-                            $subnode["title"],
+                            ilStr::subStr($subnode["title"], 0, 70),
                             $subnode["parent"],
                             $time,
                             $subnode["lft"]
@@ -848,7 +848,7 @@ class ilLMObject
             $ilUser->addObjectToClipboard(
                 $id,
                 self::_lookupType($id),
-                self::_lookupTitle($id),
+                ilStr::subStr(self::_lookupTitle($id), 0, 70),
                 0,
                 $time,
                 $order

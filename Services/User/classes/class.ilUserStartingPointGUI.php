@@ -426,7 +426,7 @@ class ilUserStartingPointGUI
 
         if ($form->getInput('role_type') === '1' &&
             $role_id === null || $role_id < 1) {
-            $parser = new ilQueryParser('"' . $form->getInput('role_search') . '"');
+            $parser = new ilQueryParser($form->getInput('role_search'));
 
             // TODO: Handle minWordLength
             $parser->setMinWordLength(1);

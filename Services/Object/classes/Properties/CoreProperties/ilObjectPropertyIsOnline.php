@@ -41,14 +41,14 @@ class ilObjectPropertyIsOnline implements ilObjectProperty
         return $this->is_online;
     }
 
-    public function withOnline(): bool
+    public function withOnline(): self
     {
         $clone = clone $this;
         $clone->is_online = true;
         return $clone;
     }
 
-    public function withOffline(): bool
+    public function withOffline(): self
     {
         $clone = clone $this;
         $clone->is_online = false;

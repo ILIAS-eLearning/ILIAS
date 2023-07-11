@@ -398,7 +398,6 @@ adve#:#adve_autosave#:#Automatic Saving Intervall###29 07 2022 new variable
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.###29 07 2022 new variable
 adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###29 07 2022 new variable
 adve#:#adve_blocking_mode#:#Blokada edycji
-adve#:#adve_char_selector_settings#:#Wybór znaków
 adve#:#adve_excass_settings#:#Zadania
 adve#:#adve_grp_copa#:#Content Pages
 adve#:#adve_grp_frm#:#Forums###29 07 2022 new variable
@@ -417,45 +416,6 @@ adve#:#adve_text_content_features#:#Tekst menu zawartości
 adve#:#adve_use_physical#:#W miejsce str|emp|imp wstaw pr<b>B</b>|<i>I</i>|<u>U</u>
 adve#:#adve_use_physical_info#:#To ustawienie zastępuje przyciski semantycznych klas stylów odnoszących się do opcji strong, emphatic oraz important  na stałe określonymi wartościami <b>B</b> (bold), <i>I</i> (italic) oraz <u>U</u> (underline). Uwaga: w takiej sytuacji może dojść do niespójności, jeśli poprzez edytorów stylów klasom strong, emphatic i important zostaną przyporządkowane inne wartości.
 adve#:#adve_use_tiny_mce#:#Aktywuj TinyMCE do edytowania WYSIWYG
-adve#:#char_selector_admin#:#Menu wyboru ze znaki specjalnymi (unicode) do testów i puli pytań
-adve#:#char_selector_blocks#:#Dostępne znaki specjalne (unicode)
-adve#:#char_selector_blocks_info#:#Wszystkie znaki wybranych sekcji umieszczone zostaną na liście, nawet wówczas, gdy nie ma ich w danej czcionce przeglądarki.
-adve#:#char_selector_custom_items#:#Wybór specjalny
-adve#:#char_selector_custom_items_info1#:#Wybór specjalny umieszczany jest na liście przed sekcjami unicode. Tutaj wpisz znaki w poniższym formacie:
-adve#:#char_selector_custom_items_info2a#:#A B C
-adve#:#char_selector_custom_items_info2b#:#Pojedyncze znaki można rozdzielić znakiem pustym, dzięki czemu otrzymają oddzielne przycisku wyboru.
-adve#:#char_selector_custom_items_info3a#:#A BC D
-adve#:#char_selector_custom_items_info3b#:#Znaki następujące kolejno po sobie zostaną przydzielone do jednego przycisku wyboru.
-adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#Zakresy znaków można definiować za pomocą "-"
-adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#Znak można podać również w systemie unicode (dowolne małe i wielkie litery).
-adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#W systemie unicode można również wprowadzać zakresy znaków
-adve#:#char_selector_disabled_admin#:#Przycisk Ω do aktywacji menu wyboru ze znakami specjalnymi musi być dodatkowo włączony
-adve#:#char_selector_disabled_info_admin#:#Menu wyboru ze znakami specjalnymi (unicode) jest aktywne dla testów i puli pytań, jednak użytkownicy muszą aktywować w pulpicie osobistym odpowiednie ustawienia lub można skonfigurować test lub pulę pytań w zakładce 'Ustawienia' w taki sposób, aby menu wyboru było dostępne. Ustawienia dotyczące testu są nadrzędne wobec ustawień użytkownika.
-adve#:#char_selector_disabled_info_test#:#Niezależnie od ustawień użytkownika menu wyboru ze znakami specjalnymi (unicode) jest wyłączone podczas testu; znaki będzie można wprowadzać tylko za pomocą klawiatury.
-adve#:#char_selector_disabled_info_user#:#W testach zwykle menu wyboru ze znakami specjalnymi nie jest wyświetlane. Jednak w niektórych testach można wymusić wyświetlenie tego menu mimo ustawień.
-adve#:#char_selector_disabled_test#:#Nie pokazuj wyboru znaków specjalnych
-adve#:#char_selector_disabled_user#:#Nie pokazuj menu wyboru ze znakami specjalnymi w testach
-adve#:#char_selector_enabled_admin#:#Przycisk Ω do aktywacji menu wyboru ze znakami specjalnymi wyświetlany jest domyślnie
-adve#:#char_selector_enabled_info_admin#:#Menu wyboru ze znakami specjalnymi (unicode) jest aktywne. Zawiera sekcje unicode, które zostały wybrane w tym ustawieniu. Użytkownicy mogą jednak włączyć indywidualne ustawienia w pulpicie osobistym lub można skonfigurować testy w taki sposób, aby menu wyboru było dostępne.
-adve#:#char_selector_enabled_info_test#:#Niezależnie od ustawień użytkownika menu wyboru ze znakami specjalnymi (unicode) będzie wyświetlane podczas testu; znaki specjalne będzie można wprowadzać za pomocą menu.
-adve#:#char_selector_enabled_info_user#:#W testach wyświetlane jest menu wyboru ze znakami specjalnymi. Jednak w niektórych testach to menu będzie mimo ustawień ukryte.
-adve#:#char_selector_enabled_test#:#Pokaż wybór znaków specjalnych
-adve#:#char_selector_enabled_user#:#Aktywuj menu wyboru ze znakami specjalnymi
-adve#:#char_selector_inactive_admin#:#Wyłącz globalnie menu wyboru ze znakami specjalnymi
-adve#:#char_selector_inactive_info_admin#:#Menu wyboru ze znakami specjalnymi jest wyłączone dla całej platformy. Ukryta jest również możliwość dokonywania indywidualnych ustawień na pulpicie osobistym lub w zakładce 'Ustawienia' w testach.
-adve#:#char_selector_inherit_info_test#:#W zależności od ustawień systemowych oraz ustawień indywidualnych, które użytkownik włączyć w pulpicie osobistym, w przebiegu testu wyświetlane jest menu wyboru ze znakami specjalnymi (unicode) lub też nie.
-adve#:#char_selector_inherit_info_user#:#Przejmowane są te ustawienia, które administrator aktywował globalnie dla całej platformy.
-adve#:#char_selector_inherit_test#:#Przejmij platformę i indywidualne ustawienia użytkownika
-adve#:#char_selector_inherit_user#:#Przejmij ustawienia domyślne
-adve#:#char_selector_menu_close#:#Ukryj wybór znaków specjalnych
-adve#:#char_selector_menu_open#:#Pokaż wybór znaków specjalnych
-adve#:#char_selector_msg_blocks_or_custom_needed#:#Jeśli włączyć tę opcję, wybierz sekcję znaków lub wprowadź własny zbiór znaków.
-adve#:#char_selector_test#:#Menu wyboru ze znaki specjalnymi
-adve#:#char_selector_unicode_all#:#Wszystkie sekcje unicode
-adve#:#char_selector_user#:#Menu wyboru ze znaki specjalnymi (unicode) do testów
 assessment#:#action#:#Akcja
 assessment#:#addSuggestedSolution#:#Pokaż sugerowane rozwiązanie
 assessment#:#add_answers#:#Dodaj odpowiedzi
@@ -598,7 +558,6 @@ assessment#:#categories#:#Kategorie
 assessment#:#category#:#Kategoria
 assessment#:#changeSuggestedSolution#:#Wybierz sugerowane rozwiązanie
 assessment#:#change_adm_categories_not_allowed#:#Tutaj nie masz uprawnień do zapisywania kategorii.
-assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#checkbox_checked#:#Wybrany
 assessment#:#checkbox_unchecked#:#Niewybrany
 assessment#:#circle#:#Koło

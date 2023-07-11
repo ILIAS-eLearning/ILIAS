@@ -399,7 +399,6 @@ adve#:#adve_autosave#:#Automatic Saving Intervall
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.
 adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.
 adve#:#adve_blocking_mode#:#Edit Lock
-adve#:#adve_char_selector_settings#:#Character Selector
 adve#:#adve_excass_settings#:#Exercise Assignments
 adve#:#adve_grp_copa#:#Content Pages
 adve#:#adve_grp_frm#:#Forums
@@ -418,45 +417,6 @@ adve#:#adve_text_content_features#:#Text Content Menu
 adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for ‘strong’, ‘emphatic’ and ‘important’ with physical attribute buttons ‘b’ (bold), ‘i’ (italic) and ‘u’ (underline). Please note, that this may result in inconsistencies if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
-adve#:#char_selector_admin#:#Menu for Selecting Special Characters (Unicode) in Tests and Question Pools
-adve#:#char_selector_blocks#:#Available Special Character Sets (Unicode)
-adve#:#char_selector_blocks_info#:#All characters of the selected blocks will be listed, but not all of them may be supported by the current browser font.
-adve#:#char_selector_custom_items#:#Custom Selection
-adve#:#char_selector_custom_items_info1#:#The custom selection will be listed before the selected blocks. Please add your characters in the following style:
-adve#:#char_selector_custom_items_info2a#:#A B C
-adve#:#char_selector_custom_items_info2b#:#Characters are separated by space, generating separate selector buttons
-adve#:#char_selector_custom_items_info3a#:#A BC D
-adve#:#char_selector_custom_items_info3b#:#It is possible to put more characters on one button
-adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#Ranges of characters can be defined with a ‘-’
-adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#A character can also be defined in Unicode notation (case insensitive)
-adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#Ranges are also possible in Unicode notation
-adve#:#char_selector_disabled_admin#:#Ω-Button for Activating the Menu for Selecting Special Characters is displayed only if switched on
-adve#:#char_selector_disabled_info_admin#:#The menu for selecting special characters (Unicode) in tests and question pools is activated but the Ω-Button has to be switched on by users in their settings and or in individual tests or questions pools. Test Settings will override user settings.
-adve#:#char_selector_disabled_info_test#:#Regardless of a user's individual setting the special character selector is switched off for taking this test.
-adve#:#char_selector_disabled_info_user#:#A menu for selecting special characters will be not be displayed in tests. Individual tests, however, can override this setting and force the display of the special character menu.
-adve#:#char_selector_disabled_test#:#Special Character Selector is Off
-adve#:#char_selector_disabled_user#:#Disable Menu for Selecting Special Characters
-adve#:#char_selector_enabled_admin#:#Ω-Button for Activating the Menu for Selecting Special Characters is Displayed by Default
-adve#:#char_selector_enabled_info_admin#:#The menu for selecting special characters (Unicode) is activated in tests and question pools. It will present users with the selection of Unicode blocks composed below. Users can make individual settings in their personal settings and the setting can be switched on for individual tests or questions pools.
-adve#:#char_selector_enabled_info_test#:#Regardless of a user's individual setting the Ω-button for switching on the special character selector will be displayed in the test. Special characters can be entered.
-adve#:#char_selector_enabled_info_user#:#A menu for selecting special characters will be displayed in tests. Individual tests can, however,  override this setting and prevent the display of the special character menu.
-adve#:#char_selector_enabled_test#:#Special Character Selector is On
-adve#:#char_selector_enabled_user#:#Enable Menu for Selecting Special Characters
-adve#:#char_selector_inactive_admin#:#Globally Deactivate the Menu for Selecting Special Characters
-adve#:#char_selector_inactive_info_admin#:#The menu for selecting special characters is deactivated for the whole system. Users cannot make individual settings in their personal settings nor can individual tests or questions pools switch on the setting.
-adve#:#char_selector_inherit_info_test#:#Depending on the settings made in the platforms' administration or those made by individual users in their settings the Ω-button is displayed in the test or not.
-adve#:#char_selector_inherit_info_user#:#Use the standard global settings as set by the administrator of your platform.
-adve#:#char_selector_inherit_test#:#Settings made either Globally by Administrators or Individually by Users are Applied
-adve#:#char_selector_inherit_user#:#Use Standard Settings
-adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
-adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
-adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!
-adve#:#char_selector_test#:#Selector Special Characters (Unicode)
-adve#:#char_selector_unicode_all#:#All Unicode Blocks
-adve#:#char_selector_user#:#Menu for Selecting Special Characters (Unicode) in Tests
 assessment#:#action#:#Action
 assessment#:#addSuggestedSolution#:#Add Content for Recapitulation
 assessment#:#add_answers#:#Add answers
@@ -599,7 +559,6 @@ assessment#:#categories#:#Categories
 assessment#:#category#:#Category
 assessment#:#changeSuggestedSolution#:#Select type of content for recapitulation
 assessment#:#change_adm_categories_not_allowed#:#You do not have any permissions concerning this category.
-assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle#:#Circle
@@ -886,6 +845,7 @@ assessment#:#log_user_not_entered_values#:#User did not enter values
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.
 assessment#:#longmenu#:#Longmenu
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#mailnottype#:#Send a notification every time a test attempt is completed.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.
@@ -2019,7 +1979,7 @@ auth#:#auth_auth_settings#:#Settings
 auth#:#auth_cas_ldap#:#Synchronization using LDAP
 auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions
-auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions. 
+auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
@@ -2033,7 +1993,7 @@ auth#:#auth_oidc_failed#:#Login via OpenID Connect failed
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
 auth#:#auth_oidc_mapping_table#:#Mapping ILIAS User Information to OpenID Connect Attributes
 auth#:#auth_oidc_profile#:#User Profile Mapping
-auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
+auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: ‘roles::employee‘).
 auth#:#auth_oidc_role_mapping_table#:#Mapping ILIAS Roles to OpenID Connect Attributes.
 auth#:#auth_oidc_roles#:#Role Assignment
 auth#:#auth_oidc_settings#:#Server Settings
@@ -2049,23 +2009,23 @@ auth#:#auth_oidc_settings_discovery_error#:#Retrieving the Discovery URL failed 
 auth#:#auth_oidc_settings_discovery_url#:#Discovery URL of the provider
 auth#:#auth_oidc_settings_img#:#Image
 auth#:#auth_oidc_settings_img_file_info#:#Upload an image that you would like to have shown on the login page. The image will link automatically to the OpenID Connect login script.
-auth#:#auth_oidc_settings_invalid_scopes#:#The following values are not valid Scopes: %s
+auth#:#auth_oidc_settings_invalid_scopes#:#The following values are not valid scopes: %s
 auth#:#auth_oidc_settings_le#:#Visual Presentation of Login Page
 auth#:#auth_oidc_settings_login_option_default#:#Login Not Required
 auth#:#auth_oidc_settings_login_option_default_info#:#Users are not required to log in via the OpenID Connect server if a valid session is in progress.
 auth#:#auth_oidc_settings_login_option_enforce#:#Login Required
-auth#:#auth_oidc_settings_login_option_enforce_info#:#Users are always required to log in via the OpenId Connect Server – even if there is already a valid session in progress.
+auth#:#auth_oidc_settings_login_option_enforce_info#:#Users are always required to log in via the OpenID Connect Server – even if there is already a valid session in progress.
 auth#:#auth_oidc_settings_login_options#:#Login Options
 auth#:#auth_oidc_settings_logout_scope#:#Logout Options
 auth#:#auth_oidc_settings_logout_scope_global#:#Log Out Globally
 auth#:#auth_oidc_settings_logout_scope_global_info#:#When a users logs out, they end both their OpenID Connect session and their ILIAS session.
 auth#:#auth_oidc_settings_logout_scope_local#:#Log Out of ILIAS ONLY
 auth#:#auth_oidc_settings_logout_scope_local_info#:#When a user logs out, they only end their session in  ILIAS, not their OpenID Connect session.
-auth#:#auth_oidc_settings_provider#:#Provider Url
+auth#:#auth_oidc_settings_provider#:#Provider URL
 auth#:#auth_oidc_settings_secret#:#Client Key
 auth#:#auth_oidc_settings_section_user_sync#:#User Synchronisation Settings
 auth#:#auth_oidc_settings_session_duration#:#Duration
-auth#:#auth_oidc_settings_title#:#Configure OpenID Connect Authentification
+auth#:#auth_oidc_settings_title#:#Configure OpenID Connect Authentication
 auth#:#auth_oidc_settings_txt#:#Text
 auth#:#auth_oidc_settings_txt_val_info#:#Enter a text to be displayed on the login page. The text will link automatically to the OpenID Connect login script.
 auth#:#auth_oidc_settings_user_attr#:#Attribute name of user accounts
@@ -2771,6 +2731,7 @@ certificate#:#certificate_settings#:#Certificate Settings
 certificate#:#certificate_short_name#:#Certificate file short title
 certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.
 certificate#:#certificate_text#:#Certificate Text
+certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.
 certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
 certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available in Administration » General Settings » Server, sub-tab Java-Server.
 certificate#:#certificate_var_max_points#:#46
@@ -4656,7 +4617,7 @@ common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
 common#:#msg_copy_clipboard#:#Please select the location to which the selected objects should be pasted and click the button ‘Paste’.
 common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Continue’.
-common#:#msg_copy_clipboard_source#:#Now, please select the desired course or group, whose content should be copied and click the button ‘Continue’.
+common#:#msg_copy_clipboard_source#:#Now, please select the desired course or group, whose content should be copied and click the button ‘Next’.
 common#:#msg_cut_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
 common#:#msg_cut_copied#:#Selected object(s) moved.
 common#:#msg_deleted_export_files#:#Export file(s) deleted
@@ -7401,12 +7362,12 @@ crs#:#crs_groupings#:#Course groupings
 crs#:#crs_groups_nr#:#Number of Memberships
 crs#:#crs_grp_added_grouping#:#Added new membership limitation.
 crs#:#crs_grp_already_assigned#:#You are already member of this grouping of courses.
-crs#:#crs_grp_assign_crs#:#Assign course
+crs#:#crs_grp_assign_crs#:#Assigned Objects of Membership Limitation
 crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups
 crs#:#crs_grp_enter_title#:#Please enter a title.
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
 crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your personal settings.
-crs#:#crs_grp_no_courses_assigned#:#No assigned courses.
+crs#:#crs_grp_no_courses_assigned#:#None
 crs#:#crs_grp_table_assigned_courses#:#Assigned courses
 crs#:#crs_header_archives#:#Course Archives
 crs#:#crs_header_delete_members#:#Would you like to remove the following members from this course?
@@ -7565,11 +7526,13 @@ crs#:#crs_member#:#Member
 crs#:#crs_member_administration#:#Edit Participants
 crs#:#crs_member_passed_status_changed#:#Passed Status Changed
 crs#:#crs_members#:#Members
-crs#:#crs_members_deleted#:#Deleted members
+crs#:#crs_members_deleted#:#Selected members were successfully removed from course.
 crs#:#crs_members_groups#:#Memberships in Groups
 crs#:#crs_members_map#:#Course Members Map
 crs#:#crs_members_print_title#:#Course members
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.
 crs#:#crs_new_status#:#Your new status is:
 crs#:#crs_new_subscription#:#User registered for course "%s"
 crs#:#crs_new_subscription_body#:#%s has registered for course "%s".
@@ -7971,6 +7934,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes
 dash#:#dash_tile#:#Tile
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.
 dateplaner#:#Fr_long#:#Friday
 dateplaner#:#Fr_short#:#Fr
 dateplaner#:#Mo_long#:#Monday
@@ -9966,7 +9931,7 @@ grp#:#grp_mem_contacts#:#Tutorial Support
 grp#:#grp_mem_tbl_header#:#Group Participants
 grp#:#grp_member_administration#:#Edit Participants
 grp#:#grp_members#:#Members
-grp#:#grp_members_deleted#:#Deleted members
+grp#:#grp_members_deleted#:#Selected members were successfully removed from group.
 grp#:#grp_members_map#:#Group Members Map
 grp#:#grp_members_print_title#:#Group Members
 grp#:#grp_missing_grp_type#:#Please choose a group type.
@@ -10164,17 +10129,28 @@ init#:#init_error_redirect_info#:#Redirect not supported by context.
 irss#:#action_download#:#Download
 irss#:#action_goto#:#Open Resource
 irss#:#action_remove_resource#:#Delete Resource
+irss#:#action_remove_resource_msg#:#Do you want to delete the following Resource(s)?
 irss#:#action_show_revisions#:#Show Revisions
+irss#:#by_creation_date_asc#:#By Creation Date (Ascending)
+irss#:#by_creation_date_desc#:#By Creation Date (Descending)
+irss#:#by_size_asc#:#By File Size (Ascending)
+irss#:#by_size_desc#:#By File Size (Descending)
+irss#:#by_title_asc#:#By Title (Ascending)
+irss#:#by_title_desc#:#By Title (Descending)
 irss#:#creation_date#:#Creation Date (This Revision)
 irss#:#file_size#:#File Size (This Revision)
 irss#:#file_size_bigger_than#:#File Size greater than (MB)
 irss#:#full_size#:#Resource Size (All Revisions)
 irss#:#max_revision#:#Max. Revision
+irss#:#msg_upload#:#Drop Files to upload
 irss#:#resource_id#:#Resource ID
 irss#:#resource_no_stakeholder_uri#:#No Stakeholder provides a valid Link to the usage of this Resource.
 irss#:#resource_overview#:#Resource Overview
 irss#:#revision#:#Revision
 irss#:#revisions#:#Available Revisions
+irss#:#rid_deleted#:#File removed
+irss#:#rids_appended#:#Resource(s) added
+irss#:#rids_deleted#:#Resource(s) deleted
 irss#:#sorting#:#Default Ordering
 irss#:#sorting_1#:#By Title (Ascending)
 irss#:#sorting_2#:#By Title (Descending)
@@ -10186,6 +10162,8 @@ irss#:#stakeholders#:#Stakeholders
 irss#:#storage_id#:#Storage ID
 irss#:#storage_info#:#Storage Information
 irss#:#type#:#File Type
+irss#:#upload_field_title#:#Selected Files
+irss#:#upload_modal_title#:#Add Files
 itgr#:#itgr_always_open#:#Always Open
 itgr#:#itgr_assign_materials#:#Assign Materials
 itgr#:#itgr_assigned_materials#:#Assigned Materials
@@ -10509,7 +10487,7 @@ lso#:#lso_mainbar_button_label_curriculum#:#Learning Sequence
 lso#:#lso_mainbar_button_label_toc#:#Content
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
 lso#:#lso_member_administration#:#Edit Participants
-lso#:#lso_members_deleted#:#Deleted members
+lso#:#lso_members_deleted#:#Selected members were successfully removed from learning sequence.
 lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
 lso#:#lso_members_print_title#:#Learning sequence members
 lso#:#lso_min_one_admin#:#There has to be at least one administrator assigned to this learning sequence.
@@ -10533,6 +10511,7 @@ lso#:#lso_print_list#:#Generate list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Search Users
 lso#:#lso_settings_availability#:#Availability
+lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date
 lso#:#lso_settings_extro#:#Edit Exit Page
 lso#:#lso_settings_intro#:#Edit Intro Page
 lso#:#lso_settings_old_extro#:#View Old Exit Page
@@ -12277,6 +12256,9 @@ notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the scre
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
+obj#:#copy_container_page_no_label#:#Don't Copy Content Page
+obj#:#copy_container_page_yes_byline#:#The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten.
+obj#:#copy_container_page_yes_label#:#Copy Content Page
 obj#:#custom_icon#:#Custom Icon
 obj#:#edit_questions#:#Edit Questions
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing
@@ -12361,8 +12343,6 @@ orgu#:#employee#:#Employee
 orgu#:#ext_id#:#External ID
 orgu#:#ext_id_updated#:#The external ID has been updated successfully.
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
-orgu#:#il_orgu_employee#:#Employee
-orgu#:#il_orgu_superior#:#Superior
 orgu#:#import_failed#:#The import failed. Make sure your file is in the xml format and has a valid structure.
 orgu#:#import_successful#:#The import terminated successfully. Created: %s, edited/moved: %s, deleted: %s.
 orgu#:#import_terminated_with_errors#:#The import terminated with errors.
@@ -13373,7 +13353,9 @@ rbac#:#crs_visible#:#Course is visible
 rbac#:#crs_write#:#User can edit course settings and manage content
 rbac#:#crsr_copy#:#User can copy course link
 rbac#:#crsr_delete#:#User can move or delete course link
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#crsr_edit_permission#:#User can change permission settings
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users
 rbac#:#crsr_visible#:#Course link is visible
 rbac#:#crsr_write#:#User can edit settings of course link
 rbac#:#crss_edit_permission#:#User can change permission settings in Course administration
@@ -13532,8 +13514,6 @@ rbac#:#iass_read_learning_progress#:#View learning progress information of an In
 rbac#:#iass_visible#:#Individual Assessment is visible
 rbac#:#iass_write#:#Edit an Individual Assessment
 rbac#:#il_lti_global_role#:#LTI User
-rbac#:#il_orgu_employee#:#Organisational Unit Employee
-rbac#:#il_orgu_superior#:#Organisational Unit Superior
 rbac#:#il_sess_participant#:#Session Participant
 rbac#:#il_sess_status_closed#:#Non-Participant Closed Session
 rbac#:#ilias_id#:#ILIAS-ID
@@ -16705,6 +16685,7 @@ user#:#interests_general#:#General Interests
 user#:#interests_help_looking#:#Looking For Help
 user#:#interests_help_offered#:#Offering Help
 user#:#msg_spoint_not_modified#:#Starting point not modified
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
 user#:#restrict_user_access#:#Restricted Access to User Accounts
 user#:#restrict_user_access_info#:#Access to local and global user accounts is restricted to roles that have the permission ‘Read Access to User Accounts’.

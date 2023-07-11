@@ -73,7 +73,10 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
             }
             //All MS-Types are 'application/zip' we need to look at the extension to determine the type.
             if ($this->mime_type === 'application/zip' && $this->suffix !== 'zip') {
-                $this->mime_type = $this->getMSFileTypeFromSuffix();
+                $this->mime_type = $this->getFileTypeFromSuffix();
+            }
+            if ($this->mime_type === 'application/x-empty') {
+                $this->mime_type = $this->getFileTypeFromSuffix();
             }
         }
     }
@@ -145,13 +148,13 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         return $this->size;
     }
 
-    protected function getMSFileTypeFromSuffix(): string
+    protected function getFileTypeFromSuffix(): string
     {
         $mime_types_array = MimeType::getExt2MimeMap();
         $suffix_with_dot = '.' . $this->getSuffix();
         if (array_key_exists($suffix_with_dot, $mime_types_array)) {
             return $mime_types_array[$suffix_with_dot];
         }
-        return 'application/zip';
+        return 'application/octet-stream';
     }
 }
