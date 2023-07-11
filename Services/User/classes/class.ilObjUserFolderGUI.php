@@ -995,7 +995,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             !$this->rbac_system->checkAccess('create_usr', $this->object->getRefId()) &&
             !$this->access->checkAccess('cat_administrate_users', '', $this->object->getRefId())
         ) {
-            $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
+            return;
         }
         $this->initUserImportForm();
         $tpl->setContent($this->form->getHTML());
@@ -1010,7 +1011,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $this->lng->txt('import_file'),
             'importFile'
         );
-        $fi->setSuffixes(['xml', 'zip']);
+        $fi->setSuffixes(['xml']);
         $fi->setRequired(true);
         $this->form->addItem($fi);
 
