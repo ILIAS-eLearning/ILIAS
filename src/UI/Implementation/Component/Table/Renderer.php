@@ -64,21 +64,19 @@ class Renderer extends AbstractComponentRenderer
         RendererInterface $default_renderer
     ): string {
         $tpl = $this->getTemplate("tpl.presentationtable.html", true, true);
-
         $tpl->setVariable("TITLE", $component->getTitle());
-
-
         $vcs = [];
         if ($sig_ta = $component->getExpandCollapseAllSignal()) {
             $sig_ta_expand = clone $sig_ta;
             $sig_ta_expand->addOption('expand', true);
-            $vcs[] = $this->getUIFactory()->symbol()->glyph()
-                ->expand()->withOnClick($sig_ta_expand);
+            $vcs[] = $this->getUIFactory()->button()
+                ->standard($this->txt('presentaion_table_expand'), '')
+                ->withOnClick($sig_ta_expand);
             $sig_ta_collapse = clone $sig_ta;
             $sig_ta_collapse->addOption('expand', false);
-            $vcs[] = $this->getUIFactory()->symbol()->glyph()
-                ->collapse()->withOnClick($sig_ta_collapse);
-
+            $vcs[] = $this->getUIFactory()->button()
+                ->standard($this->txt('presentaion_table_collapse'), '')
+                ->withOnClick($sig_ta_collapse);
             $component = $component->withAdditionalOnLoadCode(
                 fn($id) => "$(document).on('$sig_ta', function(event, signal_data) { il.UI.table.presentation.expandAll('$id', signal_data); return false; });"
             );

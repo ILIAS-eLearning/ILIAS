@@ -71,7 +71,8 @@ class PresentationTest extends ILIAS_UI_TestBase
         <div class="il-table-presentation" id="id_3">
             <h3 class="ilHeader">title</h3>
             <div class="il-table-presentation-viewcontrols">
-                <a tabindex="0" class="glyph" aria-label="expand_content" id="id_1"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></a><a tabindex="0" class="glyph" aria-label="collapse_content" id="id_2"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></a>
+                <button class="btn btn-default" id="id_1">presentaion_table_expand</button>
+                <button class="btn btn-default" id="id_2">presentaion_table_collapse</button>
             </div>
             <div class="il-table-presentation-data"></div>
         </div>
@@ -171,7 +172,8 @@ EXP;
 <div class="il-table-presentation" id="id_3">
     <h3 class="ilHeader">title</h3>
     <div class="il-table-presentation-viewcontrols">
-        <a tabindex="0" class="glyph" aria-label="expand_content" id="id_1"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></a><a tabindex="0" class="glyph" aria-label="collapse_content" id="id_2"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></a>
+        <button class="btn btn-default" id="id_1">presentaion_table_expand</button>
+        <button class="btn btn-default" id="id_2">presentaion_table_collapse</button>
     </div>
     <div class="il-table-presentation-data">
         <div class="il-table-presentation-row row collapsed" id="id_4">
@@ -249,7 +251,8 @@ EXP;
 <div class="il-table-presentation" id="id_3">
     <h3 class="ilHeader">title</h3>
     <div class="il-table-presentation-viewcontrols">
-        <a tabindex="0" class="glyph" aria-label="expand_content" id="id_1"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></a><a tabindex="0" class="glyph" aria-label="collapse_content" id="id_2"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></a>
+        <button class="btn btn-default" id="id_1">presentaion_table_expand</button>
+        <button class="btn btn-default" id="id_2">presentaion_table_collapse</button>
     </div>
     <div class="il-table-presentation-data">
         <div class="il-table-presentation-row row collapsed" id="id_4">

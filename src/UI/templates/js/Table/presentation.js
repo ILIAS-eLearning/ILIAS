@@ -12,7 +12,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 il = il || {};
 il.UI = il.UI || {};
@@ -67,17 +67,10 @@ il.UI.table.presentation = (function () {
   };
   const expandAll = function (id, signalData) {
     const rows = document.querySelectorAll(`#${id} .il-table-presentation-row`);
-    const expanders = document.querySelectorAll(
-      `#${id} .il-table-presentation-viewcontrols a.glyph`,
-    );
     if (signalData.options.expand) {
       rows.forEach((row) => this.expandRow(row.id));
-      expanders[0].style.display = 'none';
-      expanders[1].style.display = 'block';
     } else {
       rows.forEach((row) => this.collapseRow(row.id));
-      expanders[0].style.display = 'block';
-      expanders[1].style.display = 'none';
     }
   };
 
