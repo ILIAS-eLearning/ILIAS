@@ -379,8 +379,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         foreach ($answers as $answer) {
             $keywordString = '';
             if (in_array($this->object->getKeywordRelation(), assTextQuestion::getScoringModesWithPointsByKeyword())) {
-                $keywordString .= $answer->getPoints() . ' ';
-                if ($answer->getPoints() == '1' || $answer->getPoints() == '-1'){
+                $keywordString .= (string) $answer->getPoints() . ' ';
+                if ($answer->getPoints() === 1.0 || $answer->getPoints() === -1.0) {
                     $keywordString .= $this->lng->txt('point');
                 } else {
                     $keywordString .= $this->lng->txt('points');
