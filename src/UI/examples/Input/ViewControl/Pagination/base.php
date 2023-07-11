@@ -19,5 +19,9 @@ function base()
     $vc_container = $f->input()->container()->viewControl()->standard([$pagination])
         ->withRequest($DIC->http()->request());
 
-    return $r->render([$vc_container, $f->divider()->horizontal()]) . print_r($vc_container->getData(), true);
+    return $r->render([
+        $f->legacy('<pre>' . print_r($vc_container->getData(), true) . '</pre>'),
+        $f->divider()->horizontal(),
+        $vc_container
+    ]);
 }

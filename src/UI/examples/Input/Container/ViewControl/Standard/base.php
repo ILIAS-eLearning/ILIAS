@@ -27,7 +27,7 @@ function base()
         $f->input()->viewControl()->sortation([
                 'Field 1, ascending' => new Order('field1', 'ASC'),
                 'Field 1, descending' => new Order('field1', 'DESC'),
-                'Field 2, descending' => new Order('field2', 'DESC'),
+                'Field 2, descending' => new Order('field2', 'ASC')
             ])
             ->withAdditionalTransformation(
                 $refinery->custom()->transformation(
@@ -56,8 +56,9 @@ function base()
          )
         ->withRequest($request);
 
-    return $r->render([$vc_container, $f->divider()->horizontal()])
-        . '<pre>'
-        . print_r($vc_container->getData(), true)
-        . '</pre>';
+    return $r->render([
+        $f->legacy('<pre>' . print_r($vc_container->getData(), true) . '</pre>'),
+        $f->divider()->horizontal(),
+        $vc_container
+    ]);
 }
