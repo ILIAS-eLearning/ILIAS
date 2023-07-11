@@ -39,46 +39,34 @@ class Factory implements VCInterface\Factory
     ) {
     }
 
-    public function fieldSelection(
-        array $options,
-        string $label = FieldSelection::DEFAULT_DROPDOWN_LABEL,
-        string $button_label = FieldSelection::DEFAULT_BUTTON_LABEL
-    ): VCInterface\FieldSelection {
+    public function fieldSelection(array $options): VCInterface\FieldSelection
+    {
         return new FieldSelection(
             $this->data_factory,
             $this->refinery,
             $this->signal_generator,
-            $options,
-            $label,
-            $button_label
+            $options
         );
     }
 
-    public function sortation(
-        array $options,
-        string $label = Sortation::DEFAULT_DROPDOWN_LABEL
-    ): VCInterface\Sortation {
+    public function sortation(array $options): VCInterface\Sortation
+    {
         return new Sortation(
             $this->field_factory,
             $this->data_factory,
             $this->refinery,
             $this->signal_generator,
-            $options,
-            $label
+            $options
         );
     }
 
     public function pagination(
-        string $label_offset = Pagination::DEFAULT_DROPDOWN_LABEL_OFFSET,
-        string $label_limit = Pagination::DEFAULT_DROPDOWN_LABEL_LIMIT
     ): VCInterface\Pagination {
         return new Pagination(
             $this->field_factory,
             $this->data_factory,
             $this->refinery,
-            $this->signal_generator,
-            $label_offset,
-            $label_limit
+            $this->signal_generator
         );
     }
 }

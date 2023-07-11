@@ -42,9 +42,7 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\ViewControl\FieldSelection
      */
     public function fieldSelection(
-        array $options,
-        string $label,
-        string $button_label
+        array $options
     ): FieldSelection;
 
     /**
@@ -63,8 +61,7 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\ViewControl\Sortation
      */
     public function sortation(
-        array $options,
-        string $label
+        array $options
     ): Sortation;
 
     /**
@@ -80,9 +77,8 @@ interface Factory
      *      navigate through the pages; shy-buttons are used for the distinct
      *      selection of a page.
      *      A second dropdown is used to select the amount of shown entries.
-     *      When the total amount of records is unknown, two Numeric Inputs
-     *      are used to directly enter offset and amount of concurrently shown
-     *      records along with a button to apply the inputs.
+     *      When the total amount of records is unknown, a Numeric Input
+     *      is used to directly enter the offset along with a button to apply the inputs.
      *   effect: >
      *      Available ranges/pages are calculated by the given number of entries;
      *      when the number of entries is set to "unlimited" (PHP_MAX_INT),
@@ -96,8 +92,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Input\ViewControl\Pagination
      */
-    public function pagination(
-        string $label_offset,
-        string $label_limit
-    ): Pagination;
+    public function pagination(): Pagination;
 }

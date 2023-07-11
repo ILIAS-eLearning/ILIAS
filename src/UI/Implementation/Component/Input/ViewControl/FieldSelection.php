@@ -29,20 +29,16 @@ use ILIAS\Refinery\Transformation;
 
 class FieldSelection extends ViewControl implements VCInterface\FieldSelection
 {
-    public const DEFAULT_DROPDOWN_LABEL = 'field selection';
-    public const DEFAULT_BUTTON_LABEL = 'refresh';
-
     protected Signal $internal_selection_signal;
+    protected string $button_label = '';
 
     public function __construct(
         DataFactory $data_factory,
         Refinery $refinery,
         SignalGeneratorInterface $signal_generator,
-        protected array $options,
-        protected string $label,
-        protected string $button_label
+        protected array $options
     ) {
-        parent::__construct($data_factory, $refinery, $label);
+        parent::__construct($data_factory, $refinery, '');
         $this->internal_selection_signal = $signal_generator->create();
     }
 
@@ -64,5 +60,19 @@ class FieldSelection extends ViewControl implements VCInterface\FieldSelection
     public function getButtonLabel(): string
     {
         return $this->button_label;
+    }
+
+    public function withButtonLabel(string $button_label): self
+    {
+        $clone = clone $this;
+        $clone->button_label = $button_label;
+        return $clone;
+    }
+
+    public function withAriaLabel(string $label): self
+    {
+        $clone = clone $this;
+        $clone->label = $label;
+        return $clone;
     }
 }

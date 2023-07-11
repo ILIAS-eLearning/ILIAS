@@ -37,11 +37,10 @@ class ViewControlFieldSelectionTest extends ViewControlBaseTest
             'opt2' => 'B'
         ];
         $vc = $this->buildVCFactory()->fieldSelection($options);
-
         $this->assertInstanceOf(Signal::class, $vc->getInternalSignal());
         $this->assertEquals($options, $vc->getOptions());
-        $this->assertEquals($vc::DEFAULT_DROPDOWN_LABEL, $vc->getLabel());
-        $this->assertEquals($vc::DEFAULT_BUTTON_LABEL, $vc->getButtonLabel());
+        $this->assertEquals('', $vc->getLabel());
+        $this->assertEquals('', $vc->getButtonLabel());
         $this->assertFalse($vc->isDisabled());
     }
 
@@ -95,12 +94,12 @@ class ViewControlFieldSelectionTest extends ViewControlBaseTest
 
         $expected = $this->brutallyTrimHTML('
 <div class="dropdown il-viewcontrol il-viewcontrol-fieldselection l-bar__element" id="id_3">
-    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="field selection" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_ctrl"><span class="caret"></span></button>
+    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_fieldselection" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_ctrl"><span class="caret"></span></button>
         <ul id="id_3_ctrl" class="dropdown-menu">
             <li><input type="checkbox" value="opt1" id="id_1" /><label for="id_1">A</label></li>
             <li><input type="checkbox" value="opt2" id="id_2" /><label for="id_2">B</label></li>
 
-            <button class="btn btn-default" id="id_4">refresh</button>
+            <button class="btn btn-default" id="id_4">label_fieldselection_refresh</button>
         </ul>
     <div class="il-viewcontrol-value" role="none"></div>
 </div>

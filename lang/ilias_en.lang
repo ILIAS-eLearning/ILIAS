@@ -16667,6 +16667,11 @@ ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
 ui#:#presentaion_table_collapse#:#collapse all
 ui#:#presentaion_table_expand#:#expand all
+ui#:#label_fieldselection#:#Field Selection
+ui#:#label_fieldselection_refresh#:#Apply
+ui#:#label_pagination_limit#:#Pagination Number of Rows
+ui#:#label_pagination_offset#:#Pagination Offset
+ui#:#label_sortation#:#Sortation
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:

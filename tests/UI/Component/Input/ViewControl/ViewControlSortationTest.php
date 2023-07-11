@@ -37,10 +37,11 @@ class ViewControlSortationTest extends ViewControlBaseTest
             'B' => new Order('opt', 'DESC')
         ];
         $vc = $this->buildVCFactory()->sortation($options);
+        $r = ILIAS\UI\Implementation\Component\Input\ViewControl\Renderer::class;
 
         $this->assertInstanceOf(Signal::class, $vc->getInternalSignal());
         $this->assertEquals($options, $vc->getOptions());
-        $this->assertEquals($vc::DEFAULT_DROPDOWN_LABEL, $vc->getLabel());
+        $this->assertEquals('', $vc->getLabel());
         $this->assertFalse($vc->isDisabled());
     }
 
@@ -94,7 +95,7 @@ class ViewControlSortationTest extends ViewControlBaseTest
 
         $expected = $this->brutallyTrimHTML('
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_3">
-    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_ctrl"><span class="caret"></span></button>
+    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_sortation" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_ctrl"><span class="caret"></span></button>
     <ul id="id_3_ctrl" class="dropdown-menu">
         <li><button class="btn btn-link" id="id_1">A</button></li>
         <li><button class="btn btn-link" id="id_2">B</button></li>

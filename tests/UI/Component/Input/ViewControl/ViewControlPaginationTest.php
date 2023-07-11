@@ -53,8 +53,8 @@ class ViewControlPaginationTest extends ViewControlBaseTest
 
         $this->assertInstanceOf(Signal::class, $vc->getInternalSignal());
         $this->assertIsArray($vc->getLimitOptions());
-        $this->assertEquals($vc::DEFAULT_DROPDOWN_LABEL_OFFSET, $vc->getLabel());
-        $this->assertEquals($vc::DEFAULT_DROPDOWN_LABEL_LIMIT, $vc->getLabelLimit());
+        $this->assertEquals('', $vc->getLabel());
+        $this->assertEquals('', $vc->getLabelLimit());
         $this->assertFalse($vc->isDisabled());
     }
 
@@ -132,7 +132,7 @@ class ViewControlPaginationTest extends ViewControlBaseTest
     </div>
 
     <div class="dropdown il-viewcontrol-pagination__num-of-items">
-        <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="pagination limit" aria-haspopup="true" aria-expanded="false" aria-controls="id_13_ctrl_limit">
+        <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown" aria-label="label_pagination_limit" aria-haspopup="true" aria-expanded="false" aria-controls="id_13_ctrl_limit">
             <span class="caret"></span>
         </button>
         <ul id="id_13_ctrl_limit" class="dropdown-menu">

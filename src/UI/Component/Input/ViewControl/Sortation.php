@@ -27,4 +27,5 @@ use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
  */
 interface Sortation extends ViewControlInput
 {
+    public function withAriaLabel(string $label): self;
 }

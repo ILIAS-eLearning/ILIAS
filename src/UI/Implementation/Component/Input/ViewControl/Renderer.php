@@ -26,6 +26,12 @@ use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer
 {
+    public const DEFAULT_DROPDOWN_LABEL = 'label_fieldselection';
+    public const DEFAULT_BUTTON_LABEL = 'label_fieldselection_refresh';
+    public const DEFAULT_SORTATION_DROPDOWN_LABEL = 'label_sortation';
+    public const DEFAULT_DROPDOWN_LABEL_OFFSET = 'label_pagination_offset';
+    public const DEFAULT_DROPDOWN_LABEL_LIMIT = 'label_pagination_limit';
+
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
@@ -106,12 +112,16 @@ class Renderer extends AbstractComponentRenderer
 
         $id = $this->bindJavaScript($component);
         $container_submit_signal = $component->getOnChangeSignal();
-        $button = $ui_factory->button()->standard($component->getButtonLabel(), '#')
+        $label = $component->getLabel() !== '' ?
+            $component->getLabel() : $this->txt(self::DEFAULT_DROPDOWN_LABEL);
+        $button_label = $component->getButtonLabel() !== '' ?
+            $component->getButtonLabel() : $this->txt(self::DEFAULT_BUTTON_LABEL);
+        $button = $ui_factory->button()->standard($button_label, '#')
             ->withOnClick($internal_signal);
 
         $tpl->setVariable('ID', $id);
         $tpl->setVariable("ID_MENU", $id . '_ctrl');
-        $tpl->setVariable("ARIA_LABEL", $component->getLabel());
+        $tpl->setVariable("ARIA_LABEL", $label);
         $tpl->setVariable("BUTTON", $default_renderer->render($button));
 
 
@@ -158,10 +168,12 @@ class Renderer extends AbstractComponentRenderer
             );
         }
         $id = $this->bindJavaScript($component);
+        $label = $component->getLabel() !== '' ?
+            $component->getLabel() : $this->txt(self::DEFAULT_SORTATION_DROPDOWN_LABEL);
 
         $tpl->setVariable('ID', $id);
         $tpl->setVariable("ID_MENU", $id . '_ctrl');
-        $tpl->setVariable("ARIA_LABEL", $component->getLabel());
+        $tpl->setVariable("ARIA_LABEL", $label);
 
         $tpl->setVariable(
             "VALUES",
@@ -337,11 +349,16 @@ class Renderer extends AbstractComponentRenderer
         }
         $id = $this->bindJavaScript($component);
 
+        $label_offset = $component->getLabel() !== '' ?
+            $component->getLabel() : $this->txt(self::DEFAULT_DROPDOWN_LABEL_OFFSET);
+        $label_limit = $component->getLabelLimit() !== '' ?
+            $component->getLabelLimit() : $this->txt(self::DEFAULT_DROPDOWN_LABEL_LIMIT);
+
         $tpl->setVariable('ID', $id);
         $tpl->setVariable("ID_MENU_OFFSET", $id . '_ctrl_offset');
-        $tpl->setVariable("ARIA_LABEL_OFFSET", $component->getLabel());
+        $tpl->setVariable("ARIA_LABEL_OFFSET", $label_offset);
         $tpl->setVariable("ID_MENU_LIMIT", $id . '_ctrl_limit');
-        $tpl->setVariable("ARIA_LABEL_LIMIT", $component->getLabelLimit());
+        $tpl->setVariable("ARIA_LABEL_LIMIT", $label_limit);
 
         $tpl->setVariable(
             "VALUES",

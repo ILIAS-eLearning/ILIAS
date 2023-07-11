@@ -34,8 +34,6 @@ class Sortation extends ViewControl implements VCInterface\Sortation
 {
     use InputGroup;
 
-    public const DEFAULT_DROPDOWN_LABEL = 'sortation';
-
     protected Signal $internal_selection_signal;
     protected string $aspect;
     protected string $direction;
@@ -45,17 +43,16 @@ class Sortation extends ViewControl implements VCInterface\Sortation
         DataFactory $data_factory,
         Refinery $refinery,
         SignalGeneratorInterface $signal_generator,
-        protected array $options,
-        string $label
+        protected array $options
     ) {
         $opts = array_values($options);
         $this->checkArgListElements('options', $opts, [Order::class]);
 
         $this->inputs = [
             $field_factory->hidden(), //aspect
-            $field_factory->hidden(), //direction
+            $field_factory->hidden()  //direction
         ];
-        parent::__construct($data_factory, $refinery, $label);
+        parent::__construct($data_factory, $refinery, '');
         $this->internal_selection_signal = $signal_generator->create();
         $this->operations[] = $this->getOrderTransform();
     }
@@ -85,5 +82,12 @@ class Sortation extends ViewControl implements VCInterface\Sortation
     public function getOptions(): array
     {
         return $this->options;
+    }
+
+    public function withAriaLabel(string $label): self
+    {
+        $clone = clone $this;
+        $clone->label = $label;
+        return $clone;
     }
 }

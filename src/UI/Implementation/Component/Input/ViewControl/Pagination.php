@@ -36,8 +36,6 @@ class Pagination extends ViewControl implements VCInterface\Pagination
     use InputGroup;
     use ComponentHelper;
 
-    public const DEFAULT_DROPDOWN_LABEL_OFFSET = 'pagination offset';
-    public const DEFAULT_DROPDOWN_LABEL_LIMIT = 'pagination limit';
     protected const DEFAULT_LIMITS = [5, 10, 25, 50, 100, 250, 500, \PHP_INT_MAX];
     protected const NUMBER_OF_VISIBLE_SECTIONS = 7;
 
@@ -45,21 +43,20 @@ class Pagination extends ViewControl implements VCInterface\Pagination
     protected array $options;
     protected ?int $total_count = null;
     protected int $number_of_entries;
+    protected string $label_limit = '';
 
     public function __construct(
         FieldFactory $field_factory,
         DataFactory $data_factory,
         Refinery $refinery,
-        SignalGeneratorInterface $signal_generator,
-        string $label_offset,
-        protected string $label_limit
+        SignalGeneratorInterface $signal_generator
     ) {
         $this->inputs = [
             $field_factory->hidden(), //offset
             $field_factory->hidden()  //limit
         ];
 
-        parent::__construct($data_factory, $refinery, $label_offset);
+        parent::__construct($data_factory, $refinery, '');
 
         $this->internal_selection_signal = $signal_generator->create();
         $this->number_of_entries = self::NUMBER_OF_VISIBLE_SECTIONS;
@@ -101,6 +98,20 @@ class Pagination extends ViewControl implements VCInterface\Pagination
     public function getLabelLimit(): string
     {
         return $this->label_limit;
+    }
+
+    public function withAriaLabelLimit(string $label_limit): self
+    {
+        $clone = clone $this;
+        $clone->label_limit = $label_limit;
+        return $clone;
+    }
+
+    public function withLabelOffset(string $label): self
+    {
+        $clone = clone $this;
+        $clone->label = $label;
+        return $clone;
     }
 
     public function withNumberOfVisibleEntries(int $number_of_entries): self
