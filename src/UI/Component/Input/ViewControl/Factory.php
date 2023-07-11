@@ -59,7 +59,7 @@ interface Factory
      *      Upon clicking an entry in the dropdown, the corresponding view is
      *      changed immediately and the dropdown closes.
      * ---
-     * @param array<string,string> $options
+     * @param array<string, \ILIAS\Data\Order> $options
      * @return \ILIAS\UI\Component\Input\ViewControl\Sortation
      */
     public function sortation(

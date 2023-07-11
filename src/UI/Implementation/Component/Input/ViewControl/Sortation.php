@@ -48,11 +48,13 @@ class Sortation extends ViewControl implements VCInterface\Sortation
         protected array $options,
         string $label
     ) {
+        $opts = array_values($options);
+        $this->checkArgListElements('options', $opts, [Order::class]);
+
         $this->inputs = [
             $field_factory->hidden(), //aspect
             $field_factory->hidden(), //direction
         ];
-
         parent::__construct($data_factory, $refinery, $label);
         $this->internal_selection_signal = $signal_generator->create();
         $this->operations[] = $this->getOrderTransform();
@@ -63,10 +65,12 @@ class Sortation extends ViewControl implements VCInterface\Sortation
         return $this->refinery->custom()->transformation(
             function ($v): Order {
                 list($aspect, $direction) = $v;
+
+
                 if (is_null($aspect) || $aspect === '') {
-                    $options = array_keys($this->getOptions());
+                    $options = array_values($this->getOptions());
                     $option = array_shift($options);
-                    list($aspect, $direction) = explode(':', $option);
+                    return $option;
                 }
                 return $this->data_factory->order($aspect, $direction);
             }

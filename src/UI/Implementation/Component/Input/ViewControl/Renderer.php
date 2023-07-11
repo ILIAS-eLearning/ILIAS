@@ -127,7 +127,8 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.vc_sortation.html", true, true);
         $ui_factory = $this->getUIFactory();
 
-        foreach ($component->getOptions() as $opt_value => $opt_label) {
+        foreach ($component->getOptions() as $opt_label => $order) {
+            $opt_value = $order->join(':', fn($ret, $key, $value) => implode($ret, [$key, $value]));
             $internal_signal = $component->getInternalSignal();
             $internal_signal->addOption('value', $opt_value);
             $item = $ui_factory->button()->shy((string)$opt_label, '#')

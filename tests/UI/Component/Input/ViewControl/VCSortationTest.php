@@ -22,7 +22,7 @@ use ILIAS\UI\Implementation\Component\Input\ViewControl as Control;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
-use ILIAS\Data;
+use ILIAS\Data\Order;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Signal;
 
@@ -33,8 +33,8 @@ class VCSortationTest extends VCBaseTest
     public function testViewControlSortationConstruct(): void
     {
         $options = [
-            'opt:ASC' => 'A',
-            'opt:DESC' => 'B'
+            'A' => new Order('opt', 'ASC'),
+            'B' => new Order('opt', 'DESC')
         ];
         $vc = $this->buildVCFactory()->sortation($options);
 
@@ -48,8 +48,8 @@ class VCSortationTest extends VCBaseTest
     {
         $this->expectException(\InvalidArgumentException::class);
         $options = [
-            'opt:ASC' => 'A',
-            'opt:DESC' => 'B'
+            'A' => new Order('opt', 'ASC'),
+            'B' => new Order('opt', 'DESC')
         ];
         $vc = $this->buildVCFactory()->sortation($options)
             ->withValue('notokvalue:DESC');
@@ -58,8 +58,8 @@ class VCSortationTest extends VCBaseTest
     public function testViewControlSortationWithInput(): void
     {
         $options = [
-            'opt:ASC' => 'A',
-            'opt:DESC' => 'B'
+            'A' => new Order('opt', 'ASC'),
+            'B' => new Order('opt', 'DESC')
         ];
         $v = ['opt', 'DESC'];
 
@@ -86,8 +86,8 @@ class VCSortationTest extends VCBaseTest
     {
         $r = $this->getDefaultRenderer();
         $options = [
-            'opt:ASC' => 'A',
-            'opt:DESC' => 'B'
+            'A' => new Order('opt', 'ASC'),
+            'B' => new Order('opt', 'DESC')
         ];
         $vc = $this->buildVCFactory()->sortation($options);
 
