@@ -13058,7 +13058,9 @@ rbac#:#crs_visible#:#Kurs ist sichtbar
 rbac#:#crs_write#:#Kurs bearbeiten
 rbac#:#crsr_copy#:#Kurslinks kopieren
 rbac#:#crsr_delete#:#Kurslinks verschieben oder löschen
+rbac#:#crsr_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#crsr_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#crsr_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#crsr_visible#:#Kurslinks sind sichtbar und können genutzt werden
 rbac#:#crsr_write#:#Einstellungen der Kurslinks bearbeiten
 rbac#:#crss_edit_permission#:#Rechteeinstellungen für die Kurs-Administration ändern
@@ -16309,6 +16311,7 @@ user#:#interests_general#:#Allgemeine Interessen
 user#:#interests_help_looking#:#Suche Hilfe
 user#:#interests_help_offered#:#Biete Hilfe
 user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
+user#:#no_deactivate_yourself#:#Sie können Ihr eigenes Benutzerkonto nicht deaktivieren.
 user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-ID existiert nicht.
 user#:#restrict_user_access#:#Eingeschränkter Zugriff auf Benutzerkonten
 user#:#restrict_user_access_info#:#Aktivieren Sie diese Option nur, wenn Sie den Zugriff auf Benutzerkonten beschränken möchten. Wenn aktiviert, benötigen Benutzer das Recht "Lesezugriff auf Benutzerkonten", um auf lokale Benutzerkonten in Kategorien und auf die globalen Benutzerkonten zugreifen zu können.
