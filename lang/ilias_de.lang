@@ -848,6 +848,7 @@ assessment#:#longmenu_answeroptions_differ#:#Diese Frage funktioniert nicht rich
 assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
 assessment#:#mailnottype_desc#:#Der Besitzer des Tests wird auch dann benachrichtigt, wenn die Anzahl Durchläufe nicht beschränkt ist.
+assessment#:#mainbar_button_label_questionlist#:#Fragenliste
 assessment#:#maintenance#:#Wartung
 assessment#:#manscoring#:#Manuelle Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer

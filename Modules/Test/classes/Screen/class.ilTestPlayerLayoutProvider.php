@@ -22,6 +22,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
@@ -44,8 +45,10 @@ use ILIAS\UI\Component\Image\Image;
 class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
     public const TEST_PLAYER_KIOSK_MODE_ENABLED = 'test_player_kiosk_mode_enabled';
-    public const TEST_PLAYER_TITLE = 'test_player_kiosk_mode_title';
-    public const TEST_PLAYER_SHORT_TITLE = 'test_player_kiosk_mode_instance_name';
+    public const TEST_PLAYER_TITLE = 'test_player_title';
+    public const TEST_PLAYER_VIEW_TITLE = 'test_player_view_title';
+    public const TEST_PLAYER_SHORT_TITLE = 'test_player_instance_name';
+    public const TEST_PLAYER_QUESTIONLIST = 'test_player_questionlist';
 
 
     public function isInterestedInContexts(): ContextCollection
@@ -53,49 +56,54 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
         return $this->context_collection->repository();
     }
 
-    public function getLogoModification(CalledContexts $called_contexts): ?LogoModification
-    {
-        if ($this->isKioskModeEnabled($called_contexts)) {
-            $logo = $this->globalScreen()->layout()->factory()->logo();
-
-            $logo = $logo->withModification(function (?Image $current): ?Image {
-                return null;
-            });
-
-            return $logo->withHighPriority();
-        }
-
-        return null;
-    }
-
-    public function getResponsiveLogoModification(CalledContexts $called_contexts): ?LogoModification
-    {
-        if ($this->isKioskModeEnabled($called_contexts)) {
-            $logo = $this->globalScreen()->layout()->factory()->logo();
-
-            $logo = $logo->withModification(function (?Image $current): ?Image {
-                return null;
-            });
-
-            return $logo->withHighPriority();
-        }
-
-        return null;
-    }
-
     public function getMainBarModification(CalledContexts $called_contexts): ?MainBarModification
     {
-        if ($this->isKioskModeEnabled($called_contexts)) {
-            $mainBar = $this->globalScreen()->layout()->factory()->mainbar();
+        $mainbar = $this->globalScreen()->layout()->factory()->mainbar();
+        $additionalData = $called_contexts->current()->getAdditionalData();
+        $has_question_list = $additionalData->exists(self::TEST_PLAYER_QUESTIONLIST);
+        $is_kiosk_mode = $this->isKioskModeEnabled($called_contexts);
 
-            $mainBar = $mainBar->withModification(function (?MainBar $current): ?MainBar {
-                return null;
-            });
-
-            return $mainBar->withHighPriority();
+        if (! $is_kiosk_mode && ! $has_question_list) {
+            return null;
         }
 
-        return null;
+        if ($is_kiosk_mode && ! $has_question_list) {
+            $mainbar_modification = static fn(?MainBar $mainbar): ?MainBar => null;
+        }
+
+        if ($has_question_list) {
+            $f = $this->dic->ui()->factory();
+            $r = $this->dic->ui()->renderer();
+            $lng = $this->dic->language();
+            $question_listing = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_QUESTIONLIST);
+
+            $mainbar_modification = static function (?MainBar $mainbar) use ($f, $r, $lng, $question_listing, $is_kiosk_mode): ?MainBar {
+                if ($is_kiosk_mode) {
+                    $mainbar = $mainbar->withClearedEntries();
+                }
+
+                $icon = $f->symbol()->icon()->standard('tst', $lng->txt("more"));
+                $tools_button = $f->button()->bulky($icon, $lng->txt("tools"), "#")
+                    ->withEngagedState(true);
+
+                $question_listing = $f->legacy($r->render($question_listing));
+
+                $label = $lng->txt('mainbar_button_label_questionlist');
+                $entry = $f->maincontrols()->slate()->legacy(
+                    $label,
+                    $f->symbol()->icon()->standard("tst", $label),
+                    $question_listing
+                );
+
+                return $mainbar
+                    ->withToolsButton($tools_button)
+                    ->withAdditionalToolEntry('questionlist', $entry);
+            };
+        }
+
+        return $mainbar
+            ->withModification($mainbar_modification)
+            ->withHighPriority();
     }
 
     public function getMetaBarModification(CalledContexts $called_contexts): ?MetaBarModification
@@ -157,6 +165,26 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
     public function getViewTitleModification(CalledContexts $called_contexts): ?ViewTitleModification
     {
         if ($this->isKioskModeEnabled($called_contexts)) {
+            $title = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_VIEW_TITLE);
+            if ($title == null) {
+                $title = '';
+            }
+            return $this->globalScreen()->layout()->factory()->view_title()
+            ->withModification(
+                function (?string $content) use ($title): ?string {
+                    return $title;
+                }
+            )
+            ->withHighPriority();
+        }
+        return null;
+    }
+
+    public function getTitleModification(CalledContexts $called_contexts): ?TitleModification
+    {
+        $additionalData = $called_contexts->current()->getAdditionalData();
+        $has_title = $additionalData->exists(self::TEST_PLAYER_TITLE);
+        if ($has_title) {
             $title = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_TITLE);
             if ($title == null) {
                 $title = '';
