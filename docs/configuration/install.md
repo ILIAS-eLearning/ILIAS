@@ -73,7 +73,7 @@ For best results we recommend:
   * PHP 8.0
   * Apache 2.4.x with `mod_php`
   * ImageMagick 6.8+
-  * php-gd, php-xml, php-mysql, php-mbstring
+  * php-gd, php-xml, php-mysql, php-mbstring, php-intl
   * OpenJDK 11
   * zip, unzip
   * Node.js: 14 (LTS)
@@ -209,7 +209,7 @@ systemctl restart httpd.service
 ### PHP Installation and Configuration
 
 Refer to the to documentation of your installation to install either PHP 7.4 to
-PHP 8.0 including packages for gd, mysql, mbstring, curl, dom, zip and xml.
+PHP 8.0 including packages for gd, mysql, mbstring, curl, dom, zip, intl and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
