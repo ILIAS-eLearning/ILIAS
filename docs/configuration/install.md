@@ -109,7 +109,7 @@ is set to `COMPACT`.
 <a name="reference-system"></a>
 ## Reference System
 
-The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows:
+The ILIAS Testserver (https://test8.ilias.de) is currently configured as follows:
 
 | Package        | Version                     |
 |----------------|-----------------------------|
