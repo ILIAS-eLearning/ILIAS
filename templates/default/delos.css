@@ -16125,7 +16125,7 @@ th.ilSkillEntryHead {
 }
 
 .ilSkillEntriesHeader {
-  padding: 10px 5px 5px;
+  padding: 10px 0px 5px;
 }
 .ilSkillEntriesHeader > .ilSkillEntriesHeaderByline {
   font-size: 0.8em;

@@ -5965,6 +5965,7 @@ cont#:#cont_really_remove_skill_from_course#:#Sollen die Kompetenzen wirklich au
 cont#:#cont_select_fields#:#Felder auswählen
 cont#:#cont_show_more#:#Mehr anzeigen
 cont#:#cont_skill#:#Kompetenz
+cont#:#cont_skill_ass_profiles#:#Profile der Mitglieder
 cont#:#cont_skill_assigned_comp#:#Kompetenzauswahl
 cont#:#cont_skill_assigned_profiles#:#Profilauswahl
 cont#:#cont_skill_deletion_not_possible#:#Das Löschen von globalen Kompetenzprofilen ist nicht möglich. Bitte wählen Sie ausschließlich lokale Kompetenzprofile aus.
@@ -5974,7 +5975,7 @@ cont#:#cont_skill_no_profile_selected#:#Bitte wählen Sie ein Profil aus.
 cont#:#cont_skill_no_skill#:#Kein Wert (zurücksetzen)
 cont#:#cont_skill_no_skills_selected#:#Es wurden noch keine Kompetenzen ausgewählt. Bitte fügen Sie zunächst mindestens eine Kompetenz hinzu unter "Kompetenzauswahl".
 cont#:#cont_skill_profile#:#Profil
-cont#:#cont_skill_profiles#:#Profile der Mitglieder
+cont#:#cont_skill_profiles#:#Kompetenzprofile
 cont#:#cont_skill_publish#:#Veröffentlichung
 cont#:#cont_skill_publish_auto#:#Automatisch
 cont#:#cont_skill_publish_auto_info#:#Zuweisungen von Kompetenzstufen zu Mitgliedern werden für diese sofort sichtbar.
@@ -5984,6 +5985,7 @@ cont#:#cont_skill_really_delete_profile_from_list#:#Soll das Profil wirklich gel
 cont#:#cont_skill_really_delete_profiles_from_list#:#Sollen die Profile wirklich gelöscht werden?
 cont#:#cont_skill_really_remove_profile_from_list#:#Soll das Profil wirklich aus der Liste entfernt werden?
 cont#:#cont_skill_really_remove_profiles_from_list#:#Sollen die Profile wirklich aus der Liste entfernt werden?
+cont#:#cont_skill_records#:#Kompetenzeinträge
 cont#:#cont_skill_removal_not_possible#:#Das Entfernen von lokalen Kompetenzprofilen ist nicht möglich. Bitte wählen Sie ausschließlich globale Kompetenzprofile aus.
 cont#:#cont_skill_show#:#Anzeigen
 cont#:#cont_std_filter_title_1#:#Titel
@@ -14941,8 +14943,10 @@ skmg#:#skmg_previous_step#:#Voriger Schritt
 skmg#:#skmg_profile#:#Profil
 skmg#:#skmg_really_delete_levels#:#Sollen die folgenden Kompetenzstufen wirklich gelöscht werden?
 skmg#:#skmg_really_remove_skills#:#Möchten Sie die folgenden Kompetenzen wirklich entfernen?
-skmg#:#skmg_recommended_learning_material#:#Lerninhalte zur Zielerreichung
-skmg#:#skmg_recommended_learning_material_info#:#Wählen Sie genau einen der folgenden Lerninhalte aus. Bearbeiten Sie ihn um das Kompetenzziel zu erreichen.
+skmg#:#skmg_recommended_learning_material_crs#:#Lerninhalte im Kurs zur Zielerreichung
+skmg#:#skmg_recommended_learning_material_global#:#Lerninhalte zur Zielerreichung
+skmg#:#skmg_recommended_learning_material_grp#:#Lerninhalte in der Gruppe zur Zielerreichung
+skmg#:#skmg_recommended_learning_material_info#:#Bearbeiten Sie folgende Lerninhalte um das Kompetenzziel zu erreichen. Wählen Sie genau einen Lerninhalt pro Kompetenzstufe aus.
 skmg#:#skmg_refresh_view#:#Ansicht aktualisieren
 skmg#:#skmg_remove_levels#:#Ausprägungen entfernen
 skmg#:#skmg_remove_skill#:#Kompetenz entfernen
@@ -14978,7 +14982,8 @@ skmg#:#skmg_skill_needs_self_eval#:#Bitte führen Sie zunächst eine Selbsteinsc
 skmg#:#skmg_skill_needs_self_eval_box#:#Bitte beachten Sie, dass für mindestens eine Kompetenz in diesem Profil noch keine Selbsteinschätzung durchgeführt wurde. Ihnen wird das Kompetenzziel für die betroffenen Kompetenzen angezeigt, sobald eine Selbsteinschätzung durchgeführt wurde.
 skmg#:#skmg_skill_no_needs_impr#:#Kompetenzziel erfüllt!
 skmg#:#skmg_skill_no_needs_impr_info#:#Sie haben das Ziel für diese Kompetenz erfüllt.
-skmg#:#skmg_skill_profile_comparison#:#Profilvergleich
+skmg#:#skmg_skill_overview#:#Übersicht
+skmg#:#skmg_skill_profile_records#:#Kompetenzeinträge
 skmg#:#skmg_skill_profiles#:#Kompetenzprofile
 skmg#:#skmg_skill_template#:#Vorlage
 skmg#:#skmg_skill_templates#:#Vorlagen

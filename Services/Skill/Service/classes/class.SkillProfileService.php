@@ -89,9 +89,42 @@ class SkillProfileService
         return $profiles;
     }
 
+    /**
+     * Get global and local profiles of a role
+     * @return Profile\SkillRoleProfile[]
+     */
+    public function getAllProfilesOfRole(int $role_id): array
+    {
+        $profiles = $this->profile_manager->getAllProfilesOfRole($role_id);
+        return $profiles;
+    }
+
+    /**
+     * @return Profile\SkillRoleProfile[]
+     */
+    public function getGlobalProfilesOfRole(int $role_id): array
+    {
+        $profiles = $this->profile_manager->getGlobalProfilesOfRole($role_id);
+        return $profiles;
+    }
+
+    /**
+     * @return Profile\SkillRoleProfile[]
+     */
+    public function getLocalProfilesOfRole(int $role_id): array
+    {
+        $profiles = $this->profile_manager->getLocalProfilesOfRole($role_id);
+        return $profiles;
+    }
+
     public function addRoleToProfile(int $profile_id, int $role_id): void
     {
         $this->profile_manager->addRoleToProfile($profile_id, $role_id);
+    }
+
+    public function removeRoleFromProfile(int $profile_id, int $role_id): void
+    {
+        $this->profile_manager->removeRoleFromProfile($profile_id, $role_id);
     }
 
     /**
@@ -107,6 +140,6 @@ class SkillProfileService
      */
     public function writeCompletionEntryForAllProfiles(int $user_id): void
     {
-        $this->profile_completion_manager->writeCompletionEntryForAllProfiles($user_id);
+        $this->profile_completion_manager->writeCompletionEntryForAllProfilesOfUser($user_id);
     }
 }
