@@ -71,7 +71,7 @@ For best results we recommend:
   * MySQL 5.7.x or MariaDB 10.2
   * PHP 8.2
   * Apache 2.4.x with `mod_php`
-  * php-gd, php-xml, php-mysql, php-mbstring, php-imagick, php-zip
+  * php-gd, php-xml, php-mysql, php-mbstring, php-imagick, php-zip, php-intl
   * OpenJDK 11
   * Node.js: 14 (LTS)
   * git
@@ -202,7 +202,7 @@ systemctl restart httpd.service
 ### PHP Installation and Configuration
 
 Refer to the to documentation of your installation to install PHP 8.1
-to PHP 8.2 including packages for imagick, gd, mysql, mbstring, curl, dom, zip and xml.
+to PHP 8.2 including packages for imagick, gd, mysql, mbstring, curl, dom, zip, intl, and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
@@ -637,7 +637,7 @@ npm install --omit-dev --ignore-scripts
 
 if you use tags to pin a specific ILIAS version.
 
-In case of merge conflicts refer to [the ILIAS Developement Guide](http://www.ilias.de/docu/goto.php?target=pg_15604). 
+In case of merge conflicts refer to [the ILIAS Developement Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
 You should only encounter these if you changed the code of your installation
 locally.
 
@@ -665,7 +665,7 @@ get a list of available branches by executing `git branch -a` and a list of
 all available tags by executing `git tag`. Never use `trunk` or ```*beta``` for
 production.
 
-In case of merge conflicts refer to [the ILIAS Developement Guide](http://www.ilias.de/docu/goto.php?target=pg_15604). 
+In case of merge conflicts refer to [the ILIAS Developement Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
 You should only encounter these if you changed the code of your installation
 locally.
 
