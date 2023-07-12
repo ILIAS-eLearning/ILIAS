@@ -1005,13 +1005,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                     }
                 }
             }
-            if ($result_output) {
-                $points = $this->object->getMaximumGapPoints($gap_index);
-                $resulttext = ($points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")";
-                $gaptemplate->setCurrentBlock("result_output");
-                $gaptemplate->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
-                $gaptemplate->parseCurrentBlock();
-            }
             $combination = null;
             switch ($gap->getType()) {
                 case CLOZE_TEXT:
