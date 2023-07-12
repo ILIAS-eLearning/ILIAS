@@ -954,8 +954,7 @@ class ilRepositorySearchGUI
             }
             switch ($info['type']) {
                 case ilUserSearchOptions::FIELD_TYPE_UDF_SELECT:
-                    // Do a phrase query for select fields
-                    $query_parser = $this->__parseQueryString('"' . $query_string . '"');
+                    $query_parser = $this->__parseQueryString($query_string);
 
                     // no break
                 case ilUserSearchOptions::FIELD_TYPE_UDF_TEXT:
@@ -975,9 +974,7 @@ class ilRepositorySearchGUI
                         $this->__storeEntries($result_obj);
                         break;
                     }
-
-                    // Do a phrase query for select fields
-                    $query_parser = $this->__parseQueryString('"' . $query_string . '"', true, true);
+                    $query_parser = $this->__parseQueryString($query_string, true, true);
 
                     // no break
                 case ilUserSearchOptions::FIELD_TYPE_TEXT:
