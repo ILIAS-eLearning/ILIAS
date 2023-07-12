@@ -20,7 +20,7 @@ class ilModulesTestSuite extends TestSuite
         }
 
         $suite = new ilModulesTestSuite();
-    
+
         include_once("./Modules/Test/test/ilassMarkTest.php");
         $suite->addTestSuite("ilassMarkTest");
 
@@ -41,7 +41,7 @@ class ilModulesTestSuite extends TestSuite
 
         include_once("./Modules/Test/test/ReadableTest.php");
         $suite->addTestSuite(ReadableTest::class);
-                
+
         return $suite;
     }
 }

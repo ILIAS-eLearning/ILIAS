@@ -1568,7 +1568,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      * ilObjTest::getProcessingTimeInSeconds(). The Javascript side
      * then updates the test timer without needing to reload the test page.
      */
-    public function checkWorkingTimeCmd(): void
+    public function checkWorkingTimeCmd() : void
     {
         $active_id = $this->testSession->getActiveId();
         echo (string) $this->object->getProcessingTimeInSeconds($active_id);
@@ -1920,11 +1920,22 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function handlePasswordProtectionRedirect()
     {
+        /**
+         * The test password is only checked once per session
+         * to avoid errors during autosave if the password is
+         * changed during a running test.
+         * See Mantis #22536 for more details.
+         */
+        if ($this->testSession->isPasswordChecked() === true) {
+            return;
+        }
+
         if ($this->ctrl->getNextClass() == 'iltestpasswordprotectiongui') {
             return;
         }
 
         if (!$this->passwordChecker->isPasswordProtectionPageRedirectRequired()) {
+            $this->testSession->setPasswordChecked(true);
             return;
         }
 
