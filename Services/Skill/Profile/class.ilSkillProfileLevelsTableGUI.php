@@ -31,7 +31,6 @@ use ILIAS\Skill\Profile;
  */
 class ilSkillProfileLevelsTableGUI extends ilTable2GUI
 {
-    protected ilAccessHandler $access;
     protected Profile\SkillProfile $profile;
     protected ilSkillTreeRepository $tree_repo;
     protected SkillInternalManagerService $skill_manager;
@@ -44,12 +43,6 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         Profile\SkillProfile $a_profile
     ) {
         global $DIC;
-
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->access = $DIC->access();
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
 
         $this->skill_manager = $DIC->skills()->internal()->manager();
         $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
@@ -73,7 +66,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         }
 
         $this->setData($levels_array);
-        $this->setTitle($lng->txt("skmg_target_levels"));
+        $this->setTitle($this->lng->txt("skmg_target_levels"));
 
         $access_manager = $this->skill_manager->getTreeAccessManager($this->requested_ref_id);
         if ($access_manager->hasManageProfilesPermission()) {
@@ -82,14 +75,17 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         }
         $this->addColumn($this->lng->txt("skmg_skill"));
         $this->addColumn($this->lng->txt("skmg_level"));
+        if ($access_manager->hasManageProfilesPermission()) {
+            $this->addColumn($this->lng->txt("actions"));
+        }
 
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.skill_profile_level_row.html", "Services/Skill");
 
         if ($access_manager->hasManageProfilesPermission()) {
-            $this->addMultiCommand("confirmLevelAssignmentRemoval", $lng->txt("skmg_remove_levels"));
+            $this->addMultiCommand("confirmLevelAssignmentRemoval", $this->lng->txt("skmg_remove_levels"));
             if (count($this->skill_manager->getProfileManager()->getSkillLevels($this->profile->getId())) > 0) {
-                $this->addCommandButton("saveLevelOrder", $lng->txt("skmg_save_order"));
+                $this->addCommandButton("saveLevelOrder", $this->lng->txt("skmg_save_order"));
             }
         }
     }
@@ -119,8 +115,15 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("SKILL_ID", $a_set["base_skill_id"]);
             $this->tpl->setVariable("TREF_ID", $a_set["tref_id"]);
             $this->tpl->parseCurrentBlock();
+
             $this->tpl->setCurrentBlock("order");
             $this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);
+            $this->tpl->parseCurrentBlock();
+
+            $this->tpl->setCurrentBlock("cmd");
+            $this->tpl->setVariable("CMD", $this->lng->txt("edit"));
+            $this->ctrl->setParameter($this->parent_obj, "cskill_id", $a_set["base_skill_id"] . ":" . $a_set["tref_id"]);
+            $this->tpl->setVariable("CMD_HREF", $this->ctrl->getLinkTarget($this->parent_obj, "updateLevelOfSelectedSkill"));
             $this->tpl->parseCurrentBlock();
         }
     }

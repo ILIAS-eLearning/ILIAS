@@ -23,6 +23,7 @@ namespace ILIAS\Skill\Service;
 
 use ILIAS\Skill\Profile;
 use ILIAS\Skill\Personal;
+use ILIAS\Skill\Resource;
 
 /**
  * Skill internal repo service
@@ -85,5 +86,10 @@ class SkillInternalRepoService
     public function getAssignedMaterialRepo(): Personal\AssignedMaterialDBRepository
     {
         return new Personal\AssignedMaterialDBRepository();
+    }
+
+    public function getResourceRepo(): Resource\SkillResourceDBRepository
+    {
+        return new Resource\SkillResourceDBRepository();
     }
 }

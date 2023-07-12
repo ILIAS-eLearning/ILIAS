@@ -57,18 +57,17 @@ class ilSkillObjDeletionHandler
             $this->profile_manager->removeUserFromAllProfiles($this->obj_id);
             $this->profile_completion_manager->deleteEntriesForUser($this->obj_id);
             ilBasicSkill::removeAllUserData($this->obj_id);
-        }
-        if ($this->obj_type == "role" && ilObject::_lookupType($this->obj_id) == "role") {
+            return;
+        } elseif ($this->obj_type == "role" && ilObject::_lookupType($this->obj_id) == "role") {
             $this->profile_manager->removeRoleFromAllProfiles($this->obj_id);
-        }
-        if ($this->obj_type == "crs" && ilObject::_lookupType($this->obj_id) == "crs") {
+            return;
+        } elseif ($this->obj_type == "crs" && ilObject::_lookupType($this->obj_id) == "crs") {
             foreach (ilContainerReference::_getAllReferences($this->obj_id) as $ref_id) {
                 if ($ref_id != 0) {
                     $this->profile_manager->deleteProfilesFromObject($ref_id);
                 }
             }
-        }
-        if ($this->obj_type == "grp" && ilObject::_lookupType($this->obj_id) == "grp") {
+        } elseif ($this->obj_type == "grp" && ilObject::_lookupType($this->obj_id) == "grp") {
             foreach (ilContainerReference::_getAllReferences($this->obj_id) as $ref_id) {
                 if ($ref_id != 0) {
                     $this->profile_manager->deleteProfilesFromObject($ref_id);

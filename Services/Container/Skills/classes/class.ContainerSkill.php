@@ -19,43 +19,44 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-namespace ILIAS\Skill\Profile;
+namespace ILIAS\Container\Skills;
 
+use ILIAS\Skill\Profile\SkillProfile;
 use ILIAS\Skill\GapAnalysisSkill;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class SkillProfileLevel implements GapAnalysisSkill
+class ContainerSkill implements GapAnalysisSkill
 {
-    protected int $profile_id = 0;
-    protected int $base_skill_id = 0;
+    protected int $cont_obj_id = 0;
+    protected int $skill_id = 0;
     protected int $tref_id = 0;
-    protected int $level_id = 0;
-    protected int $order_nr = 0;
+    protected string $title = "";
+    protected ?SkillProfile $profile = null;
 
     public function __construct(
-        int $profile_id,
-        int $base_skill_id,
+        int $cont_obj_id,
+        int $skill_id,
         int $tref_id,
-        int $level_id,
-        int $order_nr
+        string $title = "",
+        SkillProfile $profile = null
     ) {
-        $this->profile_id = $profile_id;
-        $this->base_skill_id = $base_skill_id;
+        $this->cont_obj_id = $cont_obj_id;
+        $this->skill_id = $skill_id;
         $this->tref_id = $tref_id;
-        $this->level_id = $level_id;
-        $this->order_nr = $order_nr;
+        $this->title = $title;
+        $this->profile = $profile;
     }
 
-    public function getProfileId(): int
+    public function getContainerObjectId(): int
     {
-        return $this->profile_id;
+        return $this->cont_obj_id;
     }
 
     public function getBaseSkillId(): int
     {
-        return $this->base_skill_id;
+        return $this->skill_id;
     }
 
     public function getTrefId(): int
@@ -63,13 +64,13 @@ class SkillProfileLevel implements GapAnalysisSkill
         return $this->tref_id;
     }
 
-    public function getLevelId(): int
+    public function getTitle(): string
     {
-        return $this->level_id;
+        return $this->title;
     }
 
-    public function getOrderNr(): int
+    public function getProfile(): ?SkillProfile
     {
-        return $this->order_nr;
+        return $this->profile;
     }
 }

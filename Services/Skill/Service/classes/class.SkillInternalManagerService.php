@@ -25,6 +25,7 @@ use ILIAS\Skill\Access;
 use ILIAS\Skill\Tree;
 use ILIAS\Skill\Profile;
 use ILIAS\Skill\Personal;
+use ILIAS\Skill\Resource;
 
 /**
  * Skill internal manager service
@@ -118,5 +119,10 @@ class SkillInternalManagerService
     public function getSelfEvaluationManager(): Personal\SelfEvaluationManager
     {
         return new Personal\SelfEvaluationManager();
+    }
+
+    public function getResourceManager(): Resource\SkillResourcesManager
+    {
+        return new Resource\SkillResourcesManager();
     }
 }

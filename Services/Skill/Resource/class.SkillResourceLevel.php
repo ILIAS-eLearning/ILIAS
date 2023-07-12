@@ -19,38 +19,25 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-namespace ILIAS\Skill\Profile;
-
-use ILIAS\Skill\GapAnalysisSkill;
+namespace ILIAS\Skill\Resource;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class SkillProfileLevel implements GapAnalysisSkill
+class SkillResourceLevel
 {
-    protected int $profile_id = 0;
     protected int $base_skill_id = 0;
     protected int $tref_id = 0;
     protected int $level_id = 0;
-    protected int $order_nr = 0;
 
     public function __construct(
-        int $profile_id,
         int $base_skill_id,
         int $tref_id,
-        int $level_id,
-        int $order_nr
+        int $level_id
     ) {
-        $this->profile_id = $profile_id;
         $this->base_skill_id = $base_skill_id;
         $this->tref_id = $tref_id;
         $this->level_id = $level_id;
-        $this->order_nr = $order_nr;
-    }
-
-    public function getProfileId(): int
-    {
-        return $this->profile_id;
     }
 
     public function getBaseSkillId(): int
@@ -66,10 +53,5 @@ class SkillProfileLevel implements GapAnalysisSkill
     public function getLevelId(): int
     {
         return $this->level_id;
-    }
-
-    public function getOrderNr(): int
-    {
-        return $this->order_nr;
     }
 }

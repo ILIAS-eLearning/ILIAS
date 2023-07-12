@@ -1,0 +1,58 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+namespace ILIAS\Skill\Resource;
+
+/**
+ * @author Thomas Famula <famula@leifos.de>
+ */
+class SkillResourceFactory
+{
+    public function resource(
+        int $skill_id,
+        int $tref_id,
+        int $level_id,
+        int $repo_ref_id,
+        bool $imparting,
+        bool $trigger
+    ): SkillResource {
+        return new SkillResource(
+            $skill_id,
+            $tref_id,
+            $level_id,
+            $repo_ref_id,
+            $imparting,
+            $trigger
+        );
+    }
+
+    public function resourceLevel(
+        int $skill_id,
+        int $tref_id,
+        int $level_id
+    ): SkillResourceLevel {
+        return new SkillResourceLevel(
+            $skill_id,
+            $tref_id,
+            $level_id
+        );
+    }
+}

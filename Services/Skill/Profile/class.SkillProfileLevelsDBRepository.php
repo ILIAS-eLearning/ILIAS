@@ -41,7 +41,7 @@ class SkillProfileLevelsDBRepository
     /**
      * @return SkillProfileLevel[]
      */
-    public function get(int $profile_id): array
+    public function getAll(int $profile_id): array
     {
         $ilDB = $this->db;
 
@@ -56,6 +56,25 @@ class SkillProfileLevelsDBRepository
         }
 
         return $levels;
+    }
+
+    public function get(int $profile_id, int $base_skill_id, int $tref_id): SkillProfileLevel
+    {
+        $ilDB = $this->db;
+
+        $set = $ilDB->query(
+            "SELECT * FROM skl_profile_level " .
+            " WHERE profile_id = " . $ilDB->quote($profile_id, "integer") .
+            " AND base_skill_id = " . $ilDB->quote($base_skill_id, "integer") .
+            " AND tref_id = " . $ilDB->quote($tref_id, "integer")
+        );
+
+        $level = [];
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            $level = $this->getFromRecord($rec);
+        }
+
+        return $level;
     }
 
     protected function getFromRecord(array $rec): SkillProfileLevel
@@ -75,7 +94,7 @@ class SkillProfileLevelsDBRepository
         );
     }
 
-    public function create(SkillProfileLevel $skill_level_obj): void
+    public function createOrUpdate(SkillProfileLevel $skill_level_obj): void
     {
         $ilDB = $this->db;
 

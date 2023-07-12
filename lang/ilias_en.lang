@@ -5963,6 +5963,7 @@ cont#:#cont_really_remove_skill_from_course#:#Do you really want to remove these
 cont#:#cont_select_fields#:#Select Fields
 cont#:#cont_show_more#:#Show More
 cont#:#cont_skill#:#Competence
+cont#:#cont_skill_ass_profiles#:#Assigned Profiles of Members
 cont#:#cont_skill_assigned_comp#:#Competence Selection
 cont#:#cont_skill_assigned_profiles#:#Profile Selection
 cont#:#cont_skill_deletion_not_possible#:#Deletion of global competence profiles is not possible. Please select only local competence profiles.
@@ -5972,7 +5973,7 @@ cont#:#cont_skill_no_profile_selected#:#Please select a profile.
 cont#:#cont_skill_no_skill#:#No value (Reset)
 cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".
 cont#:#cont_skill_profile#:#Profile
-cont#:#cont_skill_profiles#:#Assigned Profiles of Members
+cont#:#cont_skill_profiles#:#Competence Profiles
 cont#:#cont_skill_publish#:#Publish
 cont#:#cont_skill_publish_auto#:#Automatic
 cont#:#cont_skill_publish_auto_info#:#Competence assignments for members are immediately visible for members.
@@ -5982,6 +5983,7 @@ cont#:#cont_skill_really_delete_profile_from_list#:#Do you really want to delete
 cont#:#cont_skill_really_delete_profiles_from_list#:#Do you really want to delete these profiles?
 cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove this profile from the list?
 cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?
+cont#:#cont_skill_records#:#Competence Records
 cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.
 cont#:#cont_skill_show#:#Show
 cont#:#cont_std_filter_title_1#:#Title
@@ -14944,8 +14946,10 @@ skmg#:#skmg_previous_step#:#Previous Step
 skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following competence levels?
 skmg#:#skmg_really_remove_skills#:#Do you really want to remove the following competences from your list?
-skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement
-skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.
+skmg#:#skmg_recommended_learning_material_crs#:#Achieve your targets in this course
+skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets
+skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group
+skmg#:#skmg_recommended_learning_material_info#:#Please work through the following learning materials to achieve the competence target. Select exactly one learning material per competence level.
 skmg#:#skmg_refresh_view#:#Refresh
 skmg#:#skmg_remove_levels#:#Remove Levels
 skmg#:#skmg_remove_skill#:#Remove Competence
@@ -14981,7 +14985,8 @@ skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to se
 skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.
 skmg#:#skmg_skill_no_needs_impr#:#Competence target achieved!
 skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.
-skmg#:#skmg_skill_profile_comparison#:#Profile Comparison
+skmg#:#skmg_skill_overview#:#Overview
+skmg#:#skmg_skill_profile_records#:#Competence Records
 skmg#:#skmg_skill_profiles#:#Competence Profiles
 skmg#:#skmg_skill_template#:#Competence Template
 skmg#:#skmg_skill_templates#:#Competence Templates

@@ -43,8 +43,6 @@ class SkillProfile
         string $image_id = "",
         int $ref_id = 0
     ) {
-        global $DIC;
-
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;

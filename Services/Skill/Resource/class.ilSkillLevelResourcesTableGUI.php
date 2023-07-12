@@ -30,9 +30,9 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
     protected ilTree $tree;
     protected int $level_id = 0;
     protected bool $write_permission = false;
-    protected ilSkillResources $resources;
     protected \ILIAS\UI\Factory $ui_fac;
     protected \ILIAS\UI\Renderer $ui_ren;
+    protected \ILIAS\Skill\Resource\SkillResourcesManager $resource_manager;
 
     public function __construct(
         $a_parent_obj,
@@ -50,6 +50,7 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
         $this->tree = $DIC->repositoryTree();
         $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
+        $this->resource_manager = $DIC->skills()->internal()->manager()->getResourceManager();
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -57,10 +58,22 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
         $this->level_id = $a_level_id;
         $this->write_permission = $a_write_permission;
 
-        $this->resources = new ilSkillResources($a_skill_id, $a_tref_id);
-
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->setData($this->resources->getResourcesOfLevel($this->level_id));
+
+        // convert resources to array structure, because tables can only handle arrays
+        $resources = $this->resource_manager->getResourcesOfLevel($a_skill_id, $a_tref_id, $this->level_id);
+        $resources_array = [];
+        foreach ($resources as $r) {
+            $resources_array[] = [
+                "skill_id" => $r->getBaseSkillId(),
+                "tref_id" => $r->getTrefId(),
+                "level_id" => $r->getLevelId(),
+                "rep_ref_id" => $r->getRepoRefId(),
+                "imparting" => $r->getImparting(),
+                "trigger" => $r->getTrigger()
+            ];
+        }
+        $this->setData($resources_array);
         $this->setTitle($lng->txt("resources"));
 
         if ($this->write_permission) {

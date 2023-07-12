@@ -19,43 +19,49 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-namespace ILIAS\Skill\Profile;
-
-use ILIAS\Skill\GapAnalysisSkill;
+namespace ILIAS\Container\Skills;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class SkillProfileLevel implements GapAnalysisSkill
+class ContainerMemberSkill
 {
-    protected int $profile_id = 0;
-    protected int $base_skill_id = 0;
+    protected int $cont_obj_id = 0;
+    protected int $user_id = 0;
+    protected int $skill_id = 0;
     protected int $tref_id = 0;
     protected int $level_id = 0;
-    protected int $order_nr = 0;
+    protected bool $published = false;
 
     public function __construct(
-        int $profile_id,
-        int $base_skill_id,
+        int $cont_obj_id,
+        int $user_id,
+        int $skill_id,
         int $tref_id,
         int $level_id,
-        int $order_nr
+        bool $published
     ) {
-        $this->profile_id = $profile_id;
-        $this->base_skill_id = $base_skill_id;
+        $this->cont_obj_id = $cont_obj_id;
+        $this->user_id = $user_id;
+        $this->skill_id = $skill_id;
         $this->tref_id = $tref_id;
         $this->level_id = $level_id;
-        $this->order_nr = $order_nr;
+        $this->published = $published;
     }
 
-    public function getProfileId(): int
+    public function getContainerObjectId(): int
     {
-        return $this->profile_id;
+        return $this->cont_obj_id;
+    }
+
+    public function getUserId(): int
+    {
+        return $this->user_id;
     }
 
     public function getBaseSkillId(): int
     {
-        return $this->base_skill_id;
+        return $this->skill_id;
     }
 
     public function getTrefId(): int
@@ -68,8 +74,8 @@ class SkillProfileLevel implements GapAnalysisSkill
         return $this->level_id;
     }
 
-    public function getOrderNr(): int
+    public function getPublished(): bool
     {
-        return $this->order_nr;
+        return $this->published;
     }
 }
