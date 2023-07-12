@@ -552,6 +552,19 @@ class ilTestSession
         return $this->getUserId() == ANONYMOUS_USER_ID;
     }
 
+    public function isPasswordChecked(): bool
+    {
+        if (ilSession::get('pw_checked_' . $this->active_id) === null) {
+            return false;
+        }
+        return ilSession::get('pw_checked_' . $this->active_id);
+    }
+
+    public function setPasswordChecked(bool $value): void
+    {
+        ilSession::set('pw_checked_' . $this->active_id, $value);
+    }
+
     /**
      * @var null|bool
      */

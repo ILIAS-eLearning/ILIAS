@@ -1917,11 +1917,22 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function handlePasswordProtectionRedirect()
     {
+        /**
+         * The test password is only checked once per session
+         * to avoid errors during autosave if the password is
+         * changed during a running test.
+         * See Mantis #22536 for more details.
+         */
+        if ($this->testSession->isPasswordChecked() === true) {
+            return;
+        }
+
         if ($this->ctrl->getNextClass() == 'iltestpasswordprotectiongui') {
             return;
         }
 
         if (!$this->passwordChecker->isPasswordProtectionPageRedirectRequired()) {
+            $this->testSession->setPasswordChecked(true);
             return;
         }
 
