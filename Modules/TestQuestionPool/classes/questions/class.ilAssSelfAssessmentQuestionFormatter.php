@@ -126,7 +126,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
         // we allow these tags, since they are typically used in the Tiny Assessment editor
         // and should not be deleted, if questions are copied from pools to learning modules
         $not_supported = ['img'];
-        $tags = ['table', 'td', 'tr', 'th'];
+        $tags = ['br', 'table', 'td', 'tr', 'th'];
 
         foreach ($st as $s) {
             if (!in_array($s, $not_supported)) {
