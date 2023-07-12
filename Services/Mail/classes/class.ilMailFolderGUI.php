@@ -46,8 +46,8 @@ class ilMailFolderGUI
     private readonly Refinery $refinery;
     private int $currentFolderId = 0;
     private readonly ilErrorHandling $error;
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
+    protected readonly Factory $ui_factory;
+    protected readonly Renderer $ui_renderer;
 
     public function __construct()
     {
@@ -62,8 +62,8 @@ class ilMailFolderGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->error = $DIC['ilErr'];
-        $this->uiFactory = $DIC->ui()->factory();
-        $this->uiRenderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->umail = new ilMail($this->user->getId());
         $this->mbox = new ilMailbox($this->user->getId());
@@ -633,7 +633,7 @@ class ilMailFolderGUI
             );
             $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
             $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_REPLY);
-            $replyBtn = $this->uiFactory->button()->primary(
+            $replyBtn = $this->ui_factory->button()->primary(
                 $this->lng->txt('reply'),
                 $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
             );
@@ -645,13 +645,13 @@ class ilMailFolderGUI
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_FORWARD);
         if ($replyBtn === null) {
-            $fwdBtn = $this->uiFactory->button()->primary(
+            $fwdBtn = $this->ui_factory->button()->primary(
                 $this->lng->txt('forward'),
                 $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
             );
             $this->toolbar->addStickyItem($fwdBtn);
         } else {
-            $fwdBtn = $this->uiFactory->button()->standard(
+            $fwdBtn = $this->ui_factory->button()->standard(
                 $this->lng->txt('forward'),
                 $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
             );
@@ -668,9 +668,9 @@ class ilMailFolderGUI
         $printBtn->setTarget('_blank');
         $this->toolbar->addButtonInstance($printBtn);
 
-        $deleteBtn = $this->uiFactory->button()
-                                     ->standard($this->lng->txt('delete'), '#')
-                                     ->withOnLoadCode(static fn($id): string => "
+        $deleteBtn = $this->ui_factory->button()
+                                      ->standard($this->lng->txt('delete'), '#')
+                                      ->withOnLoadCode(static fn($id): string => "
                 document.getElementById('$id').addEventListener('click', function() {
                     const frm = this.closest('form'),
                         action = new URL(frm.action),
@@ -829,9 +829,9 @@ class ilMailFolderGUI
             $actions->setOptions($selectOptions);
             $this->toolbar->addInputItem($actions);
 
-            $moveBtn = $this->uiFactory->button()
-                                       ->standard($this->lng->txt('execute'), '#')
-                                       ->withOnLoadCode(static fn($id): string => "
+            $moveBtn = $this->ui_factory->button()
+                                        ->standard($this->lng->txt('execute'), '#')
+                                        ->withOnLoadCode(static fn($id): string => "
                 document.getElementById('$id').addEventListener('click', function() {
                     const frm = this.closest('form'),
                         action = new URL(frm.action),
