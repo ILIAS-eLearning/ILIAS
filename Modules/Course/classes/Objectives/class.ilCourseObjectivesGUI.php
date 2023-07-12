@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 use ILIAS\UI\Component\Listing\Workflow\Step;
 use ILIAS\UI\Component\Listing\Workflow\Factory as Workflow;
@@ -399,6 +399,38 @@ class ilCourseObjectivesGUI
         $this->tpl->setContent($table->getHTML());
     }
 
+    /**
+     * @return int[]
+     */
+    private function getIntArrayFromPost(string $key): array
+    {
+        if ($this->http->wrapper()->post()->has($key)) {
+            return $this->http->wrapper()->post()->retrieve(
+                $key,
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        return [];
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getStringArrayFromPost(string $key): array
+    {
+        if ($this->http->wrapper()->post()->has($key)) {
+            return $this->http->wrapper()->post()->retrieve(
+                $key,
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
+        return [];
+    }
+
     protected function updateMaterialAssignment(): void
     {
         if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
@@ -410,38 +442,36 @@ class ilCourseObjectivesGUI
         }
 
         $this->__initLMObject($this->initObjectiveIdFromQuery());
-        $this->objectives_lm_obj->deleteAll();
 
-        $materials = [];
-        if ($this->http->wrapper()->post()->has('materials')) {
-            $materials = $this->http->wrapper()->post()->retrieve(
-                'materials',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
-        }
-        foreach ($materials as $node_id) {
+        $visibleMaterials = $this->getIntArrayFromPost('visible_materials');
+        $visibleChapters = $this->getStringArrayFromPost('visible_chapters');
+        $materials = $this->getIntArrayFromPost('materials');
+        $chapters = $this->getStringArrayFromPost('chapters');
+
+        foreach ($visibleMaterials as $node_id) {
             $obj_id = $this->objectDataCache->lookupObjId((int) $node_id);
-            $type = $this->objectDataCache->lookupType($obj_id);
-
+            if (!in_array($node_id, $materials)) {
+                $this->objectives_lm_obj->deleteMaterial($node_id, $obj_id);
+                continue;
+            }
+            if ($this->objectives_lm_obj->isMaterialAssigned($node_id, $obj_id)) {
+                continue;
+            }
             $this->objectives_lm_obj->setLMRefId($node_id);
             $this->objectives_lm_obj->setLMObjId($obj_id);
-            $this->objectives_lm_obj->setType($type);
+            $this->objectives_lm_obj->setType($this->objectDataCache->lookupType($obj_id));
             $this->objectives_lm_obj->add();
         }
-        $chapters = [];
-        if ($this->http->wrapper()->post()->has('chapters')) {
-            $chapters = $this->http->wrapper()->post()->retrieve(
-                'chapters',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->string()
-                )
-            );
-        }
-        foreach ($chapters as $chapter) {
-            list($ref_id, $chapter_id) = explode('_', $chapter);
 
+        foreach ($visibleChapters as $chapter) {
+            list($ref_id, $chapter_id) = explode('_', $chapter);
+            if (!in_array($chapter, $chapters)) {
+                $this->objectives_lm_obj->deleteMaterial($ref_id, $chapter_id);
+                continue;
+            }
+            if ($this->objectives_lm_obj->isMaterialAssigned($ref_id, $chapter_id)) {
+                continue;
+            }
             $this->objectives_lm_obj->setLMRefId($ref_id);
             $this->objectives_lm_obj->setLMObjId($chapter_id);
             $this->objectives_lm_obj->setType(ilLMObject::_lookupType($chapter_id));
