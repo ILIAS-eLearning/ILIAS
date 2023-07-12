@@ -8142,7 +8142,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $factor = 0;
                 }
 
-                if ($factor > $bestfactor) {
+                if ($factor === 0 && $bestfactor === 0
+                    || $factor > $bestfactor) {
                     $bestrow = $row;
                     $bestfactor = $factor;
                 }
