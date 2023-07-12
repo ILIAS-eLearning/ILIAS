@@ -668,10 +668,25 @@ class ilMailFolderGUI
         $printBtn->setTarget('_blank');
         $this->toolbar->addButtonInstance($printBtn);
 
-        $deleteBtn = ilSubmitButton::getInstance();
-        $deleteBtn->setCaption('delete');
-        $deleteBtn->setCommand('deleteMails');
-        $this->toolbar->addButtonInstance($deleteBtn);
+        $deleteBtn = $this->uiFactory->button()
+                                     ->standard($this->lng->txt('delete'), '#')
+                                     ->withOnLoadCode(static fn($id): string => "
+                document.getElementById('$id').addEventListener('click', function() {
+                    const frm = this.closest('form'),
+                        action = new URL(frm.action),
+                        action_params = new URLSearchParams(action.search);
+
+                    action_params.delete('cmd');
+                    action_params.append('cmd', 'deleteMails');
+
+                    action.search = action_params.toString();
+
+                    frm.action = action.href;
+                    frm.submit();
+                    return false;
+                });
+            ");
+        $this->toolbar->addComponent($deleteBtn);
 
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
             $linked_fullname = $sender->getPublicName();
@@ -814,10 +829,25 @@ class ilMailFolderGUI
             $actions->setOptions($selectOptions);
             $this->toolbar->addInputItem($actions);
 
-            $moveBtn = ilSubmitButton::getInstance();
-            $moveBtn->setCaption('execute');
-            $moveBtn->setCommand('moveSingleMail');
-            $this->toolbar->addButtonInstance($moveBtn);
+            $moveBtn = $this->uiFactory->button()
+                                       ->standard($this->lng->txt('execute'), '#')
+                                       ->withOnLoadCode(static fn($id): string => "
+                document.getElementById('$id').addEventListener('click', function() {
+                    const frm = this.closest('form'),
+                        action = new URL(frm.action),
+                        action_params = new URLSearchParams(action.search);
+
+                    action_params.delete('cmd');
+                    action_params.append('cmd', 'moveSingleMail');
+
+                    action.search = action_params.toString();
+
+                    frm.action = action.href;
+                    frm.submit();
+                    return false;
+                });
+            ");
+            $this->toolbar->addComponent($moveBtn);
         }
 
         $prevMail = $this->umail->getPreviousMail($mailId);
