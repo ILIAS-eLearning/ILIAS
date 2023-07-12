@@ -136,20 +136,8 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
         // set tags we allow in self assessment mode
         $st = ilUtil::getSecureTags();
 
-        // we allow these tags, since they are typically used in the Tiny Assessment editor
-        // and should not be deleted, if questions are copied from pools to learning modules
-        $not_supported = array("img", "p");
-        $tags = array();
-
-        /// BH 01-03-2018: added P tag to allowed tags due to missing newline problems
-        $tags[] = 'p';
-        /// BH 01-03-2018: added P tag to allowed tags due to missing newline problems
-
-        foreach ($st as $s) {
-            if (!in_array($s, $not_supported)) {
-                $tags[] = $s;
-            }
-        }
+        $not_supported = ['img'];
+        $tags = ['br', 'table', 'td', 'tr', 'th'] + array_diff($st, $not_supported);
 
         return $tags;
     }
