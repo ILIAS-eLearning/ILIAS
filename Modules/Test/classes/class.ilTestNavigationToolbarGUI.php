@@ -141,22 +141,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isQuestionTreeButtonEnabled(): bool
-    {
-        return $this->questionTreeButtonEnabled;
-    }
-
-    /**
-     * @param boolean $questionTreeButtonEnabled
-     */
-    public function setQuestionTreeButtonEnabled($questionTreeButtonEnabled)
-    {
-        $this->questionTreeButtonEnabled = $questionTreeButtonEnabled;
-    }
-
-    /**
-     * @return boolean
-     */
     public function isQuestionTreeVisible(): bool
     {
         return $this->questionTreeVisible;
@@ -249,10 +233,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 
     public function build()
     {
-        if ($this->isQuestionTreeButtonEnabled()) {
-            $this->addQuestionTreeButton();
-        }
-
         if ($this->isQuestionListButtonEnabled()) {
             $this->addQuestionListButton();
         }
@@ -305,6 +285,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $this->addComponent($button);
     }
 
+<<<<<<< HEAD
     private function addQuestionTreeButton()
     {
         if ($this->isQuestionTreeVisible()) {
@@ -320,6 +301,8 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $this->addComponent($button);
     }
 
+=======
+>>>>>>> 6212957342 (TA: QuestionList in mainbar)
     private function addFinishTestButton(): void
     {
         if ($this->userHasAttemptsLeft()) {
