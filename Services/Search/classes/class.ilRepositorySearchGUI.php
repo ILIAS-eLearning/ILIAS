@@ -977,7 +977,7 @@ class ilRepositorySearchGUI
                     }
 
                     // Do a phrase query for select fields
-                    $query_parser = $this->__parseQueryString('"' . $query_string . '"', true, true);
+                    $query_parser = $this->__parseQueryString($query_string, true, true);
 
                     // no break
                 case ilUserSearchOptions::FIELD_TYPE_TEXT:
