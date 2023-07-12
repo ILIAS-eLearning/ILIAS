@@ -1,7 +1,11 @@
 @use "../../../010-settings/"as *;
 @use "../../../050-layout/basics" as *;
+@use "../../../050-layout/layout_breakpoints" as *;
+@use "../../../050-layout/standardpage/layout_standardpage-mobile" as *;
+@use "../../../030-tools/tool_multi-line-cap" as *;
 
 //== modeinfo
+
 $il-mode-info-color: $il-warning-color;
 $il-mode-info-border: 3px solid $il-mode-info-color;
 $il-mode-info-height: 35px;
@@ -9,26 +13,83 @@ $il-mode-info-text-color: white;
 $il-mode-info-zindex: 1010;
 $il-mode-info-shadow: 20px 10px 30px rgba(0, 0, 0, .15);
 
-.il-mode-info {
-  border-top: $il-mode-info-border;
-  border-left: $il-mode-info-border;
-  border-right: $il-mode-info-border;
+.c-mode-info {
   display: flex;
+  position: absolute;
+  z-index: $il-mode-info-zindex;
+  width: 100%;
   align-items: start;
   justify-content: center;
   text-align: center;
-  z-index: $il-mode-info-zindex;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  pointer-events: none;
-  // font size and color for all element inside
+
+  &__pageframe {
+    border: $il-mode-info-border;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    pointer-events: none;
+    z-index: $il-mode-info-zindex;
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $il-mode-info-color;
+    border-bottom-left-radius: $il-border-radius-secondary-large;
+    border-bottom-right-radius: $il-border-radius-secondary-large;
+    -webkit-box-shadow: $il-mode-info-shadow;
+    -moz-box-shadow: $il-mode-info-shadow;
+    box-shadow: $il-mode-info-shadow;
+    padding: $il-padding-xs-vertical $il-padding-xxxlarge-horizontal;
+    gap: $il-padding-xxxlarge-horizontal;
+    min-height: $il-mode-info-height;
+    min-width: 20%;
+    max-width: 50%;
+
+    @media only screen and (max-width: $il-grid-float-breakpoint-max) {
+      border-radius: 0;
+      width: 100%;
+      min-height: $il-standard-page-small-header-height;
+      max-width: 100%;
+    }
+  }
+
+  &__label,
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: all;
+    position: relative;
+  }
+
+  &__label {
+    @include il-multi-line-cap-mixin(1);
+    flex-grow: 1;
+  }
+
+  &__close {
+
+  }
+
+  &__mobile-padding {
+    @media only screen and (max-width: $il-grid-float-breakpoint-max) {
+        height: $il-standard-page-small-header-height;
+    }
+  }
+
   * {
     color: $il-mode-info-text-color;
     font-size: $il-font-size-large;
   }
 }
 
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+
+}
+
+/*
 .il-mode-info + div {
   border: $il-mode-info-border;
   border-top: 0 none;
@@ -37,38 +98,4 @@ $il-mode-info-shadow: 20px 10px 30px rgba(0, 0, 0, .15);
     padding-top: $il-mode-info-height;
   }
 }
-
-.il-mode-info-content,
-.il-mode-info-close {
-  background-color: $il-mode-info-color;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: $il-mode-info-height;
-  pointer-events: all;
-  position: relative;
-}
-
-.il-mode-info-content {
-  border-bottom-left-radius: calc($il-border-radius-large + 10px);
-  -webkit-box-shadow: $il-mode-info-shadow;
-  -moz-box-shadow: $il-mode-info-shadow;
-  box-shadow: $il-mode-info-shadow;
-  padding: 0 4% 0 5%;
-}
-
-.il-mode-info-close {
-  border-bottom-right-radius: calc($il-border-radius-large + 10px);
-  padding: 0 $il-padding-base-horizontal;
-}
-
-@media only screen and (max-width: $il-grid-float-breakpoint-max) {
-  .il-mode-info {
-	margin-bottom: 0;
-  }
-
-  .il-mode-info-content {
-	  width: auto;
-  }
-}
-
+*/
