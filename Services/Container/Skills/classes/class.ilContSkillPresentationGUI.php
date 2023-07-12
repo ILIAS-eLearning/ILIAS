@@ -37,7 +37,6 @@ class ilContSkillPresentationGUI
     protected ilContainer $container;
     protected ilObjUser $user;
     protected \ILIAS\Container\Skills\ContainerSkillManager $cont_skill_manager;
-    protected SkillProfileService $profile_service;
     protected int $cont_member_role_id = 0;
 
     public function __construct(ilContainerGUI $a_container_gui)
@@ -56,7 +55,6 @@ class ilContSkillPresentationGUI
         $this->container = $obj;
         $this->cont_member_role_id = ilParticipants::getDefaultMemberRole($this->container->getRefId());
 
-        $this->profile_service = $DIC->skills()->profile();
         $this->cont_skill_manager = $DIC->skills()->internalContainer()->manager()->getSkillManager(
             $this->container->getId(),
             $this->container->getRefId()
@@ -109,10 +107,6 @@ class ilContSkillPresentationGUI
         $tabs = $this->tabs;
 
         $tabs->activateSubTab("mem_profiles");
-
-        if (empty($this->profile_service->getAllProfilesOfRole($this->cont_member_role_id))) {
-            return;
-        }
 
         $gui = $this->getPersonalSkillsGUI();
         $gui->listAllProfilesForGap();
