@@ -19928,7 +19928,8 @@ div.ilc_Page.readonly textarea[disabled] {
   font-size: 14px;
 }
 li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem {
-  border: 2px white solid;
+  border: 1px #4c6586 solid;
+  border-left: 9px #4c6586 solid;
 }
 .noMargin {
   margin: 0;
@@ -20179,3 +20180,4 @@ table.mceToolbar td {
   border: 1px solid #dddddd;
   border-radius: 0.25em;
 }
+/*# sourceMappingURL=delos.css.map */
