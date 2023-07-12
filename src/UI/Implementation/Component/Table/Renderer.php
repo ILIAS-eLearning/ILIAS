@@ -65,17 +65,18 @@ class Renderer extends AbstractComponentRenderer
     ): string {
         $tpl = $this->getTemplate("tpl.presentationtable.html", true, true);
         $tpl->setVariable("TITLE", $component->getTitle());
-        $vcs = [];
+        $vcs = $component->getViewControls();
+        $expcollapsebtns = [];
         if ($sig_ta = $component->getExpandCollapseAllSignal()) {
             $sig_ta_expand = clone $sig_ta;
             $sig_ta_expand->addOption('expand', true);
-            $vcs[] = $this->getUIFactory()->button()
-                ->standard($this->txt('presentation_table_expand'), '')
+            $expcollapsebtns[] = $this->getUIFactory()->button()
+                ->standard($this->txt('presentaion_table_expand'), '')
                 ->withOnClick($sig_ta_expand);
             $sig_ta_collapse = clone $sig_ta;
             $sig_ta_collapse->addOption('expand', false);
-            $vcs[] = $this->getUIFactory()->button()
-                ->standard($this->txt('presentation_table_collapse'), '')
+            $expcollapsebtns[] = $this->getUIFactory()->button()
+                ->standard($this->txt('presentaion_table_collapse'), '')
                 ->withOnClick($sig_ta_collapse);
             $component = $component->withAdditionalOnLoadCode(
                 static fn($id) => "
@@ -84,15 +85,19 @@ class Renderer extends AbstractComponentRenderer
                     "
             );
         }
-        $vcs = array_merge($vcs, $component->getViewControls());
 
+        $tpl->touchBlock("viewcontrols");
         if ($vcs) {
-            $tpl->touchBlock("viewcontrols");
             foreach ($vcs as $vc) {
                 $tpl->setCurrentBlock("vc");
                 $tpl->setVariable("VC", $default_renderer->render($vc));
                 $tpl->parseCurrentBlock();
             }
+        }
+        if ($expcollapsebtns) {
+            $tpl->setCurrentBlock("expandcollapsebtns");
+            $tpl->setVariable("EXPANDCOLLAPSEALL", $default_renderer->render($expcollapsebtns));
+            $tpl->parseCurrentBlock();
         }
 
         $id = $this->bindJavaScript($component);
