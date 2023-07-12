@@ -14877,6 +14877,8 @@ skmg#:#skmg_confirm_level_resources_removal#:#Wollen Sie wirklich die folgenden 
 skmg#:#skmg_confirm_remove_level_ass#:#Wollen Sie wirklich die folgenden Kompetenzstufen aus dem Profil entfernen?
 skmg#:#skmg_confirm_user_removal#:#Wollen Sie wirklich die folgenden Benutzer aus dem Profil entfernen?
 skmg#:#skmg_cont_profiles_info#:#In dieser Ansicht können Sie die Kompetenzprofile mit Kompetenzeinträgen auswählen, die im Zusammenhang mit dem derzeit geöffneten Objekt (Kurs/Gruppe) stehen. Um zu der globalen Ansicht mit allen Ihnen zugewiesenen Kompetenzprofilen und sämtlichen Kompetenzeinträgen zu gelangen, klicken Sie auf den unten stehenden Link.
+skmg#:#skmg_cont_profiles_info_empty#:#Es gibt keine Kompetenzprofile, die mit dem derzeit geöffneten Objekt im Zusammenhang stehen.
+skmg#:#skmg_cont_records_info_empty#:#Es gibt keine Kompetenzen, die mit dem derzeit geöffneten Objekt im Zusammenhang stehen.
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Lokal
 skmg#:#skmg_create_sctp#:#Vorlagenkategorie erstellen

@@ -5985,7 +5985,6 @@ cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove
 cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?
 cont#:#cont_skill_records#:#Competence Records
 cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.
-cont#:#cont_skill_show#:#Show
 cont#:#cont_std_filter_title_1#:#Title
 cont#:#cont_std_filter_title_2#:#Description
 cont#:#cont_std_filter_title_3#:#Title/Description
@@ -14880,6 +14879,8 @@ skmg#:#skmg_confirm_level_resources_removal#:#Do you really want to remove the f
 skmg#:#skmg_confirm_remove_level_ass#:#So you really want to remove the following competence levels from the profile?
 skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following users from this profile?
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.
+skmg#:#skmg_cont_profiles_info_empty#:#There are no competence profiles related to the currently open object.
+skmg#:#skmg_cont_records_info_empty#:#There are no competences related to the currently opened object.
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Local
 skmg#:#skmg_create_sctp#:#Create Template Category

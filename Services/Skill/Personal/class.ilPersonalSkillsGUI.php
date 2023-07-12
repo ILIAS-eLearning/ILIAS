@@ -1218,13 +1218,13 @@ class ilPersonalSkillsGUI
     public function listAllProfilesForGap(): void
     {
         if (empty($this->cont_profiles)) {
-            $this->tpl->setContent($this->showInfoBox());
+            $this->tpl->setContent($this->showInfoBoxForProfiles());
             return;
         }
 
         $prof_list = $this->getProfilesListed($this->cont_profiles, true);
 
-        $html = $this->showInfoBox() . $this->ui_ren->render($prof_list);
+        $html = $this->showInfoBoxForProfiles() . $this->ui_ren->render($prof_list);
         $this->tpl->setContent($html);
     }
 
@@ -1247,6 +1247,7 @@ class ilPersonalSkillsGUI
     public function listRecordsForGap(): void
     {
         if (empty($this->getObjectSkills())) {
+            $this->tpl->setContent($this->showInfoBoxForRecords());
             return;
         }
 
@@ -1296,7 +1297,7 @@ class ilPersonalSkillsGUI
         return $prof_list;
     }
 
-    protected function showInfoBox(): string
+    protected function showInfoBoxForProfiles(): string
     {
         if (!empty($this->cont_profiles)) {
             $link = $this->ui_fac->link()->standard(
@@ -1307,6 +1308,13 @@ class ilPersonalSkillsGUI
         } else {
             $box = $this->ui_fac->messageBox()->info($this->lng->txt("skmg_cont_profiles_info_empty"));
         }
+
+        return $this->ui_ren->render($box);
+    }
+
+    protected function showInfoBoxForRecords(): string
+    {
+        $box = $this->ui_fac->messageBox()->info($this->lng->txt("skmg_cont_records_info_empty"));
 
         return $this->ui_ren->render($box);
     }
