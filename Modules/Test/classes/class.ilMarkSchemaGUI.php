@@ -107,11 +107,10 @@ class ilMarkSchemaGUI
                     $passed = "1";
                 }
 
-                //replace , with . for float values
-                $value = str_replace(',', '.', $value);
-
                 $percentage = str_replace(',', '.', ilUtil::stripSlashes($postdata["mark_percentage_$matches[1]"]));
-                if (!is_numeric($percentage)) {
+                if (!is_numeric($percentage)
+                    || (float) $percentage < 0.0
+                    || (float) $percentage > 100.0) {
                     $percentage = 0;
                     $no_save_error = false;
                 }
