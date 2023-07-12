@@ -1122,6 +1122,7 @@ abstract class assQuestionGUI
         if (strlen($manual_feedback)) {
             return $manual_feedback;
         }
+
         $correct_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true);
         $incorrect_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false);
         if (strlen($correct_feedback . $incorrect_feedback)) {
@@ -1132,6 +1133,10 @@ abstract class assQuestionGUI
             } else {
                 $output = $incorrect_feedback;
             }
+        }
+
+        if ($this->object->isAdditionalContentEditingModePageObject()) {
+            return $output;
         }
         return $this->object->prepareTextareaOutput($output, true);
     }
