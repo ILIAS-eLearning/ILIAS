@@ -519,15 +519,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         return $this->getILIASPage($template->get());
-
-        //$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/ordering.js");
     }
 
     public function getPresentationJavascripts()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-        $files = array();
+        $files = [];
 
         if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
             $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
