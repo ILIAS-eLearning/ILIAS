@@ -12269,7 +12269,8 @@ div.ilc_Page.readonly textarea[disabled] {
   font-size: 0.875rem;
 }
 #tst_output #tst_right li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem, #ilAssQuestionPreview li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem, #il_prop_cont_order_elems li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem {
-  border: 2px white solid;
+  border: 1px #4c6586 solid;
+  border-left: 9px #4c6586 solid;
 }
 
 #tst_pass_details_overview tr {
