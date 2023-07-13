@@ -15,12 +15,11 @@ function ui_mainbar(): string
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $url = 'src/UI/examples/Layout/Page/Standard/ui_mainbar.php?ui_mainbar=1';
-    $mainbar = $f->link()->standard('Mainbar', $url);
-    $url2 = 'src/UI/examples/Layout/Page/Standard/ui_mainbar.php?ui_mainbar=2';
-    $mainbar_combined = $f->link()->standard('Mainbar Combined', $url2);
+    $target = $DIC->http()->request()->getUri()->__toString() . '&ui_mainbar=1';
+    $mainbar = $f->link()->standard('Mainbar', $target);
 
-
+    $target = $DIC->http()->request()->getUri()->__toString() . '&ui_mainbar=2';
+    $mainbar_combined = $f->link()->standard('Mainbar Combined', $target);
 
     return $renderer->render([
         $f->listing()->ordered([$mainbar,$mainbar_combined])
@@ -190,24 +189,20 @@ function getUIContent(\ILIAS\UI\Factory $f, RequestInterface $request): array
     return[$t, $c];
 }
 
-//Render Footer in Fullscreen mode
-global $DIC;
-if (basename($_SERVER["SCRIPT_FILENAME"]) == "ui_mainbar.php") {
-    chdir('../../../../../../');
-    require_once("libs/composer/vendor/autoload.php");
+
+if ((int)@$_GET['ui_mainbar'] === 1 || (int)@$_GET['ui_mainbar'] === 2) {
+    global $DIC;
     \ilInitialisation::initILIAS();
     $refinery = $DIC->refinery();
     $request_wrapper = $DIC->http()->wrapper()->query();
-}
 
-
-if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('ui_mainbar')) {
     if ($request_wrapper->retrieve('ui_mainbar', $refinery->kindlyTo()->string()) == '1') {
         echo getUIMainbarExampleCondensed($DIC);
     }
     if ($request_wrapper->retrieve('ui_mainbar', $refinery->kindlyTo()->string()) == '2') {
         echo getUIMainbarExampleFull($DIC);
     }
+    exit;
 }
 
 function getURI(): \ILIAS\Data\URI

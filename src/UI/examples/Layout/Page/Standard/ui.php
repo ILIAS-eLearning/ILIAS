@@ -14,31 +14,24 @@ function ui(): string
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $url = 'src/UI/examples/Layout/Page/Standard/ui.php?new_ui=1';
-    $page_demo = $f->link()->standard('See UI in fullscreen-mode', $url);
-
-    return $renderer->render([
-        $page_demo
-    ]);
+    $icon = $f->symbol()->icon()->standard('root', '')->withSize('large');
+    $target = new \ILIAS\Data\URI(
+        $DIC->http()->request()->getUri()->__toString() . '&new_ui=1'
+    );
+    return $renderer->render(
+        $f->link()->bulky($icon, 'See UI in fullscreen-mode', $target),
+    );
 }
 
-global $DIC;
 
 //Render Page Layout in Fullscreen mode
-if (basename($_SERVER["SCRIPT_FILENAME"]) == "ui.php") {
-    chdir('../../../../../../');
-    require_once("libs/composer/vendor/autoload.php");
+if ((int)@$_GET['new_ui'] === 1) {
+    global $DIC;
     \ilInitialisation::initILIAS();
-    $refinery = $DIC->refinery();
-    $request_wrapper = $DIC->http()->wrapper()->query();
-}
+    $dic = $DIC;
+    $refinery = $dic->refinery();
+    $request_wrapper = $dic->http()->wrapper()->query();
 
-if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('new_ui') && $request_wrapper->retrieve('new_ui', $refinery->kindlyTo()->string()) == '1') {
-    echo renderFooterInFullscreenMode($DIC);
-}
-
-function renderFooterInFullscreenMode(Container $dic): string
-{
     $f = $dic->ui()->factory();
     $renderer = $dic->ui()->renderer();
     $logo = $f->image()->responsive("templates/default/images/HeaderIcon.svg", "ILIAS");
@@ -64,9 +57,10 @@ function renderFooterInFullscreenMode(Container $dic): string
         'ILIAS', //short title
         'Std. Page Demo' //view title
     )
-              ->withUIDemo(true);
-
-    return $renderer->render($page);
+    ->withHeaders(true)
+    ->withUIDemo(true);
+    echo $renderer->render($page);
+    exit();
 }
 
 if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('replaced') && $request_wrapper->retrieve('replaced', $refinery->kindlyTo()->string()) == '1') {
