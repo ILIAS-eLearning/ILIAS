@@ -60,11 +60,19 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         $post = $this->extractPostValues($a_post);
 
         if ($post && $this->shouldBeImportedFromPost($post)) {
-            $item = $this->getForm()->getItemByPostVar($this->getElementId());
-            $item->setValue($post);
-            $this->getADT()->setUrl($post);
+
+            if ($this->getForm() instanceof ilPropertyFormGUI) {
+                $item = $this->getForm()->getItemByPostVar($this->getElementId());
+                $item->setValue($post);
+                $this->getADT()->setUrl($post);
+            } elseif (array_key_exists($this->getElementId(), $this->table_filter_fields)) {
+                $this->table_filter_fields[$this->getElementId()]->setValue($post);
+                $this->writeFilter($post);
+                $this->getADT()->setUrl($post);
+            }
         } else {
-            $this->getADT()->setUrl();
+            $this->getADT()->setUrl(null);
+            $this->writeFilter();
         }
     }
 
@@ -130,10 +138,12 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      */
     public function isInCondition(ilADT $a_adt)
     {
-        if ($this->isValidADT($a_adt)) {
-            return $this->getADT()->equals($a_adt);
+        if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
+            return
+                strcasecmp(trim($this->getADT()->getUrl()), trim($a_adt->getUrl())) === 0 ||
+                strcasecmp(trim($this->getADT()->getUrl()), trim($a_adt->getTitle())) === 0;
         }
-        // @todo throw exception
+        return false;
     }
 
     /**
