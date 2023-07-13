@@ -210,6 +210,8 @@ final class ilObjEmployeeTalk extends ilObject
             ]
         );
 
+        $parent_series = $this->getParent();
+
         $this->repository->delete($this->getData());
 
         $trashed_node_data = $this->tree->getNodeData(
@@ -230,6 +232,10 @@ final class ilObjEmployeeTalk extends ilObject
                 $node_data['tree'],
                 $this->getRefId()
             );
+        }
+
+        if (!$parent_series->hasChildren()) {
+            $parent_series->delete();
         }
 
         return $result;
