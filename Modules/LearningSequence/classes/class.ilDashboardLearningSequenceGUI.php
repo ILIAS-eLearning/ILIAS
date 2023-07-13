@@ -82,8 +82,8 @@ class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
                 'lso',
                 $lso_ref_id,
                 $lso_obj->getId(),
-                $lso_obj->getDescription(),
                 $lso_obj->getTitle(),
+                $lso_obj->getDescription(),
             );
         }
 
