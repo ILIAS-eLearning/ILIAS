@@ -34,6 +34,7 @@ class ilObjStudyProgrammeCertificateTest extends \PHPUnit\Framework\TestCase
 {
     protected $backupGlobals = false;
     protected PRGPlaceholderMock $placeholder_mock;
+    protected array $assignments;
 
     public function setUp(): void
     {

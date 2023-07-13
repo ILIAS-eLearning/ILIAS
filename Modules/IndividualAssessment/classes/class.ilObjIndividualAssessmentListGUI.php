@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,9 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
+
+declare(strict_types=1);
 
 class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
 {
@@ -30,7 +31,7 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
         $this->link_enabled = true;
         $this->info_screen_enabled = true;
         $this->type = "iass";
-        $this->gui_class_name = "ilobjIndividualassessmentgui";
+        $this->gui_class_name = "ilobjindividualassessmentgui";
 
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         $this->enableSubstitutions($this->substitutions->isActive());
@@ -68,18 +69,5 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
         }
 
         return $return;
-    }
-
-    /**
-    * Get item properties
-    *
-    * @return	array		array of property arrays:
-    *						"alert" (boolean) => display as an alert property (usually in red)
-    *						"property" (string) => property name
-    *						"value" (string) => property value
-    */
-    public function getProperties(): array
-    {
-        return [];
     }
 }

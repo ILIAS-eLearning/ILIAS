@@ -1093,10 +1093,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function showQuestionEditable(assQuestionGUI $questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse)
     {
-        $questionNavigationGUI = $this->buildEditableStateQuestionNavigationGUI(
-            $questionGui->object->getId(),
-            $this->populateCharSelectorIfRequired()
-        );
+        $questionNavigationGUI = $this->buildEditableStateQuestionNavigationGUI($questionGui->object->getId());
         if ($isQuestionWorkedThrough) {
             $questionNavigationGUI->setDiscardSolutionButtonEnabled(true);
             // fau: testNav - set answere status in question header
@@ -1780,11 +1777,22 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function handlePasswordProtectionRedirect()
     {
+        /**
+         * The test password is only checked once per session
+         * to avoid errors during autosave if the password is
+         * changed during a running test.
+         * See Mantis #22536 for more details.
+         */
+        if ($this->testSession->isPasswordChecked() === true) {
+            return;
+        }
+
         if ($this->ctrl->getNextClass() == 'iltestpasswordprotectiongui') {
             return;
         }
 
         if (!$this->passwordChecker->isPasswordProtectionPageRedirectRequired()) {
+            $this->testSession->setPasswordChecked(true);
             return;
         }
 
@@ -1899,29 +1907,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
     }
 
-    /**
-     * @return bool $charSelectorAvailable
-     */
-    protected function populateCharSelectorIfRequired(): bool
-    {
-        global $DIC;
-        $ilSetting = $DIC['ilSetting'];
-
-        if ($ilSetting->get('char_selector_availability') > 0) {
-            $char_selector = ilCharSelectorGUI::_getCurrentGUI($this->object);
-            if ($char_selector->getConfig()->getAvailability() == ilCharSelectorConfig::ENABLED) {
-                $char_selector->addToPage();
-                $this->tpl->setCurrentBlock('char_selector');
-                $this->tpl->setVariable("CHAR_SELECTOR_TEMPLATE", $char_selector->getSelectorHtml());
-                $this->tpl->parseCurrentBlock();
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     protected function getTestNavigationToolbarGUI(): ilTestNavigationToolbarGUI
     {
         global $DIC;
@@ -1968,7 +1953,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         return $navigationGUI;
     }
 
-    protected function buildEditableStateQuestionNavigationGUI($questionId, $charSelectorAvailable): ilTestQuestionNavigationGUI
+    protected function buildEditableStateQuestionNavigationGUI($questionId): ilTestQuestionNavigationGUI
     {
         $navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
 
@@ -2017,8 +2002,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 $navigationGUI->setShowHintsCommand(ilTestPlayerCommands::SHOW_REQUESTED_HINTS_LIST);
             }
         }
-
-        $navigationGUI->setCharSelectorEnabled($charSelectorAvailable);
 
         if ($this->object->getShowMarker()) {
             $solved_array = ilObjTest::_getSolvedQuestions($this->testSession->getActiveId(), $questionId);

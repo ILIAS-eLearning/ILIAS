@@ -48,7 +48,7 @@ See https://mantis.ilias.de/view.php?id=29680
 
 This code is copied from an older mediawiki version. I compares two versions of page HTML outputs and marks differences. The code should either be replaced by a lib that provides the same functionality, refactored and integrated into own code or at least replaced by an up-to-date code excerpt from mediawiki.
 
-### Lower Cyclomatic Complexity
+### Lower Cyclomatic Complexity (Ongoing)
 
 This component suffers from record high cyclomatic complexity numbers. Refactorings should target and split up methods and classes to gain better maintainability.
 
@@ -71,6 +71,13 @@ Cyclomatic Complexity
     Maximum Method Complexity                   114.00
 ...
 ```
+
+### Refactor Update Listeners
+
+If i18n is enabled and a page is copied (e.g. because of a new translation), it is currently not possible to attach an update listener to that page. Because \ilPageObject::copyPageToTranslation statically creates a new instance for the copied page, listeners attached to the source page instance are not copied/executed on update. Of course just copying the update listeners is maybe not sufficient (because copying their arguments could create new issues).
+
+See also https://mantis.ilias.de/view.php?id=29057
+
 
 ## Long Term
 

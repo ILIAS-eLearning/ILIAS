@@ -20,6 +20,10 @@ use PHPUnit\Framework\TestCase;
 
 class ilComponentInfoTest extends TestCase
 {
+    protected ilComponentInfo $component;
+    protected ilPluginSlotInfo $pluginslot1;
+    protected ilPluginSlotInfo $pluginslot2;
+
     protected function setUp(): void
     {
         $slots = [];

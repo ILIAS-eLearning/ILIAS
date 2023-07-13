@@ -29,11 +29,11 @@ use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 */
 class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 {
-    protected $values = array();
+    protected $values = [];
     protected $allowMove = false;
     protected $singleline = true;
     protected $qstObject = null;
-    protected $suffixes = array();
+    protected $suffixes = [];
     protected $showPoints = true;
     protected $hideImages = false;
 
@@ -73,7 +73,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                         (int) $index,
                         1,
                         "",
-                        $a_value['answer_id'][$index]
+                        (int) $a_value['answer_id'][$index]
                     );
                     if (isset($a_value['imagename'][$index])) {
                         $answer->setImage($a_value['imagename'][$index]);
@@ -212,6 +212,16 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         return $this->allowMove;
     }
 
+
+    // Set pending filename value
+    public function setPending(string $val): void
+    {
+        /**
+         * 2023-07-05 sk: This is not how it should be, but there is no got way
+         * around it right now. We need KS-Forms. Now!
+         */
+    }
+
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
@@ -233,7 +243,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && (isset($foundvalues['imagename'])) && (!isset($foundvalues['imagename'][$aidx]) || strlen($foundvalues['imagename'][$aidx]) == 0)) {
+                    if (((strlen($answervalue)) == 0) && (!isset($foundvalues['imagename'][$aidx]) || strlen($foundvalues['imagename'][$aidx]) == 0)) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }

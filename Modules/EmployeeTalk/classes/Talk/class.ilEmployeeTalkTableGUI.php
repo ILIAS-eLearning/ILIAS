@@ -159,12 +159,12 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
 
         $buttons = [];
         if ($this->talk_access->canEdit($ref_id)) {
-            $buttons[] = $this->ui_factory->button()->shy(
+            $buttons[] = $this->ui_factory->link()->standard(
                 $this->language->txt('edit'),
                 $this->ctrl->getLinkTargetByClass($classPath, ControlFlowCommand::UPDATE)
             );
         } else {
-            $buttons[] = $this->ui_factory->button()->shy(
+            $buttons[] = $this->ui_factory->link()->standard(
                 $this->language->txt('view'),
                 $this->ctrl->getLinkTargetByClass($classPath, ControlFlowCommand::INDEX)
             );
@@ -172,7 +172,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
 
         if ($this->talk_access->canDelete($ref_id)) {
             $this->ctrl->setParameterByClass($class, 'item_ref_id', $ref_id);
-            $buttons[] = $this->ui_factory->button()->shy(
+            $buttons[] = $this->ui_factory->link()->standard(
                 $this->language->txt('delete'),
                 $this->ctrl->getLinkTargetByClass($classPath, ControlFlowCommand::DELETE_INDEX)
             );

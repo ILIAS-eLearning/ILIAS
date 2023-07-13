@@ -161,6 +161,14 @@ class PCParagraphTest extends COPageTestBase
             => 'xx <ExtLink Href="http://ilias.php?x=1&y=2">www</ExtLink> xxxx',
             'xx [xln url="http://ilias.de/my+document.pdf"]doc[/xln] xxxx'
             => 'xx <ExtLink Href="http://ilias.de/my+document.pdf">doc</ExtLink> xxxx',
+            'xx [xln url="http://ilias.de/my(document.pdf"]doc[/xln] xxxx'
+            => 'xx <ExtLink Href="http://ilias.de/my(document.pdf">doc</ExtLink> xxxx',
+            'xx [xln url="http://ilias.de/my)document.pdf"]doc[/xln] xxxx'
+            => 'xx <ExtLink Href="http://ilias.de/my)document.pdf">doc</ExtLink> xxxx',
+            'xx [xln url="http://ilias.de/my$document.pdf"]doc[/xln] xxxx'
+            => 'xx <ExtLink Href="http://ilias.de/my$document.pdf">doc</ExtLink> xxxx',
+            'xx [xln url="http://ilias.de/my*document.pdf"]doc[/xln] xxxx'
+            => 'xx <ExtLink Href="http://ilias.de/my*document.pdf">doc</ExtLink> xxxx',
 
             // anchor
             'xx [anc name="test"]test[/anc] xxxx'
@@ -174,11 +182,13 @@ class PCParagraphTest extends COPageTestBase
             "xx \n \xa0 xxxx"
             => "xx <br /> \xa0 xxxx",
 
+            'xx [xln url="http://ilias.de/my+document.pdf\xa0"]doc[/xln] xxxx'
+            => 'xx [error: xln url="http://ilias.de/my+document.pdf\xa0"]doc</ExtLink> xxxx',
 
-        /*'xx [iln cat="106"] xx'
-            => 'xx [iln cat="106"] xx',
-        'xx [/iln] xx'
-            => 'xx [/iln] xx'*/
+            /*'xx [iln cat="106"] xx'
+                => 'xx [iln cat="106"] xx',
+            'xx [/iln] xx'
+                => 'xx [/iln] xx'*/
         ];
 
         foreach ($cases as $in => $expected) {

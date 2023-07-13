@@ -124,10 +124,16 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function editSettings(): void
     {
-        $this->setSettingsSubTabs("general");
-        $ui = $this->ui;
-        $form = $this->getViewForm(self::VIEW_MODE_SETTINGS);
-        $this->tpl->setContent($ui->renderer()->renderAsync($form));
+        if ($this->settings->get('rep_favourites', '0') !== '1') {
+            $content[] = $this->ui->factory()->messageBox()->info($this->lng->txt('favourites_disabled_info'));
+        }
+
+        if ($this->settings->get('mmbr_my_crs_grp', '0') !== '1') {
+            $content[] = $this->ui->factory()->messageBox()->info($this->lng->txt('memberships_disabled_info'));
+        }
+        $this->setSettingsSubTabs('general');
+        $content[] = $this->getViewForm(self::VIEW_MODE_SETTINGS);
+        $this->tpl->setContent($this->ui->renderer()->renderAsync($content));
     }
 
     public function editSorting(): void

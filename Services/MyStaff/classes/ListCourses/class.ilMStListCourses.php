@@ -44,6 +44,12 @@ class ilMStListCourses
 
     final public function getData(array $arr_usr_ids = array(), array $options = array()): ListFetcherResult
     {
+        $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
+
+        if (empty($users_per_position)) {
+            return new ListFetcherResult([], 0);
+        }
+
         //Permission Filter
         $operation_access = ilMyStaffAccess::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION;
 
@@ -82,13 +88,6 @@ class ilMStListCourses
                                                                                                            ) . '
                     INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id AND crs_ref.deleted IS NULL
 	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id';
-
-        $data = [];
-        $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
-
-        if (empty($users_per_position)) {
-            return new ListFetcherResult([], 0);
-        }
 
         $arr_query = [];
         foreach ($users_per_position as $position_id => $users) {

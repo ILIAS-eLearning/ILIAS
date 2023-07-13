@@ -30,6 +30,8 @@ require_once("libs/composer/vendor/autoload.php");
  */
 class HasHelpTopicsTest extends TestCase
 {
+    protected IHasHelpTopics $mock;
+
     public function setUp(): void
     {
         $this->mock = new class () implements IHasHelpTopics {

@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
 /**
  * Dashboard UI
  * @author Alexander Killing <killing@leifos.de>
@@ -46,7 +44,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     public \ilGlobalTemplateInterface $tpl;
     public \ilLanguage $lng;
     public string $cmdClass = '';
-    protected ilAdvancedSelectionListGUI $action_menu;
     protected \ILIAS\GlobalScreen\ScreenContext\ContextServices $tool_context;
     protected int $requested_view;
     protected int $requested_prt_id;
@@ -93,7 +90,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->requested_wsp_id = (int) ($params["wsp_id"] ?? 0);
 
         $this->ctrl->saveParameter($this, array("view"));
-        $this->action_menu = new ilAdvancedSelectionListGUI();
     }
 
     public function executeCommand(): void
@@ -166,7 +162,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $column_gui = new ilColumnGUI("pd");
-                $this->initColumn($column_gui);
                 $this->show();
                 break;
             case 'ilcontactgui':
@@ -257,27 +252,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
         $this->tpl->setContent($this->getCenterColumnHTML());
         $this->tpl->setRightContent($this->getRightColumnHTML());
-
-        if (count($this->action_menu->getItems())) {
-            $tpl = $this->tpl;
-            $lng = $this->lng;
-
-            $this->action_menu->setAsynch(false);
-            $this->action_menu->setAsynchUrl('');
-            $this->action_menu->setListTitle($lng->txt('actions'));
-            $this->action_menu->setId('act_pd');
-            $this->action_menu->setSelectionHeaderClass('small');
-            $this->action_menu->setItemLinkClass('xsmall');
-            $this->action_menu->setLinksMode('il_ContainerItemCommand2');
-            $this->action_menu->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
-            $this->action_menu->setUseImages(false);
-
-            $htpl = new ilTemplate('tpl.header_action.html', true, true, 'Services/Repository');
-            $htpl->setVariable('ACTION_DROP_DOWN', $this->action_menu->getHTML());
-
-            $tpl->setHeaderActionMenu($htpl->get());
-        }
-
         $this->tpl->printToStdout();
     }
 
@@ -287,7 +261,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
         $html = "";
         $column_gui = new ilColumnGUI("pd", IL_COL_CENTER);
-        $this->initColumn($column_gui);
 
         if ($ilCtrl->getNextClass() == "ilcolumngui" &&
             $column_gui->getCmdSide() == IL_COL_CENTER) {
@@ -298,13 +271,11 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                     // right column wants center
                     if ($column_gui->getCmdSide() == IL_COL_RIGHT) {
                         $column_gui = new ilColumnGUI("pd", IL_COL_RIGHT);
-                        $this->initColumn($column_gui);
                         $html = $ilCtrl->forwardCommand($column_gui);
                     }
                     // left column wants center
                     if ($column_gui->getCmdSide() == IL_COL_LEFT) {
                         $column_gui = new ilColumnGUI("pd", IL_COL_LEFT);
-                        $this->initColumn($column_gui);
                         $html = $ilCtrl->forwardCommand($column_gui);
                     }
                 } else {
@@ -334,7 +305,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $html = "";
 
         $column_gui = new ilColumnGUI("pd", IL_COL_RIGHT);
-        $this->initColumn($column_gui);
 
         if ($column_gui->getScreenMode() == IL_SCREEN_FULL) {
             return "";
@@ -485,11 +455,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     public function jumpToSkills(): void
     {
         $this->ctrl->redirectByClass("ilpersonalskillsgui");
-    }
-
-    public function initColumn(ilColumnGUI $a_column_gui): void
-    {
-        $a_column_gui->setActionMenu($this->action_menu);
     }
 
     public function displayHeader(): void

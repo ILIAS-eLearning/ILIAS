@@ -24,6 +24,7 @@ namespace ILIAS\Skill\Service;
 use ILIAS\Skill\Tree;
 use ILIAS\Skill\Profile;
 use ILIAS\Skill\Personal;
+use ILIAS\Skill\Resource;
 
 /**
  * Skill internal factory service
@@ -45,5 +46,10 @@ class SkillInternalFactoryService
     public function personal(): Personal\PersonalSkillFactory
     {
         return new Personal\PersonalSkillFactory();
+    }
+
+    public function resource(): Resource\SkillResourceFactory
+    {
+        return new Resource\SkillResourceFactory();
     }
 }

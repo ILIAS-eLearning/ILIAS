@@ -900,17 +900,6 @@ file containes the following fields:
 
 [//]: # (END PersonalAndSharedResources)
 
-[//]: # (BEGIN PersonalProfile)
-
-* **Personal Profile**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
-	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
-
-[//]: # (END PersonalProfile)
-
 [//]: # (BEGIN Poll)
 
 * **Poll**
@@ -1152,11 +1141,8 @@ file containes the following fields:
 	* Testcases: SIG E-Assessment
 	* Tester: Stefania Akgül (CaT), Stefanie Allmendinger (FAU)
 	  , [dehling](https://docu.ilias.de/goto_docu_usr_12725.html)
-	  , [kderr](https://docu.ilias.de/goto_docu_usr_28900.html)
-	  , [sdittebrand](https://docu.ilias.de/goto_docu_usr_77841.html)
-	  , [ioanna.mitroulaki](https://docu.ilias.de/goto_docu_usr_72564.html)
-	  , [rabah](https://docu.ilias.de/goto_docu_usr_40218.html)
-	  , [vreuschen](https://docu.ilias.de/goto_docu_usr_14382.html)
+          , [simon.lowe](https://docu.ilias.de/goto_docu_usr_79091.html)
+	  , [rabah](https://docu.ilias.de/goto_docu_usr_40218.html)	
 
 [//]: # (END TestAndAssessment)
 

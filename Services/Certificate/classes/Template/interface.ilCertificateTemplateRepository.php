@@ -25,7 +25,7 @@ interface ilCertificateTemplateRepository
     public function updateActivity(ilCertificateTemplate $certificateTemplate, bool $currentlyActive): int;
 
     /**
-     * @throws ilException
+     * @throws ilCouldNotFindCertificateTemplate
      */
     public function fetchTemplate(int $templateId): ilCertificateTemplate;
 
@@ -37,7 +37,7 @@ interface ilCertificateTemplateRepository
     public function fetchCurrentlyUsedCertificate(int $objId): ilCertificateTemplate;
 
     /**
-     * @throws ilException
+     * @throws ilCouldNotFindCertificateTemplate
      */
     public function fetchCurrentlyActiveCertificate(int $objId): ilCertificateTemplate;
 
@@ -56,7 +56,7 @@ interface ilCertificateTemplateRepository
     ): array;
 
     /**
-     * @throws ilException
+     * @throws ilCouldNotFindCertificateTemplate
      */
     public function fetchFirstCreatedTemplate(int $objId): ilCertificateTemplate;
 }

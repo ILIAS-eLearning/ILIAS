@@ -41,14 +41,14 @@ class ilObjectPropertyIsOnline implements ilObjectProperty
         return $this->is_online;
     }
 
-    public function withOnline(): bool
+    public function withOnline(): self
     {
         $clone = clone $this;
         $clone->is_online = true;
         return $clone;
     }
 
-    public function withOffline(): bool
+    public function withOffline(): self
     {
         $clone = clone $this;
         $clone->is_online = false;
@@ -66,7 +66,7 @@ class ilObjectPropertyIsOnline implements ilObjectProperty
             }
         );
         return $field_factory->checkbox($language->txt(self::INPUT_LABEL))
-            ->withByline(self::INPUT_BYLINE)
+            ->withByline($language->txt(self::INPUT_BYLINE))
             ->withAdditionalTransformation($trafo)
             ->withValue($this->getIsOnline());
     }

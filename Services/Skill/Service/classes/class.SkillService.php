@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Service;
 
+use ILIAS\Container\Skills\ContainerSkillInternalService;
+
 /**
  * Skill service
  * @author famula@leifos.de
@@ -97,5 +99,13 @@ class SkillService implements SkillServiceInterface
             $this->rbac_system,
             $this->usr_id
         );
+    }
+
+    /**
+     * Internal service for Skill classes in Container Service
+     */
+    public function internalContainer(): ContainerSkillInternalService
+    {
+        return new ContainerSkillInternalService();
     }
 }

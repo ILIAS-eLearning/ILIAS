@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 require_once 'tests/UI/AbstractFactoryTest.php';
 
 /**
@@ -29,8 +29,11 @@ class LayoutFactoryTest extends AbstractFactoryTest
 {
     public array $kitchensink_info_settings = [
         "page" => [
-                "context" => false,
-                "rules" => false
+            "context" => false,
+            "rules" => false
+        ],
+        "alignment" => [
+            "context" => true
         ]
     ];
     public string $factory_title = 'ILIAS\\UI\\Component\\Layout\\Factory';

@@ -27,13 +27,14 @@ use ilMailTemplateService;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Mail\Autoresponder\AutoresponderDatabaseRepository;
 use ilMailTemplateRepository;
+use ilMailTemplateServiceInterface;
 
 class MailService
 {
     public function __construct(protected Container $dic)
     {
-        if (!isset($this->dic['mail.texttemplates.service'])) {
-            $this->dic['mail.texttemplates.service'] = static function (Container $c): ilMailTemplateService {
+        if (!isset($this->dic[ilMailTemplateServiceInterface::class])) {
+            $this->dic[ilMailTemplateServiceInterface::class] = static function (Container $c): ilMailTemplateServiceInterface {
                 return new ilMailTemplateService(new ilMailTemplateRepository($c->database()));
             };
         }
@@ -57,8 +58,8 @@ class MailService
         );
     }
 
-    public function textTemplates(): ilMailTemplateService
+    public function textTemplates(): ilMailTemplateServiceInterface
     {
-        return $this->dic["mail.texttemplates.service"];
+        return $this->dic[ilMailTemplateServiceInterface::class];
     }
 }

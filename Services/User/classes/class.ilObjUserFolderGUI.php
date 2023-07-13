@@ -307,14 +307,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
     ): void {
         $user_filter = null;
 
-        if ($this->rbac_system->checkAccess(
-            'view',
-            $this->object->getRefId()
-        ) ||
-            $this->rbac_system->checkAccess(
-                'cat_administrate_users',
-                $this->object->getRefId()
-            )) {
+        if ($this->rbac_system->checkAccess('create_usr', $this->object->getRefId())
+            || $this->rbac_system->checkAccess('cat_administrate_users', $this->object->getRefId())) {
             $this->toolbar->addComponent(
                 $this->ui_factory->link()->standard(
                     $this->lng->txt('usr_add'),
@@ -857,10 +851,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
     ): bool {
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
-            $this->ilias->raiseError(
-                $this->lng->txt('no_checkbox'),
-                $this->ilias->error_obj->MESSAGE
-            );
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'));
+            $this->viewObject();
+            return false;
         }
 
         if (!$a_from_search) {
@@ -950,6 +943,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     public function deleteUsersObject(): void
     {
+        if (in_array($this->user->getId(), $this->getActionUserIds())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_delete_yourself'));
+            $this->viewObject();
+            return;
+        }
         $this->showActionConfirmation('delete');
     }
 
@@ -960,6 +958,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     public function deactivateUsersObject(): void
     {
+        if (in_array($this->user->getId(), $this->getActionUserIds())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_deactivate_yourself'));
+            $this->viewObject();
+            return;
+        }
         $this->showActionConfirmation('deactivate');
     }
 
@@ -992,7 +995,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             !$this->rbac_system->checkAccess('create_usr', $this->object->getRefId()) &&
             !$this->access->checkAccess('cat_administrate_users', '', $this->object->getRefId())
         ) {
-            $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
+            return;
         }
         $this->initUserImportForm();
         $tpl->setContent($this->form->getHTML());
@@ -1007,7 +1011,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $this->lng->txt('import_file'),
             'importFile'
         );
-        $fi->setSuffixes(['xml', 'zip']);
+        $fi->setSuffixes(['xml']);
         $fi->setRequired(true);
         $this->form->addItem($fi);
 

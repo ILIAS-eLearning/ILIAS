@@ -21,6 +21,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Profile;
 
+use ILIAS\Container\Skills\ContainerSkill;
+use ILIAS\Skill\GapAnalysisSkill;
+
 /**
  * Manages skill profile completion
  *
@@ -49,7 +52,7 @@ class SkillProfileCompletionManager
     }
 
     /**
-     * @param SkillProfileLevel[] $skills
+     * @param GapAnalysisSkill[] $skills
      * @return array<int, array<int, int>>
      */
     public function getActualMaxLevels(
@@ -104,7 +107,7 @@ class SkillProfileCompletionManager
     }
 
     /**
-     * @param SkillProfileLevel[] $skills
+     * @param GapAnalysisSkill[] $skills
      * @return array<int, array<int, float>>
      */
     public function getActualNextLevelFulfilments(
@@ -224,7 +227,7 @@ class SkillProfileCompletionManager
     /**
      * Write profile completion entries (fulfilled or non-fulfilled) of user for all profiles
      */
-    public function writeCompletionEntryForAllProfiles(int $user_id): void
+    public function writeCompletionEntryForAllProfilesOfUser(int $user_id): void
     {
         $completions = $this->getAllProfileCompletionsForUser($user_id);
         foreach ($completions as $profile_id => $fulfilled) {
@@ -239,12 +242,34 @@ class SkillProfileCompletionManager
     /**
      * Write profile completion entry (fulfilled or non-fulfilled) of user for given profile
      */
-    public function writeCompletionEntryForSingleProfile(int $user_id, int $profile_id): void
+    public function writeCompletionEntryForSingleProfileOfUser(int $user_id, int $profile_id): void
     {
         if ($this->isProfileFulfilled($user_id, $profile_id)) {
             $this->profile_completion_repo->addFulfilmentEntry($user_id, $profile_id);
         } else {
             $this->profile_completion_repo->addNonFulfilmentEntry($user_id, $profile_id);
+        }
+    }
+
+    /**
+     * Write completion entries for a profile for all assigned users of the given profile
+     */
+    public function writeCompletionEntryForAllAssignedUsersOfProfile(int $profile_id): void
+    {
+        $users = $this->profile_manager->getAssignedUserIdsIncludingRoleAssignments($profile_id);
+        foreach ($users as $user_id) {
+            $this->writeCompletionEntryForSingleProfileOfUser($user_id, $profile_id);
+        }
+    }
+
+    /**
+     * Write completion entries for a profile for assigned users of a role
+     */
+    public function writeCompletionEntryForRole(int $role_id, int $profile_id): void
+    {
+        $r_users = $this->profile_manager->getAssignedUsersForRole($role_id);
+        foreach ($r_users as $user_id) {
+            $this->writeCompletionEntryForSingleProfileOfUser($user_id, $profile_id);
         }
     }
 

@@ -19,30 +19,26 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Certificate\API\UserCertificateApiInterface;
 
-/**
- * Class ilCertificateAppEventListener
- * @author  Niels Theen <ntheen@databay.de>
- * @version $Id:$
- * @package Services/Certificate
- */
 class ilCertificateAppEventListener implements ilAppEventListener
 {
-    protected string $component = '';
-    protected string $event = '';
-    protected array $parameters = [];
+    private string $component = '';
+    private string $event = '';
+    /** @var array<string, mixed> */
+    private array $parameters = [];
+
     private readonly ilCertificateQueueRepository $certificateQueueRepository;
-    private readonly ilCertificateTypeClassMap $certificateClassMap;
     private readonly ilCertificateTemplateRepository $templateRepository;
     private readonly ilUserCertificateRepository $userCertificateRepository;
 
     public function __construct(
-        protected ilDBInterface $db,
+        private readonly UserCertificateApiInterface $user_certificate_api,
+        private readonly ilDBInterface $db,
         private readonly ilObjectDataCache $objectDataCache,
         private readonly ilLogger $logger
     ) {
         $this->certificateQueueRepository = new ilCertificateQueueRepository($this->db, $this->logger);
-        $this->certificateClassMap = new ilCertificateTypeClassMap();
         $this->templateRepository = new ilCertificateTemplateDatabaseRepository($this->db, $this->logger);
         $this->userCertificateRepository = new ilUserCertificateRepository($this->db, $this->logger);
     }
@@ -65,6 +61,9 @@ class ilCertificateAppEventListener implements ilAppEventListener
         return $clone;
     }
 
+    /**
+     * @param array<string, mixed> $parameters
+     */
     public function withParameters(array $parameters): self
     {
         $clone = clone $this;
@@ -77,24 +76,16 @@ class ilCertificateAppEventListener implements ilAppEventListener
     protected function isLearningAchievementEvent(): bool
     {
         return (
-            'Services/Tracking' === $this->component &&
-            'updateStatus' === $this->event
+            $this->component === 'Services/Tracking' &&
+            $this->event === 'updateStatus'
         );
     }
 
     protected function isUserDeletedEvent(): bool
     {
         return (
-            'Services/User' === $this->component &&
-            'deleteUser' === $this->event
-        );
-    }
-
-    protected function isCompletedStudyProgramme(): bool
-    {
-        return (
-            'Modules/StudyProgramme' === $this->component &&
-            'userSuccessful' === $this->event
+            $this->component === 'Services/User' &&
+            $this->event === 'deleteUser'
         );
     }
 
@@ -108,22 +99,18 @@ class ilCertificateAppEventListener implements ilAppEventListener
                 $this->handleLPUpdate();
             } elseif ($this->isUserDeletedEvent()) {
                 $this->handleDeletedUser();
-            } elseif ($this->isCompletedStudyProgramme()) {
-                $this->handleCompletedStudyProgramme();
             }
         } catch (ilException $e) {
             $this->logger->error($e->getMessage());
         }
     }
 
-    /**
-     * @throws IOException
-     */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         global $DIC;
 
         $listener = new self(
+            $DIC->certificate()->userCertificates(),
             $DIC->database(),
             $DIC['ilObjDataCache'],
             $DIC->logger()->cert()
@@ -139,133 +126,88 @@ class ilCertificateAppEventListener implements ilAppEventListener
     private function handleLPUpdate(): void
     {
         $status = (int) ($this->parameters['status'] ?? ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM);
+        if ($status !== ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+            return;
+        }
 
-        $settings = new ilSetting('certificate');
+        $object_id = (int) ($this->parameters['obj_id'] ?? 0);
+        $usr_id = (int) ($this->parameters['usr_id'] ?? 0);
+        $type = $this->objectDataCache->lookupType($object_id);
 
-        if ($status === ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-            $objectId = (int) ($this->parameters['obj_id'] ?? 0);
-            $userId = (int) ($this->parameters['usr_id'] ?? 0);
+        $this->logger->debug(sprintf(
+            "Certificate evaluation triggered, received 'completed' learning progress for: usr_id: %s/obj_id: %s/type: %s",
+            $usr_id,
+            $object_id,
+            $type
+        ));
 
-            $type = $this->objectDataCache->lookupType($objectId);
-
+        try {
+            $this->user_certificate_api->certificateCriteriaMet(
+                $usr_id,
+                $object_id
+            );
+        } catch (ilCouldNotFindCertificateTemplate | ilCertificateConsumerNotSupported) {
             $this->logger->debug(sprintf(
-                "Certificate evaluation triggered, received 'completed' learning progress for: usr_id: %s/obj_id: %s/type: %s",
-                $userId,
-                $objectId,
+                'Consumer not supported, or did not find an active certificate template for case: usr_id: %s/obj_id: %s/type: %s',
+                $usr_id,
+                $object_id,
                 $type
             ));
+        } catch (ilException $e) {
+            $this->logger->warning($e->getMessage());
+        }
 
-            if ($this->certificateClassMap->typeExistsInMap($type)) {
-                try {
-                    $template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
-
-                    if ($template->isCurrentlyActive()) {
-                        $this->logger->debug(sprintf(
-                            "Trigger persisting certificate achievement for: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
-                            $userId,
-                            $objectId,
-                            $type,
-                            $template->getId()
-                        ));
-                        $this->processEntry($type, $objectId, $userId, $template, $settings);
-                    } else {
-                        $this->logger->debug(sprintf(
-                            "Did not trigger certificate achievement for inactive template: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
-                            $userId,
-                            $objectId,
-                            $type,
-                            $template->getId()
-                        ));
-                    }
-                } catch (ilException) {
-                    $this->logger->debug(sprintf(
-                        "Did not find an active certificate template for case: usr_id: %s/obj_id: %s/type: %s",
-                        $userId,
-                        $objectId,
-                        $type
-                    ));
-                }
-            } else {
-                $this->logger->debug(
-                    "Object type ($type) is not of interest, skipping certificate evaluation for this object"
-                );
-            }
-
-            if ($type === 'crs') {
-                $this->logger->debug(
-                    'Skipping handling for course, because courses cannot be certificate trigger ' .
-                    '(with globally disabled learning progress) for other certificate enabled objects'
-                );
-                return;
-            }
-
+        if ($type === 'crs') {
             $this->logger->debug(
-                'Triggering certificate evaluation of possible depending course objects ...'
+                'Skipping handling for course, because courses cannot be certificate trigger ' .
+                '(with globally disabled learning progress) for other certificate enabled objects'
             );
+            return;
+        }
 
-            $progressEvaluation = new ilCertificateCourseLearningProgressEvaluation(
-                new ilCachedCertificateTemplateRepository(
-                    $this->templateRepository
-                )
-            );
-            foreach (ilObject::_getAllReferences($objectId) as $refId) {
-                $templatesOfCompletedCourses = $progressEvaluation->evaluate($refId, $userId);
-                if ([] === $templatesOfCompletedCourses) {
-                    $this->logger->debug(sprintf(
-                        "No dependent course certificate template configuration found for child object: usr_id: %s/obj_id: %s/ref_id: %s/type: %s",
-                        $userId,
-                        $objectId,
-                        $refId,
-                        $type
-                    ));
+        $this->logger->debug(
+            'Triggering certificate evaluation of possible depending course objects ...'
+        );
+
+        $progressEvaluation = new ilCertificateCourseLearningProgressEvaluation(
+            new ilCachedCertificateTemplateRepository(
+                $this->templateRepository
+            )
+        );
+        foreach (ilObject::_getAllReferences($object_id) as $refId) {
+            $templatesOfCompletedCourses = $progressEvaluation->evaluate($refId, $usr_id);
+            if ([] === $templatesOfCompletedCourses) {
+                $this->logger->debug(sprintf(
+                    'No dependent course certificate template configuration found for child object: usr_id: %s/obj_id: %s/ref_id: %s/type: %s',
+                    $usr_id,
+                    $object_id,
+                    $refId,
+                    $type
+                ));
+                continue;
+            }
+
+            foreach ($templatesOfCompletedCourses as $courseTemplate) {
+                // We do not check if we support the type anymore, because the type 'crs' is always supported
+                try {
+                    $this->user_certificate_api->certificateCriteriaMetForGivenTemplate(
+                        $usr_id,
+                        $courseTemplate
+                    );
+                } catch (ilException $e) {
+                    $this->logger->warning($e->getMessage());
                     continue;
                 }
-
-                foreach ($templatesOfCompletedCourses as $courseTemplate) {
-                    // We do not check if we support the type anymore, because the type 'crs' is always supported
-                    try {
-                        $courseObjectId = $courseTemplate->getObjId();
-
-                        if ($courseTemplate->isCurrentlyActive()) {
-                            $type = $this->objectDataCache->lookupType($courseObjectId);
-
-                            $this->logger->debug(sprintf(
-                                "Trigger persisting certificate achievement for: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
-                                $userId,
-                                $courseObjectId,
-                                'crs',
-                                $courseTemplate->getId()
-                            ));
-                            $this->processEntry($type, $courseObjectId, $userId, $courseTemplate, $settings);
-                        } else {
-                            $this->logger->debug(sprintf(
-                                "Did not trigger certificate achievement for inactive template: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
-                                $userId,
-                                $objectId,
-                                $type,
-                                $courseTemplate->getId()
-                            ));
-                        }
-                    } catch (ilException $exception) {
-                        $this->logger->warning($exception->getMessage());
-                        continue;
-                    }
-                }
             }
-
-            $this->logger->debug(
-                'Finished certificate evaluation'
-            );
         }
+
+        $this->logger->debug(
+            'Finished certificate evaluation'
+        );
     }
 
-    /**
-     * @throws IOException
-     */
     private function handleDeletedUser(): void
     {
-        $portfolioFileService = new ilPortfolioCertificateFileService();
-
         if (!array_key_exists('usr_id', $this->parameters)) {
             $this->logger->error('User ID is not added to the event. Abort.');
             return;
@@ -273,76 +215,17 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
         $this->logger->debug('User has been deleted. Try to delete user certificates');
 
-        $userId = $this->parameters['usr_id'];
+        $userId = (int) $this->parameters['usr_id'];
 
-        $this->userCertificateRepository->deleteUserCertificates((int) $userId);
+        $this->userCertificateRepository->deleteUserCertificates($userId);
+        $this->certificateQueueRepository->removeFromQueueByUserId($userId);
 
-        $this->certificateQueueRepository->removeFromQueueByUserId((int) $userId);
-
+        $portfolioFileService = new ilPortfolioCertificateFileService();
         $portfolioFileService->deleteUserDirectory($userId);
 
         $this->logger->debug(sprintf(
             'All relevant data sources for the user certificates for user (usr_id: "%s" deleted)',
             $userId
         ));
-    }
-
-    private function processEntry(
-        string $type,
-        int $objectId,
-        int $userId,
-        ilCertificateTemplate $template,
-        ilSetting $settings
-    ): void {
-        $className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
-
-        $entry = new ilCertificateQueueEntry(
-            $objectId,
-            $userId,
-            $className,
-            ilCronConstants::IN_PROGRESS,
-            $template->getId(),
-            time()
-        );
-
-        $mode = $settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron');
-        if ($mode === 'persistent_certificate_mode_instant') {
-            $cronjob = new ilCertificateCron();
-            $cronjob->init();
-            $cronjob->processEntry(0, $entry, []);
-            return;
-        }
-
-        $this->certificateQueueRepository->addToQueue($entry);
-    }
-
-    private function handleCompletedStudyProgramme(): void
-    {
-        $settings = new ilSetting('certificate');
-        $objectId = $this->parameters['prg_id'] ?? 0;
-        $userId = $this->parameters['usr_id'] ?? 0;
-        try {
-            $template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
-            if ($template->isCurrentlyActive()) {
-                $entry = new ilCertificateQueueEntry(
-                    $objectId,
-                    $userId,
-                    ilStudyProgrammePlaceholderValues::class,
-                    ilCronConstants::IN_PROGRESS,
-                    $template->getId(),
-                    time()
-                );
-                $mode = $settings->get('persistent_certificate_mode', '');
-                if ($mode === 'persistent_certificate_mode_instant') {
-                    $cronjob = new ilCertificateCron();
-                    $cronjob->init();
-                    $cronjob->processEntry(0, $entry, []);
-                    return;
-                }
-                $this->certificateQueueRepository->addToQueue($entry);
-            }
-        } catch (ilException $exception) {
-            $this->logger->warning($exception->getMessage());
-        }
     }
 }

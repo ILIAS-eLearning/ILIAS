@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\UI\Component\Input;
@@ -148,14 +147,25 @@ class ilIndividualAssessmentSettingsGUI
             $this->lng,
             $this->refinery
         );
-        return $this->input_factory->container()->form()->standard(
-            $this->ctrl->getFormAction($this, "update"),
-            [$field]
-        )
-        ->withAdditionalTransformation(
+
+        // Use centralized on/offline
+        $online = $this->object->getObjectProperties()->getPropertyIsOnline()->toForm(
+            $this->lng,
+            $this->input_factory->field(),
+            $this->refinery
+        );
+        $availability = $this->input_factory->field()->section(
+            [$online],
+            $this->lng->txt('iass_settings_availability')
+        )->withAdditionalTransformation(
             $this->refinery->custom()->transformation(function ($v) {
                 return array_shift($v);
             })
+        );
+
+        return $this->input_factory->container()->form()->standard(
+            $this->ctrl->getFormAction($this, "update"),
+            [$field, $availability]
         );
     }
 
@@ -174,8 +184,11 @@ class ilIndividualAssessmentSettingsGUI
         $settings = $form->getData();
 
         if (!is_null($settings)) {
-            $this->object->setSettings($settings);
+            $this->object->setSettings($settings[0]);
             $this->object->update();
+
+            $this->object->getObjectProperties()->storePropertyIsOnline($settings[1]);
+
             $this->tpl->setOnScreenMessage("success", $this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this, "edit");
         } else {

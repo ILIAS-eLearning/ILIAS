@@ -49,6 +49,8 @@ class ilStudyProgrammeCronAboutToExpireTest extends TestCase
     protected ilStudyProgrammeSettingsDBRepository $settings_repo;
     protected ilPRGAssignmentDBRepository $assignment_repo;
     protected ProgrammeEventsMock $events;
+    protected ilPrgNotRestarted $adapter;
+    protected ilPrgNotRestarted $real_adapter;
 
     protected function setUp(): void
     {
@@ -102,7 +104,7 @@ class ilStudyProgrammeCronAboutToExpireTest extends TestCase
             ->expects($this->once())
             ->method('getRelevantProgrammeIds')
             ->willReturn([
-                1=>3
+                1 => 3
             ]);
         $this->assignment_repo
             ->expects($this->once())
@@ -130,8 +132,8 @@ class ilStudyProgrammeCronAboutToExpireTest extends TestCase
             ->expects($this->once())
             ->method('getProgrammeIdsWithMailsForExpiringValidity')
             ->willReturn([
-                42=>3,
-                43=>3
+                42 => 3,
+                43 => 3
             ]);
 
         $this->assignment_repo

@@ -43,9 +43,8 @@ class ilMailSearchCoursesGUI extends ilMailSearchObjectGUI
     {
         $isOffline = !$object->isActivated();
         $showMemberListEnabled = (bool) $object->getShowMembers();
-        $hasUntrashedReferences = ilObject::_hasUntrashedReference($object->getId());
         $isPrivilegedUser = $this->rbacsystem->checkAccess('write', $object->getRefId());
 
-        return $hasUntrashedReferences && ((!$isOffline && $showMemberListEnabled) || $isPrivilegedUser);
+        return (!$isOffline && $showMemberListEnabled) || $isPrivilegedUser;
     }
 }

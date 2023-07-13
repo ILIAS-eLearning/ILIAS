@@ -22,6 +22,7 @@ use ILIAS\BackgroundTasks\BackgroundTaskServices;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Util\Archive\LegacyArchives;
 use ILIAS\Cache\Services;
+use ILIAS\Filesystem\Util\Convert\Converters;
 use ILIAS\Repository;
 use ILIAS\Skill\Service\SkillService;
 
@@ -419,6 +420,7 @@ class Container extends \Pimple\Container
         return $this->file_service_settings;
     }
 
+
     public function archives(): Archives
     {
         return new Archives();
@@ -430,6 +432,11 @@ class Container extends \Pimple\Container
     public function legacyArchives(): LegacyArchives
     {
         return new LegacyArchives();
+    }
+
+    public function fileConverters(): Converters
+    {
+        return new Converters();
     }
 
     public function contentStyle(): \ILIAS\Style\Content\Service
@@ -450,6 +457,11 @@ class Container extends \Pimple\Container
     public function mail(): \ILIAS\Mail\Service\MailService
     {
         return new \ILIAS\Mail\Service\MailService($this);
+    }
+
+    public function certificate(): \ILIAS\Certificate\Service\CertificateService
+    {
+        return new \ILIAS\Certificate\Service\CertificateService($this);
     }
 
     /**

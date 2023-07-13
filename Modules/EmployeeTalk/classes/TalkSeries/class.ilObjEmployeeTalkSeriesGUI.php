@@ -30,6 +30,7 @@ use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotification;
  *
  * @ilCtrl_IsCalledBy ilObjEmployeeTalkSeriesGUI: ilEmployeeTalkMyStaffListGUI
  * @ilCtrl_IsCalledBy ilObjEmployeeTalkSeriesGUI: ilEmployeeTalkMyStaffUserGUI
+ * @ilCtrl_IsCalledBy ilObjEmployeeTalkSeriesGUI: ilAdministrationGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilRepositorySearchGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilColumnGUI
@@ -72,7 +73,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         }
 
         $this->omitLocator();
-        $this->container->ui()->mainTemplate()->setTitle($this->container->language()->txt('mst_my_staff'));
     }
 
     private function checkAccessOrFail(): void
@@ -122,6 +122,15 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             default:
                 parent::executeCommand();
         }
+    }
+
+    /**
+     * This GUI is only called when creating a talk (series). In the creation dialog,
+     * there should not be a header.
+     */
+    protected function setTitleAndDescription(): void
+    {
+        $this->tpl->resetHeaderBlock();
     }
 
     /**
@@ -237,9 +246,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
     protected function initCreateForm(string $new_type): ilPropertyFormGUI
     {
-        // Init dom events or ui will break on page load
-        ilYuiUtil::initDomEvent();
-
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this, "save") . '&template=' . $this->getTemplateRefId());
@@ -316,7 +322,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
     public function viewObject(): void
     {
-        $this->tabs_gui->activateTab('view_content');
+        self::_goto((string) $this->ref_id);
     }
 
     public function getTabs(): void
@@ -343,7 +349,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $superiorName = $superior->getFullname();
 
         $dates = array_map(
-            fn (ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
+            fn(ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
             $talks
         );
         usort($dates, function (ilDateTime $a, ilDateTime $b) {
@@ -640,25 +646,24 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
     public static function _goto(string $refId): void
     {
-        /**
-         * @var \ILIAS\DI\Container $container
+        global $DIC;
+
+        $children = $DIC->repositoryTree()->getChildIds((int) $refId);
+
+        /*
+         * If the series contains talks, redirect to first talk,
+         * if not (which should only happen if someone messes with
+         * the URL) redirect to dashboard.
          */
-        $container = $GLOBALS['DIC'];
-        if (!ilObject::_exists((int) $refId, true)) {
-            $container["tpl"]->setOnScreenMessage(
+        if (empty($children)) {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
                 'failure',
-                $container->language()->txt("permission_denied"),
+                $DIC->language()->txt("permission_denied"),
                 true
             );
-            $container->ctrl()->redirectByClass(ilDashboardGUI::class, "");
+            $DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
-        $container->ctrl()->setParameterByClass(strtolower(self::class), 'ref_id', $refId);
-        $container->ctrl()->redirectByClass([
-            strtolower(ilDashboardGUI::class),
-            strtolower(ilMyStaffGUI::class),
-            strtolower(ilEmployeeTalkMyStaffListGUI::class),
-            strtolower(self::class),
-        ], ControlFlowCommand::INDEX);
+        ilObjEmployeeTalkGUI::_goto((string) $children[0]);
     }
 
     private function getTemplateRefId(): int

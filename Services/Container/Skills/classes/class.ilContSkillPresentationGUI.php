@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +19,8 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Service\SkillProfileService;
+
 /**
  * Skill presentation for container (course/group)
  *
@@ -32,10 +36,8 @@ class ilContSkillPresentationGUI
     protected ilContainerGUI $container_gui;
     protected ilContainer $container;
     protected ilObjUser $user;
-    protected ilContainerSkills $container_skills;
-    protected ilContainerGlobalProfiles $container_global_profiles;
-    protected ilContainerLocalProfiles $container_local_profiles;
-    protected ilContSkillCollector $container_skill_collector;
+    protected \ILIAS\Container\Skills\ContainerSkillManager $cont_skill_manager;
+    protected int $cont_member_role_id = 0;
 
     public function __construct(ilContainerGUI $a_container_gui)
     {
@@ -51,27 +53,20 @@ class ilContSkillPresentationGUI
         /* @var $obj ilContainer */
         $obj = $this->container_gui->getObject();
         $this->container = $obj;
+        $this->cont_member_role_id = ilParticipants::getDefaultMemberRole($this->container->getRefId());
 
-        $this->container_skills = new ilContainerSkills($this->container->getId());
-        $this->container_global_profiles = new ilContainerGlobalProfiles($this->container->getId());
-        $this->container_local_profiles = new ilContainerLocalProfiles($this->container->getId());
-
-        $this->container_skill_collector = new ilContSkillCollector(
-            $this->container_skills,
-            $this->container_global_profiles,
-            $this->container_local_profiles
+        $this->cont_skill_manager = $DIC->skills()->internalContainer()->manager()->getSkillManager(
+            $this->container->getId(),
+            $this->container->getRefId()
         );
     }
 
     public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
-        $tabs = $this->tabs;
-
-        $tabs->activateSubTab("list");
 
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd("show");
+        $cmd = $this->ctrl->getCmd("showProfiles");
         $this->setPermanentLink();
 
         switch ($next_class) {
@@ -80,7 +75,7 @@ class ilContSkillPresentationGUI
                 break;
 
             default:
-                if ($cmd === "show") {
+                if (in_array($cmd, ["showProfiles", "showRecords"])) {
                     $this->$cmd();
                 }
         }
@@ -101,16 +96,30 @@ class ilContSkillPresentationGUI
         $gui->setGapAnalysisActualStatusModePerObject($this->container->getId());
         $gui->setTriggerObjectsFilter($this->getSubtreeObjectIds());
         $gui->setHistoryView(true); // NOT IMPLEMENTED YET
-        $skills = $this->container_skill_collector->getSkillsForPresentationGUI();
-        $gui->setObjectSkills($this->container_skills->getId(), $skills);
-        $gui->setObjectSkillProfiles($this->container_global_profiles, $this->container_local_profiles);
+        $skills = $this->cont_skill_manager->getSkillsForPresentationGUI();
+        $gui->setObjectSkills($this->container->getId(), $skills);
+        $gui->setObjectSkillProfiles($this->cont_member_role_id);
         return $gui;
     }
 
-    public function show(): void
+    public function showProfiles(): void
     {
+        $tabs = $this->tabs;
+
+        $tabs->activateSubTab("mem_profiles");
+
         $gui = $this->getPersonalSkillsGUI();
-        $gui->listProfilesForGap();
+        $gui->listAllProfilesForGap();
+    }
+
+    public function showRecords(): void
+    {
+        $tabs = $this->tabs;
+
+        $tabs->activateSubTab("mem_records");
+
+        $gui = $this->getPersonalSkillsGUI();
+        $gui->listRecordsForGap();
     }
 
     protected function getSubtreeObjectIds(): array

@@ -1,12 +1,11 @@
 # Media Objects
 
-## Business Rules
+## Access Handling
 
-Access Handling
 - Media objects can be re-used, e.g. when pages are copied or media objects are inserted from a media pool in a learning module.
 - All references "are equal". The container handles write access to the media object. This mostly means that write access to a container like a learning module gives write access to the media object.
 
-Media Types
+## Media Types
 
 - ILIAS fully supports image types jpg, gif, svg, png, mp3 and mp4 files.
 - ILIAS 8 supports external youtube and vimeo references. Since it uses mediaelement.js for rendering, not all features of youtube and vimeo are supported. On the other hand mediaelement.js is not able to fully deactivate/hide all features of the native youtube or vimeo presentation.
@@ -17,3 +16,8 @@ Media Types
   - in px
   - relative to the viewport (e.g. setting "height: 80vh" as custom parameter)
   - with an aspect ratio (e.g. setting "aspect-ratio: 16/9" as custom parameter)
+- SVGs files are rendered as embed-tags inside content pages. ILIAS tries to render SVG files "image like", but please note that SVG allows to define a much more complex behaviour. You should declare a viewBox in your SVG to give it aspect ratio information. Specifying additional width and height in the SVG will currently give it a default size in most browsers. When using the page editor you should either define a size in the properties of the media object or define at least the width per css in an attached content style class, e.g. 100% if you want it to scale with its container. 
+
+## Video
+
+- ILIAS renders the video tag with the attribute `preload="auto"` to tell the browser to load the basic video data like the duration into the player. In almost all browsers this enables a preview image of the video, but not in all, e.g. Safari decides to save bandwidth instead.

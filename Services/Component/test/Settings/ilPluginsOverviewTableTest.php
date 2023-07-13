@@ -28,6 +28,12 @@ use ILIAS\UI\Component\Button\Shy;
 
 class ilPluginsOverviewTableTest extends TestCase
 {
+    protected ilObjComponentSettingsGUI $parent_gui;
+    protected ilCtrl $ctrl;
+    protected Factory $ui;
+    protected Renderer $renderer;
+    protected ilLanguage $lng;
+
     protected function setUp(): void
     {
         $this->parent_gui = $this->createMock(ilObjComponentSettingsGUI::class);
@@ -36,7 +42,7 @@ class ilPluginsOverviewTableTest extends TestCase
         $this->renderer = $this->createMock(Renderer::class);
         $this->lng = $this->createMock(ilLanguage::class);
         $this->lng->method("txt")
-            ->willReturnCallback(fn ($id) => $id);
+            ->willReturnCallback(fn($id) => $id);
     }
 
     public function testCreateObject(): void

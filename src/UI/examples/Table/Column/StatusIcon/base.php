@@ -24,13 +24,10 @@ function base()
 
     $data_retrieval = new class ($f, $r, $dummy_records) implements I\DataRetrieval {
         public function __construct(
-            \ILIAS\UI\Factory $ui_factory,
-            \ILIAS\UI\Renderer $ui_renderer,
-            array $dummy_records
+            protected \ILIAS\UI\Factory $ui_factory,
+            protected \ILIAS\UI\Renderer $ui_renderer,
+            protected array $records
         ) {
-            $this->ui_factory = $ui_factory;
-            $this->ui_renderer = $ui_renderer;
-            $this->records = $dummy_records;
         }
 
         public function getRows(

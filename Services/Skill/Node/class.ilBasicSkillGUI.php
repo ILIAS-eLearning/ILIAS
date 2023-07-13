@@ -24,6 +24,7 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\Skill\Resource;
 
 /**
  * Basic skill GUI class
@@ -42,6 +43,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     protected Factory $ui_fac;
     protected Renderer $ui_ren;
     protected ServerRequestInterface $request;
+    protected Resource\SkillResourcesManager $resource_manager;
 
     protected int $tref_id = 0;
     protected int $requested_level_id = 0;
@@ -86,6 +88,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->ui_ren = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
         $ilCtrl = $DIC->ctrl();
+        $this->resource_manager = $DIC->skills()->internal()->manager()->getResourceManager();
 
         $ilCtrl->saveParameter($this, array("node_id", "level_id"));
         $this->base_skill_id = $a_node_id;
@@ -674,10 +677,14 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         }
 
         if ($ref_id > 0) {
-            $sres = new ilSkillResources($this->base_skill_id, $this->tref_id);
-            $sres->setResourceAsImparting($this->requested_level_id, $ref_id);
-            $sres->setResourceAsTrigger($this->requested_level_id, $ref_id, false);
-            $sres->save();
+            $this->resource_manager->setResource(
+                $this->base_skill_id,
+                $this->tref_id,
+                $this->requested_level_id,
+                $ref_id,
+                true,
+                false
+            );
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
@@ -730,12 +737,14 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         }
 
         if (!empty($this->requested_resource_ids)) {
-            $sres = new ilSkillResources($this->base_skill_id, $this->tref_id);
             foreach ($this->requested_resource_ids as $i) {
-                $sres->setResourceAsImparting($this->requested_level_id, $i, false);
-                $sres->setResourceAsTrigger($this->requested_level_id, $i, false);
+                $this->resource_manager->removeResource(
+                    $this->base_skill_id,
+                    $this->tref_id,
+                    $this->requested_level_id,
+                    $i
+                );
             }
-            $sres->save();
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
 
@@ -746,27 +755,34 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     {
         $ilCtrl = $this->ctrl;
 
-        $resources = new ilSkillResources($this->base_skill_id, $this->tref_id);
-
-        foreach ($resources->getResourcesOfLevel($this->requested_level_id) as $r) {
+        foreach ($this->resource_manager->getResourcesOfLevel(
+            $this->base_skill_id,
+            $this->tref_id,
+            $this->requested_level_id
+        ) as $r) {
             $imparting = false;
             if (!empty($this->requested_suggested)
-                && isset($this->requested_suggested[$r["rep_ref_id"]])
-                && $this->requested_suggested[$r["rep_ref_id"]]
+                && isset($this->requested_suggested[$r->getRepoRefId()])
+                && $this->requested_suggested[$r->getRepoRefId()]
             ) {
                 $imparting = true;
             }
             $trigger = false;
             if (!empty($this->requested_trigger)
-                && isset($this->requested_trigger[$r["rep_ref_id"]])
-                && $this->requested_trigger[$r["rep_ref_id"]]
+                && isset($this->requested_trigger[$r->getRepoRefId()])
+                && $this->requested_trigger[$r->getRepoRefId()]
             ) {
                 $trigger = true;
             }
-            $resources->setResourceAsImparting($this->requested_level_id, $r["rep_ref_id"], $imparting);
-            $resources->setResourceAsTrigger($this->requested_level_id, $r["rep_ref_id"], $trigger);
+            $this->resource_manager->setResource(
+                $this->base_skill_id,
+                $this->tref_id,
+                $this->requested_level_id,
+                $r->getRepoRefId(),
+                $imparting,
+                $trigger
+            );
         }
-        $resources->save();
 
         $ilCtrl->redirect($this, "showLevelResources");
     }

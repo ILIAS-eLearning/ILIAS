@@ -5,6 +5,7 @@ This component implements the ILIAS page editor as being used e.g. in learning m
 ## Text Editing
 
 - Since ILIAS 7 the Return key created new text elements. The Backspace key at the beginning of a text element will merge the content of the current text element with the preceding one, if existing. The Delete key at the end of a text element will merge the content of the current text element with the succeeding one, if existing. See https://docu.ilias.de/goto_docu_wiki_wpage_6264_1357.html
+- Empty Links: Empty internal or external links, which have no text between starting and ending tag will be removed when the page is saved.
 
 ## Slate Handling
 
@@ -22,7 +23,7 @@ This component implements the ILIAS page editor as being used e.g. in learning m
 
 ## Media Editing
 
-- Media objects in pages will only present instance properties and links areas, if at least two usages exist. This is a decision of the page editor revision with ILIAS 7. If you need to edit instance properties or instance link areas directly, you should create the media object in the (media) clipboard available in the slate drop down first and insert it to the page afterwards. This will add the second usage.
+- Media objects in pages will only present instance properties and links areas, if at least two usages exist. This is a decision of the page editor revision with ILIAS 7. If you need to edit instance properties or instance link areas directly, you should create the media object in the (media) clipboard available in the slate drop down first and insert it to the page afterwards. This will add the second usage. See also https://mantis.ilias.de/view.php?id=34336.
 
 ## Media Rendering
  

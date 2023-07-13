@@ -708,7 +708,7 @@ class SurveyQuestion
     public function delete(int $question_id): void
     {
         $ilDB = $this->db;
-
+        $this->log->debug("Question Delete... " . $question_id);
         if ($question_id < 1) {
             return;
         }
@@ -803,7 +803,8 @@ class SurveyQuestion
             $mob_obj = new ilObjMediaObject($mob);
             $mob_obj->delete();
         }
-
+        $this->log->debug("Call ilSurveySkill::handleQuestionDeletion, q id: " . $question_id .
+            ", obj id: " . $obj_id);
         ilSurveySkill::handleQuestionDeletion($question_id, $obj_id);
 
         $this->log->debug("UPDATE svy_question");

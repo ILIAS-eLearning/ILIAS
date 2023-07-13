@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -416,15 +417,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
         return true;
     }
-
-    private function isCharSelectorPropertyRequired(): bool
-    {
-        global $DIC;
-        $ilSetting = $DIC['ilSetting'];
-
-        return $ilSetting->get('char_selector_availability') > 0;
-    }
-
 
     private function buildForm(): ilPropertyFormGUI
     {
@@ -960,7 +952,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $duration->setShowMinutes(true);
 
         $pw_time_array = ["00", "000", "00", "00", "00"];
-        if($this->testOBJ->getPassWaiting() !== '') {
+        if ($this->testOBJ->getPassWaiting() !== '') {
             $pw_time_array = explode(':', $this->testOBJ->getPassWaiting());
         }
 
@@ -1114,13 +1106,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             'answer_fixation_handling', 'obligations_enabled'
         );
 
-        if ($this->isCharSelectorPropertyRequired()) {
-            // sequence properties
-            $seqheader = new ilFormSectionHeaderGUI();
-            $seqheader->setTitle($this->lng->txt("tst_presentation_properties"));
-            $form->addItem($seqheader);
-        }
-
         // question title output
         $title_output = new ilRadioGroupInputGUI($this->lng->txt("tst_title_output"), "title_output");
         $title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_full"), 0, ''));
@@ -1239,15 +1224,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $checkBoxEnableObligations->setInfo($this->lng->txt('tst_setting_enable_obligations_info'));
         $form->addItem($checkBoxEnableObligations);
 
-        // selector for unicode characters
-        if ($this->isCharSelectorPropertyRequired()) {
-            $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_TEST);
-            $char_selector->getConfig()->setAvailability($this->testOBJ->getCharSelectorAvailability());
-            $char_selector->getConfig()->setDefinition($this->testOBJ->getCharSelectorDefinition());
-            $char_selector->addFormProperties($form);
-            $char_selector->setFormValues($form);
-        }
-
         if ($this->testOBJ->participantDataExist()) {
             $checkBoxOfferHints->setDisabled(true);
             $instant_feedback_enabled->setDisabled(true);
@@ -1304,14 +1280,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
         if (!$this->testOBJ->participantDataExist() && $this->formPropertyExists($form, 'obligations_enabled')) {
             $this->testOBJ->setObligationsEnabled($form->getItemByPostVar('obligations_enabled')->getChecked());
-        }
-
-        if ($this->isCharSelectorPropertyRequired()) {
-            $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_TEST);
-            $char_selector->addFormProperties($form);
-            $char_selector->getFormValues($form);
-            $this->testOBJ->setCharSelectorAvailability($char_selector->getConfig()->getAvailability());
-            $this->testOBJ->setCharSelectorDefinition($char_selector->getConfig()->getDefinition());
         }
     }
 

@@ -7,6 +7,8 @@ use PHPUnit\Framework\TestCase;
 
 class VersionTest extends TestCase
 {
+    protected Data\Factory $f;
+
     protected function setUp(): void
     {
         $this->f = new Data\Factory();

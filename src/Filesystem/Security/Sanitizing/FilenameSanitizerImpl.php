@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Security\Sanitizing;
 
+use ILIAS\Filesystem\Util;
+
 /**
  * Standard implementation of the filename sanitizing interface.
  *
@@ -28,8 +30,6 @@ namespace ILIAS\Filesystem\Security\Sanitizing;
  */
 class FilenameSanitizerImpl implements FilenameSanitizer
 {
-    private const FUNKY_WHITESPACES = '#\p{C}+#u';
-
     /**
      * FilenameSanitizerImpl constructor.
      * @param string[] $whitelist
@@ -59,7 +59,7 @@ class FilenameSanitizerImpl implements FilenameSanitizer
      */
     public function sanitize(string $filename): string
     {
-        $filename = preg_replace(self::FUNKY_WHITESPACES, '', $filename); // remove funky whitespaces
+        $filename = Util::sanitizeFileName($filename);
 
         if ($this->isClean($filename)) {
             return $filename;

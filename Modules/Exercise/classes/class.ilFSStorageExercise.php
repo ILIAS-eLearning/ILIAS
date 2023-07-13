@@ -21,6 +21,8 @@
  */
 class ilFSStorageExercise extends ilFileSystemAbstractionStorage
 {
+    protected string $relative_submission_path;
+    protected \ILIAS\FileUpload\FileUpload $upload;
     protected int $ass_id;
     protected string $submission_path;
     protected string $tmp_path;
@@ -32,8 +34,16 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
         int $a_container_id = 0,
         int $a_ass_id = 0
     ) {
+        global $DIC;
+
         $this->ass_id = $a_ass_id;
         parent::__construct(self::STORAGE_DATA, true, $a_container_id);
+        $this->upload = $DIC->upload();
+    }
+
+    protected function getRelativeSubmissionPath(): string
+    {
+        return $this->relative_submission_path;
     }
 
     /**
@@ -44,6 +54,8 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
         if (parent::init()) {
             if ($this->ass_id > 0) {
                 $this->submission_path = $this->getAbsolutePath() . "/subm_" . $this->ass_id;
+                $this->relative_submission_path = $this->path . "/subm_" . $this->ass_id;
+                ;
                 $this->tmp_path = $this->getAbsolutePath() . "/tmp_" . $this->ass_id;
                 $this->feedb_path = $this->getAbsolutePath() . "/feedb_" . $this->ass_id;
                 $this->multi_feedback_upload_path = $this->getAbsolutePath() . "/mfb_up_" . $this->ass_id;
@@ -180,6 +192,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
      * @return ?array result array with filename and mime type of the saved file
      * @throws ilException
      * @throws ilFileUtilsException
+     * @deprecated use addFileUpload instead
      */
     public function uploadFile(
         array $a_http_post_file,
@@ -245,6 +258,59 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
                 );
             }
         }
+        return $result;
+    }
+
+    /**
+     * store delivered file in filesystem
+     * @param array $a_http_post_file
+     * @param int   $user_id
+     * @param bool  $is_unziped
+     * @return ?array result array with filename and mime type of the saved file
+     * @throws ilException
+     * @throws ilFileUtilsException
+     */
+    public function addFileUpload(
+        \ILIAS\FileUpload\DTO\UploadResult $result,
+        int $user_id
+    ): ?array {
+        $this->create();
+
+        $filename = $result->getName();
+        $filename = ilFileUtils::getValidFilename($filename);
+        // replace whitespaces with underscores
+        $filename = preg_replace("/\s/", "_", $filename);
+        // remove all special characters
+        $filename = preg_replace("/[^_a-zA-Z0-9\.]/", "", $filename);
+
+        $savepath = $this->getRelativeSubmissionPath();
+        $savepath .= '/' . $user_id;
+
+        $now = getdate();
+        $prefix = sprintf(
+            "%04d%02d%02d%02d%02d%02d",
+            $now["year"],
+            $now["mon"],
+            $now["mday"],
+            $now["hours"],
+            $now["minutes"],
+            $now["seconds"]
+        );
+
+        $this->upload->moveOneFileTo(
+            $result,
+            $savepath,
+            \ILIAS\FileUpload\Location::STORAGE,
+            $prefix . "_" . $filename,
+            true
+        );
+
+        $result = array(
+            "filename" => $prefix . "_" . $filename,
+            "fullname" => $savepath . "/" . $prefix . "_" . $filename,
+            "mimetype" => $result->getMimeType()
+        );
+
         return $result;
     }
 

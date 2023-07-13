@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Util\Convert\ImageConversionOptions;
+use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
+use ILIAS\Filesystem\Util\Convert\LegacyImages;
+
 /**
  * Just a wrapper class to create Unit Test for other classes.
  * Can be remove when the static method calls have been removed
@@ -25,6 +29,13 @@ declare(strict_types=1);
  */
 class ilCertificateUtilHelper
 {
+    private \ILIAS\Filesystem\Util\Convert\LegacyImages $image_converter;
+
+    public function __construct()
+    {
+        $this->image_converter = new LegacyImages();
+    }
+
     public function deliverData(string $data, string $fileName, string $mimeType): void
     {
         ilUtil::deliverData(
@@ -42,11 +53,15 @@ class ilCertificateUtilHelper
     public function convertImage(
         string $from,
         string $to,
-        string $targetFormat = '',
-        string $geometry = '',
-        string $backgroundColor = ''
+        string $geometry = ''
     ): void {
-        ilShellUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
+        $this->image_converter->convertToFormat(
+            $from,
+            $to,
+            ImageOutputOptions::FORMAT_JPG,
+            $geometry === '' ? null : (int) $geometry,
+            $geometry === '' ? null : (int) $geometry,
+        );
     }
 
     public function stripSlashes(string $string): string

@@ -131,6 +131,11 @@ class ilSkillLevelDBRepository implements ilSkillLevelRepository
         return (int) ($this->lookupLevelProperty($a_id, "skill_id") ?? 0);
     }
 
+    public function lookupLevelNumber(int $a_id): int
+    {
+        return (int) ($this->lookupLevelProperty($a_id, "nr") ?? 0);
+    }
+
     protected function writeLevelProperty(int $a_id, string $a_prop, ?string $a_value, string $a_type): void
     {
         $ilDB = $this->db;

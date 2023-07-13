@@ -22,6 +22,8 @@ use PHPUnit\Framework\TestCase;
 
 class ilMapGUITest extends TestCase
 {
+    protected ilMapGUI $gui;
+
     protected function setUp(): void
     {
         $this->gui = new class () extends ilMapGUI {

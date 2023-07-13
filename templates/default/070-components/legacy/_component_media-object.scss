@@ -1,0 +1,61 @@
+@use "../../010-settings/" as *;
+@use "../../050-layout/basics/" as *;
+
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+
+.media {
+    // Proper spacing between instances of .media
+    margin-top: $il-margin-large-vertical;
+
+    &:first-child {
+        margin-top: 0;
+    }
+}
+
+.media,
+.media-body {
+    overflow: hidden;
+    zoom: 1;
+}
+
+.media-body {
+    width: 10000px;
+}
+
+.media-object {
+    display: block;
+}
+
+.media-right,
+.media>.pull-right {
+    padding-left: $il-padding-large-horizontal;
+}
+
+.media-left,
+.media>.pull-left {
+    padding-right: $il-padding-large-horizontal;
+}
+
+.media-left,
+.media-right,
+.media-body {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.media-middle {
+    vertical-align: middle;
+}
+
+.media-bottom {
+    vertical-align: bottom;
+}
+
+// Reset margins on headings for tighter default spacing
+.media-heading {
+    margin-top: 0;
+    margin-bottom: $il-margin-small-horizontal;
+}
+
+
+// end of section based on bootstrap 3

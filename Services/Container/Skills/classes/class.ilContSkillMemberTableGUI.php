@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +20,7 @@
  */
 
 use ILIAS\DI\UIServices;
+use ILIAS\Container\Skills\ContainerSkillManager;
 
 /**
  * TableGUI class for container members / skill assignments
@@ -26,10 +29,11 @@ use ILIAS\DI\UIServices;
  */
 class ilContSkillMemberTableGUI extends ilTable2GUI
 {
-    protected ilContainerSkills $container_skills;
+    protected ilContainer $cont_obj;
     protected UIServices $ui;
+    protected ContainerSkillManager $cont_skill_manager;
 
-    public function __construct(ilContSkillAdminGUI $a_parent_obj, string $a_parent_cmd, ilContainerSkills $a_cont_skills)
+    public function __construct(ilContSkillAdminGUI $a_parent_obj, string $a_parent_cmd, ilContainer $cont_obj)
     {
         global $DIC;
 
@@ -38,9 +42,12 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         $this->tpl = $DIC["tpl"];
         $this->ui = $DIC->ui();
 
-        $this->setId("cont_skll_mem_" . $a_cont_skills->getId());
-
-        $this->container_skills = $a_cont_skills;
+        $this->cont_obj = $cont_obj;
+        $this->setId("cont_skll_mem_" . $this->cont_obj->getId());
+        $this->cont_skill_manager = $DIC->skills()->internalContainer()->manager()->getSkillManager(
+            $this->cont_obj->getId(),
+            $this->cont_obj->getRefId()
+        );
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getMembers());
@@ -60,7 +67,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.cont_member_skill_row.html", "Services/Container/Skills");
 
-        if (ilContainer::_lookupContainerSetting($this->container_skills->getId(), "cont_skill_publish", '0')) {
+        if (ilContainer::_lookupContainerSetting($this->cont_obj->getId(), "cont_skill_publish", '0')) {
             $this->addMultiCommand("publishAssignments", $this->lng->txt("cont_publish_assignment"));
         }
         $this->addMultiCommand("deassignCompetencesConfirm", $this->lng->txt("cont_deassign_competence"));
@@ -68,7 +75,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
 
     public function getMembers(): array
     {
-        $p = ilCourseParticipants::getInstanceByObjId($this->container_skills->getId());
+        $p = ilCourseParticipants::getInstanceByObjId($this->cont_obj->getId());
 
         $members = [];
         foreach ($p->getMembers() as $m) {
@@ -90,18 +97,19 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         $lng = $this->lng;
         $ui = $this->ui;
 
+        $user_id = (int) $a_set["id"];
+
         // levels
-        $mskills = new ilContainerMemberSkills($this->container_skills->getId(), $a_set["id"]);
-        foreach ($mskills->getOrderedSkillLevels() as $sk) {
+        foreach ($this->cont_skill_manager->getMemberSkillLevelsForContainerOrdered($user_id) as $sk) {
             $tpl->setCurrentBlock("level");
-            $tpl->setVariable("TXT_SKILL", ilBasicSkill::_lookupTitle($sk["skill_id"], $sk["tref_id"]));
-            $tpl->setVariable("TXT_LEVEL", ilBasicSkill::lookupLevelTitle($sk["level_id"]));
-            $tpl->setVariable("PATH", $this->getParentObject()->getPathString($sk["skill_id"], $sk["tref_id"]));
+            $tpl->setVariable("TXT_SKILL", ilBasicSkill::_lookupTitle($sk->getBaseSkillId(), $sk->getTrefId()));
+            $tpl->setVariable("TXT_LEVEL", ilBasicSkill::lookupLevelTitle($sk->getLevelId()));
+            $tpl->setVariable("PATH", $this->getParentObject()->getPathString($sk->getBaseSkillId(), $sk->getTrefId()));
             $tpl->parseCurrentBlock();
         }
 
         // published
-        if ($mskills->getPublished()) {
+        if ($this->cont_skill_manager->getPublished($user_id)) {
             $tpl->setVariable("PUBLISHED", $lng->txt("yes"));
         } else {
             $tpl->setVariable("PUBLISHED", $lng->txt("no"));
@@ -116,10 +124,10 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
 
         $items = [];
         $b = $ui->factory()->button();
-        if (!$mskills->getPublished() || (!ilContainer::_lookupContainerSetting($this->container_skills->getId(), "cont_skill_publish", '0'))) {
+        if (!$this->cont_skill_manager->getPublished($user_id) || (!ilContainer::_lookupContainerSetting($this->cont_obj->getId(), "cont_skill_publish", '0'))) {
             $items[] = $b->shy($lng->txt("cont_assign_competence"), $ctrl->getLinkTarget($this->parent_obj, "assignCompetences"));
         }
-        if (!$mskills->getPublished()) {
+        if (!$this->cont_skill_manager->getPublished($user_id)) {
             $items[] = $b->shy($lng->txt("cont_publish_assignment"), $ctrl->getLinkTarget($this->parent_obj, "publishAssignments"));
         }
         $items[] = $b->shy($lng->txt("cont_deassign_competence"), $ctrl->getLinkTarget($this->parent_obj, "deassignCompetencesConfirm"));

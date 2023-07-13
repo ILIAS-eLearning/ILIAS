@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  ********************************************************************
  */
+
+declare(strict_types=1);
 
 /**
 *
@@ -116,7 +116,19 @@ class ilSessionOverviewGUI
             $this->course_ref_id,
             $this->members_obj->getParticipants()
         );
-        $members = ilUtil::_sortIds($part, 'usr_data', 'lastname', 'usr_id');
+
+        $sortedMembers = [];
+        foreach ($part as $user_id) {
+            $name = ilObjUser::_lookupName($user_id);
+            $sortedMembers[] = [
+                'userid' => (int) $user_id,
+                'firstname' => (string) $name["firstname"],
+                'lastname' => (string) $name['lastname']
+            ];
+        }
+        usort($sortedMembers, function ($a, $b) {
+            return $a['lastname'] <=> $b['lastname'];
+        });
 
         $events = [];
         foreach ($tree->getSubtree($tree->getNodeData($this->course_ref_id), false, ['sess']) as $event_id) {
@@ -139,12 +151,10 @@ class ilSessionOverviewGUI
 
         $this->csv->addRow();
 
-        foreach ($members as $user_id) {
-            $name = ilObjUser::_lookupName($user_id);
-
-            $this->csv->addColumn($name['lastname']);
-            $this->csv->addColumn($name['firstname']);
-            $this->csv->addColumn(ilObjUser::_lookupLogin($user_id));
+        foreach ($sortedMembers as $member) {
+            $this->csv->addColumn($member['lastname']);
+            $this->csv->addColumn($member['firstname']);
+            $this->csv->addColumn(ilObjUser::_lookupLogin($member['userid']));
 
             foreach ($events as $event_obj) {
                 $event_part = new ilEventParticipants($event_obj->getId());
@@ -157,6 +167,7 @@ class ilSessionOverviewGUI
             $this->csv->addRow();
         }
         $date = new ilDate(time(), IL_CAL_UNIX);
+
         ilUtil::deliverData(
             $this->csv->getCSVString(),
             $date->get(IL_CAL_FKT_DATE, 'Y-m-d') . "_course_events.csv",

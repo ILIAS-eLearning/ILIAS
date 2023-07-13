@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Stefan Meyer <meyer@leifos.com>
  */
@@ -25,6 +25,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 {
     public function __construct(?object $a_parent_obj, string $a_parent_cmd = "")
     {
+        $this->setId('login_copage_tbl');
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->lng->loadLanguageModule('meta');

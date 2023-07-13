@@ -28,6 +28,9 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class LauncherInlineTest extends ILIAS_UI_TestBase
 {
+    protected ILIAS\Data\Factory $df;
+    protected ilLanguage $language;
+
     public function setUp(): void
     {
         $this->df = new \ILIAS\Data\Factory();
@@ -62,6 +65,9 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
     public function getUIFactory(): NoUIFactory
     {
         $factory = new class () extends NoUIFactory {
+            public I\SignalGenerator $sig_gen;
+            public I\Input\Field\Factory $input_factory;
+
             public function button(): C\Button\Factory
             {
                 return new I\Button\Factory(
@@ -144,7 +150,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
         $ff = $this->getInputFactory();
         $field = $ff->checkbox('Understood', 'ok');
         $group = $ff->group([$field]);
-        $evaluation = fn (Result $result, Launcher &$launcher) => true;
+        $evaluation = fn(Result $result, Launcher & $launcher) => true;
         $instruction = $this->getMessageBox();
         $l = $this->getLauncher()
             ->withInputs($group, $evaluation, $instruction);
@@ -173,7 +179,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
     {
         $ff = $this->getInputFactory();
         $group = $ff->group([$ff->checkbox('Understood', 'ok')]);
-        $evaluation = fn (Result $result, Launcher &$launcher) => true;
+        $evaluation = fn(Result $result, Launcher & $launcher) => true;
         $msg = $this->getMessageBox();
         $icon = $this->getIconFactory()->standard('course', 'some icon');
 

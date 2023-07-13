@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * TableGUI for material assignments of course objectives
@@ -36,6 +37,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $this->objectDefinition = $DIC['objDefinition'];
         $this->objective_id = $a_objective_id;
 
+        $this->setId('tbl_crs_obj_mat_assignment');
         parent::__construct($a_parent_obj, 'materialAssignment');
         $this->lng->loadLanguageModule('crs');
 
@@ -46,7 +48,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.crs_objective_list_materials_row.html", "Modules/Course");
         $this->setDefaultOrderField('title');
-        $this->setLimit(200);
+        $this->setShowRowsSelector(true);
         $this->setNoEntriesText($this->lng->txt('crs_no_objective_lms_found'));
         $this->addCommandButton('updateMaterialAssignment', $this->lng->txt('crs_wiz_next'));
         $this->initObjectiveAssignments();

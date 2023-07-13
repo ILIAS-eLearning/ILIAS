@@ -64,7 +64,7 @@ class SkillProfileRoleDBRepository
         return $roles;
     }
 
-    public function getFromRecord(array $rec): SkillProfileRoleAssignment
+    public function getRoleAssignmentFromRecord(array $rec): SkillProfileRoleAssignment
     {
         return $this->factory_service->profile()->profileRoleAssignment(
             $rec["name"],
@@ -110,7 +110,7 @@ class SkillProfileRoleDBRepository
     }
 
     /**
-     * @return SkillProfile[]
+     * @return SkillRoleProfile[]
      */
     public function getAllProfilesOfRole(int $role_id): array
     {
@@ -118,19 +118,19 @@ class SkillProfileRoleDBRepository
 
         $profiles = [];
         $set = $ilDB->query(
-            "SELECT p.id, p.title, p.description, p.ref_id, p.skill_tree_id, p.image_id " .
-            " FROM skl_profile_role r JOIN skl_profile p ON (r.profile_id = p.id) " .
-            " WHERE r.role_id = " . $ilDB->quote($role_id, "integer") .
-            " ORDER BY p.title ASC"
+            "SELECT spr.profile_id, spr.role_id, sp.title, sp.description, sp.ref_id, sp.skill_tree_id, sp.image_id " .
+            " FROM skl_profile_role spr INNER JOIN skl_profile sp ON (spr.profile_id = sp.id) " .
+            " WHERE spr.role_id = " . $ilDB->quote($role_id, "integer") .
+            " ORDER BY sp.title ASC"
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $profiles[] = $this->getProfileFromRecord($rec);
+            $profiles[(int) $rec["profile_id"]] = $this->getRoleProfileFromRecord($rec);
         }
         return $profiles;
     }
 
     /**
-     * @return SkillProfile[]
+     * @return SkillRoleProfile[]
      */
     public function getGlobalProfilesOfRole(int $role_id): array
     {
@@ -138,36 +138,36 @@ class SkillProfileRoleDBRepository
 
         $profiles = [];
         $set = $ilDB->query(
-            "SELECT p.id, p.title, p.description, p.ref_id, p.skill_tree_id, p.image_id " .
-            " FROM skl_profile_role r JOIN skl_profile p ON (r.profile_id = p.id) " .
-            " WHERE r.role_id = " . $ilDB->quote($role_id, "integer") .
-            " AND p.ref_id = 0" .
-            " ORDER BY p.title ASC"
+            "SELECT spr.profile_id, spr.role_id, sp.title, sp.description, sp.ref_id, sp.skill_tree_id, sp.image_id " .
+            " FROM skl_profile_role spr INNER JOIN skl_profile sp ON (spr.profile_id = sp.id) " .
+            " WHERE spr.role_id = " . $ilDB->quote($role_id, "integer") .
+            " AND sp.ref_id = 0" .
+            " ORDER BY sp.title ASC"
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $profiles[] = $this->getProfileFromRecord($rec);
+            $profiles[(int) $rec["profile_id"]] = $this->getRoleProfileFromRecord($rec);
         }
 
         return $profiles;
     }
 
     /**
-     * @return SkillProfile[]
+     * @return SkillRoleProfile[]
      */
-    public function getLocalProfilesOfRole(int $role_id, int $ref_id): array
+    public function getLocalProfilesOfRole(int $role_id): array
     {
         $ilDB = $this->db;
 
         $profiles = [];
         $set = $ilDB->query(
-            "SELECT p.id, p.title, p.description, p.ref_id, p.skill_tree_id, p.image_id " .
-            " FROM skl_profile_role r JOIN skl_profile p ON (r.profile_id = p.id) " .
-            " WHERE r.role_id = " . $ilDB->quote($role_id, "integer") .
-            " AND p.ref_id = " . $ilDB->quote($ref_id, "integer") .
-            " ORDER BY p.title ASC"
+            "SELECT spr.profile_id, spr.role_id, sp.title, sp.description, sp.ref_id, sp.skill_tree_id, sp.image_id " .
+            " FROM skl_profile_role spr INNER JOIN skl_profile sp ON (spr.profile_id = sp.id) " .
+            " WHERE spr.role_id = " . $ilDB->quote($role_id, "integer") .
+            " AND sp.ref_id <> 0" .
+            " ORDER BY sp.title ASC"
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $profiles[] = $this->getProfileFromRecord($rec);
+            $profiles[(int) $rec["profile_id"]] = $this->getRoleProfileFromRecord($rec);
         }
         return $profiles;
     }
@@ -180,6 +180,24 @@ class SkillProfileRoleDBRepository
 
         return $this->factory_service->profile()->profile(
             $rec["id"],
+            $rec["title"],
+            $rec["description"],
+            $rec["skill_tree_id"],
+            $rec["image_id"],
+            $rec["ref_id"]
+        );
+    }
+
+    protected function getRoleProfileFromRecord(array $rec): SkillRoleProfile
+    {
+        $rec["role_id"] = (int) $rec["role_id"];
+        $rec["profile_id"] = (int) $rec["profile_id"];
+        $rec["skill_tree_id"] = (int) $rec["skill_tree_id"];
+        $rec["ref_id"] = (int) $rec["ref_id"];
+
+        return $this->factory_service->profile()->roleProfile(
+            $rec["role_id"],
+            $rec["profile_id"],
             $rec["title"],
             $rec["description"],
             $rec["skill_tree_id"],

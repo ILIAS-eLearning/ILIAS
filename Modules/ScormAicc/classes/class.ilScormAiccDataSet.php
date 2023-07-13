@@ -22,11 +22,13 @@ class ilScormAiccDataSet extends ilDataSet
 {
     private string $db_table;
     public array $properties;
+    private array $_archive;
     private array $element_db_mapping;
 
     public function __construct()
     {
         $this->db_table = "sahs_lm";
+        $this->_archive = [];
         $this->properties = [
             "Id" => ["db_col" => "id", "db_type" => "integer"],
             "APIAdapterName" => ["db_col" => "api_adapter", "db_type" => "text"],
@@ -159,105 +161,91 @@ class ilScormAiccDataSet extends ilDataSet
         $this->dircnt = 1;
 
         $this->readData($a_entity, $a_schema_version, $a_ids, $a_field = "");
-        $id = (string) $a_ids[0];
+        $id = (int) $this->data["id"];
         $exportDir = ilExport::_getExportDirectory((int) $id, "xml", "sahs");
-        $writer = new ilXmlWriter();
-        if (!$a_omit_header) {
-            $writer->xmlHeader();
+
+        // prepare archive skeleton
+        $objTypeAndId = "sahs_" . $id;
+        $this->_archive['directories'] = [
+            "exportDir" => ilExport::_getExportDirectory($id)
+            ,"tempDir" => ilExport::_getExportDirectory($id) . "/temp"
+            ,"archiveDir" => time() . "__" . IL_INST_ID . "__" . $objTypeAndId
+            ,"moduleDir" => $objTypeAndId
+        ];
+
+        $this->_archive['files'] = [
+            "properties" => "properties.xml",
+            "metadata" => "metadata.xml",
+            "manifest" => 'manifest.xml',
+            'scormFile' => "content.zip"
+        ];
+
+        // Prepare temp storage on the local filesystem
+        if (!file_exists($this->_archive['directories']['exportDir'])) {
+            mkdir($this->_archive['directories']['exportDir'], 0755, true);
+            //$DIC->filesystem()->storage()->createDir($this->_archive['directories']['tempDir']);
+        }
+        if (!file_exists($this->_archive['directories']['tempDir'])) {
+            mkdir($this->_archive['directories']['tempDir'], 0755, true);
         }
 
-        $atts = array("InstallationId" => IL_INST_ID,
-                      "InstallationUrl" => ILIAS_HTTP_PATH,
-                      "TopEntity" => $a_entity
+        // build metadata xml file
+        file_put_contents(
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['metadata'],
+            $this->buildMetaData($id)
         );
 
-        $writer->appendXML("\n");
-        $writer->xmlStartTag($this->getDSPrefixString() . 'DataSet', $atts);
-        $writer->appendXML("\n");
+        // build manifest xml file
+        file_put_contents(
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['manifest'],
+            $this->buildManifest()
+        );
 
-        foreach ($this->data as $key => $value) {
-            $writer->xmlElement($this->getElementNameByDbColumn($key), null, $value, true, true);
-            $writer->appendXML("\n");
+        // build content zip file
+        if (isset($this->_archive['files']['scormFile'])) {
+            $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
+            ilFileUtils::zip($lmDir, $this->_archive['directories']['tempDir'] . "/" . substr($this->_archive['files']['scormFile'], 0, -4), true);
         }
 
-        $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
-        $baseFileName = "sahs_" . $id;
-        $scormBasePath = $exportDir . "/" . $baseFileName;
-        if (!file_exists($exportDir)) {
-            if (!mkdir($exportDir, 0755, true) && !is_dir($exportDir)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $exportDir));
-            }
-        }
-        ilFileUtils::zip($lmDir, $scormBasePath, true);
-        $scormFilePath = $scormBasePath . ".zip";
+        // build property xml file
+        file_put_contents(
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['properties'],
+            $this->buildProperties($a_entity, $a_omit_header)
+        );
 
-        $writer->xmlEndTag($this->getDSPrefixString() . "DataSet");
-        $writer->appendXML("\n");
-
-        $xml = $writer->xmlDumpMem(false);
-        $baseExportName = time() . "__" . IL_INST_ID . "__" . $baseFileName;
-        $xmlFilePath = $exportDir . "/" . $baseExportName . ".xml";
-
-        if (!file_exists($xmlFilePath)) {
-            $xmlFile = fopen($xmlFilePath, "wb");//changed from w to wb
-            fwrite($xmlFile, $xml);
-            fclose($xmlFile);
-        }
-
-        //create metadata
-        $metaData = $this->buildMetaData((int) $id);
-
-        $metaDataFilePath = $exportDir . "/" . $baseExportName . "_metadata.xml";
-        if (!file_exists($metaDataFilePath)) {
-            $metaDataFile = fopen($metaDataFilePath, "wb");//changed from w to wb
-            fwrite($metaDataFile, $metaData);
-            fclose($metaDataFile);
-        }
-
-        //create manifest file
-        $manWriter = new ilXmlWriter();
-        $manWriter->xmlHeader();
-        $manWriter->appendXML("\n<content>\n");
-
-        $files = [
-            "scormFile" => "content.zip",
-            "properties" => "properties.xml",
-            "metadata" => "metadata.xml"
-        ];
-        foreach ($files as $key => $value) {
-            $manWriter->xmlElement($key, null, $value, true, true);
-            $manWriter->appendXML("\n");
-        }
-
-        $manWriter->appendXML("</content>\n");
-        $manifest = $manWriter->xmlDumpMem(false);
-
-        $manifestFilePath = $exportDir . "/" . $baseExportName . "_manifest.xml";
-        if (!file_exists($manifestFilePath)) {
-            $manifestFile = fopen($manifestFilePath, "wb");//changed from w to wb
-            fwrite($manifestFile, $manifest);
-            fclose($manifestFile);
-        }
-
-        usleep(2_000_000);
-        $zArchive = new zipArchive();
-        $fileName = $exportDir . "/" . $baseExportName . ".zip";
-
+        // zip tempDir and append to export folder
+        $fileName = $this->_archive['directories']['exportDir'] . "/" . $this->_archive['directories']['archiveDir'] . ".zip";
+        $zArchive = new ZipArchive();
         if ($zArchive->open($fileName, ZipArchive::CREATE) !== true) {
             exit("cannot open <$fileName>\n");
         }
-
-        //creating final zip file
-        $zArchive->addFile($xmlFilePath, $baseExportName . '/properties.xml');
-        $zArchive->addFile($scormFilePath, $baseExportName . '/content.zip');
-        $zArchive->addFile($manifestFilePath, $baseExportName . '/' . "manifest.xml");
-        $zArchive->addFile($metaDataFilePath, $baseExportName . '/' . "metadata.xml");
+        $zArchive->addFile(
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['properties'],
+            $this->_archive['directories']['archiveDir'] . '/properties.xml'
+        );
+        $zArchive->addFile(
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['manifest'],
+            $this->_archive['directories']['archiveDir'] . '/' . "manifest.xml"
+        );
+        $zArchive->addFile(
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['metadata'],
+            $this->_archive['directories']['archiveDir'] . '/' . "metadata.xml"
+        );
+        if (isset($this->_archive['files']['scormFile'])) {
+            $zArchive->addFile(
+                $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['scormFile'],
+                $this->_archive['directories']['archiveDir'] . '/content.zip'
+            );
+        }
         $zArchive->close();
-        //delete temporary files
-        unlink($xmlFilePath);
-        unlink($scormFilePath);
-        unlink($manifestFilePath);
-        unlink($metaDataFilePath);
+
+        // unlink tempDir and its content
+        unlink($this->_archive['directories']['tempDir'] . "/metadata.xml");
+        unlink($this->_archive['directories']['tempDir'] . "/manifest.xml");
+        unlink($this->_archive['directories']['tempDir'] . "/properties.xml");
+        if (isset($this->_archive['files']['scormFile']) && file_exists($this->_archive['directories']['tempDir'] . "/content.zip")) {
+            unlink($this->_archive['directories']['tempDir'] . "/content.zip");
+        }
 
         return $fileName;
     }
@@ -283,12 +271,12 @@ class ilScormAiccDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids): void
+    public function readData(string $a_entity, string $a_version, array $a_ids, string $a_field = ""): void
     {
         global $DIC;
         $ilDB = $DIC->database();
 
-        $obj_id = (int) $a_ids;
+        $obj_id = (int) $a_ids[0];
         $columns = [];
         foreach ($this->properties as $property) {
             $columns[] = $property["db_col"];
@@ -335,7 +323,7 @@ class ilScormAiccDataSet extends ilDataSet
     /**
      * Get xml namespace
      */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version): string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "http://www.ilias.de/xml/Modules/ScormAicc/" . $a_entity;
     }
@@ -346,5 +334,51 @@ class ilScormAiccDataSet extends ilDataSet
     public function getSupportedVersions(): array
     {
         return ["5.1.0"];
+    }
+
+    /**
+     * @return string
+     */
+    private function buildManifest(): string
+    {
+        $manWriter = new ilXmlWriter();
+        $manWriter->xmlHeader();
+        foreach ($this->_archive['files'] as $key => $value) {
+            $manWriter->xmlElement($key, null, $value, true, true);
+        }
+
+        return $manWriter->xmlDumpMem(true);
+    }
+
+    /**
+     * @param $a_entity
+     * @param bool $a_omit_header
+     * @return string
+     */
+    private function buildProperties($a_entity, bool $a_omit_header = false): string
+    {
+        $writer = new ilXmlWriter();
+
+        if (!$a_omit_header) {
+            $writer->xmlHeader();
+        }
+
+        $writer->appendXML("\n");
+        $writer->xmlStartTag('DataSet', array(
+            "InstallationId" => IL_INST_ID,
+            "InstallationUrl" => ILIAS_HTTP_PATH,
+            "TopEntity" => $a_entity
+        ));
+
+        $writer->appendXML("\n");
+
+        foreach ($this->data as $key => $value) {
+            $writer->xmlElement($this->getElementNameByDbColumn($key), null, $value, true, true);
+            $writer->appendXML("\n");
+        }
+
+        $writer->xmlEndTag("DataSet");
+
+        return $writer->xmlDumpMem(false);
     }
 }

@@ -197,10 +197,10 @@ class ilCertificateCron extends ilCronJob
     }
 
     /**
-     * @throws ilDatabaseException
-     * @throws ilException
+     * @throws ilCertificateIssuingObjectNotFound
+     * @throws ilCertificateOwnerNotFound
+     * @throws ilCouldNotFindCertificateTemplate
      * @throws ilInvalidCertificateException
-     * @throws ilObjectNotFoundException
      */
     public function processEntry(int $entryCounter, ilCertificateQueueEntry $entry, array $succeededGenerations): array
     {
@@ -216,7 +216,10 @@ class ilCertificateCron extends ilCronJob
 
         $placeholderValueObject = new $class();
         if (!$placeholderValueObject instanceof ilCertificatePlaceholderValues) {
-            throw new ilException('The given class ' . $class . ' MUST be an instance of ilCertificateCronAdapter and MUST have an accessible namespace. The class map MAY be reloader.');
+            throw new ilInvalidCertificateException(
+                'The given class ' . $class . ' must be an instance of ilCertificateCronAdapter and must ' .
+                'have an accessible namespace. The composer class map should be reloaded.'
+            );
         }
 
         $objId = $entry->getObjId();
@@ -234,7 +237,7 @@ class ilCertificateCron extends ilCronJob
 
         $object = $this->objectHelper->getInstanceByObjId($objId, false);
         if (!$object instanceof ilObject) {
-            throw new ilException(sprintf(
+            throw new ilCertificateIssuingObjectNotFound(sprintf(
                 'The given object id: "%s"  could not be referred to an actual object',
                 $objId
             ));
@@ -244,7 +247,7 @@ class ilCertificateCron extends ilCronJob
 
         $userObject = $this->objectHelper->getInstanceByObjId($userId, false);
         if (!($userObject instanceof ilObjUser)) {
-            throw new ilException('The given user id"' . $userId . '" could not be referred to an actual user');
+            throw new ilCertificateOwnerNotFound('The given user id"' . $userId . '" could not be referred to an actual user');
         }
 
         $this->logger->debug(sprintf(

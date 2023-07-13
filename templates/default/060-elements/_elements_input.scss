@@ -1,5 +1,9 @@
 @use "../010-settings/" as *;
 
+button {
+	cursor: pointer;
+}
+
 textarea {
 	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		max-width: 100%;

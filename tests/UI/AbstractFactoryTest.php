@@ -352,16 +352,9 @@ abstract class AbstractFactoryTest extends TestCase
     {
         $docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
         $kitchensink_info_settings = $this->kitchensink_info_settings_merged_with_defaults($name);
-
-        // Special rules for factory methods:
-        if ($this->returnsFactory($docstring_data)) {
-            $message = "TODO ($name): remove 'context' field, method returns a factory.";
-            $this->assertArrayNotHasKey("context", $docstring_data, $message);
-        } else { // returnsComponent
-            if ($kitchensink_info_settings["context"]) {
-                $message = "TODO ($name): factory method returning component should have context field. Add it.";
-                $this->assertArrayHasKey("context", $docstring_data, $message);
-            }
+        if (!$this->returnsFactory($docstring_data) && $kitchensink_info_settings["context"]) {
+            $message = "TODO ($name): factory method returning component should have context field. Add it.";
+            $this->assertArrayHasKey("context", $docstring_data, $message);
         }
     }
 

@@ -27,6 +27,7 @@ class ilMediaItem
     protected string $text_representation = "";
     protected ilDBInterface $db;
     protected ilLanguage $lng;
+    protected \ILIAS\Filesystem\Util\Convert\LegacyImages $image_converter;
 
     public int $id = 0;
     public string $purpose = "";
@@ -58,6 +59,7 @@ class ilMediaItem
 
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
+        $this->image_converter = $DIC->fileConverters()->legacyImages();
         $this->parameters = array();
         $this->mapareas = array();
         $this->map_cnt = 0;
@@ -865,16 +867,13 @@ class ilMediaItem
         $lng = $this->lng;
         $this->createWorkDirectory();
 
-        $geom = ($this->getWidth() != "" && $this->getHeight() != "")
-            ? $this->getWidth() . "x" . $this->getHeight()
-            : "";
-
         if ($this->getLocationType() !== "Reference") {
-            ilShellUtil::convertImage(
+            $this->image_converter->convertToFormat(
                 $this->getDirectory() . "/" . $this->getLocation(),
                 $this->getMapWorkCopyName(),
                 $this->getMapWorkCopyType(),
-                $geom
+                $this->getWidth() === '' ? null : $this->getWidth(),
+                $this->getHeight() === '' ? null : $this->getHeight()
             );
         } else {
             // first copy the external file, if necessary
@@ -892,11 +891,12 @@ class ilMediaItem
             }
 
             // now, create working copy
-            ilShellUtil::convertImage(
+            $this->image_converter->convertToFormat(
                 $this->getMapWorkCopyName(true),
                 $this->getMapWorkCopyName(),
                 $this->getMapWorkCopyType(),
-                $geom
+                $this->getWidth() === '' ? null : $this->getWidth(),
+                $this->getHeight() === '' ? null : $this->getHeight()
             );
         }
         if (!is_file($this->getMapWorkCopyName())) {

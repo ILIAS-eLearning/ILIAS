@@ -29,6 +29,7 @@ class ilComponentDefinitionReaderTest extends TestCase
 {
     protected ilComponentDefinitionProcessor $processor1;
     protected ilComponentDefinitionProcessor $processor2;
+    protected ilComponentDefinitionReader $reader;
 
     public static array $components = [
         ["Modules", "A_Module", "/path/to/module.xml"],

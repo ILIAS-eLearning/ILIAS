@@ -25,8 +25,8 @@ function deploy() {
   HASH=${2}
   URL=${3}
   BRANCH=${4}
-  USER_NAME=${5}
   REPO_TOKEN="https://${5}@github.com/${STYLE_REPO_NAME_SHORT}"
+  USER_NAME=${6}
 
   if [ -d ${DEPLOY_BASE_FOLDER} ]
   then
@@ -63,16 +63,22 @@ function deploy() {
   fi
 
   git -C ${DEPLOY_BASE_FOLDER} update-index --really-refresh >/dev/null 2>&1
-  git -C ${DEPLOY_BASE_FOLDER} diff-index --quiet HEAD
+  git -C ${DEPLOY_BASE_FOLDER} diff-index --exit-code HEAD
+  CHECK1=$?
+  test -z "$(git -C ${DEPLOY_BASE_FOLDER} ls-files --others)"
+  CHECK2=$?
 
-  CHECK=$?
-  if [[ "${CHECK}" == "0" ]]
+  if [[ "${CHECK1}" == "0" && "${CHECK2}" == "0" ]]
   then
     echo "[${NOW}] No changes detected on style files."
   else
     echo "[${NOW}] Detected changes on style files, which will be committed to ${STYLE_REPO}"
-    git -C ${DEPLOY_BASE_FOLDER} add . >/dev/null 2>&1
-    git -C ${DEPLOY_BASE_FOLDER} commit -m "Style changes from '${HASH}'" -m "Original message: '${MSG}'" -m "${URL}" >/dev/null 2>&1
-    git -C ${DEPLOY_BASE_FOLDER} push origin ${BRANCH} >/dev/null 2>&1
+    git -C ${DEPLOY_BASE_FOLDER} status
+    git -C ${DEPLOY_BASE_FOLDER} ls-files --others
+    git -C ${DEPLOY_BASE_FOLDER} add .
+    git -C ${DEPLOY_BASE_FOLDER} ls-files --others
+    git -C ${DEPLOY_BASE_FOLDER} status
+    git -C ${DEPLOY_BASE_FOLDER} commit -m "Style changes from '${HASH}'" -m "Original message: '${MSG}'" -m "${URL}"
+    git -C ${DEPLOY_BASE_FOLDER} push origin ${BRANCH}
   fi
 }

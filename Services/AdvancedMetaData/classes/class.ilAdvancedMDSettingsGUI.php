@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\GlobalHttpState;
 
 /**
@@ -316,10 +315,11 @@ class ilAdvancedMDSettingsGUI
         );
 
         if ($perm[ilAdvancedMDPermissionHelper::ACTION_MD_CREATE_RECORD]) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("add");
-            $button->setUrl($this->ctrl->getLinkTarget($this, "createRecord"));
-            $ilToolbar->addButtonInstance($button);
+            $button = $this->ui_factory->button()->standard(
+                $this->lng->txt('add'),
+                $this->ctrl->getLinkTargetByClass(strtolower(self::class), "createRecord")
+            );
+            $ilToolbar->addComponent($button);
 
             if ($perm[ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS]) {
                 $ilToolbar->addSeparator();
@@ -327,10 +327,11 @@ class ilAdvancedMDSettingsGUI
         }
 
         if ($perm[ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS]) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("import");
-            $button->setUrl($this->ctrl->getLinkTarget($this, "importRecords"));
-            $ilToolbar->addButtonInstance($button);
+            $button = $this->ui_factory->button()->standard(
+                $this->lng->txt('import'),
+                $this->ctrl->getLinkTargetByClass(strtolower(self::class), "importRecords")
+            );
+            $ilToolbar->addComponent($button);
         }
 
         $obj_type_context = ($this->obj_id > 0)
@@ -1560,10 +1561,6 @@ class ilAdvancedMDSettingsGUI
                         // currently only optional records for org unit (types)
                         unset($type_options[1]);
                         break;
-                    case "prg":
-                        // currently only optional records for study programme (types)
-                        unset($type_options[1]);
-                        break;
                     case "talt":
                         // currently only optional records for talk templates (types)
                         unset($type_options[1]);
@@ -1784,6 +1781,29 @@ class ilAdvancedMDSettingsGUI
                 "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
                 ,
                 "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
+            );
+        } elseif ($a_obj_type == "prg") {
+            $perm = $this->getPermissions()->hasPermissions(
+                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_PRG,
+                (string) $a_field_id,
+                [
+                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_SHOW_FIELD,
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY,
+                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
+                    ],
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY,
+                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
+                    ]
+                ]
+            );
+            return array(
+                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_SHOW_FIELD]
+                ,
+                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
+                ,
+                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
             );
         }
         return [];

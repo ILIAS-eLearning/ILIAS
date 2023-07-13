@@ -30,7 +30,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     private bool $bySCO = false;
     private array $scosSelected;
     private array $userSelected;
-    private bool $allowExportPrivacy;
+    private bool $allowExportPrivacy = false;
     private string $lmTitle = "";
     private string $report;
 
@@ -57,7 +57,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
             $this->bySCO = true;
         }
         if ($a_parent_obj !== null) {
-            $this->lmTitle = $a_parent_obj->object->getTitle();
+            $this->lmTitle = $a_parent_obj->getObject()->getTitle();
         }
 
         $this->setId('AICC' . $this->report);
@@ -130,15 +130,15 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
             case "exportSelectedObjectives":
                 $cols = ilSCORMTrackingItems::exportSelectedObjectivesColumns();
                 break;
-//            case "tracInteractionItem":
-//                $cols = ilSCORMTrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
-//            break;
-//            case "tracInteractionUser":
-//                $cols = ilSCORMTrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
-//            break;
-//            case "tracInteractionUserAnswers":
-//                $cols = ilSCORMTrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
-//            break;
+                //            case "tracInteractionItem":
+                //                $cols = ilSCORMTrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
+                //            break;
+                //            case "tracInteractionUser":
+                //                $cols = ilSCORMTrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
+                //            break;
+                //            case "tracInteractionUserAnswers":
+                //                $cols = ilSCORMTrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+                //            break;
             case "exportSelectedSuccess":
                 $cols = ilSCORMTrackingItems::exportSelectedSuccessColumns();
                 break;
@@ -187,7 +187,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
                 $tr_data = $ilSCORMTrackingItems->exportSelectedSuccess($this->userSelected, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
                 break;
         }
-//        $this->setMaxCount($tr_data["cnt"]);
+        //        $this->setMaxCount($tr_data["cnt"]);
         if (ilUtil::stripSlashes($this->getOrderField()) != "") {
             $tr_data = ilArrayUtil::stableSortArray(
                 $tr_data,
@@ -210,7 +210,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         $lng->loadLanguageModule("trac");
         if ($id === "status") {
             $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM);
-            $path = $icons->getImagePathForStatus($value);
+            $path = $icons->getImagePathForStatus((int) $value);
             $text = ilLearningProgressBaseGUI::_getStatusText((int) $value);
             $value = ilUtil::img($path, $text);
         }
@@ -219,7 +219,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
             return $value;
         }
         if (is_numeric($value)) {
-            return round($value, 2);
+            return round((float)$value, 2);
         }
         return $value;
     }

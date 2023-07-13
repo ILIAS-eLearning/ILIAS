@@ -20,9 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Certificate\Provider;
 
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ilCertificateActiveValidator;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 
 /**
  * Class CertificateMainBarProvider
@@ -42,8 +43,6 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
         $title = $this->dic->language()->txt("mm_certificates");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("cert", $title);
 
-        $access_helper = BasicAccessCheckClosuresSingleton::getInstance();
-
         $ctrl = $DIC->ctrl();
         return [
             $this->mainmenu
@@ -59,7 +58,14 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
                     )
                 )
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
-                ->withVisibilityCallable($access_helper->isUserLoggedIn())
+                ->withVisibilityCallable(
+                    static function (): bool {
+                        return (
+                            BasicAccessCheckClosuresSingleton::getInstance()->isUserLoggedIn() &&
+                            (new ilCertificateActiveValidator())->validate()
+                        );
+                    }
+                )
                 ->withSymbol($icon)
                 ->withPosition(50),
         ];

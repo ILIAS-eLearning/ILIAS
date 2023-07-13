@@ -54,21 +54,21 @@ $il-focus-color: #0078D7 !default;
 $il-focus-protection-color: #FFFFFF !default;
 
 //== Alert
-$il-alert-success-bg: lighten($il-success-color, 50%);
-$il-alert-success-border: $il-success-color;
-$il-alert-success-text: $il-text-color;
+$il-alert-success-bg: lighten($il-success-color, 55%);
+$il-alert-success-border: darken($il-alert-success-bg, 10%);
+$il-alert-success-text: $il-success-color;
 
-$il-alert-info-bg: lighten($il-info-color, 50%);
-$il-alert-info-border: $il-info-color;
-$il-alert-info-text: $il-text-color;
+$il-alert-info-bg: lighten($il-info-color, 55%);
+$il-alert-info-border: darken($il-alert-info-bg, 10%);
+$il-alert-info-text: $il-info-color;
 
 $il-alert-warning-bg: lighten($il-warning-color, 55%);
-$il-alert-warning-border: $il-warning-color;
-$il-alert-warning-text: $il-text-color;
+$il-alert-warning-border: darken($il-alert-warning-bg, 10%);
+$il-alert-warning-text: $il-warning-color;
 
-$il-alert-danger-bg: lighten($il-danger-color, 50%);
-$il-alert-danger-border: $il-danger-color;
-$il-alert-danger-text: $il-text-color;
+$il-alert-danger-bg: lighten($il-danger-color, 55%);
+$il-alert-danger-border: darken($il-alert-danger-bg, 10%);
+$il-alert-danger-text: $il-danger-color;
 
 //== Extended Colors
 //

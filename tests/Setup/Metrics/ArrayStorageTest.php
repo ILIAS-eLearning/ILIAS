@@ -26,6 +26,8 @@ use PHPUnit\Framework\TestCase;
 
 class ArrayStorageTest extends TestCase
 {
+    protected Metrics\ArrayStorage $storage;
+
     public function setUp(): void
     {
         $this->storage = new Metrics\ArrayStorage();

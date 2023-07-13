@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 class ilScormAiccExporter extends ilXmlExporter
 {
-    protected ilScormAiccDataSet $dataset;
+    private ilScormAiccDataSet $dataset;
 
     public function __construct()
     {
@@ -32,21 +32,9 @@ class ilScormAiccExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
-//            include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
-//            $lm = new ilObjSAHSLearningModule((int) $a_id, false);
-//            if ($lm->getEditable()) {		// fix #0022063 (export authoring scorm lm)
-//                include_once("./Modules/Scorm2004/classes/class.ilScorm2004DataSet.php");
-//                $dataset = new ilScorm2004DataSet();
-//                $dataset->setDSPrefix("ds");
-//                $dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
-//                $dataset->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
-//            } else {
-        $this->dataset->setDSPrefix("ds");
         $this->dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
         //using own getXmlRepresentation function in ilScormAiccDataSet
-        $this->dataset->getExtendedXmlRepresentation($a_entity, $a_schema_version, (array) $a_id, "", false, true);
-//            }
-        return "";
+        return $this->dataset->getExtendedXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", false, true);
     }
     //todo:check if xsd files must be provided
 
@@ -65,23 +53,16 @@ class ilScormAiccExporter extends ilXmlExporter
         );
     }
 
-    /*
-        public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
-        {
-            $md_ids = array();
-            $md_ids[0] = "0:".$mob_id.":mob";
-
-            return array (
-                array(
-                    "component" => "Modules/ScormAicc",
-                    "entity" => "md",
-                    "ids" => $md_ids)
-                );
-        }
-    */
-//    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
-//    {
-//        // TODO: Implement getXmlRepresentation() method.
-//        return "";
-//    }
+    //        public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    //        {
+    //            $md_ids = array();
+    //            $md_ids[0] = "0:".$mob_id.":mob";
+    //
+    //            return array (
+    //                array(
+    //                    "component" => "Modules/ScormAicc",
+    //                    "entity" => "md",
+    //                    "ids" => $md_ids)
+    //                );
+    //        }
 }

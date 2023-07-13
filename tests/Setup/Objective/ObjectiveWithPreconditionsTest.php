@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Tests\Setup\Objective;
 
@@ -46,7 +46,9 @@ class ObjectiveWithPreconditionsTest extends TestCase
 
     public function testGetHash(): void
     {
-        $this->assertEquals($this->objective->getHash(), $this->with_precondition->getHash());
+        $hash = $this->with_precondition->getHash();
+        $this->assertNotEquals($this->objective->getHash(), $hash);
+        $this->assertNotEquals($this->precondition->getHash(), $hash);
     }
 
     public function testGetLabel(): void

@@ -23,6 +23,7 @@ use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\UI\Factory;
 
 /**
  * @author Jens Conze
@@ -55,12 +56,14 @@ class ilMailFormGUI
     protected ilMailTemplateService $templateService;
     private readonly ilMailBodyPurifier $purifier;
     private string $mail_form_type = '';
+    private readonly Factory $ui_factory;
 
     public function __construct(
         ilMailTemplateService $templateService = null,
         ilMailBodyPurifier $bodyPurifier = null
     ) {
         global $DIC;
+
         $this->templateService = $templateService ?? $DIC->mail()->textTemplates();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
@@ -74,6 +77,7 @@ class ilMailFormGUI
         $this->mfile = new ilFileDataMail($this->user->getId());
         $this->mbox = new ilMailbox($this->user->getId());
         $this->purifier = $bodyPurifier ?? new ilMailBodyPurifier();
+        $this->ui_factory = $DIC->ui()->factory();
 
         $requestMailObjId = $this->getBodyParam(
             'mobj_id',
@@ -702,34 +706,88 @@ class ilMailFormGUI
 
         $this->tpl->setVariable('FORM_ID', $form_gui->getId());
 
-        $btn = ilButton::getInstance();
-        $btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT);
-        $btn->setForm('form_' . $form_gui->getName())
-            ->setName('searchUsers')
-            ->setCaption('search_recipients');
+        $mail_form = 'form_' . $form_gui->getName();
+
+        $btn = $this->ui_factory->button()
+                                ->standard($this->lng->txt('search_recipients'), '#')
+                                ->withOnLoadCode(static fn($id): string => "
+                document.getElementById('$id').addEventListener('click', function() {
+                    const frm = document.getElementById('$mail_form'),
+                        action = new URL(frm.action),
+                        action_params = new URLSearchParams(action.search);
+
+                    action_params.delete('cmd');
+                    action_params.append('cmd', 'searchUsers');
+
+                    action.search = action_params.toString();
+
+                    frm.action = action.href;
+                    frm.submit();
+                    return false;
+                });
+            ");
         $this->toolbar->addStickyItem($btn);
 
-        $btn = ilButton::getInstance();
-        $btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT)
-            ->setName('searchCoursesTo')
-            ->setForm('form_' . $form_gui->getName())
-            ->setCaption('mail_my_courses');
-        $this->toolbar->addButtonInstance($btn);
+        $btn = $this->ui_factory->button()
+                                ->standard($this->lng->txt('mail_my_courses'), '#')
+                                ->withOnLoadCode(static fn($id): string => "
+                document.getElementById('$id').addEventListener('click', function() {
+                    const frm = document.getElementById('$mail_form'),
+                        action = new URL(frm.action),
+                        action_params = new URLSearchParams(action.search);
 
-        $btn = ilButton::getInstance();
-        $btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT)
-            ->setName('searchGroupsTo')
-            ->setForm('form_' . $form_gui->getName())
-            ->setCaption('mail_my_groups');
-        $this->toolbar->addButtonInstance($btn);
+                    action_params.delete('cmd');
+                    action_params.append('cmd', 'searchCoursesTo');
+
+                    action.search = action_params.toString();
+
+                    frm.action = action.href;
+                    frm.submit();
+                    return false;
+                });
+            ");
+        $this->toolbar->addComponent($btn);
+
+        $btn = $this->ui_factory->button()
+                                ->standard($this->lng->txt('mail_my_groups'), '#')
+                                ->withOnLoadCode(static fn($id): string => "
+                document.getElementById('$id').addEventListener('click', function() {
+                    const frm = document.getElementById('$mail_form'),
+                        action = new URL(frm.action),
+                        action_params = new URLSearchParams(action.search);
+
+                    action_params.delete('cmd');
+                    action_params.append('cmd', 'searchGroupsTo');
+
+                    action.search = action_params.toString();
+
+                    frm.action = action.href;
+                    frm.submit();
+                    return false;
+                });
+            ");
+        $this->toolbar->addComponent($btn);
 
         if (count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0) {
-            $btn = ilButton::getInstance();
-            $btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT)
-                ->setName('searchMailingListsTo')
-                ->setForm('form_' . $form_gui->getName())
-                ->setCaption('mail_my_mailing_lists');
-            $this->toolbar->addButtonInstance($btn);
+            $btn = $this->ui_factory->button()
+                                    ->standard($this->lng->txt('mail_my_mailing_lists'), '#')
+                                    ->withOnLoadCode(static fn($id): string => "
+                document.getElementById('$id').addEventListener('click', function() {
+                    const frm = document.getElementById('$mail_form'),
+                        action = new URL(frm.action),
+                        action_params = new URLSearchParams(action.search);
+
+                    action_params.delete('cmd');
+                    action_params.append('cmd', 'searchMailingListsTo');
+
+                    action.search = action_params.toString();
+
+                    frm.action = action.href;
+                    frm.submit();
+                    return false;
+                });
+            ");
+            $this->toolbar->addComponent($btn);
         }
 
         $dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);

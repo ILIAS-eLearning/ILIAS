@@ -36,6 +36,8 @@ interface ilSkillLevelRepository
 
     public function lookupLevelSkillId(int $a_id): int;
 
+    public function lookupLevelNumber(int $a_id): int;
+
     public function writeLevelTitle(int $a_id, string $a_title): void;
 
     public function writeLevelDescription(int $a_id, string $a_description): void;

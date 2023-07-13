@@ -397,7 +397,6 @@ adve#:#adve_autosave#:#Automatic Saving Intervall###29 07 2022 new variable
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.###29 07 2022 new variable
 adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###29 07 2022 new variable
 adve#:#adve_blocking_mode#:#Edit Lock###24 10 2013 new variable
-adve#:#adve_char_selector_settings#:#Character Selector###24 10 2013 new variable
 adve#:#adve_excass_settings#:#Exercise Assignments###24 10 2013 new variable
 adve#:#adve_grp_copa#:#Content Pages###10 11 2018 new variable
 adve#:#adve_grp_frm#:#Forums###29 07 2022 new variable
@@ -416,45 +415,6 @@ adve#:#adve_text_content_features#:#文本内容菜单
 adve#:#adve_use_physical#:#使用 b/i/u 而不是 str/emp/imp
 adve#:#adve_use_physical_info#:#为strong、emphatic和重要的物理属性按钮b(bold)、i(italic)和 u(underline)设置替代语义样式类。请注意，如果样式编辑器已在使用，并且其他物理属性已分配给strong/emphatic/important 样式类，这可能导致不一致的结果。
 adve#:#adve_use_tiny_mce#:#为所见即所得编辑启用TinyMCE。
-adve#:#char_selector_admin#:#Selector for Unicode Characters (TODO)###27 01 2015 new variable
-adve#:#char_selector_blocks#:#Available Unicode Blocks###24 10 2013 new variable
-adve#:#char_selector_blocks_info#:#All characters of the selected blocks will be listed, but not all of them may be supported by the current browser font.###24 10 2013 new variable
-adve#:#char_selector_custom_items#:#Custom Selection###24 10 2013 new variable
-adve#:#char_selector_custom_items_info1#:#The custom selection will be listed before the selected blocks. Please add your characters in the following style:###24 10 2013 new variable
-adve#:#char_selector_custom_items_info2a#:#A B C###24 10 2013 new variable
-adve#:#char_selector_custom_items_info2b#:#Characters are separated by space, generating separate selector buttons###24 10 2013 new variable
-adve#:#char_selector_custom_items_info3a#:#A BC D###24 10 2013 new variable
-adve#:#char_selector_custom_items_info3b#:#It is possible to put more characters on one button###24 10 2013 new variable
-adve#:#char_selector_custom_items_info4a#:#A-Z###24 10 2013 new variable
-adve#:#char_selector_custom_items_info4b#:#Ranges of characters can be defined with a "-"###24 10 2013 new variable
-adve#:#char_selector_custom_items_info5a#:#U+00C0###24 10 2013 new variable
-adve#:#char_selector_custom_items_info5b#:#A character can also be defined in Unicode notation (case insensitive)###24 10 2013 new variable
-adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF###24 10 2013 new variable
-adve#:#char_selector_custom_items_info6b#:#Ranges are also possible in Unicode notation###24 10 2013 new variable
-adve#:#char_selector_disabled_admin#:#Disabled (TODO)###27 01 2015 new variable
-adve#:#char_selector_disabled_info_admin#:#Disables the selector. Users and tests can have individual settings.###24 10 2013 new variable
-adve#:#char_selector_disabled_info_test#:#Disables the selector during a test run.###24 10 2013 new variable
-adve#:#char_selector_disabled_info_user#:#Disables the selector. Tests can have an individual setting.###24 10 2013 new variable
-adve#:#char_selector_disabled_test#:#Disabled (TODO)###27 01 2015 new variable
-adve#:#char_selector_disabled_user#:#Disabled (TODO)###27 01 2015 new variable
-adve#:#char_selector_enabled_admin#:#Enabled (TODO)###27 01 2015 new variable
-adve#:#char_selector_enabled_info_admin#:#Enables the selector, invoked through a button in the main menu. Users and tests can have individual settings.###24 10 2013 new variable
-adve#:#char_selector_enabled_info_test#:#Enables the selector during the a test run.###24 10 2013 new variable
-adve#:#char_selector_enabled_info_user#:#Enables the selector, invoked through a button in the main menu.###24 10 2013 new variable
-adve#:#char_selector_enabled_test#:#Enabled (TODO)###27 01 2015 new variable
-adve#:#char_selector_enabled_user#:#Enabled (TODO)###27 01 2015 new variable
-adve#:#char_selector_inactive_admin#:#Inactive (TODO)###27 01 2015 new variable
-adve#:#char_selector_inactive_info_admin#:#Deactivates the selector. Users and tests can't overwrite this setting.###24 10 2013 new variable
-adve#:#char_selector_inherit_info_test#:#Take the platform or user specific setting.###24 10 2013 new variable
-adve#:#char_selector_inherit_info_user#:#Take the platform setting.###24 10 2013 new variable
-adve#:#char_selector_inherit_test#:#Inherit (TODO)###27 01 2015 new variable
-adve#:#char_selector_inherit_user#:#Inherit (TODO)###27 01 2015 new variable
-adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
-adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
-adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!###27 01 2015 new variable
-adve#:#char_selector_test#:#Selector for Unicode Characters (TODO)###27 01 2015 new variable
-adve#:#char_selector_unicode_all#:#All Unicode Blocks###24 10 2013 new variable
-adve#:#char_selector_user#:#Selector for Unicode Characters (TODO)###27 01 2015 new variable
 assessment#:#action#:#动作
 assessment#:#addSuggestedSolution#:#添加建议解决方案
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
@@ -597,7 +557,6 @@ assessment#:#categories#:#Categories###24 10 2013 new variable
 assessment#:#category#:#Category###24 10 2013 new variable
 assessment#:#changeSuggestedSolution#:#更改建议的解决方案
 assessment#:#change_adm_categories_not_allowed#:#You do not have any permissions concerning this category.###24 10 2013 new variable
-assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;###30 08 2015 new variable
 assessment#:#checkbox_checked#:#选上
 assessment#:#checkbox_unchecked#:#未选上
 assessment#:#circle#:#圆周

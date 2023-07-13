@@ -40,6 +40,9 @@ $il-standard-filter-add-input-popover-list-padding: 0;
 $il-standard-filter-add-input-popover-list-button-width: 100%;
 
 .il-filter {
+	.collapse.in {
+		display: flex;
+	}
 	.col-md-4, .col-md-6{
 		padding-top: $il-padding-large-vertical;
 		padding-bottom: $il-padding-large-vertical;

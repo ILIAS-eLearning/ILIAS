@@ -134,10 +134,7 @@ class ilShellUtil
     }
 
     /**
-     * Compare convert version numbers
-     *
-     * @param string $a_version w.x.y-z
-     * @return bool
+     * @deprecated, will be removed in ILIAS 10
      */
     public static function isConvertVersionAtLeast(string $a_version): bool
     {
@@ -151,12 +148,7 @@ class ilShellUtil
     }
 
     /**
-     * get convert command
-     *
-     * @deprecated
-     * @see ilShellUtil::execConvert()
-     * @static
-     *
+     * @deprecated, will be removed in ILIAS 10
      */
     public static function getConvertCmd(): string
     {
@@ -164,13 +156,7 @@ class ilShellUtil
     }
 
     /**
-     * convert image
-     *
-     * @param string $a_from          source file
-     * @param string $a_to            target file
-     * @param string $a_target_format target image file format
-     * @static
-     *
+     * @deprecated  will be removed in ILIAS 10, use $DIC->fileConverters() instead
      */
     public static function convertImage(
         string $a_from,

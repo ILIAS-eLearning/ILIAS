@@ -33,6 +33,9 @@ use ILIAS\UI\Renderer;
 
 class DefaultRendererTest extends ILIAS_UI_TestBase
 {
+    protected LoggingRegistry $resource_registry;
+    public ComponentRenderer $component_renderer;
+
     public function test_getRenderer_successfully(): void
     {
         // There should be a renderer for Glyph...
@@ -174,9 +177,9 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $component = $this->createMock(C\Component::class);
 
         $renderer = new class ($this) extends DefaultRenderer {
-            public function __construct($self)
-            {
-                $this->self = $self;
+            public function __construct(
+                protected DefaultRendererTest $self
+            ) {
             }
 
             protected function getRendererFor(ILIAS\UI\Component\Component $component): ComponentRenderer
@@ -207,9 +210,9 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $root = $this->createMock(Renderer::class);
 
         $renderer = new class ($this) extends DefaultRenderer {
-            public function __construct($self)
-            {
-                $this->self = $self;
+            public function __construct(
+                protected DefaultRendererTest $self
+            ) {
             }
 
             protected function getRendererFor(ILIAS\UI\Component\Component $component): ComponentRenderer
@@ -243,12 +246,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $component = $this->createMock(C\Component::class);
         $root = $this->createMock(Renderer::class);
 
-        $renderer = new class ($this) extends DefaultRenderer {
-            public function __construct($self)
-            {
-                $this->self = $self;
-            }
-        };
+        $renderer = $this->getDefaultRenderer();
 
         $root->expects($this->exactly(2))
             ->method("render")

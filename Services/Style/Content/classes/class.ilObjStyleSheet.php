@@ -1022,7 +1022,7 @@ class ilObjStyleSheet extends ilObject
         );
         $rec = $ilDB->fetchAssoc($set);
 
-        return $rec["hide"];
+        return (bool) ($rec["hide"] ?? false);
     }
 
     /**

@@ -280,7 +280,7 @@ class ilObjQuestionPool extends ilObject
             $newtitle = $question->object->getTitle() . ' (' . $counter . ')';
         }
         $new_id = $question->object->duplicate(false, $newtitle);
-        $this->updateQuestionCount();
+        ilObjQuestionPool::_updateQuestionCount();
         return $new_id;
     }
 
@@ -463,12 +463,9 @@ class ilObjQuestionPool extends ilObject
             $a_xml_writer->appendXML($xml);
             $page_object->freeDom();
             unset($page_object);
-
             $ilBench->stop('ContentObjectExport', 'exportPageObject_XML');
 
-            // collect media objects
-            $ilBench->start('ContentObjectExport', 'exportPageObject_CollectMedia');
-            //$mob_ids = $page_obj->getMediaObjectIDs();
+            $ilBench->start("ContentObjectExport", "exportPageObject_CollectMedia");
             foreach ($mob_ids as $mob_id) {
                 $this->mob_ids[$mob_id] = $mob_id;
             }
@@ -482,8 +479,7 @@ class ilObjQuestionPool extends ilObject
             }
             $ilBench->stop('ContentObjectExport', 'exportPageObject_CollectFileItems');
 
-            $a_xml_writer->xmlEndTag('PageObject');
-            //unset($page_obj);
+            $a_xml_writer->xmlEndTag("PageObject");
 
             $ilBench->stop('ContentObjectExport', 'exportPageObject');
         }
@@ -506,12 +502,20 @@ class ilObjQuestionPool extends ilObject
     * export files of file itmes
     *
     */
-    public function exportFileItems($a_target_dir, &$expLog): void
+    public function exportFileItems($target_dir, &$expLog): void
     {
         foreach ($this->file_ids as $file_id) {
-            $expLog->write(date('[y-m-d H:i:s] ') . 'File Item ' . $file_id);
+            $expLog->write(date("[y-m-d H:i:s] ") . "File Item " . $file_id);
+            $file_dir = $target_dir . '/objects/il_' . IL_INST_ID . '_file_' . $file_id;
+            ilFileUtils::makeDir($file_dir);
             $file_obj = new ilObjFile($file_id, false);
-            $file_obj->export($a_target_dir);
+            $source_file = $file_obj->getFile($file_obj->getVersion());
+            if (!is_file($source_file)) {
+                $source_file = $file_obj->getFile();
+            }
+            if (is_file($source_file)) {
+                copy($source_file, $file_dir . '/' . $file_obj->getFileName());
+            }
             unset($file_obj);
         }
     }

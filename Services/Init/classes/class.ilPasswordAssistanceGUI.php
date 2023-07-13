@@ -28,6 +28,9 @@ use ILIAS\HTTP\Services as HTTPServices;
  */
 class ilPasswordAssistanceGUI
 {
+    private const PERMANENT_LINK_TARGET_PW = 'pwassist';
+    private const PERMANENT_LINK_TARGET_NAME = 'nameassist';
+
     protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilRbacReview $rbacreview;
@@ -37,6 +40,7 @@ class ilPasswordAssistanceGUI
     protected RefineryFactory $refinery;
     protected HTTPServices $http;
     protected ilHelpGUI $help;
+    protected ilObjUser $actor;
 
     public function __construct()
     {
@@ -50,6 +54,7 @@ class ilPasswordAssistanceGUI
         $this->ilErr = $DIC['ilErr'];
         $this->help = $DIC->help();
         $this->http = $DIC->http();
+        $this->actor = $DIC->user();
         $this->refinery = $DIC->refinery();
 
         $this->help->setScreenIdComponent('init');
@@ -65,14 +70,16 @@ class ilPasswordAssistanceGUI
 
     public function executeCommand()
     {
-        // check hack attempts
-        if (!$this->settings->get('password_assistance')) {
-            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->FATAL);
-        }
-
-        // check correct setup
         if (!$this->settings->get('setup_ok')) {
             $this->ilErr->raiseError('Setup is not completed. Please run setup routine again.', $this->ilErr->FATAL);
+        }
+
+        if (!$this->settings->get('password_assistance')) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
+        }
+
+        if ($this->actor->getId() > 0 && !$this->actor->isAnonymous()) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
         }
 
         // Change the language, if necessary.
@@ -182,6 +189,7 @@ class ilPasswordAssistanceGUI
             $form = $this->getAssistanceForm();
         }
         $tpl->setVariable('FORM', $form->getHTML());
+        $this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
@@ -278,7 +286,10 @@ class ilPasswordAssistanceGUI
             $status = $assistance_callback();
         }
 
-        $this->showMessageForm(sprintf($this->lng->txt('pwassist_mail_sent'), $form->getInput('email')));
+        $this->showMessageForm(
+            sprintf($this->lng->txt('pwassist_mail_sent'), $form->getInput('email')),
+            self::PERMANENT_LINK_TARGET_PW
+        );
     }
 
     /**
@@ -425,7 +436,7 @@ class ilPasswordAssistanceGUI
                 $form = $this->getAssignPasswordForm($pwassist_id);
             }
             $tpl->setVariable('FORM', $form->getHTML());
-            //$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
+            $this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
             ilStartUpGUI::printToGlobalTemplate($tpl);
         }
     }
@@ -513,6 +524,7 @@ class ilPasswordAssistanceGUI
             // If we are successful so far, we update the user object.
             // ------------------
             if ($is_successful) {
+                $userObj->setLastPasswordChangeToNow();
                 $userObj->update();
             }
 
@@ -522,7 +534,10 @@ class ilPasswordAssistanceGUI
             // ------------------
             if ($is_successful) {
                 db_pwassist_session_destroy($pwassist_id);
-                $this->showMessageForm(sprintf($this->lng->txt('pwassist_password_assigned'), $username));
+                $this->showMessageForm(
+                    sprintf($this->lng->txt('pwassist_password_assigned'), $username),
+                    self::PERMANENT_LINK_TARGET_PW
+                );
             } else {
                 $this->tpl->setOnScreenMessage('failure', str_replace("\\n", '', $message));
                 $form->setValuesByPost();
@@ -581,7 +596,7 @@ class ilPasswordAssistanceGUI
             $form = $this->getUsernameAssistanceForm();
         }
         $tpl->setVariable('FORM', $form->getHTML());
-        //$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
+        $this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
@@ -627,7 +642,7 @@ class ilPasswordAssistanceGUI
             $status = $assistance_callback();
         }
 
-        $this->showMessageForm($this->lng->txt('pwassist_mail_sent_generic'));
+        $this->showMessageForm($this->lng->txt('pwassist_mail_sent_generic'), self::PERMANENT_LINK_TARGET_NAME);
     }
 
     /**
@@ -682,19 +697,19 @@ class ilPasswordAssistanceGUI
     /**
      * This form is used to show a message to the user.
      */
-    public function showMessageForm(string $text): void
+    public function showMessageForm(string $text, string $permanent_link_context): void
     {
         $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_message.html', true);
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
         $tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
 
         $tpl->setVariable('TXT_TEXT', str_replace("\\n", '<br />', $text));
-        //$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
+        $this->fillPermanentLink($permanent_link_context);
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
     protected function fillPermanentLink(string $context): void
     {
-        $this->tpl->setPermanentLink('usr', 0, $context);
+        $this->tpl->setPermanentLink('usr', null, $context);
     }
 }

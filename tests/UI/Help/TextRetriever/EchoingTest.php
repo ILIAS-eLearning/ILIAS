@@ -27,6 +27,8 @@ use PHPUnit\Framework\TestCase;
 
 class EchoingTest extends TestCase
 {
+    protected Echoing $retriever;
+
     public function setUp(): void
     {
         $this->retriever = new Echoing();

@@ -35,6 +35,7 @@ class ilSkillAppEventListener implements ilAppEventListener
 
         $profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
         $personal_manager = $DIC->skills()->internal()->manager()->getPersonalSkillManager();
+        $resource_manager = $DIC->skills()->internal()->manager()->getResourceManager();
 
         switch ($a_component) {
             case 'Services/Tracking':
@@ -44,23 +45,23 @@ class ilSkillAppEventListener implements ilAppEventListener
                             $obj_id = $a_parameter["obj_id"];
                             $usr_id = $a_parameter["usr_id"];
                             foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
-                                foreach (ilSkillResources::getTriggerLevelsForRefId($ref_id) as $sk) {
+                                foreach ($resource_manager->getTriggerLevelsForRefId($ref_id) as $sk) {
                                     ilBasicSkill::writeUserSkillLevelStatus(
-                                        $sk["level_id"],
+                                        $sk->getLevelId(),
                                         $usr_id,
                                         $ref_id,
-                                        $sk["tref_id"]
+                                        $sk->getTrefId()
                                     );
 
-                                    if ($sk["tref_id"] > 0) {
-                                        $personal_manager->addPersonalSkill($usr_id, $sk["tref_id"]);
+                                    if ($sk->getTrefId() > 0) {
+                                        $personal_manager->addPersonalSkill($usr_id, $sk->getTrefId());
                                     } else {
-                                        $personal_manager->addPersonalSkill($usr_id, $sk["base_skill_id"]);
+                                        $personal_manager->addPersonalSkill($usr_id, $sk->getBaseSkillId());
                                     }
                                 }
                             }
                             //write profile completion entries if fulfilment status has changed
-                            $profile_completion_manager->writeCompletionEntryForAllProfiles($usr_id);
+                            $profile_completion_manager->writeCompletionEntryForAllProfilesOfUser($usr_id);
                         }
                         break;
                 }

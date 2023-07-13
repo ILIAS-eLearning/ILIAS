@@ -445,6 +445,8 @@ class ilCOPageHTMLExport
             }
         }
 
+        $this->exportQuestionFiles();
+
         // export all glossary terms
         $this->exportHTMLGlossaryTerms();
     }

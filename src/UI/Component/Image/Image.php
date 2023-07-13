@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Image;
 
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Clickable;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Layout\Alignment\Block;
 
 /**
  * This describes how a glyph could be modified during construction of UI.
@@ -31,7 +32,7 @@ use ILIAS\UI\Component\Component;
  * Interface Image
  * @package ILIAS\UI\Component\Image
  */
-interface Image extends Component, JavaScriptBindable, Clickable
+interface Image extends Component, JavaScriptBindable, Clickable, Block
 {
     /**
      * Types of images
