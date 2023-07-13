@@ -273,7 +273,7 @@ class ilCronManagerGUI
         if ($job->hasFlexibleSchedule()) {
             $type = new ilRadioGroupInputGUI($this->lng->txt('cron_schedule_type'), 'type');
             $type->setRequired(true);
-            $type->setValue($job_data['schedule_type']);
+            $type->setValue((string) $job_data['schedule_type']);
 
             foreach ($job->getAllScheduleTypes() as $typeId) {
                 if (!in_array($typeId, $job->getValidScheduleTypes(), true)) {
@@ -295,7 +295,7 @@ class ilCronManagerGUI
                     $scheduleValue->setRequired(true);
                     $scheduleValue->setSize(5);
                     if ((int) $job_data['schedule_type'] === $typeId) {
-                        $scheduleValue->setValue($job_data['schedule_value']);
+                        $scheduleValue->setValue($job_data['schedule_value'] === null ? null : (string) $job_data['schedule_value']);
                     }
                     $option->addSubItem($scheduleValue);
                 }
