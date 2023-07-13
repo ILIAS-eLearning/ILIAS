@@ -44,7 +44,7 @@ class ilMailOptionsGUI
         ilObjUser $user = null,
         GlobalHttpState $http = null,
         Refinery $refinery = null,
-        ilMailOptions $mail_options
+        ilMailOptions $mail_options = null
     ) {
         global $DIC;
         $this->tpl = $tpl ?? $DIC->ui()->mainTemplate();
