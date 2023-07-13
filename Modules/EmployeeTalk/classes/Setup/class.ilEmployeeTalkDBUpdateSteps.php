@@ -20,12 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\EmployeeTalk\Setup;
 
-use ILIAS\Modules\EmployeeTalk\TalkSeries\Entity\EmployeeTalkSerieSettings;
-use ilOrgUnitOperation;
-use ilOrgUnitOperationContext;
-use ilOrgUnitOperationContextQueries;
-use ilOrgUnitOperationQueries;
-
 /**
  * @author Nicolas Schaefli <nick@fluxlabs.ch>
  */
