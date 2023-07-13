@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -90,12 +89,12 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $expected = '
             <div class="form-group row">
-                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">'.$label.'</label>
+                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label . '</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div class="il-input-password" id="id_1_container">
-                        <input id="id_1" type="password" name="'.$name.'" class="form-control form-control-sm" />
+                        <input id="id_1" type="password" name="' . $name . '" class="form-control form-control-sm" autocomplete="off" />
                     </div>
-                    <div class="help-block">'.$byline.'</div>
+                    <div class="help-block">' . $byline . '</div>
                 </div>
             </div>';
         $this->assertHTMLEquals($expected, $r->render($pwd));
@@ -116,7 +115,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
    <div class="col-sm-8 col-md-9 col-lg-10">
       <div class="help-block alert alert-danger" aria-describedby="id_1" role="alert">an_error</div>
-      <div class="il-input-password" id="id_1_container"><input id="id_1" type="password" name="name_0" class="form-control form-control-sm" /></div>
+      <div class="il-input-password" id="id_1_container"><input id="id_1" type="password" name="name_0" class="form-control form-control-sm" autocomplete="off" /></div>
       <div class="help-block">byline</div>
    </div>
 </div>');
@@ -134,10 +133,10 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $expected = '
             <div class="form-group row">
-                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">'.$label.'</label>
+                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label . '</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div class="il-input-password" id="id_1_container">
-                        <input id="id_1" type="password" name="'.$name.'" class="form-control form-control-sm" />
+                        <input id="id_1" type="password" name="' . $name . '" class="form-control form-control-sm" autocomplete="off" />
                     </div>
                 </div>
             </div>';
@@ -155,10 +154,10 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $expected = '
             <div class="form-group row">
-                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">'.$label.'</label>
+                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label . '</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div class="il-input-password" id="id_1_container">
-                        <input id="id_1" type="password" name="'.$name.'" value="'.$value.'" class="form-control form-control-sm" />
+                        <input id="id_1" type="password" name="' . $name . '" value="' . $value . '" class="form-control form-control-sm" autocomplete="off" />
                     </div>
                 </div>
             </div>';
@@ -177,10 +176,10 @@ class PasswordInputTest extends ILIAS_UI_TestBase
 
         $expected = '
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">'.$label.'<span class="asterisk">*</span></label>
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label . '<span class="asterisk">*</span></label>
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <div class="il-input-password" id="id_1_container">
-                    <input id="id_1" type="password" name="'.$name.'" class="form-control form-control-sm" />
+                    <input id="id_1" type="password" name="' . $name . '" class="form-control form-control-sm" autocomplete="off" />
                 </div>
             </div>
         </div>';
@@ -199,10 +198,10 @@ class PasswordInputTest extends ILIAS_UI_TestBase
 
         $expected = '
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">'.$label.'</label>
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label . '</label>
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <div class="il-input-password" id="id_1_container">
-                    <input id="id_1" type="password" name="'.$name.'" disabled="disabled" class="form-control form-control-sm" />
+                    <input id="id_1" type="password" name="' . $name . '" disabled="disabled" class="form-control form-control-sm" autocomplete="off" />
                 </div>
             </div>
         </div>';
