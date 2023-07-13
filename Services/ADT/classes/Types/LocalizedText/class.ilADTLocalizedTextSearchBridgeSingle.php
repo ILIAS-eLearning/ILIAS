@@ -61,7 +61,6 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
                 $this->table_filter_fields[$this->getElementId()]->setValue($post);
                 $this->writeFilter($post);
             }
-
             $this->getADT()->setText($post);
         } else {
             $this->writeFilter();
@@ -121,13 +120,14 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
 
     public function isInCondition(ilADT $a_adt): bool
     {
-        assert($a_adt instanceof ilADTLocalizedText);
-        // :TODO: search mode (see above)
-        $key = $this->lng->getLangKey();
-        return !strcmp(
-            trim($this->getADT()->getTextForLanguage($key)),
-            trim($a_adt->getTextForLanguage($key))
-        );
+        if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
+            foreach ($a_adt->getTranslations() as $language => $txt) {
+                if (strcasecmp($txt, $this->getADT()->getText()) === 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     //  import/export
