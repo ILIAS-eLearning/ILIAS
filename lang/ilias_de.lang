@@ -7093,7 +7093,7 @@ content#:#glo_full_definitions_info#:#Alle Begriffe und Definitionen werden voll
 content#:#glo_hide_taxonomy#:#Taxonomie ausblenden
 content#:#glo_list_usages#:#Nutzung
 content#:#glo_mode_level_info#:#Nur Begriffe aus Glossaren, die sich im Magazin auf gleicher Ebene befinden, werden eingefügt.
-content#:#glo_mode_normal_info#:#Das Glossar beinhaltet alle Begriffe, die aktiv eingefügt werden.
+content#:#glo_mode_normal_info#:#Das Glossar beinhaltet alle Begriffe, die im Glossar angelegt wurden.
 content#:#glo_mode_subtree_info#:#Auch Begriffe aus Glossaren auf untergeordneten Magazinebenen werden eingefügt.
 content#:#glo_online_info#:#Nur wenn das Glossar online geschaltet ist, können Benutzer das Glossar sehen und benutzen.
 content#:#glo_presentation_mode#:#Ansicht
@@ -9793,6 +9793,9 @@ forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
 forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
 glo#:#glo_add_from_other#:#Begriffe sammeln
+glo#:#glo_add_glossary#:#Glossar hinzufügen
+glo#:#glo_add_to_collection#:#Glossar zum Sammelglossar hinzufügen
+glo#:#glo_added_to_collection_info#:#Das Glossar wurde dem Sammelglossar hinzugefügt.
 glo#:#glo_answered_correctly#:#Wusste ich
 glo#:#glo_answered_not_correctly#:#Wusste ich nicht
 glo#:#glo_box#:#Fach
@@ -9801,9 +9804,12 @@ glo#:#glo_box_last_presented#:#Fach zuletzt angezeigt
 glo#:#glo_boxes#:#Fächer
 glo#:#glo_boxes_really_reset#:#Möchten Sie wirklich alle Fächer zurücksetzen? Alle Lernkarten werden in das erste Fach verschoben.
 glo#:#glo_boxes_reset#:#Die Fächer wurden erfolgreich zurückgesetzt.
+glo#:#glo_change_to_collection_unavailable_info#:#Um die Zusammenstellung der Inhalte auf "Sammelglossar" zu ändern, müssen Sie zuerst alle bestehenden Begriffe innerhalb dieses Glossars im Reiter "Inhalt" löschen.
+glo#:#glo_change_to_standard_unavailable_info#:#Um die Zusammenstellung der Inhalte auf "Normales Glossar" zu ändern, müssen Sie zuerst die ausgewählten Glossare im Reiter "Inhalt" entfernen.
 glo#:#glo_col_ordering_info#:#Sortieren Sie die Titel der Metadatenfelder, die in der Präsentationsansicht des Glossars als Spaltenüberschriften angezeigt werden.
 glo#:#glo_collection#:#Sammelglossar
-glo#:#glo_collection_info#:#Das Glossar sammelt automatisch zusätzliche Begriffe aus anderen Glossaren ein.
+glo#:#glo_collection_empty_info#:#Dieses Sammelglossar ist aktuell leer. Bitte fügen mindestens ein Glossar hinzu.
+glo#:#glo_collection_info#:#Das Glossar sammelt automatisch alle Begriffe aus den ausgewählten Glossaren.
 glo#:#glo_content_assembly#:#Zusammenstellung der Inhalte
 glo#:#glo_copy#:#Glossar kopieren
 glo#:#glo_copy_terms#:#Begriffe kopieren
@@ -9822,12 +9828,17 @@ glo#:#glo_mode#:#Modus
 glo#:#glo_page_type_gdf#:#Begriffsdefinition
 glo#:#glo_please_select_other_glo#:#Bitte wählen Sie ein anderes Glossar aus.
 glo#:#glo_quit_box#:#Fach verlassen
+glo#:#glo_really_remove_from_collection#:#Sind Sie sich sicher, dass Sie das folgende Glossar aus dem Sammelglossar entfernen wollen?
 glo#:#glo_reference#:#Link
 glo#:#glo_reference_terms#:#Begriffe verlinken
 glo#:#glo_referenced_term#:#Verlinkte Begriffe
+glo#:#glo_removed_from_collection_info#:#Das Glossar wurde aus dem Sammelglossar entfernt.
 glo#:#glo_reset_all_boxes#:#Alle Fächer zurücksetzen
 glo#:#glo_select_source_glo#:#Bitte wählen Sie das Ausgangsglossar aus.
 glo#:#glo_select_terms#:#Begriffe auswählen
+glo#:#glo_selected_glossaries#:#Ausgewählte Glossare
+glo#:#glo_selected_glossaries_info#:#Die Begriffe stammen aus den folgenden Glossaren:
+glo#:#glo_selected_glossary_is_current_info#:#Das ausgewählte Glossar entspricht dem aktuellen Glossar. Bitte wählen Sie ein anderes Glossar.
 glo#:#glo_selected_terms_have_been_copied#:#Die ausgewählten Begriffe wurden in die Zwischenablage kopiert. Bitte öffnen Sie das Zielglossar und klicken dann auf "Einfügen".
 glo#:#glo_show_definition#:#Definition zeigen
 glo#:#glo_show_term#:#Begriff zeigen

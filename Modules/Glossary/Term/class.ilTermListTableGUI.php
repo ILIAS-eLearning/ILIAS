@@ -133,10 +133,9 @@ class ilTermListTableGUI extends ilTable2GUI
 
     public function showGlossaryColumn(): bool
     {
-        return (in_array(
-            $this->glossary->getVirtualMode(),
-            array("level", "subtree")
-        ) || ilGlossaryTermReferences::hasReferences($this->glossary->getId()));
+        return ($this->glossary->getVirtualMode() === "coll"
+            || ilGlossaryTermReferences::hasReferences($this->glossary->getId())
+        );
     }
 
 

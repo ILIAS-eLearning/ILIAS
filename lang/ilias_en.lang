@@ -4111,9 +4111,7 @@ common#:#glo_added#:#Glossary added
 common#:#glo_import#:#Import Glossary
 common#:#glo_mode#:#Mode
 common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).
-common#:#glo_mode_level#:#Current repository container
 common#:#glo_mode_normal#:#Standard Glossary
-common#:#glo_mode_subtree#:#Current container and all sub-containers
 common#:#glo_new#:#New Glossary
 common#:#global#:#Global
 common#:#global_default#:#Global Default
@@ -7089,9 +7087,7 @@ content#:#glo_full_definitions#:#Full Definitions
 content#:#glo_full_definitions_info#:#Terms and definitions are fully displayed in the main view.
 content#:#glo_hide_taxonomy#:#Hide Taxonomy
 content#:#glo_list_usages#:#List Usages
-content#:#glo_mode_level_info#:#All terms of glossaries on the same level in the repository will be included.
 content#:#glo_mode_normal_info#:#All terms created within this glossary will be included.
-content#:#glo_mode_subtree_info#:#All terms of glossaries on the same level and subsequent levels in the repository will be included.
 content#:#glo_online_info#:#Only if the glossary is online, users are able to use the glossary.
 content#:#glo_presentation_mode#:#Presentation Mode
 content#:#glo_presentation_view#:#Presentation View
@@ -9790,6 +9786,9 @@ forum#:#topic_close#:#Closed
 forum#:#topics_please_select_one_action#:#Please select an action.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
 glo#:#glo_add_from_other#:#Collect Terms
+glo#:#glo_add_glossary#:#Add Glossary
+glo#:#glo_add_to_collection#:#Add Glossary to Collection Glossary
+glo#:#glo_added_to_collection_info#:#The selected glossary has been added to the collection glossary.
 glo#:#glo_answered_correctly#:#I got it right
 glo#:#glo_answered_not_correctly#:#I was wrong
 glo#:#glo_box#:#Box
@@ -9798,9 +9797,12 @@ glo#:#glo_box_last_presented#:#Box Last Presented
 glo#:#glo_boxes#:#Boxes
 glo#:#glo_boxes_really_reset#:#Do you really want to reset all boxes? All flashcards will be moved to the first box.
 glo#:#glo_boxes_reset#:#The boxes have been reset successfully.
+glo#:#glo_change_to_collection_unavailable_info#:#To change the type of content assembly to "Collection Glossary", you first have to delete all existing terms within this glossary in tab "Content".
+glo#:#glo_change_to_standard_unavailable_info#:#To change the type of content assembly to "Standard Glossary", you first have to remove the selected glossaries in tab "Content".
 glo#:#glo_col_ordering_info#:#Order the titles of the metadata fields. They are presented as column headers in the table presentation of the glossary.
 glo#:#glo_collection#:#Collection Glossary
-glo#:#glo_collection_info#:#The glossary collects additional terms of other glossaries.
+glo#:#glo_collection_empty_info#:#This collection glossary is currently empty. Please add at least one glossary to it.
+glo#:#glo_collection_info#:#The glossary automatically collects all terms from the selected glossaries.
 glo#:#glo_content_assembly#:#Content Assembly
 glo#:#glo_copy#:#Copy Glossary
 glo#:#glo_copy_terms#:#Copy Terms
@@ -9819,12 +9821,17 @@ glo#:#glo_mode#:#Mode
 glo#:#glo_page_type_gdf#:#Term Definition
 glo#:#glo_please_select_other_glo#:#Please select another glossary.
 glo#:#glo_quit_box#:#Quit Box
+glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the following glossary from the collection glossary?
 glo#:#glo_reference#:#Reference
 glo#:#glo_reference_terms#:#Reference Terms
 glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.
 glo#:#glo_reset_all_boxes#:#Reset All Boxes
 glo#:#glo_select_source_glo#:#Please select a source glossary.
 glo#:#glo_select_terms#:#Select Terms
+glo#:#glo_selected_glossaries#:#Selected Glossaries
+glo#:#glo_selected_glossaries_info#:#Terms are collected from the following glossaries:
+glo#:#glo_selected_glossary_is_current_info#:#The selected glossary corresponds to the current glossary. Please select another glossary.
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
 glo#:#glo_show_definition#:#Show Definition
 glo#:#glo_show_term#:#Show Term

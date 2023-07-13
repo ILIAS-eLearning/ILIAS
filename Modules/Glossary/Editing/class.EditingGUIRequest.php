@@ -133,4 +133,17 @@ class EditingGUIRequest
     {
         return $this->intArray("tax_node");
     }
+
+    public function getSelectedGlossaryRefId(): int
+    {
+        return $this->int("sel_glo_ref_id");
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getInterruptiveItemIds(): array
+    {
+        return $this->intArray("interruptive_items");
+    }
 }

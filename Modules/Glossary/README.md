@@ -11,6 +11,11 @@ Business Rules
 * **References to auto-linked** glossaries will be established on import, if the referenced glossary has been imported before.
 * The **Download Setting** is not exported/imported, since it requires additional export files of the glossary (e.g. HTML), which are not exported, too.
 
+### Permissions
+
+Business Rules
+* In the Presentation view of Collection Glossaries, there is no permission check for the selected glossaries.
+
 
 ## Concepts
 
@@ -24,7 +29,7 @@ Business Rules
 - Info
 
 ### Settings (table "glossary")
-- Virtual Mode (none, subtree, level) (is to be abandoned)
+- Content Assembly (none, collection)
 - Presentation Mode (table, list)
 - Snippet Length (Max length of first paragraph being presented in table overview, should be restricted to <= 4000 due to glossary_definition.short_text field length)
 - Public export files (public_html_file, public_xml_file) being selected in export tab and presented to learners
@@ -66,10 +71,8 @@ Business Rules
 - If available, taxonomy nodes are assigend to terms in the term settings screen
 - Term <-> Tax Node relationship is store by using ilTaxNodeAssignment class
 
-### Virtual Glossaries (to be abandoned)
-- Virtual glossaries collect terms of other glossaries
-- Same Level: All glossaries in the same category
-- Subtree: All glossaries of current category and its children are collected
+### Collection Glossaries
+- Collection glossaries collect terms of other (manually selected) glossaries
 
 ### Collected Terms
 - Single terms can be selected and copied or referenced in other glossaries.
