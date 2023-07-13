@@ -521,7 +521,8 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             $location ?? '',
             ilObjUser::getUserIdByLogin($employee),
             false,
-            false
+            false,
+            ilObject::_lookupObjectId($this->getTemplateRefId())
         );
     }
 
@@ -533,8 +534,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
     private function copyTemplateValues(ilObjEmployeeTalkSeries $talk)
     {
         $template = new ilObjTalkTemplate($this->getTemplateRefId(), true);
-        $talk->setTitle($template->getTitle());
-        $talk->setDescription($template->getLongDescription());
+        $talk->setDescription($template->getTitle());
         $template->cloneMetaData($talk);
         $talk->update();
 

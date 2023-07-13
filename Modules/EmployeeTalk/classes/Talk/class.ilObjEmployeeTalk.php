@@ -55,7 +55,18 @@ final class ilObjEmployeeTalk extends ilObject
 
         $this->repository = new IliasDBEmployeeTalkRepository($GLOBALS['DIC']->database());
         $datetime = new ilDateTime(1, IL_CAL_UNIX);
-        $this->data = new EmployeeTalk(-1, $datetime, $datetime, false, '', '', -1, false, false);
+        $this->data = new EmployeeTalk(
+            -1,
+            $datetime,
+            $datetime,
+            false,
+            '',
+            '',
+            -1,
+            false,
+            false,
+            0
+        );
 
         parent::__construct($a_id, $a_call_by_reference);
     }

@@ -125,7 +125,8 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
             'location'              => ['text', $talk->getLocation()],
             'employee'              => ['int', $talk->getEmployee()],
             'completed'             => ['int', (int) $talk->isCompleted()],
-            'standalone_date'       => ['int', (int) $talk->isStandalone()]
+            'standalone_date'       => ['int', (int) $talk->isStandalone()],
+            'template_id'           => ['int', $talk->getTemplateId()]
             ]);
 
         return $talk;
@@ -141,7 +142,8 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
             'location'              => ['text', $talk->getLocation()],
             'employee'              => ['int', $talk->getEmployee()],
             'completed'             => ['int', (int) $talk->isCompleted()],
-            'standalone_date'       => ['int', (int) $talk->isStandalone()]
+            'standalone_date'       => ['int', (int) $talk->isStandalone()],
+            'template_id'           => ['int', $talk->getTemplateId()]
         ], [
             'object_id'             => ['int', $talk->getObjectId()]
         ]);
@@ -205,7 +207,8 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
             $stdClass->location ?? '',
             intval($stdClass->employee),
             boolval($stdClass->completed),
-            boolval($stdClass->standalone_date)
+            boolval($stdClass->standalone_date),
+            intval($stdClass->template_id)
         );
     }
 }

@@ -197,7 +197,6 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
 
             $refIds = ilObjEmployeeTalk::_getAllReferences($val->getObjectId());
             $talk = new ilObjEmployeeTalk(array_pop($refIds), true);
-            $parent = $talk->getParent();
             $talkData = $talk->getData();
             $employeeName = $this->language->txt('etal_unknown_username');
             $superiorName = $this->language->txt('etal_unknown_username');
@@ -222,16 +221,10 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
                 }
             }
 
-            if ($filter['etal_template'] !== "") {
-                if (strpos($parent->getTitle(), $filter['etal_template']) === false) {
-                    continue;
-                }
-            }
-
             if ($filter['etal_date'] !== false && $filter['etal_date'] !== null) {
                 $filterDate = new ilDateTime($filter['etal_date'], IL_CAL_DATE);
                 if (
-                !ilDateTime::_equals($filterDate, $val->getStartDate(), IL_CAL_DAY)
+                    !ilDateTime::_equals($filterDate, $val->getStartDate(), IL_CAL_DAY)
                 ) {
                     continue;
                 }
@@ -247,10 +240,21 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
                 }
             }
 
+            $template_title = '';
+            if ($talkData->getTemplateId() > 0) {
+                $template = ilObjectFactory::getInstanceByObjId($talkData->getTemplateId());
+                $template_title = $template->getTitle();
+            }
+            if ($filter['etal_template'] !== "") {
+                if (strpos($template_title, $filter['etal_template']) === false) {
+                    continue;
+                }
+            }
+
             $data[] = [
                 "ref_id" => $talk->getRefId(),
                 "etal_title" => $talk->getTitle(),
-                "etal_template" => $parent->getTitle(),
+                "etal_template" => $template_title,
                 "etal_date" => $talkData->getStartDate(),
                 "etal_superior" => $superiorName,
                 "etal_employee" => $employeeName,
