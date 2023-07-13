@@ -43,6 +43,8 @@ class Image implements C\Image\Image
 
     private string $type;
     private string $src;
+    private ?array $src_set = null;
+    private ?string $sizes_selector = null;
     private string $alt;
     protected ?string $action = '';
 
@@ -80,6 +82,44 @@ class Image implements C\Image\Image
     {
         return $this->src;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function withSourceSet(array $source_set): C\Image\Image
+    {
+        $clone = clone $this;
+        $clone->src_set = $source_set;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSourceSet(): ?array
+    {
+        return $this->src_set;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withSizesSelectorStatement(string $sizes_selector): C\Image\Image
+    {
+        $clone = clone $this;
+        $clone->sizes_selector = $sizes_selector;
+        return $clone;
+        ;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSizesSelectorStatement(): ?string
+    {
+        return $this->sizes_selector;
+    }
+
 
     /**
      * @inheritdoc
