@@ -94,4 +94,11 @@ final class IliasDBEmployeeTalkSeriesRepository
 
         return new EmployeeTalkSerieSettingsDto($obj_id, (bool) $activeRecord->getEditingLocked());
     }
+
+    public function deleteEmployeeTalkSerieSettings(int $obj_id): void
+    {
+        /** @var EmployeeTalkSerieSettings $activeRecord */
+        $activeRecord = EmployeeTalkSerieSettings::findOrGetInstance($obj_id);
+        $activeRecord->delete();
+    }
 }
