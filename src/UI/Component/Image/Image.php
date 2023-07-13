@@ -51,6 +51,35 @@ interface Image extends Component, JavaScriptBindable, Clickable, Block
     public function getSource(): string;
 
     /**
+     * Add image sources for different display conditions. You will also need to add
+     * the image source you specified as Source here again.
+     *
+     * @param array<string> $source_set <condition_descriptor> => <source>
+     * The condition descriptor is either of the form "<display density>x" or
+     * "<source width>w". If you use condition descriptors defined by source width
+     * you also need to set the Sizes Selector Statement.
+     */
+    public function withSourceSet(array $source_set): Image;
+
+    /**
+     * Get the image sources
+     * @return array<string> <condition_descripter> => <source>
+     */
+    public function getSourceSet(): ?array;
+
+    /**
+     * Defines how the browser selects the right image to use.
+     * See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes
+     * Must be set if multiple sources with width condition descriptors are set.
+     */
+    public function withSizesSelectorStatement(string $sizes_selector): Image;
+
+    /**
+     * Get the image sizes selector statement
+     */
+    public function getSizesSelectorStatement(): ?string;
+
+    /**
      * Get the type of the image
      */
     public function getType(): string;
