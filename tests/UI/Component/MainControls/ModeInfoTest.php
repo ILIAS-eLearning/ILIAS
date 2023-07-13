@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\MainControls\ModeInfo;
@@ -55,12 +55,10 @@ class ModeInfoTest extends ILIAS_UI_TestBase
         <div class="c-mode-info__pageframe"></div>
         <div class="c-mode-info">
             <div class="c-mode-info__content">
-                <div class="c-mode-info__label">
-                    {MODE_TITLE}
-                </div>
+                <div class="c-mode-info__label">$mode_title</div>
         
                 <div class="c-mode-info__close">
-                    {CLOSE_GLYPH}
+                    <a tabindex="0" class="glyph" href="$uri_string" aria-label="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                 </div>
         
             </div>
