@@ -52,11 +52,21 @@ class ModeInfoTest extends ILIAS_UI_TestBase
         $html = $r->render($mode_info);
 
         $expected = <<<EOT
-		<div class="il-mode-info">
-		    <span class="il-mode-info-content">$mode_title<a tabindex="0" class="glyph" href="$uri_string" aria-label="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-		    </span>
-		    </div>
-EOT;
+        <div class="c-mode-info__pageframe"></div>
+        <div class="c-mode-info">
+            <div class="c-mode-info__content">
+                <div class="c-mode-info__label">
+                    {MODE_TITLE}
+                </div>
+        
+                <div class="c-mode-info__close">
+                    {CLOSE_GLYPH}
+                </div>
+        
+            </div>
+        </div>
+        <div class="c-mode-info__mobile-padding"></div>
+        EOT;
 
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
