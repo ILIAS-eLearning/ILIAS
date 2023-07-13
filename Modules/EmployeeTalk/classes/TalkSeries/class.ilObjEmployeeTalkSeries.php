@@ -53,8 +53,6 @@ final class ilObjEmployeeTalkSeries extends ilContainer
 
     public function create(): int
     {
-        $this->setOfflineStatus(true);
-
         parent::create();
 
         $this->_writeContainerSetting($this->getId(), ilObjectServiceSettingsGUI::CUSTOM_METADATA, '1');

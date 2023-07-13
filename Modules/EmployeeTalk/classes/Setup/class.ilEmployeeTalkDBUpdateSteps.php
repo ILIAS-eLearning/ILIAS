@@ -126,4 +126,25 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
             }
         });
     }
+
+    public function step_6(): void
+    {
+        $this->useTransaction(function (\ilDBInterface $db) {
+            $table_name = 'etal_data';
+            $column_name = 'template_id';
+
+            if (!$db->tableColumnExists($table_name, $column_name)) {
+                $db->addTableColumn(
+                    $table_name,
+                    $column_name,
+                    [
+                        'type' => 'integer',
+                        'length' => 8,
+                        'notnull' => true,
+                        'default' => 0
+                    ]
+                );
+            }
+        });
+    }
 }

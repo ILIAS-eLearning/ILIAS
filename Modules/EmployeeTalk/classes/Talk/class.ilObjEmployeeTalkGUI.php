@@ -562,6 +562,11 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         $talks = [];
         $talks[] = $this->object;
+        // Update the title of the talk series
+        if ($parent->getTitle() !== $this->object->getTitle()) {
+            $parent->setTitle($this->object->getTitle());
+            $parent->update();
+        }
         // Update the title of every talk which belongs to the talk series
         foreach ($subTree as $treeNode) {
             if (boolval($treeNode['deleted']) === true) {
