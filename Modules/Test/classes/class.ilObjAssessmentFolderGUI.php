@@ -292,8 +292,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->getAssessmentFolder()->_setManualScoring($_POST["chb_manual_scoring"]);
         $questiontypes = ilObjQuestionPool::_getQuestionTypes(true);
         $forbidden_types = [];
+
+
         foreach ($questiontypes as $name => $row) {
-            if (!in_array($row["question_type_id"], $_POST["chb_allowed_questiontypes"])) {
+            if (is_null($_POST["chb_allowed_questiontypes"]) || !in_array($row["question_type_id"], $_POST["chb_allowed_questiontypes"])) {
                 $forbidden_types[] = (int) $row["question_type_id"];
             }
         }
