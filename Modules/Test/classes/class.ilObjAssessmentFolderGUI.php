@@ -289,7 +289,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
         $this->getAssessmentFolder()->setSkillTriggeringNumAnswersBarrier((int) $_POST['num_req_answers']);
         $this->getAssessmentFolder()->setExportEssayQuestionsWithHtml((bool) $_POST["export_essay_qst_with_html"]);
-        $this->getAssessmentFolder()->_setManualScoring($_POST["chb_manual_scoring"]);
+        $this->getAssessmentFolder()->_setManualScoring($_POST["chb_manual_scoring"] ?? []);
         $questiontypes = ilObjQuestionPool::_getQuestionTypes(true);
         $forbidden_types = [];
         foreach ($questiontypes as $name => $row) {
