@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Input\Container\Form;
 
 /**
@@ -26,12 +26,12 @@ namespace ILIAS\UI\Component\Input\Container\Form;
 interface Standard extends FormWithPostURL
 {
     /**
-     * Sets the caption of the submit button of the form
+     * Sets the label of the submit button of the form
      */
-    public function withSubmitCaption(string $caption): Standard;
+    public function withSubmitLabel(string $label): Standard;
 
     /**
-     * Gets submit caption of the form
+     * Gets the submit label of the form.
      */
-    public function getSubmitCaption(): ?string;
+    public function getSubmitLabel(): ?string;
 }

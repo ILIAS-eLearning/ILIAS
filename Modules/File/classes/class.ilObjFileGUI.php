@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -377,7 +378,7 @@ class ilObjFileGUI extends ilObject2GUI
         return $this->ui->factory()->input()->container()->form()->standard(
             $this->ctrl->getFormActionByClass(self::class, self::CMD_UPLOAD_FILES),
             $inputs
-        )->withSubmitCaption($this->lng->txt('upload_files'));
+        )->withSubmitLabel($this->lng->txt('upload_files'));
     }
 
     /**

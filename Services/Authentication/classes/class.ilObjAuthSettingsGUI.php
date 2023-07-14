@@ -438,7 +438,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
               "soap_pw" => $soap_pw,
               "new_user" => $new_user
             ]
-        )->withSubmitCaption("Send");
+        )->withSubmitLabel("Send");
         return $form;
     }
 
