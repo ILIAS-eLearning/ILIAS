@@ -1064,7 +1064,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             // nr of tries (max passes)
             if ($form->getItemByPostVar('limitPasses') instanceof ilFormPropertyGUI) {
                 if ($form->getInput('limitPasses')) {
-                    $this->testOBJ->setNrOfTries($form->Input('nr_of_tries'));
+                    $this->testOBJ->setNrOfTries($form->getInput('nr_of_tries'));
 
                     $this->testOBJ->setBlockPassesAfterPassedEnabled(
                         (bool) $form->getInput('block_after_passed')
