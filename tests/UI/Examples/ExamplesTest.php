@@ -181,7 +181,8 @@ class ExamplesTest extends ILIAS_UI_TestBase
             ['ILIAS\UI\examples\MainControls\MetaBar\renderMetaBarInFullscreenMode', "src/UI/examples/MainControls/MetaBar/base_metabar.php"],
             ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleCondensed', "src/UI/examples/Layout/Page/Standard/ui_mainbar.php"],
             ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleFull', "src/UI/examples/Layout/Page/Standard/ui_mainbar.php"],
-            ['ILIAS\UI\examples\Layout\Page\Standard\ui', "src/UI/examples/Layout/Page/Standard/ui.php"]
+            ['ILIAS\UI\examples\Layout\Page\Standard\ui', "src/UI/examples/Layout/Page/Standard/ui.php"],
+            ['ILIAS\UI\examples\MainControls\ModeInfo\renderModeInfoFullscreenMode', "src/UI/examples/MainControls/ModeInfo/modeinfo.php"]
         ];
     }
 }

@@ -25,14 +25,23 @@ function modeinfo(): string
     ]);
 }
 
-global $DIC;
 const MODE_INFO_ACTIVE = 2;
 const MODE_INFO_INACTIVE = 1;
 
+global $DIC;
+$request_wrapper = $DIC->http()->wrapper()->query();
+$refinery = $DIC->refinery();
 
-if ((int)@$_GET['new_mode_info'] === MODE_INFO_ACTIVE) {
+if ($request_wrapper->has('new_mode_info')
+    && $request_wrapper->retrieve('new_mode_info', $refinery->kindlyTo()->int()) === MODE_INFO_ACTIVE
+) {
     \ilInitialisation::initILIAS();
-    $dic = $DIC;
+    echo(renderModeInfoFullscreenMode($DIC));
+    exit();
+}
+
+function renderModeInfoFullscreenMode(\ILIAS\DI\Container $dic)
+{
     $f = $dic->ui()->factory();
     $data_factory = new \ILIAS\Data\Factory();
     $renderer = $dic->ui()->renderer();
@@ -87,6 +96,5 @@ if ((int)@$_GET['new_mode_info'] === MODE_INFO_ACTIVE) {
      */
     $page = $page->withModeInfo($mode_info);
 
-    echo $renderer->render($page);
-    exit();
+    return $renderer->render($page);
 }

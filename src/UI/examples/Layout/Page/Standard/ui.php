@@ -24,11 +24,21 @@ function ui(): string
 }
 
 
-//Render Page Layout in Fullscreen mode
-if ((int)@$_GET['new_ui'] === 1) {
-    global $DIC;
+
+global $DIC;
+$request_wrapper = $DIC->http()->wrapper()->query();
+$refinery = $DIC->refinery();
+
+if ($request_wrapper->has('new_ui')
+    && $request_wrapper->retrieve('new_ui', $refinery->kindlyTo()->int()) === 1
+) {
     \ilInitialisation::initILIAS();
-    $dic = $DIC;
+    echo(renderFullDemoPage($DIC));
+    exit();
+}
+
+function renderFullDemoPage(\ILIAS\DI\Container $dic)
+{
     $refinery = $dic->refinery();
     $request_wrapper = $dic->http()->wrapper()->query();
 
@@ -59,8 +69,8 @@ if ((int)@$_GET['new_ui'] === 1) {
     )
     ->withHeaders(true)
     ->withUIDemo(true);
-    echo $renderer->render($page);
-    exit();
+
+    return $renderer->render($page);
 }
 
 if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('replaced') && $request_wrapper->retrieve('replaced', $refinery->kindlyTo()->string()) == '1') {

@@ -190,20 +190,25 @@ function getUIContent(\ILIAS\UI\Factory $f, RequestInterface $request): array
 }
 
 
-if ((int)@$_GET['ui_mainbar'] === 1 || (int)@$_GET['ui_mainbar'] === 2) {
-    global $DIC;
-    \ilInitialisation::initILIAS();
-    $refinery = $DIC->refinery();
-    $request_wrapper = $DIC->http()->wrapper()->query();
+global $DIC;
+$request_wrapper = $DIC->http()->wrapper()->query();
+$refinery = $DIC->refinery();
 
-    if ($request_wrapper->retrieve('ui_mainbar', $refinery->kindlyTo()->string()) == '1') {
-        echo getUIMainbarExampleCondensed($DIC);
+if ($request_wrapper->has('ui_mainbar')
+) {
+    \ilInitialisation::initILIAS();
+    switch ($request_wrapper->retrieve('ui_mainbar', $refinery->kindlyTo()->int())) {
+        case 1:
+            echo(getUIMainbarExampleCondensed($DIC));
+            break;
+        case 2:
+            echo getUIMainbarExampleFull($DIC);
+            break;
     }
-    if ($request_wrapper->retrieve('ui_mainbar', $refinery->kindlyTo()->string()) == '2') {
-        echo getUIMainbarExampleFull($DIC);
-    }
-    exit;
+
+    exit();
 }
+
 
 function getURI(): \ILIAS\Data\URI
 {
