@@ -422,12 +422,6 @@ class ilObject
         return (int) $row->obj_id;
     }
 
-    /**
-     * This is not a classical Setter anymore. It STORES the status directly to
-     * the database. Please don't use this function to store form data. But use
-     * $ilObject->getObjectProperties for it. Right now you most probably want
-     * to use this function for Imports and Copying.
-     */
     public function setOfflineStatus(bool $status): void
     {
         $property_is_online = $this->getObjectProperties()->getPropertyIsOnline()->withOnline();
@@ -435,7 +429,7 @@ class ilObject
             $property_is_online = $property_is_online->withOffline();
         }
 
-        $this->getObjectProperties()->storePropertyIsOnline($property_is_online);
+        $this->object_properties = $this->getObjectProperties()->withPropertyIsOnline($property_is_online);
     }
 
     public function getOfflineStatus(): bool
