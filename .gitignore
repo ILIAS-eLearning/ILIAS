@@ -11,6 +11,7 @@
 /extern
 /Services/PHPUnit/config/cfg.phpunit.php
 /nbproject
+/templates/default/delos.css.map
 
 # General Patterns
 *.bak

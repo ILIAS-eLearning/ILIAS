@@ -33,6 +33,7 @@ You should consult the [official Sass Documentation](https://sass-lang.com/docum
 * We currently follow a **desktop first approach** on the Sass level. This means, that we handle all mobile cases as special cases and the desktop as the default.
 * You MUST NOT make changes to the compiled delos.css manually.
 * Delos.scss MUST only contain imports and no other Sass logic at all.
+* The Sass compiler automatically creates a CSS map called delos.css.map, which tells the developer tools of a browser which line of CSS belongs to which SCSS file and line. This map MUST NOT be committed as it causes merge conflicts and contains paths of your local file system and is therefor listed in the .gitignore file.
 
 If you are interested, you can read more about why we switched preprocessors from LESS to Sass here.
 
@@ -285,7 +286,7 @@ Every bit of code that is contained here should be considered a smell that is wo
 
 * When defining margins, paddings, widths and heights you SHOULD use variables from the Settings, Tools or Layout layer whenever possible.
 * For margins and paddings you SHOULD use the unit px, so users relying on the accessibility options of their browser can scale text separately from the design.
-* For widths and heights you SHOULD use (in order from highly to least recommended) flexbox and grid systems from Layouts or Dependencies, the units %, vw or vh, px.
+* For widths and heights you SHOULD use flexbox and grid systems from Layouts or Dependencies, the units %, vw or vh, px (in order from highly to least recommended).
 
 # Media Queries
 
@@ -346,6 +347,36 @@ c-panel--dashboard__header--alert
 2 BEMIT Block
 3 BEMIT Modifier
 4 BEMIT Element
+
+You SHOULD make use of SCSS nesting to make the code more readable:
+
+```SCSS
+.c-panel {
+    background-color: white;
+
+    &--dashboard {
+        background-color: lightgray;
+    }
+
+    &__header {
+        background-color: gray; 
+        
+        &--alert {
+            background-color: red;
+        }
+    }
+}
+```
+
+This way only HTML templates have to repeat the entire BEMIT name:
+
+```HTML
+<div class="c-panel c-panel--dashboard">
+    <div class="c-panel__header c-panel__header--alert">
+        Header
+    </div>
+</div>
+```
 
 # Variables, Mixins and Functions
 

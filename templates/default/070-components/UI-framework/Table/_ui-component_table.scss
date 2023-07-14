@@ -1,6 +1,6 @@
 @use "../../../010-settings/" as *;
-@use "../../../030-tools/legacy-bootstrap-mixins/buttons" as *;
-@use "../../../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as *;
+@use "../../../030-tools/_tool_buttons" as *;
+@use "../../../030-tools/_tool_browser-prefixes" as *;
 @use "../../../050-layout/basics" as *;
 @use "../../../050-layout/layout_grid" as l-grid;
 
