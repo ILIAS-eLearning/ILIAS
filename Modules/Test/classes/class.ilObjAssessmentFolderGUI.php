@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjAssessmentFolderGUI
@@ -219,7 +219,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         }
         $allowed->setValue($allowedtypes);
         foreach ($questiontypes as $type_name => $qtype) {
-            $allowed->addOption(new ilCheckboxOption($type_name, $qtype["question_type_id"]));
+            $allowed->addOption(new ilCheckboxOption($type_name, (string) $qtype["question_type_id"]));
         }
         $allowed->setInfo($this->lng->txt('assf_allowed_questiontypes_desc'));
         $form->addItem($allowed);
