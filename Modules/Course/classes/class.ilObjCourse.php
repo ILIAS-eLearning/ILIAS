@@ -1170,7 +1170,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $this->setContactPhone((string) $row->contact_phone);
             $this->setContactEmail((string) $row->contact_email);
             $this->setContactConsultation((string) $row->contact_consultation);
-            $this->setOfflineStatus(!(bool) $row->activation_type); // see below
             $this->setSubscriptionLimitationType((int) $row->sub_limitation_type);
             $this->setSubscriptionStart((int) $row->sub_start);
             $this->setSubscriptionEnd((int) $row->sub_end);
