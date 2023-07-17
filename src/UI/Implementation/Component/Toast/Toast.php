@@ -28,6 +28,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Toast as ComponentInterface;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Component\Button\Button;
 
 class Toast implements ComponentInterface\Toast
 {
@@ -78,7 +79,7 @@ class Toast implements ComponentInterface\Toast
         return $this->description;
     }
 
-    public function withAdditionalLink(Link $link): ComponentInterface\Toast
+    public function withAdditionalButton(Button $link): ComponentInterface\Toast
     {
         $new = clone $this;
         $new->links[] = $link;
@@ -93,7 +94,7 @@ class Toast implements ComponentInterface\Toast
     }
 
     /**
-     * @return \ILIAS\UI\Component\Link\Link[]
+     * @return \ILIAS\UI\Component\Button\Button[]
      */
     public function getLinks(): array
     {

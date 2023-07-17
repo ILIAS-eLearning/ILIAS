@@ -14,8 +14,8 @@ function with_additional_links(): string
             'Example',
             $DIC->ui()->factory()->symbol()->icon()->standard('info', 'Example')
         )
-            ->withAdditionalLink($DIC->ui()->factory()->link()->standard('ILIAS', 'https://www.ilias.de'))
-            ->withAdditionalLink($DIC->ui()->factory()->link()->standard('GitHub', 'https://www.github.com'))
+            ->withAdditionalButton($DIC->ui()->factory()->button()->shy('ILIAS', 'https://www.ilias.de'))
+            ->withAdditionalButton($DIC->ui()->factory()->button()->shy('GitHub', 'https://www.github.com'))
     ];
 
     $toasts = base64_encode($DIC->ui()->renderer()->renderAsync($toasts));

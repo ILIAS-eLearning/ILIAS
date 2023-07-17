@@ -119,12 +119,12 @@ class StandardToastRenderer implements ToastRenderer
                 $toast_action->getIdentifier(),
                 $item->getProviderIdentification()
             );
-            $link = $this->ui->factory()->link()->standard(
+            $link = $this->ui->factory()->button()->shy(
                 $toast_action->getTitle(),
                 $action
             );
 
-            $toast = $toast->withAdditionalLink($link);
+            $toast = $toast->withAdditionalButton($link);
         }
 
         // Times (currently disbaled since these methods are not on the Interface of a Toast

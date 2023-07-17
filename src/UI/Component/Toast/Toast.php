@@ -27,6 +27,7 @@ use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Component\Button\Button;
 
 /**
  * Interface Toast
@@ -43,7 +44,7 @@ interface Toast extends Component, JavaScriptBindable
 
     public function getDescription(): string;
 
-    public function withAdditionalLink(Link $link): Toast;
+    public function withAdditionalButton(Button $link): Toast;
 
     public function withoutLinks(): Toast;
 

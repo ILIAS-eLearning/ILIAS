@@ -37,9 +37,9 @@ class ToastTest extends ILIAS_UI_TestBase
         return new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory();
     }
 
-    public function getLinkFactory(): \ILIAS\UI\Implementation\Component\Link\Factory
+    public function getButtonFactory(): \ILIAS\UI\Implementation\Component\Button\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Link\Factory();
+        return new ILIAS\UI\Implementation\Component\Button\Factory();
     }
 
     public function test_implements_factory_interface(): void
@@ -62,7 +62,7 @@ class ToastTest extends ILIAS_UI_TestBase
                       ->withVanishTime($vanish_time)
                       ->withDelayTime($delay_time)
                       ->withAction($action)
-                      ->withAdditionalLink($this->getLinkFactory()->standard('', ''));
+                      ->withAdditionalButton($this->getButtonFactory()->shy('', ''));
 
         $this->assertNotNull($toast);
         $this->assertEquals($title, $toast->getTitle());
