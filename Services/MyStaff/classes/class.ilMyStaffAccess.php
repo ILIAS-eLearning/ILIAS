@@ -196,6 +196,11 @@ class ilMyStaffAccess extends ilObjectAccess
             return false;
         }
 
+        $skmg_set = new \ilSkillManagementSettings();
+        if (!$skmg_set->isActivated()) {
+            return false;
+        }
+
         if ($this->countOrgusOfUserWithOperationAndContext(
             $DIC->user()->getId(),
             ilOrgUnitOperation::OP_VIEW_COMPETENCES,
