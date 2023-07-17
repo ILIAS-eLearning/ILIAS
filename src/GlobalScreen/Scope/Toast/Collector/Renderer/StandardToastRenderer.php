@@ -127,13 +127,12 @@ class StandardToastRenderer implements ToastRenderer
             $toast = $toast->withAdditionalLink($link);
         }
 
-        // Times (currently disbaled since these methods are not on the Interface of a Toast
         if ($item->getVanishTime() !== null) {
-            // $toast = $toast->withVanishTime($item->getVanishTime());
+            $toast = $toast->withVanishTime($item->getVanishTime());
         }
 
         if ($item->getDelayTime() !== null) {
-            // $toast = $toast->withDelayTime($item->getDelayTime());
+            $toast = $toast->withDelayTime($item->getDelayTime());
         }
 
         return $toast;
