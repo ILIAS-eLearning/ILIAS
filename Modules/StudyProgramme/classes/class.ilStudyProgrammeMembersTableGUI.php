@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Data;
 
@@ -314,6 +314,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             switch ($action) {
                 case ilObjStudyProgrammeMembersGUI::ACTION_MARK_ACCREDITED:
                 case ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_ACCREDITED:
+                case ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT:
+                case ilObjStudyProgrammeMembersGUI::ACTION_MARK_RELEVANT:
+                case ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN:
+                case ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE:
+                case ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE:
                     if (!$edit_individual_plan) {
                         continue 2;
                     }
@@ -440,6 +445,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         if ($is_root) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_SHOW_INDIVIDUAL_PLAN;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_MARK_RELEVANT;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE;
         }
 
         if ($status == ilPRGProgress::STATUS_ACCREDITED) {

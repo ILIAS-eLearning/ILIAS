@@ -12663,6 +12663,8 @@ prg#:#prg_belongs_to#:#Belongs to
 prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.
 prg#:#prg_cancel#:#Cancel
 prg#:#prg_cancel_tree_order#:#Dismiss tree order
+prg#:#prg_change_deadline#:#Change deadline
+prg#:#prg_change_expire_date#:#Change expire date
 prg#:#prg_changed_by#:#Changed by
 prg#:#prg_completed_by_subnodes#:#subprogrammes
 prg#:#prg_completion_by#:#Completion by
@@ -12713,6 +12715,7 @@ prg#:#prg_mark_accredited#:#Mark Accredited
 prg#:#prg_mark_accredited_multi_success#:#Mark Selected Users As Accredited
 prg#:#prg_mark_accredited_success#:#Accredited Program Node for User successfully.
 prg#:#prg_mark_not_relevant_multi_success#:#Unmark Selected Users As Relevant
+prg#:#prg_mark_relevant#:#Mark Relevant
 prg#:#prg_mark_relevant_multi_success#:#Mark Selected Users As Relevant
 prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more objects you can't see because of less permissions.
 prg#:#prg_multi_change_deadline#:#Change deadline
@@ -12804,6 +12807,7 @@ prg#:#prg_type_msg_unable_delete#:#Unable to delete type because it is still ass
 prg#:#prg_unmark_accredited#:#Unmark Accredited
 prg#:#prg_unmark_accredited_multi_success#:#Unmark Selected Users As Accredited
 prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.
+prg#:#prg_unmark_relevant#:#Unmark Relevant
 prg#:#prg_update_from_current_plan#:#Update from current Plan
 prg#:#prg_update_from_current_plan_not_possible#:#Update From Current Plan Not Possible
 prg#:#prg_update_from_current_plan_partitial_success#:#Update From Current Plan Partically

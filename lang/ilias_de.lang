@@ -12663,6 +12663,8 @@ prg#:#prg_belongs_to#:#Gehört Zu
 prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
 prg#:#prg_cancel#:#Abbrechen
 prg#:#prg_cancel_tree_order#:#Reihenfolge des Baums verwerfen.
+prg#:#prg_change_deadline#:#Stichtag anpassen
+prg#:#prg_change_expire_date#:#Ablauf der Qualifikation anpassen
 prg#:#prg_changed_by#:#Geändert durch
 prg#:#prg_completed_by_subnodes#:#Unterprogramm(e)
 prg#:#prg_completion_by#:#Abgeschlossen durch
@@ -12713,6 +12715,7 @@ prg#:#prg_mark_accredited#:#akkreditieren
 prg#:#prg_mark_accredited_multi_success#:#Ausgewählte Benutzer akkreditiert.
 prg#:#prg_mark_accredited_success#:#Das Programm wurde für den Benutzer erfolgreich akkreditiert.
 prg#:#prg_mark_not_relevant_multi_success#:#Ausgewählte Benutzer als nicht relevant markiert.
+prg#:#prg_mark_relevant#:#Als relevant markieren
 prg#:#prg_mark_relevant_multi_success#:#Ausgewählte Benutzer als relevant markiert.
 prg#:#prg_more_objects_without_read_permission#:#Das Studienprogramm beinhaltet weitere Elemente, die Sie aufgrund von fehlenden Rechten nicht einsehen dürfen.
 prg#:#prg_multi_change_deadline#:#Stichtag anpassen
@@ -12804,6 +12807,7 @@ prg#:#prg_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er bei folgende
 prg#:#prg_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_unmark_accredited_multi_success#:#Ausgewählte Benutzer als nicht akkreditiert markiert
 prg#:#prg_unmark_accredited_success#:#Die Akkreditierung wurde erfolgreich entfernt.
+prg#:#prg_unmark_relevant#:#Als irrelevant markieren
 prg#:#prg_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren
 prg#:#prg_update_from_current_plan_not_possible#:#Aus dem aktuellen Plan aktualisieren ist nicht möglich.
 prg#:#prg_update_from_current_plan_partitial_success#:#Aus dem aktuellen Plan aktualisieren teilweise abgeschlossen.
