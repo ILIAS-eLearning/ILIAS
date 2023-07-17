@@ -50,7 +50,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
     {
         $structure = $this->getStructure();
 
-        $this->addTag($structure->getRoot(), Restriction::NOT_DELETABLE, 1);
+        $this->addTag($structure->getRoot(), Restriction::NOT_DELETABLE, 0);
 
         $this->setTagsForGeneral($structure);
         $this->setTagsForMetaMetadata($structure);

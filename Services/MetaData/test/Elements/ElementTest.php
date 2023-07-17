@@ -29,47 +29,21 @@ use ILIAS\MetaData\Repository\Utilities\ScaffoldProviderInterface;
 use ILIAS\MetaData\Structure\Definitions\DefinitionInterface;
 use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Elements\Data\DataInterface;
+use ILIAS\MetaData\Elements\Data\NullData;
+use ILIAS\MetaData\Structure\Definitions\NullDefinition;
 
 class ElementTest extends TestCase
 {
-    protected function getMockData(): DataInterface
+    protected function getDefinition(string $name): DefinitionInterface
     {
-        return new class () implements DataInterface {
-            public function type(): Type
+        return new class ($name) extends NullDefinition {
+            public function __construct(protected string $name)
             {
-                return Type::STRING;
-            }
-
-            public function value(): string
-            {
-                return 'value';
-            }
-        };
-    }
-
-    protected function getMockDefition(string $name): DefinitionInterface
-    {
-        return new class ($name) implements DefinitionInterface {
-            protected string $name;
-
-            public function __construct(string $name)
-            {
-                $this->name = $name;
             }
 
             public function name(): string
             {
                 return $this->name;
-            }
-
-            public function unique(): bool
-            {
-                return false;
-            }
-
-            public function dataType(): Type
-            {
-                return Type::NULL;
             }
         };
     }
@@ -80,8 +54,8 @@ class ElementTest extends TestCase
     ): Element {
         return new Element(
             $id,
-            $this->getMockDefition('name'),
-            $this->getMockData(),
+            $this->getDefinition('name'),
+            new NullData(),
             ...$elements
         );
     }
@@ -93,8 +67,8 @@ class ElementTest extends TestCase
     ): Element {
         return new Element(
             $id,
-            $this->getMockDefition($name),
-            $this->getMockData(),
+            $this->getDefinition($name),
+            new NullData(),
             ...$elements
         );
     }
@@ -119,10 +93,10 @@ class ElementTest extends TestCase
 
     public function testGetData(): void
     {
-        $data = $this->getMockData();
+        $data = new NullData();
         $el = new Element(
             7,
-            $this->getMockDefition('name'),
+            $this->getDefinition('name'),
             $data
         );
 

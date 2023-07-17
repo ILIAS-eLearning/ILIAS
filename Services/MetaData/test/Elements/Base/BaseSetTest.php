@@ -27,74 +27,56 @@ use ILIAS\MetaData\Elements\NoID;
 
 class BaseSetTest extends TestCase
 {
+    protected function getBaseSet(
+        BaseElementInterface $root
+    ): BaseSet {
+        return new class ($root) extends BaseSet {
+            public function __construct(
+                BaseElementInterface $root
+            ) {
+                parent::__construct($root);
+            }
+        };
+    }
+
+    protected function getRoot(): BaseElementInterface
+    {
+        return new class () extends NullBaseElement {
+            public function getMDID(): int|NoID
+            {
+                return NoID::ROOT;
+            }
+
+            public function isRoot(): bool
+            {
+                return true;
+            }
+        };
+    }
+
     public function testGetRoot(): void
     {
-        $root = new MockBaseRoot();
-        $set = new ImplementedBaseSet($root);
+        $root = $this->getRoot();
+        $set = $this->getBaseSet($root);
 
         $this->assertSame($root, $set->getRoot());
     }
 
     public function testNotRootException(): void
     {
-        $not_root = new MockBaseNotRoot();
+        $not_root = new NullBaseElement();
 
         $this->expectException(\ilMDElementsException::class);
-        $set = new ImplementedBaseSet($not_root);
+        $set = $this->getBaseSet($not_root);
     }
 
     public function testClone(): void
     {
-        $root = new MockBaseRoot();
-        $set = new ImplementedBaseSet($root);
+        $root = $this->getRoot();
+        $set = $this->getBaseSet($root);
 
         $cloned_set = clone $set;
         $this->assertEquals($root, $cloned_set->getRoot());
         $this->assertNotSame($root, $cloned_set->getRoot());
-    }
-}
-
-class ImplementedBaseSet extends BaseSet
-{
-}
-
-class MockBaseRoot implements BaseElementInterface
-{
-    public function getMDID(): int|NoID
-    {
-        return NoID::ROOT;
-    }
-
-    public function getDefinition(): DefinitionInterface
-    {
-        throw new \ilMDElementsException('This should not be called.');
-    }
-
-    public function getSubElements(): \Generator
-    {
-        throw new \ilMDElementsException('This should not be called.');
-    }
-
-    public function getSuperElement(): ?BaseElementInterface
-    {
-        return null;
-    }
-
-    public function isRoot(): bool
-    {
-        return true;
-    }
-}
-
-class MockBaseNotRoot extends MockBaseRoot
-{
-    public function getMDID(): int|NoID
-    {
-        return 13;
-    }
-
-    public function isRoot(): bool
-    {
-        return false;
     }
 }

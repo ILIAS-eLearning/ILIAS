@@ -20,41 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Manipulator;
 
-use ILIAS\MetaData\Repository\RepositoryInterface;
-use ILIAS\MetaData\Elements\Markers\MarkerFactoryInterface;
-use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 use ILIAS\MetaData\Elements\SetInterface;
+use ILIAS\MetaData\Manipulator\ManipulatorInterface as BaseManipulatorInterface;
 use ILIAS\MetaData\Paths\PathInterface;
-use ILIAS\MetaData\Elements\ElementInterface;
-use ILIAS\MetaData\Elements\Scaffolds\ScaffoldableInterface;
-use ILIAS\MetaData\Elements\Markers\MarkableInterface;
-use ILIAS\MetaData\Elements\Markers\Action;
-use ILIAS\MetaData\Paths\Steps\StepInterface;
-use ILIAS\MetaData\Paths\Filters\FilterType;
 
-interface ManipulatorInterface
+interface ManipulatorInterface extends BaseManipulatorInterface
 {
     public function addScaffolds(
         SetInterface $set,
         PathInterface $path
     ): SetInterface;
-
-    /**
-     * Follows the path, adding scaffolds where necessary to perform the step.
-     * At the last step, adds as many scaffolds as necessary to accomodate
-     * all passed values. Note that added scaffolds will not necessarily fulfill
-     * index or id filters of the path.
-     */
-    public function prepareCreateOrUpdate(
-        SetInterface $set,
-        PathInterface $path,
-        string ...$values
-    ): SetInterface;
-
-    public function prepareDelete(
-        SetInterface $set,
-        PathInterface $path,
-    ): SetInterface;
-
-    public function execute(SetInterface $set): void;
 }

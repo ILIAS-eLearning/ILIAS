@@ -108,13 +108,13 @@ class DatabaseReader implements DatabaseReaderInterface
             $tag = $this->tag($sub);
             $result = $this->executor->read($tag, $ressource_id, $super_id, ...$parent_ids);
             foreach ($result as $id => $data) {
+                $definition = $this->definition($sub);
                 if (
-                    $sub->getDefinition()->dataType() !== Type::NULL &&
+                    $definition->dataType() !== Type::NULL &&
                     ($data === null || $data === '')
                 ) {
                     continue;
                 }
-                $definition = $this->definition($sub);
                 $appended_parents = $parent_ids;
                 if ($tag->isParent()) {
                     $appended_parents[] = $id;
@@ -154,8 +154,8 @@ class DatabaseReader implements DatabaseReaderInterface
             yield from $struct->getSubElements();
             return;
         }
-        if ($struct = $struct->nextStep()) {
-            yield $struct;
+        if ($next_struct = $struct->nextStep()) {
+            yield $next_struct;
         } else {
             yield from $struct->element()->getSubElements();
         }

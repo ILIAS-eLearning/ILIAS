@@ -22,7 +22,13 @@ namespace ILIAS\MetaData\Elements\Data;
 
 interface DataInterface
 {
+    /**
+     * LOM data type
+     */
     public function type(): Type;
 
+    /**
+     * Value of the data, in a format according to its type.
+     */
     public function value(): string;
 }

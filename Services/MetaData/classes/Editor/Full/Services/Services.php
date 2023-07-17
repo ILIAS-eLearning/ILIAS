@@ -28,14 +28,12 @@ use ILIAS\MetaData\Paths\Services\Services as PathServices;
 use ILIAS\MetaData\Repository\Services\Services as RepositoryServices;
 use ILIAS\MetaData\Editor\Services\Services as EditorServices;
 use ILIAS\MetaData\Vocabularies\Services\Services as VocabulariesServices;
-use ILIAS\MetaData\Editor\Dictionary\DictionaryInterface;
-use ILIAS\MetaData\Editor\Dictionary\LOMDictionaryInitiator;
-use ILIAS\MetaData\Editor\Dictionary\TagFactory;
-use ILIAS\MetaData\Structure\Services\Services as StructureServices;
 use ILIAS\MetaData\Editor\Full\Services\Actions\LinkProvider;
 use ILIAS\MetaData\Editor\Full\Services\Actions\ButtonFactory;
 use ILIAS\MetaData\Editor\Full\Services\Actions\ModalFactory;
 use ILIAS\MetaData\Editor\Full\Services\Inputs\Conditions\FactoryWithConditionTypesService;
+use ILIAS\MetaData\Manipulator\Services\Services as ManipulatorServices;
+use ILIAS\MetaData\DataHelper\Services\Services as DataHelperServices;
 
 class Services
 {
@@ -52,22 +50,26 @@ class Services
     protected PathServices $path_services;
     protected RepositoryServices $repository_services;
     protected VocabulariesServices $vocabularies_services;
-    protected StructureServices $structure_services;
     protected EditorServices $editor_services;
+    protected ManipulatorServices $manipulator_services;
+    protected DataHelperServices $data_helper_services;
 
     public function __construct(
         GlobalContainer $dic,
         PathServices $path_services,
         RepositoryServices $repository_services,
         VocabulariesServices $vocabularies_services,
-        StructureServices $structure_services,
-        EditorServices $editor_services
+        ManipulatorServices $manipulator_services,
+        EditorServices $editor_services,
+        DataHelperServices $data_helper_services
     ) {
         $this->dic = $dic;
         $this->path_services = $path_services;
         $this->repository_services = $repository_services;
         $this->vocabularies_services = $vocabularies_services;
         $this->editor_services = $editor_services;
+        $this->manipulator_services = $manipulator_services;
+        $this->data_helper_services = $data_helper_services;
     }
 
     public function dataFinder(): DataFinder
@@ -103,7 +105,8 @@ class Services
                 $this->repository_services->constraintDictionary(),
                 $vocabularies,
                 $refinery,
-                $path_factory
+                $path_factory,
+                $this->data_helper_services->dataHelper()
             )
         );
     }

@@ -29,7 +29,7 @@ interface RessourceIDInterface
     public function type(): string;
 
     /**
-     * Object ID (NOT ref_id!) of rbac object (e.g for page objects the obj_id
+     * Object ID (NOT ref_id!) of the parent repository object (e.g for page objects the obj_id
      * of the content object; for media objects this is set to 0, because their
      * object id are not assigned to ref ids)
      * NOTE: In the metadata tables, this corresponds to the field rbac_id.
@@ -38,7 +38,7 @@ interface RessourceIDInterface
 
     /**
      * ID of the object carrying the metadata, which might be a subobject of an
-     * enclosing content object (e.g for structure objects the obj_id of the
+     * enclosing repository object (e.g for structure objects the obj_id of the
      * structure object). Might be the same as the objID.
      * NOTE: In the metadata tables, this corresponds to the field obj_id.
      */

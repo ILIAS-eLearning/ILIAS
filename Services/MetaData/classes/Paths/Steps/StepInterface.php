@@ -24,9 +24,16 @@ use ILIAS\MetaData\Paths\Filters\FilterInterface;
 
 interface StepInterface
 {
+    /**
+     * Steps are identified by the names of LOM elements,
+     * or a token to specify a step to the super-element.
+     */
     public function name(): string|StepToken;
 
     /**
+     * Filters restrict the elements a step leads to.
+     * Multiple filters at the same step are evaluated
+     * in order.
      * @return FilterInterface[]
      */
     public function filters(): \Generator;

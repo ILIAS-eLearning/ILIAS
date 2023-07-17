@@ -35,6 +35,12 @@ to roll this into the custom vocabularies.
 This might also apply to related classes (e.g. 
 ilOerHarvesterSettings).
 
+### Replace Generic Generators With Custom Iterators
+
+A lot of generic generators are used throughout the component, along
+with quite a few usages of `iterator_to_array`. These should be gradually
+replaced by bespoke iterator classes.
+
 ### Query Smarter
 
 Currently, every metadata element is queried separately, even if

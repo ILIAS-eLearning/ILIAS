@@ -24,32 +24,20 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\MetaData\Structure\Definitions\DefinitionInterface;
 use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Elements\NoID;
+use ILIAS\MetaData\Structure\Definitions\NullDefinition;
 
 class StructureElementTest extends TestCase
 {
-    protected function getMockDefinition(string $name): DefinitionInterface
+    protected function getDefinition(string $name): DefinitionInterface
     {
-        return new class ($name) implements DefinitionInterface {
-            protected string $name;
-
-            public function __construct(string $name)
+        return new class ($name) extends NullDefinition {
+            public function __construct(protected string $name)
             {
-                $this->name = $name;
             }
 
             public function name(): string
             {
                 return $this->name;
-            }
-
-            public function unique(): bool
-            {
-                return false;
-            }
-
-            public function dataType(): Type
-            {
-                return Type::NULL;
             }
         };
     }
@@ -61,7 +49,7 @@ class StructureElementTest extends TestCase
     ): StructureElement {
         return new StructureElement(
             $is_root,
-            $this->getMockDefinition($name),
+            $this->getDefinition($name),
             ...$elements
         );
     }

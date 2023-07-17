@@ -44,6 +44,7 @@ use ILIAS\MetaData\Repository\Validation\Dictionary\LOMDictionaryInitiator as Va
 use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as ValidationDictionary;
 use ILIAS\MetaData\Repository\Validation\Dictionary\TagFactory as ValidationTagFactory;
 use ILIAS\MetaData\Vocabularies\Services\Services as VocabulariesServices;
+use ILIAS\MetaData\DataHelper\Services\Services as DataHelperServices;
 
 class Services
 {
@@ -56,17 +57,20 @@ class Services
     protected PathServices $path_services;
     protected StructureServices $structure_services;
     protected VocabulariesServices $vocabularies_services;
+    protected DataHelperServices $data_helper_services;
 
     public function __construct(
         GlobalContainer $dic,
         PathServices $path_services,
         StructureServices $structure_services,
-        VocabulariesServices $vocabularies_services
+        VocabulariesServices $vocabularies_services,
+        DataHelperServices $data_helper_services
     ) {
         $this->dic = $dic;
         $this->path_services = $path_services;
         $this->structure_services = $structure_services;
         $this->vocabularies_services = $vocabularies_services;
+        $this->data_helper_services = $data_helper_services;
     }
 
     public function constraintDictionary(): ValidationDictionary
@@ -134,7 +138,8 @@ class Services
                 $this->structure_services->structure(),
                 new DataValidator(
                     new DataValidatorService(
-                        $this->vocabularies_services->vocabularies()
+                        $this->vocabularies_services->vocabularies(),
+                        $this->data_helper_services->dataHelper()
                     )
                 ),
                 $this->constraintDictionary(),

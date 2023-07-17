@@ -216,7 +216,7 @@ class Recursion implements TreeRecursion
         $skip_last_id = $record_is_array || $el->getDefinition()->name() === 'orComposite';
         while (!$el->isRoot()) {
             $builder = $builder->withNextStep(
-                $el->getDefinition(),
+                $el->getDefinition()->name(),
                 true
             );
             if (!$skip_last_id) {

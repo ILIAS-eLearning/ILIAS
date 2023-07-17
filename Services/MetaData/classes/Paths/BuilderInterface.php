@@ -21,7 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Paths;
 
 use ILIAS\MetaData\Paths\Filters\FilterType;
+use ILIAS\MetaData\Paths\Steps\StepInterface;
 use ILIAS\MetaData\Structure\Definitions\DefinitionInterface;
+use ILIAS\MetaData\Paths\Steps\StepToken;
 
 interface BuilderInterface
 {
@@ -42,12 +44,11 @@ interface BuilderInterface
     ): BuilderInterface;
 
     /**
-     * Add the next step to the path, taking the name from the
-     * given element definition. If add_as_first is set true,
+     * Add the next step to the path. If add_as_first is set true,
      * the step is added as the first and not the last step.
      */
     public function withNextStep(
-        DefinitionInterface $definition,
+        string $name,
         bool $add_as_first = false
     ): BuilderInterface;
 
@@ -80,4 +81,9 @@ interface BuilderInterface
     ): BuilderInterface;
 
     public function get(): PathInterface;
+
+    public function withNextStepFromStep(
+        StepInterface $next_step,
+        bool $add_as_first = false
+    ): BuilderInterface;
 }
