@@ -24,6 +24,7 @@ require_once(__DIR__ . "/../../Base.php");
 use ILIAS\UI\Implementation\Component\Link\Link;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Implementation\Component\Toast\Toast;
+use ILIAS\UI\Component\Button\Button;
 
 class ToastTest extends ILIAS_UI_TestBase
 {
@@ -71,7 +72,7 @@ class ToastTest extends ILIAS_UI_TestBase
         $this->assertEquals($delay_time, $toast->getDelayTime());
         $this->assertEquals($action, $toast->getAction());
         $this->assertCount(1, $toast->getLinks());
-        $this->assertInstanceOf(Link::class, $toast->getLinks()[0]);
+        $this->assertInstanceOf(Button::class, $toast->getLinks()[0]);
         $this->assertCount(0, $toast->withoutLinks()->getLinks());
         $this->assertInstanceOf(Icon::class, $toast->getIcon());
     }

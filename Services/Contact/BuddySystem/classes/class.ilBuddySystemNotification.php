@@ -70,9 +70,7 @@ class ilBuddySystemNotification
 
                 $links[] = new ilNotificationLink(
                     new ilNotificationParameter(
-                        $this->sender->getFirstname() . ', ' .
-                        $this->sender->getLastname() . ' ' .
-                        $this->sender->getLogin()
+                        $recipientLanguage->txt('buddy_notification_contact_to_profile')
                     ),
                     $personalProfileLink
                 );
