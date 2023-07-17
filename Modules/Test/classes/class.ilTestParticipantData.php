@@ -250,9 +250,9 @@ class ilTestParticipantData
         return "{$this->byActiveId[$activeId]['firstname']} {$this->byActiveId[$activeId]['lastname']}";
     }
 
-    public function getFormatedFullnameByActiveId($activeId)
+    public function getFormatedFullnameByActiveId($activeId) : string
     {
-        return $this->buildFormatedFullname($this->byActiveId[$activeId]);
+        return ilObjTestAccess::_getParticipantData($activeId);
     }
 
     public function getFileSystemCompliantFullnameByActiveId($activeId)
@@ -264,28 +264,19 @@ class ilTestParticipantData
         return ilUtil::getASCIIFilename($fullname);
     }
     
-    public function getOptionArray()
+    public function getOptionArray() : array
     {
         $options = array();
         
         foreach ($this->byActiveId as $activeId => $usrData) {
-            $options[$activeId] = $this->buildFormatedFullname($usrData);
+            $options[$activeId] = ilObjTestAccess::_getParticipantData($activeId);
         }
         
         asort($options);
         
         return $options;
     }
-    
-    private function buildFormatedFullname($usrData)
-    {
-        return sprintf(
-            $this->lng->txt('tst_participant_fullname_pattern'),
-            $usrData['firstname'],
-            $usrData['lastname']
-        );
-    }
-    
+
     public function getAnonymousActiveIds()
     {
         $anonymousActiveIds = array();
