@@ -5323,7 +5323,7 @@ common#:#report_accessibility_issue#:#Report Accessibility Issue
 common#:#report_accessibility_link#:#Reported Link:
 common#:#report_accessibility_link_mailto#:#Reported%20Link:
 common#:#repository#:#Repository
-common#:#repository_admin#:#Repository Trash and Permissions
+common#:#repository_admin#:#Repository and Trash
 common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash
 common#:#require_email#:#Require e-mail
 common#:#require_gender#:#Require salutation
