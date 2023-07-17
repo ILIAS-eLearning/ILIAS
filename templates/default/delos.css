@@ -5831,11 +5831,18 @@ footer {
   }
 }
 .c-mode-info__label, .c-mode-info__close {
+  color: white;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: all;
   position: relative;
+}
+.c-mode-info__label a,
+.c-mode-info__label a:hover, .c-mode-info__close a,
+.c-mode-info__close a:hover {
+  color: white;
 }
 .c-mode-info__label {
   /* edge, chrome, safari go here... */
@@ -5887,21 +5894,7 @@ footer {
     height: 45px;
   }
 }
-.c-mode-info * {
-  color: white;
-  font-size: 1rem;
-}
 
-/*
-.il-mode-info + div {
-  border: $il-mode-info-border;
-  border-top: 0 none;
-
-  @media only screen and (max-width: $il-grid-float-breakpoint-max) {
-    padding-top: $il-mode-info-height;
-  }
-}
-*/
 /*
 **************************************************************
 	System Infos
