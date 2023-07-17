@@ -1686,11 +1686,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
                             }
                         }
                     } else {
-                        $rolf = $rbacreview->getFoldersAssignedToRole(
+                        $rolf = $this->rbac_review->getFoldersAssignedToRole(
                             $role_id,
                             true
                         );
-                        if ($rbacreview->isDeleted($rolf[0])
+                        if ($this->rbac_review->isDeleted($rolf[0])
                             || !$this->rbac_system->checkAccess(
                                 'write',
                                 $rolf[0]
