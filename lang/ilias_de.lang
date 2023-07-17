@@ -5382,7 +5382,7 @@ common#:#report_accessibility_issue#:#Barriere melden
 common#:#report_accessibility_link#:#Gemeldeter Link:
 common#:#report_accessibility_link_mailto#:#Gemeldeter%20Link:
 common#:#repository#:#Magazin
-common#:#repository_admin#:#Magazin, Papierkorb und Rechte
+common#:#repository_admin#:#Magazin und Papierkorb
 common#:#repository_admin_desc#:#Rechteeinstellungen für Magazinobjekte festlegen, Entfernen oder Wiederherstellen von Objekten im Papierkorb
 common#:#require_email#:#Pflichteingabe E-Mail
 common#:#require_gender#:#Pflichteingabe Anrede
