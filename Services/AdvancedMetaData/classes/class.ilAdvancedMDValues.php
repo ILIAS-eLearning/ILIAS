@@ -508,7 +508,6 @@ class ilAdvancedMDValues
                 $active_record->read();
 
                 $adt_group = $record_groups[$record_id]->getADT();
-
                 // filter against amet values
                 if ($a_amet_filter) {
                     foreach ($a_amet_filter as $field_id => $element) {

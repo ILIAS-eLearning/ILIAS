@@ -221,7 +221,6 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                 $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("book_overall_limit_warning"));
             }
         }
-
         if ($this->advmd) {
             // advanced metadata
             $this->record_gui = new ilAdvancedMDRecordGUI(
