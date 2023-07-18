@@ -124,6 +124,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($mode));
                 $generalSettingsTpl->setVariable('AUTH_NAME', $idp->getEntityId());
                 $generalSettingsTpl->setVariable('AUTH_ACTIVE', $idp->isActive() ? $icon_ok : $icon_not_ok);
+            } elseif ($mode === ilAuthUtils::AUTH_OPENID_CONNECT) {
+                $generalSettingsTpl->setVariable("AUTH_NAME", $this->lng->txt("auth_" . $mode_name));
+                $generalSettingsTpl->setVariable('AUTH_ACTIVE', ilOpenIdConnectSettings::getInstance()->getActive() ? $icon_ok : $icon_not_ok);
             } else {
                 $generalSettingsTpl->setVariable("AUTH_NAME", $this->lng->txt("auth_" . $mode_name));
                 $generalSettingsTpl->setVariable('AUTH_ACTIVE', $this->ilias->getSetting($mode_name . '_active') || (int) $mode === ilAuthUtils::AUTH_LOCAL ? $icon_ok : $icon_not_ok);
