@@ -76,7 +76,7 @@ class ilPersonalSkillsFilterGUI
             0 => $lng->txt("show"),
             1 => $lng->txt("hide")
         );
-        $si = new ilSelectInputGUI($lng->txt("skmg_materials_ressources"), "mat_res");
+        $si = new ilSelectInputGUI($lng->txt("skmg_materials_resources"), "mat_res");
         $si->setOptions($options);
         $si->setValue(ilSession::get("skmg_pf_mat_res"));
         $toolbar->addInputItem($si, true);

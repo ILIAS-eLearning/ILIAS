@@ -74,8 +74,8 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         }
         $this->addColumn($this->lng->txt("title"));
         $this->addColumn($this->lng->txt("description"));
-        $this->addColumn($this->lng->txt("skmg_suggested_resources"));
-        $this->addColumn($this->lng->txt("skmg_lp_triggers_level_resources"));
+        $this->addColumn($this->lng->txt("skmg_suggested"));
+        $this->addColumn($this->lng->txt("skmg_lp_triggers_level"));
         if ($this->manage_perm) {
             $this->addColumn($this->lng->txt("actions"));
         }

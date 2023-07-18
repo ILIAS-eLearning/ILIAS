@@ -14804,16 +14804,16 @@ skmg#:#skmg_add_assignment#:#Rollen / Mitglieder zuordnen
 skmg#:#skmg_add_level#:#Ausprägung hinzufügen
 skmg#:#skmg_add_local_profile#:#Lokales Profil hinzufügen
 skmg#:#skmg_add_profile#:#Profil hinzufügen
-skmg#:#skmg_add_resource#:#Ressource hinzufügen
+skmg#:#skmg_add_resource#:#Magazinobjekt zuweisen
 skmg#:#skmg_add_skill#:#Kompetenz hinzufügen
 skmg#:#skmg_add_skill_tree#:#Kompetenzbaum hinzufügen
 skmg#:#skmg_add_user_to_profile#:#Benutzer oder Rollen suchen
 skmg#:#skmg_all#:#Alle
 skmg#:#skmg_allow_local_profiles#:#Erstellung von lokalen Profilen erlauben
 skmg#:#skmg_allow_local_profiles_info#:#Nutzer mit dem Recht 'Einstellungen bearbeiten' in Kursen und Gruppen können lokale Kompetenzprofile erstellen und dabei global definierte Kompetenzen verwenden.
-skmg#:#skmg_ass_materials_from_workspace#:#An dieser Stelle können Sie Materialien aus Ihren persönlichen Ressourcen (z.B. Dateien) Kompetenzen zuordnen. Wenn Sie jetzt Materialien zu Ihren persönlichen Ressourcen hinzufügen wollen, klicken Sie bitten den folgenden Link.
+skmg#:#skmg_ass_materials_from_workspace#:#An dieser Stelle können Sie Inhalte aus Ihren persönlichen Ressourcen (z.B. Dateien) Kompetenzen zuordnen. Wenn Sie jetzt Inhalte zu Ihren persönlichen Ressourcen hinzufügen wollen, klicken Sie bitte den folgenden Link.
 skmg#:#skmg_assign_level#:#Ausprägung zuordnen
-skmg#:#skmg_assign_materials#:#Materialien zuordnen
+skmg#:#skmg_assign_materials#:#Persönliche Ressourcen zuordnen
 skmg#:#skmg_assign_user#:#Benutzer zuordnen
 skmg#:#skmg_assigned_objects#:#Zugeordnete Objekte
 skmg#:#skmg_assigned_profiles#:#Zugewiesene Kompetenzprofile
@@ -14823,7 +14823,7 @@ skmg#:#skmg_cannot_delete_nodes_in_use#:#Einige Objekte können nicht gelöscht 
 skmg#:#skmg_cert_skill_level_title#:#Titel Kompetenzstufe
 skmg#:#skmg_cert_skill_title#:#Titel Kompetenz
 skmg#:#skmg_cert_skill_trigger_title#:#Titel Auslöser
-skmg#:#skmg_confirm_level_resources_removal#:#Wollen Sie wirklich die folgenden Ressourcen aus dem Profil entfernen?
+skmg#:#skmg_confirm_level_resources_removal#:#Wollen Sie wirklich die folgenden Magazinobjekte aus dem Profil entfernen?
 skmg#:#skmg_confirm_remove_level_ass#:#Wollen Sie wirklich die folgenden Kompetenzstufen aus dem Profil entfernen?
 skmg#:#skmg_confirm_user_removal#:#Wollen Sie wirklich die folgenden Benutzer aus dem Profil entfernen?
 skmg#:#skmg_cont_profiles_info#:#In dieser Ansicht können Sie die Kompetenzprofile mit Kompetenzeinträgen auswählen, die im Zusammenhang mit dem derzeit geöffneten Objekt (Kurs/Gruppe) stehen. Um zu der globalen Ansicht mit allen Ihnen zugewiesenen Kompetenzprofilen und sämtlichen Kompetenzeinträgen zu gelangen, klicken Sie auf den unten stehenden Link.
@@ -14870,9 +14870,8 @@ skmg#:#skmg_list_skills#:#Kompetenzen auflisten
 skmg#:#skmg_local_assignment_profiles#:#Lokale Zuordnung von globalen Profilen erlauben
 skmg#:#skmg_lp_triggers_level#:#Gesetzt durch 'Bearbeitet'-Status
 skmg#:#skmg_lp_triggers_level_resources#:#Magazinobjekte gesetzt durch 'Bearbeitet'-Status
-skmg#:#skmg_material#:#Material
-skmg#:#skmg_materials#:#Materialien
-skmg#:#skmg_materials_ressources#:#Ressourcen/Materialien
+skmg#:#skmg_materials#:#Persönliche Ressourcen
+skmg#:#skmg_materials_resources#:#Lerninhalte
 skmg#:#skmg_new_level#:#Neue Ausprägung
 skmg#:#skmg_new_sktr#:#Neue Vorlagenreferenz
 skmg#:#skmg_next_step#:#Nächster Schritt
@@ -14902,7 +14901,7 @@ skmg#:#skmg_remove_levels#:#Ausprägungen entfernen
 skmg#:#skmg_remove_skill#:#Kompetenz entfernen
 skmg#:#skmg_remove_skills#:#Kompetenz entfernen
 skmg#:#skmg_remove_trigger#:#Auslöser entfernen
-skmg#:#skmg_resources#:#Ressourcen
+skmg#:#skmg_resources#:#Magazinobjekte
 skmg#:#skmg_save_order#:#Reihenfolge speichern
 skmg#:#skmg_save_self_evaluation#:#Selbsteinschätzung abschließen
 skmg#:#skmg_save_settings#:#Einstellungen speichern
@@ -14927,8 +14926,8 @@ skmg#:#skmg_skill_level#:#Kompetenzstufe
 skmg#:#skmg_skill_level_trigger#:#Auslöser
 skmg#:#skmg_skill_levels#:#Kompetenzstufen
 skmg#:#skmg_skill_management_deactivated#:#Das Kompetenzmanagement ist momentan deaktiviert.
-skmg#:#skmg_skill_needs_impr_no_res#:#Sie müssen diese Kompetenz verbessern. Leider gibt es momentan kein passendes Lernmaterial, welches Ihrem Kompetenzziel entspricht.
-skmg#:#skmg_skill_needs_impr_res#:#Sie müssen diese Kompetenz verbessern. Die folgenden Ressourcen bieten Lernmaterial, welches Ihrem Kompetenzziel entspricht.
+skmg#:#skmg_skill_needs_impr_no_res#:#Sie müssen diese Kompetenz verbessern. Leider gibt es momentan keine passenden Lerninhalte, welche Ihrem Kompetenzziel entsprechen.
+skmg#:#skmg_skill_needs_impr_res#:#Sie müssen diese Kompetenz verbessern. Die folgenden Lerninhalte entsprechen Ihrem Kompetenzziel.
 skmg#:#skmg_skill_needs_self_eval#:#Bitte führen Sie zunächst eine Selbsteinschätzung durch, damit Ihr Kompetenzziel angezeigt wird.
 skmg#:#skmg_skill_needs_self_eval_box#:#Bitte beachten Sie, dass für mindestens eine Kompetenz in diesem Profil noch keine Selbsteinschätzung durchgeführt wurde. Ihnen wird das Kompetenzziel für die betroffenen Kompetenzen angezeigt, sobald eine Selbsteinschätzung durchgeführt wurde.
 skmg#:#skmg_skill_no_needs_impr#:#Kompetenzziel erfüllt!
@@ -14949,7 +14948,7 @@ skmg#:#skmg_status_outdated#:#Veraltet
 skmg#:#skmg_status_outdated_info#:#Der Eintrag kann von Benutzer nicht mehr als persönliche Kompetenz neu ausgewählt werden. Wurde die Kompetenz bereits früher ausgewählt, so bleibt diese Auswahl weiterhin bestehen.
 skmg#:#skmg_status_publish#:#Veröffentlicht
 skmg#:#skmg_status_publish_info#:#Die Kompetenz kann von Benutzern genutzt werden falls alle übergeordneten Einträge ebenfalls freigegeben sind.
-skmg#:#skmg_suggested#:#Vorgeschlagenes Magazinobjekt
+skmg#:#skmg_suggested#:#Als Lerninhalt anzeigen
 skmg#:#skmg_suggested_resources#:#Zugewiesene Magazinobjekte
 skmg#:#skmg_sure_delete_self_evaluation#:#Möchten Sie die folgenden Selbsteinschätzungen wirklich löschen?
 skmg#:#skmg_target_level#:#Kompetenzziel
@@ -14963,7 +14962,7 @@ skmg#:#skmg_usage_obj_objects#:#Objekt(e)
 skmg#:#skmg_usage_obj_profiles#:#Profil(e)
 skmg#:#skmg_usage_obj_users#:#Benutzer
 skmg#:#skmg_usage_type_info_gen#:#Allgemeiner Gebrauch in Magazinobjekten
-skmg#:#skmg_usage_type_info_mat#:#Benutzer haben Material zugeordnet
+skmg#:#skmg_usage_type_info_mat#:#Benutzer haben persönliche Ressourcen zugeordnet
 skmg#:#skmg_usage_type_info_pers#:#Von Benutzern als persönliche Kompetenz ausgewählt
 skmg#:#skmg_usage_type_info_prof#:#Nutzung in Kompetenzprofilen
 skmg#:#skmg_usage_type_info_res#:#Zuordnung zu Magazinobjekten

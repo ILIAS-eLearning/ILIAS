@@ -59,7 +59,7 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->resources->getResourcesOfLevel($this->level_id));
-        $this->setTitle($lng->txt("resources"));
+        $this->setTitle($lng->txt("skmg_suggested_resources"));
 
         if ($this->write_permission) {
             $this->addColumn("", "", "1px", true);
