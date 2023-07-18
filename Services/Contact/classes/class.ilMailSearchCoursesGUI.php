@@ -197,7 +197,7 @@ class ilMailSearchCoursesGUI
             foreach ($ref_ids as $ref_id) {
                 $roles = $this->rbacreview->getAssignableChildRoles($ref_id);
                 $can_send_mails = ilParticipants::canSendMailToMembers(
-                    $ref_id,
+                    (int) $ref_id,
                     $this->user->getId(),
                     ilMailGlobalServices::getMailObjectRefId()
                 );
