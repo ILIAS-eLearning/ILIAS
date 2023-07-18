@@ -735,7 +735,7 @@ class ilObjFileGUI extends ilObject2GUI
             $info->addProperty("", $markdown_to_html->transform($important_info));
         }
 
-        // download button
+        // Download Launcher
         if ($this->checkPermissionBool("read", "sendfile")) {
             // get permanent download link for repository
             if ($this->id_type === self::REPOSITORY_NODE_ID) {
@@ -743,10 +743,14 @@ class ilObjFileGUI extends ilObject2GUI
             } else {
                 $download_target = $this->ctrl->getLinkTarget($this, "sendfile");
             }
-
             $url = $this->data_factory->uri($download_target);
             $link = $this->data_factory->link($this->lng->txt('file_download'), $url);
             $download_launcher = $this->ui->factory()->launcher()->inline($link);
+            // create own section for download launcher if there is no important info section
+            if (empty($important_info)) {
+                $info->addSection("");
+            }
+            // add download launcher
             $info->addProperty("", $this->renderer->render($download_launcher));
         }
 
