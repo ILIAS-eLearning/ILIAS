@@ -17,6 +17,7 @@ class ilContentPagePageConfig extends ilPageConfig
         $this->setEnablePermissionChecks(true);
         $this->setMultiLangSupport(true);
         $this->setUsePageContainer(false);
+        $this->setEnablePCType("Map", true);
 
         $mediaPoolSettings = new ilSetting('mobs');
         if ($mediaPoolSettings->get('mep_activate_pages')) {
