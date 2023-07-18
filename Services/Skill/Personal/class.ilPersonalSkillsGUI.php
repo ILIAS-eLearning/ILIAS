@@ -960,16 +960,18 @@ class ilPersonalSkillsGUI
 
         $ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
 
-        $si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
-        $si->setOptions($options);
-        $si->setValue($cur_basic_skill_id);
-        $ilToolbar->addInputItem($si, true);
-        $ilToolbar->addFormButton(
-            $lng->txt("select"),
-            "assignMaterials"
-        );
+        if (count($options) > 1) {
+            $si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
+            $si->setOptions($options);
+            $si->setValue($cur_basic_skill_id);
+            $ilToolbar->addInputItem($si, true);
+            $ilToolbar->addFormButton(
+                $lng->txt("select"),
+                "assignMaterials"
+            );
 
-        $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+            $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+        }
 
         // table
         $tab = new ilSkillAssignMaterialsTableGUI(
@@ -1146,16 +1148,18 @@ class ilPersonalSkillsGUI
 
         $ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
 
-        $si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
-        $si->setOptions($options);
-        $si->setValue($cur_basic_skill_id);
-        $ilToolbar->addInputItem($si, true);
-        $ilToolbar->addFormButton(
-            $lng->txt("select"),
-            "selfEvaluation"
-        );
+        if (count($options) > 1) {
+            $si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
+            $si->setOptions($options);
+            $si->setValue($cur_basic_skill_id);
+            $ilToolbar->addInputItem($si, true);
+            $ilToolbar->addFormButton(
+                $lng->txt("select"),
+                "selfEvaluation"
+            );
 
-        $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+            $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+        }
 
         // table
         $tab = new ilSelfEvaluationSimpleTableGUI(
