@@ -2208,12 +2208,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         );
         if ($draftObj->getDraftId() > 0) {
             $oFDForumDrafts = new ilFileDataForumDrafts(0, $draftObj->getDraftId());
-            if ($oFDForumDrafts->getFilesOfPost() !== []) {
+            $files_of_draft = $oFDForumDrafts->getFilesOfPost();
+
+            if ($files_of_draft !== []) {
                 $oExistingAttachmentsGUI = new ilCheckboxGroupInputGUI(
                     $this->lng->txt('forums_delete_file'),
                     'del_file'
                 );
-                foreach ($oFDForumDrafts->getFilesOfPost() as $file) {
+                foreach ($files_of_draft as $file) {
                     $oExistingAttachmentsGUI->addOption(new ilCheckboxOption($file['name'], $file['md5']));
                 }
                 $this->replyEditForm->addItem($oExistingAttachmentsGUI);

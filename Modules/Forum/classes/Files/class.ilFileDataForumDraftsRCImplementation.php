@@ -116,7 +116,7 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
         foreach ($this->getCurrentCollection()->getResourceIdentifications() as $identification) {
             $revision = $this->irss->manage()->getCurrentRevision($identification);
             $info = $revision->getInformation();
-            $files[] = [
+            $files[$revision->getTitle()] = [
                 'path' => $this->irss->consume()->stream($identification)->getStream()->getMetadata('uri'),
                 'md5' => $revision->getTitle(),
                 'name' => $info->getTitle(),
@@ -244,7 +244,7 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
 
     public function deliverZipFile(): bool
     {
-        $zip_filename = $this->getCurrentPosting()->getSubject() . '.zip';
+        $zip_filename = $this->getCurrentDraft()->getPostSubject() . '.zip';
         $rcid = $this->getCurrentCollection()->getIdentification();
 
         $this->irss->consume()->downloadCollection($rcid, $zip_filename)
