@@ -132,7 +132,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     {
         if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
             $ref_id = $a_adt->getTargetRefId();
-            $title = ilObject::_lookupTitle((int) ilObject::_lookupObjId($ref_id));
+            $title = ilObject::_lookupTitle((int) ilObject::_lookupObjId((int) $ref_id));
             return strcasecmp($title, $this->getTitleQuery()) === 0;
         }
         return false;
