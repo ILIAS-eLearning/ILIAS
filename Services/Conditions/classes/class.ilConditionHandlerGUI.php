@@ -795,8 +795,6 @@ class ilConditionHandlerGUI
             }
             $cus->setValue($checked);
             $form->addItem($cus);
-
-
         }
         switch ($a_mode) {
             case 'edit':
