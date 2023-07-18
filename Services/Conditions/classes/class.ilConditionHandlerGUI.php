@@ -742,14 +742,14 @@ class ilConditionHandlerGUI
 
         $sel = new ilSelectInputGUI($this->lng->txt('condition'), 'operator');
         $ch_obj = new ilConditionHandler();
-        if ($a_mode === 'add') {
-            $operators[0] = $this->lng->txt('select_one');
-        }
         $operators = [];
+        if ($a_mode === 'add') {
+            $operators[''] = $this->lng->txt('select_one');
+        }
         foreach ($ch_obj->getOperatorsByTriggerType($trigger_type) as $operator) {
             $operators[$operator] = $this->lng->txt('condition_' . $operator);
         }
-        $sel->setValue($condition['operator'] ?? 0);
+        $sel->setValue($condition['operator'] ?? '');
         $sel->setOptions($operators);
         $sel->setRequired(true);
         $form->addItem($sel);
@@ -777,29 +777,23 @@ class ilConditionHandlerGUI
         if ($trigger_type === 'sahs') {
             $this->lng->loadLanguageModule('trac');
 
-            $cus = new ilCustomInputGUI($this->lng->txt('trac_sahs_relevant_items'), 'item_ids[]');
+            $cus = new ilCheckboxGroupInputGUI($this->lng->txt('trac_sahs_relevant_items'), 'item_ids');
+            $cus->setInfo($this->lng->txt('trac_lp_determination_info_sco'));
             $cus->setRequired(true);
-
-            $tpl = new ilTemplate(
-                'tpl.condition_handler_sco_row.html',
-                true,
-                true,
-                "Services/Conditions"
-            );
 
             $olp = ilObjectLP::getInstance($trigger_obj_id);
             $collection = $olp->getCollectionInstance();
+            $checked = [];
             if ($collection) {
                 foreach ($collection->getPossibleItems() as $item_id => $sahs_item) {
-                    $tpl->setCurrentBlock("sco_row");
-                    $tpl->setVariable('SCO_ID', $item_id);
-                    $tpl->setVariable('SCO_TITLE', $sahs_item['title']);
-                    $tpl->setVariable('CHECKED', $collection->isAssignedEntry($item_id) ? 'checked="checked"' : '');
-                    $tpl->parseCurrentBlock();
+                    $sco = new ilCheckboxOption($sahs_item['title'], (string) $item_id);
+                    if ($collection->isAssignedEntry($item_id)) {
+                        $checked[] = $item_id;
+                    }
+                    $cus->addOption($sco);
                 }
             }
-            $tpl->setVariable('INFO_SEL', $this->lng->txt('trac_lp_determination_info_sco'));
-            $cus->setHtml($tpl->get());
+            $cus->setValue($checked);
             $form->addItem($cus);
         }
         switch ($a_mode) {
