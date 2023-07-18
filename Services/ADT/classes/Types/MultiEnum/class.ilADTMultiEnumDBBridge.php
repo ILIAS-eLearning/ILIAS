@@ -62,7 +62,7 @@ class ilADTMultiEnumDBBridge extends ilADTDBBridge
 
     protected function insertIndices(): void
     {
-        foreach ($this->getADT()->getSelections() as $index) {
+        foreach ((array) $this->getADT()->getSelections() as $index) {
             $fields = $this->getPrimary();
             $fields['value_index'] = [ilDBConstants::T_INTEGER, $index];
             $num_row = $this->db->insert($this->getTable(), $fields);

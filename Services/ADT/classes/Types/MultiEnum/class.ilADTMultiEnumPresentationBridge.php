@@ -15,7 +15,7 @@ class ilADTMultiEnumPresentationBridge extends ilADTPresentationBridge
             $res = array();
 
             $options = $this->getADT()->getCopyOfDefinition()->getOptions();
-            foreach ($this->getADT()->getSelections() as $value) {
+            foreach ((array) $this->getADT()->getSelections() as $value) {
                 if (array_key_exists($value, $options)) {
                     $res[] = $this->decorate($options[$value]);
                 }
@@ -29,7 +29,7 @@ class ilADTMultiEnumPresentationBridge extends ilADTPresentationBridge
     public function getSortable()
     {
         if (!$this->getADT()->isNull()) {
-            return implode(";", $this->getADT()->getSelections());
+            return implode(";", (array) $this->getADT()->getSelections());
         }
         return '';
     }
