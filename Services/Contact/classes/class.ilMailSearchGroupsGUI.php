@@ -193,7 +193,7 @@ class ilMailSearchGroupsGUI
             $ref_ids = ilObject::_getAllReferences($grp_id);
             foreach ($ref_ids as $ref_id) {
                 $can_send_mails = ilParticipants::canSendMailToMembers(
-                    $grp_id,
+                    $ref_id,
                     $this->user->getId(),
                     ilMailGlobalServices::getMailObjectRefId()
                 );
