@@ -384,7 +384,11 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                     $ilDB->quote($idx++, ilDBConstants::T_INTEGER) . ', ' .
                     $ilDB->quote($option, ilDBConstants::T_TEXT) .
                     ' ) ';
-                $ilDB->manipulate($query);
+                try {
+                    $ilDB->manipulate($query);
+                } catch (\Excpetion $e) {
+                    ;
+                }
             }
         }
     }
