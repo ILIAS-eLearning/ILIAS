@@ -1447,7 +1447,7 @@ class ilPersonalSkillsGUI
                 $labels[] = $lv["title"];
                 if ($this->getProfileId() > 0) {
                     if ($l["level_id"] == $lv["id"]) {
-                        $points[$target_dim] = [$cnt - 0.01, $cnt + 0.01];
+                        $points[$target_dim] = [$cnt - 0.01, $cnt];
                         $tooltips[$target_dim] = $lv["title"];
                     } else {
                         $points[$target_dim] = $points[$target_dim] ?? null;
