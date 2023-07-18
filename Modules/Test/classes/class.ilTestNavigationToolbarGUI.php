@@ -75,6 +75,9 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
      * @var bool
      */
     private $disabledStateEnabled = false;
+    /** @var ILIAS\UI\Component\Component[] $additional_render_items  */
+    private bool $userHasAttemptsLeft = true;
+    protected array $additional_render_items = [];
 
     /**
      * @param ilCtrl $ctrl
@@ -88,6 +91,16 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $this->playerGUI = $playerGUI;
 
         parent::__construct();
+    }
+
+    public function userHasAttemptsLeft(): bool
+    {
+        return $this->userHasAttemptsLeft;
+    }
+
+    public function setUserHasAttemptsLeft(bool $userHasAttemptsLeft): void
+    {
+        $this->userHasAttemptsLeft = $userHasAttemptsLeft;
     }
 
     /**
@@ -254,6 +267,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         }
     }
 
+    public function getAdditionalRenderContents(): string
+    {
+        return $this->ui->renderer()->render($this->additional_render_items);
+    }
+
     private function addSuspendTestButton()
     {
         $btn = ilTestPlayerNavButton::getInstance();
@@ -314,18 +332,31 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $this->addButtonInstance($btn);
     }
 
-    private function addFinishTestButton()
+    private function addFinishTestButton(): void
     {
-        $btn = ilTestPlayerNavButton::getInstance();
-        $btn->setNextCommand($this->getFinishTestCommand());
-        $btn->setUrl($this->ctrl->getLinkTarget(
-            $this->playerGUI,
-            $this->getFinishTestCommand()
-        ));
-        $btn->setCaption('finish_test');
-        //$btn->setDisabled($this->isDisabledStateEnabled());
-        $btn->setPrimary($this->isFinishTestButtonPrimary());
-        $btn->addCSSClass('ilTstNavElem');
-        $this->addButtonInstance($btn);
+        if ($this->userHasAttemptsLeft()) {
+            $message = $this->lng->txt('tst_finish_confirmation_question');
+        } else {
+            $message = $this->lng->txt('tst_finish_confirmation_question_no_attempts_left');
+        }
+        $modal = $this->ui->factory()->modal()->interruptive(
+            $this->lng->txt('finish_test'),
+            $message,
+            $this->ctrl->getLinkTarget(
+                $this->playerGUI,
+                $this->getFinishTestCommand()
+            )
+        )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
+
+        if ($this->isFinishTestButtonPrimary()) {
+            $button = $this->ui->factory()->button()->primary($this->lng->txt('finish_test'), '')
+                               ->withOnClick($modal->getShowSignal());
+        } else {
+            $button = $this->ui->factory()->button()->standard($this->lng->txt('finish_test'), '')
+                               ->withOnClick($modal->getShowSignal());
+        }
+
+        $this->additional_render_items[] = $modal;
+        $this->addStickyItem($button);
     }
 }
