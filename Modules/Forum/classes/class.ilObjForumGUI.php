@@ -1342,6 +1342,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $active = [
             '',
             'showThreads',
+            'sortThreads',
             'view',
             'markAllRead',
             'enableForumNotification',
