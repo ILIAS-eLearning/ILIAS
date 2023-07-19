@@ -192,21 +192,23 @@ class ilCmiXapiUser
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $DIC->database()->replace(
-            self::DB_TABLE_NAME,
-            array(
-                'obj_id' => array('integer', (int) $this->getObjId()),
-                'usr_id' => array('integer', (int) $this->getUsrId()),
-                'privacy_ident' => array('integer', (int) $this->getPrivacyIdent())
-            ),
-            array(
-                'proxy_success' => array('integer', (int) $this->hasProxySuccess()),
-                'fetched_until' => array('timestamp', $this->getFetchUntil()->get(IL_CAL_DATETIME)),
-                'usr_ident' => array('text', $this->getUsrIdent()),
-                'registration' => array('text', $this->getRegistration()),
-                'satisfied' => array('integer', (int) $this->getSatisfied())
-            )
-        );
+        if (!ilObjUser::_isAnonymous($this->getUsrId())) {
+            $DIC->database()->replace(
+                self::DB_TABLE_NAME,
+                array(
+                    'obj_id' => array('integer', (int) $this->getObjId()),
+                    'usr_id' => array('integer', (int) $this->getUsrId()),
+                    'privacy_ident' => array('integer', (int) $this->getPrivacyIdent())
+                ),
+                array(
+                    'proxy_success' => array('integer', (int) $this->hasProxySuccess()),
+                    'fetched_until' => array('timestamp', $this->getFetchUntil()->get(IL_CAL_DATETIME)),
+                    'usr_ident' => array('text', $this->getUsrIdent()),
+                    'registration' => array('text', $this->getRegistration()),
+                    'satisfied' => array('integer', (int) $this->getSatisfied())
+                )
+            );
+        }
     }
 
     // ToDo Only for Deletion -> Core
@@ -266,6 +268,9 @@ class ilCmiXapiUser
 
     public static function getIdent(int $userIdentMode, ilObjUser $user): string
     {
+        if (ilObjUser::_isAnonymous($user->getId())) {
+            return self::buildPseudoEmail(hash("sha256", (string) microtime()), self::getIliasUuid());
+        }
         switch ($userIdentMode) {
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_USER_ID:
 
@@ -273,11 +278,27 @@ class ilCmiXapiUser
 
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_LOGIN:
 
-                return self::buildPseudoEmail($user->getLogin(), self::getIliasUuid());
+                if (!ilUtil::is_email($user->getLogin())) {
+                    return self::buildPseudoEmail($user->getLogin(), self::getIliasUuid());
+                } else {
+                    return $user->getLogin();
+                }
 
+                // no break
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT:
 
                 return self::buildPseudoEmail($user->getExternalAccount(), self::getIliasUuid());
+
+            case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_SHA256:
+
+                return self::buildPseudoEmail(hash("sha256", '' . $user->getId() . $user->getCreateDate()), self::getIliasUuid());
+
+            case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_SHA256URL:
+                $tmpHash = hash("sha256", '' . $user->getId() . $user->getCreateDate()) . '@' . str_replace('www.', '', $_SERVER['HTTP_HOST']);
+                if (strlen($tmpHash) > 80) {
+                    $tmpHash = substr($tmpHash, strlen($tmpHash) - 80);
+                }
+                return $tmpHash;
 
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM:
 
@@ -305,6 +326,18 @@ class ilCmiXapiUser
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT:
 
                 return $user->getExternalAccount();
+
+            case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_SHA256:
+
+                return hash("sha256", '' . $user->getId() . $user->getCreateDate());
+
+            case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_SHA256URL:
+                $tmpHash = hash("sha256", '' . $user->getId() . $user->getCreateDate());
+                $tmpHost = '@' . str_replace('www.', '', $_SERVER['HTTP_HOST']);
+                if (strlen($tmpHash . $tmpHost) > 80) {
+                    $tmpHash = substr($tmpHash, strlen($tmpHash) - (80 - strlen($tmpHost)));
+                }
+                return $tmpHash;
 
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM:
 
@@ -528,7 +561,7 @@ class ilCmiXapiUser
 
     public static function getUUID(int $length = 32): string
     {
-        $multiplier = floor($length / 8) * 2;
+        $multiplier = (int) floor($length / 8) * 2;
         $uid = str_shuffle(str_repeat(uniqid(), $multiplier));
 
         try {
@@ -558,5 +591,32 @@ class ilCmiXapiUser
     public static function generateRegistration(ilObjCmiXapi $obj, ilObjUser $user): \Ramsey\Uuid\UuidInterface
     {
         return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(), $obj->getRefId() . '-' . $user->getId());
+    }
+
+    public static function getCMI5RegistrationFromAuthToken(ilCmiXapiAuthToken $authToken): \Ramsey\Uuid\UuidInterface
+    {
+        return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(), $authToken->getObjId() . '-' . $authToken->getUsrId());
+    }
+
+    public static function getRegistrationFromAuthToken(ilCmiXapiAuthToken $authToken): \Ramsey\Uuid\UuidInterface
+    {
+        return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(), $authToken->getRefId() . '-' . $authToken->getUsrId());
+    }
+
+    public static function getUsrIdForObjectAndUsrIdent(int $objId, string $userIdent): ?int
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $query = "SELECT usr_id FROM " . self::DB_TABLE_NAME . " WHERE obj_id = "
+            . $DIC->database()->quote($objId, 'integer')
+            . " AND" . $DIC->database()->like('usr_ident', 'text', $userIdent . '@%');
+        $res = $DIC->database()->query($query);
+
+        $usrId = null;
+        while ($row = $DIC->database()->fetchAssoc($res)) {
+            $usrId = (int) $row['usr_id'];
+        }
+
+        return $usrId;
     }
 }

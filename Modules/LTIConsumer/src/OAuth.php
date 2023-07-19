@@ -1128,9 +1128,9 @@ if (!class_exists('OAuthUtil')) {
          *
          * @return mixed[]
          */
-        public static function parse_parameters(string $input): array
+        public static function parse_parameters(?string $input): array
         {
-            if (!strlen($input)) {
+            if (!isset($input) || $input == "") {
                 return [];
             }
 

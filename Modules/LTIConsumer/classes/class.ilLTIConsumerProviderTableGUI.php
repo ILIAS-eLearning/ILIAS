@@ -514,7 +514,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         }
 
         if ($this->isColumnSelected('keywords')) {
-            $this->tpl->setVariable('KEYWORDS', $this->getKeywordsFormatted($a_set['keywords']));
+            $this->tpl->setVariable('KEYWORDS', $a_set['keywords']);
         }
 
         if ($this->isColumnSelected('outcome')) {
@@ -581,11 +581,6 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
     {
         $categories = ilLTIConsumeProvider::getCategoriesSelectOptions();
         return $categories[$category];
-    }
-
-    protected function getKeywordsFormatted(array $keywords): string
-    {
-        return implode('<br />', $keywords);
     }
 
     protected function getAvailabilityLabel(array $data): string

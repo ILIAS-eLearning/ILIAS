@@ -323,8 +323,7 @@ class ilLTIViewGUI
      */
     public function exitLti(): void
     {
-        $logger = ilLoggerFactory::getLogger('ltis');
-        $logger->info("exitLTI");
+        $this->log->info("exitLTI");
         $force_ilias_logout = false;
         $context_id = $this->getContextId();
         if ($context_id == 0) {
@@ -332,7 +331,7 @@ class ilLTIViewGUI
             $force_ilias_logout = true;
         }
         $post_data = $this->getPostData();
-        //$return_url = ($post_data !== null) ? $post_data['launch_presentation_return_url'] : '';
+
         $return_url = '';
         if (isset($post_data['launch_presentation_return_url'])) {
             $return_url = $post_data['launch_presentation_return_url'];
@@ -341,7 +340,7 @@ class ilLTIViewGUI
 
         if (ilSession::has('lti_' . $context_id . '_post_data')) {
             ilSession::clear('lti_' . $context_id . '_post_data');
-            $logger->debug('unset SESSION["' . 'lti_' . $context_id . '_post_data"]');
+            $this->log->debug('unset SESSION["' . 'lti_' . $context_id . '_post_data"]');
         }
 
         if (!isset($return_url) || $return_url === '') {

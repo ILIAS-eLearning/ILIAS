@@ -393,7 +393,7 @@ class ilLTIConsumeProviderList implements Iterator
             $tblRow['title'] = $provider->getTitle();
             $tblRow['description'] = $provider->getDescription();
             $tblRow['category'] = $provider->getCategory();
-            $tblRow['keywords'] = $provider->getKeywordsArray();
+            $tblRow['keywords'] = $this->getKeywordsFormatted($provider->getKeywordsArray());
             $tblRow['outcome'] = $provider->getHasOutcome();
             $tblRow['external'] = $provider->isExternalProvider();
             $tblRow['provider_key_customizable'] = $provider->isProviderKeyCustomizable();
@@ -505,5 +505,10 @@ class ilLTIConsumeProviderList implements Iterator
     public function rewind()
     {
         return reset($this->providers);
+    }
+
+    protected function getKeywordsFormatted(array $keywords): string
+    {
+        return implode('<br />', $keywords);
     }
 }

@@ -155,4 +155,9 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             ));
         }
     }
+
+    public function step_12(): void
+    {
+        $this->db->manipulateF('DELETE FROM cmix_users WHERE usr_id = %s', ['integer'], [13]);
+    }
 }
