@@ -20,62 +20,38 @@ declare(strict_types=1);
 
 namespace ILIAS\Modules\EmployeeTalk\TalkSeries\DTO;
 
-/**
- * Class EmployeeTalkSerieSettingsDto
- */
 final class EmployeeTalkSerieSettingsDto
 {
-    /** @var int  $objectId*/
-    private int $objectId = -1;
-    /** @var bool $lockedEditing */
-    private bool $lockedEditing = false;
+    private int $obj_id = -1;
+    private bool $locked_editing = false;
 
-    /**
-     * EmployeeTalk constructor.
-     * @param int $objectId
-     * @param bool $lockedEditing
-     */
     public function __construct(
-        int $objectId,
-        bool $lockedEditing
+        int $obj_id,
+        bool $locked_editing
     ) {
-        $this->objectId = $objectId;
-        $this->lockedEditing = $lockedEditing;
+        $this->obj_id = $obj_id;
+        $this->locked_editing = $locked_editing;
     }
 
-    /**
-     * @return int
-     */
     public function getObjectId(): int
     {
-        return $this->objectId;
+        return $this->obj_id;
     }
 
-    /**
-     * @param int $objectId
-     * @return EmployeeTalkSerieSettingsDto
-     */
-    public function setObjectId(int $objectId): EmployeeTalkSerieSettingsDto
+    public function setObjectId(int $obj_id): EmployeeTalkSerieSettingsDto
     {
-        $this->objectId = $objectId;
+        $this->obj_id = $obj_id;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isLockedEditing(): bool
     {
-        return $this->lockedEditing;
+        return $this->locked_editing;
     }
 
-    /**
-     * @param bool $lockedEditing
-     * @return EmployeeTalkSerieSettingsDto
-     */
-    public function setLockedEditing(bool $lockedEditing): EmployeeTalkSerieSettingsDto
+    public function setLockedEditing(bool $locked_editing): EmployeeTalkSerieSettingsDto
     {
-        $this->lockedEditing = $lockedEditing;
+        $this->locked_editing = $locked_editing;
         return $this;
     }
 }

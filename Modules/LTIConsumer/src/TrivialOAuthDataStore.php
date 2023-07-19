@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * A Trivial memory-based store - no support for tokens
  */
-class TrivialOAuthDataStore extends OAuthDataStore
+class TrivialOAuthDataStore extends \ILIAS\LTIOAuth\OAuthDataStore
 {
     private array $consumers = array();
 
@@ -14,13 +14,13 @@ class TrivialOAuthDataStore extends OAuthDataStore
         $this->consumers[$consumer_key] = $consumer_secret;
     }
 
-    public function lookup_consumer($consumer_key): ?\OAuthConsumer
+    public function lookup_consumer($consumer_key): ?ILIAS\LTIOAuth\OAuthConsumer
     {
         if (strpos($consumer_key, "http://") === 0) {
-            return new OAuthConsumer($consumer_key, "secret", null);
+            return new \ILIAS\LTIOAuth\OAuthConsumer($consumer_key, "secret", null);
         }
         if ($this->consumers[$consumer_key]) {
-            return new OAuthConsumer($consumer_key, $this->consumers[$consumer_key], null);
+            return new \ILIAS\LTIOAuth\OAuthConsumer($consumer_key, $this->consumers[$consumer_key], null);
         }
         return null;
     }

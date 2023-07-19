@@ -251,7 +251,7 @@ class ilSystemStyleLessGUI
         return $f->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'update'),
             [$form_section]
-        )->withSubmitCaption($this->lng->txt('update_variables'));
+        )->withSubmitLabel($this->lng->txt('update_variables'));
     }
 
     public function update(): Form

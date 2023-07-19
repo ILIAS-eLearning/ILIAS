@@ -199,16 +199,16 @@ abstract class File implements FileDropzone
         return $this->modal->getPostURL();
     }
 
-    public function withSubmitCaption(string $caption): self
+    public function withSubmitLabel(string $caption): self
     {
         $clone = clone $this;
-        $clone->modal = $clone->modal->withSubmitCaption($caption);
+        $clone->modal = $clone->modal->withSubmitLabel($caption);
         return $clone;
     }
 
-    public function getSubmitCaption(): ?string
+    public function getSubmitLabel(): ?string
     {
-        return $this->modal->getSubmitCaption();
+        return $this->modal->getSubmitLabel();
     }
 
     public function getInputs(): array

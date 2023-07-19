@@ -222,7 +222,7 @@ class RoundTrip extends Modal implements M\RoundTrip
     /**
      * @inheritDoc
      */
-    public function withSubmitCaption(string $caption): self
+    public function withSubmitLabel(string $caption): self
     {
         $clone = clone $this;
         $clone->submit_button_label = $caption;
@@ -232,7 +232,7 @@ class RoundTrip extends Modal implements M\RoundTrip
     /**
      * @inheritDoc
      */
-    public function getSubmitCaption(): ?string
+    public function getSubmitLabel(): ?string
     {
         return $this->submit_button_label;
     }

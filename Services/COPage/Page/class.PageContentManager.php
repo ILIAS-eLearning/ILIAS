@@ -103,7 +103,7 @@ class PageContentManager
                 if (is_object($curr_node)) {
                     $parent_node = $curr_node->parentNode;
                     if ($parent_node->nodeName != "TableRow") {
-                        $this->handleDeleteContent($page, $curr_node);
+                        $this->handleDeleteContent($page, $curr_node, $move_operation);
                         $curr_node->parentNode->removeChild($curr_node);
                     }
                 }

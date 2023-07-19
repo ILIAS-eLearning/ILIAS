@@ -3,8 +3,8 @@
 @use "../../../../030-tools/tool_focus-outline" as *;
 @use "../../../../030-tools/tool_clearfix" as *;
 @use "../../../../030-tools/legacy-bootstrap-mixins/nav-divider" as *;
-@use "../../../../030-tools/legacy-bootstrap-mixins/border-radius" as *;
-@use "../../../../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as *;
+@use "../../../../030-tools/_tool_border-radius" as *;
+@use "../../../../030-tools/_tool_browser-prefixes" as *;
 @use "../../../../050-layout/basics" as *;
 
 /* Services/UIComponent/Toolbar */

@@ -29,7 +29,7 @@ declare(strict_types=1);
  */
 class ilCmiXapiStatementsReport
 {
-    protected string $response;
+    protected array $response;
 
     protected array $statements;
 
@@ -55,16 +55,20 @@ class ilCmiXapiStatementsReport
 
         $responseBody = json_decode($responseBody, true);
 
-        $this->contentType = ilObjCmiXapi::getInstance($objId, false)->getContentType();
-
-        $this->isMixedContentType = ilObjCmiXapi::getInstance($objId, false)->isMixedContentType();
+        if (ilObject::_lookupType($objId) == 'lti') {
+            $this->contentType = ilObjCmiXapi::CONT_TYPE_GENERIC;
+            $this->isMixedContentType = ilObjLTIConsumer::getInstance($objId, false)->isMixedContentType();
+        } else {
+            $this->contentType = ilObjCmiXapi::getInstance($objId, false)->getContentType();
+            $this->isMixedContentType = ilObjCmiXapi::getInstance($objId, false)->isMixedContentType();
+        }
 
         if (is_array($responseBody) && count($responseBody) > 0) {
             $this->response = current($responseBody);
             $this->statements = $this->response['statements'];
             $this->maxCount = $this->response['maxcount'];
         } else {
-            $this->response = '';
+            $this->response = array();
             $this->statements = array();
             $this->maxCount = 0;
         }
@@ -117,7 +121,7 @@ class ilCmiXapiStatementsReport
     /**
      * @return mixed
      */
-    protected function fetchDate(array $statement)
+    protected function fetchDate(array $statement): string
     {
         return $statement['timestamp'];
     }
@@ -144,23 +148,43 @@ class ilCmiXapiStatementsReport
 
     protected function fetchVerbDisplay(array $statement): string
     {
-        return $statement['verb']['display']['en-US'];
+        try {
+            return $statement['verb']['display']['en-US'];
+        } catch (Exception $e) {
+            return $statement['verb']['id'];
+        }
     }
 
     protected function fetchObjectName(array $statement): string
     {
-        $ret = urldecode($statement['object']['id']);
-        $lang = self::getLanguageEntry($statement['object']['definition']['name'], $this->userLanguage);
-        $langEntry = $lang['languageEntry'];
-        if ($langEntry != '') {
-            $ret = $langEntry;
+        try {
+            $ret = urldecode($statement['object']['id']);
+            if (array_key_exists('definition', $statement['object'])) {
+                if (array_key_exists('name', $statement['object']['definition'])) {
+                    $lang = self::getLanguageEntry($statement['object']['definition']['name'], $this->userLanguage);
+                    if (array_key_exists('languageEntry', $lang)) {
+                        $langEntry = $lang['languageEntry'];
+                        if ($langEntry != '') {
+                            $ret = $langEntry;
+                        }
+                    }
+                }
+            }
+            return $ret;
+        } catch (Exception $e) {
+            ilObjCmiXapi::log()->error('error:' . $e->getMessage());
+            return "";
         }
-        return $ret;
     }
 
-    protected function fetchObjectInfo(array $statement): string
+    protected function fetchObjectInfo(array $statement): ?string
     {
-        return $statement['object']['definition']['description']['en-US'];
+        try {
+            return $statement['object']['definition']['description']['en-US'];
+        } catch (Exception $e) {
+            ilObjCmiXapi::log()->debug('debug:' . $e->getMessage());
+            return "";
+        }
     }
 
     /**

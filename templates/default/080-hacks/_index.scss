@@ -1,7 +1,7 @@
 @use "../010-settings/" as *;
 @use "../030-tools/tool_multi-line-cap" as *;
 @use "../030-tools/tool_typography-mixins" as type-mix;
-@use "../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as *;
+@use "../030-tools/_tool_browser-prefixes" as *;
 @use "../050-layout/basics" as *;
 
 /*

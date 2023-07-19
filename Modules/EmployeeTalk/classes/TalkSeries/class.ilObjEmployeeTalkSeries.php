@@ -18,17 +18,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Modules\EmployeeTalk\Talk\Repository\EmployeeTalkRepository;
 use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
+use ILIAS\Modules\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
 
 final class ilObjEmployeeTalkSeries extends ilContainer
 {
     public const TYPE = 'tals';
 
-    /**
-     * @var EmployeeTalkRepository $repository
-     */
-    private EmployeeTalkRepository $repository;
+    private IliasDBEmployeeTalkSeriesRepository $repository;
 
     /**
      * @var bool $locked_editing
@@ -45,6 +42,8 @@ final class ilObjEmployeeTalkSeries extends ilContainer
         $this->locked_editing = $locked_editing;
 
         parent::__construct($a_id, $a_call_by_reference);
+
+        $this->repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->db);
     }
 
     public function read(): void
@@ -54,8 +53,6 @@ final class ilObjEmployeeTalkSeries extends ilContainer
 
     public function create(): int
     {
-        $this->setOfflineStatus(true);
-
         parent::create();
 
         $this->_writeContainerSetting($this->getId(), ilObjectServiceSettingsGUI::CUSTOM_METADATA, '1');
@@ -133,7 +130,12 @@ final class ilObjEmployeeTalkSeries extends ilContainer
             ]
         );
 
-        return parent::delete();
+        $this->repository->deleteEmployeeTalkSerieSettings($this->getId());
+        $node_data = $this->tree->getNodeData($this->getRefId());
+        $result = parent::delete();
+        $this->tree->deleteNode($node_data['tree'], $this->getRefId());
+
+        return $result;
     }
 
     public function hasChildren(): bool

@@ -108,7 +108,7 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
             [$identification->serialize()]
         );
         $d = $this->database->fetchObject($r);
-        if (property_exists($d, 'file_id') && $d->file_id !== null) {
+        if ($d !== null && property_exists($d, 'file_id') && $d->file_id !== null) {
             $references = ilObject::_getAllReferences($d->file_id);
             $ref_id = array_shift($references);
 

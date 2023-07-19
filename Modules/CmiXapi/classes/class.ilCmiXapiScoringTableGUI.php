@@ -142,16 +142,17 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
      */
     protected function getUsername(array $data): string
     {
+        $user = ilObjectFactory::getInstanceByObjId($data['ilias_user_id'], false);
         if ($this->hasOutcomeAccess) {
-            $user = ilObjectFactory::getInstanceByObjId($data['ilias_user_id'], false);
-
             if ($user) {
                 return $user->getFullname();
             }
-
             return $this->language->txt('deleted_user');
+        } else {
+            if ($user->getId() == $this->dic->user()->getId()) {
+                return $user->getFullname();
+            }
         }
         return "";
-//        return $data['user'];
     }
 }

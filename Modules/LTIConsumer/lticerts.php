@@ -21,14 +21,15 @@ declare(strict_types=1);
 /** @noRector */
 
 chdir("../../");
+
+require_once("Services/Init/classes/class.ilInitialisation.php");
+
 ilContext::init(ilContext::CONTEXT_SCORM);
 ilInitialisation::initILIAS();
 
-$ltilib = new lti13lib();
-
-if (!empty($ltilib->verifyPrivateKey())) {
+if (!empty(ilObjLTIConsumer::verifyPrivateKey())) {
     echo "ERROR_OPEN_SSL_CONF";
 }
 
 header('Content-Type: application/json; charset=utf-8');
-echo json_encode($ltilib->getJwks(), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+echo json_encode(ilObjLTIConsumer::getJwks(), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -150,12 +151,12 @@ class StandardFormTest extends ILIAS_UI_TestBase
             $if->text("label", "byline"),
         ]);
 
-        $this->assertNull($form->getSubmitCaption());
+        $this->assertNull($form->getSubmitLabel());
 
         $caption = 'Caption';
-        $form = $form->withSubmitCaption($caption);
+        $form = $form->withSubmitLabel($caption);
 
-        $this->assertEquals($caption, $form->getSubmitCaption());
+        $this->assertEquals($caption, $form->getSubmitLabel());
     }
 
     public function test_submit_caption_render(): void
@@ -166,7 +167,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $url = "MY_URL";
         $form = $f->standard($url, [
             $if->text("label", "byline"),
-        ])->withSubmitCaption('create');
+        ])->withSubmitLabel('create');
 
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($form));

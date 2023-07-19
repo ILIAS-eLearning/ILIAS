@@ -141,12 +141,10 @@ class ilCmiXapiContentUploadImporter
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @throws ilCmiXapiInvalidUploadContentException
      */
-    public function importFormUpload(ilFormPropertyGUI $uploadInput): void
+    public function importFormUpload(array $fileData): void
     {
         global $DIC;
         $this->ensureCreatedObjectDirectory();
-
-        $fileData = $DIC->http()->wrapper()->post()->retrieve($uploadInput->getPostVar(), $DIC->refinery()->kindlyTo()->string());
 
         $uploadResult = $this->getUpload(
             $fileData['tmp_name']
@@ -358,10 +356,24 @@ class ilCmiXapiContentUploadImporter
 
         foreach ($xPath->query("//*[local-name()='au']") as $assignedUnitNode) {
             $relativeLaunchUrl = $xPath->query("//*[local-name()='url']", $assignedUnitNode)->item(0)->nodeValue;
-            $launchParameters = $xPath->query("//*[local-name()='launchParameters']", $assignedUnitNode)->item(0)->nodeValue;
-            $moveOn = trim($assignedUnitNode->getAttribute('moveOn'));
-            $entitlementKey = $xPath->query("//*[local-name()='entitlementKey']", $assignedUnitNode)->item(0)->nodeValue;
-            $masteryScore = trim($assignedUnitNode->getAttribute('masteryScore'));
+            if (!empty($xPath->query("//*[local-name()='launchParameters']", $assignedUnitNode)->item(0)->nodeValue)) {
+                $launchParameters = $xPath->query(
+                    "//*[local-name()='launchParameters']",
+                    $assignedUnitNode
+                )->item(0)->nodeValue;
+            }
+            if (!empty($assignedUnitNode->getAttribute('moveOn'))) {
+                $moveOn = trim($assignedUnitNode->getAttribute('moveOn'));
+            }
+            if (!empty($xPath->query("//*[local-name()='entitlementKey']", $assignedUnitNode)->item(0)->nodeValue)) {
+                $entitlementKey = $xPath->query(
+                    "//*[local-name()='entitlementKey']",
+                    $assignedUnitNode
+                )->item(0)->nodeValue;
+            }
+            if (!empty($assignedUnitNode->getAttribute('masteryScore'))) {
+                $masteryScore = trim($assignedUnitNode->getAttribute('masteryScore'));
+            }
 
             if (!empty($relativeLaunchUrl)) {
                 $this->object->setLaunchUrl(trim($relativeLaunchUrl));

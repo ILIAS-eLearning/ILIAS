@@ -15,8 +15,6 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
-
 declare(strict_types=1);
 
 use ILIAS\Administration\Setting;
@@ -47,7 +45,6 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         self::PRESENTATION_LIST,
         self::PRESENTATION_TILE
     ];
-
     /** @var string[] */
     protected static array $availableSortOptions = [
             self::SORT_BY_LOCATION,
@@ -85,7 +82,6 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
             self::SORT_BY_ALPHABET,
         ],
     ];
-
     /** @var array<int, string[]> */
     protected static array $availablePresentationsByView = [
         self::VIEW_SELECTED_ITEMS => [
@@ -110,7 +106,6 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         ],
 
     ];
-
     protected Setting $settings;
     protected ilObjUser $actor;
     protected array $validViews = [];
@@ -281,7 +276,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
     public function getDefaultPresentationByView(int $view): string
     {
-        return $this->settings->get('pd_def_pres_view_' . $view, "list");
+        return $this->settings->get('pd_def_pres_view_' . $view, 'list');
     }
 
     /**
@@ -308,12 +303,12 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
     public function enableMemberships(bool $status): void
     {
-        $this->settings->set('disable_my_memberships', $status ? "0" : "1");
+        $this->settings->set('disable_my_memberships', $status ? '0' : '1');
     }
 
     public function enableSelectedItems(bool $status): void
     {
-        $this->settings->set('disable_my_offers', $status ? "0" : "1");
+        $this->settings->set('disable_my_offers', $status ? '0' : '1');
     }
 
     public function allViewsEnabled(): bool

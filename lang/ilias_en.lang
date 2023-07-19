@@ -4111,9 +4111,7 @@ common#:#glo_added#:#Glossary added
 common#:#glo_import#:#Import Glossary
 common#:#glo_mode#:#Mode
 common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).
-common#:#glo_mode_level#:#Current repository container
 common#:#glo_mode_normal#:#Standard Glossary
-common#:#glo_mode_subtree#:#Current container and all sub-containers
 common#:#glo_new#:#New Glossary
 common#:#global#:#Global
 common#:#global_default#:#Global Default
@@ -5325,7 +5323,7 @@ common#:#report_accessibility_issue#:#Report Accessibility Issue
 common#:#report_accessibility_link#:#Reported Link:
 common#:#report_accessibility_link_mailto#:#Reported%20Link:
 common#:#repository#:#Repository
-common#:#repository_admin#:#Repository Trash and Permissions
+common#:#repository_admin#:#Repository and Trash
 common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash
 common#:#require_email#:#Require e-mail
 common#:#require_gender#:#Require salutation
@@ -7089,9 +7087,7 @@ content#:#glo_full_definitions#:#Full Definitions
 content#:#glo_full_definitions_info#:#Terms and definitions are fully displayed in the main view.
 content#:#glo_hide_taxonomy#:#Hide Taxonomy
 content#:#glo_list_usages#:#List Usages
-content#:#glo_mode_level_info#:#All terms of glossaries on the same level in the repository will be included.
 content#:#glo_mode_normal_info#:#All terms created within this glossary will be included.
-content#:#glo_mode_subtree_info#:#All terms of glossaries on the same level and subsequent levels in the repository will be included.
 content#:#glo_online_info#:#Only if the glossary is online, users are able to use the glossary.
 content#:#glo_presentation_mode#:#Presentation Mode
 content#:#glo_presentation_view#:#Presentation View
@@ -9794,6 +9790,9 @@ forum#:#topic_close#:#Closed
 forum#:#topics_please_select_one_action#:#Please select an action.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
 glo#:#glo_add_from_other#:#Collect Terms
+glo#:#glo_add_glossary#:#Add Glossary
+glo#:#glo_add_to_collection#:#Add Glossary to Collection Glossary
+glo#:#glo_added_to_collection_info#:#The selected glossary has been added to the collection glossary.
 glo#:#glo_answered_correctly#:#I got it right
 glo#:#glo_answered_not_correctly#:#I was wrong
 glo#:#glo_box#:#Box
@@ -9802,9 +9801,12 @@ glo#:#glo_box_last_presented#:#Box Last Presented
 glo#:#glo_boxes#:#Boxes
 glo#:#glo_boxes_really_reset#:#Do you really want to reset all boxes? All flashcards will be moved to the first box.
 glo#:#glo_boxes_reset#:#The boxes have been reset successfully.
+glo#:#glo_change_to_collection_unavailable_info#:#To change the type of content assembly to "Collection Glossary", you first have to delete all existing terms within this glossary in tab "Content".
+glo#:#glo_change_to_standard_unavailable_info#:#To change the type of content assembly to "Standard Glossary", you first have to remove the selected glossaries in tab "Content".
 glo#:#glo_col_ordering_info#:#Order the titles of the metadata fields. They are presented as column headers in the table presentation of the glossary.
 glo#:#glo_collection#:#Collection Glossary
-glo#:#glo_collection_info#:#The glossary collects additional terms of other glossaries.
+glo#:#glo_collection_empty_info#:#This collection glossary is currently empty. Please add at least one glossary to it.
+glo#:#glo_collection_info#:#The glossary automatically collects all terms from the selected glossaries.
 glo#:#glo_content_assembly#:#Content Assembly
 glo#:#glo_copy#:#Copy Glossary
 glo#:#glo_copy_terms#:#Copy Terms
@@ -9823,12 +9825,17 @@ glo#:#glo_mode#:#Mode
 glo#:#glo_page_type_gdf#:#Term Definition
 glo#:#glo_please_select_other_glo#:#Please select another glossary.
 glo#:#glo_quit_box#:#Quit Box
+glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the following glossary from the collection glossary?
 glo#:#glo_reference#:#Reference
 glo#:#glo_reference_terms#:#Reference Terms
 glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.
 glo#:#glo_reset_all_boxes#:#Reset All Boxes
 glo#:#glo_select_source_glo#:#Please select a source glossary.
 glo#:#glo_select_terms#:#Select Terms
+glo#:#glo_selected_glossaries#:#Selected Glossaries
+glo#:#glo_selected_glossaries_info#:#Terms are collected from the following glossaries:
+glo#:#glo_selected_glossary_is_current_info#:#The selected glossary corresponds to the current glossary. Please select another glossary.
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
 glo#:#glo_show_definition#:#Show Definition
 glo#:#glo_show_term#:#Show Term
@@ -14860,7 +14867,7 @@ skmg#:#skmg_add_assignment#:#Add Roles / Members
 skmg#:#skmg_add_level#:#Add Level
 skmg#:#skmg_add_local_profile#:#Add Local Profile
 skmg#:#skmg_add_profile#:#Add Profile
-skmg#:#skmg_add_resource#:#Add Resource
+skmg#:#skmg_add_resource#:#Assign Repository Object
 skmg#:#skmg_add_skill#:#Add Competence
 skmg#:#skmg_add_skill_tree#:#Add Competence Tree
 skmg#:#skmg_add_user_to_profile#:#Add users or roles to profile
@@ -14869,7 +14876,7 @@ skmg#:#skmg_allow_local_profiles#:#Allow Creation of Local Profiles
 skmg#:#skmg_allow_local_profiles_info#:#Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences.
 skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal resources to competence levels. If you would like to add materials to your personal resources now, please click the following link.
 skmg#:#skmg_assign_level#:#Assign Level
-skmg#:#skmg_assign_materials#:#Assign Materials
+skmg#:#skmg_assign_materials#:#Assign Personal Resources
 skmg#:#skmg_assign_user#:#Assign User
 skmg#:#skmg_assigned_objects#:#Assigned Objects
 skmg#:#skmg_assigned_profiles#:#Assigned Competence Profiles
@@ -14879,7 +14886,7 @@ skmg#:#skmg_cannot_delete_nodes_in_use#:#Some items cannot be deleted, because t
 skmg#:#skmg_cert_skill_level_title#:#Competence Level Title
 skmg#:#skmg_cert_skill_title#:#Competence Title
 skmg#:#skmg_cert_skill_trigger_title#:#Competence Trigger Title
-skmg#:#skmg_confirm_level_resources_removal#:#Do you really want to remove the following resources from the competence level?
+skmg#:#skmg_confirm_level_resources_removal#:#Do you really want to remove the following repository objects from the competence level?
 skmg#:#skmg_confirm_remove_level_ass#:#So you really want to remove the following competence levels from the profile?
 skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following users from this profile?
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.
@@ -14927,10 +14934,8 @@ skmg#:#skmg_level#:#Level
 skmg#:#skmg_list_skills#:#List Competences
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
 skmg#:#skmg_lp_triggers_level#:#Triggered by Completion
-skmg#:#skmg_lp_triggers_level_resources#:#Resources triggered by Completion
-skmg#:#skmg_material#:#Material
-skmg#:#skmg_materials#:#Materials
-skmg#:#skmg_materials_ressources#:#Resources/Materials
+skmg#:#skmg_materials#:#Personal Resources
+skmg#:#skmg_materials_resources#:#Learning Materials
 skmg#:#skmg_new_level#:#New Level
 skmg#:#skmg_new_sktr#:#New Competence Template Reference
 skmg#:#skmg_next_step#:#Next Step
@@ -14959,7 +14964,7 @@ skmg#:#skmg_refresh_view#:#Refresh
 skmg#:#skmg_remove_levels#:#Remove Levels
 skmg#:#skmg_remove_skill#:#Remove Competence
 skmg#:#skmg_remove_trigger#:#Remove Trigger
-skmg#:#skmg_resources#:#Resources
+skmg#:#skmg_resources#:#Repository Objects
 skmg#:#skmg_save_order#:#Save Order
 skmg#:#skmg_save_self_evaluation#:#Finish Self-Evaluation
 skmg#:#skmg_save_settings#:#Save Settings
@@ -14984,8 +14989,8 @@ skmg#:#skmg_skill_level#:#Competence Level
 skmg#:#skmg_skill_level_trigger#:#Competence Level Trigger
 skmg#:#skmg_skill_levels#:#Competence Levels
 skmg#:#skmg_skill_management_deactivated#:#Competence Management is currently deactivated.
-skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately, there are currently no learning resources available providing learning material aligned to your competence target.
-skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your competence target.
+skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately, there are currently no learning materials available, which are aligned to your competence target.
+skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following learning materials are aligned to your competence target.
 skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target.
 skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.
 skmg#:#skmg_skill_no_needs_impr#:#Competence target achieved!
@@ -15006,8 +15011,8 @@ skmg#:#skmg_status_outdated#:#Outdated
 skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as personal competence, or newly assigned to repository objects or competence profiles. However existing assignments and data are still presented.
 skmg#:#skmg_status_publish#:#Published
 skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published, too.
-skmg#:#skmg_suggested#:#Suggested Resource
-skmg#:#skmg_suggested_resources#:#Suggested Resources
+skmg#:#skmg_suggested#:#Shown as Learning Material
+skmg#:#skmg_suggested_resources#:#Assigned Repository Objects
 skmg#:#skmg_sure_delete_self_evaluation#:#Do you really want to delete the following self-evaluations?
 skmg#:#skmg_target_level#:#Competence Target
 skmg#:#skmg_target_levels#:#Competence Targets
@@ -15020,10 +15025,10 @@ skmg#:#skmg_usage_obj_objects#:#Object(s)
 skmg#:#skmg_usage_obj_profiles#:#Profile(s)
 skmg#:#skmg_usage_obj_users#:#User(s)
 skmg#:#skmg_usage_type_info_gen#:#General Use in Repository Objects
-skmg#:#skmg_usage_type_info_mat#:#Users assigned material from their personal resources
+skmg#:#skmg_usage_type_info_mat#:#Users assigned personal resources from their personal workspace
 skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Competence
 skmg#:#skmg_usage_type_info_prof#:#Used in Competence Profiles
-skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resource
+skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Learning Material
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
 skmg#:#skmg_your_self_evaluation#:#Your Self-Evaluation
 style#:#Style#:#Style

@@ -17,7 +17,6 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
 use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**

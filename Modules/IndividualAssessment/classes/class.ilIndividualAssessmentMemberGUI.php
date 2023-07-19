@@ -160,7 +160,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
         $this->setToolbar();
         $form = $this->buildForm($this->getFormActionForCommand(self::CMD_SAVE_AMEND), true, true);
-        $form->withSubmitCaption($this->lng->txt("save_amend"));
+        $form->withSubmitLabel($this->lng->txt("save_amend"));
         $this->tpl->setContent($this->renderer->render($form));
     }
 
@@ -374,7 +374,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
     public function getInfoForExistingFiles(array $file_ids): array
     {
-        $file_ids = array_filter($file_ids, fn ($id) => $id !== "");
+        $file_ids = array_filter($file_ids, fn($id) => $id !== "");
         $path = $this->getUserFileStorage()->getAbsolutePath();
         return array_map(function ($id) use ($path) {
             return new BasicFileInfoResult(
