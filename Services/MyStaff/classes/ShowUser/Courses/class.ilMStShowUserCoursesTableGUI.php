@@ -40,6 +40,10 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
     protected $access;
     /** @var null|array  */
     protected $columnDefinition = null;
+    /**
+     * @var array|null
+     */
+    protected $orgu_names = null;
 
     /**
      * @param ilMStShowUserCoursesGUI $parent_obj
@@ -237,6 +241,15 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         }
     }
 
+    protected function getTextRepresentationOfOrgUnits() : array
+    {
+        if (isset($this->orgu_names)) {
+            return $this->orgu_names;
+        }
+
+        return $this->orgu_names = \ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+    }
+
 
     /**
      * @param ilMStListCourse $profile
@@ -279,14 +292,41 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
 
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($DIC->language()->txt("actions"));
-        $actions->setAsynch(true);
         $actions->setId($profile->getUsrId() . "-" . $profile->getCrsRefId());
 
-        $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_usr_id', $profile->getUsrId());
-        $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_crs_ref_id', $profile->getCrsRefId());
+        $mst_lco_usr_id = $profile->getUsrId();
+        $mst_lco_crs_ref_id = $profile->getCrsRefId();
 
-        $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
-            ->getLinkTarget($this->parent_obj, ilMStShowUserCoursesGUI::CMD_GET_ACTIONS, "", true)));
+        if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
+            $link = \ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::COURSE_CONTEXT);
+            $actions->addItem(\ilObject2::_lookupTitle(\ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '', $link);
+        };
+
+        foreach (
+            \ilOrgUnitUserAssignment::innerjoin('object_reference', 'orgu_id', 'ref_id')->where(array(
+                'user_id' => $mst_lco_usr_id,
+                'object_reference.deleted' => null
+            ), array('user_id' => '=', 'object_reference.deleted' => '!='))->get() as $org_unit_assignment
+        ) {
+            if ($DIC->access()->checkAccess("read", "", $org_unit_assignment->getOrguId())) {
+                $org_units = $this->getTextRepresentationOfOrgUnits();
+                $link = \ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
+                $actions->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
+            }
+        }
+
+        $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_usr_id', $mst_lco_usr_id);
+        $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_crs_ref_id', $mst_lco_crs_ref_id);
+
+        $actions = ilMyStaffGUI::extendActionMenuWithUserActions(
+            $actions,
+            $mst_lco_usr_id,
+            rawurlencode($this->ctrl->getLinkTargetByClass(
+                "ilMStShowUserCoursesGUI",
+                ilMStShowUserCoursesGUI::CMD_INDEX
+            ))
+        );
+
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }

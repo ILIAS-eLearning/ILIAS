@@ -31,10 +31,6 @@ class ilMStShowUserCoursesGUI
      * @var ilMyStaffAccess
      */
     protected $access;
-    /**
-     * @var array|null
-     */
-    protected $orgu_names = null;
 
 
     /**
@@ -173,54 +169,5 @@ class ilMStShowUserCoursesGUI
         global $DIC;
 
         $DIC->ctrl()->redirect($this);
-    }
-
-
-    /**
-     *
-     */
-    public function getActions()
-    {
-        global $DIC;
-
-        $mst_co_usr_id = $DIC->http()->request()->getQueryParams()['mst_lco_usr_id'];
-        $mst_lco_crs_ref_id = $DIC->http()->request()->getQueryParams()['mst_lco_crs_ref_id'];
-
-        if ($mst_co_usr_id > 0 && $mst_lco_crs_ref_id > 0) {
-            $selection = new ilAdvancedSelectionListGUI();
-
-            if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
-                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::COURSE_CONTEXT);
-                $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '', $link);
-            };
-
-            foreach (
-                ilOrgUnitUserAssignment::innerjoin('object_reference', 'orgu_id', 'ref_id')->where(array(
-                    'user_id' => $mst_co_usr_id,
-                    'object_reference.deleted' => null
-                ), array('user_id' => '=', 'object_reference.deleted' => '!='))->get() as $org_unit_assignment
-            ) {
-                if ($DIC->access()->checkAccess("read", "", $org_unit_assignment->getOrguId())) {
-                    $org_units = $this->getTextRepresentationOfOrgUnits();
-                    $link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
-                    $selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
-                }
-            }
-
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id, rawurlencode($DIC->ctrl()
-                ->getLinkTarget($this, self::CMD_INDEX)));
-
-            echo $selection->getHTML(true);
-        }
-        exit;
-    }
-
-    protected function getTextRepresentationOfOrgUnits() : array
-    {
-        if (isset($this->orgu_names)) {
-            return $this->orgu_names;
-        }
-
-        return $this->orgu_names = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
     }
 }
