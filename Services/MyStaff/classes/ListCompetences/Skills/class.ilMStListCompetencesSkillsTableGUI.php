@@ -289,18 +289,21 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
 
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($this->dic->language()->txt("actions"));
-        $actions->setAsynch(true);
         $actions->setId($set->getUserId() . "-" . $set->getSkillNodeId());
 
-        $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $set->getUserId());
+        $mst_lcom_usr_id = $set->getUserId();
 
-        $actions->setAsynchUrl(str_replace("\\", "\\\\", $this->dic->ctrl()
-                                                                   ->getLinkTarget(
-                                                                       $this->parent_obj,
-                                                                       ilMStListCompetencesSkillsGUI::CMD_GET_ACTIONS,
-                                                                       "",
-                                                                       true
-                                                                   )));
+        $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $mst_lcom_usr_id);
+
+        $actions = \ilMyStaffGUI::extendActionMenuWithUserActions(
+            $actions,
+            $mst_lcom_usr_id,
+            rawurlencode($this->dic->ctrl()->getLinkTargetByClass(
+                "ilMStListCompetencesSkillsGUI",
+                \ilMStListCompetencesSkillsGUI::CMD_INDEX
+            ))
+        );
+
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }

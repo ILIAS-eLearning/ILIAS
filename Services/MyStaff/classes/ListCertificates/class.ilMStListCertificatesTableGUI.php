@@ -304,7 +304,6 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($DIC->language()->txt("actions"));
-        $actions->setAsynch(false);
         $actions->setId($set->getCertificateId());
         $actions->addItem($DIC->language()->txt("mst_download_certificate"), '', $set->getDownloadLink());
 

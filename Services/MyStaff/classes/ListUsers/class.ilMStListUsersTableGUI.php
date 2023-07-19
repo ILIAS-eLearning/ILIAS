@@ -289,25 +289,62 @@ class ilMStListUsersTableGUI extends ilTable2GUI
             }
         }
 
-        $dropdown = $this->uiFactory->dropdown()->standard([
-            $this->uiFactory->button()->shy('test', '#')
-        ])->withLabel($this->language->txt("actions"));
-
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($this->language->txt("actions"));
-        $actions->setAsynch(true);
         $actions->setId(strval($set->getUsrId()));
 
-        $DIC->ctrl()->setParameterByClass(ilMStListUsersGUI::class, 'mst_lus_usr_id', $set->getUsrId());
+        $mst_lus_usr_id = $set->getUsrId();
 
-        $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
-                                                             ->getLinkTarget(
-                                                                 $this->parent_obj,
-                                                                 ilMStListUsersGUI::CMD_GET_ACTIONS,
-                                                                 "",
-                                                                 true
-                                                             )));
-        //$this->tpl->setVariable('ACTIONS', $this->uiRenderer->render($dropdown));
+        if ($this->access->hasCurrentUserAccessToCourseMemberships()) {
+            $DIC->ctrl()->setParameterByClass(\ilMStShowUserCoursesGUI::class, 'usr_id', $mst_lus_usr_id);
+            $actions->addItem(
+                $DIC->language()->txt('mst_show_courses'),
+                '',
+                $DIC->ctrl()->getLinkTargetByClass(array(
+                    \ilDashboardGUI::class,
+                    ilMyStaffGUI::class,
+                    \ilMStShowUserGUI::class,
+                    \ilMStShowUserCoursesGUI::class,
+                ))
+            );
+        }
+
+        if ($this->access->hasCurrentUserAccessToCertificates()) {
+            $DIC->ctrl()->setParameterByClass(\ilUserCertificateGUI::class, 'usr_id', $mst_lus_usr_id);
+            $actions->addItem(
+                $DIC->language()->txt('mst_list_certificates'),
+                '',
+                $DIC->ctrl()->getLinkTargetByClass(array(
+                    \ilDashboardGUI::class,
+                    ilMyStaffGUI::class,
+                    \ilMStShowUserGUI::class,
+                    \ilUserCertificateGUI::class,
+                ))
+            );
+        }
+
+        if ($this->access->hasCurrentUserAccessToCompetences()) {
+            $DIC->ctrl()->setParameterByClass(\ilMStShowUserCompetencesGUI::class, 'usr_id', $mst_lus_usr_id);
+            $actions->addItem(
+                $DIC->language()->txt('mst_list_competences'),
+                '',
+                $DIC->ctrl()->getLinkTargetByClass(array(
+                    \ilDashboardGUI::class,
+                    ilMyStaffGUI::class,
+                    \ilMStShowUserGUI::class,
+                    \ilMStShowUserCompetencesGUI::class,
+                ))
+            );
+        }
+
+        $this->ctrl->setParameterByClass(\ilMStListUsersGUI::class, 'mst_lus_usr_id', $mst_lus_usr_id);
+
+        $actions = ilMyStaffGUI::extendActionMenuWithUserActions(
+            $actions,
+            $mst_lus_usr_id,
+            rawurlencode($this->ctrl->getLinkTargetByClass("ilMStListUsersGUI", \ilMStListUsersGUI::CMD_INDEX))
+        );
+
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }
