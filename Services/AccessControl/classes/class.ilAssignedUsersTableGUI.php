@@ -133,7 +133,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
         $actions->setItemLinkClass("small");
 
         $actions->setListTitle($this->lng->txt('actions'));
-        $actions->setId($a_set['usr_id']);
+        $actions->setId((string) $a_set['usr_id']);
 
         $link_contact = ilMailFormCall::getLinkTarget(
             $this->getParentObject(),
