@@ -740,9 +740,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             ['integer'],
             [$this->getId()]
         );
-        $feedback = $ilDB->fetchAll($result);
+        $db_feedback = $ilDB->fetchAll($result);
         // Check if feedback exists and the regular editor is used and not the page editor
-        if (sizeof($feedback) >= 1 && $this->getAdditionalContentEditingMode() == 'default'){
+        if (sizeof($db_feedback) >= 1 && $this->getAdditionalContentEditingMode() == 'default'){
             // Get all existing answer data for question
             $result = $ilDB->queryF(
                 "SELECT answer_id, aorder  FROM qpl_a_mc WHERE question_fi = %s",
@@ -752,39 +752,48 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             $db_answers = $ilDB->fetchAll($result);
 
             // Collect old and new order entries by ids and order to calculate a diff/intersection and remove/update feedback
-            $post_ids = [];
+            $post_answer_order_for_id = [];
             foreach ($this->answers as $answer){
-                // Only the first appearance of an id is used since javaScript is duplicating the hidden ids
-                if ($answer->getId() !== null && !in_array($answer->getId(), array_keys($post_ids))) {
+                // Only the first appearance of an id is used
+                if ($answer->getId() !== null && !in_array($answer->getId(), array_keys($post_answer_order_for_id))) {
                     if ($answer->getId() == -1) {
                         continue;
                     }
-                    $post_ids[$answer->getId()] = $answer->getOrder();
+                    $post_answer_order_for_id[$answer->getId()] = $answer->getOrder();
                 }
             }
+
             // If there is no usable ids from post, it's better to not touch the feedback
             // This is useful since the import is also using this function or the first creation of a new question in general
-            if (sizeof($post_ids) >= 1) {
-                $db_order_ids = [];
-                $db_order_ids_swapped = [];
-                foreach ($db_answers as $old_answer){
-                    $db_order_ids[$old_answer['answer_id']] = intval($old_answer['aorder']);
-                    $db_order_ids_swapped[intval($old_answer['aorder'])] = $old_answer['answer_id'];
+            if (sizeof($post_answer_order_for_id) >= 1) {
+                $db_answer_order_for_id = [];
+                $db_answer_id_for_order = [];
+                foreach ($db_answers as $db_answer){
+                    $db_answer_order_for_id[intval($db_answer['answer_id'])] = intval($db_answer['aorder']);
+                    $db_answer_id_for_order[intval($db_answer['aorder'])] = intval($db_answer['answer_id']);
                 }
 
-                // Handle feedback the diff between the already existing feedback order and the order received via post
-                // should be deleted or in our case not recreated.
-                $del_answer_order = array_keys(array_diff(array_keys($db_order_ids), array_keys($post_ids)));
+                // Handle feedback
+                // the diff between the already existing answer ids from the Database and the answer ids from post
+                // feedback related to the answer ids should be deleted or in our case not recreated.
+                $db_answer_ids = array_keys($db_answer_order_for_id);
+                $post_answer_ids = array_keys($post_answer_order_for_id);
+                $diff_db_post_answer_ids = array_diff($db_answer_ids, $post_answer_ids);
+                $unused_answer_ids = array_keys($diff_db_post_answer_ids);
 
                 // Delete all feedback in the database
                 $this->feedbackOBJ->deleteSpecificAnswerFeedbacks($this->getId(), false);
-                foreach ($feedback as $feedback_option){
+                foreach ($db_feedback as $feedback_option) {
                     // skip feedback which answer is deleted
-                    if (in_array($feedback_option['answer'], $del_answer_order)) {
+                    if (in_array(intval($feedback_option['answer']), $unused_answer_ids)) {
                         continue;
                     }
-                    // Reorder feedback in array
-                    $feedback_option['answer'] = $post_ids[$db_order_ids_swapped[$feedback_option['answer']]];
+
+                    // Reorder feedback
+                    $feedback_order_db = intval($feedback_option['answer']);
+                    $db_answer_id = $db_answer_id_for_order[$feedback_order_db];
+                    $feedback_order_post = $post_answer_order_for_id[$db_answer_id];
+                    $feedback_option['answer'] = $feedback_order_post;
 
                     // Recreate remaining feedback in database
                     $next_id = $ilDB->nextId('qpl_fb_specific');
