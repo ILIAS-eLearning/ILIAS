@@ -1868,8 +1868,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $ilUser = $DIC['ilUser'];
         
         include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-        if (ilObjUserTracking::_enabledLearningProgress() &&
-            $this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP) {
+        if (ilObjUserTracking::_enabledLearningProgress()) {
             include_once './Services/Object/classes/class.ilObjectLP.php';
             $olp = ilObjectLP::getInstance($this->object->getId());
             if ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR) {

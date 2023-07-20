@@ -7718,7 +7718,7 @@ crs#:#crs_status_changed#:#Status in Kurs "%s"
 crs#:#crs_status_changed_body#:#Ihr Status in Kurs "%s" wurde geändert.
 crs#:#crs_status_determination#:#Bestimmung des Status "Bestanden"
 crs#:#crs_status_determination_lp#:#Aus Lernfortschritt ableiten
-crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf "Bearbeitet", wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben.
+crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf "Abgeschlossen", wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben.
 crs#:#crs_status_determination_manual#:#Nur manuell durch Tutor
 crs#:#crs_status_determination_sync#:#Der Bestanden-Status des Kurses wird automatisch gesetzt, sobald ein Lerner alle Lernfortschritts-relevanten Aktivitäten abgeschlossen hat. Bereits bestehender Fortschritt wird berücksichtigt, manuell gesetzte Bestanden-Status bleiben unverändert. Möchten Sie den Bestanden-Status jetzt auf Basis des jeweiligen aktuellen Lernfortschritts setzen?
 crs#:#crs_structure#:#Kursstruktur
