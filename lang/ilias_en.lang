@@ -1866,12 +1866,12 @@ assessment#:#tst_show_solution_answers_only#:#Print View of Results (Answers Onl
 assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the ‘Edit content’ tab page will not be visible in a print-out. If you want to save some paper space, select this option.
 assessment#:#tst_show_solution_compare#:#Show Best Solution in ‘Detailed Results’
 assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the 'Detailed Results' that can be accessed via the 'Show Test Results'-button on the 'Info'-tab. It will not be displayed in the printable 'List of Answers' even though the setting is made here.
-assessment#:#tst_show_solution_details#:#Detailed Information on Individual Questions
-assessment#:#tst_show_solution_details_desc#:#Expand the functionality of the ‘Detailed Results’ tables for individual test attempts, by providing links to pages for each individual question. These pages each contain the question, the answer provided by the participant, information on whether this was the correct answer and the points scored by this answer.
+assessment#:#tst_show_solution_details#:#Scored Answers of Participant
+assessment#:#tst_show_solution_details_desc#:#The ‘Table of Detailed Test Results’ will be added by a list of answers.
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.
 assessment#:#tst_show_solution_feedback#:#Feedback
-assessment#:#tst_show_solution_feedback_desc#:#Display feedback on the answers provided by the participant. Please bear in mind that this option only takes effect if you have activated ‘Detailed Information on Individual Questions’  and if feedback for the individual questions has been prepared.
+assessment#:#tst_show_solution_feedback_desc#:#Display feedback on the answers provided by the participant. Please bear in mind that this option only takes effect if you have activated ‘Scored Answers of Participant’ and/or ‘Scored Answers on single pages’  and if feedback for the individual questions has been prepared.
 assessment#:#tst_show_solution_printview#:#Additional ‘List of Answers’ for Printing
 assessment#:#tst_show_solution_printview_desc#:#An overview of all questions with the answers of the respective participant is generated. This list will be offered within the ‘Results’-tab in a subtab 'Review of Scored Answers'.
 assessment#:#tst_show_solution_signature#:#Signature Placeholder
