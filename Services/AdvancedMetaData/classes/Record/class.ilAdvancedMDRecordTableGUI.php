@@ -143,10 +143,6 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 
                 $type_options = $options;
                 switch ($obj_type["obj_type"]) {
-                    case "orgu":
-                        // currently only optional records for org unit (types)
-                        unset($type_options[1]);
-                        break;
                     case "talt":
                         // currently only optional records for talk templates (types)
                         unset($type_options[1]);
