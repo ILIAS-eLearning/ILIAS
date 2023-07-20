@@ -25,6 +25,7 @@ use ILIAS\MediaObjects\Usage\UsageDBRepository;
  */
 class ilPCMediaObject extends ilPageContent
 {
+    protected ilCtrlInterface $ctrl;
     protected UsageDBRepository $mob_usage_repo;
     protected php4DOMElement $mal_node;
     protected ilObjUser $user;
@@ -49,6 +50,7 @@ class ilPCMediaObject extends ilPageContent
             ->internal()
             ->repo()
             ->usage();
+        $this->ctrl = $DIC->ctrl();
     }
 
     public function readMediaObject(int $a_mob_id = 0): void
@@ -476,7 +478,13 @@ class ilPCMediaObject extends ilPageContent
 
         // async ensures to have onloadcode of modal in output
         // if other main tpl is used, see #32198
-        return $a_output . "<div class='il-copg-mob-fullscreen-modal'>" . $this->ui->renderer()->renderAsync($modal) . "</div>";
+        // note: if always rendered async, $ not defined errors will be thrown in non-async cases
+        if ($this->ctrl->isAsynch()) {
+            $html = $this->ui->renderer()->renderAsync($modal);
+        } else {
+            $html = $this->ui->renderer()->render($modal);
+        }
+        return $a_output . "<div class='il-copg-mob-fullscreen-modal'>" . $html . "</div>";
     }
 
     public function getOnloadCode(string $a_mode): array
