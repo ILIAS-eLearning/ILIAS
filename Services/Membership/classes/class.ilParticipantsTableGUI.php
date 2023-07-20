@@ -55,12 +55,6 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         }
         
         if ($this->isColumnSelected('org_units')) {
-            include_once './Modules/OrgUnit/classes/class.ilObjOrgUnit.php';
-            $root = ilObjOrgUnit::getRootOrgRefId();
-            include_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
-            $tree = ilObjOrgUnitTree::_getInstance();
-            $nodes = $tree->getAllChildren($root);
-            
             include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
             $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
             
