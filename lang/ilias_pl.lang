@@ -890,6 +890,7 @@ assessment#:#log_user_not_entered_values#:#Użytkownik nie podał wartości
 assessment#:#log_user_solution_willingly_deleted#:#Użytkownik usunął swoją odpowiedź.
 assessment#:#log_wrong_test_password_entered#:#Uczestnik wprowadził nieprawidłowe hasło do testu.
 assessment#:#longmenu#:#Longmenu
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###20 07 2023 new variable
 assessment#:#longmenu_text#:#Tekst ‘Long Menu’
 assessment#:#mailnottype#:#Transmisja odbywa się również po zakończeniu poszczególnych przebiegów testu.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -7552,6 +7553,8 @@ crs#:#crs_members_groups#:#Członkostwo w grupach
 crs#:#crs_members_map#:#Mapy członków kursu
 crs#:#crs_members_print_title#:#Uczestnicy kursu
 crs#:#crs_min_one_admin#:#Do tego kursu musi być przydzielony co najmniej jeden administrator.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###20 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###20 07 2023 new variable
 crs#:#crs_new_status#:#Twój nowy status to:
 crs#:#crs_new_subscription#:#Nowa subskrypcja kursu "%s"
 crs#:#crs_new_subscription_body#:#%s został zarejestrowany do kursu "%s".
@@ -7950,6 +7953,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes###07 02 2020 new variable
 dash#:#dash_tile#:#Tile###07 02 2020 new variable
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 2020 new variable
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###20 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###20 07 2023 new variable
 dateplaner#:#Fr_long#:#Piątek
 dateplaner#:#Fr_short#:#Pt
 dateplaner#:#Mo_long#:#Poniedziałek
@@ -13041,7 +13046,9 @@ rbac#:#crs_visible#:#Kurs jest widoczny
 rbac#:#crs_write#:#Edycja kursu
 rbac#:#crsr_copy#:#Kopiuj odwołanie do kursu
 rbac#:#crsr_delete#:#Usuń odwołanie do kursu
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###20 07 2023 new variable
 rbac#:#crsr_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###20 07 2023 new variable
 rbac#:#crsr_visible#:#Odwołanie do kursu jest widoczne
 rbac#:#crsr_write#:#Edytuj odwołanie do kursu
 rbac#:#crss_edit_permission#:#Zmień prawa dostępu dla ustawień systemowych dotyczących kursu
@@ -16292,6 +16299,7 @@ user#:#interests_general#:#Ogólne zainteresowania
 user#:#interests_help_looking#:#Szukam pomocy
 user#:#interests_help_offered#:#Oferuję pomoc
 user#:#msg_spoint_not_modified#:#Starting point not modified###07 02 2020 new variable
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###20 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###07 02 2020 new variable
 user#:#restrict_user_access#:#Ograniczony dostęp do kont użytkowników
 user#:#restrict_user_access_info#:#Aktywuj tę opcję tylko wtedy, gdy chcesz ograniczyć dostęp do kont użytkowników. Jeśli ta opcja jest aktywna, użytkownicy będą potrzebowali uprawnienia "Prawo czytania kont użytkowników", aby mieć dostęp do lokalnych kont użytkowników w kategoriach oraz globalnych kont użytkowników.

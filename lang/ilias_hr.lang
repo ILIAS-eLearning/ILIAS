@@ -890,6 +890,7 @@ assessment#:#log_user_not_entered_values#:#Korisnik nije unio vrijednosti
 assessment#:#log_user_solution_willingly_deleted#:#Korisnik je izbrisao odgovor.
 assessment#:#log_wrong_test_password_entered#:#Sudionik je unio pogrešnu lozinku za test. Ulazni podaci: '%s'
 assessment#:#longmenu#:#Dugi izbornik
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###20 07 2023 new variable
 assessment#:#longmenu_text#:#Tekst dugog izbornika
 assessment#:#mailnottype#:#Pošalji obavijest čak i ako korisnik završi pojedini prolaz testa
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -7552,6 +7553,8 @@ crs#:#crs_members_groups#:#Članstva u grupama
 crs#:#crs_members_map#:#Karta članova tečaja
 crs#:#crs_members_print_title#:#Članovi tečaja
 crs#:#crs_min_one_admin#:#Ovom tečaju mora biti dodijeljen barem jedan administrator.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###20 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###20 07 2023 new variable
 crs#:#crs_new_status#:#Vaš novi status je:
 crs#:#crs_new_subscription#:#Korisnik registriran za tečaj "%s"
 crs#:#crs_new_subscription_body#:#%s se prijavio za tečaj "%s".
@@ -7950,6 +7953,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes###04 06 2021 new variable
 dash#:#dash_tile#:#Tile###04 06 2021 new variable
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###04 06 2021 new variable
 dash#:#dash_view_favourites#:#Section ‘Favourites’###04 06 2021 new variable
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###20 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###20 07 2023 new variable
 dateplaner#:#Fr_long#:#Petak
 dateplaner#:#Fr_short#:#Pet
 dateplaner#:#Mo_long#:#Ponedjeljak
@@ -13041,7 +13046,9 @@ rbac#:#crs_visible#:#Tečaj je vidljiv
 rbac#:#crs_write#:#Korisnik može uređivati postavke tečaja i upravljati sadržajem
 rbac#:#crsr_copy#:#Korisnik može kopirati poveznicu na tečaj
 rbac#:#crsr_delete#:#Korisnik može premjestiti ili izbrisati poveznicu na tečaj
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###20 07 2023 new variable
 rbac#:#crsr_edit_permission#:#Korisnik može promijeniti postavke dozvola
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###20 07 2023 new variable
 rbac#:#crsr_visible#:#Poveznica na tečaj je vidljiva
 rbac#:#crsr_write#:#Korisnik može uređivati postavke poveznice na tečaj
 rbac#:#crss_edit_permission#:#Korisnik može promijeniti postavke dozvola u administraciji tečaja
@@ -16292,6 +16299,7 @@ user#:#interests_general#:#General Interests###04 06 2021 new variable
 user#:#interests_help_looking#:#Looking For Help###04 06 2021 new variable
 user#:#interests_help_offered#:#Offering Help###04 06 2021 new variable
 user#:#msg_spoint_not_modified#:#Starting point not modified###04 06 2021 new variable
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###20 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###04 06 2021 new variable
 user#:#restrict_user_access#:#Restricted Access to User Accounts###04 06 2021 new variable
 user#:#restrict_user_access_info#:#Enabled this option only if you want to restrict the access to user accounts. If enabled access to local and global user accounts is only granted when a role has the permission ‘Read Access to User Account’.###04 06 2021 new variable

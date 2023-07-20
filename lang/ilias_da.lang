@@ -890,6 +890,7 @@ assessment#:#log_user_not_entered_values#:#Bruger har ikke angivet nogen værdi
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###20 07 2023 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -7552,6 +7553,8 @@ crs#:#crs_members_groups#:#Kursusdeltagernes grupper
 crs#:#crs_members_map#:#Kort over kursister
 crs#:#crs_members_print_title#:#Kursusdeltagere
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.###12 08 2009 new variable
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###20 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###20 07 2023 new variable
 crs#:#crs_new_status#:#Din nye status er:
 crs#:#crs_new_subscription#:#Ny tilmelding "%s"
 crs#:#crs_new_subscription_body#:#Der er indgået en ny tilmelding til kurset %s
@@ -7950,6 +7953,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes###07 02 2020 new variable
 dash#:#dash_tile#:#Tile###07 02 2020 new variable
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 2020 new variable
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###20 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###20 07 2023 new variable
 dateplaner#:#Fr_long#:#Fredag
 dateplaner#:#Fr_short#:#Fr###21 Apr 2005 new variable
 dateplaner#:#Mo_long#:#Mandag
@@ -13041,7 +13046,9 @@ rbac#:#crs_visible#:#Kursus er synligt
 rbac#:#crs_write#:#Rediger Kursus
 rbac#:#crsr_copy#:#Kopier kursusreference
 rbac#:#crsr_delete#:#Slet kursusreference
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###20 07 2023 new variable
 rbac#:#crsr_edit_permission#:#Ændre rettinghedsindstillinger
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###20 07 2023 new variable
 rbac#:#crsr_visible#:#Kursusreference er synlig
 rbac#:#crsr_write#:#Ret kursusreference
 rbac#:#crss_edit_permission#:#User can change permission settings in Course administration###30 12 2013 new variable
@@ -16292,6 +16299,7 @@ user#:#interests_general#:#General Interests###26 09 2014 new variable
 user#:#interests_help_looking#:#Looking For Help###26 09 2014 new variable
 user#:#interests_help_offered#:#Offering Help###26 09 2014 new variable
 user#:#msg_spoint_not_modified#:#Starting point not modified###07 02 2020 new variable
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###20 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###07 02 2020 new variable
 user#:#restrict_user_access#:#Begrænset adgang til brugerkonti
 user#:#restrict_user_access_info#:#If enabled, the access to user account is restricted. The access depends on the permission "Read Access to Local User Account" in "User Accounts" and "Categories". ###16 07 2010 new variable

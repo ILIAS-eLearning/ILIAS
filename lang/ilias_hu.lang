@@ -904,6 +904,7 @@ assessment#:#log_user_not_entered_values#:#A felhasználó nem írt be értékek
 assessment#:#log_user_solution_willingly_deleted#:#A felhasználó törölte a választ.
 assessment#:#log_wrong_test_password_entered#:#A résztvevő rossz jelszót adott meg.
 assessment#:#longmenu#:#Étlap
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###20 07 2023 new variable
 assessment#:#longmenu_text#:#'Étlap'-szöveg
 assessment#:#mailnottype#:#Akkor is küldjön értesítést, amikor egy felhasználó a teszt egy lépését fejezi be.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -7566,6 +7567,8 @@ crs#:#crs_members_groups#:#Csoporttagságok
 crs#:#crs_members_map#:#Kurzustagok térképe
 crs#:#crs_members_print_title#:#Kurzustagok
 crs#:#crs_min_one_admin#:#Legalább egy vezetőt hozzá kell rendelni ehhez a kurzushoz.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###20 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###20 07 2023 new variable
 crs#:#crs_new_status#:#Az Ön új állapota:
 crs#:#crs_new_subscription#:#'%s' kurzusba felhasználó regisztrált
 crs#:#crs_new_subscription_body#:#ezúton értesítjük, hogy %s regisztrált a(z) '%s' kurzusba.
@@ -7964,6 +7967,8 @@ dash#:#dash_studyprogramme#:#Képzési programjaim
 dash#:#dash_tile#:#Csempe
 dash#:#dash_view_courses_groups#:#'Kurzusaim és csoportjaim' rész
 dash#:#dash_view_favourites#:#'Kedvenceim' rész
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###20 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###20 07 2023 new variable
 dateplaner#:#Fr_long#:#Péntek
 dateplaner#:#Fr_short#:#P
 dateplaner#:#Mo_long#:#Hétfő
@@ -13055,7 +13060,9 @@ rbac#:#crs_visible#:#A kurzus látható
 rbac#:#crs_write#:#A felhasználó módosíthatja a kurzus beállításait és kezelheti a tartalmát
 rbac#:#crsr_copy#:#A felhasználó másolhat kurzuslinket
 rbac#:#crsr_delete#:#A felhasználó áthelyezhet vagy törölhet kurzuslinket
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###20 07 2023 new variable
 rbac#:#crsr_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###20 07 2023 new variable
 rbac#:#crsr_visible#:#A kurzuslink látható
 rbac#:#crsr_write#:#A felhasználó szerkesztheti kurzuslinket
 rbac#:#crss_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Kurzus jogosultsági beállításait
@@ -16306,6 +16313,7 @@ user#:#interests_general#:#Általános érdeklődési kör
 user#:#interests_help_looking#:#Segítséget várok ezekben
 user#:#interests_help_offered#:#Segíteni tudok ezekben
 user#:#msg_spoint_not_modified#:#A kiindulási pont nem változott
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###20 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#A megadott ref_id nem létezik
 user#:#restrict_user_access#:#Korlátozott hozzáférés az ILIAS-fiókokhoz
 user#:#restrict_user_access_info#:#Csak akkor engedélyezze, ha korlátozni szeretné a hozzáférést az ILIAS-fiókokhoz. 'Olvasási elérés a helyi ILIAS-fiókhoz' jogosultság szükséges a helyi és a globális ILIAS-fiókok hozzáféréséhez.

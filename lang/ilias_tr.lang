@@ -890,6 +890,7 @@ assessment#:#log_user_not_entered_values#:#Kullanıcı değerler girmedi
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###20 07 2023 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Kullanıcı testi bitirip geçtiği vakit bilgilendirme mesajı gönder
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -7552,6 +7553,8 @@ crs#:#crs_members_groups#:#Gruplardaki Üyelikler
 crs#:#crs_members_map#:#Ders Üyeler Harita
 crs#:#crs_members_print_title#:#Ders üyeleri
 crs#:#crs_min_one_admin#:#Bunun ders atanmış en az bir yönetici olmalıdır.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###20 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###20 07 2023 new variable
 crs#:#crs_new_status#:#Yeni durumu:
 crs#:#crs_new_subscription#:#Kullanıcı kursu "% s" için tescil
 crs#:#crs_new_subscription_body#:#%s ders için "%s" kaydetti.
@@ -7950,6 +7953,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes###07 02 2020 new variable
 dash#:#dash_tile#:#Tile###07 02 2020 new variable
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 2020 new variable
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###20 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###20 07 2023 new variable
 dateplaner#:#Fr_long#:#Cuma
 dateplaner#:#Fr_short#:#Fr
 dateplaner#:#Mo_long#:#Pazartesi
@@ -13041,7 +13046,9 @@ rbac#:#crs_visible#:#Dersin görünür
 rbac#:#crs_write#:#Kullanıcı kursu ayarları düzenleyebilir ve içeriği yönetebilir
 rbac#:#crsr_copy#:#Kullanıcı kursu başvuru kopyalayabilirsiniz
 rbac#:#crsr_delete#:#Kullanıcı kursu başvuru taşıyabilir veya silebilirsiniz
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###20 07 2023 new variable
 rbac#:#crsr_edit_permission#:#Yetki Ayarlarını Değiştir
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###20 07 2023 new variable
 rbac#:#crsr_visible#:#Dersin referans görünür
 rbac#:#crsr_write#:#Kullanıcı tabii referans ayarlarını düzenleyebilirsiniz
 rbac#:#crss_edit_permission#:#User can change permission settings in Course administration###30 12 2013 new variable
@@ -16292,6 +16299,7 @@ user#:#interests_general#:#General Interests###26 09 2014 new variable
 user#:#interests_help_looking#:#Looking For Help###26 09 2014 new variable
 user#:#interests_help_offered#:#Offering Help###26 09 2014 new variable
 user#:#msg_spoint_not_modified#:#Starting point not modified###07 02 2020 new variable
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###20 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###07 02 2020 new variable
 user#:#restrict_user_access#:#Kullanıcı Hesaplarına Kısıtlı Erişim
 user#:#restrict_user_access_info#:#Eğer sadece kullanıcı hesaplarına erişimi kısıtlamak istiyorsanız bu seçeneği seçin. Yerel ve genel kullanıcı hesaplarına erişim için rol tanımı "Yerel Kullanıcı Hesabına Okuma Erişimi" olarak tanımlanmalıdır.

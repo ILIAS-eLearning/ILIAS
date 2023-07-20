@@ -890,6 +890,7 @@ assessment#:#log_user_not_entered_values#:#Потребителят не е въ
 assessment#:#log_user_solution_willingly_deleted#:#Потребителят е изтрил отговора.
 assessment#:#log_wrong_test_password_entered#:#Участникът е въвел грешна парола за теста.
 assessment#:#longmenu#:#Longmenu
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###20 07 2023 new variable
 assessment#:#longmenu_text#:#Дълъг текст на менюто
 assessment#:#mailnottype#:#Изпращане на известие, дори когато потребителят завърши теста
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -7552,6 +7553,8 @@ crs#:#crs_members_groups#:#Групи на членовете на курса
 crs#:#crs_members_map#:#Карта на членовете на курса
 crs#:#crs_members_print_title#:#Членове на курса
 crs#:#crs_min_one_admin#:#За този курс трябва да има поне един администратор.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###20 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###20 07 2023 new variable
 crs#:#crs_new_status#:#Новият ви статус е:
 crs#:#crs_new_subscription#:#Абонамент за нов курс
 crs#:#crs_new_subscription_body#:#Нов потребител се абонира
@@ -7950,6 +7953,8 @@ dash#:#dash_studyprogramme#:#Моите учебни програми
 dash#:#dash_tile#:#Плочка
 dash#:#dash_view_courses_groups#:#Раздел "Моите курсове и групи"
 dash#:#dash_view_favourites#:#Секция "Любими обекти"
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###20 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###20 07 2023 new variable
 dateplaner#:#Fr_long#:#Петък
 dateplaner#:#Fr_short#:#Пет
 dateplaner#:#Mo_long#:#Понеделник
@@ -13041,7 +13046,9 @@ rbac#:#crs_visible#:#Курсът е видим
 rbac#:#crs_write#:#Редактиране на курса
 rbac#:#crsr_copy#:#Copy Course Reference
 rbac#:#crsr_delete#:#Изтриване на референтен курс
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###20 07 2023 new variable
 rbac#:#crsr_edit_permission#:#Промяна на настройките на разрешенията
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###20 07 2023 new variable
 rbac#:#crsr_visible#:#Справка за курса е видима
 rbac#:#crsr_write#:#Редактиране на препратка към курса
 rbac#:#crss_edit_permission#:#Потребителят може да променя настройките за разрешение в администрацията на курса
@@ -16292,6 +16299,7 @@ user#:#interests_general#:#Общи интереси
 user#:#interests_help_looking#:#Искам помощ
 user#:#interests_help_offered#:#Предлагане на помощ
 user#:#msg_spoint_not_modified#:#Началната точка не е променена
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###20 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#Въведеният референтен идентификатор не съществува
 user#:#restrict_user_access#:#Ограничаване на достъпа до потребителски акаунти
 user#:#restrict_user_access_info#:#Ако е разрешено, достъпът до потребителския акаунт е ограничен. Достъпът зависи от разрешението "Достъп за четене на локален потребителски акаунт" в "Потребителски акаунти" и "Категории". 

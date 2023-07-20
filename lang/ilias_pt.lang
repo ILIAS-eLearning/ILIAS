@@ -890,6 +890,7 @@ assessment#:#log_user_not_entered_values#:#O utilizador não introduziu valores
 assessment#:#log_user_solution_willingly_deleted#:#O utilizador apagou a resposta.
 assessment#:#log_wrong_test_password_entered#:#O participante introduziu uma palavra-passe de teste errada.
 assessment#:#longmenu#:#Menu comprido
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###20 07 2023 new variable
 assessment#:#longmenu_text#:#Texto de menu comprido
 assessment#:#mailnottype#:#Enviar notificação mesmo que um utilizador termine uma tentativa de teste
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -7552,6 +7553,8 @@ crs#:#crs_members_groups#:#Os utilizadores podem classificar entradas até cinco
 crs#:#crs_members_map#:#Mapa dos membros do curso
 crs#:#crs_members_print_title#:#Membros do curso
 crs#:#crs_min_one_admin#:#Tem de haver pelo menos um administrador atribuído a este curso.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###20 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###20 07 2023 new variable
 crs#:#crs_new_status#:#O seu novo estado é:
 crs#:#crs_new_subscription#:#Campo para opções de referência guardados num campo diferente de uma tabela.
 crs#:#crs_new_subscription_body#:#Mostrar como link para a entrada referenciada
@@ -7950,6 +7953,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes###07 02 2020 new variable
 dash#:#dash_tile#:#Tile###07 02 2020 new variable
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 2020 new variable
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###20 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###20 07 2023 new variable
 dateplaner#:#Fr_long#:#Fechado
 dateplaner#:#Fr_short#:#Os membros têm de ativar manualmente notificações
 dateplaner#:#Mo_long#:#Atualizado (dados específicos do grupo)
@@ -13041,7 +13046,9 @@ rbac#:#crs_visible#:#Esta pergunta é obrigatória. Tem de responder à pergunta
 rbac#:#crs_write#:#Banco de perguntas
 rbac#:#crsr_copy#:#O inquérito já contém conjuntos de dados. Não pode editar as perguntas do inquérito até ter removido esses conjuntos de dados na secção de participação.
 rbac#:#crsr_delete#:#O inquérito já contém conjuntos de dados. Não pode editar as perguntas do inquérito até ter removido esses conjuntos de dados.
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###20 07 2023 new variable
 rbac#:#crsr_edit_permission#:#Esta mensagem é permanentemente exibida no separador ‘Informação’.
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###20 07 2023 new variable
 rbac#:#crsr_visible#:#Não pode iniciar o inquérito! Atualmente ele está offline.
 rbac#:#crsr_write#:#Próximo >>
 rbac#:#crss_edit_permission#:#O utilizador pode mudar definições de permissões na administração do curso
@@ -16292,6 +16299,7 @@ user#:#interests_general#:#Interesses gerais
 user#:#interests_help_looking#:#Procurar ajuda
 user#:#interests_help_offered#:#Oferecer ajuda
 user#:#msg_spoint_not_modified#:#Ponto de início não modificado
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###20 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#O Id de referência introduzido não existe
 user#:#restrict_user_access#:#Acesso restrito aos contas usuário
 user#:#restrict_user_access_info#:#Se habilitado o acesso aos contas de usuário é restrito. A permissão de acesso depende de "Acesso para Leitura da conta local do usuário" no "Contas de usuário" e "Categorias".

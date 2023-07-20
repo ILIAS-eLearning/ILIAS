@@ -889,6 +889,7 @@ assessment#:#log_user_not_entered_values#:#User did not enter values用户没有
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###20 07 2023 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#甚至当用户完成一个测试时也发送通知
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -7551,6 +7552,8 @@ crs#:#crs_members_groups#:#课程成员组
 crs#:#crs_members_map#:#课程成员地图
 crs#:#crs_members_print_title#:#课程成员
 crs#:#crs_min_one_admin#:#必须至少有一个管理员分配给本课程
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###20 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###20 07 2023 new variable
 crs#:#crs_new_status#:#您的新状态
 crs#:#crs_new_subscription#:#新课程订阅
 crs#:#crs_new_subscription_body#:#一个新用户已经订阅
@@ -7949,6 +7952,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes###07 02 2020 new variable
 dash#:#dash_tile#:#Tile###07 02 2020 new variable
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 2020 new variable
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###20 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###20 07 2023 new variable
 dateplaner#:#Fr_long#:#星期五
 dateplaner#:#Fr_short#:#周五
 dateplaner#:#Mo_long#:#星期一
@@ -13040,7 +13045,9 @@ rbac#:#crs_visible#:#课程可视
 rbac#:#crs_write#:#用户能编辑课程设置和管理内容
 rbac#:#crsr_copy#:#复制课程参考
 rbac#:#crsr_delete#:#删除课程参考
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###20 07 2023 new variable
 rbac#:#crsr_edit_permission#:#更改权限设置
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###20 07 2023 new variable
 rbac#:#crsr_visible#:#课程参考可见权限
 rbac#:#crsr_write#:#课程参考编辑权限
 rbac#:#crss_edit_permission#:#User can change permission settings in Course administration###30 12 2013 new variable
@@ -16291,6 +16298,7 @@ user#:#interests_general#:#General Interests###26 09 2014 new variable
 user#:#interests_help_looking#:#Looking For Help###26 09 2014 new variable
 user#:#interests_help_offered#:#Offering Help###26 09 2014 new variable
 user#:#msg_spoint_not_modified#:#Starting point not modified###07 02 2020 new variable
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###20 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###07 02 2020 new variable
 user#:#restrict_user_access#:#受限访问用户账号
 user#:#restrict_user_access_info#:#如果启用，访问用户账号将受限。访问取决于“用户账号”和“类目”中的权限“本地用户账号读访问权限”。

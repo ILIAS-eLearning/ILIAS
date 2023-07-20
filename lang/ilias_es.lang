@@ -892,6 +892,7 @@ assessment#:#log_user_not_entered_values#:#El usuario no introdujo valores
 assessment#:#log_user_solution_willingly_deleted#:#El usuario eliminó la respuesta.
 assessment#:#log_wrong_test_password_entered#:#El participante introdujo un clave para el test incorrecta.
 assessment#:#longmenu#:#Longmenu
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###20 07 2023 new variable
 assessment#:#longmenu_text#:#Texto de menú largo
 assessment#:#mailnottype#:#Enviar notificación incluso cuando un usuario haya terminado un examen, aunque el examen no haya finalizado.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -7554,6 +7555,8 @@ crs#:#crs_members_groups#:#Pertenencia a grupos
 crs#:#crs_members_map#:#Mapa de miembros del Curso
 crs#:#crs_members_print_title#:#Miembros del Curso
 crs#:#crs_min_one_admin#:#Debe haber al menos un administrador asignado a este curso
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###20 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###20 07 2023 new variable
 crs#:#crs_new_status#:#Tu nuevo estado es:
 crs#:#crs_new_subscription#:#Un nuevo usuario se unió al curso "%s"
 crs#:#crs_new_subscription_body#:#El usuario %s se unió al curso "%s".
@@ -7952,6 +7955,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes###07 02 2020 new variable
 dash#:#dash_tile#:#Tile###07 02 2020 new variable
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 2020 new variable
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###20 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###20 07 2023 new variable
 dateplaner#:#Fr_long#:#Viernes
 dateplaner#:#Fr_short#:#Vi
 dateplaner#:#Mo_long#:#Lunes
@@ -13043,7 +13048,9 @@ rbac#:#crs_visible#:#El curso está visible
 rbac#:#crs_write#:#Editar configuración del curso
 rbac#:#crsr_copy#:#Copiar enlace de curso
 rbac#:#crsr_delete#:#Borrar enlace a curso
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###20 07 2023 new variable
 rbac#:#crsr_edit_permission#:#Cambiar opciones de permisos
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###20 07 2023 new variable
 rbac#:#crsr_visible#:#El enlace al curso es visible
 rbac#:#crsr_write#:#Editar enlace del curso
 rbac#:#crss_edit_permission#:#El usuario puede cambiar la configuración de permisos en Administración del Curso
@@ -16294,6 +16301,7 @@ user#:#interests_general#:#Intereses generales
 user#:#interests_help_looking#:#Buscando ayuda
 user#:#interests_help_offered#:#Ofrecimiento de ayuda
 user#:#msg_spoint_not_modified#:#Starting point not modified###07 02 2020 new variable
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###20 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###07 02 2020 new variable
 user#:#restrict_user_access#:#Acceso restringido para cuentas de usuario
 user#:#restrict_user_access_info#:#Si se activa, se restringirá el acceso para cuentas de usuario. El acceso dependerá de los permisos "Acceso de lectura para cuentas de usuario locales" en "Cuentas de usuario" y "Categorías".

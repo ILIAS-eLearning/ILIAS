@@ -904,6 +904,7 @@ assessment#:#log_user_not_entered_values#:#L'utente non ha inserito un valore
 assessment#:#log_user_solution_willingly_deleted#:#L’utente ha eliminato la risposta.
 assessment#:#log_wrong_test_password_entered#:#Il partecipante ha inserito una password sbagliata del test.
 assessment#:#longmenu#:#Menù esteso
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###20 07 2023 new variable
 assessment#:#longmenu_text#:#Testo menu esteso
 assessment#:#mailnottype#:#Inviare la notifica anche quando un utente termina un passaggio di prova
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -7566,6 +7567,8 @@ crs#:#crs_members_groups#:#Gruppi dei membri del corso
 crs#:#crs_members_map#:#Mappa dei membri del corso
 crs#:#crs_members_print_title#:#Iscritti al corso
 crs#:#crs_min_one_admin#:#Deve essere assegnato almeno un amministratore a questo corso.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###20 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###20 07 2023 new variable
 crs#:#crs_new_status#:#Il tuo nuovo status e':
 crs#:#crs_new_subscription#:#Nuova iscrizione al corso "%s"
 crs#:#crs_new_subscription_body#:#%s è registrato per il corso "%s".
@@ -7964,6 +7967,8 @@ dash#:#dash_studyprogramme#:#I miei programmi di studio
 dash#:#dash_tile#:#Piastrelle
 dash#:#dash_view_courses_groups#:#Blocco ‘I miei corsi e gruppi'
 dash#:#dash_view_favourites#:#Blocco 'Preferiti'
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###20 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###20 07 2023 new variable
 dateplaner#:#Fr_long#:#Venerdì
 dateplaner#:#Fr_short#:#Ve
 dateplaner#:#Mo_long#:#Lunedì
@@ -13055,7 +13060,9 @@ rbac#:#crs_visible#:#Vedere un corso
 rbac#:#crs_write#:#Modificare un corso
 rbac#:#crsr_copy#:#Copia il Riferimento del Corso
 rbac#:#crsr_delete#:#Cancella il Riferimento del Corso
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###20 07 2023 new variable
 rbac#:#crsr_edit_permission#:#Cambia le impostazioni dei permessi
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###20 07 2023 new variable
 rbac#:#crsr_visible#:#Il riferimento del Corso è visibile
 rbac#:#crsr_write#:#Edita i Riferimenti del Corso
 rbac#:#crss_edit_permission#:#L’utente può modificare le impostazioni di autorizzazione nell’amministrazione del corso
@@ -16306,6 +16313,7 @@ user#:#interests_general#:#Interessi generali
 user#:#interests_help_looking#:#Cercare aiuto
 user#:#interests_help_offered#:#Offrire aiuto
 user#:#msg_spoint_not_modified#:#Punto di partenza non modificato
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###20 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#L'ID di riferimento inserito non esiste
 user#:#restrict_user_access#:#Accesso Ristretto agli Account Utenti
 user#:#restrict_user_access_info#:#Se abilitato, l'accesso agli utenti è ristretto. L'accesso dipende dal "Permesso di Lettura agli utenti locali" in "Account Utente" e "Categorie".
