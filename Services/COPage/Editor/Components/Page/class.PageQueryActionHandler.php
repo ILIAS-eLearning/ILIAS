@@ -189,7 +189,6 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     {
         $ui = $this->ui;
         $ctrl = $this->ctrl;
-
         $lng = $this->lng;
         $lng->loadLanguageModule("content");
         $tpl = new \ilTemplate("tpl.top_actions.html", true, true, "Services/COPage/Editor");

@@ -175,14 +175,19 @@ export default class PageModifier {
     const content =  uiModel.errorModalMessage + error;
 
     const link = document.querySelector("#copg-editor-slate-error ul li a");
-    link.addEventListener("click", () => {
-      pm.showModal(il.Language.txt("copg_error"), content);
-      let m = document.querySelector("#il-copg-ed-modal .modal-dialog");
-      if (m) {
-        m.style.width = "90%";
-      }
-    });
-    link.click();
+    if (link) {
+      link.addEventListener("click", () => {
+        pm.showModal(il.Language.txt("copg_error"), content);
+        let m = document.querySelector("#il-copg-ed-modal .modal-dialog");
+        if (m) {
+          m.style.width = "90%";
+        }
+      });
+      link.click();
+    } else {
+      const slate_error = document.querySelector("#copg-editor-slate-error");
+      slate_error.innerHTML = content;
+    }
  }
 
   clearError() {
