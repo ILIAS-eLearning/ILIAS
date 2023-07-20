@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,101 +16,71 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-class ilStudyProgrammeDashboardViewGUI
+declare(strict_types=1);
+
+use ILIAS\UI\Component\Item\Item;
+use ILIAS\UI\Component\Button\Shy;
+use ILIAS\Services\Dashboard\Block\BlockDTO;
+
+class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
 {
-    protected ilLanguage $lng;
-    protected ilAccessHandler $access;
-    protected ilSetting $setting;
-    protected ILIAS\UI\Factory $factory;
-    protected ILIAS\UI\Renderer $renderer;
-    protected ilCtrl $ctrl;
-    protected ilStudyProgrammeUserTable $user_table;
-    protected int $usr_id;
+    private ilFavouritesManager $favourites;
     protected ?string $visible_on_pd_mode = null;
-    public function __construct(
-        ilLanguage $lng,
-        ilAccess $access,
-        ilSetting $setting,
-        ILIAS\UI\Factory $factory,
-        ILIAS\UI\Renderer $renderer,
-        ilCtrl $ctrl,
-        ilStudyProgrammeUserTable $user_table,
-        int $usr_id
-    ) {
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('prg');
-        $this->lng->loadLanguageModule('certificate');
-        $this->access = $access;
-        $this->setting = $setting;
-        $this->factory = $factory;
-        $this->renderer = $renderer;
-        $this->ctrl = $ctrl;
-        $this->user_table = $user_table;
-        $this->usr_id = $usr_id;
+
+    public function __construct()
+    {
+        global $DIC;
+        parent::__construct();
+        $this->favourites = new ilFavouritesManager();
     }
 
-    public function getHTML(): string
+    public function initViewSettings(): void
     {
-        //array ilStudyProgrammeUserTableRow[]
-        $this->user_table->disablePermissionCheck(true);
-        $rows = $this->user_table->fetchSingleUserRootAssignments($this->usr_id);
+        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
+            $this->user,
+            ilPDSelectedItemsBlockConstants::VIEW_MY_STUDYPROGRAMME
+        );
+
+        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
+    }
+
+    public function emptyHandling(): string
+    {
+        return '';
+    }
+
+    public function initData(): void
+    {
+        $user_table = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserTable'];
+        $user_table->disablePermissionCheck(true);
+        $rows = $user_table->fetchSingleUserRootAssignments($this->user->getId());
+
         $items = [];
         foreach ($rows as $row) {
             $prg = ilObjStudyProgramme::getInstanceByObjId($row->getNodeId());
-            if (! $this->isReadable($prg)) {
+            if (!$this->isReadable($prg) || !$prg->isActive()) {
                 continue;
             }
 
-            $min = $row->getPointsRequired();
-            $max = $row->getPointsReachable();
-            $cur = $row->getPointsCurrent();
-            $required_string = $min;
-            if ((float)$max < (float)$min) {
-                $required_string .= ' ' . $this->txt('prg_dash_label_unreachable') . ' (' . $max . ')';
-            }
-
-            $properties = [
-                [$this->txt('prg_dash_label_minimum') => $required_string],
-                [$this->txt('prg_dash_label_gain') => $cur],
-                [$this->txt('prg_dash_label_status') => $row->getStatus()],
-            ];
-
-            if (in_array($row->getStatusRaw(), [ilPRGProgress::STATUS_COMPLETED, ilPRGProgress::STATUS_ACCREDITED])) {
-                $validity = $row->getExpiryDate() ? $row->getExpiryDate() : $row->getValidity();
-                $properties[] = [$this->txt('prg_dash_label_valid') => $validity];
-            } else {
-                $properties[] = [$this->txt('prg_dash_label_finish_until') =>$row->getDeadline()];
-            }
-
-            $validator = new ilCertificateDownloadValidator();
-            if ($validator->isCertificateDownloadable($row->getUsrId(), $row->getNodeId())) {
-                $cert_url = "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $prg->getRefId() . "&cmd=deliverCertificate";
-                $cert_link = $this->factory->link()->standard($this->txt('download_certificate'), $cert_url);
-                $properties[] = [$this->txt('certificate') => $this->renderer->render($cert_link)];
-            }
-
-            $items[] = $this->buildItem($prg, $properties);
+            $items[] = new BlockDTO(
+                $prg->getType(),
+                $prg->getRefId(),
+                $prg->getId(),
+                $prg->getTitle(),
+                $prg->getDescription(),
+                null,
+                null,
+            );
         }
 
-        if (count($items) === 0) {
-            return '';
-        }
-        $group[] = $this->factory->item()->group("", $items);
-        $panel = $this->factory->panel()->listing()->standard($this->lng->txt("dash_studyprogramme"), $group);
-
-        return $this->renderer->render($panel);
+        $this->setData(['' => $items]);
     }
 
-    protected function getVisibleOnPDMode(): string
+    public function addToDeskObject(): void
     {
-        if (is_null($this->visible_on_pd_mode)) {
-            $this->visible_on_pd_mode =
-                $this->setting->get(
-                    ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD,
-                    ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ
-                );
-        }
-        return $this->visible_on_pd_mode;
+        $this->favourites->add($this->user->getId(), $this->requested_item_ref_id);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_added_to_favourites"), true);
+        $this->returnToContext();
     }
 
     protected function isReadable(ilObjStudyProgramme $prg): bool
@@ -123,50 +91,44 @@ class ilStudyProgrammeDashboardViewGUI
         return $this->access->checkAccess('read', "", $prg->getRefId(), "prg", $prg->getId());
     }
 
-    protected function txt(string $code): string
+    protected function getVisibleOnPDMode(): string
     {
-        return $this->lng->txt($code);
-    }
-
-    protected function buildItem(
-        ilObjStudyProgramme $prg,
-        array $properties
-    ): ILIAS\UI\Component\Item\Item {
-        $title = $prg->getTitle();
-        $link = $this->getDefaultTargetUrl($prg->getRefId());
-        $title_btn = $this->factory->button()->shy($title, $link);
-        $description = $prg->getLongDescription() ?? "";
-        $max = (int) $this->setting->get("rep_shorten_description_length");
-        if ($this->setting->get("rep_shorten_description") && $max !== 0) {
-            $description = ilStr::shortenTextExtended($description, $max, true);
+        if (is_null($this->visible_on_pd_mode)) {
+            $this->visible_on_pd_mode =
+                $this->settings->get(
+                    ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD,
+                    ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ
+                );
         }
-
-        $icon = $this->factory->symbol()->icon()->standard('prg', $title, 'medium');
-        return $this->factory->item()->standard($title_btn)
-            ->withProperties(array_merge(...$properties))
-            ->withDescription($description)
-            ->withLeadIcon($icon)
-        ;
+        return $this->visible_on_pd_mode;
     }
 
-    protected function getDefaultTargetUrl(int $prg_ref_id): string
+    public function getBlockType(): string
     {
-        $this->ctrl->setParameterByClass(
-            ilObjStudyProgrammeGUI::class,
-            'ref_id',
-            $prg_ref_id
+        return 'pdprg';
+    }
+
+    public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
+    {
+        $this->ctrl->setParameter($this, "item_ref_id", $ref_id);
+        $itemListGui->addCustomCommand(
+            $this->ctrl->getLinkTarget($this, "addToDesk"),
+            "rep_add_to_favourites"
         );
-        $link = $this->ctrl->getLinkTargetByClass(
-            [
-                ilRepositoryGUI::class,
-                ilObjStudyProgrammeGUI::class,
-            ]
-        );
-        $this->ctrl->setParameterByClass(
-            ilObjStudyProgrammeGUI::class,
-            'ref_id',
-            null
-        );
-        return $link;
+        $this->ctrl->clearParameterByClass(self::class, "item_ref_id");
+    }
+
+    public function confirmedRemoveObject(): void
+    {
+    }
+
+    public function removeMultipleEnabled(): bool
+    {
+        return false;
+    }
+
+    public function getRemoveMultipleActionText(): string
+    {
+        return '';
     }
 }

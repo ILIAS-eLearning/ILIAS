@@ -7913,9 +7913,12 @@ dash#:#dash_default_presentation#:#Standardpräsentation
 dash#:#dash_default_sortation#:#Standardsortierung
 dash#:#dash_enable_cal#:#Kalender
 dash#:#dash_enable_favourites#:#Favoriten
+dash#:#dash_enable_learning_sequences#:#Lernsequenzen
 dash#:#dash_enable_mail#:#Mail
 dash#:#dash_enable_memberships#:#Meine Kurse und Gruppen
 dash#:#dash_enable_news#:#Neuigkeiten
+dash#:#dash_enable_recommended_content#:#Empfohlene Inhalte
+dash#:#dash_enable_study_programmes#:#Studienprogramme
 dash#:#dash_enable_task#:#To-Dos
 dash#:#dash_favourites#:#Favoriten
 dash#:#dash_info_sure_remove_from_favs#:#Sollen die folgenden Objekte wirklich aus Ihren Favoriten entfernt werden?
@@ -7927,6 +7930,7 @@ dash#:#dash_make_favourite#:#Zu Favoriten hinzufügen
 dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden.
 dash#:#dash_memberships#:#Meine Kurse und Gruppen
 dash#:#dash_presentation#:#Präsentation
+dash#:#dash_recommended_content#:#Empfohlene Inhalte
 dash#:#dash_remove_from_list#:#Aus Liste entfernen
 dash#:#dash_side_panel#:#Seitenbereich
 dash#:#dash_sort_by_alphabet#:#Nach Alphabet sortieren
@@ -12487,7 +12491,7 @@ pd#:#pd_import_personal_data#:#Persönliche Daten importieren
 pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
 pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen, in denen Sie Mitglied sind. Zur Zeit verfügen Sie über keinerlei Mitgliedschaften. Um Kurs- oder Gruppenmitglied zu werden gibt es zwei Wege:<br /><ol><li>Sie können Kursen oder Gruppen beitreten, bei denen der Beitritt von einen Administrator erlaubt wurde.</li><li>Ein Administrator kann Ihnen eine Kurs- oder Gruppenmitgliedsrolle zuweisen.</li></ol><br />In beiden Fällen erscheinen die entsprechenden Kurse oder Gruppen automatisch in dieser Übersicht.
 pd#:#pd_my_memberships_sort_default#:#Standard-Sortierung
-pd#:#pd_not_date#:#Nicht datiert
+pd#:#pd_not_dated#:#Nicht datiert
 pd#:#pd_ongoing#:#Aktuell
 pd#:#pd_personal_items_default_view#:#Standard-Sicht
 pd#:#pd_personal_items_default_view_info#:#Wählen Sie hier die Standard-Sicht für die Ausgewählten Angebote.

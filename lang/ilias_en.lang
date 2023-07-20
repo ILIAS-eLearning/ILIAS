@@ -7906,9 +7906,12 @@ dash#:#dash_default_presentation#:#Default Presentation
 dash#:#dash_default_sortation#:#Default Sortation
 dash#:#dash_enable_cal#:#Calendar
 dash#:#dash_enable_favourites#:#Favourites
+dash#:#dash_enable_learning_sequences#:#Learning Sequences
 dash#:#dash_enable_mail#:#Mail
 dash#:#dash_enable_memberships#:#My Courses and Groups
 dash#:#dash_enable_news#:#News
+dash#:#dash_enable_recommended_content#:#Recommended Content
+dash#:#dash_enable_study_programmes#:#Study Programmes
 dash#:#dash_enable_task#:#Tasks
 dash#:#dash_favourites#:#Favourites
 dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
@@ -7920,6 +7923,7 @@ dash#:#dash_make_favourite#:#Add to Favourites
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
 dash#:#dash_memberships#:#My Courses and Groups
 dash#:#dash_presentation#:#Presentation
+dash#:#dash_recommended_content#:#Recommended Content
 dash#:#dash_remove_from_list#:#Remove from List
 dash#:#dash_side_panel#:#Side Panel
 dash#:#dash_sort_by_alphabet#:#Sort by Alphabet
@@ -12480,7 +12484,7 @@ pd#:#pd_import_personal_data#:#Import Personal Data
 pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
 pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
-pd#:#pd_not_date#:#Not Dated
+pd#:#pd_not_dated#:#Not Dated
 pd#:#pd_ongoing#:#Ongoing
 pd#:#pd_personal_items_default_view#:#Default View
 pd#:#pd_personal_items_default_view_info#:#Choose the preferred view of Personal Items.
