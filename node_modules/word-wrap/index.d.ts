@@ -16,7 +16,7 @@ declare namespace wrap {
 
         /**
          * The string to use at the beginning of each line.
-         * @default ´  ´ (two spaces)
+         * @default ´´ (none)
          */
         indent?: string;
 
