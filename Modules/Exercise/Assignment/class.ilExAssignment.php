@@ -1067,7 +1067,7 @@ class ilExAssignment
         return self::lookup($a_id, "title");
     }
 
-    public static function lookupType(int $a_id): string
+    public static function lookupType(int $a_id): int
     {
         return self::lookup($a_id, "type");
     }
