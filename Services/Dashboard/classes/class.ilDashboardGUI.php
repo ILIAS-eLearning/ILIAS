@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Dashboard UI
  * @author Alexander Killing <killing@leifos.de>
@@ -31,9 +33,6 @@
  * @ilCtrl_Calls ilDashboardGUI: ilSelectedItemsBlockGUI, ilDashboardRecommendedContentGUI, ilMembershipBlockGUI, ilDashboardLearningSequenceGUI, ilStudyProgrammeDashboardViewGUI, ilObjStudyProgrammeGUI
  *
  */
-
-declare(strict_types=1);
-
 class ilDashboardGUI implements ilCtrlBaseClassInterface
 {
     public const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
@@ -343,7 +342,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd.svg"));
         $this->tpl->setTitle($this->lng->txt("personal_desktop"));
-        $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
+        $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png"));
     }
 
     public function setTabs(): void
