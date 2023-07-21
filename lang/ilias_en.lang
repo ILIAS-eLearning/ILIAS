@@ -12396,8 +12396,8 @@ orgu#:#org_unit_not_found#:#Organisational Unit not found.
 orgu#:#orgu_add#:#Add Organisational Unit
 orgu#:#orgu_adv_settings#:#Advanced Settings
 orgu#:#orgu_already_deleted#:#The object was already deleted.
-orgu#:#orgu_enable_my_staff#:#Enable ‘Staff’
-orgu#:#orgu_enable_my_staff_info#:#Shows learning progress of own employees.
+orgu#:#orgu_enable_my_staff#:#Enable Main Menu Entry
+orgu#:#orgu_enable_my_staff_info#:#A main menu entry is presented that may comprise Staff List, Course Memberships, Certficates, Competences, Talks.
 orgu#:#orgu_global_set_form#:#Global Organisational Unit Settings
 orgu#:#orgu_global_set_positions#:#Enable Positions per Object Type
 orgu#:#orgu_global_set_positions_type_active#:#Positions in
