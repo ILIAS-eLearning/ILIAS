@@ -182,7 +182,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         }
 
         $user_defined_fields = \ilUserDefinedFields::_getInstance();
-        $udf_fields = [];
         foreach ($user_defined_fields->getDefinitions() as $field => $definition) {
             unset($cols["udf_" . $field]);
         }
