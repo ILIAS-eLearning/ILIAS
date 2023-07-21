@@ -54,7 +54,6 @@ class ilMStListUsers
 
         $select = 'SELECT
 				   usr_id,
-				   time_limit_owner,
 				   login,
 				   gender,
 	               firstname,
@@ -69,9 +68,8 @@ class ilMStListUsers
 	               sel_country,
 	               hobby,
 	               email,
+	               second_email,
 	               matriculation,
-	               phone_office,
-	               phone_mobile,
 	               active
 	               FROM ' . $this->dic->database()->quoteIdentifier('usr_data') .
 
@@ -109,13 +107,11 @@ class ilMStListUsers
             $list_user->setHobby($user['hobby']);
             $list_user->setMatriculation($user['matriculation']);
             $list_user->setActive($user['active']);
-            $list_user->setTimeLimitOwner($user['time_limit_owner']);
             $list_user->setLogin($user['login']);
             $list_user->setFirstname($user['firstname']);
             $list_user->setLastname($user['lastname']);
             $list_user->setEmail($user['email']);
-            $list_user->setPhone($user['phone_office']);
-            $list_user->setMobilePhone($user['phone_mobile']);
+            $list_user->setSecondEmail($user['second_email']);
 
             $user_data[] = $list_user;
         }
@@ -142,7 +138,8 @@ class ilMStListUsers
             $where[] = "(" . $this->dic->database()->like("usr_data.login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
                     ->like("usr_data.firstname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
                     ->like("usr_data.lastname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
-                    ->like("usr_data.email", "text", "%" . $arr_filter['user'] . "%") . ") ";
+                    ->like("usr_data.email", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
+                    ->like("usr_data.second_email", "text", "%" . $arr_filter['user'] . "%") . ") ";
         }
 
         if (!empty($arr_filter['org_unit'])) {
@@ -160,6 +157,10 @@ class ilMStListUsers
 
         if (!empty($arr_filter['email'])) {
             $where[] = '(email LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%', $arr_filter['email']) . '%', 'text') . ')';
+        }
+
+        if (!empty($arr_filter['second_email'])) {
+            $where[] = '(second_email LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%', $arr_filter['second_email']) . '%', 'text') . ')';
         }
 
         if (!empty($arr_filter['title'])) {
