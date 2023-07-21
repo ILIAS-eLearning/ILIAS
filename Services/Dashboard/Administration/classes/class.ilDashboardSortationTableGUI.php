@@ -29,12 +29,12 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         global $DIC;
-        $this->access = $DIC->access();
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings($DIC->user());
         $this->side_panel_settings = new ilDashboardSidePanelSettingsRepository();
         parent::__construct($a_parent_obj, $a_parent_cmd);
+        $this->lng->loadLanguageModule('mme');
         $this->initColumns();
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
         $this->addCommandButton('saveSettings', $this->lng->txt('save'));

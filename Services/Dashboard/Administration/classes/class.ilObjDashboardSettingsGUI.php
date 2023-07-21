@@ -221,23 +221,33 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     public function saveSettings(): void
     {
         if ($this->canWrite()) {
-            $form = $this->getViewForm(self::VIEW_MODE_SETTINGS);
-            $form = $form->withRequest($this->request);
-            $form_data = $form->getData();
-            $this->viewSettings->enableSelectedItems(($form_data['main_panel'][self::DASH_ENABLE_PREFIX . 'favourites']));
-            $this->viewSettings->enableMemberships(($form_data['main_panel'][self::DASH_ENABLE_PREFIX . 'memberships']));
-            $this->viewSettings->enableRecommendedContent(($form_data['main_panel'][self::DASH_ENABLE_PREFIX . 'recommended_content']));
-            $this->viewSettings->enableLearningSequences(($form_data['main_panel'][self::DASH_ENABLE_PREFIX . 'learning_sequences']));
-            $this->viewSettings->enableStudyProgrammes(($form_data['main_panel'][self::DASH_ENABLE_PREFIX . 'study_programmes']));
+            $form_data = $this->request->getParsedBody();
+            foreach ($this->viewSettings->getPresentationViews() as $presentation_view) {
+                if (isset($form_data['main_panel']['enable'][$presentation_view])) {
+                    $this->viewSettings->enableView(
+                        $presentation_view,
+                        (bool) $form_data['main_panel']['enable'][$presentation_view]
+                    );
+                } elseif ($presentation_view !== ilPDSelectedItemsBlockConstants::VIEW_RECOMMENDED_CONTENT) {
+                    $this->viewSettings->enableView($presentation_view, false);
+                }
+            }
+
+            $positions = $form_data['main_panel']['position'];
+            asort($positions);
+            $this->viewSettings->setViewPositions(array_keys($positions));
 
             foreach ($this->side_panel_settings->getValidModules() as $mod) {
-                $this->side_panel_settings->enable($mod, (bool) $form_data['side_panel'][self::DASH_ENABLE_PREFIX . $mod]);
+                if (isset($form_data['side_panel']['enable'][$mod])) {
+                    $this->side_panel_settings->enable($mod, (bool) $form_data['side_panel']['enable'][$mod]);
+                } else {
+                    $this->side_panel_settings->enable($mod, false);
+                }
             }
 
             $positions = $form_data['side_panel']['position'];
             asort($positions);
             $this->side_panel_settings->setPositions(array_keys($positions));
-
 
             $this->tpl->setOnScreenMessage(
                 $this->tpl::MESSAGE_TYPE_SUCCESS,
@@ -251,7 +261,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 true
             );
         }
-        $this->ctrl->redirect($this, 'editSettings');
+        $this->ctrl->redirect($this, "editSettings");
     }
 
 

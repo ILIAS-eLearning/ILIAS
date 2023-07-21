@@ -492,9 +492,8 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         return $tpl->get();
     }
 
-    protected function renderLearningSequences(): string
+    protected function renderView(int $view): string
     {
-        return (new ilDashboardLearningSequenceGUI())->getHTML();
         switch ($view) {
             case ilPDSelectedItemsBlockConstants::VIEW_SELECTED_ITEMS:
                 return (new ilSelectedItemsBlockGUI())->getHTML();
