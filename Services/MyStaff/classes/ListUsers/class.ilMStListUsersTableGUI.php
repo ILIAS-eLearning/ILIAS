@@ -181,6 +181,12 @@ class ilMStListUsersTableGUI extends ilTable2GUI
             }
         }
 
+        $user_defined_fields = \ilUserDefinedFields::_getInstance();
+        $udf_fields = [];
+        foreach ($user_defined_fields->getDefinitions() as $field => $definition) {
+            unset($cols["udf_" . $field]);
+        }
+
         return $cols;
     }
 
@@ -195,8 +201,8 @@ class ilMStListUsersTableGUI extends ilTable2GUI
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                $sort = $v['sort_field'] ?? null;
-                $this->addColumn($v['txt'], (string) $sort);
+                $sort = $v['sort_field'] ?? "";
+                $this->addColumn($v['txt'], $sort);
             }
         }
         //Actions
