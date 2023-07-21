@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -33,6 +31,9 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilDashboardGUI: ilSelectedItemsBlockGUI, ilDashboardRecommendedContentGUI, ilMembershipBlockGUI, ilDashboardLearningSequenceGUI, ilStudyProgrammeDashboardViewGUI, ilObjStudyProgrammeGUI
  *
  */
+
+declare(strict_types=1);
+
 class ilDashboardGUI implements ilCtrlBaseClassInterface
 {
     public const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
