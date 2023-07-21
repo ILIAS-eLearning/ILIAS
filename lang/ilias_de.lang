@@ -12117,8 +12117,8 @@ orgu#:#org_unit_not_found#:#Die Organisationseinheit wurde nicht gefunden.
 orgu#:#orgu_add#:#Organisationseinheit hinzufügen
 orgu#:#orgu_adv_settings#:#Erweiterte Einstellungen
 orgu#:#orgu_already_deleted#:#Das Objekt wurde bereits gelöscht.
-orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
-orgu#:#orgu_enable_my_staff_info#:#Die Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
+orgu#:#orgu_enable_my_staff#:#Hauptmenüeintrag aktivieren
+orgu#:#orgu_enable_my_staff_info#:#Ein neuer Haupteintrag wird im Hauptmenü angezeigt. Er kann die Einträge Mitarbeiterliste, Einschreibungen, Zertifikate, Kompetenzen, Gespräche enthalten.
 orgu#:#orgu_global_set_form#:#Globale Einstellungen
 orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
 orgu#:#orgu_global_set_positions_type_active#:#Positionen in:
