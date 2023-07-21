@@ -67,10 +67,6 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         }
 
         if ($this->isColumnSelected('org_units')) {
-            $root = ilObjOrgUnit::getRootOrgRefId();
-            $tree = ilObjOrgUnitTree::_getInstance();
-            $nodes = $tree->getAllChildren($root);
-
             $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
 
             $options[0] = $this->lng->txt('select_one');
