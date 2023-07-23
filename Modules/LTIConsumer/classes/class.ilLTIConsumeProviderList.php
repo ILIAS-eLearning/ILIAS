@@ -493,12 +493,9 @@ class ilLTIConsumeProviderList implements Iterator
         return key($this->providers) !== null;
     }
 
-    /**
-     * @return false|ilLTIConsumeProvider|void
-     */
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->providers);
+        reset($this->providers);
     }
 
     protected function getKeywordsFormatted(array $keywords): string
