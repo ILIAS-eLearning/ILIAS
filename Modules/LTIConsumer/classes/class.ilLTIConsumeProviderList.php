@@ -478,21 +478,21 @@ class ilLTIConsumeProviderList implements Iterator
         return current($this->providers);
     }
 
-    /**
-     * @return false|ilLTIConsumeProvider|void
-     */
-    public function next()
-    {
-        return next($this->providers);
-    }
-
-    /**
-     * @return bool|float|int|mixed|string|null
-     */
-    public function key()
-    {
-        return key($this->providers);
-    }
+//    /**
+//     * @return false|ilLTIConsumeProvider|void
+//     */
+//    public function next()
+//    {
+//        return next($this->providers);
+//    }
+//
+//    /**
+//     * @return bool|float|int|mixed|string|null
+//     */
+//    public function key()
+//    {
+//        return key($this->providers);
+//    }
 
     public function valid(): bool
     {
