@@ -483,10 +483,7 @@ class ilLTIConsumeProviderList implements Iterator
         next($this->providers);
     }
 
-    /**
-     * @return bool|float|int|mixed|string|null
-     */
-    public function key()
+    public function key(): mixed
     {
         return key($this->providers);
     }
