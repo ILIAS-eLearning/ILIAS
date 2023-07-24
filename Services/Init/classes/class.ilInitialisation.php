@@ -875,7 +875,7 @@ class ilInitialisation
     {
         global $ilSetting;
 
-        if ($ilSetting->get("locale") &&  trim($ilSetting->get("locale")) !== "") {
+        if ($ilSetting->get("locale") && trim($ilSetting->get("locale")) !== "") {
             $larr = explode(",", trim($ilSetting->get("locale")));
             $ls = array();
             $first = $larr[0];
@@ -1202,12 +1202,6 @@ class ilInitialisation
             "ilErr",
             "ilErrorHandling",
             "./Services/Init/classes/class.ilErrorHandling.php"
-        );
-        PEAR::setErrorHandling(
-            PEAR_ERROR_CALLBACK,
-            [
-                $ilErr, 'errorHandler'
-            ]
         );
 
         self::removeUnsafeCharacters();
