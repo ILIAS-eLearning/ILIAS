@@ -484,7 +484,7 @@ class ilPasswordAssistanceGUI
         $form = $this->getAssignPasswordForm($pwassist_id);
         if (!$form->checkInput()) {
             $form->setValuesByPost();
-            $this->showAssistanceForm($form);
+            $this->showAssignPasswordForm($form, $pwassist_id);
             return;
         }
 
