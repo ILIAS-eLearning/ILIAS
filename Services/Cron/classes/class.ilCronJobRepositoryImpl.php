@@ -335,8 +335,8 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
     public function updateRunInformation(string $jobId, int $runningTimestamp, int $aliveTimestamp): void
     {
         $this->db->manipulate('UPDATE cron_job SET' .
-            ' running_ts = ' . $this->db->quote(0, 'integer') .
-            ' , alive_ts = ' . $this->db->quote(0, 'integer') .
+            ' running_ts = ' . $this->db->quote($runningTimestamp, 'integer') .
+            ' , alive_ts = ' . $this->db->quote($aliveTimestamp, 'integer') .
             ' WHERE job_id = ' . $this->db->quote($jobId, 'text'));
     }
 
