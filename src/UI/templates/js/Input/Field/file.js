@@ -141,7 +141,7 @@ il.UI.Input = il.UI.Input || {};
 					uploadMultiple: (1 < max_file_amount),
 					acceptedFiles: (0 < mime_types.length) ? mime_types : null,
 					maxFiles: max_file_amount,
-					maxFileSize: max_file_size,
+					maxFilesize: max_file_size / 1024 / 1024,
 					previewsContainer: file_list,
 					clickable: action_button,
 					autoProcessQueue: false,
