@@ -852,7 +852,7 @@ class ilConditionHandler
         $full_class = "ilObj" . $class . "Access";
         include_once($location . "/class." . $full_class . ".php");
 
-        if (!$full_class instanceof ilConditionHandling) {
+        if (!(is_a($full_class, "ilConditionHandling", true))) {
             return false;
         }
 
