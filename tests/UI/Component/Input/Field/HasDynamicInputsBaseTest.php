@@ -22,9 +22,6 @@ namespace ILIAS\Tests\UI\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Component\Input\Field\HasDynamicInputsBase;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Component\Input\Field\HasDynamicInputs;
-use ILIAS\UI\Component\Input\Field\Field;
-use ILIAS\UI\Component\Input\Input;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory as Refinery;
@@ -165,7 +162,7 @@ class HasDynamicInputsBaseTest extends TestCase
 
     protected function getTestInputTemplate()
     {
-        return new class ($this->data_factory, $this->refinery, 'input_template_name', 'input_template_byline') extends \ILIAS\UI\Implementation\Component\Input\Field\Field {
+        return new class ($this->data_factory, $this->refinery, 'input_template_name', 'input_template_byline') extends \ILIAS\UI\Implementation\Component\Input\Field\FormInput {
             public function getUpdateOnLoadCode(): Closure
             {
                 return static function () {

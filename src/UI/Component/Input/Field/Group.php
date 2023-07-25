@@ -20,11 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Field;
 
+use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
- * This describes a group of inputs.
+ * Group inputs are a special kind of input, because they are a monoid operation.
+ * This means, grouping together inputs of the same type must result in an input
+ * of the same type as well, which is why this interface also needs to implement
+ * every container-specific input interface that can use this mechanism. Please
+ * note that grouping e.g. ViewControlInput with FormInput will lead to sameness
+ * in form of their first common interface, which is Input. Grouping together
+ * inputs of the same kind is therefore recommended, to avoid unexpected results.
+ *
+ * FilterInput is not yet implemented because Filters do not yet support groups.
+ * This will most likely change in the future.
  */
-interface Group extends FormInput
+interface Group extends ViewControlInput, FormInput
 {
 }

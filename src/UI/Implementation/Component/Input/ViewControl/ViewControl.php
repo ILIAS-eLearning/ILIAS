@@ -21,25 +21,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Input\ViewControl;
 
 use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
-use ILIAS\UI\Implementation\Component\Input\Field\InternalField;
 use ILIAS\UI\Implementation\Component\Input\Input;
-
-use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Signal;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\Constraint;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Implementation\Component\Input\InputData;
-use ILIAS\Data\Result;
-use ILIAS\Data\Factory as DataFactory;
 
-abstract class ViewControl extends Input implements ViewControlInput, InternalField
+abstract class ViewControl extends Input implements ViewControlInput
 {
-    use ComponentHelper;
     use JavaScriptBindable;
     use Triggerer;
 
@@ -58,10 +46,5 @@ abstract class ViewControl extends Input implements ViewControlInput, InternalFi
             throw new \LogicException('View Control must be inside of View Control Container');
         }
         return $this->change_signal;
-    }
-
-    public function isRequired(): bool
-    {
-        return false;
     }
 }

@@ -28,33 +28,44 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Order;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Implementation\Component\Input\InputGroup;
+use ILIAS\UI\Component\Input\Field\Group;
 
 class Sortation extends ViewControl implements VCInterface\Sortation
 {
-    use InputGroup;
+    use GroupDecorator;
 
     protected Signal $internal_selection_signal;
     protected string $aspect;
     protected string $direction;
 
+    /**
+     * @var array<string, Order[]>
+     */
+    protected array $options;
+
+    /**
+     * @param array<string, Order[]> $options
+     */
     public function __construct(
         FieldFactory $field_factory,
         DataFactory $data_factory,
         Refinery $refinery,
         SignalGeneratorInterface $signal_generator,
-        protected array $options
+        array $options,
     ) {
-        $opts = array_values($options);
-        $this->checkArgListElements('options', $opts, [Order::class]);
+        parent::__construct($data_factory, $refinery);
 
-        $this->inputs = [
+        $aspects = array_keys($options);
+        $this->checkArgListElements('options', $aspects, 'string');
+        $this->checkArgListElements('options', $options, [Order::class]);
+        $this->options = $options;
+
+        $this->setInputGroup($field_factory->group([
             $field_factory->hidden(), //aspect
-            $field_factory->hidden()  //direction
-        ];
-        parent::__construct($data_factory, $refinery, '');
+            $field_factory->hidden(), //direction
+        ])->withAdditionalTransformation($this->getOrderTransform()));
+
         $this->internal_selection_signal = $signal_generator->create();
-        $this->operations[] = $this->getOrderTransform();
     }
 
     protected function getOrderTransform(): Transformation
@@ -62,7 +73,6 @@ class Sortation extends ViewControl implements VCInterface\Sortation
         return $this->refinery->custom()->transformation(
             function ($v): Order {
                 list($aspect, $direction) = $v;
-
 
                 if (is_null($aspect) || $aspect === '') {
                     $options = array_values($this->getOptions());

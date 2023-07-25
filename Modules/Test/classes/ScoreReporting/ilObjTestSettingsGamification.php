@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Field;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilObjTestSettingsGamification extends TestSettings
@@ -50,7 +50,7 @@ class ilObjTestSettingsGamification extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Field {
+    ): FormInput {
         $optional_group = $f->optionalGroup(
             [
                 'highscore_mode' => $f->radio($lng->txt('tst_highscore_mode'), "")

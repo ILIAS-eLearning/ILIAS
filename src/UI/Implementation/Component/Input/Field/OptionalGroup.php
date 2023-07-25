@@ -62,7 +62,7 @@ class OptionalGroup extends Group implements I\OptionalGroup
     public function withRequired($is_required, ?Constraint $requirement_constraint = null): self
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return FormField::withRequired($is_required, $requirement_constraint);
+        return FormInput::withRequired($is_required, $requirement_constraint);
     }
 
     public function isRequired(): bool

@@ -39,9 +39,7 @@ class ViewControlFieldSelectionTest extends ViewControlBaseTest
         $vc = $this->buildVCFactory()->fieldSelection($options);
         $this->assertInstanceOf(Signal::class, $vc->getInternalSignal());
         $this->assertEquals($options, $vc->getOptions());
-        $this->assertEquals('', $vc->getLabel());
         $this->assertEquals('', $vc->getButtonLabel());
-        $this->assertFalse($vc->isDisabled());
     }
 
     public function testViewControlFieldSelectionWithWrongValue(): void

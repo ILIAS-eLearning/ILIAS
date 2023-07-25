@@ -56,7 +56,7 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->buildFactory();
         $cp = $f->colorpicker("label", "byline");
-        $this->assertInstanceOf(Field\Field::class, $cp);
+        $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $cp);
         $this->assertInstanceOf(Field\ColorPicker::class, $cp);
     }
 

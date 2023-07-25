@@ -160,7 +160,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             $this->data_factory,
             $this->refinery,
             $this->lng,
-            [$this->createMock(Field::class)],
+            [$this->createMock(I\Input\Field\FormInput::class)],
             "LABEL",
             "BYLINE"
         );

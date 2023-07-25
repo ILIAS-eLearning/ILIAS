@@ -838,9 +838,9 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * @param Input $input
-     * @return F\Input|JavaScriptBindable
+     * @return F\FormInput|JavaScriptBindable
      */
-    protected function setSignals(Input $input)
+    protected function setSignals(F\FormInput $input)
     {
         $signals = null;
         foreach ($input->getTriggeredSignals() as $s) {

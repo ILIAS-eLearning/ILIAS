@@ -33,18 +33,14 @@ use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 
 abstract class ViewControl extends Container implements I\ViewControl
 {
     use ComponentHelper;
     use JavaScriptBindable;
 
-    protected array $controls;
     protected Signal $submit_signal;
-    /**
-     * @var Transformation[]
-     */
-    protected array $post_operations = [];
     protected ?ServerRequestInterface $request = null;
 
     public function __construct(
@@ -68,18 +64,33 @@ abstract class ViewControl extends Container implements I\ViewControl
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function withRequest(ServerRequestInterface $request): self
+    public function withRequest(ServerRequestInterface $request): Container
     {
-        $request_data = new QueryParamsFromServerRequest($request);
-        $clone = clone $this;
-        $clone->input_group = $this->getInputGroup()->withInput($request_data);
+        $clone = parent::withRequest($request);
         $clone->request = $request;
         return $clone;
     }
+
     public function getRequest(): ?ServerRequestInterface
     {
         return $this->request;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function extractRequestData(ServerRequestInterface $request): InputData
+    {
+        return new QueryParamsFromServerRequest($request);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getAllowedInputs(): array
+    {
+        return [I\ViewControlInput::class];
     }
 }

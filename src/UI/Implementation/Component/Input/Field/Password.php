@@ -33,7 +33,7 @@ use Closure;
 /**
  * This implements the password input.
  */
-class Password extends FormField implements C\Input\Field\Password, Triggerable
+class Password extends FormInput implements C\Input\Field\Password, Triggerable
 {
     use ComponentHelper;
     use JavaScriptBindable;

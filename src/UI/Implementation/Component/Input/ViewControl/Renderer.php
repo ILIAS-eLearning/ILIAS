@@ -112,8 +112,6 @@ class Renderer extends AbstractComponentRenderer
 
         $id = $this->bindJavaScript($component);
         $container_submit_signal = $component->getOnChangeSignal();
-        $label = $component->getLabel() !== '' ?
-            $component->getLabel() : $this->txt(self::DEFAULT_DROPDOWN_LABEL);
         $button_label = $component->getButtonLabel() !== '' ?
             $component->getButtonLabel() : $this->txt(self::DEFAULT_BUTTON_LABEL);
         $button = $ui_factory->button()->standard($button_label, '#')
@@ -121,13 +119,8 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable('ID', $id);
         $tpl->setVariable("ID_MENU", $id . '_ctrl');
-        $tpl->setVariable("ARIA_LABEL", $label);
+        $tpl->setVariable("ARIA_LABEL", $this->txt(self::DEFAULT_DROPDOWN_LABEL));
         $tpl->setVariable("BUTTON", $default_renderer->render($button));
-
-
-        if ($component->isDisabled()) {
-            $tpl->touchBlock("disabled");
-        }
 
         return $tpl->get();
     }
@@ -168,23 +161,17 @@ class Renderer extends AbstractComponentRenderer
             );
         }
         $id = $this->bindJavaScript($component);
-        $label = $component->getLabel() !== '' ?
-            $component->getLabel() : $this->txt(self::DEFAULT_SORTATION_DROPDOWN_LABEL);
 
         $tpl->setVariable('ID', $id);
         $tpl->setVariable("ID_MENU", $id . '_ctrl');
-        $tpl->setVariable("ARIA_LABEL", $label);
+        $tpl->setVariable("ARIA_LABEL", $this->txt(self::DEFAULT_SORTATION_DROPDOWN_LABEL));
 
         $tpl->setVariable(
             "VALUES",
             $default_renderer->render(
-                $component->getInputs()
+                $component->getInputGroup()
             )
         );
-
-        if ($component->isDisabled()) {
-            $tpl->touchBlock("disabled");
-        }
 
         return $tpl->get();
     }
@@ -349,27 +336,18 @@ class Renderer extends AbstractComponentRenderer
         }
         $id = $this->bindJavaScript($component);
 
-        $label_offset = $component->getLabel() !== '' ?
-            $component->getLabel() : $this->txt(self::DEFAULT_DROPDOWN_LABEL_OFFSET);
-        $label_limit = $component->getLabelLimit() !== '' ?
-            $component->getLabelLimit() : $this->txt(self::DEFAULT_DROPDOWN_LABEL_LIMIT);
-
         $tpl->setVariable('ID', $id);
         $tpl->setVariable("ID_MENU_OFFSET", $id . '_ctrl_offset');
-        $tpl->setVariable("ARIA_LABEL_OFFSET", $label_offset);
+        $tpl->setVariable("ARIA_LABEL_OFFSET", $this->txt(self::DEFAULT_DROPDOWN_LABEL_OFFSET));
         $tpl->setVariable("ID_MENU_LIMIT", $id . '_ctrl_limit');
-        $tpl->setVariable("ARIA_LABEL_LIMIT", $label_limit);
+        $tpl->setVariable("ARIA_LABEL_LIMIT", $this->txt(self::DEFAULT_DROPDOWN_LABEL_LIMIT));
 
         $tpl->setVariable(
             "VALUES",
             $default_renderer->render(
-                $component->getInputs()
+                $component->getInputGroup()
             )
         );
-
-        if ($component->isDisabled()) {
-            $tpl->touchBlock("disabled_limit");
-        }
 
         return $tpl->get();
     }

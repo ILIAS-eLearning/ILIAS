@@ -22,7 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Component\Input\Field\FileUpload;
-use ILIAS\UI\Component\Input\Field\Field as InputInterface;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component as C;
@@ -56,7 +56,7 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
         UploadLimitResolver $upload_limit_resolver,
         C\Input\Field\UploadHandler $handler,
         string $label,
-        ?InputInterface $metadata_input,
+        ?FormInput $metadata_input,
         ?string $byline
     ) {
         $this->upload_limit_resolver = $upload_limit_resolver;
@@ -226,7 +226,7 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
         return true;
     }
 
-    protected function createDynamicInputsTemplate(?InputInterface $metadata_input): InputInterface
+    protected function createDynamicInputsTemplate(?FormInput $metadata_input): FormInput
     {
         $default_metadata_input = new Hidden(
             $this->data_factory,

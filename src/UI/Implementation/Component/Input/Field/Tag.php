@@ -38,7 +38,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tag extends FormField implements InternalFormField, C\Input\Field\Tag
+class Tag extends FormInput implements C\Input\Field\Tag
 {
     use JavaScriptBindable;
     use Triggerer;

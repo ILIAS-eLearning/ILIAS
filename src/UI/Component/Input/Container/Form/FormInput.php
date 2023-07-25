@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Container\Form;
 
-use ILIAS\UI\Component\Input\Field\Field;
+use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\OnUpdateable;
 use ILIAS\Refinery\Constraint;
@@ -28,7 +28,7 @@ use Closure;
 /**
  * This describes inputs that can be used in forms.
  */
-interface FormInput extends Field, JavaScriptBindable, OnUpdateable
+interface FormInput extends Input, JavaScriptBindable, OnUpdateable
 {
     /**
      * Get the label of the input.
@@ -65,10 +65,8 @@ interface FormInput extends Field, JavaScriptBindable, OnUpdateable
      * constraint that is checked if $is_required is true
      * (see getConstraintForRequirement() on Input/Field implementations).
      * A custom constraint SHOULD be explained in the byline of the input.
-     *
-     * @return static
      */
-    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): Field;
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): self;
 
     /**
      * Is this input disabled?
@@ -81,18 +79,6 @@ interface FormInput extends Field, JavaScriptBindable, OnUpdateable
      * @return static
      */
     public function withDisabled(bool $is_disabled);
-
-    /**
-     * The error of the input as used in HTML.
-     */
-    public function getError(): ?string;
-
-    /**
-     * Get an input like this one, with a different error.
-     *
-     * @return static
-     */
-    public function withError(string $error);
 
     /**
      * Get update code

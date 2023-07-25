@@ -31,7 +31,7 @@ use Throwable;
 /**
  * This implements the URL input.
  */
-class Url extends FormField implements C\Input\Field\Url
+class Url extends FormInput implements C\Input\Field\Url
 {
     /**
      * @inheritdoc

@@ -26,6 +26,7 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
+use ILIAS\UI\Implementation\Component\Input\Input;
 
 class FieldSelection extends ViewControl implements VCInterface\FieldSelection
 {
@@ -38,7 +39,7 @@ class FieldSelection extends ViewControl implements VCInterface\FieldSelection
         SignalGeneratorInterface $signal_generator,
         protected array $options
     ) {
-        parent::__construct($data_factory, $refinery, '');
+        parent::__construct($data_factory, $refinery);
         $this->internal_selection_signal = $signal_generator->create();
     }
 

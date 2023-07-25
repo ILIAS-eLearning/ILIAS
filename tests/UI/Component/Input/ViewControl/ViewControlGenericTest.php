@@ -55,10 +55,6 @@ class ViewControlGenericTest extends ViewControlBaseTest
         $l = 'some label';
         $s = (new SignalGenerator())->create();
         $this->assertEquals($v, $vc->withValue($v)->getValue());
-        $this->assertTrue($vc->withDisabled(true)->isDisabled());
-        $this->assertFalse($vc->withDisabled(false)->isDisabled());
-        $this->assertFalse($vc->withDisabled(false)->isDisabled());
-        $this->assertEquals($l, $vc->withLabel($l)->getLabel());
         $this->assertEquals($s, $vc->withOnChange($s)->getOnChangeSignal());
     }
 

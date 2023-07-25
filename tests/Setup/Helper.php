@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
-use ILIAS\UI\Component\Input\Field\Field as InputField;
+use ILIAS\UI\Component\Input\Container\Form\FormInput as InputField;
 
 trait Helper
 {

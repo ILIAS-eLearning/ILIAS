@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Input\Factory;
-use ILIAS\UI\Component\Input\Field\Field;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Renderer;
 
 class ilStudyProgrammeChangeDeadlineGUI
@@ -123,7 +123,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         );
     }
 
-    protected function getDeadlineSubForm(ilObjStudyProgramme $prg): Field
+    protected function getDeadlineSubForm(ilObjStudyProgramme $prg): FormInput
     {
         $ff = $this->input_factory->field();
         $txt = function ($id) {

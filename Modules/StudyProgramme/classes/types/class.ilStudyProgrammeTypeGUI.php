@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input;
-use ILIAS\UI\Component\Input\Field\Field as InputField;
+use ILIAS\UI\Component\Input\Container\Form\FormInput as InputField;
 use ILIAS\UI\Renderer;
 use ILIAS\Refinery;
 use ILIAS\Filesystem\Filesystem;

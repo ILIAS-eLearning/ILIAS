@@ -22,7 +22,7 @@ require_once(__DIR__ . "/../../../../Base.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input;
-use ILIAS\UI\Implementation\Component\Input\Field\InternalFormField;
+use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\Container\Filter\Filter;
@@ -80,12 +80,10 @@ class ConcreteFilter extends Filter
         );
     }
 
-
     public function _extractParamData(ServerRequestInterface $request): Input\InputData
     {
         return $this->extractParamData($request);
     }
-
 
     public function extractParamData(ServerRequestInterface $request): Input\InputData
     {
@@ -95,7 +93,6 @@ class ConcreteFilter extends Filter
 
         return parent::extractParamData($request);
     }
-
 
     public function setInputs(array $inputs): void
     {
@@ -445,13 +442,13 @@ class FilterTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @return InternalFormField|mixed|MockObject
+     * @return Input\Field\FormInputInternal|mixed|MockObject
      */
     protected function inputMock()
     {
         static $no = 2000;
         return $this
-            ->getMockBuilder(InternalFormField::class)
+            ->getMockBuilder(Input\Field\FormInputInternal::class)
             ->onlyMethods([
                 "getName",
                 "withDedicatedName",

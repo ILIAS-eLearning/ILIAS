@@ -28,7 +28,7 @@ use Closure;
 /**
  * This implements the select.
  */
-class Select extends FormField implements C\Input\Field\Select
+class Select extends FormInput implements C\Input\Field\Select
 {
     protected array $options;
     protected string $label;

@@ -28,7 +28,7 @@ use Closure;
 /**
  * This implements the multi-select input.
  */
-class MultiSelect extends FormField implements C\Input\Field\MultiSelect
+class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
 {
     /**
      * @var array <string,string> {$value => $label}

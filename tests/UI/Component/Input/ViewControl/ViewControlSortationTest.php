@@ -41,8 +41,6 @@ class ViewControlSortationTest extends ViewControlBaseTest
 
         $this->assertInstanceOf(Signal::class, $vc->getInternalSignal());
         $this->assertEquals($options, $vc->getOptions());
-        $this->assertEquals('', $vc->getLabel());
-        $this->assertFalse($vc->isDisabled());
     }
 
     public function testViewControlSortationWithWrongValue(): void

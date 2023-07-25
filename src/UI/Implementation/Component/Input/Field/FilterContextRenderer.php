@@ -30,7 +30,6 @@ use ILIAS\UI\Implementation\Component\Input\Container\Filter\ProxyFilterField;
 use LogicException;
 use Closure;
 use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Class FilterContextRenderer
@@ -44,7 +43,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         /**
-         * @var $component Input
+         * @var $component FilterInput
          */
         $this->checkComponent($component);
 
@@ -300,10 +299,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/Input/Field/groups.js');
     }
 
-    /**
-     * @return FilterInput|JavaScriptBindable
-     */
-    protected function setSignals(Field $input): \ILIAS\UI\Implementation\Component\Input\Field\Field
+    protected function setSignals(FilterInput $input): FilterInput
     {
         $signals = null;
         foreach ($input->getTriggeredSignals() as $s) {
@@ -316,9 +312,6 @@ class FilterContextRenderer extends AbstractComponentRenderer
         if ($signals !== null) {
             $signals = json_encode($signals);
 
-            /**
-             * @var $input FilterInput
-             */
             $input = $input->withAdditionalOnLoadCode(fn($id) => "il.UI.input.setSignalsForId('$id', $signals);");
 
             $input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());

@@ -31,7 +31,7 @@ use Closure;
 /**
  * This implements the radio input.
  */
-class Radio extends FormField implements C\Input\Field\Radio
+class Radio extends FormInput implements C\Input\Field\Radio
 {
     use JavaScriptBindable;
     use Triggerer;

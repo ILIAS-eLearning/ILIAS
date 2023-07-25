@@ -28,13 +28,13 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Range;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Implementation\Component\Input\InputGroup;
+use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 class Pagination extends ViewControl implements VCInterface\Pagination
 {
-    use InputGroup;
     use ComponentHelper;
+    use GroupDecorator;
 
     protected const DEFAULT_LIMITS = [5, 10, 25, 50, 100, 250, 500, \PHP_INT_MAX];
     protected const NUMBER_OF_VISIBLE_SECTIONS = 7;
@@ -51,16 +51,15 @@ class Pagination extends ViewControl implements VCInterface\Pagination
         Refinery $refinery,
         SignalGeneratorInterface $signal_generator
     ) {
-        $this->inputs = [
-            $field_factory->hidden(), //offset
-            $field_factory->hidden()  //limit
-        ];
+        parent::__construct($data_factory, $refinery);
 
-        parent::__construct($data_factory, $refinery, '');
+        $this->setInputGroup($field_factory->group([
+            $field_factory->hidden(), //offset
+            $field_factory->hidden(), //limit
+        ])->withAdditionalTransformation($this->getRangeTransform()));
 
         $this->internal_selection_signal = $signal_generator->create();
         $this->number_of_entries = self::NUMBER_OF_VISIBLE_SECTIONS;
-        $this->operations[] = $this->getRangeTransform();
     }
 
     protected function getRangeTransform(): Transformation

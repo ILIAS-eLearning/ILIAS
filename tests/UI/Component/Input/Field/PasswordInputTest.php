@@ -74,7 +74,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->buildFactory();
         $pwd = $f->password("label", "byline");
-        $this->assertInstanceOf(Field\Field::class, $pwd);
+        $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $pwd);
         $this->assertInstanceOf(Field\Password::class, $pwd);
     }
 

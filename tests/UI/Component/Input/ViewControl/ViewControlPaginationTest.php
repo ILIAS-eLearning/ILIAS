@@ -53,9 +53,7 @@ class ViewControlPaginationTest extends ViewControlBaseTest
 
         $this->assertInstanceOf(Signal::class, $vc->getInternalSignal());
         $this->assertIsArray($vc->getLimitOptions());
-        $this->assertEquals('', $vc->getLabel());
         $this->assertEquals('', $vc->getLabelLimit());
-        $this->assertFalse($vc->isDisabled());
     }
 
     public function testViewControlPaginationWithWrongValue(): void

@@ -30,7 +30,7 @@ use ILIAS\Refinery\ConstraintViolationException;
 /**
  * This implements the numeric input.
  */
-class Numeric extends FormField implements C\Input\Field\Numeric
+class Numeric extends FormInput implements C\Input\Field\Numeric
 {
     private bool $complex = false;
 

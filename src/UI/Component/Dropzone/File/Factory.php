@@ -20,7 +20,7 @@ namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Input\Field\File as FileInput;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Input\Field\Field;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * Describes a factory for file dropzones.
@@ -64,7 +64,7 @@ interface Factory
      * @param string    $message
      * @param string    $post_url
      * @param FileInput $file_input
-     * @param Field     $additional_input
+     * @param FormInput $additional_input
      * @return \ILIAS\UI\Component\Dropzone\File\Standard
      */
     public function standard(
@@ -72,7 +72,7 @@ interface Factory
         string $message,
         string $post_url,
         FileInput $file_input,
-        ?Field $additional_input = null,
+        ?FormInput $additional_input = null,
     ): Standard;
 
     /**
@@ -114,7 +114,7 @@ interface Factory
      * @param string                $post_url
      * @param Component|Component[] $content
      * @param FileInput             $file_input
-     * @param Field                 $additional_input
+     * @param FormInput             $additional_input
      * @return \ILIAS\UI\Component\Dropzone\File\Wrapper
      */
     public function wrapper(
@@ -122,6 +122,6 @@ interface Factory
         string $post_url,
         $content,
         FileInput $file_input,
-        ?Field $additional_input = null,
+        ?FormInput $additional_input = null,
     ): Wrapper;
 }

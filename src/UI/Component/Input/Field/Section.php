@@ -25,6 +25,6 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 /**
  * This describes section inputs.
  */
-interface Section extends FormInput
+interface Section extends Group
 {
 }

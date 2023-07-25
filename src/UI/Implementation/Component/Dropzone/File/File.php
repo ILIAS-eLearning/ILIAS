@@ -31,13 +31,8 @@ use ILIAS\UI\Component\Input\Field\File as FileInput;
 use ILIAS\UI\Component\Signal;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\ReplaceSignal;
-use ILIAS\UI\Component\Input\Container\Form\Standard;
-use ILIAS\UI\Component\Closable;
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Input\Field\UploadHandler;
-use ILIAS\UI\Component\Input\Field\Field;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -59,7 +54,7 @@ abstract class File implements FileDropzone
         string $title,
         string $post_url,
         FileInput $file_input,
-        ?Field $additional_input
+        ?FormInput $additional_input
     ) {
         $this->signal_generator = $signal_generator;
         $this->clear_signal = $signal_generator->create();

@@ -140,7 +140,7 @@ class ilIndividualAssessmentUserGrading
         bool $may_be_edited = true,
         bool $place_required = false,
         bool $amend = false
-    ): Field\Field {
+    ): \ILIAS\UI\Component\Input\Container\Form\FormInput {
         $name = $input
             ->text($lng->txt('name'), '')
             ->withDisabled(true)

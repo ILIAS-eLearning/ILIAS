@@ -22,7 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\Data;
-use ILIAS\UI\Component\Input\Field\Field;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field as I;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -182,7 +182,7 @@ class Factory implements I\Factory
         UploadHandler $handler,
         string $label,
         ?string $byline = null,
-        Field $metadata_input = null
+        FormInput $metadata_input = null
     ): I\File {
         return new File(
             $this->lng,

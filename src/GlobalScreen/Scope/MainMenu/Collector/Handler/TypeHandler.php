@@ -22,7 +22,7 @@ namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\UI\Component\Input\Field\Field;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * Class TypeHandler
@@ -43,7 +43,7 @@ interface TypeHandler
 
     /**
      * @param IdentificationInterface $identification
-     * @return Field[]
+     * @return FormInput[]
      */
     public function getAdditionalFieldsForSubForm(IdentificationInterface $identification): array;
 

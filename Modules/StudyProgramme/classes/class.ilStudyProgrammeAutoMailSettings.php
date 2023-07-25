@@ -90,7 +90,7 @@ class ilStudyProgrammeAutoMailSettings
         return $clone;
     }
 
-    public function toFormInput(Field\Factory $input, ilLanguage $ilLng, Refinery $refinery): Field\Field
+    public function toFormInput(Field\Factory $input, ilLanguage $ilLng, Refinery $refinery): \ILIAS\UI\Component\Input\Container\Form\FormInput
     {
         $reminder = null;
         if (!is_null($this->getReminderNotRestartedByUserDays())) {

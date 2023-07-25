@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Field;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 abstract class TestSettings
@@ -50,7 +50,7 @@ abstract class TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Field;
+    ): FormInput;
 
     abstract public function toStorage(): array;
 }

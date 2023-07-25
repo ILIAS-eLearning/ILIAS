@@ -29,7 +29,7 @@ use Closure;
 /**
  * This implements the textarea input.
  */
-class Textarea extends FormField implements C\Input\Field\Textarea
+class Textarea extends FormInput implements C\Input\Field\Textarea
 {
     use JavaScriptBindable;
 

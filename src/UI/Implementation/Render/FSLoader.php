@@ -23,7 +23,7 @@ namespace ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Implementation\Component\Input\Field\Field;
+use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
 
 /**
  * Loads renderers for components from the file system.
@@ -78,7 +78,7 @@ class FSLoader implements Loader
         if ($component instanceof Icon) {
             return $this->icon_renderer_factory;
         }
-        if ($component instanceof Field) {
+        if ($component instanceof FormInput) {
             return $this->field_renderer_factory;
         }
         return $this->default_renderer_factory;

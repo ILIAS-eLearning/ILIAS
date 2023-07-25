@@ -32,7 +32,7 @@ use InvalidArgumentException;
 /**
  * This implements the checkbox input.
  */
-class Checkbox extends FormField implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable
+class Checkbox extends FormInput implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable
 {
     use JavaScriptBindable;
 

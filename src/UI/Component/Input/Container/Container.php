@@ -23,7 +23,6 @@ namespace ILIAS\UI\Component\Input\Container;
 use ILIAS\UI\Component\Component;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Input\Field\FormInput;
 use ILIAS\UI\Component\Input\Input;
 
 /**

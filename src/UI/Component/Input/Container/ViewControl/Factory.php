@@ -41,7 +41,7 @@ interface Factory
      *      When operating a contained View Control, the location is amended
      *      with parameters of all contained View Controls and reloaded.
      * ---
-     * @param array<string,\ILIAS\UI\Component\Input\ViewControl\ViewControl> $controls
+     * @param array<string,\ILIAS\UI\Component\Input\Container\ViewControl\ViewControl> $controls
      * @return \ILIAS\UI\Component\Input\Container\ViewControl\Standard
      */
     public function standard(array $controls): Standard;

@@ -25,15 +25,7 @@ require_once(__DIR__ . "/InputTest.php");
 use ILIAS\Data;
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Implementation\Component as I;
-use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
-use ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory;
-use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
-use ILIAS\UI\Implementation\Render\FSLoader;
-use ILIAS\UI\Implementation\Render\JavaScriptBinding;
-use ILIAS\UI\Implementation\Render\LoaderCachingWrapper;
-use ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper;
 use ILIAS\UI\Component\Button\Factory as ButtonFactory;
 use ILIAS\UI\Component\Symbol\Factory as SymbolFactory;
 use ILIAS\FileUpload\Handler\FileInfoResult;
@@ -154,7 +146,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $text = $f->file($this->getUploadHandler(), "label", "byline");
 
-        $this->assertInstanceOf(Field\Field::class, $text);
+        $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $text);
         $this->assertInstanceOf(Field\File::class, $text);
     }
 

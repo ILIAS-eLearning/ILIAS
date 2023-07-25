@@ -28,7 +28,7 @@ use Closure;
 /**
  * This implements the text input.
  */
-class Text extends FormField implements C\Input\Field\Text
+class Text extends FormInput implements C\Input\Field\Text
 {
     private ?int $max_length = null;
     private bool $complex = false;

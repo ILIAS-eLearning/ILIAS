@@ -47,7 +47,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Field\Field
+    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Container\Form\FormInput
     {
         throw new LogicException("Not yet implemented.");
     }

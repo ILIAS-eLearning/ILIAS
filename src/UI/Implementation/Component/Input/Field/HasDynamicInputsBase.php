@@ -24,7 +24,7 @@ use ILIAS\UI\Implementation\Component\Input\DynamicInputDataIterator;
 use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
-use ILIAS\UI\Component\Input\Field\Field as InputInterface;
+use ILIAS\UI\Component\Input\Container\Form\FormInput as FormInputInterface;
 use ILIAS\UI\Component\Input\Field\HasDynamicInputs;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
@@ -35,17 +35,17 @@ use ilLanguage;
 /**
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-abstract class HasDynamicInputsBase extends FormField implements HasDynamicInputs
+abstract class HasDynamicInputsBase extends FormInput implements HasDynamicInputs
 {
     // ==========================================
     // BEGIN IMPLEMENTATION OF DynamicInputsAware
     // ==========================================
 
     /**
-     * @var InputInterface[]
+     * @var FormInputInterface[]
      */
     protected array $dynamic_inputs = [];
-    protected InputInterface $dynamic_input_template;
+    protected FormInputInterface $dynamic_input_template;
     protected ilLanguage $language;
 
     public function __construct(
@@ -53,7 +53,7 @@ abstract class HasDynamicInputsBase extends FormField implements HasDynamicInput
         DataFactory $data_factory,
         Refinery $refinery,
         string $label,
-        InputInterface $template,
+        FormInputInterface $template,
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
@@ -65,7 +65,7 @@ abstract class HasDynamicInputsBase extends FormField implements HasDynamicInput
      * Returns the instance of Field which should be used to generate
      * dynamic inputs on clientside.
      */
-    public function getTemplateForDynamicInputs(): InputInterface
+    public function getTemplateForDynamicInputs(): FormInputInterface
     {
         return $this->dynamic_input_template;
     }
@@ -73,7 +73,7 @@ abstract class HasDynamicInputsBase extends FormField implements HasDynamicInput
     /**
      * Returns serverside generated dynamic Inputs, which happens when
      * providing this InputInterface::withValue().
-     * @return InputInterface[]
+     * @return FormInputInterface[]
      */
     public function getDynamicInputs(): array
     {

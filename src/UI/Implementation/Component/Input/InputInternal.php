@@ -18,18 +18,26 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Input\Field;
+namespace ILIAS\UI\Implementation\Component\Input;
 
-use ILIAS\UI\Component\Input\Field\Field;
 use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\Input;
 use ILIAS\Data\Result;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 /**
  * Describes the interface of inputs that is used for internal
  * processing of data from the client.
  */
-interface InternalField extends Field
+interface InputInternal extends Input
 {
+    /**
+     * Get an input like this one, with a different name.
+     *
+     * @return static
+     */
+    public function withNameFrom(NameSource $source);
+
     /**
      * The name of the input as used in HTML.
      */
@@ -46,4 +54,14 @@ interface InternalField extends Field
      * Get the current content of the input.
      */
     public function getContent(): Result;
+
+    /**
+     * Get an input like this one, with a different error.
+     */
+    public function withError(string $error): self;
+
+    /**
+     * The error of the input as used in HTML.
+     */
+    public function getError(): ?string;
 }

@@ -86,7 +86,7 @@ class ilStudyProgrammeAssessmentSettings
         Field\Factory $input,
         ilLanguage $lng,
         Refinery $refinery
-    ): Field\Field {
+    ): \ILIAS\UI\Component\Input\Container\Form\FormInput {
         $num = $input
             ->numeric($lng->txt('prg_points'), $lng->txt('prg_points_byline'))
             ->withValue($this->getPoints())

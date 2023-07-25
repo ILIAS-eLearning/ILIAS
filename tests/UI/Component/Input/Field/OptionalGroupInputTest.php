@@ -22,17 +22,17 @@ require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\Input\Field\OptionalGroup;
-use ILIAS\UI\Implementation\Component\Input\Field\FormField;
+use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use PHPUnit\Framework\MockObject\MockObject;
 
-abstract class Input11 extends FormField
+abstract class Input11 extends FormInput
 {
 };
-abstract class Input12 extends FormField
+abstract class Input12 extends FormInput
 {
 };
 

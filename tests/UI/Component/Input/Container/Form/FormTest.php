@@ -21,7 +21,7 @@ require_once(__DIR__ . "/../../../../Base.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input;
-use ILIAS\UI\Implementation\Component\Input\Field\InternalFormField;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\Container\Form\Form;
@@ -56,18 +56,18 @@ class ConcreteForm extends Form
         parent::__construct($field_factory, $name_source, $inputs);
     }
 
-    public function _extractPostData(ServerRequestInterface $request): Input\InputData
+    public function _extractRequestData(ServerRequestInterface $request): Input\InputData
     {
-        return $this->extractPostData($request);
+        return $this->extractRequestData($request);
     }
 
-    public function extractPostData(ServerRequestInterface $request): Input\InputData
+    public function extractRequestData(ServerRequestInterface $request): Input\InputData
     {
         if ($this->input_data !== null) {
             return $this->input_data;
         }
 
-        return parent::extractPostData($request);
+        return parent::extractRequestData($request);
     }
 
 
@@ -169,7 +169,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->expects($this->once())
             ->method("getParsedBody")
             ->willReturn([]);
-        $input_data = $form->_extractPostData($request);
+        $input_data = $form->_extractRequestData($request);
         $this->assertInstanceOf(InputData::class, $input_data);
     }
 
@@ -423,13 +423,13 @@ class FormTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @return InternalFormField|mixed|MockObject
+     * @return Input\Field\FormInputInternal|mixed|MockObject
      */
     protected function inputMock()
     {
         static $no = 1000;
         return $this
-            ->getMockBuilder(InternalFormField::class)
+            ->getMockBuilder(Input\Field\FormInputInternal::class)
             ->onlyMethods([
                 "getName",
                 "withDedicatedName",

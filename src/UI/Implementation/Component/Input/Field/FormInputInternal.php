@@ -13,18 +13,19 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
 
-declare(strict_types=1);
+namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-namespace ILIAS\UI\Component\Input\Field;
-
-use ILIAS\UI\Component\Input\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Implementation\Component\Input\InputInternal;
 
 /**
- * This describes commonalities between all Fields.
+ * This interface describes how form inputs are handled internally.
+ * It mostly exists due to PHPUnit tests which need to mock them.
+ *
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface Field extends Input
+interface FormInputInternal extends InputInternal, FormInput
 {
 }

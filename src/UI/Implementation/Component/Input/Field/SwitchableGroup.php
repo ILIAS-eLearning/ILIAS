@@ -78,7 +78,7 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
 
     public function withRequired($is_required, ?Constraint $requirement_constraint = null): self
     {
-        return FormField::withRequired($is_required, $requirement_constraint);
+        return FormInput::withRequired($is_required, $requirement_constraint);
     }
 
     /**
@@ -87,7 +87,7 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
     public function withValue($value): self
     {
         if (is_string($value) || is_int($value)) {
-            return Field::withValue($value);
+            return FormInput::withValue($value);
         }
         if (!is_array($value) || count($value) !== 2) {
             throw new InvalidArgumentException(
@@ -96,7 +96,7 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
             );
         }
         list($key, $group_value) = $value;
-        $clone = Field::withValue($key);
+        $clone = FormInput::withValue($key);
         $clone->inputs[$key] = $clone->inputs[$key]->withValue($group_value);
         return $clone;
     }
@@ -106,7 +106,7 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
      */
     public function getValue()
     {
-        $key = Field::getValue();
+        $key = FormInput::getValue();
         if (is_null($key)) {
             return null;
         }

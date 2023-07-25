@@ -22,19 +22,16 @@ namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Input\Container\Form\FormWithoutSubmitButton;
-use ILIAS\UI\Implementation\Component\Input\Field\Group;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Implementation\Component\ReplaceSignal;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Field;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Modal as M;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
@@ -60,7 +57,7 @@ class RoundTrip extends Modal implements M\RoundTrip
 
     /**
      * @param Component[]|Component|null $content
-     * @param Field[]                    $inputs
+     * @param FormInput[]                $inputs
      */
     public function __construct(
         SignalGeneratorInterface $signal_generator,

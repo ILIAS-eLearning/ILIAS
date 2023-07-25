@@ -26,7 +26,6 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Component\Input\Input as InputInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
@@ -40,14 +39,9 @@ use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 /**
  * This implements commonalities between inputs.
  */
-abstract class Input implements InputInterface
+abstract class Input implements InputInternal
 {
     use ComponentHelper;
-    use JavaScriptBindable;
-    use Triggerer;
-
-
-    protected bool $is_disabled = false;
 
     /**
      * This is the value contained in the input as displayed
@@ -84,48 +78,7 @@ abstract class Input implements InputInterface
     public function __construct(
         protected DataFactory $data_factory,
         protected Refinery $refinery,
-        protected string $label,
-        protected ?string $byline = null
     ) {
-    }
-
-    // Observable properties of the input as it is shown to the client.
-
-    /**
-     * @inheritdoc
-     */
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withLabel(string $label): self
-    {
-        $clone = clone $this;
-        $clone->label = $label;
-        return $clone;
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function isDisabled(): bool
-    {
-        return $this->is_disabled;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withDisabled(bool $is_disabled): self
-    {
-        $clone = clone $this;
-        $clone->is_disabled = $is_disabled;
-        return $clone;
     }
 
     /**
@@ -233,12 +186,6 @@ abstract class Input implements InputInterface
         return $clone;
     }
 
-    // Implementation of InternalFormField
-
-    // This is the machinery to be used to process the input from the client side.
-    // This should not be exposed to the consumers of the inputs. These methods
-    // should instead only be used by the forms wrapping the input.
-
     /**
      * @inheritdoc
      */
@@ -276,19 +223,16 @@ abstract class Input implements InputInterface
             throw new LogicException("Can only collect if input has a name.");
         }
 
+
         //TODO: Discuss, is this correct here. If there is no input contained in this post
         //We assign null. Note that unset checkboxes are not contained in POST.
-        if (!$this->isDisabled()) {
-            $value = $input->getOr($this->getName(), null);
-            // ATTENTION: There was a special case for the Filter Input Container here,
-            // which lead to #27909. The issue will most certainly appear again in. If
-            // you are the one debugging it and came here: Please don't put knowledge
-            // of the special case for the filter in this general class. Have a look
-            // into https://mantis.ilias.de/view.php?id=27909 for the according discussion.
-            $clone = $this->withValue($value);
-        } else {
-            $clone = $this;
-        }
+        $value = $input->getOr($this->getName(), null);
+        // ATTENTION: There was a special case for the Filter Input Container here,
+        // which lead to #27909. The issue will most certainly appear again in. If
+        // you are the one debugging it and came here: Please don't put knowledge
+        // of the special case for the filter in this general class. Have a look
+        // into https://mantis.ilias.de/view.php?id=27909 for the according discussion.
+        $clone = $this->withValue($value);
 
         $clone->content = $this->applyOperationsTo($clone->getValue());
         if ($clone->content->isError()) {
@@ -325,7 +269,7 @@ abstract class Input implements InputInterface
      *
      * @return Generator<Transformation>
      */
-    private function getOperations(): Generator
+    protected function getOperations(): Generator
     {
         foreach ($this->operations as $op) {
             yield $op;
@@ -341,21 +285,5 @@ abstract class Input implements InputInterface
             throw new LogicException("No content of this field has been evaluated yet. Seems withRequest was not called.");
         }
         return $this->content;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withOnUpdate(Signal $signal): self
-    {
-        return $this->withTriggeredSignal($signal, 'update');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function appendOnUpdate(Signal $signal): self
-    {
-        return $this->appendTriggeredSignal($signal, 'update');
     }
 }

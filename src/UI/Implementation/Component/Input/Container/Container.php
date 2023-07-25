@@ -37,6 +37,8 @@ abstract class Container implements C\Input\Container\Container
 {
     use ComponentHelper;
 
+    protected const NESTED_INPUT_LIMIT = 25;
+
     protected C\Input\Field\Group $input_group;
     protected ?Transformation $transformation;
     protected ?string $error = null;
@@ -51,9 +53,7 @@ abstract class Container implements C\Input\Container\Container
         NameSource $name_source,
         array $inputs
     ) {
-        $classes = [CI\Input\Input::class];
-        $this->checkArgListElements("input", $inputs, $classes);
-        // TODO: this is a dependency and should be treated as such. `use` statements can be removed then.
+        $this->checkArgListInputs("input", $inputs, $this->getAllowedInputs());
 
         $this->name_source = clone $name_source;
         $this->input_group = $field_factory->group(
@@ -73,12 +73,22 @@ abstract class Container implements C\Input\Container\Container
         return $this->getInputGroup()->getInputs();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getInputGroup(): C\Input\Field\Group
     {
         return $this->input_group;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withRequest(ServerRequestInterface $request): self
+    {
+        $post_data = $this->extractRequestData($request);
+
+        $clone = clone $this;
+        $clone->input_group = $this->getInputGroup()->withInput($post_data);
+
+        return $clone;
     }
 
     /**
@@ -132,4 +142,39 @@ abstract class Container implements C\Input\Container\Container
             ->withNameFrom($clone->name_source);
         return $clone;
     }
+
+    /**
+     * Checks the given array recursively for elements of the given classes.
+     */
+    protected function checkArgListInputs(string $which, array $values, array $classes, int $depth = 0): void
+    {
+        if (self::NESTED_INPUT_LIMIT < $depth) {
+            throw new LogicException("Input nesting limit of " . self::NESTED_INPUT_LIMIT . " exceeded.");
+        }
+
+        foreach ($values as $input) {
+            if ($input instanceof C\Input\Field\Group) {
+                $this->checkArgListInputs($which, $input->getInputs(), $classes, $depth + 1);
+                continue;
+            }
+
+            foreach ($classes as $class) {
+                $this->checkArgInstanceOf($which, $input, $class);
+            }
+        }
+    }
+
+    /**
+     * Returns the extracted data from the given server request. This methods has been introduced
+     * since different containers may allow different request methods.
+     */
+    abstract protected function extractRequestData(ServerRequestInterface $request): InputData;
+
+    /**
+     * Returns a list of container-specific inputs, which are checked against when creating a new
+     * container. Please try to use the most generic input-interfaces possible.
+     *
+     * @return string[]
+     */
+    abstract protected function getAllowedInputs(): array;
 }
