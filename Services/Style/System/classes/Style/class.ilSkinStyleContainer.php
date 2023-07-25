@@ -97,7 +97,7 @@ class ilSkinStyleContainer
                 $this->createScssStructure($style);
             } catch (Exception $e) {
                 $message_stack->addMessage(new ilSystemStyleMessage(
-                    $this->lng->txt('Scss_compile_failed') . ' ' . $e->getMessage(),
+                    $this->lng->txt('scss_compile_failed') . ' ' . $e->getMessage(),
                     ilSystemStyleMessage::TYPE_ERROR
                 ));
             }
@@ -244,7 +244,7 @@ class ilSkinStyleContainer
         file_put_contents($path, $this->getScssMainFileDefautContent($style));
         $this->getMessageStack()->addMessage(
             new ilSystemStyleMessage(
-                $this->lng->txt('main_Scss_created') . ' ' . $path,
+                $this->lng->txt('main_scss_created') . ' ' . $path,
                 ilSystemStyleMessage::TYPE_SUCCESS
             )
         );
@@ -293,7 +293,7 @@ class ilSkinStyleContainer
     protected function getScssMainFileDefautContent(ilSkinStyle $style): string
     {
         $content = "@import \"" . $this->getSystemStylesConf()->getRelDelosPath() . "\";\n";
-        $content .= "// Import Custom Scss Files here\n";
+        $content .= "// Import Custom scss Files here\n";
 
         //$content .= "@import \"" . $this->getScssVariablesName($style->getId()) . "\";\n";
         return $content;

@@ -146,9 +146,9 @@ class ilSystemStyleMainGUI
                     $this->ctrl->forwardCommand($system_styles_settings);
                     break;
                 case 'ilsystemstylescssgui':
-                    $this->help->setSubScreenId('Scss');
+                    $this->help->setSubScreenId('scss');
                     $this->checkPermission('sty_management');
-                    $this->setUnderworldTabs($skin_id, 'Scss');
+                    $this->setUnderworldTabs($skin_id, 'scss');
                     $this->setUnderworldTitle($skin_id, $style_id);
                     $system_styles_scss = new ilSystemStyleScssGUI(
                         $this->ctrl,
@@ -323,8 +323,8 @@ class ilSystemStyleMainGUI
                 $this->ctrl->getLinkTargetByClass('ilsystemstyleconfiggui')
             );
             $this->tabs->addTab(
-                'Scss',
-                $this->lng->txt('Scss'),
+                'scss',
+                $this->lng->txt('scss'),
                 $this->ctrl->getLinkTargetByClass('ilsystemstylescssgui')
             );
             $this->tabs->addTab(

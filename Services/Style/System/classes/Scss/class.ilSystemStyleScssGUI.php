@@ -191,10 +191,10 @@ class ilSystemStyleScssGUI
             $pass = false;
         }
 
-        if (!$pass && shell_exec('which Scssc')) {
+        if (!$pass && shell_exec('which sass')) {
             $this->message_stack->addMessage(
                 new ilSystemStyleMessage(
-                    $this->lng->txt('Scss_Scss_installation_detected') . shell_exec('which Scssc'),
+                    $this->lng->txt('scss_scss_installation_detected') . shell_exec('which sass'),
                     ilSystemStyleMessage::TYPE_ERROR
                 )
             );
@@ -246,8 +246,8 @@ class ilSystemStyleScssGUI
 
         $form_section = $f->field()->section(
             $category_sections,
-            $this->lng->txt('adapt_Scss'),
-            $this->lng->txt('adapt_Scss_description')
+            $this->lng->txt('adapt_scss'),
+            $this->lng->txt('adapt_scss_description')
         );
 
         return $f->container()->form()->standard(
@@ -263,7 +263,7 @@ class ilSystemStyleScssGUI
 
         if (!$form->getData()) {
             $this->message_stack->addMessage(new ilSystemStyleMessage(
-                $this->lng->txt('Scss_variables_empty_might_have_changed'),
+                $this->lng->txt('scss_variables_empty_might_have_changed'),
                 ilSystemStyleMessage::TYPE_ERROR
             ));
             return $form;
