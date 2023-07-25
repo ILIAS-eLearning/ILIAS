@@ -66,11 +66,6 @@ class ilSystemStyleConfig
     protected string $default_fonts_path = './templates/default/fonts/';
 
     /**
-     * SCSS Folder Name
-     */
-    protected string $scss_folder_name = 'scss/';
-
-    /**
      * SCSS Settings Folder Name
      */
     protected string $scss_settings_folder_name = '010-settings/';
@@ -178,22 +173,6 @@ class ilSystemStyleConfig
     public function setRelDelosPath(string $rel_delos_path): void
     {
         $this->rel_delos_path = $rel_delos_path;
-    }
-
-    /**
-     * @return string
-     */
-    public function getScssFolderName(): string
-    {
-        return $this->scss_folder_name;
-    }
-
-    /**
-     * @param string $scss_folder_name
-     */
-    public function setScssFolderName(string $scss_folder_name): void
-    {
-        $this->scss_folder_name = $scss_folder_name;
     }
 
     /**

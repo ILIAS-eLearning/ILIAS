@@ -27,7 +27,7 @@ class ilSubStyleAssignmentGUI
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
     protected ilToolbarGUI $toolbar;
-    protected ilSystemStyleSettingsGUI $parent_gui;
+    protected ilSystemStyleConfigGUI $parent_gui;
     protected ilTree $tree;
     protected WrapperFactory $request_wrapper;
     protected Refinery $refinery;
@@ -35,7 +35,7 @@ class ilSubStyleAssignmentGUI
     private ilSystemStyleMessageStack $message_stack;
 
     public function __construct(
-        ilSystemStyleSettingsGUI $parent_gui,
+        ilSystemStyleConfigGUI $parent_gui,
         ilCtrl $ctrl,
         ilLanguage $lng,
         ilGlobalTemplateInterface $tpl,
@@ -162,12 +162,12 @@ class ilSubStyleAssignmentGUI
         $this->ctrl->redirect($this->getParentGui(), 'assignStyle');
     }
 
-    public function getParentGui(): ilSystemStyleSettingsGUI
+    public function getParentGui(): ilSystemStyleConfigGUI
     {
         return $this->parent_gui;
     }
 
-    public function setParentGui(ilSystemStyleSettingsGUI $parent_gui): void
+    public function setParentGui(ilSystemStyleConfigGUI $parent_gui): void
     {
         $this->parent_gui = $parent_gui;
     }

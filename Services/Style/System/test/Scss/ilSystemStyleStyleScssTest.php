@@ -25,16 +25,16 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
     public function testConstructAndRead(): void
     {
         $file = new ilSystemStyleScssSettings($this->container->getScssSettingsPath($this->style->getId()));
-        $this->assertCount(28, $file->getItems());
+        $this->assertCount(32, $file->getItems());
     }
 
     public function testReadCorrectTypes(): void
     {
         $file = new ilSystemStyleScssSettings($this->container->getScssSettingsPath($this->style->getId()));
 
-        $this->assertCount(4, $file->getCategories());
+        $this->assertCount(5, $file->getCategories());
         $this->assertCount(12, $file->getVariables());
-        $this->assertCount(28, $file->getItems());
+        $this->assertCount(32, $file->getItems());
     }
 
     public function testGetVariableByName(): void
@@ -153,6 +153,7 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
         $expected_categories['Category 12'] = new ilSystemStyleScssCategory('Category 12', 'Comment Category 12');
         $expected_categories['Category 21'] = new ilSystemStyleScssCategory('Category 21', 'Comment Category 21');
         $expected_categories['Category 22'] = new ilSystemStyleScssCategory('Category 22', 'Comment Category 22');
+        $expected_categories['Settings'] = new ilSystemStyleScssCategory('Settings', 'Settings Comment');
 
         $this->assertEquals($expected_categories, $file->getCategories());
     }
@@ -161,6 +162,10 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
     {
         $file = new ilSystemStyleScssSettings($this->container->getScssSettingsPath($this->style->getId()));
 
+        $expected_settings = new ilSystemStyleScssCategory('Settings', 'Settings Comment');
+        $expected_settings_comment1 = new ilSystemStyleScssComment('');
+        $expected_settings_comment2 = new ilSystemStyleScssComment('@forward "./variables1";');
+        $expected_settings_comment3 = new ilSystemStyleScssComment('@forward "./variables2";');
         $expected_category21 = new ilSystemStyleScssCategory('Category 21', 'Comment Category 21');
         $expected_comment22 = new ilSystemStyleScssComment('// Random Section 21');
         $expected_comment23 = new ilSystemStyleScssComment('');
@@ -264,6 +269,10 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
         );
 
         $expected_items = [
+            $expected_settings,
+            $expected_settings_comment1,
+            $expected_settings_comment2,
+            $expected_settings_comment3,
             $expected_category11,
             $expected_comment12,
             $expected_comment13,
@@ -304,30 +313,37 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
         $this->assertEquals($expected_content, $settings->getContent());
     }
 
+    public function testGetVariablesForDelosOverride(): void
+    {
+        $settings = new ilSystemStyleScssSettings($this->container->getScssSettingsPath($this->style->getId()));
+        $expected_content = '$variable111: global.variable111,\n$variable112: global.variable112,\n$variable113: global.variable113,\n$variable121: global.variable121,\n$variable122: global.variable122,\n$variable123: global.variable123,\n$variable211: global.variable211,\n$variable212: global.variable212,\n$variable213: global.variable213,\n$variable221: global.variable221,\n$variable222: global.variable222,\n$variable223: global.variable223,\n';
+        $this->assertEquals($expected_content, $settings->getVariablesForDelosOverride());
+    }
+
     public function testReadWriteDouble(): void
     {
         $expected_content = $this->getAllContentOfFolder($this->container->getScssSettingsPath($this->style->getId()));
 
-        $file = new ilSystemStyleScssSettings($this->container->getScssSettingsPath($this->style->getId()));
-        $file->write();
-        $file = new ilSystemStyleScssSettings($this->container->getScssSettingsPath($this->style->getId()));
-        $file->write();
-        $file = new ilSystemStyleScssSettings($this->container->getScssSettingsPath($this->style->getId()));
+        $settings = new ilSystemStyleScssSettings($this->container->getScssSettingsPath($this->style->getId()));
+        $settings->write();
+        $settings = new ilSystemStyleScssSettings($this->container->getScssSettingsPath($this->style->getId()));
+        $settings->write();
+        $settings = new ilSystemStyleScssSettings($this->container->getScssSettingsPath($this->style->getId()));
 
-        $this->assertEquals($expected_content, $file->getContent());
+        $this->assertEquals($expected_content, $settings->getContent());
     }
 
     public function testReadWriteDoubleRealFolderSCSS(): void
     {
-        $expected_content = $this->getAllContentOfFolder($this->container->getSkinDirectory() . 'real-folder');
+        $expected_content = $this->getAllContentOfFolder($this->container->getSkinDirectory() . 'scss-test/real-folder');
 
-        $file = new ilSystemStyleScssSettings($this->container->getSkinDirectory() . 'real-folder');
-        $file->write();
-        $file = new ilSystemStyleScssSettings($this->container->getSkinDirectory() . 'real-folder');
-        $file->write();
-        $file = new ilSystemStyleScssSettings($this->container->getSkinDirectory() . 'real-folder');
+        $settings = new ilSystemStyleScssSettings($this->container->getSkinDirectory() . 'scss-test/real-folder');
+        $settings->write();
+        $settings = new ilSystemStyleScssSettings($this->container->getSkinDirectory() . 'scss-test/real-folder');
+        $settings->write();
+        $settings = new ilSystemStyleScssSettings($this->container->getSkinDirectory() . 'scss-test/real-folder');
 
-        $this->assertEquals($expected_content, $file->getContent());
+        $this->assertEquals($expected_content, $settings->getContent());
     }
 
     public function testChangeVariable(): void
@@ -336,6 +352,10 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
         $variable = $settings->getVariableByName('variable111');
         $variable->setValue('newvalue111');
 
+        $expected_settings = new ilSystemStyleScssCategory('Settings', 'Settings Comment');
+        $expected_settings_comment1 = new ilSystemStyleScssComment('');
+        $expected_settings_comment2 = new ilSystemStyleScssComment('@forward "./variables1";');
+        $expected_settings_comment3 = new ilSystemStyleScssComment('@forward "./variables2";');
         $expected_category11 = new ilSystemStyleScssCategory('Category 11', 'Comment Category 11');
         $expected_comment12 = new ilSystemStyleScssComment('// Random Section 11');
         $expected_comment13 = new ilSystemStyleScssComment('');
@@ -440,6 +460,10 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
 
 
         $expected_items = [
+            $expected_settings,
+            $expected_settings_comment1,
+            $expected_settings_comment2,
+            $expected_settings_comment3,
             $expected_category11,
             $expected_comment12,
             $expected_comment13,
@@ -518,7 +542,7 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
 
     public function testReadCorrectTypesEdgeCases(): void
     {
-        $file = new ilSystemStyleScssSettings($this->container->getSkinDirectory() . 'edge-cases');
+        $file = new ilSystemStyleScssSettings($this->container->getSkinDirectory() . 'scss-test/edge-cases');
 
         $this->assertCount(3, $file->getCategories());
         $this->assertCount(7, $file->getVariables());
@@ -527,7 +551,7 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
 
     public function testGetItemsEdgeCases(): void
     {
-        $file = new ilSystemStyleScssSettings($this->container->getSkinDirectory() . 'edge-cases');
+        $file = new ilSystemStyleScssSettings($this->container->getSkinDirectory() . 'scss-test/edge-cases');
 
         $expected_comment1 = new ilSystemStyleScssComment('// No Category to start');
         $expected_comment2 = new ilSystemStyleScssComment('');

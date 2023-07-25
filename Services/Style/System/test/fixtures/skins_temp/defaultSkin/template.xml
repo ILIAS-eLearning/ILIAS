@@ -1,0 +1,6 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<template xmlns = "http://www.w3.org" version = "$Id$" name = "Default Skin">
+	<style 	name = "Default Style"
+			id = "defaultStyle"
+			image_directory = "images"/>
+</template>

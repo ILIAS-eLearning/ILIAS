@@ -211,11 +211,11 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                 }
 
                 if ($this->isManagementEnabled()) {
-                    $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $a_set['skin_id']);
-                    $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $a_set['style_id']);
+                    $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'skin_id', $a_set['skin_id']);
+                    $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'style_id', $a_set['style_id']);
 
-                    $this->ctrl->setParameterByClass('ilSystemStyleOverviewGUI', 'skin_id', $a_set['skin_id']);
-                    $this->ctrl->setParameterByClass('ilSystemStyleOverviewGUI', 'style_id', $a_set['style_id']);
+                    $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'skin_id', $a_set['skin_id']);
+                    $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'style_id', $a_set['style_id']);
 
                     $config = new ilSystemStyleConfig();
                     if ($a_set['skin_id'] != $config->getDefaultSkinId()) {
@@ -243,7 +243,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
         $action_list->addItem(
             $this->lng->txt('edit'),
             'edit',
-            $this->ctrl->getLinkTargetByClass('ilSystemStyleSettingsGUI')
+            $this->ctrl->getLinkTargetByClass('ilsystemstyleconfiggui')
         );
         $action_list->addItem(
             $this->lng->txt('delete'),

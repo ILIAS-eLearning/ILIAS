@@ -27,14 +27,14 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFS
 
     public function testConstruct(): void
     {
-        $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder = new ilSystemStyleIconFolder($this->container->getImagesStylePath($this->style->getId()));
 
-        $this->assertEquals($this->container->getImagesSkinPath($this->style->getId()), $folder->getPath());
+        $this->assertEquals($this->container->getImagesStylePath($this->style->getId()), $folder->getPath());
     }
 
     public function testSetPath(): void
     {
-        $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder = new ilSystemStyleIconFolder($this->container->getImagesStylePath($this->style->getId()));
         $folder->setPath('pathnew');
 
         $this->assertEquals('pathnew', $folder->getPath());
@@ -42,7 +42,7 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFS
 
     public function testReadRecursiveCount(): void
     {
-        $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder = new ilSystemStyleIconFolder($this->container->getImagesStylePath($this->style->getId()));
         $this->assertCount(5, $folder->getIcons());
     }
 
@@ -58,7 +58,7 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFS
 
     public function testFolderGetIconByName(): void
     {
-        $style_path = $this->container->getImagesSkinPath($this->style->getId());
+        $style_path = $this->container->getImagesStylePath($this->style->getId());
 
         $path1 = $style_path . '/test_image_1.svg';
         $icon1 = new ilSystemStyleIcon('test_image_1.svg', $path1, 'svg');
@@ -68,7 +68,7 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFS
 
     public function testFolderGetIconByPath(): void
     {
-        $style_path = $this->container->getImagesSkinPath($this->style->getId());
+        $style_path = $this->container->getImagesStylePath($this->style->getId());
 
         $path1 = $style_path . '/test_image_1.svg';
         $icon1 = new ilSystemStyleIcon('test_image_1.svg', $path1, 'svg');
@@ -78,7 +78,7 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFS
 
     public function testIconDoesNotExist(): void
     {
-        $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder = new ilSystemStyleIconFolder($this->container->getImagesStylePath($this->style->getId()));
 
         try {
             $folder->getIconByName('doesNotExist.svg');
@@ -90,7 +90,7 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFS
 
     public function testReadRecursiveAndSortByName(): void
     {
-        $style_path = $this->container->getImagesSkinPath($this->style->getId());
+        $style_path = $this->container->getImagesStylePath($this->style->getId());
 
         $path1 = $style_path . '/test_image_1.svg';
         $icon1 = new ilSystemStyleIcon('test_image_1.svg', $path1, 'svg');
@@ -109,13 +109,13 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFS
 
         $expected_icons = [$icon5, $icon2, $icon3, $icon1, $icon4];
 
-        $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder = new ilSystemStyleIconFolder($this->container->getImagesStylePath($this->style->getId()));
         $this->assertEquals($expected_icons, $folder->getIcons());
     }
 
     public function testReadRecursiveAndSortByFolder(): void
     {
-        $style_path = $this->container->getImagesSkinPath($this->style->getId());
+        $style_path = $this->container->getImagesStylePath($this->style->getId());
 
         $path1 = $style_path . '/test_image_1.svg';
         $icon1 = new ilSystemStyleIcon('test_image_1.svg', $path1, 'svg');
@@ -137,13 +137,13 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFS
             $style_path . '/image_subfolder' => [$icon2, $icon3],
         ];
 
-        $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder = new ilSystemStyleIconFolder($this->container->getImagesStylePath($this->style->getId()));
         $this->assertEquals($expected_icons, $folder->getIconsSortedByFolder());
     }
 
     public function testExtractColorset(): void
     {
-        $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder = new ilSystemStyleIconFolder($this->container->getImagesStylePath($this->style->getId()));
 
         $expected_color_set = new ilSystemStyleIconColorSet();
         $color1 = new ilSystemStyleIconColor('id_505050', '505050', '505050', '505050');
@@ -167,10 +167,10 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFS
 
     public function testExtractChangeColors(): void
     {
-        $folder1 = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder1 = new ilSystemStyleIconFolder($this->container->getImagesStylePath($this->style->getId()));
         $folder1->changeIconColors(['505050' => '555555']);
 
-        $folder2 = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder2 = new ilSystemStyleIconFolder($this->container->getImagesStylePath($this->style->getId()));
 
         $expected_color_set = new ilSystemStyleIconColorSet();
         $color1 = new ilSystemStyleIconColor('id_555555', '555555', '555555', '555555');
@@ -194,9 +194,9 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFS
 
     public function testGetUsages(): void
     {
-        $style_path = $this->container->getImagesSkinPath($this->style->getId());
+        $style_path = $this->container->getImagesStylePath($this->style->getId());
 
-        $folder1 = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder1 = new ilSystemStyleIconFolder($this->container->getImagesStylePath($this->style->getId()));
 
         $path1 = $style_path . '/test_image_1.svg';
         $icon1 = new ilSystemStyleIcon('test_image_1.svg', $path1, 'svg');
@@ -217,12 +217,12 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFS
 
     public function testGetUsagesAfterChangeColor(): void
     {
-        $style_path = $this->container->getImagesSkinPath($this->style->getId());
+        $style_path = $this->container->getImagesStylePath($this->style->getId());
 
-        $folder1 = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder1 = new ilSystemStyleIconFolder($this->container->getImagesStylePath($this->style->getId()));
         $folder1->changeIconColors(['6B6B6B' => '7B6B6B']);
 
-        $folder2 = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder2 = new ilSystemStyleIconFolder($this->container->getImagesStylePath($this->style->getId()));
 
         $path1 = $style_path . '/test_image_1.svg';
         $icon1 = new ilSystemStyleIcon('test_image_1.svg', $path1, 'svg');
@@ -244,7 +244,7 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFS
 
     public function testGetUsagesAsString(): void
     {
-        $folder1 = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder1 = new ilSystemStyleIconFolder($this->container->getImagesStylePath($this->style->getId()));
 
         $this->assertEquals(
             'sub_test_image_1; sub_test_image_2; test_image_1; ',

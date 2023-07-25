@@ -83,4 +83,10 @@ class ilSystemStyleStyleScssVariableTest extends TestCase
         $variable = new ilSystemStyleScssVariable('name', 'value', 'comment', 'category_name', ['references_id']);
         $this->assertEquals("//** comment\n\$name: value;\n", (string) $variable);
     }
+
+    public function testGetForDelosOverride(): void
+    {
+        $variable = new ilSystemStyleScssVariable('name', 'value', 'comment', 'category_name', ['references_id']);
+        $this->assertEquals('$name: global.name,\n', $variable->getForDelosOverride());
+    }
 }

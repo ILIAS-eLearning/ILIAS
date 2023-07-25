@@ -30,7 +30,7 @@ use ILIAS\FileUpload\FileUpload;
 /**
  * Settings UI class for system styles. Acts as main router for the systems styles and handles permissions checks,
  * sets tabs and title as well as description of the content section.
- * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleOverviewGUI,ilSystemStyleSettingsGUI
+ * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleOverviewGUI,ilSystemStyleConfigGUI
  * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleScssGUI,ilSystemStyleIconsGUI,ilSystemStyleDocumentationGUI
  */
 class ilSystemStyleMainGUI
@@ -110,10 +110,10 @@ class ilSystemStyleMainGUI
             $style_id = $config->getDefaultStyleId();
         }
 
-        $this->ctrl->setParameterByClass('ilsystemstylesettingsgui', 'skin_id', $skin_id);
-        $this->ctrl->setParameterByClass('ilsystemstylesettingsgui', 'style_id', $style_id);
-        $this->ctrl->setParameterByClass('ilsystemstyleScssgui', 'skin_id', $skin_id);
-        $this->ctrl->setParameterByClass('ilsystemstyleScssgui', 'style_id', $style_id);
+        $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'skin_id', $skin_id);
+        $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'style_id', $style_id);
+        $this->ctrl->setParameterByClass('ilsystemstylescssgui', 'skin_id', $skin_id);
+        $this->ctrl->setParameterByClass('ilsystemstylescssgui', 'style_id', $style_id);
         $this->ctrl->setParameterByClass('ilsystemstyleiconsgui', 'skin_id', $skin_id);
         $this->ctrl->setParameterByClass('ilsystemstyleiconsgui', 'style_id', $style_id);
         $this->ctrl->setParameterByClass('ilsystemstyledocumentationgui', 'skin_id', $skin_id);
@@ -121,12 +121,12 @@ class ilSystemStyleMainGUI
 
         try {
             switch ($next_class) {
-                case 'ilsystemstylesettingsgui':
+                case 'ilsystemstyleconfiggui':
                     $this->help->setSubScreenId('settings');
                     $this->checkPermission('sty_management');
                     $this->setUnderworldTabs($skin_id, 'settings');
                     $this->setUnderworldTitle($skin_id, $style_id);
-                    $system_styles_settings = new ilSystemStyleSettingsGUI(
+                    $system_styles_settings = new ilSystemStyleConfigGUI(
                         $this->ctrl,
                         $this->lng,
                         $this->tpl,
@@ -145,7 +145,7 @@ class ilSystemStyleMainGUI
                     );
                     $this->ctrl->forwardCommand($system_styles_settings);
                     break;
-                case 'ilsystemstyleScssgui':
+                case 'ilsystemstylescssgui':
                     $this->help->setSubScreenId('Scss');
                     $this->checkPermission('sty_management');
                     $this->setUnderworldTabs($skin_id, 'Scss');
@@ -320,12 +320,12 @@ class ilSystemStyleMainGUI
             $this->tabs->addTab(
                 'settings',
                 $this->lng->txt('settings'),
-                $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui')
+                $this->ctrl->getLinkTargetByClass('ilsystemstyleconfiggui')
             );
             $this->tabs->addTab(
                 'Scss',
                 $this->lng->txt('Scss'),
-                $this->ctrl->getLinkTargetByClass('ilsystemstyleScssgui')
+                $this->ctrl->getLinkTargetByClass('ilsystemstylescssgui')
             );
             $this->tabs->addTab(
                 'icons',
@@ -337,7 +337,7 @@ class ilSystemStyleMainGUI
         $this->tabs->addTab(
             'documentation',
             $this->lng->txt('documentation'),
-            $this->ctrl->getLinkTargetByClass('ilsystemstyledocumentationgui')
+            $this->ctrl->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class)
         );
 
         $this->tabs->activateTab($active);

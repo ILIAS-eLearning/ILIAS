@@ -111,7 +111,7 @@ class ilSystemStyleScssGUI
     protected function reset(): void
     {
         $style = $this->style_container->getSkin()->getStyle($this->style_id);
-        $this->scss_folder = $this->style_container->copyVariablesFromDefault($style);
+        $this->scss_folder = $this->style_container->copySettingsFromDefault($style);
         try {
             $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('scss_folder_reset')));
             $this->style_container->compileScss($style->getId());
@@ -125,32 +125,32 @@ class ilSystemStyleScssGUI
 
     protected function checkRequirements(): bool
     {
-        $Scss_path = $this->style_container->getScssFilePath($this->style_id);
+        $scss_path = $this->style_container->getScssFilePath($this->style_id);
 
         $pass = $this->checkScssInstallation();
 
-        if (file_exists($Scss_path)) {
-            $Scss_variables_name = $this->style_container->getScssVariablesName($this->style_id);
+        if (file_exists($scss_path)) {
+            $scss_file_path = $this->style_container->getScssFilePath($this->style_id);
             $content = '';
             try {
-                $content = file_get_contents($Scss_path);
+                $content = file_get_contents($scss_file_path);
             } catch (Exception $e) {
                 $this->message_stack->addMessage(
                     new ilSystemStyleMessage(
-                        $this->lng->txt('can_not_read_scss_folder') . ' ' . $Scss_path,
+                        $this->lng->txt('can_not_read_scss_folder') . ' ' . $scss_file_path,
                         ilSystemStyleMessage::TYPE_ERROR
                     )
                 );
                 $pass = false;
             }
             if ($content) {
-                $reg_exp = '/' . preg_quote($Scss_variables_name, '/') . '/';
+                $reg_exp = '/' . preg_quote($this->style_container->getScssSettingsFolderName(), '/') . '/';
 
                 if (!preg_match($reg_exp, $content)) {
                     $this->message_stack->addMessage(
                         new ilSystemStyleMessage(
-                            $this->lng->txt('Scss_variables_file_not_included') . ' ' . $Scss_variables_name
-                            . ' ' . $this->lng->txt('in_main_scss_folder') . ' ' . $Scss_path,
+                            $this->lng->txt('scss_variables_file_not_included') . ' ' . $this->style_container->getScssSettingsFolderName()
+                            . ' ' . $this->lng->txt('in_main_scss_folder') . ' ' . $scss_path,
                             ilSystemStyleMessage::TYPE_ERROR
                         )
                     );
@@ -160,7 +160,7 @@ class ilSystemStyleScssGUI
         } else {
             $this->message_stack->addMessage(
                 new ilSystemStyleMessage(
-                    $this->lng->txt('scss_folder_does_not_exist') . $Scss_path,
+                    $this->lng->txt('scss_folder_does_not_exist') . $scss_path,
                     ilSystemStyleMessage::TYPE_ERROR
                 )
             );
@@ -173,18 +173,18 @@ class ilSystemStyleScssGUI
     {
         $pass = true;
 
-        if (!PATH_TO_ScssC) {
+        if (!PATH_TO_SCSS) {
             $this->message_stack->addMessage(
-                new ilSystemStyleMessage($this->lng->txt('no_Scss_path_set'), ilSystemStyleMessage::TYPE_ERROR)
+                new ilSystemStyleMessage($this->lng->txt('no_scss_path_set'), ilSystemStyleMessage::TYPE_ERROR)
             );
             $pass = false;
-        } elseif (!shell_exec(PATH_TO_ScssC)) {
+        } elseif (!shell_exec(PATH_TO_SCSS)) {
             $this->message_stack->addMessage(
-                new ilSystemStyleMessage($this->lng->txt('invalid_Scss_path'), ilSystemStyleMessage::TYPE_ERROR)
+                new ilSystemStyleMessage($this->lng->txt('invalid_scss_path'), ilSystemStyleMessage::TYPE_ERROR)
             );
             $this->message_stack->addMessage(
                 new ilSystemStyleMessage(
-                    $this->lng->txt('provided_Scss_path') . ' ' . PATH_TO_ScssC,
+                    $this->lng->txt('provided_scss_path') . ' ' . PATH_TO_SCSS,
                     ilSystemStyleMessage::TYPE_ERROR
                 )
             );
@@ -209,7 +209,7 @@ class ilSystemStyleScssGUI
 
         if (!$this->checkRequirements()) {
             $this->message_stack->prependMessage(
-                new ilSystemStyleMessage($this->lng->txt('Scss_can_not_be_modified'), ilSystemStyleMessage::TYPE_ERROR)
+                new ilSystemStyleMessage($this->lng->txt('scss_can_not_be_modified'), ilSystemStyleMessage::TYPE_ERROR)
             );
             $modify = false;
         }
@@ -220,7 +220,7 @@ class ilSystemStyleScssGUI
     public function initSystemStyleScssForm(bool $modify = true): Form
     {
         $f = $this->ui_factory->input();
-        $category_section = [];
+        $category_sections = [];
         foreach ($this->scss_folder->getCategories() as $category) {
             $variables_inptus = [];
             foreach ($this->scss_folder->getVariablesPerCategory($category->getName()) as $variable) {
@@ -235,15 +235,17 @@ class ilSystemStyleScssGUI
                                         ->withAdditionalTransformation($this->refinery->custom()->transformation($save_closure));
             }
 
-            $category_section[] = $f->field()->section(
-                $variables_inptus,
-                $category->getName(),
-                $category->getComment()
-            );
+            if(count($variables_inptus) > 0) {
+                $category_sections[] = $f->field()->section(
+                    $variables_inptus,
+                    $category->getName(),
+                    $category->getComment()
+                );
+            }
         }
 
         $form_section = $f->field()->section(
-            $category_section,
+            $category_sections,
             $this->lng->txt('adapt_Scss'),
             $this->lng->txt('adapt_Scss_description')
         );

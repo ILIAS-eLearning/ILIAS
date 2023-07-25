@@ -130,6 +130,14 @@ class ilSystemStyleScssVariable extends ilSystemStyleScssItem
     }
 
     /**
+     * This function will be needed for the main scss file to override the defaults for delos.
+     */
+    public function getForDelosOverride(): string
+    {
+        return '$' . $this->getName() . ": globals.$" . $this->getName() .",\n";
+    }
+
+    /**
      * This function will be needed to write the variable back to the Scss file and restore it's initial structure
      * in Scss.
      */

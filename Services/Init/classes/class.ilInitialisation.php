@@ -158,7 +158,7 @@ class ilInitialisation
         define("PATH_TO_JAVA", $ilIliasIniFile->readVariable("tools", "java"));
         define("URL_TO_LATEX", $ilIliasIniFile->readVariable("tools", "latex"));
         define("PATH_TO_FOP", $ilIliasIniFile->readVariable("tools", "fop"));
-        define("PATH_TO_SCSS", $ilIliasIniFile->readVariable("tools", "lessc"));
+        define("PATH_TO_SCSS", $ilIliasIniFile->readVariable("tools", "scss"));
         define("PATH_TO_PHANTOMJS", $ilIliasIniFile->readVariable("tools", "phantomjs"));
 
         if ($ilIliasIniFile->groupExists('error')) {

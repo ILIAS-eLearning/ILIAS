@@ -25,8 +25,8 @@ class ilSystemStyleStyleScssFileTest extends ilSystemStyleBaseFS
     protected function setUp(): void
     {
         parent::setUp();
-        $path = $this->container->getScssSettingsPath($this->style->getId())."/variables1.scss";
-        $this->file = new ilSystemStyleScssSettingsFile($path);
+        $path = $this->container->getScssSettingsPath($this->style->getId());
+        $this->file = new ilSystemStyleScssSettingsFile($path, "variables1.scss");
     }
 
     public function testConstructAndRead(): void
@@ -126,14 +126,14 @@ class ilSystemStyleStyleScssFileTest extends ilSystemStyleBaseFS
 
     public function testGetContent(): void
     {
-        $expected_content = file_get_contents($this->file->getScssVariablesSettingsPath());
+        $expected_content = file_get_contents($this->file->getScssVariablesSettingsPath()."/variables1.scss");
         $this->assertEquals($expected_content, $this->file->getContent());
     }
 
     public function testAddAndWriteItems(): void
     {
-        $empty_path = $this->container->getSkinDirectory() . 'empty-file/empty.scss';
-        $file = new ilSystemStyleScssSettingsFile($empty_path);
+        $empty_path = $this->container->getSkinDirectory() . 'scss-test/empty-file/';
+        $file = new ilSystemStyleScssSettingsFile($empty_path, "empty.scss");
 
         $expected_category1 = new ilSystemStyleScssCategory('Category 1', 'Comment Category 1');
         $expected_comment2 = new ilSystemStyleScssComment('// Random Section 1');
@@ -207,7 +207,7 @@ class ilSystemStyleStyleScssFileTest extends ilSystemStyleBaseFS
         }
         $file->write();
 
-        $new_file = new ilSystemStyleScssSettingsFile($empty_path);
+        $new_file = new ilSystemStyleScssSettingsFile($empty_path, "empty.scss");
         $this->assertEquals($expected_items, $new_file->getItems());
     }
 }

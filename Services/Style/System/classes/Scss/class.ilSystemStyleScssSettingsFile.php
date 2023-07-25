@@ -45,15 +45,18 @@ class ilSystemStyleScssSettingsFile
      */
     protected string $scss_variables_settings_path;
 
-    public function __construct(string $scss_variables_settings_path)
+    protected string $file_name;
+
+    public function __construct(string $scss_variables_settings_path, string $file_name)
     {
+        $this->file_name = $file_name;
         $this->scss_variables_settings_path = $scss_variables_settings_path;
         $this->openFile($scss_variables_settings_path);
     }
 
     protected function openFile(string $scss_variables_settings_path): void
     {
-        if (is_file($scss_variables_settings_path)) {
+        if (is_file($scss_variables_settings_path.'/'.$this->file_name)) {
             $this->readFile($scss_variables_settings_path);
         } else {
             throw new ilSystemStyleException(
@@ -82,7 +85,7 @@ class ilSystemStyleScssSettingsFile
         $regex_variable_references = '/(?:\$)([a-zA-Z0-9_-]*)/'; //Matches references in value
 
         try {
-            $handle = fopen($scss_variables_settings_path, 'r');
+            $handle = fopen($scss_variables_settings_path."/".$this->file_name, 'r');
         } catch (Exception $e) {
             throw new ilSystemStyleException(
                 ilSystemStyleException::FILE_OPENING_FAILED,
@@ -151,9 +154,14 @@ class ilSystemStyleScssSettingsFile
     /**
      * Write the complete file back to the file system (including comments and random content)
      */
-    public function write(): void
+    public function write(string $scss_variables_settings_path = ""): void
     {
-        file_put_contents($this->scss_variables_settings_path, $this->getContent());
+        if ($scss_variables_settings_path == "") {
+            $path = $this->scss_variables_settings_path;
+        } else {
+            $path = $scss_variables_settings_path ;
+        }
+        file_put_contents($path . $this->file_name, $this->getContent());
     }
 
     public function getContent(): string

@@ -133,12 +133,12 @@ class ilSystemStyleConfigGUI
         $this->tabs->addSubTab(
             'edit',
             $this->lng->txt('settings'),
-            $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui')
+            $this->ctrl->getLinkTargetByClass('ilsystemstyleconfiggui')
         );
         $this->tabs->addSubTab(
             'assignStyle',
             $this->lng->txt('assignment'),
-            $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui', 'assignStyle')
+            $this->ctrl->getLinkTargetByClass('ilsystemstyleconfiggui', 'assignStyle')
         );
 
         $this->tabs->activateSubTab($active);
@@ -189,11 +189,11 @@ class ilSystemStyleConfigGUI
                     );
                 }
 
-                $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $new_skin->getId());
-                $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $new_style->getId());
+                $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'skin_id', $new_skin->getId());
+                $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'style_id', $new_style->getId());
                 $this->message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt('msg_sys_style_update')));
                 $this->message_stack->sendMessages();
-                $this->ctrl->redirectByClass('ilSystemStyleSettingsGUI');
+                $this->ctrl->redirectByClass('ilsystemstyleconfiggui');
             } catch (ilSystemStyleException $e) {
                 $this->message_stack->prependMessage(new ilSystemStyleMessage(
                     $e->getMessage(),
@@ -399,7 +399,7 @@ class ilSystemStyleConfigGUI
         }
 
         return $f->container()->form()->standard($this->ctrl->getFormActionByClass(
-            'ilsystemstylesettingsgui',
+            'ilsystemstyleconfiggui',
             'save'
         ), $sections);
     }

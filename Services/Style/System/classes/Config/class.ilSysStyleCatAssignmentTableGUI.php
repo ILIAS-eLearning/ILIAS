@@ -28,7 +28,7 @@ class ilSysStyleCatAssignmentTableGUI extends ilTable2GUI
     protected string $sub_style_id;
 
     public function __construct(
-        ilSystemStyleSettingsGUI $a_parent_obj,
+        ilSystemStyleConfigGUI $a_parent_obj,
         string $a_parent_cmd,
         string $skin_id,
         string $style_id,

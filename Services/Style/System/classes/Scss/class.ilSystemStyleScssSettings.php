@@ -57,8 +57,7 @@ class ilSystemStyleScssSettings
             foreach ($files as $file) {
                 $file_path = $this->scss_variables_settings_path . '/' . $file;
                 if ($file != "." && $file != ".." && !is_dir($file_path)) {
-                    $file_path = $this->scss_variables_settings_path."/".$file;
-                    $this->files[] = new ilSystemStyleScssSettingsFile($file_path);
+                    $this->files[] = new ilSystemStyleScssSettingsFile($this->scss_variables_settings_path, $file);
                 }
             }
         } else {
@@ -72,10 +71,15 @@ class ilSystemStyleScssSettings
     /**
      * Write the complete file back to the file system (including comments and random content)
      */
-    public function write(): void
+    public function write(string $new_path = ""): void
     {
+        if ($new_path == "") {
+            $path = $this->scss_variables_settings_path;
+        } else {
+            $path = $new_path ;
+        }
         foreach ($this->files as $file) {
-            $file->write();
+            $file->write($path);
         }
     }
 
@@ -186,6 +190,15 @@ class ilSystemStyleScssSettings
         }
 
         return $info;
+    }
+
+    public function getVariablesForDelosOverride(): string
+    {
+        $out = "";
+        foreach ($this->getVariables() as $variable) {
+            $out .= $variable->getForDelosOverride();
+        }
+        return $out;
     }
 
     /**

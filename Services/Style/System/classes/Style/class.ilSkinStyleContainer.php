@@ -91,7 +91,7 @@ class ilSkinStyleContainer
             );
             $this->file_system->createResourceDirectory(
                 $this->getSystemStylesConf()->getDefaultFontsPath(),
-                $this->getFondsStylePath($style->getId())
+                $this->getFontsStylePath($style->getId())
             );
             try {
                 $this->createScssStructure($style);
@@ -133,7 +133,7 @@ class ilSkinStyleContainer
     {
         $style = $this->getSkin()->getStyle($style_id);
         if ($style->getImageDirectory() != $old_style->getImageDirectory()) {
-            if (file_exists($this->getSkinDirectory() . $old_style->getImageDirectory())) {
+            if (is_dir($this->getSkinDirectory() .$old_style->getId()."/". $old_style->getImageDirectory())) {
                 $this->file_system->changeResourceDirectory(
                     $this->getSkinDirectory(),
                     $style->getId()."/".$style->getImageDirectory(),
@@ -148,7 +148,7 @@ class ilSkinStyleContainer
         }
 
         if ($style->getFontDirectory() != $old_style->getFontDirectory()) {
-            if (file_exists($this->getSkinDirectory() . $old_style->getFontDirectory())) {
+            if (is_dir($this->getSkinDirectory() . $old_style->getId()."/". $old_style->getFontDirectory())) {
                 $this->file_system->changeResourceDirectory(
                     $this->getSkinDirectory(),
                     $style->getId()."/".$style->getFontDirectory(),
@@ -163,7 +163,7 @@ class ilSkinStyleContainer
         }
 
         if ($style->getSoundDirectory() != $old_style->getSoundDirectory()) {
-            if (file_exists($this->getSkinDirectory() . $old_style->getSoundDirectory())) {
+            if (is_dir($this->getSkinDirectory() . $old_style->getId()."/". $old_style->getSoundDirectory())) {
                 $this->file_system->changeResourceDirectory(
                     $this->getSkinDirectory(),
                     $style->getId()."/".$style->getSoundDirectory(),
@@ -177,33 +177,33 @@ class ilSkinStyleContainer
             }
         }
 
-        if (file_exists($this->getSkinDirectory() . $old_style->getCssFile() . '.Scss')) {
+        if (file_exists($this->getSkinDirectory() .$old_style->getId().'/'.$old_style->getCssFile() . '.scss')) {
             rename(
-                $this->getSkinDirectory() . $old_style->getCssFile() . '.Scss',
+                $this->getSkinDirectory().$old_style->getId().'/'.$old_style->getCssFile().'.scss',
                 $this->getScssFilePath($style->getId())
             );
         } else {
             $this->createMainScssFile($style);
         }
 
-        if (file_exists($this->getSkinDirectory() . $old_style->getCssFile() . '-variables.scss')) {
-            rename(
-                $this->getSkinDirectory() . $old_style->getCssFile() . '-variables.scss',
-                $this->getScssSettingsPath($style->getId())
+        if (is_dir($this->getScssSettingsPath($old_style->getId()))) {
+            $this->file_system->changeResourceDirectory(
+                $this->getSkinDirectory(),
+                $style->getId().'/'.$this->getScssSettingsFolderName(),
+                $old_style->getId().'/'.$this->getScssSettingsFolderName()
             );
         } else {
             $this->copySettingsFromDefault($style);
         }
 
-        $this->changeVariablesImport(
+        $this->changeImportStatementsInSettings(
             $this->getScssFilePath($style->getId()),
-            $old_style->getCssFile() . '-variables.scss',
-            $this->getScssSettingsFolderName()
+            new ilSystemStyleScssSettings($this->getScssSettingsPath($style->getId()))
         );
 
-        if (file_exists($this->getSkinDirectory() . $old_style->getCssFile() . '.css')) {
+        if (file_exists($this->getSkinDirectory().$old_style->getId().'/'.$old_style->getCssFile().'.css')) {
             rename(
-                $this->getSkinDirectory() . $old_style->getCssFile() . '.css',
+                $this->getSkinDirectory().$old_style->getId().'/'.$old_style->getCssFile().'.css',
                 $this->getCSSFilePath($style->getId())
             );
         } else {
@@ -255,9 +255,16 @@ class ilSkinStyleContainer
      */
     public function copySettingsFromDefault(ilSkinStyle $style): ilSystemStyleScssSettings
     {
-        $settings = new ilSystemStyleScssSettings($this->getSystemStylesConf()->getDefaultSettingsPath());
-        $settings->write();
-        return $settings;
+        if (is_dir($this->getScssSettingsPath($style->getId()))) {
+            $this->file_system->removeResourceDirectory($this->getSkinDirectory(), $style->getId()."/".$this->getScssSettingsFolderName());
+        }
+
+        $this->file_system->createResourceDirectory(
+            $this->getSystemStylesConf()->getDefaultSettingsPath(),
+            $this->getScssSettingsPath($style->getId())
+        );
+
+        return new ilSystemStyleScssSettings($this->getSystemStylesConf()->getDefaultSettingsPath());
     }
 
     /**
@@ -379,18 +386,24 @@ class ilSkinStyleContainer
         return $output_file;
     }
 
-    protected function changeVariablesImport(
+    protected function changeImportStatementsInSettings(
         string $main_path,
-        string $old_style_import,
-        string $new_style_import
+        ilSystemStyleScssSettings $settings
     ): void {
-        $main_Scss_content = file_get_contents($main_path);
-        $main_Scss_content = str_replace(
-            "@import \"" . $old_style_import,
-            "@import \"" . $new_style_import,
-            $main_Scss_content
+        $main_scss_content = file_get_contents($main_path);
+        $replacement_start = "// ## Begin Replacement Variables";
+        $replacement_end = "// ## End Replacement Variables";
+        $regex_part_to_replace_start = "%$replacement_start.*?$replacement_end%s";
+        $replacement = $settings->getVariablesForDelosOverride();
+        $new_variabales_content = "$replacement_start $replacement $replacement_end";
+
+        $main_scss_content = preg_replace(
+            $regex_part_to_replace_start,
+            $new_variabales_content,
+            $main_scss_content
         );
-        file_put_contents($main_path, $main_Scss_content);
+
+        file_put_contents($main_path, $main_scss_content);
     }
 
     /**
@@ -433,17 +446,17 @@ class ilSkinStyleContainer
 
     public function getCSSFilePath(string $style_id): string
     {
-        return $this->getSkinDirectory() . $this->getSkin()->getStyle($style_id)->getCssFile() . '.css';
+        return $this->getSkinDirectory() . $style_id . "/".$this->getSkin()->getStyle($style_id)->getCssFile() . '.css';
     }
 
     public function getScssFilePath(string $style_id): string
     {
-        return $this->getSkinDirectory() . $this->getSkin()->getStyle($style_id)->getCssFile() . '.scss';
+        return $this->getSkinDirectory() . $style_id . "/".$this->getSkin()->getStyle($style_id)->getCssFile() . '.scss';
     }
 
     public function getScssSettingsPath(string $style_id): string
     {
-        return $this->getSkinDirectory() . $style_id . "/".$this->system_styles_conf->getScssFolderName().$this->getScssSettingsFolderName();
+        return $this->getSkinDirectory() . $style_id . "/".$this->getScssSettingsFolderName();
     }
 
     public function getScssSettingsFolderName(): string
