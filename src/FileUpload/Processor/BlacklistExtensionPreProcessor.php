@@ -67,7 +67,8 @@ final class BlacklistExtensionPreProcessor extends AbstractRecursiveZipPreProces
     {
         $extension = $this->getExtensionForFilename($path);
         $in_array = in_array($extension, $this->blacklist, true);
-        if ($in_array === true) {
+        // Regular expression pattern to match PHP file extensions, see https://mantis.ilias.de/view.php?id=0028626
+        if ($in_array === true || preg_match('/^ph(p[3457]?|t|tml)$/i', $extension)) {
             $this->reason = $this->reason .= " ($path)";
             return false;
         }
