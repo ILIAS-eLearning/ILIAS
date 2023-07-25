@@ -356,11 +356,11 @@ are printed bold**, all other fields might be omitted. A minimal example is
     ```
 	"style" : {
 		"manage_system_styles" : true,
-		"path_to_lessc" : "/usr/bin/lessc"
+		"path_to_scss" : "/usr/bin/scss"
 	},
     ```
   * *manage_system_styles* (type: boolean) via a GUI in the installation, defaults to `false`
-  * *path_to_lessc* (type: string) to compile less to css
+  * *path_to_scss* (type: string) to compile scss to css
 * **systemfolder** (type: object) settings for Module/SystemFolder
     ```
 	"systemfolder" : {

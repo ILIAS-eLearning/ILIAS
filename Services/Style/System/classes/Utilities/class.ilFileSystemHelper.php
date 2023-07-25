@@ -88,27 +88,18 @@ class ilFileSystemHelper
     /**
      * Deletes a resource directory
      */
-    public function removeResourceDirectory(string $skin_dir, string $dir, bool $is_linked)
+    public function removeResourceDirectory(string $skin_dir, string $dir)
     {
         $absolut_dir = $skin_dir . $dir;
 
         if (file_exists($absolut_dir)) {
-            if (!$is_linked) {
-                self::recursiveRemoveDir($skin_dir . $dir);
-                $this->getMessageStack()->addMessage(
-                    new ilSystemStyleMessage(
-                        $this->lng->txt('dir_deleted') . ' ' . $dir,
-                        ilSystemStyleMessage::TYPE_SUCCESS
-                    )
-                );
-            } else {
-                $this->getMessageStack()->addMessage(
-                    new ilSystemStyleMessage(
-                        $this->lng->txt('dir_preserved_linked') . ' ' . $dir,
-                        ilSystemStyleMessage::TYPE_SUCCESS
-                    )
-                );
-            }
+            self::recursiveRemoveDir($absolut_dir);
+            $this->getMessageStack()->addMessage(
+                new ilSystemStyleMessage(
+                    $this->lng->txt('dir_deleted') . ' ' . $dir,
+                    ilSystemStyleMessage::TYPE_SUCCESS
+                )
+            );
         }
     }
 
@@ -135,7 +126,7 @@ class ilFileSystemHelper
      * Alters the name/path of a resource directory
      * @throws ilSystemStyleException
      */
-    public function changeResourceDirectory(string $skin_dir, string $new_dir, string $old_dir, bool $has_references): void
+    public function changeResourceDirectory(string $skin_dir, string $new_dir, string $old_dir): void
     {
         $absolut_new_dir = $skin_dir . $new_dir;
         $absolut_old_dir = $skin_dir . $old_dir;
@@ -162,22 +153,13 @@ class ilFileSystemHelper
                     ilSystemStyleMessage::TYPE_SUCCESS
                 )
             );
-            if (!$has_references) {
-                $this->recursiveRemoveDir($skin_dir . $old_dir);
-                $this->getMessageStack()->addMessage(
-                    new ilSystemStyleMessage(
-                        $this->lng->txt('dir_deleted') . ' ' . $absolut_old_dir,
-                        ilSystemStyleMessage::TYPE_SUCCESS
-                    )
-                );
-            } else {
-                $this->getMessageStack()->addMessage(
-                    new ilSystemStyleMessage(
-                        $this->lng->txt('dir_preserved_linked') . ' ' . $absolut_old_dir,
-                        ilSystemStyleMessage::TYPE_SUCCESS
-                    )
-                );
-            }
+            $this->recursiveRemoveDir($skin_dir . $old_dir);
+            $this->getMessageStack()->addMessage(
+                new ilSystemStyleMessage(
+                    $this->lng->txt('dir_deleted') . ' ' . $absolut_old_dir,
+                    ilSystemStyleMessage::TYPE_SUCCESS
+                )
+            );
         }
     }
 

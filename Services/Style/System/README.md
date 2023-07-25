@@ -9,12 +9,12 @@ For the time being this has been omitted, to keep the interface stable for the m
 ## Terminology
 The following terminology is used:
 * System Style:
-    A style that can be set as system style for the complete ILIAS installations. This includes, less
+    A style that can be set as system style for the complete ILIAS installations. This includes, scss
     css, fonts, icons and sounds as well as possible html tpl files to overide ILIAS templates.
 * Stystem sub Style:
     A sub style can be assigned to exactly one system style to be displayed for a set of categories.
 * Skin:
-    A skin can hold multiple style. A skin is defined by it's folder carrying the name of the skin and the
+    A skin can hold multiple styles. A skin is defined by it's folder carrying the name of the skin and the
     template.xml in this exact folder, listing the skins styles and substyles. Mostly a skin caries exactly one style.
     Through the GUI in the administration it is not possible to define multiple style per skin. It is however possible
     to define multiple sub styles for one style stored in one skin.

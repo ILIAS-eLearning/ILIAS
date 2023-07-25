@@ -26,9 +26,9 @@ class ilStyleMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
             "Can users manage system styles from within the installation?"
         );
         $storage->storeConfigText(
-            "path_to_lessc",
-            $ini->readVariable("tools", "lessc"),
-            "The path to the binary that is used for compiling less."
+            "path_to_scss",
+            $ini->readVariable("tools", "scss"),
+            "The path to the binary that is used for compiling scss."
         );
     }
 }

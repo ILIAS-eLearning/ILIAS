@@ -15,14 +15,14 @@ class ilStyleSetupConfig implements Setup\Config
     /**
      * @var string|null
      */
-    protected $path_to_lessc;
+    protected $path_to_scss;
 
     public function __construct(
         bool $manage_system_styles,
-        ?string $path_to_lessc
+        ?string $path_to_scss
     ) {
         $this->manage_system_styles = $manage_system_styles;
-        $this->path_to_lessc = $this->toLinuxConvention($path_to_lessc);
+        $this->path_to_scss = $this->toLinuxConvention($path_to_scss);
     }
 
     protected function toLinuxConvention(?string $p): ?string
@@ -38,8 +38,8 @@ class ilStyleSetupConfig implements Setup\Config
         return $this->manage_system_styles;
     }
 
-    public function getPathToLessc(): ?string
+    public function getPathToScss(): ?string
     {
-        return $this->path_to_lessc;
+        return $this->path_to_scss;
     }
 }

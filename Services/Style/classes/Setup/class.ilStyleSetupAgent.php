@@ -38,7 +38,7 @@ class ilStyleSetupAgent implements Setup\Agent
         return $this->refinery->custom()->transformation(function ($data) {
             return new \ilStyleSetupConfig(
                 $data["manage_system_styles"] ?? false,
-                $data["path_to_lessc"] ?? null
+                $data["path_to_scss"] ?? null
             );
         });
     }

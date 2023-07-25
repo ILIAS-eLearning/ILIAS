@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 require_once('libs/composer/vendor/autoload.php');
 
-class ilSkinTest extends ilSystemStyleBaseFSTest
+class ilSkinTest extends ilSystemStyleBaseFS
 {
     protected ilSkin $skin;
     protected ilSkinStyle $style1;

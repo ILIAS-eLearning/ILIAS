@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 require_once('libs/composer/vendor/autoload.php');
 
-class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
+class ilSkinStyleContainerTest extends ilSystemStyleBaseFS
 {
     protected ilSkin $skin;
     protected ilSkinStyle $style1;
@@ -31,12 +31,12 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
     {
         parent::setUp();
 
-        if (!defined('PATH_TO_LESSC')) {
+        if (!defined('PATH_TO_SCSS')) {
             if (file_exists('ilias.ini.php')) {
                 $ini = parse_ini_file('ilias.ini.php', true);
-                define('PATH_TO_LESSC', $ini['tools']['lessc'] ?? '');
+                define('PATH_TO_SCSS', $ini['tools']['lessc'] ?? '');
             } else {
-                define('PATH_TO_LESSC', '');
+                define('PATH_TO_SCSS', '');
             }
         }
 
@@ -92,10 +92,10 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
     public function testAddStyle(): void
     {
         $new_style = new ilSkinStyle('style1new', 'new Style');
-        $new_style->setCssFile('style1new');
-        $new_style->setImageDirectory('style1newimage');
-        $new_style->setSoundDirectory('style1newsound');
-        $new_style->setFontDirectory('style1newfont');
+        $new_style->setCssFile('style1new/css');
+        $new_style->setImageDirectory('style1/image');
+        $new_style->setSoundDirectory('style1/sound');
+        $new_style->setFontDirectory('style1/font');
 
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
 
@@ -103,8 +103,9 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1sound'));
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1font'));
         $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css.css'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css.less'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css-variables.less'));
+        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css.scss'));
+        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1/scss'));
+        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1/scss/settings.scss'));
 
         $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1newimage'));
         $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1newsound'));

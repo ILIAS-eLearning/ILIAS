@@ -31,7 +31,7 @@ use ILIAS\FileUpload\FileUpload;
  * Settings UI class for system styles. Acts as main router for the systems styles and handles permissions checks,
  * sets tabs and title as well as description of the content section.
  * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleOverviewGUI,ilSystemStyleSettingsGUI
- * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleLessGUI,ilSystemStyleIconsGUI,ilSystemStyleDocumentationGUI
+ * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleScssGUI,ilSystemStyleIconsGUI,ilSystemStyleDocumentationGUI
  */
 class ilSystemStyleMainGUI
 {
@@ -112,8 +112,8 @@ class ilSystemStyleMainGUI
 
         $this->ctrl->setParameterByClass('ilsystemstylesettingsgui', 'skin_id', $skin_id);
         $this->ctrl->setParameterByClass('ilsystemstylesettingsgui', 'style_id', $style_id);
-        $this->ctrl->setParameterByClass('ilsystemstylelessgui', 'skin_id', $skin_id);
-        $this->ctrl->setParameterByClass('ilsystemstylelessgui', 'style_id', $style_id);
+        $this->ctrl->setParameterByClass('ilsystemstyleScssgui', 'skin_id', $skin_id);
+        $this->ctrl->setParameterByClass('ilsystemstyleScssgui', 'style_id', $style_id);
         $this->ctrl->setParameterByClass('ilsystemstyleiconsgui', 'skin_id', $skin_id);
         $this->ctrl->setParameterByClass('ilsystemstyleiconsgui', 'style_id', $style_id);
         $this->ctrl->setParameterByClass('ilsystemstyledocumentationgui', 'skin_id', $skin_id);
@@ -145,12 +145,12 @@ class ilSystemStyleMainGUI
                     );
                     $this->ctrl->forwardCommand($system_styles_settings);
                     break;
-                case 'ilsystemstylelessgui':
-                    $this->help->setSubScreenId('less');
+                case 'ilsystemstyleScssgui':
+                    $this->help->setSubScreenId('Scss');
                     $this->checkPermission('sty_management');
-                    $this->setUnderworldTabs($skin_id, 'less');
+                    $this->setUnderworldTabs($skin_id, 'Scss');
                     $this->setUnderworldTitle($skin_id, $style_id);
-                    $system_styles_less = new ilSystemStyleLessGUI(
+                    $system_styles_scss = new ilSystemStyleScssGUI(
                         $this->ctrl,
                         $this->lng,
                         $this->tpl,
@@ -163,7 +163,7 @@ class ilSystemStyleMainGUI
                         $skin_id,
                         $style_id
                     );
-                    $this->ctrl->forwardCommand($system_styles_less);
+                    $this->ctrl->forwardCommand($system_styles_scss);
                     break;
                 case 'ilsystemstyleiconsgui':
                     $this->help->setSubScreenId('icons');
@@ -323,9 +323,9 @@ class ilSystemStyleMainGUI
                 $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui')
             );
             $this->tabs->addTab(
-                'less',
-                $this->lng->txt('less'),
-                $this->ctrl->getLinkTargetByClass('ilsystemstylelessgui')
+                'Scss',
+                $this->lng->txt('Scss'),
+                $this->ctrl->getLinkTargetByClass('ilsystemstyleScssgui')
             );
             $this->tabs->addTab(
                 'icons',

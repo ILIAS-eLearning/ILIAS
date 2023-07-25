@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 require_once('libs/composer/vendor/autoload.php');
 
-class ilSystemStyleIconTest extends ilSystemStyleBaseFSTest
+class ilSystemStyleIconTest extends ilSystemStyleBaseFS
 {
     protected string $icon_name = 'test_image_1.svg';
     protected string $icon_type = 'svg';

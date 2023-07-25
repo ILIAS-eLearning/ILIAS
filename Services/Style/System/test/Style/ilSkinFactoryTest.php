@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 require_once('libs/composer/vendor/autoload.php');
 
-class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
+class ilSkinFactoryTest extends ilSystemStyleBaseFS
 {
     protected ilSkin $skin;
     protected ilSkinStyle $style1;
@@ -31,12 +31,12 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
     {
         parent::setUp();
 
-        if (!defined('PATH_TO_LESSC')) {
+        if (!defined('PATH_TO_SCSS')) {
             if (file_exists('ilias.ini.php')) {
                 $ini = parse_ini_file('ilias.ini.php', true);
-                define('PATH_TO_LESSC', $ini['tools']['lessc'] ?? '');
+                define('PATH_TO_SCSS', $ini['tools']['lessc'] ?? '');
             } else {
-                define('PATH_TO_LESSC', '');
+                define('PATH_TO_SCSS', '');
             }
         }
 
@@ -98,7 +98,7 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin_copy->getId() . '/style1sound'));
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin_copy->getId() . '/style1font'));
         $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $skin_copy->getId() . '/style1css.css'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $skin_copy->getId() . '/style1css.less'));
+        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $skin_copy->getId() . '/style1css.scss'));
         $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $skin_copy->getId() . '/style1css-variables.less'));
 
         $this->assertEquals($skin->getName() . ' Copy', $skin_copy->getName());
