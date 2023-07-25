@@ -184,8 +184,8 @@ class ilObjFileListGUI extends ilObjectListGUI
      */
     public function getTitle(): string
     {
-        // Remove filename extension from title
-        return $this->secure(preg_replace('/\\.[a-z0-9]+\\z/i', '', $this->title));
+        $rid = ilObjFileAccess::getListGUIData($this->obj_id)['rid'] ?? '';
+        return ilObjFile::stripTitleOfFileExtension($this->title, $rid);
     }
 
     /**
