@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Notifications\Identification\NotificationIdentification;
 use ILIAS\Notifications\Model\ilNotificationConfig;
@@ -899,7 +899,7 @@ class ilChatroom
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
             $notification->setIdentification(new NotificationIdentification(
                 ChatInvitationNotificationProvider::NOTIFICATION_TYPE,
-                self::ROOM_INVITATION . '_' . $gui->getObject()->getRefId() . '_' . $subScope,
+                self::ROOM_INVITATION . '_' . $this->getRefIdByRoomId($this->getRoomId()) . '_' . $subScope,
             ));
             $notification->setHandlerParam('mail.sender', (string) $sender_id);
 
