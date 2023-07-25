@@ -26,7 +26,9 @@ class ilAdvancedMDValues
     protected $disabled; // [array]
     
     protected static $preload_obj_records; // [array]
-    
+    protected static $stored_record_map = [];
+    protected static $stored_fields_map = [];
+
     /**
      * Constructor
      *
@@ -335,7 +337,7 @@ class ilAdvancedMDValues
      * @param int source sub_id
      * @param int target sub_id
      */
-    public static function _cloneValues($a_source_id, $a_target_id, $a_sub_type = null, $a_source_sub_id = null, $a_target_sub_id = null)
+    public static function _cloneValues($a_source_id, $a_target_id, $a_sub_type = null, $a_source_sub_id = null, $a_target_sub_id = null, $use_stored_record_map = false)
     {
         global $DIC;
 
@@ -348,7 +350,7 @@ class ilAdvancedMDValues
         $new_records = $fields_map = array();
 
         foreach (ilAdvancedMDRecord::_getRecords() as $record) {
-            if ($record->getParentObject() == $a_source_id) {
+            if ($record->getParentObject() == $a_source_id && !$use_stored_record_map) {
                 $tmp = array();
                 if ($a_source_id != $a_target_id) {
                     $new_records[$record->getRecordId()] = $record->_clone($tmp, $a_target_id);
@@ -357,6 +359,13 @@ class ilAdvancedMDValues
                 }
                 $fields_map[$record->getRecordId()] = $tmp;
             }
+        }
+        if (!$use_stored_record_map) {
+            self::$stored_record_map = $new_records;
+            self::$stored_fields_map = $fields_map;
+        } else {
+            $new_records = self::$stored_record_map;
+            $fields_map = self::$stored_fields_map;
         }
         
         
