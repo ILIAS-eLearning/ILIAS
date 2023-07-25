@@ -713,7 +713,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         }
     }
 
-    public function getEventByAppointmentId(int $a_appointment_id) : ?array
+    public function getEventByAppointmentId(int $a_appointment_id): ?array
     {
         foreach ($this->getEvents() as $event) {
             if (
