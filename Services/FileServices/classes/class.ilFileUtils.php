@@ -841,6 +841,10 @@ class ilFileUtils
     ): void {
         global $DIC;
 
+        $sanitizer = new ilFileServicesFilenameSanitizer(
+            $DIC->fileServiceSettings()
+        );
+
         $log = $DIC->logger()->root();
 
         if (!is_file($path_to_zip_file)) {
@@ -884,6 +888,11 @@ class ilFileUtils
                     unlink($name);
                     $log->info("Removed symlink " . $name);
                 }
+            }
+            if (is_file($name) && $name !== $sanitizer->sanitize($name)) {
+                // rename file if it contains invalid suffix
+                $new_name = ilFileUtils::getValidFilename($name);
+                rename($name, $new_name);
             }
         }
 
@@ -1034,16 +1043,16 @@ class ilFileUtils
             switch (strtoupper($suffix)) {
                 case 'P':
                     $value *= 1024;
-                // no break
+                    // no break
                 case 'T':
                     $value *= 1024;
-                // no break
+                    // no break
                 case 'G':
                     $value *= 1024;
-                // no break
+                    // no break
                 case 'M':
                     $value *= 1024;
-                // no break
+                    // no break
                 case 'K':
                     $value *= 1024;
                     break;
