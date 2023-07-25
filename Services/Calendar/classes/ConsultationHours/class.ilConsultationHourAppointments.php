@@ -125,9 +125,9 @@ class ilConsultationHourAppointments
         $row = $ilDB->fetchAssoc($set);
         if ($row && $row['admin_id']) {
             if ($a_as_name && $a_full_name) {
-                return ilObjUser::_lookupFullname($row['admin_id']);
+                return ilObjUser::_lookupFullname((int) $row['admin_id']);
             } elseif ($a_as_name) {
-                return ilObjUser::_lookupLogin($row['admin_id']);
+                return ilObjUser::_lookupLogin((int) $row['admin_id']);
             }
             return (int) $row['admin_id'];
         }
