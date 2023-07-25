@@ -3553,6 +3553,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function trashObject()
     {
+        $this->checkPermission("write");
         $tpl = $this->tpl;
 
         $this->tabs_gui->activateTab('trash');
@@ -3607,6 +3608,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function removeFromSystemObject()
     {
+        $this->checkPermission("write");
         $ru = new ilRepUtilGUI($this);
         $ru->removeObjectsFromSystem($_POST["trash_id"]);
         $this->ctrl->redirect($this, "trash");
@@ -3640,6 +3642,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     public function confirmRemoveFromSystemObject()
     {
         $lng = $this->lng;
+        $this->checkPermission("write");
         include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
 
         if (!isset($_POST["trash_id"])) {
