@@ -56,7 +56,7 @@ class ilSystemStyleStyleScssVariableTest extends TestCase
         $variable = new ilSystemStyleScssVariable('il-icon-font-path', 'value', 'comment', 'category_name', ['references_id']);
 
         $variable->setValue("\"../../node_modules/bootstrap/fonts/\"");
-        $this->assertEquals("\"../../../../node_modules/bootstrap/fonts/\"", $variable->getValue());
+        $this->assertEquals("\"../../../../../node_modules/bootstrap/fonts/\"", $variable->getValue());
     }
 
     public function testIconFontPathQuotation(): void
@@ -87,6 +87,6 @@ class ilSystemStyleStyleScssVariableTest extends TestCase
     public function testGetForDelosOverride(): void
     {
         $variable = new ilSystemStyleScssVariable('name', 'value', 'comment', 'category_name', ['references_id']);
-        $this->assertEquals('$name: global.name,\n', $variable->getForDelosOverride());
+        $this->assertEquals("\$name: globals.\$name,\n", $variable->getForDelosOverride());
     }
 }

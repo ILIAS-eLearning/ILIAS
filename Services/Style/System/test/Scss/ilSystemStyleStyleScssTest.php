@@ -316,7 +316,19 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
     public function testGetVariablesForDelosOverride(): void
     {
         $settings = new ilSystemStyleScssSettings($this->container->getScssSettingsPath($this->style->getId()));
-        $expected_content = '$variable111: global.variable111,\n$variable112: global.variable112,\n$variable113: global.variable113,\n$variable121: global.variable121,\n$variable122: global.variable122,\n$variable123: global.variable123,\n$variable211: global.variable211,\n$variable212: global.variable212,\n$variable213: global.variable213,\n$variable221: global.variable221,\n$variable222: global.variable222,\n$variable223: global.variable223,\n';
+        $expected_content = '$variable111: globals.$variable111,
+$variable112: globals.$variable112,
+$variable113: globals.$variable113,
+$variable121: globals.$variable121,
+$variable122: globals.$variable122,
+$variable123: globals.$variable123,
+$variable211: globals.$variable211,
+$variable212: globals.$variable212,
+$variable213: globals.$variable213,
+$variable221: globals.$variable221,
+$variable222: globals.$variable222,
+$variable223: globals.$variable223,
+';
         $this->assertEquals($expected_content, $settings->getVariablesForDelosOverride());
     }
 
@@ -343,6 +355,8 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
         $settings->write();
         $settings = new ilSystemStyleScssSettings($this->container->getSkinDirectory() . 'scss-test/real-folder');
 
+        // !defaults will get removed in this process
+        $expected_content = str_replace(" !default", "", $expected_content);
         $this->assertEquals($expected_content, $settings->getContent());
     }
 
@@ -545,8 +559,8 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
         $file = new ilSystemStyleScssSettings($this->container->getSkinDirectory() . 'scss-test/edge-cases');
 
         $this->assertCount(3, $file->getCategories());
-        $this->assertCount(7, $file->getVariables());
-        $this->assertCount(14, $file->getItems());
+        $this->assertCount(8, $file->getVariables());
+        $this->assertCount(15, $file->getItems());
     }
 
     public function testGetItemsEdgeCases(): void
@@ -605,6 +619,7 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
 
         $expected_category3 = new ilSystemStyleScssCategory('Category 3', 'No Section Between');
         $expected_variable41 = new ilSystemStyleScssVariable('variable3', 'value3', '', 'Category 3', []);
+        $expected_variable42 = new ilSystemStyleScssVariable('variable4', 'value4', '!default identifier', 'Category 3', []);
 
         $expected_items = [$expected_comment1,
                            $expected_comment2,
@@ -619,7 +634,8 @@ class ilSystemStyleStyleScssTest extends ilSystemStyleBaseFS
                            $expected_variable32,
                            $expected_comment4,
                            $expected_category3,
-                           $expected_variable41
+                           $expected_variable41,
+                           $expected_variable42
         ];
 
         $this->assertEquals($expected_items, $file->getItems());

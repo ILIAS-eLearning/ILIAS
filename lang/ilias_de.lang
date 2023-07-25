@@ -15043,15 +15043,15 @@ style#:#adapt_icon#:#Anpassung der Icons
 style#:#adapt_icon_description#:#Passe die Iconfarbe oder das Icon an.
 style#:#adapt_icons#:#Anpassung der Iconfarben
 style#:#adapt_icons_description#:#Alle svg Icons, welche im Ordner images gefunden wurden, werden hier aufgelistet. Wenn eine Farbe geändert wird, ist dies in allen hier aufgelisteten Icons sofort ersichtlich.
-style#:#adapt_less#:#Anpassung der Less-Datei
-style#:#adapt_less_description#:#Dies ist die Darstellung aller less Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird beim Aktualisieren/Zurücksetzen der Variablen vollständig neu kompiliert. Das Zurücksetzten der Variablen erstellt eine exakte Kopie des ursprünglichen "delos style".
+style#:#adapt_scss#:#Anpassung der Scss-Datei
+style#:#adapt_scss_description#:#Dies ist die Darstellung aller scss Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird beim Aktualisieren/Zurücksetzen der Variablen vollständig neu kompiliert. Das Zurücksetzten der Variablen erstellt eine exakte Kopie des ursprünglichen "delos style".
 style#:#add_substyle#:#Neuer Sub-Style
 style#:#add_system_style#:#Neuer System-Style
 style#:#assignment#:#Zuweisung
 style#:#blue_color#:#Blauton
 style#:#blue_colors#:#Blaue Farben
 style#:#blue_colors_description#:#Blauton Beschreibung
-style#:#can_not_read_less_file#:#Less-Datei kann nicht gelesen werden. Pfad:
+style#:#can_not_read_scss_file#:#Scss-Datei kann nicht gelesen werden. Pfad:
 style#:#cant_deactivate_default_style#:#Standard Styles können nicht deaktiviert werden.
 style#:#cant_delete_activated_style#:#Aktive Styles können nicht gelöscht werden.
 style#:#cant_delete_if_users_assigned#:#Styles können nicht gelöscht werden, solange Benutzer ihnen zugewiesen sind.
@@ -15086,24 +15086,15 @@ style#:#icons#:#Icons
 style#:#icons_gallery#:#Icon Galerie
 style#:#image_dir#:#Icon-Ordner
 style#:#image_dir_description#:#Ordner für das Speichern von Bildern (hauptsächlich Icons) vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub-Styles geteilt werden.
-style#:#in_main_less_file#:#ist nicht in der System-Styles-Main-Less-Datei importiert:
-style#:#invalid_less_path#:#Der angegebene lessc-Pfad ist ungültig oder kann vom Webserver nicht gelesen und ausgeführt werden. Die lessc-Datei unter dem angegebenen Pfad (oder die verlinkte Datei, falls der Pfad auf einen symlink verweist) muss vom Webserver gelesen und ausgeführt werden können.
+style#:#in_main_scss_file#:#ist nicht in der System-Styles-Main-Scss-Datei importiert:
+style#:#invalid_scss_path#:#Der angegebene sass/scss-Pfad ist ungültig oder kann vom Webserver nicht gelesen und ausgeführt werden. Die sass/scss-Datei unter dem angegebenen Pfad (oder die verlinkte Datei, falls der Pfad auf einen symlink verweist) muss vom Webserver gelesen und ausgeführt werden können.
 style#:#ks_documentation_of_style#:#'Kitchen Sink'-Dokumentation von Style:
 style#:#ks_documentation_of_substyle#:#'Kitchen Sink'-Dokumentation von Sub-Style:
-style#:#less#:#Less
-style#:#less_can_not_be_modified#:#Less kann nicht verändert werden.
-style#:#less_compile_failed#:#Die Less Datei konnte nicht kompiliert werden. Lessc muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein.
-style#:#less_file_reset#:#Die less-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
-style#:#less_file_updated#:#Die less-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
-style#:#less_less_installation_detected#:#Less-Installation gefunden:
-style#:#less_variable_empty#:#Für diese Variabel wurde kein Wert gesetzt. Der Wert aus der variables.less wurde nun geladen. Bitte überprüfen Sie dieses Feld bevor Sie komplilieren.
-style#:#less_variables_empty_might_have_changed#:#Less Variabeln ohne Wert waren im Formular enthalten. Die Ursache kann sein, dass die variables.less Datei seit dem Laden dieses Formulares geändert wurde. Die leeren Variabeln wurden mit den Werten aus der variables.less Datei ersetzt und markiert. Bitte überprüfen Sie diese Werte, bevor Sie kompilieren und somit auch die Werte im Formular in die variables.less Datei schreiben.
-style#:#less_variables_file_not_included#:#Die Less-Variablen-Datei:
 style#:#manage_system_styles#:#System-Styles verwalten
 style#:#msg_sub_style_created#:#Der Sub-Style wurde erstellt.
 style#:#msg_sys_style_created#:#Die neue System-Style-Datei wurde erfolgreich erstellt.
 style#:#msg_sys_style_update#:#System-Styles wurden aktualisiert.
-style#:#no_less_path_set#:#Das Less-Verzeichnis ist nicht gesetzt.
+style#:#no_scss_path_set#:#Das Scss-Verzeichnis ist nicht gesetzt.
 style#:#no_style_selected#:#Es wurde kein Sub-Style ausgewählt.
 style#:#of_parent#:#vom Parent:
 style#:#open_documentation#:#Dokumentation öffnen
@@ -15111,7 +15102,7 @@ style#:#parent#:#Parent-Style
 style#:#personal#:#Persönlich
 style#:#personal_style_set_to#:#Der persönliche Style wurde geändert zu:
 style#:#preview#:#Vorschau
-style#:#provided_less_path#:#Angegebener lessc-Pfad:
+style#:#provided_scss_path#:#Angegebener scss-Pfad:
 style#:#red_color#:#Rotton
 style#:#red_colors#:#Rote Farben
 style#:#red_colors_description#:#Rotton Beschreibung
@@ -15120,6 +15111,15 @@ style#:#remove_assignment#:#Zuweisung löschen
 style#:#reset_icons#:#Farben zurücksetzen
 style#:#reset_variables#:#Variablen zurücksetzen
 style#:#scope#:#Gültigkeitsbereich
+style#:#scss#:#Scss
+style#:#scss_can_not_be_modified#:#Scss kann nicht verändert werden.
+style#:#scss_compile_failed#:#Die Scss Datei konnte nicht kompiliert werden. Sass/scss muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein.
+style#:#scss_file_reset#:#Die scss-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#scss_file_updated#:#Die scss-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#scss_scss_installation_detected#:#Scss-Installation gefunden:
+style#:#scss_variable_empty#:#Für diese Variabel wurde kein Wert gesetzt. Der Wert aus den Settings Dateien wurde nun geladen. Bitte überprüfen Sie dieses Feld bevor Sie komplilieren.
+style#:#scss_variables_empty_might_have_changed#:#Scss Variabeln ohne Wert waren im Formular enthalten. Die Ursache kann sein, dass die Settings Dateien seit dem Laden dieses Formulares geändert wurde. Die leeren Variabeln wurden mit den Werten aus den Settings Dateien ersetzt und markiert. Bitte überprüfen Sie diese Werte, bevor Sie kompilieren und somit auch die Werte im Formular in die Settings Dateien schreiben.
+style#:#scss_variables_file_not_included#:#Die Scss-Variablen-Datei:
 style#:#select_icon#:#Selektieres Icon
 style#:#settings_of_style#:#Styles verwalten
 style#:#settings_of_substyle#:#Sub-Style verwalten
@@ -15457,7 +15457,7 @@ style#:#style_delete_style#:#Style löschen
 style#:#style_deleted#:#Gelöschter Style:
 style#:#style_edit_style#:#Style editieren
 style#:#style_id#:#Style-ID
-style#:#style_id_description#:#Die Style ID wird für Style-spezifische css- und less-Dateien unterhalb des Skin Ordners verwendet. Die Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#style_id_description#:#Die Style ID wird für Style-spezifische css- und scss-Dateien unterhalb des Skin Ordners verwendet. Die Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
 style#:#style_imported#:#Style wurde erfolgreich importiert nach:
 style#:#style_name#:#Style-Titel
 style#:#style_name_description#:#Der Style-Titel kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI-Elementen aufgelistet, in denen ein Skin ausgewählt werden kann.
@@ -15470,7 +15470,7 @@ style#:#style_support_reuse_info#:#Allow sub-objects of the current container to
 style#:#styles_not_deleted#:#Die Styles konnten aus folgenden Gründen nicht gelöscht werden:
 style#:#sub_style#:#Sub-Style
 style#:#sub_style_id#:#Sub-Style-ID
-style#:#sub_style_id_description#:#Die Sub-Style-ID wird für die betreffenden css und less Dateien verwendet. Diese sind innerhalb des betreffenden Skin Ordners. Die Sub-Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#sub_style_id_description#:#Die Sub-Style-ID wird für die betreffenden css und scss Dateien verwendet. Diese sind innerhalb des betreffenden Skin Ordners. Die Sub-Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
 style#:#sub_style_name#:#Sub-Style-Name
 style#:#sub_style_name_description#:#Der Sub-Style-Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Es wird in allen UI-Elementen aufgelistet, welche eine Selektierung des Skins erlauben.
 style#:#sub_style_parent_style_description#:#Sub-Styles werden genau einem Parent-Style zugewiesen. Sie werden nur den Usern angezeigt, welche auch Zugang zum Parent-Style haben. Der Parent-Style eines Sub-Styles kann nur während der Erstellung des Sub-Styles einmalig zugeordnet werden.

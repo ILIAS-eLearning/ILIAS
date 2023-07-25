@@ -131,9 +131,12 @@ class ilSystemStyleScssSettingsFile
                         $temp_value = str_replace($reference, '', $temp_value);
                     }
 
+                    //do not store the !default attribute in the variable
+                    $value = str_replace(' !default', '', ltrim($value[1]));
+
                     $this->addItem(new ilSystemStyleScssVariable(
                         $variable[1],
-                        ltrim($value[1]),
+                        $value,
                         $last_variable_comment,
                         $last_category_name,
                         $references

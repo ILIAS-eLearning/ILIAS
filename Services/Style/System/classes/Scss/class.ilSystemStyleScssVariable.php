@@ -90,7 +90,7 @@ class ilSystemStyleScssVariable extends ilSystemStyleScssItem
             }
 
             if ($value == "\"../../node_modules/bootstrap/fonts/\"") {
-                $value = "\"../../../../node_modules/bootstrap/fonts/\"";
+                $value = "\"../../../../../node_modules/bootstrap/fonts/\"";
             }
         }
 

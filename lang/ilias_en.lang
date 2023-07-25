@@ -15040,15 +15040,15 @@ style#:#adapt_icon#:#Adapt Icon
 style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.
 style#:#adapt_icons#:#Adapt Icon Colors
 style#:#adapt_icons_description#:#All icons that could be found in svg icons in the skins images folder are listed here. If one color is changed, it will be changed in all icons containing this colors at once.
-style#:#adapt_less#:#Adapt Less
-style#:#adapt_less_description#:#This is a direct representation of all less variables from the variables.less file used in the selected skin. Variable names and descriptions are drawn directly from this file and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a exact copy of the default delos style.
+style#:#adapt_scss#:#Adapt scss
+style#:#adapt_scss_description#:#This is a direct representation of all scss variables from the settings files used in the selected skin. Variable names and descriptions are drawn directly from those files and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a copy of the default delos style.
 style#:#add_substyle#:#Add Sub Style
 style#:#add_system_style#:#Add System Style
 style#:#assignment#:#Assignment
 style#:#blue_color#:#Blue Color
 style#:#blue_colors#:#Blue Colors
 style#:#blue_colors_description#:#Blue Color Description
-style#:#can_not_read_less_file#:#Cannot read less file. Path:
+style#:#can_not_read_scss_file#:#Cannot read scss file. Path:
 style#:#cant_deactivate_default_style#:#Default styles cannot be deactivated.
 style#:#cant_delete_activated_style#:#Active Styles cannot be deleted.
 style#:#cant_delete_if_users_assigned#:#Styles can not be deleted if users are still assigned.
@@ -15083,24 +15083,15 @@ style#:#icons#:#Icons
 style#:#icons_gallery#:#Icons Gallery
 style#:#image_dir#:#Image Directory
 style#:#image_dir_description#:#Folder to store images (mostly icons) of the skin into. This directory can be shared with other styles and sub styles of this skin.
-style#:#in_main_less_file#:#is not imported inside the system styles main less file:
-style#:#invalid_less_path#:#The provided lessc path is not valid or the webserver does not have the proper permission to read and execute lessc. Lessc (or the file linked to by the file pointed to by the lessc path) has to be readabele and executable by your webserver.
+style#:#in_main_scss_file#:#is not imported inside the system styles main scss file:
+style#:#invalid_scss_path#:#The provided sass/scss path is not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readabele and executable by your webserver.
 style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:
 style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:
-style#:#less#:#Less
-style#:#less_can_not_be_modified#:#Less cannot be modified
-style#:#less_compile_failed#:#Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:
-style#:#less_file_reset#:#The less variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
-style#:#less_file_updated#:#The less variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
-style#:#less_less_installation_detected#:#Less installation detected at:
-style#:#less_variable_empty#:#This variable was empty. The default from your variables.less file has been set. Please check if this is correct before compiling.
-style#:#less_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your variables.less file since loading this form. The defaults from the variables.less file have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your variables.less file.
-style#:#less_variables_file_not_included#:#The less variables file:
 style#:#manage_system_styles#:#Manage System Styles
 style#:#msg_sub_style_created#:#The sub style has been created.
 style#:#msg_sys_style_created#:#The new system style has successfully been created.
 style#:#msg_sys_style_update#:#System Styles have been updated
-style#:#no_less_path_set#:#No Less Path set
+style#:#no_scss_path_set#:#No Scss Path set
 style#:#no_style_selected#:#No sub style has been selected.
 style#:#of_parent#:#of parent:
 style#:#open_documentation#:#Open Documentation
@@ -15108,7 +15099,7 @@ style#:#parent#:#Parent Style
 style#:#personal#:#Personal
 style#:#personal_style_set_to#:#Your personal style has been set to:
 style#:#preview#:#Preview
-style#:#provided_less_path#:#Provided lessc path:
+style#:#provided_scss_path#:#Provided scss path:
 style#:#red_color#:#Red Color
 style#:#red_colors#:#Red Colors
 style#:#red_colors_description#:#Red Color Description
@@ -15117,6 +15108,15 @@ style#:#remove_assignment#:#Remove Assignment
 style#:#reset_icons#:#Reset Icons
 style#:#reset_variables#:#Reset Variables
 style#:#scope#:#Scope
+style#:#scss#:#Scss
+style#:#scss_can_not_be_modified#:#Scss cannot be modified
+style#:#scss_compile_failed#:#Something in the compilation of the scss file went wrong. Is scss installed and the path set correctly in ILIAS setup? Original error:
+style#:#scss_file_reset#:#The scss variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#scss_file_updated#:#The scss variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#scss_scss_installation_detected#:#Scss/sass installation detected at:
+style#:#scss_variable_empty#:#This variable was empty. The default from your settings files has been set. Please check if this is correct before compiling.
+style#:#scss_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your settings files since loading this form. The defaults from the settings files have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your settings files.
+style#:#scss_variables_file_not_included#:#The scss variables files:
 style#:#select_icon#:#Select Icon
 style#:#settings_of_style#:#Manage style
 style#:#settings_of_substyle#:#Manage sub style
@@ -15454,7 +15454,7 @@ style#:#style_delete_style#:#Delete Style
 style#:#style_deleted#:#Deleted Style:
 style#:#style_edit_style#:#Edit Style
 style#:#style_id#:#Style ID
-style#:#style_id_description#:#The style id is used as name for style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's.
+style#:#style_id_description#:#The style id is used as name for style specific files such as css and scss placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's.
 style#:#style_imported#:#Style has been successfully imported into:
 style#:#style_name#:#Style Name
 style#:#style_name_description#:#The style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of styles.
@@ -15467,7 +15467,7 @@ style#:#style_support_reuse_info#:#Allow sub-objects of the current container to
 style#:#styles_not_deleted#:#The styles could not have been deleted for the following reasons:
 style#:#sub_style#:#Sub Style
 style#:#sub_style_id#:#Sub Style ID
-style#:#sub_style_id_description#:#The sub style id is used as name for sub style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
+style#:#sub_style_id_description#:#The sub style id is used as name for sub style specific files such as css and scss placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
 style#:#sub_style_name#:#Sub Style Name
 style#:#sub_style_name_description#:#The sub style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of skins.
 style#:#sub_style_parent_style_description#:#Sub styles are assigned to exactly one parent style. They are only displayed to a specific user if the parent style is assigned to a this exact user. The parent style of a substyle can not be changed after the creation of the sub style.
@@ -15609,7 +15609,7 @@ survey#:#enter_phrase_title#:#Please enter a Phrase Title
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!
 survey#:#err_external_rcp_no_email#:#The import data must at least contain an ‘email’ field
 survey#:#err_external_rcp_no_email_column#:#The import data must at least contain a column ‘email’ with the title ‘email’ in the first row and the e-mail addresses in the following rows
-survey#:#err_maxvaluegeminvalue#:#The maximum value must be greater or equal than the minimum value and less or equal than the maximum number of answers.
+survey#:#err_maxvaluegeminvalue#:#The maximum value must be greater or equal than the minimum value and scss or equal than the maximum number of answers.
 survey#:#err_minvalueganswers#:#The minimum must be less or equal than the maximum number of answers.
 survey#:#err_no_exact_answers#:#Please check exactly %s answer(s).
 survey#:#err_no_max_answers#:#Please check at most %s answers.
