@@ -117,6 +117,7 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 | Node.js        | 10.23.0          |
 | wkhtmltopdf    | 0.12.5           |
 | Ghostscript    | 9.26             |
+| Imagemagick    | 6.9.11-60 Q16    |
 | MathJax        | 2.7.9            |
 
 <a name="other-platforms"></a>
@@ -325,17 +326,17 @@ after several days of using ILIAS in production.
 ### Install other Dependencies
 
 ```
-apt-get install openjdk-7-jdk
+apt-get install imagemagick openjdk-7-jdk
 ```
 
 On Debian/Ubuntu execute:
 ```
-apt-get install openjdk-8-jdk
+apt-get install imagemagick openjdk-8-jdk
 ```
 
 On RHEL/CentOS execute:
 ```
-yum install libxslt java-1.8.0-openjdk
+yum install libxslt ImageMagick java-1.8.0-openjdk
 ```
 
 Restart the apache webserver after you installed dependencies!
