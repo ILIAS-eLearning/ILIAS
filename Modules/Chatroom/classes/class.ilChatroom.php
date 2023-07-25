@@ -695,7 +695,7 @@ class ilChatroom
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
             $notification->setIdentification(new NotificationIdentification(
                 ChatInvitationNotificationProvider::NOTIFICATION_TYPE,
-                self::ROOM_INVITATION . '_' . $gui->getObject()->getRefId(),
+                self::ROOM_INVITATION . '_' . $this->getRefIdByRoomId($this->getRoomId()) . '_' . $subScope,
             ));
             $notification->setHandlerParam('mail.sender', (string) $sender_id);
 
