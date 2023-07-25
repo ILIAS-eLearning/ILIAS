@@ -984,6 +984,15 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             //$new_page->buildDom(true);
             //$new_page->update();
             $map[$p["id"]] = $new_page->getId();
+
+            ilAdvancedMDValues::_cloneValues(
+                $this->getId(),
+                $new_obj->getId(),
+                "wpg",
+                $p["id"],
+                $new_page->getId(),
+                true
+            );
         }
         
         // copy important pages
