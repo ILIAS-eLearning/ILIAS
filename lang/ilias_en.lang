@@ -1615,6 +1615,7 @@ assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test.
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed
+assessment#:#tst_please_select_source_pool_definitions#:#Please select a question pool.
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.
 assessment#:#tst_position#:#Question %s of %s
 assessment#:#tst_position_without_total#:#Question %s
