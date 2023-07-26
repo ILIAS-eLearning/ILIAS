@@ -54,6 +54,13 @@ class ilObjectProperties
         );
     }
 
+    public function withPropertyIsOnline(
+        ilObjectPropertyIsOnline $property_is_online
+    ): void {
+        $this->core_properties = $this->core_properties
+            ->withPropertyIsOnline($property_is_online);
+    }
+
     public function getPropertyTitleAndIconVisibility(): ilObjectProperty
     {
         return $this->additional_properties->getPropertyTitleAndIconVisibility();

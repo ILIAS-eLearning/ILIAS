@@ -735,9 +735,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         // Create topic button
         if (!$this->hideToolbar() && $this->access->checkAccess('add_thread', '', $this->object->getRefId())) {
-            $btn = ilLinkButton::getInstance();
-            $btn->setUrl($this->ctrl->getLinkTarget($this, 'createThread'));
-            $btn->setCaption('forums_new_thread');
+            $btn = $this->uiFactory->button()
+                                   ->standard(
+                                       $this->lng->txt('forums_new_thread'),
+                                       $this->ctrl->getLinkTarget($this, 'createThread')
+                                   );
             $this->toolbar->addStickyItem($btn);
         }
 
@@ -879,12 +881,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     )
                 );
                 if (count($filesOfDraft) > 1) {
-                    $download_zip_button = ilLinkButton::getInstance();
-                    $download_zip_button->setCaption($this->lng->txt('download'), false);
                     $this->ctrl->setParameter($this, 'draft_id', $draft->getDraftId());
-                    $download_zip_button->setUrl($this->ctrl->getLinkTarget($this, 'deliverDraftZipFile'));
+                    $download_zip_button = $this->uiFactory->button()
+                                                           ->standard(
+                                                               $this->lng->txt('download'),
+                                                               $this->ctrl->getLinkTarget($this, 'deliverDraftZipFile')
+                                                           );
                     $this->ctrl->setParameter($this, 'draft_id', '');
-                    $tpl->setVariable('DOWNLOAD_ZIP', $download_zip_button->render());
+                    $tpl->setVariable('DOWNLOAD_ZIP', $this->uiRenderer->render($download_zip_button));
                 }
                 $tpl->parseCurrentBlock();
             }
@@ -1070,12 +1074,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 )
             );
             if (count($filesOfPost) > 1) {
-                $download_zip_button = ilLinkButton::getInstance();
-                $download_zip_button->setCaption($this->lng->txt('download'), false);
                 $this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-                $download_zip_button->setUrl($this->ctrl->getLinkTarget($this, 'deliverZipFile'));
-
-                $tpl->setVariable('DOWNLOAD_ZIP', $download_zip_button->render());
+                $download_zip_button = $this->uiFactory->button()
+                                                       ->standard(
+                                                           $this->lng->txt('download'),
+                                                           $this->ctrl->getLinkTarget($this, 'deliverZipFile')
+                                                       );
+                $tpl->setVariable('DOWNLOAD_ZIP', $this->uiRenderer->render($download_zip_button));
             }
             $tpl->parseCurrentBlock();
         }
@@ -2203,12 +2208,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         );
         if ($draftObj->getDraftId() > 0) {
             $oFDForumDrafts = new ilFileDataForumDrafts(0, $draftObj->getDraftId());
-            if ($oFDForumDrafts->getFilesOfPost() !== []) {
+            $files_of_draft = $oFDForumDrafts->getFilesOfPost();
+
+            if ($files_of_draft !== []) {
                 $oExistingAttachmentsGUI = new ilCheckboxGroupInputGUI(
                     $this->lng->txt('forums_delete_file'),
                     'del_file'
                 );
-                foreach ($oFDForumDrafts->getFilesOfPost() as $file) {
+                foreach ($files_of_draft as $file) {
                     $oExistingAttachmentsGUI->addOption(new ilCheckboxOption($file['name'], $file['md5']));
                 }
                 $this->replyEditForm->addItem($oExistingAttachmentsGUI);
@@ -3252,10 +3259,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $threadContentTemplate->parseCurrentBlock();
         }
 
-        $to_top_button = ilLinkButton::getInstance();
-        $to_top_button->setCaption('top_of_page');
-        $to_top_button->setUrl('#frm_page_top');
-        $bottom_toolbar->addButtonInstance($to_top_button);
+        $to_top_button = $this->uiFactory->button()
+                                         ->standard($this->lng->txt('top_of_page'), '#frm_page_top');
+        $bottom_toolbar->addComponent($to_top_button);
         if ($numberOfPostings > 0) {
             $threadContentTemplate->setVariable('TOOLBAR_BOTTOM', $bottom_toolbar->getHTML());
         }

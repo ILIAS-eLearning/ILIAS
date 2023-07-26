@@ -22,7 +22,6 @@ use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Component\Component;
 use ILIAS\Data\Result\Ok;
-use ILIAS\Data\Result\Error;
 
 /**
  * Forum Administration Settings.
@@ -127,7 +126,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             return;
         }
 
-        $set_int = fn ($key) => $this->settings->set($key, (string) ((int) $data[$key]));
+        $set_int = fn($key) => $this->settings->set($key, (string) ((int) $data[$key]));
 
         $data['forum_notification'] = $data['forum_notification'] || $$this->forumJobActive();
 
@@ -158,16 +157,16 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
         $items = [];
 
-        $checkbox = fn ($label) => $field->checkbox($this->lng->txt($label), $this->lng->txt($label . '_desc'));
-        $nice = fn ($label) => sprintf('%s (%s)', $this->lng->txt('sort_by_date'), $this->lng->txt($label));
-        $to_string = static fn ($x) => (string) $x;
-        $with_options = static fn ($x, $options) => array_reduce(
+        $checkbox = fn($label) => $field->checkbox($this->lng->txt($label), $this->lng->txt($label . '_desc'));
+        $nice = fn($label) => sprintf('%s (%s)', $this->lng->txt('sort_by_date'), $this->lng->txt($label));
+        $to_string = static fn($x) => (string) $x;
+        $with_options = static fn($x, $options) => array_reduce(
             $options,
-            static fn ($x, $option) => $x->withOption(...array_map($to_string, $option)),
+            static fn($x, $option) => $x->withOption(...array_map($to_string, $option)),
             $x
         );
         $add_checkbox = function ($name, $label = null, $f = null) use (&$items, $checkbox) {
-            $f = $f ?? static fn ($x) => $x;
+            $f = $f ?? static fn($x) => $x;
             $items[$name] = $f($checkbox($label ?? $name)->withValue((bool) $this->settings->get($name)));
         };
 
@@ -189,7 +188,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             (string) ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED
         ));
 
-        $add_checkbox('forum_notification', 'cron_forum_notification', fn ($x) => (
+        $add_checkbox('forum_notification', 'cron_forum_notification', fn($x) => (
             $x->withDisabled($this->forumJobActive())
               ->withValue($x->getValue() || $this->forumJobActive())
               ->withByLine($this->forumByLine($x))
@@ -205,7 +204,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         );
 
         if (!$this->checkPermissionBool('write')) {
-            $items = array_map(static fn ($x) => $x->withDisabled(true), $items);
+            $items = array_map(static fn($x) => $x->withDisabled(true), $items);
         }
 
         return $this->ui->factory()->input()->container()->form()->standard($this->ctrl->getFormAction($this, 'saveSettings'), $items);
@@ -258,8 +257,8 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('form');
 
         return $this->refinery->in()->series([
-            $this->refinery->int()->isGreaterThanOrEqual(30)->withProblemBuilder(fn () => $this->lng->txt('form_msg_value_too_low')),
-            $this->refinery->int()->isLessThanOrEqual(60 * 60)->withProblemBuilder(fn () => $this->lng->txt('form_msg_value_too_high')),
+            $this->refinery->int()->isGreaterThanOrEqual(30)->withProblemBuilder(fn() => $this->lng->txt('form_msg_value_too_low')),
+            $this->refinery->int()->isLessThanOrEqual(60 * 60)->withProblemBuilder(fn() => $this->lng->txt('form_msg_value_too_high')),
             $this->refinery->always(true),
         ])->applyTo(new Ok($drafts['ival']))->except(function ($error) {
             $this->tpl->setOnScreenMessage('failure', sprintf('%s: %s', $this->lng->txt('adm_autosave_drafts'), $error->getMessage()));

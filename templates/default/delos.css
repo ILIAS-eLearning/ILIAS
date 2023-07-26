@@ -4140,14 +4140,14 @@ input[type=checkbox]:focus:focus-visible {
 .c-launcher .btn-bulky {
   min-width: 50%;
   width: max-content;
-  border-radius: 6px;
+  border-radius: 10px;
   color: white;
   background-color: #557b2e;
   border-color: #557b2e;
   padding: 12px 15px;
   font-size: 1rem;
   line-height: 1.428571429;
-  border-radius: 6px;
+  border-radius: 10px;
 }
 .c-launcher .btn-bulky:focus, .c-launcher .btn-bulky.focus {
   color: white;
@@ -5780,52 +5780,121 @@ footer {
   margin: 3px 3px 6px 0px;
 }
 
-.il-mode-info {
-  border-top: 3px solid #B54F00;
-  border-left: 3px solid #B54F00;
-  border-right: 3px solid #B54F00;
-  text-align: center;
-  z-index: 1010;
+/*
+	These classes are used to limit the number of rows when displaying larger chunks of text.
+	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
+	can be used to limit the number of rows for text to 2,3,5 or 10 lines in any template,
+	e.g. the Standard Listing Panels limit the property values to 3 lines using il-multi-line-cap-3
+
+	Technical discussion can be found in https://mantis.ilias.de/view.php?id=21583
+	The background/gradient fallback can be removed as soon as all browsers support line-clamp.
+ */
+.c-mode-info {
+  display: flex;
   position: absolute;
+  z-index: 1010;
+  width: 100%;
+  align-items: start;
+  justify-content: center;
+  text-align: center;
+}
+.c-mode-info__pageframe {
+  border: 3px solid #B54F00;
   height: 100%;
+  position: fixed;
   width: 100%;
   pointer-events: none;
+  z-index: 1010;
 }
-
-.il-mode-info + div {
-  border: 3px solid #B54F00;
-  border-top: 0 none;
+.c-mode-info__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #B54F00;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  -webkit-box-shadow: 20px 10px 30px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 20px 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 20px 10px 30px rgba(0, 0, 0, 0.15);
+  padding: 1px 18px;
+  gap: 18px;
+  min-height: 35px;
+  min-width: 20%;
+  max-width: 50%;
 }
 @media only screen and (max-width: 768px) {
-  .il-mode-info + div {
-    padding-top: 30px;
+  .c-mode-info__content {
+    border-radius: 0;
+    width: 100%;
+    min-height: 45px;
+    max-width: 100%;
   }
 }
-
-.il-mode-info span.il-mode-info-content {
-  margin: auto;
-  background-color: #B54F00;
-  padding: 3px 9px 3px 9px;
-  -webkit-box-shadow: 0px 2px 2px 0px rgb(128, 128, 128);
-  -moz-box-shadow: 0px 2px 2px 0px rgb(128, 128, 128);
-  box-shadow: 0px 2px 2px 0px rgb(128, 128, 128);
-  pointer-events: all;
-}
-
-.il-mode-info span {
+.c-mode-info__label, .c-mode-info__close {
   color: white;
   font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+  position: relative;
+}
+.c-mode-info__label a,
+.c-mode-info__label a:hover, .c-mode-info__close a,
+.c-mode-info__close a:hover {
+  color: white;
+}
+.c-mode-info__label {
+  /* edge, chrome, safari go here... */
+  /* may come with next firefox 68, https://caniuse.com/#search=clamp */
+  flex-grow: 1;
+}
+.c-mode-info__label {
+  position: relative;
+  max-height: 1.5em;
+  overflow: hidden;
+  line-height: 1.5;
+}
+.c-mode-info__label:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.5em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255) 80%);
+}
+@supports (-webkit-line-clamp: 2) {
+  .c-mode-info__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  .c-mode-info__label:after {
+    display: none;
+  }
+}
+@supports (-moz-line-clamp: 2) {
+  .c-mode-info__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -moz-box;
+    -moz-line-clamp: 1;
+    -moz-box-orient: vertical;
+  }
+  .c-mode-info__label:after {
+    display: none;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .c-mode-info__mobile-padding {
+    height: 45px;
+  }
 }
 
-@media only screen and (max-width: 768px) {
-  .il-mode-info {
-    margin-bottom: 0;
-  }
-  span.il-mode-info-content {
-    display: block;
-    width: 100%;
-  }
-}
 /*
 **************************************************************
 	System Infos
@@ -8902,258 +8971,6 @@ div#bot_center_area_drag:hover {
   background: none #fa9;
 }
 
-.carousel {
-  position: relative;
-}
-
-.carousel-inner {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  min-height: 400px;
-}
-.carousel-inner .item:not(.text-only) .item-content {
-  display: flex;
-  justify-content: center;
-}
-.carousel-inner .item:not(.text-only) .item-content.item-vertical {
-  flex-direction: column;
-}
-.carousel-inner > .item {
-  display: none;
-  position: relative;
-  -webkit-transition: 0.6s ease-in-out left;
-  -o-transition: 0.6s ease-in-out left;
-  transition: 0.6s ease-in-out left;
-}
-.carousel-inner > .item > img,
-.carousel-inner > .item > a > img,
-.carousel-inner > .item .item-content > img,
-.carousel-inner > .item .item-content > a > img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  line-height: 1;
-}
-@media all and (transform-3d), (-webkit-transform-3d) {
-  .carousel-inner > .item {
-    -webkit-transition: -webkit-transform 0.6s ease-in-out;
-    -moz-transition: -moz-transform 0.6s ease-in-out;
-    -o-transition: -o-transform 0.6s ease-in-out;
-    transition: transform 0.6s ease-in-out;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-perspective: 1000px;
-    -moz-perspective: 1000px;
-    perspective: 1000px;
-  }
-  .carousel-inner > .item.next, .carousel-inner > .item.active.right {
-    -webkit-transform: translate3d(100%, 0, 0);
-    transform: translate3d(100%, 0, 0);
-    left: 0;
-  }
-  .carousel-inner > .item.prev, .carousel-inner > .item.active.left {
-    -webkit-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0);
-    left: 0;
-  }
-  .carousel-inner > .item.next.left, .carousel-inner > .item.prev.right, .carousel-inner > .item.active {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    left: 0;
-  }
-}
-.carousel-inner > .active,
-.carousel-inner > .next,
-.carousel-inner > .prev {
-  display: block;
-}
-.carousel-inner > .active {
-  left: 0;
-}
-.carousel-inner > .next,
-.carousel-inner > .prev {
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-.carousel-inner > .next {
-  left: 100%;
-}
-.carousel-inner > .prev {
-  left: -100%;
-}
-.carousel-inner > .next.left,
-.carousel-inner > .prev.right {
-  left: 0;
-}
-.carousel-inner > .active.left {
-  left: -100%;
-}
-.carousel-inner > .active.right {
-  left: 100%;
-}
-
-.carousel-control {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 15%;
-  filter: alpha(opacity=50);
-  opacity: 0.5;
-  font-size: 20px;
-  color: white;
-  text-align: center;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-  background-color: rgba(0, 0, 0, 0);
-}
-.carousel-control.right {
-  left: auto;
-  right: 0;
-}
-.carousel-control:hover, .carousel-control:focus {
-  outline: 0;
-  color: white;
-  text-decoration: none;
-  filter: alpha(opacity=90);
-  opacity: 0.9;
-}
-.carousel-control .icon-prev,
-.carousel-control .icon-next,
-.carousel-control .glyphicon-chevron-left,
-.carousel-control .glyphicon-chevron-right {
-  position: absolute;
-  top: 50%;
-  margin-top: -10px;
-  z-index: 5;
-  display: inline-block;
-}
-.carousel-control .icon-prev,
-.carousel-control .glyphicon-chevron-left {
-  left: 50%;
-  margin-left: -10px;
-}
-.carousel-control .icon-next,
-.carousel-control .glyphicon-chevron-right {
-  right: 50%;
-  margin-right: -10px;
-}
-.carousel-control .icon-prev,
-.carousel-control .icon-next {
-  width: 20px;
-  height: 20px;
-  line-height: 1;
-  font-family: serif;
-}
-.carousel-control .icon-prev:before {
-  content: "‹";
-}
-.carousel-control .icon-next:before {
-  content: "›";
-}
-
-.carousel-indicators {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  z-index: 15;
-  width: 60%;
-  margin-left: -30%;
-  padding-left: 0;
-  list-style: none;
-  text-align: center;
-}
-.carousel-indicators li {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin: 1px;
-  text-indent: -999px;
-  border: 1px solid white;
-  border-radius: 10px;
-  cursor: pointer;
-  background-color: #000 \9 ;
-  background-color: rgba(0, 0, 0, 0);
-}
-.carousel-indicators .active {
-  margin: 0;
-  width: 12px;
-  height: 12px;
-  background-color: white;
-}
-
-.carousel-caption {
-  position: absolute;
-  left: 15%;
-  right: 15%;
-  bottom: 20px;
-  z-index: 10;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  color: white;
-  text-align: center;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-}
-.carousel-caption .btn {
-  text-shadow: none;
-}
-
-@media screen and (min-width: 768px) {
-  .carousel-control .glyphicon-chevron-left,
-  .carousel-control .glyphicon-chevron-right,
-  .carousel-control .icon-prev,
-  .carousel-control .icon-next {
-    width: 30px;
-    height: 30px;
-    margin-top: -10px;
-    font-size: 30px;
-  }
-  .carousel-control .glyphicon-chevron-left,
-  .carousel-control .icon-prev {
-    margin-left: -10px;
-  }
-  .carousel-control .glyphicon-chevron-right,
-  .carousel-control .icon-next {
-    margin-right: -10px;
-  }
-  .carousel-caption {
-    left: 20%;
-    right: 20%;
-    padding-bottom: 30px;
-  }
-  .carousel-indicators {
-    bottom: 20px;
-  }
-}
-@media screen and (min-width: 768px) {
-  .carousel-control .glyphicon-chevron-left,
-  .carousel-control .glyphicon-chevron-right,
-  .carousel-control .icon-prev,
-  .carousel-control .icon-next {
-    width: 30px;
-    height: 30px;
-    margin-top: -10px;
-    font-size: 30px;
-  }
-  .carousel-control .glyphicon-chevron-left,
-  .carousel-control .icon-prev {
-    margin-left: -10px;
-  }
-  .carousel-control .glyphicon-chevron-right,
-  .carousel-control .icon-next {
-    margin-right: -10px;
-  }
-  .carousel-caption {
-    left: 20%;
-    right: 20%;
-    padding-bottom: 30px;
-  }
-  .carousel-indicators {
-    bottom: 20px;
-  }
-}
 /* ---------------- headlines ------------------ */
 h1.il-page-content-header {
   color: #2c2c2c;

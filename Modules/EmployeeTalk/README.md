@@ -121,8 +121,7 @@ be the only way to access their _Talks_. Appointments list the **Title**
 of the _Talk_, the participating **Superior** and **Employee**, as well as
 the date and time of the last update of the appointment. Further, a button
 linking to the _Talk_ is offered.<br>
-The calendar can be filtered for _Talks_ in a specific series, labelled by
-the title of the _Talk Template_ the series was created from.
+The calendar can be filtered for _Talks_ in a specific series.
 
 ### Notifications
 

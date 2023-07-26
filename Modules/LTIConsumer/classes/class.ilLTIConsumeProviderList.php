@@ -393,7 +393,7 @@ class ilLTIConsumeProviderList implements Iterator
             $tblRow['title'] = $provider->getTitle();
             $tblRow['description'] = $provider->getDescription();
             $tblRow['category'] = $provider->getCategory();
-            $tblRow['keywords'] = $provider->getKeywordsArray();
+            $tblRow['keywords'] = $this->getKeywordsFormatted($provider->getKeywordsArray());
             $tblRow['outcome'] = $provider->getHasOutcome();
             $tblRow['external'] = $provider->isExternalProvider();
             $tblRow['provider_key_customizable'] = $provider->isProviderKeyCustomizable();
@@ -478,18 +478,12 @@ class ilLTIConsumeProviderList implements Iterator
         return current($this->providers);
     }
 
-    /**
-     * @return false|ilLTIConsumeProvider|void
-     */
-    public function next()
+    public function next(): void
     {
-        return next($this->providers);
+        next($this->providers);
     }
 
-    /**
-     * @return bool|float|int|mixed|string|null
-     */
-    public function key()
+    public function key(): mixed
     {
         return key($this->providers);
     }
@@ -499,11 +493,13 @@ class ilLTIConsumeProviderList implements Iterator
         return key($this->providers) !== null;
     }
 
-    /**
-     * @return false|ilLTIConsumeProvider|void
-     */
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->providers);
+        reset($this->providers);
+    }
+
+    protected function getKeywordsFormatted(array $keywords): string
+    {
+        return implode('<br />', $keywords);
     }
 }

@@ -117,7 +117,7 @@ class ilObjFileUploadDropzone
                 (int) ilFileUtils::getUploadSizeLimitBytes()
             ),
             $additional_input
-        )->withSubmitCaption(
+        )->withSubmitLabel(
             $this->language->txt('upload_files')
         );
 

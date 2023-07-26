@@ -150,4 +150,26 @@ class ilGlossaryDBUpdateSteps implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_6(): void
+    {
+        if (!$this->db->tableExists('glossary_collection')) {
+            $fields = [
+                'id' => [
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true,
+                    'default' => 0
+                ],
+                'glo_id' => [
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true,
+                    'default' => 0
+                ]
+            ];
+            $this->db->createTable("glossary_collection", $fields);
+            $this->db->addPrimaryKey("glossary_collection", ["id", "glo_id"]);
+        }
+    }
 }

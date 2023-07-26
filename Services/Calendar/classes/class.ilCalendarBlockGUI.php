@@ -38,6 +38,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
     protected HttpServices $http;
     protected int $mode = ilCalendarCategories::MODE_UNDEFINED;
     protected string $display_mode = '';
+    protected ilLogger $logger;
 
     public static string $block_type = "cal";
 
@@ -66,6 +67,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
         parent::__construct();
 
+        $this->logger = $DIC->logger()->cal();
         $this->tabs = $DIC->tabs();
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->ui = $DIC->ui();
@@ -240,7 +242,17 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
             case "ilcalendarappointmentpresentationgui":
                 $this->initCategories();
-                $presentation = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, []);
+
+                $app = $this->getEventByAppointmentId($this->initAppointmentIdFromQuery());
+                if ($app === null) {
+                    $this->logger->error(
+                        'Invalid appointment ID for ref_id: ' .
+                        (string) $this->initAppointmentIdFromQuery() . ' ' .
+                        (string) $this->requested_ref_id
+                    );
+                    return $this->getHTML();
+                }
+                $presentation = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $app);
                 $this->ctrl->forwardCommand($presentation);
                 break;
 
@@ -699,6 +711,20 @@ class ilCalendarBlockGUI extends ilBlockGUI
         } else {
             $this->ctrl->redirectByClass("ildashboardgui", "show");
         }
+    }
+
+    public function getEventByAppointmentId(int $a_appointment_id): ?array
+    {
+        foreach ($this->getEvents() as $event) {
+            if (
+                array_key_exists('event', $event) &&
+                $event['event'] instanceof ilCalendarEntry &&
+                $event['event']->getEntryId() === $a_appointment_id
+            ) {
+                return $event;
+            }
+        }
+        return null;
     }
 
     public function getEvents(): array

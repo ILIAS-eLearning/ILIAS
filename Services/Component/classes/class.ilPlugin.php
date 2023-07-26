@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
 use ILIAS\GlobalScreen\Provider\ProviderCollection;
@@ -173,7 +173,6 @@ abstract class ilPlugin
         }
 
         $this->getLanguageHandler()->uninstall();
-        $this->clearEventListening();
         $this->component_repository->removeStateInformationOf($this->getId());
         $this->afterUninstall();
         return true;
@@ -281,10 +280,6 @@ abstract class ilPlugin
 
         // DB update
         $db_version = $this->updateDatabase();
-
-        $this->readEventListening();
-
-        $this->readEventListening();
 
         // set last update version to current version
         $this->component_repository->setCurrentPluginVersion(
@@ -405,36 +400,6 @@ abstract class ilPlugin
             $a_block,
             $this->getDirectory() . "/templates/" . $a_tplname
         );
-    }
-
-
-    // ------------------------------------------
-    // Event Handling
-    // ------------------------------------------
-
-    protected function readEventListening(): void
-    {
-        $reader = new ilPluginReader(
-            $this->getDirectory() . '/plugin.xml',
-            $this->getComponentInfo()->getType(),
-            $this->getComponentInfo()->getName(),
-            $this->getPluginSlotInfo()->getId(),
-            $this->getPluginInfo()->getName()
-        );
-        $reader->clearEvents();
-        $reader->startParsing();
-    }
-
-    protected function clearEventListening(): void
-    {
-        $reader = new ilPluginReader(
-            $this->getDirectory() . '/plugin.xml',
-            $this->getComponentInfo()->getType(),
-            $this->getComponentInfo()->getName(),
-            $this->getPluginSlotInfo()->getId(),
-            $this->getPluginInfo()->getName()
-        );
-        $reader->clearEvents();
     }
 
 

@@ -12,19 +12,18 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 /**
  * Page modifier is an adapter for components to
  *
  */
 export default class PageModifier {
-
   /**
    *
    * @type {PageUI}
    */
-  //pageUI = null;
+  // pageUI = null;
 
   /**
    * @param {ToolSlate} toolSlate
@@ -48,24 +47,23 @@ export default class PageModifier {
    * @param {string} label
    */
   insertComponentAfter(after_pcid, pcid, cname, content, label) {
-    const addArea = document.querySelector("[data-copg-ed-type='add-area'][data-pcid='" + after_pcid + "']");
-    let d = document.createElement("div");
+    const addArea = document.querySelector(`[data-copg-ed-type='add-area'][data-pcid='${after_pcid}']`);
+    const d = document.createElement('div');
 
     // insert after addArea
     addArea.parentNode.insertBefore(d, addArea.nextSibling);
-    d.innerHTML =
-      '<div data-copg-ed-type="pc-area" class="il_editarea" id="CONTENT:' + pcid + '"  data-pcid="' + pcid + '" data-cname="' + cname + '"><div class="ilEditLabel">' + label + '<!--Dummy--></div><div>' + content + '</div></div>';
-    let newAddArea = document.createElement("div");
-    newAddArea.dataset.copgEdType = "add-area";
+    d.innerHTML = `<div data-copg-ed-type="pc-area" class="il_editarea" id="CONTENT:${pcid}"  data-pcid="${pcid}" data-cname="${cname}"><div class="ilEditLabel">${label}<!--Dummy--></div><div>${content}</div></div>`;
+    const newAddArea = document.createElement('div');
+    newAddArea.dataset.copgEdType = 'add-area';
     newAddArea.dataset.pcid = pcid;
     d.parentNode.insertBefore(newAddArea, d.nextSibling);
 
-    let addSelector = "[data-copg-ed-type='add-area'][data-pcid='" + pcid + "']";
-    let pcSelector = "[data-pcid='" + pcid + "']";
+    const addSelector = `[data-copg-ed-type='add-area'][data-pcid='${pcid}']`;
+    const pcSelector = `[data-pcid='${pcid}']`;
 
     this.pageUI.initComponentClick(pcSelector);
     this.pageUI.initAddButtons(addSelector);
-    this.pageUI.initDragDrop(pcSelector, addSelector + " .il_droparea");
+    this.pageUI.initDragDrop(pcSelector, `${addSelector} .il_droparea`);
     this.pageUI.initMultiSelection(pcSelector);
     this.pageUI.initComponentEditing(pcSelector);
 
@@ -74,7 +72,7 @@ export default class PageModifier {
   }
 
   removeInsertedComponent(pcid) {
-    const pcSelector = "[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']";
+    const pcSelector = `[data-copg-ed-type='pc-area'][data-pcid='${pcid}']`;
     const el = document.querySelector(pcSelector).parentNode;
     const next = el.nextSibling;
     el.parentNode.removeChild(el);
@@ -82,7 +80,7 @@ export default class PageModifier {
   }
 
   hideComponent(pcid) {
-    const pcSelector = "[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']";
+    const pcSelector = `[data-copg-ed-type='pc-area'][data-pcid='${pcid}']`;
     const el = document.querySelector(pcSelector).parentNode;
     const next = el.nextSibling;
     el.style.display = 'none';
@@ -90,7 +88,7 @@ export default class PageModifier {
   }
 
   showComponent(pcid) {
-    const pcSelector = "[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']";
+    const pcSelector = `[data-copg-ed-type='pc-area'][data-pcid='${pcid}']`;
     const el = document.querySelector(pcSelector).parentNode;
     const next = el.nextSibling;
     el.style.display = '';
@@ -98,12 +96,12 @@ export default class PageModifier {
   }
 
   cut(items) {
-    for (let id of items) {
-      console.log("cut");
-      const pcid = id.split(":")[1];
-      const pcSelector = "[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']";
+    for (const id of items) {
+      console.log('cut');
+      const pcid = id.split(':')[1];
+      const pcSelector = `[data-copg-ed-type='pc-area'][data-pcid='${pcid}']`;
       const areaEl = document.querySelector(pcSelector);
-      if (areaEl) {   // this may already not exist anymore, if nested elements are cut
+      if (areaEl) { // this may already not exist anymore, if nested elements are cut
         const el = areaEl.parentNode;
         const next = el.nextSibling;
         el.parentNode.removeChild(el);
@@ -113,44 +111,44 @@ export default class PageModifier {
   }
 
   showModal(title, content, button_txt, onclick) {
-    const uiModel = this.pageUI.uiModel;
+    const { uiModel } = this.pageUI;
 
-    $("#il-copg-ed-modal").remove();
+    $('#il-copg-ed-modal').remove();
     let modal_template = uiModel.modal.template;
-    modal_template = modal_template.replace("#title#", title);
-    modal_template = modal_template.replace("#content#", content);
-    modal_template = modal_template.replace("#button_title#", button_txt);
+    modal_template = modal_template.replace('#title#', title);
+    modal_template = modal_template.replace('#content#', content);
+    modal_template = modal_template.replace('#button_title#', button_txt);
 
-    $("body").append("<div id='il-copg-ed-modal'>" + modal_template + "</div>");
+    $('body').append(`<div id='il-copg-ed-modal'>${modal_template}</div>`);
 
     $(document).trigger(
       uiModel.modal.signal,
       {
-        'id': uiModel.modal.signal,
-        'triggerer': $(this),
-        'options': JSON.parse('[]')
-      }
+        id: uiModel.modal.signal,
+        triggerer: $(this),
+        options: JSON.parse('[]'),
+      },
     );
 
     if (button_txt) {
-      const b = document.querySelector("#il-copg-ed-modal .modal-footer button");
-      b.addEventListener("click", onclick);
+      const b = document.querySelector('#il-copg-ed-modal .modal-footer button');
+      b.addEventListener('click', onclick);
     } else {
-      document.querySelectorAll("#il-copg-ed-modal .modal-footer").forEach((b) => {
+      document.querySelectorAll('#il-copg-ed-modal .modal-footer').forEach((b) => {
         b.remove();
       });
     }
   }
 
   hideCurrentModal() {
-    $("#il-copg-ed-modal .modal").modal("hide");
+    $('#il-copg-ed-modal .modal').modal('hide');
   }
 
   getConfirmation(text) {
-    const uiModel = this.pageUI.uiModel;
+    const { uiModel } = this.pageUI;
 
     let confirmation_template = uiModel.confirmation;
-    confirmation_template = confirmation_template.replace("#text#", text);
+    confirmation_template = confirmation_template.replace('#text#', text);
     return confirmation_template;
   }
 
@@ -160,7 +158,7 @@ export default class PageModifier {
   }
 
   redirectToPage(pcid) {
-    this.redirect(this.pageUI.uiModel.backUrl + "#pc" + pcid);
+    this.redirect(`${this.pageUI.uiModel.backUrl}#pc${pcid}`);
   }
 
   redirect(url) {
@@ -168,22 +166,27 @@ export default class PageModifier {
   }
 
   displayError(error) {
-    const uiModel = this.pageUI.uiModel;
+    const { uiModel } = this.pageUI;
     this.toolSlate.displayError(uiModel.errorMessage);
     const pm = this;
 
-    const content =  uiModel.errorModalMessage + error;
+    const content = uiModel.errorModalMessage + error;
 
-    const link = document.querySelector("#copg-editor-slate-error ul li a");
-    link.addEventListener("click", () => {
-      pm.showModal(il.Language.txt("copg_error"), content);
-      let m = document.querySelector("#il-copg-ed-modal .modal-dialog");
-      if (m) {
-        m.style.width = "90%";
-      }
-    });
-    link.click();
- }
+    const link = document.querySelector('#copg-editor-slate-error ul li a');
+    if (link) {
+      link.addEventListener('click', () => {
+        pm.showModal(il.Language.txt('copg_error'), content);
+        const m = document.querySelector('#il-copg-ed-modal .modal-dialog');
+        if (m) {
+          m.style.width = '90%';
+        }
+      });
+      link.click();
+    } else {
+      const slate_error = document.querySelector('#copg-editor-slate-error');
+      slate_error.innerHTML = content;
+    }
+  }
 
   clearError() {
     this.toolSlate.clearError();

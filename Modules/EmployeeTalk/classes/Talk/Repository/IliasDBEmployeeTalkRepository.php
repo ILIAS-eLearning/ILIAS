@@ -117,15 +117,16 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
     public function create(EmployeeTalk $talk): EmployeeTalk
     {
         $this->database->insert('etal_data', [
-            'object_id'             => ['int', $talk->getObjectId()],
-            'series_id'             => ['text', $talk->getSeriesId()],
-            'start_date'            => ['int', $talk->getStartDate()->getUnixTime()],
-            'end_date'              => ['int', $talk->getEndDate()->getUnixTime()],
-            'all_day'               => ['int', (int) $talk->isAllDay()],
-            'location'              => ['text', $talk->getLocation()],
-            'employee'              => ['int', $talk->getEmployee()],
-            'completed'             => ['int', (int) $talk->isCompleted()],
-            'standalone_date'       => ['int', (int) $talk->isStandalone()]
+            'object_id' => ['int', $talk->getObjectId()],
+            'series_id' => ['text', $talk->getSeriesId()],
+            'start_date' => ['int', $talk->getStartDate()->getUnixTime()],
+            'end_date' => ['int', $talk->getEndDate()->getUnixTime()],
+            'all_day' => ['int', (int) $talk->isAllDay()],
+            'location' => ['text', $talk->getLocation()],
+            'employee' => ['int', $talk->getEmployee()],
+            'completed' => ['int', (int) $talk->isCompleted()],
+            'standalone_date' => ['int', (int) $talk->isStandalone()],
+            'template_id' => ['int', $talk->getTemplateId()]
             ]);
 
         return $talk;
@@ -134,16 +135,17 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
     public function update(EmployeeTalk $talk): EmployeeTalk
     {
         $this->database->update('etal_data', [
-            'series_id'             => ['text', $talk->getSeriesId()],
-            'start_date'            => ['int', $talk->getStartDate()->getUnixTime()],
-            'end_date'              => ['int', $talk->getEndDate()->getUnixTime()],
-            'all_day'               => ['int', (int) $talk->isAllDay()],
-            'location'              => ['text', $talk->getLocation()],
-            'employee'              => ['int', $talk->getEmployee()],
-            'completed'             => ['int', (int) $talk->isCompleted()],
-            'standalone_date'       => ['int', (int) $talk->isStandalone()]
+            'series_id' => ['text', $talk->getSeriesId()],
+            'start_date' => ['int', $talk->getStartDate()->getUnixTime()],
+            'end_date' => ['int', $talk->getEndDate()->getUnixTime()],
+            'all_day' => ['int', (int) $talk->isAllDay()],
+            'location' => ['text', $talk->getLocation()],
+            'employee' => ['int', $talk->getEmployee()],
+            'completed' => ['int', (int) $talk->isCompleted()],
+            'standalone_date' => ['int', (int) $talk->isStandalone()],
+            'template_id' => ['int', $talk->getTemplateId()]
         ], [
-            'object_id'             => ['int', $talk->getObjectId()]
+            'object_id' => ['int', $talk->getObjectId()]
         ]);
 
         return $talk;
@@ -205,7 +207,8 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
             $stdClass->location ?? '',
             intval($stdClass->employee),
             boolval($stdClass->completed),
-            boolval($stdClass->standalone_date)
+            boolval($stdClass->standalone_date),
+            intval($stdClass->template_id)
         );
     }
 }

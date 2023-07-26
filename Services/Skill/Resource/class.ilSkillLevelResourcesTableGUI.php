@@ -74,7 +74,7 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
             ];
         }
         $this->setData($resources_array);
-        $this->setTitle($lng->txt("resources"));
+        $this->setTitle($lng->txt("skmg_suggested_resources"));
 
         if ($this->write_permission) {
             $this->addColumn("", "", "1px", true);

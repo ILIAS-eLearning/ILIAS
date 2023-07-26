@@ -57,9 +57,9 @@ abstract class ilCmiXapiAbstractRequest
             $body = '';
             $promises = array();
             $promises['default'] = $client->sendAsync($request, $req_opts);
-            $responses = GuzzleHttp\Promise\settle($promises)->wait();
+            $responses = GuzzleHttp\Promise\Utils::settle($promises)->wait();
             self::checkResponse($responses['default'], $body);
-            return (string) $body;
+            return $body;
         } catch (Exception $e) {
             ilObjCmiXapi::log()->error($e->getMessage());
             throw new Exception("LRS Connection Problems", $e->getCode(), $e);
@@ -72,10 +72,10 @@ abstract class ilCmiXapiAbstractRequest
         if ($response['state'] == 'fulfilled') {
             $status = $response['value']->getStatusCode();
             if (in_array($status, $allowedStatus)) {
-                $body = $response['value']->getBody();
+                $body = $response['value']->getBody()->getContents();
                 return true;
             } else {
-                ilObjCmiXapi::log()->error("LRS error: " . $response['value']->getBody());
+                ilObjCmiXapi::log()->error("LRS error: " . $response['value']->getBody()->getContents());
                 return false;
             }
         } else {
@@ -96,7 +96,7 @@ abstract class ilCmiXapiAbstractRequest
         }
 
         if ($encoding === false) {
-            $encoder = fn ($str) => $str;
+            $encoder = fn($str) => $str;
         } elseif ($encoding === PHP_QUERY_RFC3986) {
             $encoder = 'rawurlencode';
         } elseif ($encoding === PHP_QUERY_RFC1738) {

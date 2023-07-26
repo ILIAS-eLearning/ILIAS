@@ -4572,7 +4572,7 @@ common#:#mm_repo_tree_view_act#:#Baumansicht an
 common#:#mm_repo_tree_view_deact#:#Baumansicht aus
 common#:#mm_repository#:#Magazin
 common#:#mm_skills#:#Kompetenzen
-common#:#mm_staff_list#:#Mitarbeiter
+common#:#mm_staff_list#:#Mitarbeiterliste
 common#:#mm_tags#:#Tags
 common#:#mm_task_derived_tasks#:#To-Dos
 common#:#mme_lost_item_reason#:#Eintrag wird nicht mehr angeboten.
@@ -5327,7 +5327,7 @@ common#:#report_accessibility_issue#:#Barriere melden
 common#:#report_accessibility_link#:#Gemeldeter Link:
 common#:#report_accessibility_link_mailto#:#Gemeldeter%20Link:
 common#:#repository#:#Magazin
-common#:#repository_admin#:#Magazin, Papierkorb und Rechte
+common#:#repository_admin#:#Magazin und Papierkorb
 common#:#repository_admin_desc#:#Rechteeinstellungen für Magazinobjekte festlegen, Entfernen oder Wiederherstellen von Objekten im Papierkorb
 common#:#require_email#:#Pflichteingabe E-Mail
 common#:#require_gender#:#Pflichteingabe Anrede
@@ -7093,7 +7093,7 @@ content#:#glo_full_definitions_info#:#Alle Begriffe und Definitionen werden voll
 content#:#glo_hide_taxonomy#:#Taxonomie ausblenden
 content#:#glo_list_usages#:#Nutzung
 content#:#glo_mode_level_info#:#Nur Begriffe aus Glossaren, die sich im Magazin auf gleicher Ebene befinden, werden eingefügt.
-content#:#glo_mode_normal_info#:#Das Glossar beinhaltet alle Begriffe, die aktiv eingefügt werden.
+content#:#glo_mode_normal_info#:#Das Glossar beinhaltet alle Begriffe, die im Glossar angelegt wurden.
 content#:#glo_mode_subtree_info#:#Auch Begriffe aus Glossaren auf untergeordneten Magazinebenen werden eingefügt.
 content#:#glo_online_info#:#Nur wenn das Glossar online geschaltet ist, können Benutzer das Glossar sehen und benutzen.
 content#:#glo_presentation_mode#:#Ansicht
@@ -7913,9 +7913,12 @@ dash#:#dash_default_presentation#:#Standardpräsentation
 dash#:#dash_default_sortation#:#Standardsortierung
 dash#:#dash_enable_cal#:#Kalender
 dash#:#dash_enable_favourites#:#Favoriten
+dash#:#dash_enable_learning_sequences#:#Lernsequenzen
 dash#:#dash_enable_mail#:#Mail
 dash#:#dash_enable_memberships#:#Meine Kurse und Gruppen
 dash#:#dash_enable_news#:#Neuigkeiten
+dash#:#dash_enable_recommended_content#:#Empfohlene Inhalte
+dash#:#dash_enable_study_programmes#:#Studienprogramme
 dash#:#dash_enable_task#:#To-Dos
 dash#:#dash_favourites#:#Favoriten
 dash#:#dash_info_sure_remove_from_favs#:#Sollen die folgenden Objekte wirklich aus Ihren Favoriten entfernt werden?
@@ -7927,6 +7930,7 @@ dash#:#dash_make_favourite#:#Zu Favoriten hinzufügen
 dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden.
 dash#:#dash_memberships#:#Meine Kurse und Gruppen
 dash#:#dash_presentation#:#Präsentation
+dash#:#dash_recommended_content#:#Empfohlene Inhalte
 dash#:#dash_remove_from_list#:#Aus Liste entfernen
 dash#:#dash_side_panel#:#Seitenbereich
 dash#:#dash_sort_by_alphabet#:#Nach Alphabet sortieren
@@ -9793,6 +9797,9 @@ forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
 forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren.
 glo#:#glo_add_from_other#:#Begriffe sammeln
+glo#:#glo_add_glossary#:#Glossar hinzufügen
+glo#:#glo_add_to_collection#:#Glossar zum Sammelglossar hinzufügen
+glo#:#glo_added_to_collection_info#:#Das Glossar wurde dem Sammelglossar hinzugefügt.
 glo#:#glo_answered_correctly#:#Wusste ich
 glo#:#glo_answered_not_correctly#:#Wusste ich nicht
 glo#:#glo_box#:#Fach
@@ -9801,9 +9808,12 @@ glo#:#glo_box_last_presented#:#Fach zuletzt angezeigt
 glo#:#glo_boxes#:#Fächer
 glo#:#glo_boxes_really_reset#:#Möchten Sie wirklich alle Fächer zurücksetzen? Alle Lernkarten werden in das erste Fach verschoben.
 glo#:#glo_boxes_reset#:#Die Fächer wurden erfolgreich zurückgesetzt.
+glo#:#glo_change_to_collection_unavailable_info#:#Um die Zusammenstellung der Inhalte auf "Sammelglossar" zu ändern, müssen Sie zuerst alle bestehenden Begriffe innerhalb dieses Glossars im Reiter "Inhalt" löschen.
+glo#:#glo_change_to_standard_unavailable_info#:#Um die Zusammenstellung der Inhalte auf "Normales Glossar" zu ändern, müssen Sie zuerst die ausgewählten Glossare im Reiter "Inhalt" entfernen.
 glo#:#glo_col_ordering_info#:#Sortieren Sie die Titel der Metadatenfelder, die in der Präsentationsansicht des Glossars als Spaltenüberschriften angezeigt werden.
 glo#:#glo_collection#:#Sammelglossar
-glo#:#glo_collection_info#:#Das Glossar sammelt automatisch zusätzliche Begriffe aus anderen Glossaren ein.
+glo#:#glo_collection_empty_info#:#Dieses Sammelglossar ist aktuell leer. Bitte fügen mindestens ein Glossar hinzu.
+glo#:#glo_collection_info#:#Das Glossar sammelt automatisch alle Begriffe aus den ausgewählten Glossaren.
 glo#:#glo_content_assembly#:#Zusammenstellung der Inhalte
 glo#:#glo_copy#:#Glossar kopieren
 glo#:#glo_copy_terms#:#Begriffe kopieren
@@ -9822,12 +9832,17 @@ glo#:#glo_mode#:#Modus
 glo#:#glo_page_type_gdf#:#Begriffsdefinition
 glo#:#glo_please_select_other_glo#:#Bitte wählen Sie ein anderes Glossar aus.
 glo#:#glo_quit_box#:#Fach verlassen
+glo#:#glo_really_remove_from_collection#:#Sind Sie sich sicher, dass Sie das folgende Glossar aus dem Sammelglossar entfernen wollen?
 glo#:#glo_reference#:#Link
 glo#:#glo_reference_terms#:#Begriffe verlinken
 glo#:#glo_referenced_term#:#Verlinkte Begriffe
+glo#:#glo_removed_from_collection_info#:#Das Glossar wurde aus dem Sammelglossar entfernt.
 glo#:#glo_reset_all_boxes#:#Alle Fächer zurücksetzen
 glo#:#glo_select_source_glo#:#Bitte wählen Sie das Ausgangsglossar aus.
 glo#:#glo_select_terms#:#Begriffe auswählen
+glo#:#glo_selected_glossaries#:#Ausgewählte Glossare
+glo#:#glo_selected_glossaries_info#:#Die Begriffe stammen aus den folgenden Glossaren:
+glo#:#glo_selected_glossary_is_current_info#:#Das ausgewählte Glossar entspricht dem aktuellen Glossar. Bitte wählen Sie ein anderes Glossar.
 glo#:#glo_selected_terms_have_been_copied#:#Die ausgewählten Begriffe wurden in die Zwischenablage kopiert. Bitte öffnen Sie das Zielglossar und klicken dann auf "Einfügen".
 glo#:#glo_show_definition#:#Definition zeigen
 glo#:#glo_show_term#:#Begriff zeigen
@@ -12388,8 +12403,8 @@ orgu#:#org_unit_not_found#:#Die Organisationseinheit wurde nicht gefunden.
 orgu#:#orgu_add#:#Organisationseinheit hinzufügen
 orgu#:#orgu_adv_settings#:#Erweiterte Einstellungen
 orgu#:#orgu_already_deleted#:#Das Objekt wurde bereits gelöscht.
-orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
-orgu#:#orgu_enable_my_staff_info#:#Die Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
+orgu#:#orgu_enable_my_staff#:#Hauptmenüeintrag aktivieren
+orgu#:#orgu_enable_my_staff_info#:#Ein neuer Haupteintrag wird im Hauptmenü angezeigt. Er kann die Einträge Mitarbeiterliste, Einschreibungen, Zertifikate, Kompetenzen, Gespräche enthalten.
 orgu#:#orgu_global_set_form#:#Globale Einstellungen
 orgu#:#orgu_global_set_positions#:#Nutzung von Positionen in Objekttypen
 orgu#:#orgu_global_set_positions_type_active#:#Positionen in:
@@ -12476,7 +12491,7 @@ pd#:#pd_import_personal_data#:#Persönliche Daten importieren
 pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
 pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen, in denen Sie Mitglied sind. Zur Zeit verfügen Sie über keinerlei Mitgliedschaften. Um Kurs- oder Gruppenmitglied zu werden gibt es zwei Wege:<br /><ol><li>Sie können Kursen oder Gruppen beitreten, bei denen der Beitritt von einen Administrator erlaubt wurde.</li><li>Ein Administrator kann Ihnen eine Kurs- oder Gruppenmitgliedsrolle zuweisen.</li></ol><br />In beiden Fällen erscheinen die entsprechenden Kurse oder Gruppen automatisch in dieser Übersicht.
 pd#:#pd_my_memberships_sort_default#:#Standard-Sortierung
-pd#:#pd_not_date#:#Nicht datiert
+pd#:#pd_not_dated#:#Nicht datiert
 pd#:#pd_ongoing#:#Aktuell
 pd#:#pd_personal_items_default_view#:#Standard-Sicht
 pd#:#pd_personal_items_default_view_info#:#Wählen Sie hier die Standard-Sicht für die Ausgewählten Angebote.
@@ -12713,6 +12728,8 @@ prg#:#prg_belongs_to#:#Gehört Zu
 prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
 prg#:#prg_cancel#:#Abbrechen
 prg#:#prg_cancel_tree_order#:#Reihenfolge des Baums verwerfen.
+prg#:#prg_change_deadline#:#Stichtag anpassen
+prg#:#prg_change_expire_date#:#Ablauf der Qualifikation anpassen
 prg#:#prg_changed_by#:#Geändert durch
 prg#:#prg_completed_by_subnodes#:#Unterprogramm(e)
 prg#:#prg_completion_by#:#Abgeschlossen durch
@@ -12762,6 +12779,7 @@ prg#:#prg_mark_accredited#:#akkreditieren
 prg#:#prg_mark_accredited_multi_success#:#Ausgewählte Benutzer akkreditiert.
 prg#:#prg_mark_accredited_success#:#Das Programm wurde für den Benutzer erfolgreich akkreditiert.
 prg#:#prg_mark_not_relevant_multi_success#:#Ausgewählte Benutzer als nicht relevant markiert.
+prg#:#prg_mark_relevant#:#Als relevant markieren
 prg#:#prg_mark_relevant_multi_success#:#Ausgewählte Benutzer als relevant markiert.
 prg#:#prg_more_objects_without_read_permission#:#Das Studienprogramm beinhaltet weitere Elemente, die Sie aufgrund von fehlenden Rechten nicht einsehen dürfen.
 prg#:#prg_multi_change_deadline#:#Stichtag anpassen
@@ -12853,6 +12871,7 @@ prg#:#prg_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er bei folgende
 prg#:#prg_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_unmark_accredited_multi_success#:#Ausgewählte Benutzer als nicht akkreditiert markiert
 prg#:#prg_unmark_accredited_success#:#Die Akkreditierung wurde erfolgreich entfernt.
+prg#:#prg_unmark_relevant#:#Als irrelevant markieren
 prg#:#prg_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren
 prg#:#prg_update_from_current_plan_not_possible#:#Aus dem aktuellen Plan aktualisieren ist nicht möglich.
 prg#:#prg_update_from_current_plan_partitial_success#:#Aus dem aktuellen Plan aktualisieren teilweise abgeschlossen.
@@ -14854,16 +14873,16 @@ skmg#:#skmg_add_assignment#:#Rollen / Mitglieder zuordnen
 skmg#:#skmg_add_level#:#Ausprägung hinzufügen
 skmg#:#skmg_add_local_profile#:#Lokales Profil hinzufügen
 skmg#:#skmg_add_profile#:#Profil hinzufügen
-skmg#:#skmg_add_resource#:#Ressource hinzufügen
+skmg#:#skmg_add_resource#:#Magazinobjekt zuweisen
 skmg#:#skmg_add_skill#:#Kompetenz hinzufügen
 skmg#:#skmg_add_skill_tree#:#Kompetenzbaum hinzufügen
 skmg#:#skmg_add_user_to_profile#:#Benutzer oder Rollen suchen
 skmg#:#skmg_all#:#Alle
 skmg#:#skmg_allow_local_profiles#:#Erstellung von lokalen Profilen erlauben
 skmg#:#skmg_allow_local_profiles_info#:#Nutzer mit dem Recht 'Einstellungen bearbeiten' in Kursen und Gruppen können lokale Kompetenzprofile erstellen und dabei global definierte Kompetenzen verwenden.
-skmg#:#skmg_ass_materials_from_workspace#:#An dieser Stelle können Sie Materialien aus Ihren persönlichen Ressourcen (z.B. Dateien) Kompetenzen zuordnen. Wenn Sie jetzt Materialien zu Ihren persönlichen Ressourcen hinzufügen wollen, klicken Sie bitten den folgenden Link.
+skmg#:#skmg_ass_materials_from_workspace#:#An dieser Stelle können Sie Inhalte aus Ihren persönlichen Ressourcen (z.B. Dateien) Kompetenzen zuordnen. Wenn Sie jetzt Inhalte zu Ihren persönlichen Ressourcen hinzufügen wollen, klicken Sie bitte den folgenden Link.
 skmg#:#skmg_assign_level#:#Ausprägung zuordnen
-skmg#:#skmg_assign_materials#:#Materialien zuordnen
+skmg#:#skmg_assign_materials#:#Persönliche Ressourcen zuordnen
 skmg#:#skmg_assign_user#:#Benutzer zuordnen
 skmg#:#skmg_assigned_objects#:#Zugeordnete Objekte
 skmg#:#skmg_assigned_profiles#:#Zugewiesene Kompetenzprofile
@@ -14873,7 +14892,7 @@ skmg#:#skmg_cannot_delete_nodes_in_use#:#Einige Objekte können nicht gelöscht 
 skmg#:#skmg_cert_skill_level_title#:#Titel Kompetenzstufe
 skmg#:#skmg_cert_skill_title#:#Titel Kompetenz
 skmg#:#skmg_cert_skill_trigger_title#:#Titel Auslöser
-skmg#:#skmg_confirm_level_resources_removal#:#Wollen Sie wirklich die folgenden Ressourcen aus dem Profil entfernen?
+skmg#:#skmg_confirm_level_resources_removal#:#Wollen Sie wirklich die folgenden Magazinobjekte aus dem Profil entfernen?
 skmg#:#skmg_confirm_remove_level_ass#:#Wollen Sie wirklich die folgenden Kompetenzstufen aus dem Profil entfernen?
 skmg#:#skmg_confirm_user_removal#:#Wollen Sie wirklich die folgenden Benutzer aus dem Profil entfernen?
 skmg#:#skmg_cont_profiles_info#:#In dieser Ansicht können Sie die Kompetenzprofile mit Kompetenzeinträgen auswählen, die im Zusammenhang mit dem derzeit geöffneten Objekt (Kurs/Gruppe) stehen. Um zu der globalen Ansicht mit allen Ihnen zugewiesenen Kompetenzprofilen und sämtlichen Kompetenzeinträgen zu gelangen, klicken Sie auf den unten stehenden Link.
@@ -14922,9 +14941,8 @@ skmg#:#skmg_list_skills#:#Kompetenzen auflisten
 skmg#:#skmg_local_assignment_profiles#:#Lokale Zuordnung von globalen Profilen erlauben
 skmg#:#skmg_lp_triggers_level#:#Gesetzt durch 'Bearbeitet'-Status
 skmg#:#skmg_lp_triggers_level_resources#:#Magazinobjekte gesetzt durch 'Bearbeitet'-Status
-skmg#:#skmg_material#:#Material
-skmg#:#skmg_materials#:#Materialien
-skmg#:#skmg_materials_ressources#:#Ressourcen/Materialien
+skmg#:#skmg_materials#:#Persönliche Ressourcen
+skmg#:#skmg_materials_resources#:#Lerninhalte
 skmg#:#skmg_new_level#:#Neue Ausprägung
 skmg#:#skmg_new_sktr#:#Neue Vorlagenreferenz
 skmg#:#skmg_next_step#:#Nächster Schritt
@@ -14953,7 +14971,7 @@ skmg#:#skmg_refresh_view#:#Ansicht aktualisieren
 skmg#:#skmg_remove_levels#:#Ausprägungen entfernen
 skmg#:#skmg_remove_skill#:#Kompetenz entfernen
 skmg#:#skmg_remove_trigger#:#Auslöser entfernen
-skmg#:#skmg_resources#:#Ressourcen
+skmg#:#skmg_resources#:#Magazinobjekte
 skmg#:#skmg_save_order#:#Reihenfolge speichern
 skmg#:#skmg_save_self_evaluation#:#Selbsteinschätzung abschließen
 skmg#:#skmg_save_settings#:#Einstellungen speichern
@@ -14978,8 +14996,8 @@ skmg#:#skmg_skill_level#:#Kompetenzstufe
 skmg#:#skmg_skill_level_trigger#:#Auslöser
 skmg#:#skmg_skill_levels#:#Kompetenzstufen
 skmg#:#skmg_skill_management_deactivated#:#Das Kompetenzmanagement ist momentan deaktiviert.
-skmg#:#skmg_skill_needs_impr_no_res#:#Sie müssen diese Kompetenz verbessern. Leider gibt es momentan kein passendes Lernmaterial, welches Ihrem Kompetenzziel entspricht.
-skmg#:#skmg_skill_needs_impr_res#:#Sie müssen diese Kompetenz verbessern. Die folgenden Ressourcen bieten Lernmaterial, welches Ihrem Kompetenzziel entspricht.
+skmg#:#skmg_skill_needs_impr_no_res#:#Sie müssen diese Kompetenz verbessern. Leider gibt es momentan keine passenden Lerninhalte, welche Ihrem Kompetenzziel entsprechen.
+skmg#:#skmg_skill_needs_impr_res#:#Sie müssen diese Kompetenz verbessern. Die folgenden Lerninhalte entsprechen Ihrem Kompetenzziel.
 skmg#:#skmg_skill_needs_self_eval#:#Bitte führen Sie zunächst eine Selbsteinschätzung durch, damit Ihr Kompetenzziel angezeigt wird.
 skmg#:#skmg_skill_needs_self_eval_box#:#Bitte beachten Sie, dass für mindestens eine Kompetenz in diesem Profil noch keine Selbsteinschätzung durchgeführt wurde. Ihnen wird das Kompetenzziel für die betroffenen Kompetenzen angezeigt, sobald eine Selbsteinschätzung durchgeführt wurde.
 skmg#:#skmg_skill_no_needs_impr#:#Kompetenzziel erfüllt!
@@ -15000,7 +15018,7 @@ skmg#:#skmg_status_outdated#:#Veraltet
 skmg#:#skmg_status_outdated_info#:#Der Eintrag kann von Benutzer nicht mehr als persönliche Kompetenz neu ausgewählt werden. Wurde die Kompetenz bereits früher ausgewählt, so bleibt diese Auswahl weiterhin bestehen.
 skmg#:#skmg_status_publish#:#Veröffentlicht
 skmg#:#skmg_status_publish_info#:#Die Kompetenz kann von Benutzern genutzt werden falls alle übergeordneten Einträge ebenfalls freigegeben sind.
-skmg#:#skmg_suggested#:#Vorgeschlagenes Magazinobjekt
+skmg#:#skmg_suggested#:#Als Lerninhalt anzeigen
 skmg#:#skmg_suggested_resources#:#Zugewiesene Magazinobjekte
 skmg#:#skmg_sure_delete_self_evaluation#:#Möchten Sie die folgenden Selbsteinschätzungen wirklich löschen?
 skmg#:#skmg_target_level#:#Kompetenzziel
@@ -15014,7 +15032,7 @@ skmg#:#skmg_usage_obj_objects#:#Objekt(e)
 skmg#:#skmg_usage_obj_profiles#:#Profil(e)
 skmg#:#skmg_usage_obj_users#:#Benutzer
 skmg#:#skmg_usage_type_info_gen#:#Allgemeiner Gebrauch in Magazinobjekten
-skmg#:#skmg_usage_type_info_mat#:#Benutzer haben Material zugeordnet
+skmg#:#skmg_usage_type_info_mat#:#Benutzer haben persönliche Ressourcen zugeordnet
 skmg#:#skmg_usage_type_info_pers#:#Von Benutzern als persönliche Kompetenz ausgewählt
 skmg#:#skmg_usage_type_info_prof#:#Nutzung in Kompetenzprofilen
 skmg#:#skmg_usage_type_info_res#:#Zuordnung zu Magazinobjekten
@@ -15025,15 +15043,15 @@ style#:#adapt_icon#:#Anpassung der Icons
 style#:#adapt_icon_description#:#Passe die Iconfarbe oder das Icon an.
 style#:#adapt_icons#:#Anpassung der Iconfarben
 style#:#adapt_icons_description#:#Alle svg Icons, welche im Ordner images gefunden wurden, werden hier aufgelistet. Wenn eine Farbe geändert wird, ist dies in allen hier aufgelisteten Icons sofort ersichtlich.
-style#:#adapt_less#:#Anpassung der Less-Datei
-style#:#adapt_less_description#:#Dies ist die Darstellung aller less Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird beim Aktualisieren/Zurücksetzen der Variablen vollständig neu kompiliert. Das Zurücksetzten der Variablen erstellt eine exakte Kopie des ursprünglichen "delos style".
+style#:#adapt_scss#:#Anpassung der Scss-Datei
+style#:#adapt_scss_description#:#Dies ist die Darstellung aller scss Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird beim Aktualisieren/Zurücksetzen der Variablen vollständig neu kompiliert. Das Zurücksetzen der Variablen erstellt eine Kopie der Settings des ursprünglichen "delos style".
 style#:#add_substyle#:#Neuer Sub-Style
 style#:#add_system_style#:#Neuer System-Style
 style#:#assignment#:#Zuweisung
 style#:#blue_color#:#Blauton
 style#:#blue_colors#:#Blaue Farben
 style#:#blue_colors_description#:#Blauton Beschreibung
-style#:#can_not_read_less_file#:#Less-Datei kann nicht gelesen werden. Pfad:
+style#:#can_not_read_scss_file#:#Scss-Datei kann nicht gelesen werden. Pfad:
 style#:#cant_deactivate_default_style#:#Standard Styles können nicht deaktiviert werden.
 style#:#cant_delete_activated_style#:#Aktive Styles können nicht gelöscht werden.
 style#:#cant_delete_if_users_assigned#:#Styles können nicht gelöscht werden, solange Benutzer ihnen zugewiesen sind.
@@ -15068,24 +15086,15 @@ style#:#icons#:#Icons
 style#:#icons_gallery#:#Icon Galerie
 style#:#image_dir#:#Icon-Ordner
 style#:#image_dir_description#:#Ordner für das Speichern von Bildern (hauptsächlich Icons) vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub-Styles geteilt werden.
-style#:#in_main_less_file#:#ist nicht in der System-Styles-Main-Less-Datei importiert:
-style#:#invalid_less_path#:#Der angegebene lessc-Pfad ist ungültig oder kann vom Webserver nicht gelesen und ausgeführt werden. Die lessc-Datei unter dem angegebenen Pfad (oder die verlinkte Datei, falls der Pfad auf einen symlink verweist) muss vom Webserver gelesen und ausgeführt werden können.
+style#:#in_main_scss_file#:#ist nicht in der System-Styles-Main-Scss-Datei importiert:
+style#:#invalid_scss_path#:#Der angegebene sass/scss-Pfad ist ungültig oder kann vom Webserver nicht gelesen und ausgeführt werden. Die sass/scss-Datei unter dem angegebenen Pfad (oder die verlinkte Datei, falls der Pfad auf einen symlink verweist) muss vom Webserver gelesen und ausgeführt werden können.
 style#:#ks_documentation_of_style#:#'Kitchen Sink'-Dokumentation von Style:
 style#:#ks_documentation_of_substyle#:#'Kitchen Sink'-Dokumentation von Sub-Style:
-style#:#less#:#Less
-style#:#less_can_not_be_modified#:#Less kann nicht verändert werden.
-style#:#less_compile_failed#:#Die Less Datei konnte nicht kompiliert werden. Lessc muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein.
-style#:#less_file_reset#:#Die less-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
-style#:#less_file_updated#:#Die less-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
-style#:#less_less_installation_detected#:#Less-Installation gefunden:
-style#:#less_variable_empty#:#Für diese Variabel wurde kein Wert gesetzt. Der Wert aus der variables.less wurde nun geladen. Bitte überprüfen Sie dieses Feld bevor Sie komplilieren.
-style#:#less_variables_empty_might_have_changed#:#Less Variabeln ohne Wert waren im Formular enthalten. Die Ursache kann sein, dass die variables.less Datei seit dem Laden dieses Formulares geändert wurde. Die leeren Variabeln wurden mit den Werten aus der variables.less Datei ersetzt und markiert. Bitte überprüfen Sie diese Werte, bevor Sie kompilieren und somit auch die Werte im Formular in die variables.less Datei schreiben.
-style#:#less_variables_file_not_included#:#Die Less-Variablen-Datei:
 style#:#manage_system_styles#:#System-Styles verwalten
 style#:#msg_sub_style_created#:#Der Sub-Style wurde erstellt.
 style#:#msg_sys_style_created#:#Die neue System-Style-Datei wurde erfolgreich erstellt.
 style#:#msg_sys_style_update#:#System-Styles wurden aktualisiert.
-style#:#no_less_path_set#:#Das Less-Verzeichnis ist nicht gesetzt.
+style#:#no_scss_path_set#:#Das Scss-Verzeichnis ist nicht gesetzt.
 style#:#no_style_selected#:#Es wurde kein Sub-Style ausgewählt.
 style#:#of_parent#:#vom Parent:
 style#:#open_documentation#:#Dokumentation öffnen
@@ -15093,7 +15102,7 @@ style#:#parent#:#Parent-Style
 style#:#personal#:#Persönlich
 style#:#personal_style_set_to#:#Der persönliche Style wurde geändert zu:
 style#:#preview#:#Vorschau
-style#:#provided_less_path#:#Angegebener lessc-Pfad:
+style#:#provided_scss_path#:#Angegebener scss-Pfad:
 style#:#red_color#:#Rotton
 style#:#red_colors#:#Rote Farben
 style#:#red_colors_description#:#Rotton Beschreibung
@@ -15102,6 +15111,15 @@ style#:#remove_assignment#:#Zuweisung löschen
 style#:#reset_icons#:#Farben zurücksetzen
 style#:#reset_variables#:#Variablen zurücksetzen
 style#:#scope#:#Gültigkeitsbereich
+style#:#scss#:#Scss
+style#:#scss_can_not_be_modified#:#Scss kann nicht verändert werden.
+style#:#scss_compile_failed#:#Die Scss Datei konnte nicht kompiliert werden. Sass/scss muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein.
+style#:#scss_file_reset#:#Die scss-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#scss_file_updated#:#Die scss-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#scss_scss_installation_detected#:#Scss-Installation gefunden:
+style#:#scss_variable_empty#:#Für diese Variabel wurde kein Wert gesetzt. Der Wert aus den Settings Dateien wurde nun geladen. Bitte überprüfen Sie dieses Feld bevor Sie komplilieren.
+style#:#scss_variables_empty_might_have_changed#:#Scss Variabeln ohne Wert waren im Formular enthalten. Die Ursache kann sein, dass die Settings Dateien seit dem Laden dieses Formulares geändert wurde. Die leeren Variabeln wurden mit den Werten aus den Settings Dateien ersetzt und markiert. Bitte überprüfen Sie diese Werte, bevor Sie kompilieren und somit auch die Werte im Formular in die Settings Dateien schreiben.
+style#:#scss_variables_file_not_included#:#Die Scss-Variablen-Datei:
 style#:#select_icon#:#Selektieres Icon
 style#:#settings_of_style#:#Styles verwalten
 style#:#settings_of_substyle#:#Sub-Style verwalten
@@ -15439,7 +15457,7 @@ style#:#style_delete_style#:#Style löschen
 style#:#style_deleted#:#Gelöschter Style:
 style#:#style_edit_style#:#Style editieren
 style#:#style_id#:#Style-ID
-style#:#style_id_description#:#Die Style ID wird für Style-spezifische css- und less-Dateien unterhalb des Skin Ordners verwendet. Die Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#style_id_description#:#Die Style ID wird für Style-spezifische css- und scss-Dateien unterhalb des Skin Ordners verwendet. Die Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
 style#:#style_imported#:#Style wurde erfolgreich importiert nach:
 style#:#style_name#:#Style-Titel
 style#:#style_name_description#:#Der Style-Titel kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI-Elementen aufgelistet, in denen ein Skin ausgewählt werden kann.
@@ -15452,7 +15470,7 @@ style#:#style_support_reuse_info#:#Allow sub-objects of the current container to
 style#:#styles_not_deleted#:#Die Styles konnten aus folgenden Gründen nicht gelöscht werden:
 style#:#sub_style#:#Sub-Style
 style#:#sub_style_id#:#Sub-Style-ID
-style#:#sub_style_id_description#:#Die Sub-Style-ID wird für die betreffenden css und less Dateien verwendet. Diese sind innerhalb des betreffenden Skin Ordners. Die Sub-Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#sub_style_id_description#:#Die Sub-Style-ID wird für die betreffenden css und scss Dateien verwendet. Diese sind innerhalb des betreffenden Skin Ordners. Die Sub-Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
 style#:#sub_style_name#:#Sub-Style-Name
 style#:#sub_style_name_description#:#Der Sub-Style-Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Es wird in allen UI-Elementen aufgelistet, welche eine Selektierung des Skins erlauben.
 style#:#sub_style_parent_style_description#:#Sub-Styles werden genau einem Parent-Style zugewiesen. Sie werden nur den Usern angezeigt, welche auch Zugang zum Parent-Style haben. Der Parent-Style eines Sub-Styles kann nur während der Erstellung des Sub-Styles einmalig zugeordnet werden.

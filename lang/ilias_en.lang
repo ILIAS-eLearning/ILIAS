@@ -4111,9 +4111,7 @@ common#:#glo_added#:#Glossary added
 common#:#glo_import#:#Import Glossary
 common#:#glo_mode#:#Mode
 common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).
-common#:#glo_mode_level#:#Current repository container
 common#:#glo_mode_normal#:#Standard Glossary
-common#:#glo_mode_subtree#:#Current container and all sub-containers
 common#:#glo_new#:#New Glossary
 common#:#global#:#Global
 common#:#global_default#:#Global Default
@@ -5325,7 +5323,7 @@ common#:#report_accessibility_issue#:#Report Accessibility Issue
 common#:#report_accessibility_link#:#Reported Link:
 common#:#report_accessibility_link_mailto#:#Reported%20Link:
 common#:#repository#:#Repository
-common#:#repository_admin#:#Repository Trash and Permissions
+common#:#repository_admin#:#Repository and Trash
 common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash
 common#:#require_email#:#Require e-mail
 common#:#require_gender#:#Require salutation
@@ -7089,9 +7087,7 @@ content#:#glo_full_definitions#:#Full Definitions
 content#:#glo_full_definitions_info#:#Terms and definitions are fully displayed in the main view.
 content#:#glo_hide_taxonomy#:#Hide Taxonomy
 content#:#glo_list_usages#:#List Usages
-content#:#glo_mode_level_info#:#All terms of glossaries on the same level in the repository will be included.
 content#:#glo_mode_normal_info#:#All terms created within this glossary will be included.
-content#:#glo_mode_subtree_info#:#All terms of glossaries on the same level and subsequent levels in the repository will be included.
 content#:#glo_online_info#:#Only if the glossary is online, users are able to use the glossary.
 content#:#glo_presentation_mode#:#Presentation Mode
 content#:#glo_presentation_view#:#Presentation View
@@ -7910,9 +7906,12 @@ dash#:#dash_default_presentation#:#Default Presentation
 dash#:#dash_default_sortation#:#Default Sortation
 dash#:#dash_enable_cal#:#Calendar
 dash#:#dash_enable_favourites#:#Favourites
+dash#:#dash_enable_learning_sequences#:#Learning Sequences
 dash#:#dash_enable_mail#:#Mail
 dash#:#dash_enable_memberships#:#My Courses and Groups
 dash#:#dash_enable_news#:#News
+dash#:#dash_enable_recommended_content#:#Recommended Content
+dash#:#dash_enable_study_programmes#:#Study Programmes
 dash#:#dash_enable_task#:#Tasks
 dash#:#dash_favourites#:#Favourites
 dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
@@ -7924,6 +7923,7 @@ dash#:#dash_make_favourite#:#Add to Favourites
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
 dash#:#dash_memberships#:#My Courses and Groups
 dash#:#dash_presentation#:#Presentation
+dash#:#dash_recommended_content#:#Recommended Content
 dash#:#dash_remove_from_list#:#Remove from List
 dash#:#dash_side_panel#:#Side Panel
 dash#:#dash_sort_by_alphabet#:#Sort by Alphabet
@@ -9790,6 +9790,9 @@ forum#:#topic_close#:#Closed
 forum#:#topics_please_select_one_action#:#Please select an action.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
 glo#:#glo_add_from_other#:#Collect Terms
+glo#:#glo_add_glossary#:#Add Glossary
+glo#:#glo_add_to_collection#:#Add Glossary to Collection Glossary
+glo#:#glo_added_to_collection_info#:#The selected glossary has been added to the collection glossary.
 glo#:#glo_answered_correctly#:#I got it right
 glo#:#glo_answered_not_correctly#:#I was wrong
 glo#:#glo_box#:#Box
@@ -9798,9 +9801,12 @@ glo#:#glo_box_last_presented#:#Box Last Presented
 glo#:#glo_boxes#:#Boxes
 glo#:#glo_boxes_really_reset#:#Do you really want to reset all boxes? All flashcards will be moved to the first box.
 glo#:#glo_boxes_reset#:#The boxes have been reset successfully.
+glo#:#glo_change_to_collection_unavailable_info#:#To change the type of content assembly to "Collection Glossary", you first have to delete all existing terms within this glossary in tab "Content".
+glo#:#glo_change_to_standard_unavailable_info#:#To change the type of content assembly to "Standard Glossary", you first have to remove the selected glossaries in tab "Content".
 glo#:#glo_col_ordering_info#:#Order the titles of the metadata fields. They are presented as column headers in the table presentation of the glossary.
 glo#:#glo_collection#:#Collection Glossary
-glo#:#glo_collection_info#:#The glossary collects additional terms of other glossaries.
+glo#:#glo_collection_empty_info#:#This collection glossary is currently empty. Please add at least one glossary to it.
+glo#:#glo_collection_info#:#The glossary automatically collects all terms from the selected glossaries.
 glo#:#glo_content_assembly#:#Content Assembly
 glo#:#glo_copy#:#Copy Glossary
 glo#:#glo_copy_terms#:#Copy Terms
@@ -9819,12 +9825,17 @@ glo#:#glo_mode#:#Mode
 glo#:#glo_page_type_gdf#:#Term Definition
 glo#:#glo_please_select_other_glo#:#Please select another glossary.
 glo#:#glo_quit_box#:#Quit Box
+glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the following glossary from the collection glossary?
 glo#:#glo_reference#:#Reference
 glo#:#glo_reference_terms#:#Reference Terms
 glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.
 glo#:#glo_reset_all_boxes#:#Reset All Boxes
 glo#:#glo_select_source_glo#:#Please select a source glossary.
 glo#:#glo_select_terms#:#Select Terms
+glo#:#glo_selected_glossaries#:#Selected Glossaries
+glo#:#glo_selected_glossaries_info#:#Terms are collected from the following glossaries:
+glo#:#glo_selected_glossary_is_current_info#:#The selected glossary corresponds to the current glossary. Please select another glossary.
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
 glo#:#glo_show_definition#:#Show Definition
 glo#:#glo_show_term#:#Show Term
@@ -12385,8 +12396,8 @@ orgu#:#org_unit_not_found#:#Organisational Unit not found.
 orgu#:#orgu_add#:#Add Organisational Unit
 orgu#:#orgu_adv_settings#:#Advanced Settings
 orgu#:#orgu_already_deleted#:#The object was already deleted.
-orgu#:#orgu_enable_my_staff#:#Enable ‘Staff’
-orgu#:#orgu_enable_my_staff_info#:#Shows learning progress of own employees.
+orgu#:#orgu_enable_my_staff#:#Enable Main Menu Entry
+orgu#:#orgu_enable_my_staff_info#:#A main menu entry is presented that may comprise Staff List, Course Memberships, Certficates, Competences, Talks.
 orgu#:#orgu_global_set_form#:#Global Organisational Unit Settings
 orgu#:#orgu_global_set_positions#:#Enable Positions per Object Type
 orgu#:#orgu_global_set_positions_type_active#:#Positions in
@@ -12473,7 +12484,7 @@ pd#:#pd_import_personal_data#:#Import Personal Data
 pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
 pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
-pd#:#pd_not_date#:#Not Dated
+pd#:#pd_not_dated#:#Not Dated
 pd#:#pd_ongoing#:#Ongoing
 pd#:#pd_personal_items_default_view#:#Default View
 pd#:#pd_personal_items_default_view_info#:#Choose the preferred view of Personal Items.
@@ -12712,6 +12723,8 @@ prg#:#prg_belongs_to#:#Belongs to
 prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.
 prg#:#prg_cancel#:#Cancel
 prg#:#prg_cancel_tree_order#:#Dismiss tree order
+prg#:#prg_change_deadline#:#Change deadline
+prg#:#prg_change_expire_date#:#Change expire date
 prg#:#prg_changed_by#:#Changed by
 prg#:#prg_completed_by_subnodes#:#subprogrammes
 prg#:#prg_completion_by#:#Completion by
@@ -12762,6 +12775,7 @@ prg#:#prg_mark_accredited#:#Mark Accredited
 prg#:#prg_mark_accredited_multi_success#:#Mark Selected Users As Accredited
 prg#:#prg_mark_accredited_success#:#Accredited Program Node for User successfully.
 prg#:#prg_mark_not_relevant_multi_success#:#Unmark Selected Users As Relevant
+prg#:#prg_mark_relevant#:#Mark Relevant
 prg#:#prg_mark_relevant_multi_success#:#Mark Selected Users As Relevant
 prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more objects you can't see because of less permissions.
 prg#:#prg_multi_change_deadline#:#Change deadline
@@ -12853,6 +12867,7 @@ prg#:#prg_type_msg_unable_delete#:#Unable to delete type because it is still ass
 prg#:#prg_unmark_accredited#:#Unmark Accredited
 prg#:#prg_unmark_accredited_multi_success#:#Unmark Selected Users As Accredited
 prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.
+prg#:#prg_unmark_relevant#:#Unmark Relevant
 prg#:#prg_update_from_current_plan#:#Update from current Plan
 prg#:#prg_update_from_current_plan_not_possible#:#Update From Current Plan Not Possible
 prg#:#prg_update_from_current_plan_partitial_success#:#Update From Current Plan Partically
@@ -14856,7 +14871,7 @@ skmg#:#skmg_add_assignment#:#Add Roles / Members
 skmg#:#skmg_add_level#:#Add Level
 skmg#:#skmg_add_local_profile#:#Add Local Profile
 skmg#:#skmg_add_profile#:#Add Profile
-skmg#:#skmg_add_resource#:#Add Resource
+skmg#:#skmg_add_resource#:#Assign Repository Object
 skmg#:#skmg_add_skill#:#Add Competence
 skmg#:#skmg_add_skill_tree#:#Add Competence Tree
 skmg#:#skmg_add_user_to_profile#:#Add users or roles to profile
@@ -14865,7 +14880,7 @@ skmg#:#skmg_allow_local_profiles#:#Allow Creation of Local Profiles
 skmg#:#skmg_allow_local_profiles_info#:#Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences.
 skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal resources to competence levels. If you would like to add materials to your personal resources now, please click the following link.
 skmg#:#skmg_assign_level#:#Assign Level
-skmg#:#skmg_assign_materials#:#Assign Materials
+skmg#:#skmg_assign_materials#:#Assign Personal Resources
 skmg#:#skmg_assign_user#:#Assign User
 skmg#:#skmg_assigned_objects#:#Assigned Objects
 skmg#:#skmg_assigned_profiles#:#Assigned Competence Profiles
@@ -14875,7 +14890,7 @@ skmg#:#skmg_cannot_delete_nodes_in_use#:#Some items cannot be deleted, because t
 skmg#:#skmg_cert_skill_level_title#:#Competence Level Title
 skmg#:#skmg_cert_skill_title#:#Competence Title
 skmg#:#skmg_cert_skill_trigger_title#:#Competence Trigger Title
-skmg#:#skmg_confirm_level_resources_removal#:#Do you really want to remove the following resources from the competence level?
+skmg#:#skmg_confirm_level_resources_removal#:#Do you really want to remove the following repository objects from the competence level?
 skmg#:#skmg_confirm_remove_level_ass#:#So you really want to remove the following competence levels from the profile?
 skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following users from this profile?
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.
@@ -14923,10 +14938,8 @@ skmg#:#skmg_level#:#Level
 skmg#:#skmg_list_skills#:#List Competences
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
 skmg#:#skmg_lp_triggers_level#:#Triggered by Completion
-skmg#:#skmg_lp_triggers_level_resources#:#Resources triggered by Completion
-skmg#:#skmg_material#:#Material
-skmg#:#skmg_materials#:#Materials
-skmg#:#skmg_materials_ressources#:#Resources/Materials
+skmg#:#skmg_materials#:#Personal Resources
+skmg#:#skmg_materials_resources#:#Learning Materials
 skmg#:#skmg_new_level#:#New Level
 skmg#:#skmg_new_sktr#:#New Competence Template Reference
 skmg#:#skmg_next_step#:#Next Step
@@ -14955,7 +14968,7 @@ skmg#:#skmg_refresh_view#:#Refresh
 skmg#:#skmg_remove_levels#:#Remove Levels
 skmg#:#skmg_remove_skill#:#Remove Competence
 skmg#:#skmg_remove_trigger#:#Remove Trigger
-skmg#:#skmg_resources#:#Resources
+skmg#:#skmg_resources#:#Repository Objects
 skmg#:#skmg_save_order#:#Save Order
 skmg#:#skmg_save_self_evaluation#:#Finish Self-Evaluation
 skmg#:#skmg_save_settings#:#Save Settings
@@ -14980,8 +14993,8 @@ skmg#:#skmg_skill_level#:#Competence Level
 skmg#:#skmg_skill_level_trigger#:#Competence Level Trigger
 skmg#:#skmg_skill_levels#:#Competence Levels
 skmg#:#skmg_skill_management_deactivated#:#Competence Management is currently deactivated.
-skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately, there are currently no learning resources available providing learning material aligned to your competence target.
-skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your competence target.
+skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately, there are currently no learning materials available, which are aligned to your competence target.
+skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following learning materials are aligned to your competence target.
 skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target.
 skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.
 skmg#:#skmg_skill_no_needs_impr#:#Competence target achieved!
@@ -15002,8 +15015,8 @@ skmg#:#skmg_status_outdated#:#Outdated
 skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as personal competence, or newly assigned to repository objects or competence profiles. However existing assignments and data are still presented.
 skmg#:#skmg_status_publish#:#Published
 skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published, too.
-skmg#:#skmg_suggested#:#Suggested Resource
-skmg#:#skmg_suggested_resources#:#Suggested Resources
+skmg#:#skmg_suggested#:#Shown as Learning Material
+skmg#:#skmg_suggested_resources#:#Assigned Repository Objects
 skmg#:#skmg_sure_delete_self_evaluation#:#Do you really want to delete the following self-evaluations?
 skmg#:#skmg_target_level#:#Competence Target
 skmg#:#skmg_target_levels#:#Competence Targets
@@ -15016,10 +15029,10 @@ skmg#:#skmg_usage_obj_objects#:#Object(s)
 skmg#:#skmg_usage_obj_profiles#:#Profile(s)
 skmg#:#skmg_usage_obj_users#:#User(s)
 skmg#:#skmg_usage_type_info_gen#:#General Use in Repository Objects
-skmg#:#skmg_usage_type_info_mat#:#Users assigned material from their personal resources
+skmg#:#skmg_usage_type_info_mat#:#Users assigned personal resources from their personal workspace
 skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Competence
 skmg#:#skmg_usage_type_info_prof#:#Used in Competence Profiles
-skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resource
+skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Learning Material
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
 skmg#:#skmg_your_self_evaluation#:#Your Self-Evaluation
 style#:#Style#:#Style
@@ -15027,15 +15040,15 @@ style#:#adapt_icon#:#Adapt Icon
 style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.
 style#:#adapt_icons#:#Adapt Icon Colors
 style#:#adapt_icons_description#:#All icons that could be found in svg icons in the skins images folder are listed here. If one color is changed, it will be changed in all icons containing this colors at once.
-style#:#adapt_less#:#Adapt Less
-style#:#adapt_less_description#:#This is a direct representation of all less variables from the variables.less file used in the selected skin. Variable names and descriptions are drawn directly from this file and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a exact copy of the default delos style.
+style#:#adapt_scss#:#Adapt scss
+style#:#adapt_scss_description#:#This is a direct representation of all scss variables from the settings files used in the selected skin. Variable names and descriptions are drawn directly from those files and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a copy of the default delos style.
 style#:#add_substyle#:#Add Sub Style
 style#:#add_system_style#:#Add System Style
 style#:#assignment#:#Assignment
 style#:#blue_color#:#Blue Color
 style#:#blue_colors#:#Blue Colors
 style#:#blue_colors_description#:#Blue Color Description
-style#:#can_not_read_less_file#:#Cannot read less file. Path:
+style#:#can_not_read_scss_file#:#Cannot read scss file. Path:
 style#:#cant_deactivate_default_style#:#Default styles cannot be deactivated.
 style#:#cant_delete_activated_style#:#Active Styles cannot be deleted.
 style#:#cant_delete_if_users_assigned#:#Styles can not be deleted if users are still assigned.
@@ -15070,24 +15083,15 @@ style#:#icons#:#Icons
 style#:#icons_gallery#:#Icons Gallery
 style#:#image_dir#:#Image Directory
 style#:#image_dir_description#:#Folder to store images (mostly icons) of the skin into. This directory can be shared with other styles and sub styles of this skin.
-style#:#in_main_less_file#:#is not imported inside the system styles main less file:
-style#:#invalid_less_path#:#The provided lessc path is not valid or the webserver does not have the proper permission to read and execute lessc. Lessc (or the file linked to by the file pointed to by the lessc path) has to be readabele and executable by your webserver.
+style#:#in_main_scss_file#:#is not imported inside the system styles main scss file:
+style#:#invalid_scss_path#:#The provided sass/scss path is not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readabele and executable by your webserver.
 style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:
 style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:
-style#:#less#:#Less
-style#:#less_can_not_be_modified#:#Less cannot be modified
-style#:#less_compile_failed#:#Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:
-style#:#less_file_reset#:#The less variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
-style#:#less_file_updated#:#The less variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
-style#:#less_less_installation_detected#:#Less installation detected at:
-style#:#less_variable_empty#:#This variable was empty. The default from your variables.less file has been set. Please check if this is correct before compiling.
-style#:#less_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your variables.less file since loading this form. The defaults from the variables.less file have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your variables.less file.
-style#:#less_variables_file_not_included#:#The less variables file:
 style#:#manage_system_styles#:#Manage System Styles
 style#:#msg_sub_style_created#:#The sub style has been created.
 style#:#msg_sys_style_created#:#The new system style has successfully been created.
 style#:#msg_sys_style_update#:#System Styles have been updated
-style#:#no_less_path_set#:#No Less Path set
+style#:#no_scss_path_set#:#No Scss Path set
 style#:#no_style_selected#:#No sub style has been selected.
 style#:#of_parent#:#of parent:
 style#:#open_documentation#:#Open Documentation
@@ -15095,7 +15099,7 @@ style#:#parent#:#Parent Style
 style#:#personal#:#Personal
 style#:#personal_style_set_to#:#Your personal style has been set to:
 style#:#preview#:#Preview
-style#:#provided_less_path#:#Provided lessc path:
+style#:#provided_scss_path#:#Provided scss path:
 style#:#red_color#:#Red Color
 style#:#red_colors#:#Red Colors
 style#:#red_colors_description#:#Red Color Description
@@ -15104,6 +15108,15 @@ style#:#remove_assignment#:#Remove Assignment
 style#:#reset_icons#:#Reset Icons
 style#:#reset_variables#:#Reset Variables
 style#:#scope#:#Scope
+style#:#scss#:#Scss
+style#:#scss_can_not_be_modified#:#Scss cannot be modified
+style#:#scss_compile_failed#:#Something in the compilation of the scss file went wrong. Is scss installed and the path set correctly in ILIAS setup? Original error:
+style#:#scss_file_reset#:#The scss variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#scss_file_updated#:#The scss variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#scss_scss_installation_detected#:#Scss/sass installation detected at:
+style#:#scss_variable_empty#:#This variable was empty. The default from your settings files has been set. Please check if this is correct before compiling.
+style#:#scss_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your settings files since loading this form. The defaults from the settings files have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your settings files.
+style#:#scss_variables_file_not_included#:#The scss variables files:
 style#:#select_icon#:#Select Icon
 style#:#settings_of_style#:#Manage style
 style#:#settings_of_substyle#:#Manage sub style
@@ -15441,7 +15454,7 @@ style#:#style_delete_style#:#Delete Style
 style#:#style_deleted#:#Deleted Style:
 style#:#style_edit_style#:#Edit Style
 style#:#style_id#:#Style ID
-style#:#style_id_description#:#The style id is used as name for style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's.
+style#:#style_id_description#:#The style id is used as name for style specific files such as css and scss placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's.
 style#:#style_imported#:#Style has been successfully imported into:
 style#:#style_name#:#Style Name
 style#:#style_name_description#:#The style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of styles.
@@ -15454,7 +15467,7 @@ style#:#style_support_reuse_info#:#Allow sub-objects of the current container to
 style#:#styles_not_deleted#:#The styles could not have been deleted for the following reasons:
 style#:#sub_style#:#Sub Style
 style#:#sub_style_id#:#Sub Style ID
-style#:#sub_style_id_description#:#The sub style id is used as name for sub style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
+style#:#sub_style_id_description#:#The sub style id is used as name for sub style specific files such as css and scss placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
 style#:#sub_style_name#:#Sub Style Name
 style#:#sub_style_name_description#:#The sub style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of skins.
 style#:#sub_style_parent_style_description#:#Sub styles are assigned to exactly one parent style. They are only displayed to a specific user if the parent style is assigned to a this exact user. The parent style of a substyle can not be changed after the creation of the sub style.
@@ -15596,7 +15609,7 @@ survey#:#enter_phrase_title#:#Please enter a Phrase Title
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!
 survey#:#err_external_rcp_no_email#:#The import data must at least contain an ‘email’ field
 survey#:#err_external_rcp_no_email_column#:#The import data must at least contain a column ‘email’ with the title ‘email’ in the first row and the e-mail addresses in the following rows
-survey#:#err_maxvaluegeminvalue#:#The maximum value must be greater or equal than the minimum value and less or equal than the maximum number of answers.
+survey#:#err_maxvaluegeminvalue#:#The maximum value must be greater or equal than the minimum value and scss or equal than the maximum number of answers.
 survey#:#err_minvalueganswers#:#The minimum must be less or equal than the maximum number of answers.
 survey#:#err_no_exact_answers#:#Please check exactly %s answer(s).
 survey#:#err_no_max_answers#:#Please check at most %s answers.

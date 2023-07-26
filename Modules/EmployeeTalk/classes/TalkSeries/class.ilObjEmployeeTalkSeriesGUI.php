@@ -30,6 +30,7 @@ use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotification;
  *
  * @ilCtrl_IsCalledBy ilObjEmployeeTalkSeriesGUI: ilEmployeeTalkMyStaffListGUI
  * @ilCtrl_IsCalledBy ilObjEmployeeTalkSeriesGUI: ilEmployeeTalkMyStaffUserGUI
+ * @ilCtrl_IsCalledBy ilObjEmployeeTalkSeriesGUI: ilAdministrationGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilRepositorySearchGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilColumnGUI
@@ -321,7 +322,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
     public function viewObject(): void
     {
-        $this->tabs_gui->activateTab('view_content');
+        self::_goto((string) $this->ref_id);
     }
 
     public function getTabs(): void
@@ -520,7 +521,8 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             $location ?? '',
             ilObjUser::getUserIdByLogin($employee),
             false,
-            false
+            false,
+            ilObject::_lookupObjectId($this->getTemplateRefId())
         );
     }
 
@@ -532,8 +534,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
     private function copyTemplateValues(ilObjEmployeeTalkSeries $talk)
     {
         $template = new ilObjTalkTemplate($this->getTemplateRefId(), true);
-        $talk->setTitle($template->getTitle());
-        $talk->setDescription($template->getLongDescription());
+        $talk->setDescription($template->getTitle());
         $template->cloneMetaData($talk);
         $talk->update();
 
@@ -645,25 +646,24 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
     public static function _goto(string $refId): void
     {
-        /**
-         * @var \ILIAS\DI\Container $container
+        global $DIC;
+
+        $children = $DIC->repositoryTree()->getChildIds((int) $refId);
+
+        /*
+         * If the series contains talks, redirect to first talk,
+         * if not (which should only happen if someone messes with
+         * the URL) redirect to dashboard.
          */
-        $container = $GLOBALS['DIC'];
-        if (!ilObject::_exists((int) $refId, true)) {
-            $container["tpl"]->setOnScreenMessage(
+        if (empty($children)) {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
                 'failure',
-                $container->language()->txt("permission_denied"),
+                $DIC->language()->txt("permission_denied"),
                 true
             );
-            $container->ctrl()->redirectByClass(ilDashboardGUI::class, "");
+            $DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
-        $container->ctrl()->setParameterByClass(strtolower(self::class), 'ref_id', $refId);
-        $container->ctrl()->redirectByClass([
-            strtolower(ilDashboardGUI::class),
-            strtolower(ilMyStaffGUI::class),
-            strtolower(ilEmployeeTalkMyStaffListGUI::class),
-            strtolower(self::class),
-        ], ControlFlowCommand::INDEX);
+        ilObjEmployeeTalkGUI::_goto((string) $children[0]);
     }
 
     private function getTemplateRefId(): int

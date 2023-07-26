@@ -33,15 +33,7 @@ class ilEventHandlingDefinitionProcessor implements ilComponentDefinitionProcess
 
     public function purge(): void
     {
-        foreach ($this->data as $data_entry_key => $data_entry_values) {
-            $pattern = "^(plugins/).*";
-            $subject = $data_entry_values["component"];
-            preg_match($pattern, $subject, $component_is_plugin);
-
-            if (!$component_is_plugin) {
-                unset($this->data[$data_entry_key]);
-            }
-        }
+        $this->data = [];
     }
 
     public function beginComponent(string $component, string $type): void
@@ -66,12 +58,12 @@ class ilEventHandlingDefinitionProcessor implements ilComponentDefinitionProcess
         }
 
         $event = [
-            "component"             => $component,
-            "type"                  => $attributes["type"],
-            "type_specification"    => $attributes["id"]
+            "component" => $component,
+            "type" => $attributes["type"],
+            "type_specification" => $attributes["id"]
         ];
 
-        //only add event to data if no such entry exists
+        // only add event to data if no such entry exists
         if (!$this->hasDataEntryForEvent($event)) {
             $this->data[] = $event;
         }

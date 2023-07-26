@@ -1727,7 +1727,7 @@ EOD;
                 // Add message signature
                 $header = $this->getPlatform()->addSignature($url, $xmlRequest, 'POST', 'application/xml');
                 // Connect to platform
-                $http = new HttpMessage($url, 'POST', $xmlRequest, $header);
+                $http = new \ILIAS\LTI\ToolProvider\Http\HttpMessage($url, 'POST', $xmlRequest, $header);
                 if ($http->send()) {
                     // Parse XML response
                     $this->extResponse = $http->response;
@@ -1779,10 +1779,10 @@ EOD;
 
     /**
      * Convert DOM nodes to array.
-     * @param DOMElement $node XML element
+     * @param DOMElement|\DOMText $node XML element
      * @return array|string Array of XML document elements
      */
-    private function domnodeToArray(DOMElement $node)
+    private function domnodeToArray($node)
     {
         $output = array();
         switch ($node->nodeType) {

@@ -113,7 +113,7 @@ abstract class ilADTMultiEnum extends ilADT
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
-            $obj->value = $this->getSelections();
+            $obj->value = (array) $this->getSelections();
             return $obj;
         }
         return null;

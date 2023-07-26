@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Modules\EmployeeTalk\TalkSeries\Repository;
 
-use ILIAS\Modules\EmployeeTalk\TalkSeries\Entity\EmployeeTalkSerieSettings;
 use ilObjEmployeeTalkSeries;
 use ilObjUser;
 use ilDBInterface;
@@ -77,21 +76,58 @@ final class IliasDBEmployeeTalkSeriesRepository
         return $talkSeries;
     }
 
-    public function storeEmployeeTalkSerieSettings(EmployeeTalkSerieSettingsDto $settingsDto): void
+    public function storeEmployeeTalkSerieSettings(EmployeeTalkSerieSettingsDto $settings_dto): void
     {
-        $activeRecord = new EmployeeTalkSerieSettings();
-
-        $activeRecord->setId($settingsDto->getObjectId());
-        $activeRecord->setEditingLocked((int) $settingsDto->isLockedEditing());
-        $activeRecord->store();
+        if ($this->hasStoredSettings($settings_dto->getObjectId())) {
+            $this->database->update(
+                'etal_serie',
+                $this->getTableColumns($settings_dto),
+                ['id' => ['integer', $settings_dto->getObjectId()]]
+            );
+            return;
+        }
+        $this->database->insert(
+            'etal_serie',
+            $this->getTableColumns($settings_dto)
+        );
     }
 
     public function readEmployeeTalkSerieSettings(int $obj_id): EmployeeTalkSerieSettingsDto
     {
-        /** @var EmployeeTalkSerieSettings $activeRecord */
-        $activeRecord = EmployeeTalkSerieSettings::findOrGetInstance($obj_id);
-        $activeRecord->setId($obj_id);
+        $res = $this->database->query(
+            'SELECT * FROM etal_serie WHERE id = ' . $this->database->quote($obj_id, 'integer')
+        );
 
-        return new EmployeeTalkSerieSettingsDto($obj_id, (bool) $activeRecord->getEditingLocked());
+        $editing_locked = false;
+        while ($row = $res->fetchObject()) {
+            $editing_locked = (bool) $row->editing_locked;
+        }
+
+        return new EmployeeTalkSerieSettingsDto($obj_id, $editing_locked);
+    }
+
+    public function deleteEmployeeTalkSerieSettings(int $obj_id): void
+    {
+        $this->database->manipulate(
+            'DELETE FROM etal_serie WHERE id = ' . $this->database->quote($obj_id, 'integer')
+        );
+    }
+
+    protected function hasStoredSettings(int $obj_id): bool
+    {
+        $res = $this->database->query(
+            'SELECT COUNT(*) AS count FROM etal_serie WHERE id = ' .
+            $this->database->quote($obj_id, 'integer')
+        );
+
+        return $res->fetchObject()->count > 0;
+    }
+
+    protected function getTableColumns(EmployeeTalkSerieSettingsDto $settings_dto): array
+    {
+        return [
+            'id' => ['integer', $settings_dto->getObjectId()],
+            'editing_locked' => ['integer', (int) $settings_dto->isLockedEditing()],
+        ];
     }
 }

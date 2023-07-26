@@ -16,8 +16,8 @@
 @use "./040-normalize/" as *;
 
 // ## Layout
-@use "./050-layout/" as *;
-// include layout variables with @use in component when needed
+@use "./050-layout/" as *; // these are only Layout Utilities that require to write CSS code like the grid
+// include all other specific layout files and folder with @use in component when needed
 
 // ## Elements
 @use "./060-elements" as *;

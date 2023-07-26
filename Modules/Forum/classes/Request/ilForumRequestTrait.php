@@ -30,7 +30,7 @@ trait ilForumRequestTrait
                 $this->refinery->byTrying([
                     $this->refinery->kindlyTo()->int(),
                     $this->refinery->custom()->transformation(
-                        static fn ($value): int => $value === '' ? 0 : $value
+                        static fn($value): int => $value === '' ? 0 : $value
                     )
                 ])
             );

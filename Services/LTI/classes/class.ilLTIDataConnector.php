@@ -941,7 +941,6 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function loadContext(Context $context): bool
     {
         $ilDB = $this->database;
-
         $ok = false;
         if (!empty($context->getRecordId())) {
             $query = 'SELECT context_pk, consumer_pk, lti_context_id, settings, created, updated ' .
@@ -954,7 +953,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' ' .
                 'WHERE (consumer_pk = %s) AND (lti_context_id = %s)';
             $types = array("integer", "text");
-            $values = array($context->getRecordId(), $context->ltiContextId);
+            $values = array($context->getPlatform()->getRecordId(), $context->ltiContextId);
         }
         $rs_context = $ilDB->queryF($query, $types, $values);
         if ($rs_context) {
@@ -1091,13 +1090,15 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         $ok = false;
         $id = $resourceLink->getRecordId();
+        $rid = 0;
+        $cid = 0;
         if (!is_null($id)) {
             $query = 'SELECT resource_link_pk, context_pk, consumer_pk, lti_resource_link_id, settings, primary_resource_link_pk, share_approved, created, updated ' .
                 "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' ' .
                 'WHERE (resource_link_pk = %s)';
             $types = array("integer");
             $values = array($id);
-        } elseif (!empty($resourceLink->getContext())) {
+        } elseif (!is_null($resourceLink->getContext())) {
             $rid = $resourceLink->getId();
             $cid = $resourceLink->getContext()->getRecordId();
             $query = 'SELECT resource_link_pk, context_pk, consumer_pk, lti_resource_link_id, settings, primary_resource_link_pk, share_approved, created, updated ' .
@@ -1118,6 +1119,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $types = array("integer", "integer", "text");
             $values = array($id, $id, $rid);
         }
+        $this->logger->debug("loadResourceLink id = " . $id . " rid =" . $rid . " cid =" . $cid . " query = " . $query);
         $rsContext = $ilDB->queryF($query, $types, $values);
         if ($rsContext) {
             $row = $ilDB->fetchObject($rsContext);
@@ -1171,31 +1173,32 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $ilDB = $this->database;
 
         if (is_null($resourceLink->shareApproved)) {
-            $approved = 'NULL';
+            $approved = null;
         } elseif ($resourceLink->shareApproved) {
             $approved = '1';
         } else {
             $approved = '0';
         }
-        if (empty($resourceLink->primaryResourceLinkId)) {
-            $primaryResourceLinkId = 'NULL';
+        if (empty($resourceLink->primaryResourceLinkId) || $resourceLink->primaryResourceLinkId == '0') {
+            $primaryResourceLinkId = null;//'NULL';
+            $resourceLink->primaryResourceLinkId = null; //Bug in 7: 0 instead of null
         } else {
             $primaryResourceLinkId = strval($resourceLink->primaryResourceLinkId);
         }
         $time = time();
         $now = date("{$this->dateFormat} {$this->timeFormat}", $time);
         $settingsValue = serialize($resourceLink->getSettings());
-        if (!empty($resourceLink->getContext())) {
-            //$platformId = 'NULL';
-            $platformId = strval($resourceLink->getContext()->getRecordId());
+        if (!is_null($resourceLink->getContext())) {
+//            $platformId = null;
+            $platformId = strval($resourceLink->getPlatform()->getRecordId());
             $contextId = strval($resourceLink->getContext()->getRecordId());
-        } elseif (!empty($resourceLink->getContextId())) {
-            //$platformId = 'NULL';
-            $platformId = strval($resourceLink->getContext()->getRecordId());
+        } elseif (!is_null($resourceLink->getContextId())) {
+//            $platformId = null;
+            $platformId = strval($resourceLink->getPlatform()->getRecordId());
             $contextId = strval($resourceLink->getContextId());
         } else {
-            $platformId = strval($resourceLink->getContext()->getRecordId());
-            $contextId = 'NULL';
+            $platformId = strval($resourceLink->getPlatform()->getRecordId());
+            $contextId = null;
         }
         $id = $resourceLink->getRecordId();
         if (empty($id)) {
@@ -1225,7 +1228,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                             $now,
                             $now
             );
-        } elseif ($contextId !== 'NULL') {
+        } elseif (!is_null($contextId)) {
             $query = "UPDATE {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' SET ' .
                 'consumer_pk = %s, lti_resource_link_id = %s, settings = %s, ' .
                 'primary_resource_link_pk = %s, share_approved = %s, updated = %s ' .
@@ -1257,12 +1260,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             );
         }
         $ok = (bool) $ilDB->manipulateF($query, $types, $values);
-
-        $this->logger->info('Update resource link with query: ' . $query);
-        $this->logger->logStack();
-        $this->logger->dump($values, ilLogLevel::INFO);
-
-        $this->logger->dump($ok);
+        $this->logger->debug('Update resource link with query: ' . $query);
+//        $this->logger->logStack();
+        $this->logger->dump($values, ilLogLevel::DEBUG);
+        $this->logger->dump($ok, ilLogLevel::DEBUG);
 
         if ($ok) {
             $resourceLink->updated = $time;
@@ -1563,20 +1564,22 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param User $user User object
      * @return boolean True if the user object was successfully loaded
      */
-    public function loadUser(\ILIAS\LTI\ToolProvider\User $user): bool
+    public function loadUserResult(\ILIAS\LTI\ToolProvider\User $userresult): bool
     {
         $ilDB = $this->database;
-
-        $ok = false;
-        if ($user->getRecordId()) {
+        $id = $userresult->getRecordId();
+        if (!is_null($id)) {
             $query = 'SELECT user_pk, resource_link_pk, lti_user_id, lti_result_sourcedid, created, updated ' .
                 'FROM ' . $this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
-                'WHERE user_pk = ' . $ilDB->quote($user->getRecordId(), 'integer');
+                'WHERE user_pk = ' . $ilDB->quote($id, 'integer');
         } else {
+            $rid = $userresult->getResourceLink()->getRecordId();
+            $uid = $userresult->getId(ToolProvider\Tool::ID_SCOPE_ID_ONLY);
+
             $query = 'SELECT user_pk, resource_link_pk, lti_user_id, lti_result_sourcedid, created, updated ' .
                 'FROM ' . $this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
-                'WHERE resource_link_pk = ' . $ilDB->quote($user->getResourceLink()->getRecordId(), 'integer') . ' ' .
-                'AND lti_user_id = ' . $ilDB->quote($user->getId(ToolProvider\Tool::ID_SCOPE_ID_ONLY), 'text');
+                'WHERE resource_link_pk = ' . $ilDB->quote($rid, 'integer') . ' ' .
+                'AND lti_user_id = ' . $ilDB->quote($uid, 'text');
         }
 
         $this->logger->debug('Loading user with query: ' . $query);
@@ -1585,44 +1588,18 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         try {
             $res = $ilDB->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $user->setRecordId((int) $row->user_pk);
-                $user->setResourceLinkId((int) $row->resource_link_pk);
-                $user->ltiUserId = (string) $row->lti_user_id;
-                $user->ltiResultSourcedId = (string) $row->lti_result_sourcedid;
-                $user->created = strtotime($row->created);
-                $user->updated = strtotime($row->updated);
+                $userresult->setRecordId((int) $row->user_pk);
+                $userresult->setResourceLinkId((int) $row->resource_link_pk);
+                $userresult->ltiUserId = (string) $row->lti_user_id;
+                $userresult->ltiResultSourcedId = (string) $row->lti_result_sourcedid;
+                $userresult->created = strtotime($row->created);
+                $userresult->updated = strtotime($row->updated);
                 $ok = true;
             }
         } catch (ilDatabaseException $e) {
             $this->logger->error((string) $e);
         }
         return $ok;
-
-        // if (!empty($user->getRecordId())) {
-        // $query = 'SELECT user_pk, resource_link_pk, lti_user_id, lti_result_sourcedid, created, updated ' .
-        // "FROM {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
-        // 'WHERE (user_pk = %d)',
-        // $user->getRecordId());
-        // } else {
-        // $query = 'SELECT user_pk, resource_link_pk, lti_user_id, lti_result_sourcedid, created, updated ' .
-        // "FROM {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
-        // 'WHERE (resource_link_pk = %d) AND (lti_user_id = %s)',
-        // $user->getResourceLink()->getRecordId(),
-        // Tool\DataConnector\DataConnector::quoted($user->getId(Tool\Tool::ID_SCOPE_ID_ONLY)));
-        // }
-        // $rsUser = mysql_query($sql);
-        // if ($rsUser) {
-        // $row = $ilDB->fetchObject($rsUser);
-        // if ($row) {
-        // $user->setRecordId(intval($row->user_pk));
-        // $user->setResourceLinkId(intval($row->resource_link_pk));
-        // $user->ltiUserId = $row->lti_user_id;
-        // $user->ltiResultSourcedId = $row->lti_result_sourcedid;
-        // $user->created = strtotime($row->created);
-        // $user->updated = strtotime($row->updated);
-        // $ok = true;
-        // }
-        // }
     }
 
     /**
@@ -1630,33 +1607,35 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param User $user User object
      * @return boolean True if the user object was successfully saved
      */
-    public function saveUser(\ILIAS\LTI\ToolProvider\User $user): bool
+    public function saveUserResult(\ILIAS\LTI\ToolProvider\User $userresult): bool
     {
         $ilDB = $this->database;
 
-        $this->logger->info('Save user called');
+        $this->logger->info('Save user called with ' . $userresult->created);
 
         $time = time();
         $now = date($this->dateFormat . ' ' . $this->timeFormat, $time);
-        if (is_null($user->created)) {
-            $user->setRecordId($ilDB->nextId($this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME));
-            $user->created = $time;
+        if (is_null($userresult->created)) {
+//        if (is_null($user->getRecordId())) {
+            $userresult->setRecordId($ilDB->nextId($this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME));
+            $userresult->created = $time;
+            $rid = $userresult->getResourceLink()->getRecordId();
+            $uid = $userresult->getId(ToolProvider\Tool::ID_SCOPE_ID_ONLY);
             $query = 'INSERT INTO ' . $this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
                 '(user_pk,resource_link_pk,lti_user_id, lti_result_sourcedid, created, updated) ' .
                 'VALUES( ' .
-                $ilDB->quote($user->getRecordId(), 'integer') . ', ' .
-                $ilDB->quote($user->getResourceLink()->getRecordId(), 'integer') . ', ' .
-                $ilDB->quote($user->getId(ToolProvider\Tool::ID_SCOPE_ID_ONLY), 'text') . ', ' .
-                $ilDB->quote($user->ltiResultSourcedId, 'text') . ', ' .
+                $ilDB->quote($userresult->getRecordId(), 'integer') . ', ' .
+                $ilDB->quote($rid, 'integer') . ', ' .
+                $ilDB->quote($uid, 'text') . ', ' .
+                $ilDB->quote($userresult->ltiResultSourcedId, 'text') . ', ' .
                 $ilDB->quote($now, 'text') . ', ' .
                 $ilDB->quote($now, 'text') .
                 ')';
         } else {
-            $user->updated = $time;
             $query = 'UPDATE ' . $this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
-                'SET lti_result_sourcedid = ' . $ilDB->quote($user->ltiResultSourcedId, 'text') . ', ' .
+                'SET lti_result_sourcedid = ' . $ilDB->quote($userresult->ltiResultSourcedId, 'text') . ', ' .
                 'updated = ' . $ilDB->quote($now, 'text') . ' ' .
-                'WHERE user_pk = ' . $ilDB->quote($user->getRecordId(), 'integer');
+                'WHERE user_pk = ' . $ilDB->quote($userresult->getRecordId(), 'integer');
         }
 
         $this->logger->debug('Saving user data with query: ' . $query);
@@ -1664,40 +1643,13 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $ok = false;
         try {
             $ilDB->manipulate($query);
+            $userresult->updated = $time;
             $ok = true;
         } catch (ilDatabaseException $e) {
             $this->logger->error($e->getMessage());
         }
 
         return $ok;
-
-        // $time = time();
-        // $now = date("{$this->dateFormat} {$this->timeFormat}", $time);
-        // if (is_null($user->created)) {
-        // $query = "INSERT INTO {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' (resource_link_pk, ' .
-        // 'lti_user_id, lti_result_sourcedid, created, updated) ' .
-        // 'VALUES (%d, %s, %s, %s, %s)',
-        // $user->getResourceLink()->getRecordId(),
-        // Tool\DataConnector\DataConnector::quoted($user->getId(Tool\Tool::ID_SCOPE_ID_ONLY)), Tool\DataConnector\DataConnector::quoted($user->ltiResultSourcedId),
-        // Tool\DataConnector\DataConnector::quoted($now), Tool\DataConnector\DataConnector::quoted($now));
-        // } else {
-        // $query = "UPDATE {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
-        // 'SET lti_result_sourcedid = %s, updated = %s ' .
-        // 'WHERE (user_pk = %d)',
-        // Tool\DataConnector\DataConnector::quoted($user->ltiResultSourcedId),
-        // Tool\DataConnector\DataConnector::quoted($now),
-        // $user->getRecordId());
-        // }
-        // $ok = mysql_query($sql);
-        // if ($ok) {
-        // if (is_null($user->created)) {
-        // $user->setRecordId(mysql_insert_id());
-        // $user->created = $time;
-        // }
-        // $user->updated = $time;
-        // }
-
-        // return $ok;
     }
 
     /**
@@ -1749,7 +1701,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             'and ref_id = ' . $db->quote($a_ref_id, 'integer') . ' ' .
             'and ur.lti_user_id = ' . $db->quote($a_lti_user, 'text') . ' ' .
             'and ec.id = ' . $db->quote($a_ext_consumer, 'integer');
-
+        $logger->debug($query);
         $resource_links = [];
         try {
             $res = $db->query($query);

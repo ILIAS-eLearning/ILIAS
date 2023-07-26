@@ -32,7 +32,7 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
 
     private static array $statusInfoCache = array();
 
-    public function getCmixUserResult(int $objId, int $usrId): \ilCmiXapiResult
+    public function getCmixUserResult(int $objId, int $usrId): ?\ilCmiXapiResult
     {
         if (!isset($this->cmixUserResult[$objId])) {
             $this->cmixUserResult[$objId] = array();
@@ -120,9 +120,9 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
     /**
      * @return array|array[]|int[][]
      */
-    public static function _getStatusInfo(int $a_obj_id): array
+    public static function _getStatusInfo(?int $a_obj_id): array
     {
-        if (self::$statusInfoCache[$a_obj_id] === null) {
+        if (!isset(self::$statusInfoCache[$a_obj_id]) || self::$statusInfoCache[$a_obj_id] === null) {
             self::$statusInfoCache[$a_obj_id] = self::loadStatusInfo($a_obj_id);
         }
 
@@ -194,6 +194,9 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
     public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null): int
     {
         $cmixResult = $this->getCmixUserResult($a_obj_id, $a_usr_id);
+        if ($cmixResult == null) {
+            return 0;
+        }
         return (int) round((100 * $cmixResult->getScore()));
     }
 

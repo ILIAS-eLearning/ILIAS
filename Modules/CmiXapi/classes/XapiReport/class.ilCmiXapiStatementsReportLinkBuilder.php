@@ -188,7 +188,14 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
     {
         $obj = $this->getObj();
         $actor = '';
-        if ($obj->getPrivacyName() != ilObjCmiXapi::PRIVACY_NAME_NONE) {
+        $privacyName = ilObjCmiXapi::PRIVACY_NAME_NONE;
+        if (ilObject::_lookupType($this->objId) == 'lti') {
+            $privacyName = $obj->getProvider()->getPrivacyName();
+        } else {
+            $privacyName = $obj->getPrivacyName();
+        }
+
+        if ($privacyName != ilObjCmiXapi::PRIVACY_NAME_NONE) {
             $actor = 'statement.actor.name';
         } else {
             if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {

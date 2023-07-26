@@ -43,6 +43,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
     protected ilLogger $log;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
+    protected array $modals_to_render = [];
 
     public function __construct(
         $a_data,
@@ -61,6 +64,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->access = $DIC->access();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->help = $DIC["ilHelp"];
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $this->edit_request = $DIC->glossary()
             ->internal()
@@ -492,17 +497,19 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $glo_mode = new ilRadioGroupInputGUI($this->lng->txt("glo_content_assembly"), "glo_mode");
         //$glo_mode->setInfo($this->lng->txt("glo_mode_desc"));
         $op1 = new ilRadioOption($this->lng->txt("glo_mode_normal"), "none", $this->lng->txt("glo_mode_normal_info"));
-        $glo_mode->addOption($op1);
         $op2 = new ilRadioOption($this->lng->txt("glo_collection"), "coll", $this->lng->txt("glo_collection_info"));
+        if (!empty($this->object->getGlossariesForCollection()) && $this->object->isVirtual()) {
+            $op1->setDisabled(true);
+            $op2->setDisabled(true);
+            $glo_mode->setInfo($this->lng->txt("glo_change_to_standard_unavailable_info"));
+        }
+        if (!empty(ilGlossaryTerm::getTermsOfGlossary($this->object->getId())) && !$this->object->isVirtual()) {
+            $op1->setDisabled(true);
+            $op2->setDisabled(true);
+            $glo_mode->setInfo($this->lng->txt("glo_change_to_collection_unavailable_info"));
+        }
+        $glo_mode->addOption($op1);
         $glo_mode->addOption($op2);
-
-        $glo_mode2 = new ilRadioGroupInputGUI("", "glo_mode2");
-        $glo_mode2->setValue("level");
-        $op3 = new ilRadioOption($this->lng->txt("glo_mode_level"), "level", $this->lng->txt("glo_mode_level_info"));
-        $glo_mode2->addOption($op3);
-        $op4 = new ilRadioOption($this->lng->txt("glo_mode_subtree"), "subtree", $this->lng->txt("glo_mode_subtree_info"));
-        $glo_mode2->addOption($op4);
-        $op2->addSubItem($glo_mode2);
         $this->form->addItem($glo_mode);
 
 
@@ -516,24 +523,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $online->setValue("y");
         $online->setInfo($this->lng->txt("glo_online_info"));
         $this->form->addItem($online);
-
-        /*
-        $section = new ilFormSectionHeaderGUI();
-        $section->setTitle($this->lng->txt('glo_content_settings'));
-        $this->form->addItem($section);*/
-
-
-        // glossary mode
-        /*$options = array(
-            "none"=>$this->lng->txt("glo_mode_normal"),
-            "level"=>$this->lng->txt("glo_mode_level"),
-            "subtree"=>$this->lng->txt("glo_mode_subtree")
-            );
-        $glo_mode = new ilSelectInputGUI($this->lng->txt("glo_mode"), "glo_mode");
-        $glo_mode->setOptions($options);
-        $glo_mode->setInfo($this->lng->txt("glo_mode_desc"));
-        $this->form->addItem($glo_mode);*/
-
 
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('cont_presentation'));
@@ -599,11 +588,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $mode1 = $this->object->getVirtualMode() === "none"
                 ? "none"
                 : "coll";
-            $mode2 = $this->object->getVirtualMode() !== "none"
-                ? $this->object->getVirtualMode()
-                : "level";
             $glo_mode->setValue($mode1);
-            $glo_mode2->setValue($mode2);
             $pres_mode->setValue($this->object->getPresentationMode());
             $snl->setValue($this->object->getSnippetLength());
             if (count($tax_ids) > 0) {
@@ -655,9 +640,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $this->object->setTitle($this->form->getInput("title"));
             $this->object->setDescription($this->form->getInput("description"));
             $this->object->setOnline(ilUtil::yn2tf($this->form->getInput("cobj_online")));
-            $glo_mode = $this->form->getInput("glo_mode") === "none"
-                ? $this->form->getInput("glo_mode")
-                : $this->form->getInput("glo_mode2");
+            $glo_mode = $this->form->getInput("glo_mode") ?: $this->object->getVirtualMode();
             $this->object->setVirtualMode($glo_mode);
             $this->object->setActiveDownloads(ilUtil::yn2tf($this->form->getInput("glo_act_downloads")));
             $this->object->setPresentationMode($this->form->getInput("pres_mode"));
@@ -703,6 +686,33 @@ class ilObjGlossaryGUI extends ilObjectGUI
     {
         $this->showTaxonomy();
 
+        $panel_html = "";
+        $modals = "";
+        $tab_html = "";
+        if ($this->object->isVirtual()) {
+            $this->showToolbarForCollection();
+            $panel = $this->showSelectedGlossariesForCollection();
+            $panel_html = $this->ui_ren->render($panel);
+            $modals = $this->ui_ren->render($this->getModalsToRender());
+        } else {
+            $this->showToolbarForStandard();
+            $tab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
+            $tab_html = $tab->getHTML();
+        }
+
+        $this->tpl->setContent($panel_html . $modals . $tab_html);
+    }
+
+    /**
+     * @return \ILIAS\UI\Component\Modal\Interruptive[]
+     */
+    protected function getModalsToRender(): array
+    {
+        return $this->modals_to_render;
+    }
+
+    public function showToolbarForStandard(): void
+    {
         // term
         $ti = new ilTextInputGUI($this->lng->txt("cont_new_term"), "new_term");
         $ti->setMaxLength(80);
@@ -744,9 +754,110 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 $this->ctrl->getLinkTargetByClass("ilglossaryforeigntermcollectorgui", "")
             );
         }
+    }
 
-        $tab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
-        $this->tpl->setContent($tab->getHTML());
+    public function showToolbarForCollection(): void
+    {
+        $modal = $this->showModalForCollection();
+        $button = $this->ui_fac->button()->standard($this->lng->txt("glo_add_glossary"), "")->withOnClick($modal->getShowSignal());
+        $this->modals_to_render[] = $modal;
+        $this->toolbar->addComponent($button);
+    }
+
+    /**
+     * @return \ILIAS\UI\Component\Component[]
+     */
+    public function showSelectedGlossariesForCollection(): array
+    {
+        $items = [];
+        $glo_ids = $this->object->getAllGlossaryIds(true);
+        $at_least_one_glossary = false;
+        foreach ($glo_ids as $glo_id) {
+            if ($this->object->getId() === $glo_id) {
+                continue;
+            }
+            $glossary = new ilObjGlossary($glo_id, false);
+            $glo_ref_id = current(ilObject::_getAllReferences($glossary->getId()));
+            $glo_link = $this->ui_fac->link()->standard($glossary->getTitle(), ilLink::_getLink($glo_ref_id));
+            $glo_item = $this->ui_fac->item()->standard($glo_link);
+            $glo_item = $glo_item->withDescription($glossary->getDescription());
+            $form_action = $this->ctrl->getFormActionByClass(ilObjGlossaryGUI::class, "removeGlossaryFromCollection");
+            $delete_modal = $this->ui_fac->modal()->interruptive(
+                "",
+                $this->lng->txt("glo_really_remove_from_collection"),
+                $form_action
+            )->withAffectedItems([
+                $this->ui_fac->modal()->interruptiveItem()->standard(
+                    $glossary->getId(),
+                    $glossary->getTitle(),
+                    $this->ui_fac->image()->standard(
+                        ilObject::_getIcon($glossary->getId(), "small", $glossary->getType()),
+                        $this->lng->txt("icon") . " " . $this->lng->txt("obj_" . $glossary->getType())
+                    )
+                )
+            ]);
+            $actions = $this->ui_fac->dropdown()->standard([
+                $this->ui_fac->button()->shy($this->lng->txt("remove"), "")->withOnClick($delete_modal->getShowSignal()),
+            ]);
+            $glo_item = $glo_item->withActions($actions);
+
+            $items[] = $glo_item;
+            $this->modals_to_render[] = $delete_modal;
+            $at_least_one_glossary = true;
+        }
+
+        $components = [];
+        if (!$at_least_one_glossary) {
+            $message_box = $this->ui_fac->messageBox()->info($this->lng->txt("glo_collection_empty_info"));
+            $components[] = $message_box;
+        }
+        if (!empty($items)) {
+            $item_group = $this->ui_fac->item()->group($this->lng->txt("glo_selected_glossaries_info"), $items);
+            $panel = $this->ui_fac->panel()->listing()->standard(
+                $this->lng->txt("glo_selected_glossaries"),
+                [$item_group]
+            );
+            $components[] = $panel;
+        }
+
+        return $components;
+    }
+
+    public function showModalForCollection(): ILIAS\UI\Component\Modal\RoundTrip
+    {
+        $exp = new ilStandardGlossarySelectorGUI(
+            $this,
+            "showModalForCollection",
+            $this,
+            "saveGlossaryForCollection",
+            "sel_glo_ref_id"
+        );
+        $modal = $this->ui_fac->modal()->roundtrip(
+            $this->lng->txt("glo_add_to_collection"),
+            $this->ui_fac->legacy(!$exp->handleCommand() ? $exp->getHTML() : "")
+        );
+
+        return $modal;
+    }
+
+    public function saveGlossaryForCollection(): void
+    {
+        $selected_glo = new ilObjGlossary($this->edit_request->getSelectedGlossaryRefId(), true);
+        if ($selected_glo->getId() === $this->object->getId()) {
+            $this->tpl->setOnScreenMessage("info", $this->lng->txt("glo_selected_glossary_is_current_info"), true);
+        } else {
+            $this->object->addGlossaryForCollection($selected_glo->getId());
+            $this->tpl->setOnScreenMessage("success", $this->lng->txt("glo_added_to_collection_info"), true);
+        }
+        $this->ctrl->redirect($this, "listTerms");
+    }
+
+    public function removeGlossaryFromCollection(): void
+    {
+        $glo_id = $this->edit_request->getInterruptiveItemIds()[0];
+        $this->object->removeGlossaryFromCollection($glo_id);
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("glo_removed_from_collection_info"), true);
+        $this->ctrl->redirect($this, "listTerms");
     }
 
     public function actTaxonomy(): void
@@ -955,7 +1066,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $cmd = $this->ctrl->getCmd();
         $force_active = ($cmd == "" || $cmd == "listTerms");
         $this->tabs_gui->addTarget(
-            "cont_terms",
+            "content",
             $this->ctrl->getLinkTarget($this, "listTerms"),
             array("listTerms", ""),
             get_class($this),

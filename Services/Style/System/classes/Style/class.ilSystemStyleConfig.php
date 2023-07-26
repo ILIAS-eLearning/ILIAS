@@ -40,20 +40,20 @@ class ilSystemStyleConfig
     protected string $default_template_path = './templates/default/template.xml';
 
     /**
-     * Path to delos css and less files
+     * Path to delos css and scss files
      */
     protected string $delos_path = './templates/default/delos';
 
     /**
-     * Relative delos path from Customizing dir to delos css and less files
+     * Relative delos path from Customizing dir to delos css and Scss files
      */
     protected string $rel_delos_path = '../../../../templates/default/delos';
 
 
     /**
-     * Path to variables less file of delos
+     * Path to variables Scss file of delos
      */
-    protected string $default_variables_path = './templates/default/less/variables.less';
+    protected string $default_settings_path = './templates/default/010-settings';
 
     /**
      * Path to images directory of delos
@@ -64,6 +64,11 @@ class ilSystemStyleConfig
      * Path to fonts directory of delos
      */
     protected string $default_fonts_path = './templates/default/fonts/';
+
+    /**
+     * SCSS Settings Folder Name
+     */
+    protected string $scss_settings_folder_name = '010-settings/';
 
     /**
      * Path to sounds directory of delos (currently none given)
@@ -115,14 +120,14 @@ class ilSystemStyleConfig
         $this->delos_path = $delos_path;
     }
 
-    public function getDefaultVariablesPath(): string
+    public function getDefaultSettingsPath(): string
     {
-        return $this->default_variables_path;
+        return $this->default_settings_path;
     }
 
-    public function setDefaultVariablesPath(string $default_variables_path): void
+    public function setDefaultSettingsPath(string $default_settings_path): void
     {
-        $this->default_variables_path = $default_variables_path;
+        $this->default_settings_path = $default_settings_path;
     }
 
     public function getDefaultImagesPath(): string
@@ -168,5 +173,21 @@ class ilSystemStyleConfig
     public function setRelDelosPath(string $rel_delos_path): void
     {
         $this->rel_delos_path = $rel_delos_path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScssSettingsFolderName(): string
+    {
+        return $this->scss_settings_folder_name;
+    }
+
+    /**
+     * @param string $scss_settings_folder_name
+     */
+    public function setScssSettingsFolderName(string $scss_settings_folder_name): void
+    {
+        $this->scss_settings_folder_name = $scss_settings_folder_name;
     }
 }

@@ -73,7 +73,11 @@ if ($plugin) {
 } else {
     chdir("../../");
 }
-DataService::initIlias($client);
+require_once("Services/Init/classes/class.ilInitialisation.php");
+//instead of DataService
+\ilContext::init(\ilContext::CONTEXT_SCORM);
+\ilInitialisation::initILIAS();
+//    DataService::initIlias($client);
 $dic = $GLOBALS['DIC'];
 
 $xapiproxy = new XapiProxy($client, $token, $plugin);
@@ -84,7 +88,7 @@ $xapiproxy = new XapiProxy($client, $token, $plugin);
 try {
     $xapiproxy->initLrs();
 } catch (\Exception $e) {
-    $xapiproxy->log()->error($dic['xapiproxy']->getLogMessage($e->getMessage()));
+    $xapiproxy->log()->error($e->getMessage());
 }
 $req = new XapiProxyRequest($xapiproxy);
 $resp = new XapiProxyResponse($xapiproxy);

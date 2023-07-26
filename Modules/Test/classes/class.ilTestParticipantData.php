@@ -245,7 +245,7 @@ class ilTestParticipantData
 
     public function getFormatedFullnameByActiveId($activeId): string
     {
-        return $this->buildFormatedFullname($this->byActiveId[$activeId]);
+        return ilObjTestAccess::_getParticipantData($activeId);
     }
 
     public function getFileSystemCompliantFullnameByActiveId($activeId): string
@@ -262,21 +262,12 @@ class ilTestParticipantData
         $options = array();
 
         foreach ($this->byActiveId as $activeId => $usrData) {
-            $options[$activeId] = $this->buildFormatedFullname($usrData);
+            $options[$activeId] = ilObjTestAccess::_getParticipantData($activeId);
         }
 
         asort($options);
 
         return $options;
-    }
-
-    private function buildFormatedFullname($usrData): string
-    {
-        return sprintf(
-            $this->lng->txt('tst_participant_fullname_pattern'),
-            $usrData['firstname'],
-            $usrData['lastname']
-        );
     }
 
     public function getAnonymousActiveIds(): array

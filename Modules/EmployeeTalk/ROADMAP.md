@@ -4,16 +4,16 @@
 
 ### Deletion of Talks
 
-Currently, the deletion of talks bypasses the trash manually. On the
-other hand, talk series are never deleted. This behavior should be
-improved: at the very least, series should be deleted along with their
-last talk.
+Currently, the deletion of talks bypasses the Trash manually. This
+process should be brought more in line with the other ILIAS objects.
+The simplest option would be to just allow Talks to be in the Trash.
 
-### Legacy UI, Part I
+### Legacy UI, Part II
 
-Legacy buttons and dropdowns will be replaced with their KS counterparts.
-This will lead to a few visual changes. Further, the 'Actions' dropdown
-in the talks table will not be loaded asynchronously anymore.
+The legacy table used for the 'Talks' list needs to be replaced by
+a KS component. It should be investigated how to translate those view
+to the KS, and take the opportunity to rework them. This effort should
+be coordinated with Staff.
 
 ### Testcases
 
@@ -24,8 +24,9 @@ should be made more precise.
 ### Removal of Unused Code
 
 It will be investigated whether code/classes are unused and can be
-deleted. From a first quick inspection, there seeem to be some candidates
-(see e.g. ilObjEmployeeTalkSeriesListGUI and ilYuiUtil::initDomEvent).
+deleted. From a first quick inspection, there seem to be some candidates
+(see e.g. ilObjEmployeeTalkSeriesListGUI, copy and paste OrgUnit code,
+etc.).
 
 ### Interface to OrgUnits
 
@@ -85,13 +86,6 @@ date was individually changed, or which are already flagged as completed).
 This should at least be explained in a byline. Improving this behavior
 seems to require rather large changes, as the recurrence rule is not saved
 anywhere.
-
-### Presentation in the Calendar
-
-The calendar can be filtered for talks from a series, but the series share
-their title with the template they were created from, and not the title
-of the talks in the series. This should be changed, especially since the
-calendar is the only place where employees can see their talks.
 
 ## Long Term
 

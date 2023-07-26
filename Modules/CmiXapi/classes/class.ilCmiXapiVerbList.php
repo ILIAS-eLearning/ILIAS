@@ -68,12 +68,31 @@ class ilCmiXapiVerbList
 
     public function isValidVerb(string $verb): bool
     {
-        return in_array($verb, $this->verbs);
+        return true;//not necessary for dynamic verbs: in_array($verb, $this->verbs);
     }
 
     public function getVerbUri(string $verb): string
     {
         return 'http://adlnet.gov/expapi/verbs/' . $verb;
+    }
+
+    public function getDynamicSelectOptions($verbs): array
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $options = array(
+            '' => $DIC->language()->txt('cmix_all_verbs')
+        );
+
+        foreach ($verbs as $verb) {
+            $verb = $verb['_id'];
+            $options[urlencode($verb)] = self::getVerbTranslation(
+                $DIC->language(),
+                $verb
+            );
+        }
+
+        return $options;
     }
 
     /**

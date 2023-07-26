@@ -26,7 +26,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\FileUpload\FileUpload;
 
-class ilSystemStyleIconsGUITest extends ilSystemStyleBaseFSTest
+class ilSystemStyleIconsGUITest extends ilSystemStyleBaseFS
 {
     protected ilSystemStyleIconsGUI $icons_gui;
 

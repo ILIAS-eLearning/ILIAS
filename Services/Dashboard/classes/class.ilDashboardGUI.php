@@ -27,7 +27,8 @@
  * @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
- * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilPDMailBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPDMailBlockGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilSelectedItemsBlockGUI, ilDashboardRecommendedContentGUI, ilMembershipBlockGUI, ilDashboardLearningSequenceGUI, ilStudyProgrammeDashboardViewGUI, ilObjStudyProgrammeGUI
  *
  */
 class ilDashboardGUI implements ilCtrlBaseClassInterface
@@ -149,32 +150,20 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 break;
 
             case "ilcolumngui":
+                if (strtolower($cmdClass = $this->ctrl->getCmdClass()) === strtolower(ilSelectedItemsBlockGUI::class)) {
+                    $gui = new $cmdClass();
+                    $ret = $this->ctrl->forwardCommand($gui);
+                    if ($ret !== "") {
+                        $this->tpl->setContent($ret);
+                        $this->tpl->printToStdout();
+                    }
+                    break;
+                }
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $column_gui = new ilColumnGUI("pd");
                 $this->show();
                 break;
-
-            case "ilpdselecteditemsblockgui":
-                $block = new ilPDSelectedItemsBlockGUI();
-                $this->displayHeader();
-                $ret = $this->ctrl->forwardCommand($block);
-                if ($ret != "") {
-                    $this->tpl->setContent($ret);
-                    $this->tpl->printToStdout();
-                }
-                break;
-
-            case "ilpdmembershipblockgui":
-                $block = new ilPDMembershipBlockGUI();
-                $ret = $this->ctrl->forwardCommand($block);
-                if ($ret != "") {
-                    $this->displayHeader();
-                    $this->tpl->setContent($ret);
-                    $this->tpl->printToStdout();
-                }
-                break;
-
             case 'ilcontactgui':
                 if (!ilBuddySystem::getInstance()->isEnabled()) {
                     throw new ilPermissionException($this->lng->txt('msg_no_perm_read'));
@@ -220,14 +209,22 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($ggui);
                 $this->tpl->printToStdout();
                 break;
-
-            case "ildashboardrecommendedcontentgui":
-                $gui = new ilDashboardRecommendedContentGUI();
-                $this->ctrl->forwardCommand($gui);
+            case strtolower(ilDashboardLearningSequenceGUI::class):
+            case strtolower(ilMembershipBlockGUI::class):
+            case strtolower(ilDashboardRecommendedContentGUI::class):
+            case strtolower(ilSelectedItemsBlockGUI::class):
+            case strtolower(ilStudyProgrammeDashboardViewGUI::class):
+                $gui = new $next_class();
+                $ret = $this->ctrl->forwardCommand($gui);
+                if ($ret !== "" && $ret !== null) {
+                    $this->tpl->setContent($ret);
+                }
+                $this->tpl->printToStdout();
                 break;
-            case "ilstudyprogrammedashboardviewgui":
-                $gui = new ilStudyProgrammeDashboardViewGUI();
-                $this->ctrl->forwardCommand($gui);
+            case strtolower(ilObjStudyProgrammeGUI::class):
+                $gui = new ilObjStudyProgrammeGUI();
+                $ret = $this->ctrl->forwardCommand($gui);
+                $this->tpl->printToStdout();
                 break;
             default:
                 $context->current()->addAdditionalData(self::DISENGAGE_MAINBAR, true);
@@ -251,7 +248,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
         $this->tpl->setTitle($this->lng->txt("dash_dashboard"));
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_dshs.svg"), $this->lng->txt("dash_dashboard"));
-        $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
+        $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png"));
 
         $this->tpl->setContent($this->getCenterColumnHTML());
         $this->tpl->setRightContent($this->getRightColumnHTML());
@@ -485,11 +482,16 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
             $html = $this->renderFavourites();
         }
         $html .= $this->renderRecommendedContent();
-        $html .= $this->renderStudyProgrammes();
-        $html .= $this->renderLearningSequences();
         if ($settings->enabledMemberships()) {
             $html .= $this->renderMemberships();
         }
+        if ($settings->enabledLearningSequences()) {
+            $html .= $this->renderLearningSequences();
+        }
+        if ($settings->enabledStudyProgrammes()) {
+            $html .= $this->renderStudyProgrammes();
+        }
+
 
         $tpl->setVariable("CONTENT", $html);
 
@@ -498,31 +500,26 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     protected function renderFavourites(): string
     {
-        $block = new ilPDSelectedItemsBlockGUI();
-        return $block->getHTML();
+        return (new ilSelectedItemsBlockGUI())->getHTML();
     }
 
     protected function renderRecommendedContent(): string
     {
-        $db_rec_content = new ilDashboardRecommendedContentGUI();
-        return $db_rec_content->render();
+        return (new ilDashboardRecommendedContentGUI())->getHTML();
     }
 
     protected function renderStudyProgrammes(): string
     {
-        $st_block = ilStudyProgrammeDIC::dic()['ilStudyProgrammeDashboardViewGUI'];
-        return $st_block->getHTML();
+        return (new ilStudyProgrammeDashboardViewGUI())->getHTML();
     }
 
     protected function renderMemberships(): string
     {
-        $block = new ilPDMembershipBlockGUI();
-        return $block->getHTML();
+        return (new ilMembershipBlockGUI())->getHTML();
     }
 
     protected function renderLearningSequences(): string
     {
-        $st_block = new ilDashboardLearningSequenceGUI();
-        return $st_block->getHTML();
+        return (new ilDashboardLearningSequenceGUI())->getHTML();
     }
 }

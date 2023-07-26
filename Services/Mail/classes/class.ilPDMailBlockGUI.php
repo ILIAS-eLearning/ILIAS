@@ -39,6 +39,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     /** @var string[] */
     protected array $mails = [];
     protected int $inbox;
+    private bool $has_access;
 
     public function __construct()
     {
@@ -56,6 +57,13 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->setLimit(5);
         $this->setTitle($this->lng->txt('mail'));
         $this->setPresentation(self::PRES_SEC_LIST);
+
+        $umail = new ilMail($this->user->getId());
+        if ($this->rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId())) {
+            $this->has_access = true;
+            $this->getMails();
+            $this->setData($this->mails);
+        }
     }
 
     public function getBlockType(): string
@@ -91,14 +99,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
     public function getHTML(): string
     {
-        $umail = new ilMail($this->user->getId());
-        if (!$this->rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId())) {
+        if (!$this->has_access) {
             return '';
         }
-
-        $this->getMails();
-        $this->setData($this->mails);
-
         return parent::getHTML();
     }
 
@@ -114,13 +117,11 @@ class ilPDMailBlockGUI extends ilBlockGUI
                  'status' => 'unread',
             ]
         );
+        $this->max_count = count($this->mails);
     }
 
     public function fillDataSection(): void
     {
-        $this->getMails();
-        $this->setData($this->mails);
-
         if ($this->mails !== []) {
             $this->setRowTemplate("tpl.pd_mail_row.html", "Services/Mail");
             parent::fillDataSection();

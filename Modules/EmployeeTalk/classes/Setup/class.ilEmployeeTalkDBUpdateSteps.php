@@ -20,12 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\EmployeeTalk\Setup;
 
-use ILIAS\Modules\EmployeeTalk\TalkSeries\Entity\EmployeeTalkSerieSettings;
-use ilOrgUnitOperation;
-use ilOrgUnitOperationContext;
-use ilOrgUnitOperationContextQueries;
-use ilOrgUnitOperationQueries;
-
 /**
  * @author Nicolas Schaefli <nick@fluxlabs.ch>
  */
@@ -123,6 +117,27 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
                 ]);
 
                 $db->addPrimaryKey($table_name, ['id']);
+            }
+        });
+    }
+
+    public function step_6(): void
+    {
+        $this->useTransaction(function (\ilDBInterface $db) {
+            $table_name = 'etal_data';
+            $column_name = 'template_id';
+
+            if (!$db->tableColumnExists($table_name, $column_name)) {
+                $db->addTableColumn(
+                    $table_name,
+                    $column_name,
+                    [
+                        'type' => 'integer',
+                        'length' => 8,
+                        'notnull' => true,
+                        'default' => 0
+                    ]
+                );
             }
         });
     }

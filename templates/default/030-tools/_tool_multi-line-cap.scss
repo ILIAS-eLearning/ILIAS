@@ -1,5 +1,5 @@
 @use "../010-settings/" as *;
-@use "../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as *;
+@use "../030-tools/_tool_browser-prefixes" as *;
 
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
@@ -10,7 +10,7 @@
 	Technical discussion can be found in https://mantis.ilias.de/view.php?id=21583
 	The background/gradient fallback can be removed as soon as all browsers support line-clamp.
  */
-@mixin il-multi-line-cap-mixin($height-in-rows,){
+@mixin il-multi-line-cap-mixin($height-in-rows){
 	& {
 		position: relative;
 		max-height: $height-in-rows * $il-line-height-small * 1em;

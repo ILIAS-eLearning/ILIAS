@@ -37,10 +37,12 @@ class ilSystemStyleException extends ilSystemStyleExceptionBase
     public const FILE_CREATION_FAILED = 2001;
     public const FOLDER_CREATION_FAILED = 2002;
     public const FILE_OPENING_FAILED = 2003;
-    public const LESS_COMPILE_FAILED = 2004;
+    public const SCSS_COMPILE_FAILED = 2004;
     public const FOLDER_DELETION_FAILED = 2005;
     public const FILE_DELETION_FAILED = 2006;
-    public const LESSC_NOT_INSTALLED = 2007;
+    public const SCSS_NOT_INSTALLED = 2007;
+    public const FOLDER_OPENING_FAILED = 2008;
+
 
     public const SKIN_FOLDER_DOES_NOT_EXIST = 3001;
     public const SKIN_CSS_DOES_NOT_EXIST = 3002;
@@ -94,11 +96,14 @@ class ilSystemStyleException extends ilSystemStyleExceptionBase
             case self::FILE_DELETION_FAILED:
                 $this->message = 'File delation failed, path: ' . $this->add_info;
                 break;
-            case self::LESS_COMPILE_FAILED:
-                $this->message = 'Compilation of less failed: ' . $this->add_info;
+            case self::SCSS_COMPILE_FAILED:
+                $this->message = 'Compilation of scss failed: ' . $this->add_info;
                 break;
             case self::FILE_OPENING_FAILED:
                 $this->message = 'Failed to open file  : ' . $this->add_info;
+                break;
+            case self::FOLDER_OPENING_FAILED:
+                $this->message = 'Failed to open folder  : ' . $this->add_info;
                 break;
             case self::SKIN_CSS_DOES_NOT_EXIST:
                 $this->message = 'Skin CSS does not exist: ' . $this->add_info;
@@ -130,8 +135,8 @@ class ilSystemStyleException extends ilSystemStyleExceptionBase
             case self::SUBSTYLE_ASSIGNMENT_EXISTS:
                 $this->message = 'The assignment of this substyle already exists: ' . $this->add_info;
                 break;
-            case self::LESSC_NOT_INSTALLED:
-                $this->message = 'No less compiler is installed';
+            case self::SCSS_NOT_INSTALLED:
+                $this->message = 'No scss compiler is installed';
                 break;
             default:
                 $this->message = 'Unknown Exception ' . $this->add_info;
