@@ -8,8 +8,8 @@
         min-width: 50%;
         width: max-content;
         border-radius: s.$il-border-radius-secondary-large;
-        @include button-variant(s.$il-btn-primary-color, s.$il-btn-primary-bg, s.$il-btn-primary-border);
-        @include button-size(layout-basics.$il-padding-xxlarge-vertical, layout-basics.$il-padding-xxlarge-horizontal, s.$il-font-size-large, s.$il-line-height-base, s.$il-border-radius-secondary-large);
+        // @include button-variant(s.$il-btn-primary-color, s.$il-btn-primary-bg, s.$il-btn-primary-border);
+        // @include button-size(layout-basics.$il-padding-xxlarge-vertical, layout-basics.$il-padding-xxlarge-horizontal, s.$il-font-size-large, s.$il-line-height-base, s.$il-border-radius-secondary-large);
         &[disabled] {
             cursor: not-allowed;
         }

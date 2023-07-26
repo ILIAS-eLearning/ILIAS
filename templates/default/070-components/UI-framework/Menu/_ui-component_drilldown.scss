@@ -23,12 +23,6 @@ $il-drilldown-item-font-line-height: $il-slate-bulky-label-size * 1.133333333333
 		margin: 0;
 		list-style: none;
 	}
-	// reset user agent CSS for menulevel button
-	.menulevel, .menulevel:focus, .menulevel:active {
-		text-align: left;
-		background: transparent;
-		border: none;
-	}
 
 	header {
 		position: relative; // so backnav can be positioned on top
@@ -53,6 +47,8 @@ $il-drilldown-item-font-line-height: $il-slate-bulky-label-size * 1.133333333333
 			bottom: 0;
 			.btn-bulky {
 				height: 100%;
+				background-color: transparent;
+    			border: none;
 			}
 		}
 	}
@@ -78,52 +74,20 @@ $il-drilldown-item-font-line-height: $il-slate-bulky-label-size * 1.133333333333
 	.engaged ~ ul > li > hr {
 		display: block;
 	}
-
-	// styling shared by many menu items
-	.menulevel,
-	.btn-bulky,
-	.link-bulky {
-		display: flex;
-		align-items: center; // icons, arrow glyphs and labels are vertically centered
-		justify-content: space-between;
-		width: 100%;
-		min-height: $il-drilldown-item-height; // two lines fit into the item without extending the height
-		padding: $il-drilldown-spacing-vertical $il-drilldown-spacing-horizontal;
-		margin-bottom: $il-drilldown-item-spacing;
-		font-size: $il-drilldown-item-font-size;
-		line-height: $il-drilldown-item-font-line-height;
-	}
-
 	// styling for individual menu items (parts taken from slate.scss)
 	hr {
 		margin: $il-drilldown-spacing-vertical 0;
 	}
-	.menulevel {
-		background-color: $il-drilldown-menulevel-bg;
-		&:hover {
-			background-color: $il-drilldown-item-hover-bg;
-		    color: inherit;
-		}
-		.glyphicon-triangle-right:before {
-			margin-left: $il-drilldown-spacing-horizontal;
-		}
-	}
 	.btn-bulky,
 	.link-bulky {
 		background-color: $il-drilldown-bulky-bg;
+		border-color: $il-drilldown-bulky-bg;
 		&:hover {
 			background-color: $il-drilldown-item-hover-bg; // has to be a color with transparency so h2 can be seen underneath backnav
 		    color: inherit;
 		}
 		.icon {
-			margin-right: $il-drilldown-spacing-horizontal;
 			filter: invert(50%);
-		}
-		.bulky-label {
-			flex-grow: 1; // pushes elements before and after to the outer sides
-			white-space: normal; // to allow linebreaks
-			text-align: left;
-			word-break: normal;
 		}
 	}
 }

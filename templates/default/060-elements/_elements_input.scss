@@ -1,4 +1,5 @@
 @use "../010-settings/" as *;
+@use "../010-settings/legacy-settings/legacy-settings_form" as *;
 
 button {
 	cursor: pointer;
@@ -14,4 +15,9 @@ input, select {
 	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		max-width: 100%;
 	}
+}
+
+input[type="text"],
+input[type="submit"] {
+	min-height: $il-input-height-base;
 }

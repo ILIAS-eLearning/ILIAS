@@ -8,27 +8,10 @@
 
 //== mainbar
 
-//Mixin for hovered, engaged or visible focus for triggers for slates, neede due to: #31811
-@mixin focus_hovered_engaged_slate_trigger {
-	background-color: $il-mainbar-btn-bg-color-engaged;
-	color: $il-mainbar-btn-bg-color;
-	.glyph{
-		color: $il-mainbar-btn-bg-color;
-	}
-	.icon {
-		filter: $il-mainbar-icon-filter;
-	}
-	.bulky-label {
-		color: $il-mainbar-btn-bg-color;
-	}
-}
-
-.il-maincontrols-mainbar,
+/* .il-maincontrols-mainbar,
 .il-maincontrols-metabar {
 	.btn-bulky,
 	.il-link.link-bulky {
-		font-size: $il-mainbar-btn-label-size;
-		line-height: $il-mainbar-btn-label-size * $il-line-height-large;
 		&:focus,
 		&:active {
 			box-shadow: none;
@@ -47,7 +30,7 @@
 		white-space: normal;
 	    display: block;
 	}
-}
+} */
 
 .il-maincontrols-mainbar,
 .il-maincontrols-metabar {
@@ -61,12 +44,12 @@
 
 .il-maincontrols-mainbar,
 .il-maincontrols-metabar {
-	.btn,a {
+	/* .btn,a {
 	  &:active {
 		  outline: 0;
 		  outline-offset: 0;
 	  }
-	}
+	} */
 
 	> .il-metabar-slate-auxillary {
 		display: none;
@@ -82,12 +65,12 @@
 	z-index: 1;
 	.btn-bulky,
 	.il-link.link-bulky {
-		align-items: center;
+		font-size: $il-mainbar-btn-label-size;
+		line-height: $il-mainbar-btn-label-size * $il-line-height-large;
 		background: $il-mainbar-btn-bg-color;
 		border: 0;
 		border-bottom: $il-mainbar-btn-border;
 		color: $il-mainbar-btn-bg-color-engaged;
-		display: inline-flex;
 		flex-flow: column wrap;
 		height: $il-mainbar-btn-height;
 		justify-content: center;
@@ -100,6 +83,20 @@
 			&.small {
 				width: $il-mainbar-trigger-icon-size;
 				height: $il-mainbar-trigger-icon-size;
+			}
+		}
+		//Mixin for hovered, engaged or visible focus for triggers for slates, neede due to: #31811
+		@mixin focus_hovered_engaged_slate_trigger {
+			background-color: $il-mainbar-btn-bg-color-engaged;
+			color: $il-mainbar-btn-bg-color;
+			.glyph{
+				color: $il-mainbar-btn-color-engaged;
+			}
+			.icon {
+				filter: $il-mainbar-icon-filter;
+			}
+			.bulky-label {
+				color: $il-mainbar-btn-color-engaged;
 			}
 		}
 		//Note, for some reason, safari needs this in a seperate section, see:
@@ -117,9 +114,9 @@
 			color: $il-mainbar-btn-color;
 		}
 		.bulky-label {
+			flex-grow: initial;
 			color: $il-mainbar-btn-bg-color-engaged;
 			display: -webkit-box;
-			margin-top: $il-margin-large-vertical;
 			white-space: normal;
 			word-break: break-word;
     		padding: 0 2px;
@@ -272,19 +269,11 @@
 }
 
 .il-mainbar-close-slates {
-	align-items: flex-end;
 	display: flex;
-	flex-shrink: 0;
-	height: $il-mainbar-close-slate-btn-height;
-	margin-top: auto;
 	.btn-bulky {
+		min-height: $il-mainbar-close-slate-btn-height;
 		background-color: transparent;
 		border-top: $il-mainbar-btn-border;
-		display: flex;
-		flex-direction: row;
-		height: $il-mainbar-close-slate-btn-height;
-		justify-content: center;
-		align-items: center;
 		.bulky-label {
 			@include sr-only;
 		}
@@ -293,7 +282,7 @@
 				content:" \e605";
 				display: block;
 				font-family: "il-icons"; // should be defined more general at .glyphicon
-				font-size: 1.5rem;
+				font-size: 1.2rem;
 			}
 			.glyphicon {
 				display: none;

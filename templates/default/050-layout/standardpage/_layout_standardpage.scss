@@ -16,17 +16,23 @@ $il-footer-padding: 10px 0 10px 5px;
 $il-standard-page-content-padding: 20px;
 $il-standard-page-slate-width: 329px;
 
+// MAINBAR
 $il-mainbar-btn-height: 80px;
 $il-mainbar-btn-width: 80px;
-$il-maincontrols-mainbar-bg-color: $il-main-bg;
+$il-maincontrols-mainbar-bg-color: red;// $il-main-bg;
+
 $il-mainbar-btn-color: white;
 $il-mainbar-btn-bg-color: $il-neutral-color;
+
 $il-mainbar-btn-color-engaged: $il-neutral-color;
 $il-mainbar-btn-bg-color-engaged: $il-main-bg;
+
 $il-mainbar-tools-btn-bg: $il-warning-color;
 $il-mainbar-tools-btn-bg-engaged: lighten($il-main-color, 50%);
+
 $il-mainbar-tools-tab-btn-bg-engaged: white;
 $il-mainbar-tools-tab-btn-bg-disengaged: $il-main-color;
+
 $il-mainbar-tools-bg: $il-main-dark-bg;
 $il-mainbar-tools-item-gap: 3px;
 $il-mainbar-icon-filter: invert(50%);
