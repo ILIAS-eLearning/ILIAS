@@ -106,7 +106,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     private function updateObjectFromRevision(Revision $r): void
     {
         // Remove filename extension from title
-        $this->setTitle(self::stripTitleOfFileExtension($r->getTitle(), $r->getIdentification()->serialize()));
+        $this->setTitle($this->stripTitleOfFileExtension($r->getTitle()));
         $this->setFileName($r->getInformation()->getTitle());
         $this->update();
     }
@@ -384,7 +384,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     public function handleChangedObjectTitle(string $new_title): void
     {
-        $new_title = self::stripTitleOfFileExtension($new_title, $this->getResourceId());
+        $new_title = $this->stripTitleOfFileExtension($new_title);
         $this->setTitle($new_title);
         $this->implementation->handleChangedObjectTitle($new_title);
     }
@@ -433,7 +433,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $new_obj->updateFileData();
 
         // Copy Resource
-        $cloned_title = self::stripTitleOfFileExtension($new_obj->getTitle(), $this->getResourceId());
+        $cloned_title = $this->stripTitleOfFileExtension($new_obj->getTitle());
         $new_resource_identification = $this->manager->clone($identification);
         $new_current_revision = $this->manager->getCurrentRevision($new_resource_identification);
         $new_obj->setResourceId($new_resource_identification->serialize());
@@ -682,23 +682,13 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $this->implementation->getFileExtension();
     }
 
-    public static function stripTitleOfFileExtension(string $a_title, string $a_rid): string
+    public function stripTitleOfFileExtension(string $a_title): string
     {
-        global $DIC;
-
-        $identification = $DIC->resourceStorage()->manage()->find($a_rid);
-        if ($identification === null) {
-            return $a_title;
-        }
-
-        $revision = $DIC->resourceStorage()->manage()->getCurrentRevision($identification);
-        $extension = "." . $revision->getInformation()->getSuffix();
-
-        return str_replace($extension, '', $a_title);
+        return $this->secure(preg_replace('/\\.[a-z0-9]+\\z/i', '', $a_title));
     }
 
     public function getTitle(): string
     {
-        return self::stripTitleOfFileExtension($this->title, $this->getResourceId());
+        return $this->stripTitleOfFileExtension($this->title);
     }
 }
