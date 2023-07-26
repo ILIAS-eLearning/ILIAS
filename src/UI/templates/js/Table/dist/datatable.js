@@ -1,4 +1,21 @@
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+/**
  * @type {number}
  */
 const KEY_LEFT = 37;
@@ -195,8 +212,8 @@ class DataTable {
       dataType: 'html',
     }).done(
       (html) => {
-        if(this.#jquery(html).first().hasClass('modal')) {
-          this.#jquery(html).modal({backdrop: false});
+        if (this.#jquery(html).first().hasClass('modal')) {
+          this.#jquery(html).modal({ backdrop: false });
         } else {
           responseContainer.querySelector('.modal-header > button').addEventListener(
             'click',
@@ -207,7 +224,6 @@ class DataTable {
           responseContent.innerHTML = html;
           responseContainer.style.display = 'block';
         }
-
       },
     );
   }
@@ -269,6 +285,23 @@ class DataTable {
   }
 }
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
 class DataTableFactory {
   /**
     * @type {jQuery}
@@ -315,6 +348,23 @@ class DataTableFactory {
     return this.#instances[tableId] ?? null;
   }
 }
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 il.UI = il.UI || {};
 il.UI.table = il.UI.table || {};
