@@ -180,15 +180,6 @@ class ilObjFileListGUI extends ilObjectListGUI
     }
 
     /**
-     * getTitle overwritten in class.ilObjLinkResourceList.php
-     */
-    public function getTitle(): string
-    {
-        // Remove filename extension from title
-        return $this->secure(preg_replace('/\\.[a-z0-9]+\\z/i', '', $this->title));
-    }
-
-    /**
      * Get item properties
      * @return    array        array of property arrays:
      *                        "alert" (boolean) => display as an alert property (usually in red)
