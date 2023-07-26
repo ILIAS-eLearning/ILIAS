@@ -1,5 +1,7 @@
 # Repository Service
 
+This part of the documentation deals with concepts and business rules, for technical documentation see [README-technical.md](./README-technical.md).
+
 ## Trash
 
 - To view the trash of a container class the "write" permission of the container is needed.
