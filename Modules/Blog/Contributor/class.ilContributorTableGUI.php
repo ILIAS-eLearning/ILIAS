@@ -29,17 +29,13 @@ class ilContributorTableGUI extends ilTable2GUI
     protected array $contributor_ids = [];
 
     public function __construct(
+        ilRbacReview $rbacreview,
         object $a_parent_obj,
         string $a_parent_cmd,
         array $a_roles
     ) {
-        global $DIC;
-
-        $this->ctrl = $DIC->ctrl();
-        $this->rbacreview = $DIC->rbac()->review();
-        $ilCtrl = $DIC->ctrl();
-
         $this->local_roles = $a_roles;
+        $this->rbacreview = $rbacreview;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -50,7 +46,7 @@ class ilContributorTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("name");
 
         $this->setRowTemplate("tpl.contributor_row.html", "Modules/Blog");
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->setSelectAllCheckbox("id"); // #16472
 
