@@ -216,7 +216,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
                 $tmp_arr['type_sortable'] .= ('_' . ilObject::_lookupType($category['obj_id']));
             }
             $tmp_arr['color'] = (string) $category['color'];
-            $tmp_arr['editable'] = (bool) $category['editable'];
+            $tmp_arr['editable'] = (bool) ($category['editable'] ?? false);
 
             // reference
             if ($category['type'] == ilCalendarCategory::TYPE_OBJ) {
