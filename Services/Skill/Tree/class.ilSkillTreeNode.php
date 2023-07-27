@@ -27,7 +27,7 @@ declare(strict_types=1);
 class ilSkillTreeNode
 {
     protected ilDBInterface $db;
-    protected ilSkillTree $skill_tree;
+    protected ilSkillTreeRepository $tree_repo;
     protected string $type = "";
     protected int $id = 0;
     protected string $title = "";
@@ -66,6 +66,7 @@ class ilSkillTreeNode
         if ($a_id != 0) {
             $this->read();
         }
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
     }
 
     public function setTitle(string $a_title): void
@@ -76,11 +77,6 @@ class ilSkillTreeNode
     public function getTitle(): string
     {
         return $this->title;
-    }
-
-    public function getSkillTree(): ilSkillTree
-    {
-        return $this->skill_tree;
     }
 
     public function setDescription(string $a_description): void
