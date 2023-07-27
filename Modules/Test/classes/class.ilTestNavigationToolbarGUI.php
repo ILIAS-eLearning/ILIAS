@@ -339,24 +339,31 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         } else {
             $message = $this->lng->txt('tst_finish_confirmation_question_no_attempts_left');
         }
-        $modal = $this->ui->factory()->modal()->interruptive(
-            $this->lng->txt('finish_test'),
-            $message,
-            $this->ctrl->getLinkTarget(
+
+        $action = '';
+        if ($this->getFinishTestCommand() === ilTestPlayerCommands::QUESTION_SUMMARY) {
+            $action = $this->ctrl->getLinkTarget(
                 $this->playerGUI,
-                $this->getFinishTestCommand()
-            )
-        )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
-
-        if ($this->isFinishTestButtonPrimary()) {
-            $button = $this->ui->factory()->button()->primary($this->lng->txt('finish_test'), '')
-                               ->withOnClick($modal->getShowSignal());
+                ilTestPlayerCommands::QUESTION_SUMMARY
+            );
         } else {
-            $button = $this->ui->factory()->button()->standard($this->lng->txt('finish_test'), '')
-                               ->withOnClick($modal->getShowSignal());
+            $modal = $this->ui->factory()->modal()->interruptive(
+                $this->lng->txt('finish_test'),
+                $message,
+                $this->ctrl->getLinkTarget(
+                    $this->playerGUI,
+                    $this->getFinishTestCommand()
+                )
+            )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
+            $this->additional_render_items[] = $modal;
         }
+        if ($this->isFinishTestButtonPrimary()) {
+            $button = $this->ui->factory()->button()->primary($this->lng->txt('finish_test'), $action);
+        } else {
+            $button = $this->ui->factory()->button()->standard($this->lng->txt('finish_test'), $action);
+        }
+        $button = isset($modal) ? $button->withOnClick($modal->getShowSignal()) : $button;
 
-        $this->additional_render_items[] = $modal;
         $this->addStickyItem($button);
     }
 }
