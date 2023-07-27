@@ -211,7 +211,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
             $this->form->addItem($si);
         } else {
             $ne = new ilNonEditableValueGUI($lng->txt("skmg_skill_template"), "");
-            $ne->setValue($options[$this->node_object->getSkillTemplateId()]);
+            $ne->setValue($options[$this->node_object->getSkillTemplateId()] ?? "");
             $this->form->addItem($ne);
         }
 

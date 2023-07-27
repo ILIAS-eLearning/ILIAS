@@ -619,11 +619,11 @@ class ilSkillDataSet extends ilDataSet
                 if ($a_rec["TopNode"] == 1) {
                     $parent = $skill_tree_root_id;
                     $status = ilSkillTreeNode::STATUS_DRAFT;
-                    $order = $a_rec["OrderNr"] + $init_top_order_nr;
+                    $order = (int) $a_rec["OrderNr"] + $init_top_order_nr;
                 } else {
                     $parent = (int) $a_mapping->getMapping("Services/Skill", "skl_tree", $a_rec["Parent"]);
-                    $status = $a_rec["Status"];
-                    $order = $a_rec["OrderNr"];
+                    $status = (int) $a_rec["Status"];
+                    $order = (int) $a_rec["OrderNr"];
                 }
                 switch ($a_rec["Type"]) {
                     case "scat":
@@ -676,10 +676,10 @@ class ilSkillDataSet extends ilDataSet
             case "skl_templ_subtree":
                 if ($a_rec["TopNode"] == 1) {
                     $parent = $skill_tree_root_id;
-                    $order = $a_rec["OrderNr"] + $init_templ_top_order_nr;
+                    $order = (int) $a_rec["OrderNr"] + $init_templ_top_order_nr;
                 } else {
                     $parent = (int) $a_mapping->getMapping("Services/Skill", "skl_tree", $a_rec["Parent"]);
-                    $order = $a_rec["OrderNr"];
+                    $order = (int) $a_rec["OrderNr"];
                 }
                 switch ($a_rec["Type"]) {
                     case "sctp":
