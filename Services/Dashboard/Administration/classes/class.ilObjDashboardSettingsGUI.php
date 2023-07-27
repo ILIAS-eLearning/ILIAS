@@ -248,8 +248,8 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $form = $this->initForm();
         $form = $form->withRequest($request);
         $form_data = $form->getData();
-        $this->viewSettings->enableSelectedItems((int) ($form_data['main_panel']['enable_favourites'] != ""));
-        $this->viewSettings->enableMemberships((int) ($form_data['main_panel']['enable_memberships'] != ""));
+        $this->viewSettings->enableSelectedItems($form_data['main_panel']['enable_favourites']);
+        $this->viewSettings->enableMemberships($form_data['main_panel']['enable_memberships']);
 
         foreach ($side_panel->getValidModules() as $mod) {
             $side_panel->enable($mod, (bool) $form_data['side_panel']['enable_' . $mod]);
