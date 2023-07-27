@@ -33,7 +33,7 @@ class ilSkillRoot extends ilSkillTreeNode
     public function delete(): void
     {
         $skrt_id = $this->getId();
-        $skill_tree = $this->tree_repo->getTreeForNodeId($skrt_id);
+        $skill_tree = $this->skill_service->internal()->repo()->getTreeRepo()->getTreeForNodeId($skrt_id);
         $childs = $skill_tree->getChildsByTypeFilter(
             $skrt_id,
             ["skll", "scat", "sktp", "sctp", "sktr"]

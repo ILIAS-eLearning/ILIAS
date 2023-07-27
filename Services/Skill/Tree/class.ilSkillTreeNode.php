@@ -25,7 +25,7 @@
 class ilSkillTreeNode
 {
     protected ilDBInterface $db;
-    protected ilSkillTreeRepository $tree_repo;
+    protected \ILIAS\Skill\Service\SkillService $skill_service;
     protected string $type = "";
     protected int $id = 0;
     protected string $title = "";
@@ -64,7 +64,7 @@ class ilSkillTreeNode
         if ($a_id != 0) {
             $this->read();
         }
-        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $this->skill_service = $DIC->skills();
     }
 
     public function setTitle(string $a_title): void

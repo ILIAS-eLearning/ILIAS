@@ -39,7 +39,9 @@ class SkillService implements SkillServiceInterface
 
         $this->repository_tree = $DIC->repositoryTree();
         $skmg_obj = current(\ilObject::_getObjectsByType("skmg"));
-        $this->skmg_ref_id = (int) current(\ilObject::_getAllReferences($skmg_obj["obj_id"]));
+        if ($skmg_obj) {
+            $this->skmg_ref_id = (int) current(\ilObject::_getAllReferences((int) $skmg_obj["obj_id"]));
+        }
         $this->rbac_system = $DIC->rbac()->system();
         $this->usr_id = $DIC->user()->getId();
     }
