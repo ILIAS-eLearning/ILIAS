@@ -1456,7 +1456,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($fullpage) {
             $table_gui = new ilListOfQuestionsTableGUI($this, 'showQuestion');
-
+            if (($this->object->getNrOfTries() - 1) === $this->testSession->getPass()) {
+                $table_gui->setUserHasAttemptsLeft(false);
+            }
             $table_gui->setShowPointsEnabled(!$this->object->getTitleOutput());
             $table_gui->setShowMarkerEnabled($this->object->getShowMarker());
             $table_gui->setObligationsNotAnswered(!$obligationsFulfilled);

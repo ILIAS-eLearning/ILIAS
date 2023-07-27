@@ -18,6 +18,7 @@
 
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
+use ILIAS\UI\Component\Component;
 
 /**
 *
@@ -29,6 +30,11 @@ use ILIAS\UI\Factory;
 
 class ilListOfQuestionsTableGUI extends ilTable2GUI
 {
+    private bool $userHasAttemptsLeft = true;
+    /** @var Component[] $commandButtons */
+    private array $commandButtons = [];
+    /** @var Component[] $additional_items */
+    private array $additional_items = [];
     protected ?bool $showPointsEnabled = false;
     protected ?bool $showMarkerEnabled = false;
 
@@ -64,6 +70,26 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->enable('header');
         $this->disable('sort');
         $this->disable('select_all');
+    }
+
+    private function addAdditionalItems(Component $item): void
+    {
+        $this->additional_items[] = $item;
+    }
+
+    private function getAdditionalItems(): array
+    {
+        return $this->additional_items;
+    }
+
+    private function addTopItem(Component $button): void
+    {
+        $this->commandButtons[] = $button;
+    }
+
+    private function getTopItems(): array
+    {
+        return $this->commandButtons;
     }
 
     public function init(): void
@@ -103,18 +129,65 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         }
 
         // command buttons
-
-        $this->addCommandButton(
-            ilTestPlayerCommands::SHOW_QUESTION,
-            $this->lng->txt('tst_resume_test')
+        $btn = $this->factory->button()->standard(
+            $this->lng->txt('tst_resume_test'),
+            $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION)
         );
+        $this->addTopItem($btn);
 
         if (!$this->areObligationsNotAnswered() && $this->isFinishTestButtonEnabled()) {
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption('finish_test');
-            $button->setCommand(ilTestPlayerCommands::FINISH_TEST);
-            $this->addCommandButtonInstance($button);
+            $this->addFinishTestButton();
         }
+    }
+
+    public function userHasAttemptsLeft(): bool
+    {
+        return $this->userHasAttemptsLeft;
+    }
+
+    public function setUserHasAttemptsLeft(bool $userHasAttemptsLeft): void
+    {
+        $this->userHasAttemptsLeft = $userHasAttemptsLeft;
+    }
+
+    private function addFinishTestButton(): void
+    {
+        if ($this->userHasAttemptsLeft()) {
+            $message = $this->lng->txt('tst_finish_confirmation_question');
+        } else {
+            $message = $this->lng->txt('tst_finish_confirmation_question_no_attempts_left');
+        }
+        $modal = $this->factory->modal()->interruptive(
+            $this->lng->txt('finish_test'),
+            $message,
+            $this->ctrl->getLinkTarget(
+                $this->parent_obj,
+                ilTestPlayerCommands::FINISH_TEST
+            )
+        )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
+
+        $button = $this->factory->button()->standard($this->lng->txt('finish_test'), '')
+                           ->withOnClick($modal->getShowSignal());
+
+        $this->addTopItem($button);
+        $this->addAdditionalItems($modal);
+    }
+
+    public function getHTML(): string
+    {
+        foreach ($this->getTopItems() as $top_item) {
+            $this->tpl->setCurrentBlock('tbl_header_html');
+            $this->tpl->setVariable(
+                "HEADER_HTML",
+                $this->renderer->render($top_item)
+            );
+            $this->tpl->parseCurrentBlock();
+        }
+        $additional_html = '';
+        foreach ($this->getAdditionalItems() as $additional_item) {
+            $additional_html .= $this->renderer->render($additional_item);
+        }
+        return parent::getHTML() . $additional_html;
     }
 
     public function fillRow(array $a_set): void
