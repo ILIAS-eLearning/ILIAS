@@ -47,7 +47,7 @@ class ilSkillTemplateCategory extends ilSkillTreeNode
     public function delete(): void
     {
         $sctp_id = $this->getId();
-        $skill_tree = $this->tree_repo->getTreeForNodeId($sctp_id);
+        $skill_tree = $this->skill_service->internal()->repo()->getTreeRepo()->getTreeForNodeId($sctp_id);
         $childs = $skill_tree->getChildsByTypeFilter(
             $sctp_id,
             ["sktp", "sctp"]
