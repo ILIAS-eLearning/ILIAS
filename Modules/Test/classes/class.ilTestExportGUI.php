@@ -219,7 +219,7 @@ class ilTestExportGUI extends ilExportGUI
                 $data[] = [
                     'file' => $exp_file,
                     'size' => filesize($archive_dir . "/" . $exp_file),
-                    'timestamp' => $file_arr[0],
+                    'timestamp' => $file_arr[4],
                     'type' => $this->getExportTypeFromFileName($exp_file)
                 ];
             }
