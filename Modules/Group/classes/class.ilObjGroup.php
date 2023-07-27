@@ -540,6 +540,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             return false;
         }
 
+        $this->updateMetaData();
+
         $query = "UPDATE grp_settings " .
             "SET information = " . $this->db->quote($this->getInformation(), 'text') . ", " .
             "grp_type = " . $this->db->quote($this->getGroupType(), 'integer') . ", " .
@@ -594,6 +596,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         if (!parent::delete()) {
             return false;
         }
+
+        $this->deleteMetaData();
 
         $query = "DELETE FROM grp_settings " .
             "WHERE obj_id = " . $this->db->quote($this->getId(), 'integer');
