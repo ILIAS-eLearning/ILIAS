@@ -19,11 +19,23 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+namespace ILIAS\Skill\Level;
+
+use ILIAS\Skill\Service\SkillInternalRepoService;
+
 /**
- * Access class for skill management
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * Skill level manager
+ * @author famula@leifos.de
  */
-class ilObjSkillManagementAccess extends ilObjectAccess
+class SkillLevelManager
 {
+    protected SkillInternalRepoService $repo_service;
+
+    public function __construct(SkillInternalRepoService $repo_service = null)
+    {
+        global $DIC;
+
+        $this->repo_service = ($repo_service)
+            ?: $DIC->skills()->internal()->repo();
+    }
 }

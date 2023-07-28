@@ -20,7 +20,7 @@ declare(strict_types=1);
  */
 
 use ILIAS\Skill\Service\SkillAdminGUIRequest;
-use ILIAS\Skill\Tree;
+use ILIAS\Skill\Node;
 use ILIAS\Skill\Access\SkillTreeAccess;
 
 /**
@@ -43,7 +43,7 @@ class ilSkillTreeNodeGUI
     public bool $in_use = false;
     public bool $use_checked = false;
     public ilAccessHandler $access;
-    protected Tree\SkillTreeNodeManager $skill_tree_node_manager;
+    protected Node\SkillTreeNodeManager $skill_tree_node_manager;
     protected SkillTreeAccess $tree_access_manager;
     protected ilSkillTreeRepository $tree_repo;
     protected int $skill_tree_id = 0;
@@ -65,7 +65,7 @@ class ilSkillTreeNodeGUI
      */
     protected array $requested_node_order = [];
 
-    public function __construct(Tree\SkillTreeNodeManager $node_manager, int $a_node_id = 0)
+    public function __construct(Node\SkillTreeNodeManager $node_manager, int $a_node_id = 0)
     {
         global $DIC;
 

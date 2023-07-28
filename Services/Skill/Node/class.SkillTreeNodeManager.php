@@ -19,9 +19,10 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-namespace ILIAS\Skill\Tree;
+namespace ILIAS\Skill\Node;
 
 use ilArrayUtil;
+use ILIAS\Skill\Tree;
 
 /**
  * Skill tree manager
@@ -34,7 +35,7 @@ class SkillTreeNodeManager
     protected \ilSkillTree $tree;
     protected \ilObjUser $user;
 
-    public function __construct(int $skill_tree_id, SkillTreeFactory $tree_factory)
+    public function __construct(int $skill_tree_id, Tree\SkillTreeFactory $tree_factory)
     {
         global $DIC;
 

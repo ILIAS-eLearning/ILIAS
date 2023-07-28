@@ -19,7 +19,7 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-use ILIAS\Skill\Tree;
+use ILIAS\Skill\Node;
 
 /**
  * Skill template reference GUI class
@@ -30,7 +30,7 @@ use ILIAS\Skill\Tree;
  */
 class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 {
-    public function __construct(Tree\SkillTreeNodeManager $node_manager, int $a_tref_id = 0)
+    public function __construct(Node\SkillTreeNodeManager $node_manager, int $a_tref_id = 0)
     {
         global $DIC;
 

@@ -19,7 +19,7 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-namespace ILIAS\Skill\Service;
+namespace ILIAS\Skill\Level;
 
 /**
  * Skill user level manager
