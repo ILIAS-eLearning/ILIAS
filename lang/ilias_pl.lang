@@ -875,6 +875,7 @@ assessment#:#log_user_not_entered_values#:#Użytkownik nie podał wartości
 assessment#:#log_user_solution_willingly_deleted#:#Użytkownik usunął swoją odpowiedź.
 assessment#:#log_wrong_test_password_entered#:#Uczestnik wprowadził nieprawidłowe hasło do testu.
 assessment#:#longmenu#:#Longmenu
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###28 07 2023 new variable
 assessment#:#longmenu_text#:#Tekst ‘Long Menu’
 assessment#:#mailnottype#:#Transmisja odbywa się również po zakończeniu poszczególnych przebiegów testu.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -2739,6 +2740,7 @@ certificate#:#certificate_settings#:#Ustawienia certyfikatów
 certificate#:#certificate_short_name#:#Krótka nazwa pliku certyfikatu
 certificate#:#certificate_short_name_description#:#Proszę, wprowadź krótki tytuł do nazwy certyfikatu. Będzie on częścią nazwy pliku certyfikatu: RRMMDD_[nazwisko]_[SHORT_TITLE]_certyfikat.pdf.
 certificate#:#certificate_text#:#Tekst certyfikatu
+certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.###28 07 2023 new variable
 certificate#:#certificate_unit_description#:#Wprowadź jednostki miar jako WARTOŚĆ[cm|mm|in|pt|pc|px|em], np. 10mm lub 3in
 certificate#:#certificate_usage#:#Proszę pamiętaj, że stosowanie i sporządzanie certyfikatów możliwe jest tylko wówczas, gdy stosujesz serwer Java ILIAS. Serwer Java skonfigurowany jest na głównej stronie ustawień systemowych w kategorii „Usługi sieciowe” i konieczny jest m.in. do tworzenia plików PDF.
 certificate#:#certificate_var_max_points#:#46
@@ -7572,6 +7574,8 @@ crs#:#crs_members_groups#:#Członkostwo w grupach
 crs#:#crs_members_map#:#Mapy członków kursu
 crs#:#crs_members_print_title#:#Uczestnicy kursu
 crs#:#crs_min_one_admin#:#Do tego kursu musi być przydzielony co najmniej jeden administrator.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#Twój nowy status to:
 crs#:#crs_new_subscription#:#Nowa subskrypcja kursu "%s"
 crs#:#crs_new_subscription_body#:#%s został zarejestrowany do kursu "%s".
@@ -7973,6 +7977,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes###07 02 2020 new variable
 dash#:#dash_tile#:#Tile###07 02 2020 new variable
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 2020 new variable
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###28 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###28 07 2023 new variable
 dateplaner#:#Fr_long#:#Piątek
 dateplaner#:#Fr_short#:#Pt
 dateplaner#:#Mo_long#:#Poniedziałek
@@ -10650,6 +10656,7 @@ lti#:#lti_con_tool_url#:#Login URL###31 03 2023 new variable
 lti#:#lti_con_version#:#LTI Version###31 03 2023 new variable
 lti#:#lti_con_version_1.1#:#Version 1.1###31 03 2023 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###31 03 2023 new variable
+lti#:#lti_con_version_1.3_before_id#:#If dynamic registration is not used, after entering the data provided by the tool, additional data will appear that must be entered with the tool.###28 07 2023 new variable
 lti#:#lti_confirm_delete_providers#:#Are you sure that you want to delete the following provider(s)?###07 02 2020 new variable
 lti#:#lti_consumer#:#Podziel się z
 lti#:#lti_consumer_created#:#Odbiorca dodany
@@ -12281,8 +12288,6 @@ orgu#:#employee#:#Pracownik
 orgu#:#ext_id#:#Zewnętrzny numer ID
 orgu#:#ext_id_updated#:#Zewnętrzny numer ID został z powodzeniem edytowany, ponieważ dane zapisywane są w trybie anonimowym.
 orgu#:#form_title_org_default_permissions_update#:#Uprawnienia standardowe
-orgu#:#il_orgu_employee#:#Pracownik
-orgu#:#il_orgu_superior#:#Przełożony
 orgu#:#import_failed#:#Nie udało się przeprowadzić importu. Upewnij się, że plik zapisany jest w formacie XML i posiada ważną strukturę.
 orgu#:#import_successful#:#Import został z powodzeniem przeprowadzony. Nowo utworzono: %s, edytowano/przesunięto: %s, usunięto: %s.
 orgu#:#import_terminated_with_errors#:#Podczas importu rozpoznano błędy.
@@ -12643,6 +12648,8 @@ prg#:#prg_belongs_to#:#Należy do
 prg#:#prg_can_not_manage_in_repo#:#Nie możesz zarządzać tym programem studiów, ponieważ zostali przydzieleni do niego już członkowie.
 prg#:#prg_cancel#:#Cancel###30 04 2021 new variable
 prg#:#prg_cancel_tree_order#:#Odrzuć kolejność drzewa.
+prg#:#prg_change_deadline#:#Change deadline###28 07 2023 new variable
+prg#:#prg_change_expire_date#:#Change expire date###28 07 2023 new variable
 prg#:#prg_changed_by#:#Zmieniono przez
 prg#:#prg_completed_by_subnodes#:#subprogrammes###31 03 2023 new variable
 prg#:#prg_completion_by#:#Zakończone przez
@@ -12693,6 +12700,7 @@ prg#:#prg_mark_accredited#:#akredytuj
 prg#:#prg_mark_accredited_multi_success#:#Wybrani użytkownicy z akredytacją.
 prg#:#prg_mark_accredited_success#:#Użytkownik otrzymał akredytację dla programu.
 prg#:#prg_mark_not_relevant_multi_success#:#Wybrani użytkownicy oznaczeni jako nieistotni.
+prg#:#prg_mark_relevant#:#Mark Relevant###28 07 2023 new variable
 prg#:#prg_mark_relevant_multi_success#:#Wybrani użytkownicy oznaczeni jako istotni.
 prg#:#prg_more_objects_without_read_permission#:#Program studiów zawiera dodatkowe elementy, do których nie masz wglądu ze względu na niewystarczające uprawnienia.
 prg#:#prg_multi_change_deadline#:#Change deadline###07 02 2020 new variable
@@ -12784,6 +12792,7 @@ prg#:#prg_type_msg_unable_delete#:#Nie udało się usunąć typu, ponieważ uży
 prg#:#prg_unmark_accredited#:#Usuń akredytację
 prg#:#prg_unmark_accredited_multi_success#:#Wybrani użytkownicy oznaczeni jako nieakredytowani.
 prg#:#prg_unmark_accredited_success#:#Udało się usunąć akredytację.
+prg#:#prg_unmark_relevant#:#Unmark Relevant###28 07 2023 new variable
 prg#:#prg_update_from_current_plan#:#Aktualizuj na podstawie aktualnego planu.
 prg#:#prg_update_from_current_plan_not_possible#:#Przeprowadzenie aktualizacji na podstawie aktualnego planu nie jest możliwe.
 prg#:#prg_update_from_current_plan_partitial_success#:#Aktualizacja na podstawie aktualnego planu została częściowo zakończona.
@@ -13285,7 +13294,9 @@ rbac#:#crs_visible#:#Kurs jest widoczny
 rbac#:#crs_write#:#Edycja kursu
 rbac#:#crsr_copy#:#Kopiuj odwołanie do kursu
 rbac#:#crsr_delete#:#Usuń odwołanie do kursu
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###28 07 2023 new variable
 rbac#:#crsr_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###28 07 2023 new variable
 rbac#:#crsr_visible#:#Odwołanie do kursu jest widoczne
 rbac#:#crsr_write#:#Edytuj odwołanie do kursu
 rbac#:#crss_edit_permission#:#Zmień prawa dostępu dla ustawień systemowych dotyczących kursu
@@ -13444,8 +13455,6 @@ rbac#:#iass_read_learning_progress#:#Obejrzyj postęp w nauce dla indywidualnych
 rbac#:#iass_visible#:#Indywidualna ocena jest widoczna
 rbac#:#iass_write#:#Edytuj ustawienia dotyczące indywidualnych ocen
 rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
-rbac#:#il_orgu_employee#:#Jednostka organizacyjna Pracownik
-rbac#:#il_orgu_superior#:#Jednostka organizacyjna Przełożony
 rbac#:#il_sess_participant#:#Uczestnicy sesji
 rbac#:#il_sess_status_closed#:#Sesja dostępna tylko dla członków
 rbac#:#ilias_id#:#ILIAS-ID
@@ -14849,10 +14858,8 @@ skmg#:#skmg_level#:#Właściwość
 skmg#:#skmg_list_skills#:#Utwórz listę kompetencji
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles###30 04 2021 new variable
 skmg#:#skmg_lp_triggers_level#:#Aktywowany przez status 'Skompletowane'
-skmg#:#skmg_lp_triggers_level_resources#:#Resources triggered by Completion###31 03 2023 new variable
-skmg#:#skmg_material#:#Materiał
 skmg#:#skmg_materials#:#Materiały
-skmg#:#skmg_materials_ressources#:#Resources/Materials
+skmg#:#skmg_materials_resources#:#Learning Materials###28 07 2023 new variable
 skmg#:#skmg_new_level#:#Nowa właściwość
 skmg#:#skmg_new_sktr#:#Nowa referencja szablonów
 skmg#:#skmg_next_step#:#Następny krok
@@ -14873,7 +14880,9 @@ skmg#:#skmg_previous_step#:#Poprzedni krok
 skmg#:#skmg_profile#:#Profil
 skmg#:#skmg_really_delete_levels#:#Czy na pewno chcesz usunąć następujące poziomy kompetencji?
 skmg#:#skmg_really_remove_skills#:#Czy na pewno chcesz usunąć następujące kompetencje z listy?
-skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement###31 03 2023 new variable
+skmg#:#skmg_recommended_learning_material_crs#:#Achieve your targets in this course###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group###28 07 2023 new variable
 skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.###31 03 2023 new variable
 skmg#:#skmg_refresh_view#:#Refresh
 skmg#:#skmg_remove_levels#:#Usuń poziom
@@ -14911,7 +14920,8 @@ skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to se
 skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#Twój poziom kompetencji jest wystarczający dla tego profilu.
 skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.###31 03 2023 new variable
-skmg#:#skmg_skill_profile_comparison#:#Profile Comparison###31 03 2023 new variable
+skmg#:#skmg_skill_overview#:#Overview###28 07 2023 new variable
+skmg#:#skmg_skill_profile_records#:#Competence Records###28 07 2023 new variable
 skmg#:#skmg_skill_profiles#:#Profile
 skmg#:#skmg_skill_template#:#Szablon kompetencji
 skmg#:#skmg_skill_templates#:#Szablony kompetencji
@@ -16610,6 +16620,7 @@ user#:#interests_general#:#Ogólne zainteresowania
 user#:#interests_help_looking#:#Szukam pomocy
 user#:#interests_help_offered#:#Oferuję pomoc
 user#:#msg_spoint_not_modified#:#Starting point not modified###07 02 2020 new variable
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###28 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###07 02 2020 new variable
 user#:#restrict_user_access#:#Ograniczony dostęp do kont użytkowników
 user#:#restrict_user_access_info#:#Aktywuj tę opcję tylko wtedy, gdy chcesz ograniczyć dostęp do kont użytkowników. Jeśli ta opcja jest aktywna, użytkownicy będą potrzebowali uprawnienia "Prawo czytania kont użytkowników", aby mieć dostęp do lokalnych kont użytkowników w kategoriach oraz globalnych kont użytkowników.

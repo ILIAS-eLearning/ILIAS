@@ -874,6 +874,7 @@ assessment#:#log_user_not_entered_values#:#User did not enter values用户没有
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###28 07 2023 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#甚至当用户完成一个测试时也发送通知
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -2738,6 +2739,7 @@ certificate#:#certificate_settings#:#证书设置
 certificate#:#certificate_short_name#:#证书文件短标题
 certificate#:#certificate_short_name_description#:#请为证书名输入一个短标题。这个短标题将用作证书名的一部分：YYMMDD_[surname]_[短标题]_certificate.pdf
 certificate#:#certificate_text#:#证书文本
+certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.###28 07 2023 new variable
 certificate#:#certificate_unit_description#:#输入计量单位的值[cm|mm|in|pt|pc|px|em],例如，10mm或3in
 certificate#:#certificate_usage#:#请注意，证书的使用仅在ILIAS Java服务器正在运行中才有效。要使Java服务器有效，请在Webservices章节中的ILIAS管理的主页面中配置。
 certificate#:#certificate_var_max_points#:#46
@@ -7571,6 +7573,8 @@ crs#:#crs_members_groups#:#课程成员组
 crs#:#crs_members_map#:#课程成员地图
 crs#:#crs_members_print_title#:#课程成员
 crs#:#crs_min_one_admin#:#必须至少有一个管理员分配给本课程
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#您的新状态
 crs#:#crs_new_subscription#:#新课程订阅
 crs#:#crs_new_subscription_body#:#一个新用户已经订阅
@@ -7972,6 +7976,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes###07 02 2020 new variable
 dash#:#dash_tile#:#Tile###07 02 2020 new variable
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 2020 new variable
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###28 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###28 07 2023 new variable
 dateplaner#:#Fr_long#:#星期五
 dateplaner#:#Fr_short#:#周五
 dateplaner#:#Mo_long#:#星期一
@@ -10649,6 +10655,7 @@ lti#:#lti_con_tool_url#:#Login URL###31 03 2023 new variable
 lti#:#lti_con_version#:#LTI Version###31 03 2023 new variable
 lti#:#lti_con_version_1.1#:#Version 1.1###31 03 2023 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###31 03 2023 new variable
+lti#:#lti_con_version_1.3_before_id#:#If dynamic registration is not used, after entering the data provided by the tool, additional data will appear that must be entered with the tool.###28 07 2023 new variable
 lti#:#lti_confirm_delete_providers#:#Are you sure that you want to delete the following provider(s)?###07 02 2020 new variable
 lti#:#lti_consumer#:#Freigabe für###31 08 2017 new variable
 lti#:#lti_consumer_created#:#Consumer created###31 08 2017 new variable
@@ -12280,8 +12287,6 @@ orgu#:#employee#:#Employee###24 10 2013 new variable
 orgu#:#ext_id#:#External ID###24 10 2013 new variable
 orgu#:#ext_id_updated#:#The external ID has been updated successfully.###24 10 2013 new variable
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions###31 08 2017 new variable
-orgu#:#il_orgu_employee#:#Employee###24 10 2013 new variable
-orgu#:#il_orgu_superior#:#Superior###24 10 2013 new variable
 orgu#:#import_failed#:#The import failed. Make sure your file is in the xml format and is has a valid structure.###24 10 2013 new variable
 orgu#:#import_successful#:#The import terminated successfully. Created: %s, edited/moved: %s, deleted: %s.###24 10 2013 new variable
 orgu#:#import_terminated_with_errors#:#The import terminated with errors, some organisational couldn't be created, edited or deleted.###24 10 2013 new variable
@@ -12642,6 +12647,8 @@ prg#:#prg_belongs_to#:#Belongs to###30 08 2015 new variable
 prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.###23 12 2015 new variable
 prg#:#prg_cancel#:#Cancel###30 04 2021 new variable
 prg#:#prg_cancel_tree_order#:#Dismiss tree order###30 08 2015 new variable
+prg#:#prg_change_deadline#:#Change deadline###28 07 2023 new variable
+prg#:#prg_change_expire_date#:#Change expire date###28 07 2023 new variable
 prg#:#prg_changed_by#:#Changed by###30 08 2015 new variable
 prg#:#prg_completed_by_subnodes#:#subprogrammes###31 03 2023 new variable
 prg#:#prg_completion_by#:#Completion by###30 08 2015 new variable
@@ -12692,6 +12699,7 @@ prg#:#prg_mark_accredited#:#Mark Accredited###30 08 2015 new variable
 prg#:#prg_mark_accredited_multi_success#:#Mark Selected Users As Accredited###22 11 2017 new variable
 prg#:#prg_mark_accredited_success#:#Accredited Program Node for User successfully.###30 08 2015 new variable
 prg#:#prg_mark_not_relevant_multi_success#:#Unmark Selected Users As Relevant###22 11 2017 new variable
+prg#:#prg_mark_relevant#:#Mark Relevant###28 07 2023 new variable
 prg#:#prg_mark_relevant_multi_success#:#Mark Selected Users As Relevant###22 11 2017 new variable
 prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more objects you can't see because of less permissions.###23 12 2015 new variable
 prg#:#prg_multi_change_deadline#:#Change deadline###07 02 2020 new variable
@@ -12783,6 +12791,7 @@ prg#:#prg_type_msg_unable_delete#:#Unable to delete type because it is still ass
 prg#:#prg_unmark_accredited#:#Unmark Accredited###30 08 2015 new variable
 prg#:#prg_unmark_accredited_multi_success#:#Unmark Selected Users As Accredited###22 11 2017 new variable
 prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.###30 08 2015 new variable
+prg#:#prg_unmark_relevant#:#Unmark Relevant###28 07 2023 new variable
 prg#:#prg_update_from_current_plan#:#Update from current Plan###30 08 2015 new variable
 prg#:#prg_update_from_current_plan_not_possible#:#Update From Current Plan Not Possible###22 11 2017 new variable
 prg#:#prg_update_from_current_plan_partitial_success#:#Update From Current Plan Partically###22 11 2017 new variable
@@ -13284,7 +13293,9 @@ rbac#:#crs_visible#:#课程可视
 rbac#:#crs_write#:#用户能编辑课程设置和管理内容
 rbac#:#crsr_copy#:#复制课程参考
 rbac#:#crsr_delete#:#删除课程参考
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###28 07 2023 new variable
 rbac#:#crsr_edit_permission#:#更改权限设置
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###28 07 2023 new variable
 rbac#:#crsr_visible#:#课程参考可见权限
 rbac#:#crsr_write#:#课程参考编辑权限
 rbac#:#crss_edit_permission#:#User can change permission settings in Course administration###30 12 2013 new variable
@@ -13443,8 +13454,6 @@ rbac#:#iass_read_learning_progress#:#View learning progress information of a Ind
 rbac#:#iass_visible#:#Individual Assessment is visible###25 10 2016 new variable
 rbac#:#iass_write#:#Edit a Individual Assessment###25 10 2016 new variable
 rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
-rbac#:#il_orgu_employee#:#Organisational Unit Employee###30 12 2013 new variable
-rbac#:#il_orgu_superior#:#Organisational Unit Superior###30 12 2013 new variable
 rbac#:#il_sess_participant#:#Session Participant###31 08 2017 new variable
 rbac#:#il_sess_status_closed#:#Non-Participant Closed Session###31 08 2017 new variable
 rbac#:#ilias_id#:#ILIAS-ID###27 01 2015 new variable
@@ -14848,10 +14857,8 @@ skmg#:#skmg_level#:#级别
 skmg#:#skmg_list_skills#:#列出技能
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles###30 04 2021 new variable
 skmg#:#skmg_lp_triggers_level#:#Triggered by Completion###31 08 2017 new variable
-skmg#:#skmg_lp_triggers_level_resources#:#Resources triggered by Completion###31 03 2023 new variable
-skmg#:#skmg_material#:#资料
 skmg#:#skmg_materials#:#资料
-skmg#:#skmg_materials_ressources#:#Resources/Materials###10 11 2018 new variable
+skmg#:#skmg_materials_resources#:#Learning Materials###28 07 2023 new variable
 skmg#:#skmg_new_level#:#新级别
 skmg#:#skmg_new_sktr#:#新技能模板参考
 skmg#:#skmg_next_step#:#下一步
@@ -14872,7 +14879,9 @@ skmg#:#skmg_previous_step#:#上一步
 skmg#:#skmg_profile#:#Profile###24 10 2013 new variable
 skmg#:#skmg_really_delete_levels#:#您真的要删除以下技能级别？
 skmg#:#skmg_really_remove_skills#:#您真的要从您的清单中删除以下技能吗？
-skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement###31 03 2023 new variable
+skmg#:#skmg_recommended_learning_material_crs#:#Achieve your targets in this course###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group###28 07 2023 new variable
 skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.###31 03 2023 new variable
 skmg#:#skmg_refresh_view#:#Refresh###10 11 2018 new variable
 skmg#:#skmg_remove_levels#:#Remove Levels###24 10 2013 new variable
@@ -14910,7 +14919,8 @@ skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to se
 skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#Your competence level is sufficient for the selected profile.###24 10 2013 new variable
 skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.###31 03 2023 new variable
-skmg#:#skmg_skill_profile_comparison#:#Profile Comparison###31 03 2023 new variable
+skmg#:#skmg_skill_overview#:#Overview###28 07 2023 new variable
+skmg#:#skmg_skill_profile_records#:#Competence Records###28 07 2023 new variable
 skmg#:#skmg_skill_profiles#:#Profiles###24 10 2013 new variable
 skmg#:#skmg_skill_template#:#技能模板
 skmg#:#skmg_skill_templates#:#技能模板
@@ -16609,6 +16619,7 @@ user#:#interests_general#:#General Interests###26 09 2014 new variable
 user#:#interests_help_looking#:#Looking For Help###26 09 2014 new variable
 user#:#interests_help_offered#:#Offering Help###26 09 2014 new variable
 user#:#msg_spoint_not_modified#:#Starting point not modified###07 02 2020 new variable
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###28 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###07 02 2020 new variable
 user#:#restrict_user_access#:#受限访问用户账号
 user#:#restrict_user_access_info#:#如果启用，访问用户账号将受限。访问取决于“用户账号”和“类目”中的权限“本地用户账号读访问权限”。

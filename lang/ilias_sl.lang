@@ -889,6 +889,7 @@ assessment#:#log_user_not_entered_values#:#Uporabnik ni vnesel nobene vrednosti
 assessment#:#log_user_solution_willingly_deleted#:#Uporabnik je odstranil odgovor.
 assessment#:#log_wrong_test_password_entered#:#Udeleženec je vnesel napačno testno geslo.
 assessment#:#longmenu#:#Longmenu
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###28 07 2023 new variable
 assessment#:#longmenu_text#:#Besedilo ‘Long Menu’
 assessment#:#mailnottype#:#Pošiljanje se izvede tudi ob zaključku posameznih opravljanj testa
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -2753,6 +2754,7 @@ certificate#:#certificate_settings#:#Nastavitve za certifikate
 certificate#:#certificate_short_name#:#Kratko ime za poimenovanje datoteke
 certificate#:#certificate_short_name_description#:#Vnesite kratko ime za poimenovanje datoteke. Kratko ime bo uporabljeno kot del imena datoteke certifikata: LLMMDD_[priimek]_[KRATKO_IME]_certifikat.pdf.
 certificate#:#certificate_text#:#Besedilo certifikata
+certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.###28 07 2023 new variable
 certificate#:#certificate_unit_description#:#Merske enote vedno vnesite v obliki VREDNOST[cm|mm|in|pt|pc|px|em], npr. 10mm ali 3in
 certificate#:#certificate_usage#:#Upoštevajte, da sta uporaba in ustvarjanje certifikatov mogoča samo, če uporabljate ILIAS-ov strežnik Java. Strežnik Java se konfigurira na glavni administracijski strani v kategoriji Spletne storitve in je med drugim potreben tudi za ustvarjanje datotek PDF.
 certificate#:#certificate_var_max_points#:#46
@@ -7586,6 +7588,8 @@ crs#:#crs_members_groups#:#Članstva v skupini
 crs#:#crs_members_map#:#Zemljevid članov tečaja
 crs#:#crs_members_print_title#:#Člani tečaja
 crs#:#crs_min_one_admin#:#Temu tečaju mora biti dodeljen vsaj en administrator.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#Vaš status:
 crs#:#crs_new_subscription#:#Pridružitev tečaju "%s"
 crs#:#crs_new_subscription_body#:#%1$s se je pridružil tečaju %2$s.
@@ -7987,6 +7991,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes
 dash#:#dash_tile#:#Tile
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###28 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###28 07 2023 new variable
 dateplaner#:#Fr_long#:#Petek
 dateplaner#:#Fr_short#:#Pet
 dateplaner#:#Mo_long#:#Ponedeljek
@@ -10664,6 +10670,7 @@ lti#:#lti_con_tool_url#:#Login URL###31 03 2023 new variable
 lti#:#lti_con_version#:#LTI Version###31 03 2023 new variable
 lti#:#lti_con_version_1.1#:#Version 1.1###31 03 2023 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###31 03 2023 new variable
+lti#:#lti_con_version_1.3_before_id#:#If dynamic registration is not used, after entering the data provided by the tool, additional data will appear that must be entered with the tool.###28 07 2023 new variable
 lti#:#lti_confirm_delete_providers#:#Are you sure that you want to delete the following provider(s)?
 lti#:#lti_consumer#:#Odobreno za
 lti#:#lti_consumer_created#:#Potrošnik je ustvarjen
@@ -12295,8 +12302,6 @@ orgu#:#employee#:#Sodelavci
 orgu#:#ext_id#:#Zunanja ID
 orgu#:#ext_id_updated#:#Zunanja ID je bila uspešno urejena, saj so bili podatki shranjeni anonimno.
 orgu#:#form_title_org_default_permissions_update#:#Privzete pravice
-orgu#:#il_orgu_employee#:#Sodelavci
-orgu#:#il_orgu_superior#:#Nadrejeni
 orgu#:#import_failed#:#Uvoz ni bil uspešen. Prepričajte se, da je datoteka v obliki xml in da ima veljavno strukturo.
 orgu#:#import_successful#:#Uvoz je bil uspešno zaključen. Novo ustvarjeno: %s, urejeno/premaknjeno: %s, izbrisano: %s.
 orgu#:#import_terminated_with_errors#:#Pri uvozu so bile zaznane napake.
@@ -12657,6 +12662,8 @@ prg#:#prg_belongs_to#:#Pripada
 prg#:#prg_can_not_manage_in_repo#:#Tega študijskega programa ne morete upravljati, ker so mu že dodeljeni člani.
 prg#:#prg_cancel#:#Cancel
 prg#:#prg_cancel_tree_order#:#Zavrzi drevesni vrstni red.
+prg#:#prg_change_deadline#:#Change deadline###28 07 2023 new variable
+prg#:#prg_change_expire_date#:#Change expire date###28 07 2023 new variable
 prg#:#prg_changed_by#:#Spremenil
 prg#:#prg_completed_by_subnodes#:#subprogrammes###31 03 2023 new variable
 prg#:#prg_completion_by#:#Zaključil
@@ -12707,6 +12714,7 @@ prg#:#prg_mark_accredited#:#akreditiraj
 prg#:#prg_mark_accredited_multi_success#:#Izbrani uporabniki so akreditirani.
 prg#:#prg_mark_accredited_success#:#Program je bil uspešno akreditiran za uporabnika.
 prg#:#prg_mark_not_relevant_multi_success#:#Izbrani uporabniki so označeni kot nepomembni.
+prg#:#prg_mark_relevant#:#Mark Relevant###28 07 2023 new variable
 prg#:#prg_mark_relevant_multi_success#:#Izbrani uporabniki so označeni kot pomembni.
 prg#:#prg_more_objects_without_read_permission#:#Študijski program vsebuje nadaljnje elemente, ki si jih ne morete ogledati, ker nimate dovolj pravic.
 prg#:#prg_multi_change_deadline#:#Change deadline
@@ -12798,6 +12806,7 @@ prg#:#prg_type_msg_unable_delete#:#Tipa ni mogoče izbrisati, ker je še vedno v
 prg#:#prg_unmark_accredited#:#Odstrani akreditacijo
 prg#:#prg_unmark_accredited_multi_success#:#Izbrani uporabniki so označeni kot neakreditirani.
 prg#:#prg_unmark_accredited_success#:#Akreditacija je bila uspešno odstranjena.
+prg#:#prg_unmark_relevant#:#Unmark Relevant###28 07 2023 new variable
 prg#:#prg_update_from_current_plan#:#Posodobi iz aktualnega načrta.
 prg#:#prg_update_from_current_plan_not_possible#:#Posodobitev iz aktualnega načrta ni mogoča.
 prg#:#prg_update_from_current_plan_partitial_success#:#Posodobitev iz aktualnega načrta je delno zaključena.
@@ -13299,7 +13308,9 @@ rbac#:#crs_visible#:#Tečaj je viden
 rbac#:#crs_write#:#Uredi tečaj
 rbac#:#crsr_copy#:#Kopiraj povezavo do tečaja
 rbac#:#crsr_delete#:#Premakni ali izbriši povezavo do tečaja
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###28 07 2023 new variable
 rbac#:#crsr_edit_permission#:#Spremeni nastavitve pravic
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###28 07 2023 new variable
 rbac#:#crsr_visible#:#Povezave do tečaja so vidne in se lahko uporabijo
 rbac#:#crsr_write#:#Uredi nastavitve povezave do tečaja
 rbac#:#crss_edit_permission#:#Spremeni nastavitve pravic v administraciji tečaja
@@ -13458,8 +13469,6 @@ rbac#:#iass_read_learning_progress#:#Poglej učni napredek v individualnem ocenj
 rbac#:#iass_visible#:#Individualna ocena je vidna
 rbac#:#iass_write#:#Uredi nastavitve individualnega ocenjevanja
 rbac#:#il_lti_global_role#:#LTI User
-rbac#:#il_orgu_employee#:#Organizacijska enota sodelavci
-rbac#:#il_orgu_superior#:#Organizacijska enota nadrejeni
 rbac#:#il_sess_participant#:#Udeleženec seje
 rbac#:#il_sess_status_closed#:#Seja, zaprta za neudeležence
 rbac#:#ilias_id#:#ILIAS-ID
@@ -14863,10 +14872,8 @@ skmg#:#skmg_level#:#Level
 skmg#:#skmg_list_skills#:#List Competences
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles###19 08 2022 new variable
 skmg#:#skmg_lp_triggers_level#:#Triggered by Completion
-skmg#:#skmg_lp_triggers_level_resources#:#Resources triggered by Completion###31 03 2023 new variable
-skmg#:#skmg_material#:#Material
 skmg#:#skmg_materials#:#Materials
-skmg#:#skmg_materials_ressources#:#Resources/Materials
+skmg#:#skmg_materials_resources#:#Learning Materials###28 07 2023 new variable
 skmg#:#skmg_new_level#:#New Level
 skmg#:#skmg_new_sktr#:#New Competence Template Reference
 skmg#:#skmg_next_step#:#Next Step
@@ -14887,7 +14894,9 @@ skmg#:#skmg_previous_step#:#Previous Step
 skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following competence levels?
 skmg#:#skmg_really_remove_skills#:#Do you really want to remove the following competences from your list?
-skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement###31 03 2023 new variable
+skmg#:#skmg_recommended_learning_material_crs#:#Achieve your targets in this course###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group###28 07 2023 new variable
 skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.###31 03 2023 new variable
 skmg#:#skmg_refresh_view#:#Refresh
 skmg#:#skmg_remove_levels#:#Remove Levels
@@ -14925,7 +14934,8 @@ skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to se
 skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#Your competence level is sufficient for the selected profile.
 skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.###31 03 2023 new variable
-skmg#:#skmg_skill_profile_comparison#:#Profile Comparison###31 03 2023 new variable
+skmg#:#skmg_skill_overview#:#Overview###28 07 2023 new variable
+skmg#:#skmg_skill_profile_records#:#Competence Records###28 07 2023 new variable
 skmg#:#skmg_skill_profiles#:#Profiles
 skmg#:#skmg_skill_template#:#Competence Template
 skmg#:#skmg_skill_templates#:#Competence Templates
@@ -16624,6 +16634,7 @@ user#:#interests_general#:#General Interests
 user#:#interests_help_looking#:#Looking For Help
 user#:#interests_help_offered#:#Offering Help
 user#:#msg_spoint_not_modified#:#Starting point not modified
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###28 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
 user#:#restrict_user_access#:#Restricted Access to User Accounts
 user#:#restrict_user_access_info#:#Enabled this option only if you want to restrict the access to user accounts. If enabled access to local and global user accounts is only granted when a role has the permission ‘Read Access to User Account’.

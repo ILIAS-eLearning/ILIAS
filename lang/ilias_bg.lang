@@ -875,6 +875,7 @@ assessment#:#log_user_not_entered_values#:#Потребителят не е въ
 assessment#:#log_user_solution_willingly_deleted#:#Потребителят е изтрил отговора.
 assessment#:#log_wrong_test_password_entered#:#Участникът е въвел грешна парола за теста.
 assessment#:#longmenu#:#Longmenu
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###28 07 2023 new variable
 assessment#:#longmenu_text#:#Дълъг текст на менюто
 assessment#:#mailnottype#:#Изпращане на известие, дори когато потребителят завърши теста
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -2739,6 +2740,7 @@ certificate#:#certificate_settings#:#Настройки на сертифика�
 certificate#:#certificate_short_name#:#Кратко заглавие на файла със сертификата
 certificate#:#certificate_short_name_description#:#Въведете кратко заглавие на името на сертификата. Краткото заглавие ще бъде част от името на сертификата: YYMMDD_[фамилно име]_[кратко_заглавие]_сертификат.pdf.
 certificate#:#certificate_text#:#Текст на сертификата
+certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.###28 07 2023 new variable
 certificate#:#certificate_unit_description#:#Въведете мерните единици като VALUE[cm|mm|in|pt|pc|px|em], напр. 10mm или 3in
 certificate#:#certificate_usage#:#Моля, обърнете внимание, че използването на сертификати е достъпно само ако ILIAS Java-Server е стартиран. Конфигурацията за Java-Server е налична на главната страница на администрацията на ILIAS в раздел Webservices.
 certificate#:#certificate_var_max_points#:#46###22 06 2022 new variable
@@ -7572,6 +7574,8 @@ crs#:#crs_members_groups#:#Групи на членовете на курса
 crs#:#crs_members_map#:#Карта на членовете на курса
 crs#:#crs_members_print_title#:#Членове на курса
 crs#:#crs_min_one_admin#:#За този курс трябва да има поне един администратор.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#Новият ви статус е:
 crs#:#crs_new_subscription#:#Абонамент за нов курс
 crs#:#crs_new_subscription_body#:#Нов потребител се абонира
@@ -7973,6 +7977,8 @@ dash#:#dash_studyprogramme#:#Моите учебни програми
 dash#:#dash_tile#:#Плочка
 dash#:#dash_view_courses_groups#:#Раздел "Моите курсове и групи"
 dash#:#dash_view_favourites#:#Секция "Любими обекти"
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###28 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###28 07 2023 new variable
 dateplaner#:#Fr_long#:#Петък
 dateplaner#:#Fr_short#:#Пет
 dateplaner#:#Mo_long#:#Понеделник
@@ -10650,6 +10656,7 @@ lti#:#lti_con_tool_url#:#Login URL###31 03 2023 new variable
 lti#:#lti_con_version#:#LTI Version###31 03 2023 new variable
 lti#:#lti_con_version_1.1#:#Version 1.1###31 03 2023 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###31 03 2023 new variable
+lti#:#lti_con_version_1.3_before_id#:#If dynamic registration is not used, after entering the data provided by the tool, additional data will appear that must be entered with the tool.###28 07 2023 new variable
 lti#:#lti_confirm_delete_providers#:#Сигурни ли сте, че искате да изтриете следния(те) доставчик(ци)?
 lti#:#lti_consumer#:#Freigabe für
 lti#:#lti_consumer_created#:#Създаден от потребител
@@ -12281,8 +12288,6 @@ orgu#:#employee#:#Employee
 orgu#:#ext_id#:#Външен идентификатор
 orgu#:#ext_id_updated#:#Външният идентификатор е актуализиран успешно.
 orgu#:#form_title_org_default_permissions_update#:#Допускания по подразбиране
-orgu#:#il_orgu_employee#:#Employee
-orgu#:#il_orgu_superior#:#Superior
 orgu#:#import_failed#:#Импортът се провали. Уверете се, че вашият файл е във формат xml и има валидна структура.
 orgu#:#import_successful#:#Импортът приключи успешно. Създаден: %s, редактирано/преместено: %s, изтрито: %s.
 orgu#:#import_terminated_with_errors#:#Импортът приключи с грешки, някои организационни не могат да бъдат създадени, редактирани или изтрити.
@@ -12643,6 +12648,8 @@ prg#:#prg_belongs_to#:#Принадлежи на
 prg#:#prg_can_not_manage_in_repo#:#Не ви е позволено да управлявате тази учебна програма поради потребителски назначения.
 prg#:#prg_cancel#:#Отмяна
 prg#:#prg_cancel_tree_order#:#Прекратяване на поръчката за дърво
+prg#:#prg_change_deadline#:#Change deadline###28 07 2023 new variable
+prg#:#prg_change_expire_date#:#Change expire date###28 07 2023 new variable
 prg#:#prg_changed_by#:#Променено от
 prg#:#prg_completed_by_subnodes#:#subprogrammes###31 03 2023 new variable
 prg#:#prg_completion_by#:#Завършване до
@@ -12693,6 +12700,7 @@ prg#:#prg_mark_accredited#:#Mark Accredited
 prg#:#prg_mark_accredited_multi_success#:#Маркиране на избрани потребители като акредитирани
 prg#:#prg_mark_accredited_success#:#Акредитиран програмен възел за потребителя успешно.
 prg#:#prg_mark_not_relevant_multi_success#:#Не маркирайте избраните потребители като релевантни
+prg#:#prg_mark_relevant#:#Mark Relevant###28 07 2023 new variable
 prg#:#prg_mark_relevant_multi_success#:#Маркиране на избрани потребители като релевантни
 prg#:#prg_more_objects_without_read_permission#:#Програмата за обучение съдържа повече обекти, които не можете да видите поради по-малко права.
 prg#:#prg_multi_change_deadline#:#Краен срок за промяна
@@ -12784,6 +12792,7 @@ prg#:#prg_type_msg_unable_delete#:#Не може да се изтрие типъ
 prg#:#prg_unmark_accredited#:#Акредитиран за не маркиране
 prg#:#prg_unmark_accredited_multi_success#:# Отбелязване на избрани потребители като акредитирани
 prg#:#prg_unmark_accredited_success#:#Успешно премахване на акредитиран програмен възел за потребител.
+prg#:#prg_unmark_relevant#:#Unmark Relevant###28 07 2023 new variable
 prg#:#prg_update_from_current_plan#:#Актуализиране от текущия план
 prg#:#prg_update_from_current_plan_not_possible#:#Актуализация от текущия план не е възможна
 prg#:#prg_update_from_current_plan_partitial_success#:#Актуализиране от текущия план частично
@@ -13285,7 +13294,9 @@ rbac#:#crs_visible#:#Курсът е видим
 rbac#:#crs_write#:#Редактиране на курса
 rbac#:#crsr_copy#:#Copy Course Reference
 rbac#:#crsr_delete#:#Изтриване на референтен курс
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###28 07 2023 new variable
 rbac#:#crsr_edit_permission#:#Промяна на настройките на разрешенията
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###28 07 2023 new variable
 rbac#:#crsr_visible#:#Справка за курса е видима
 rbac#:#crsr_write#:#Редактиране на препратка към курса
 rbac#:#crss_edit_permission#:#Потребителят може да променя настройките за разрешение в администрацията на курса
@@ -13444,8 +13455,6 @@ rbac#:#iass_read_learning_progress#:# Преглед на информация �
 rbac#:#iass_visible#:#Индивидуалната оценка е видима
 rbac#:#iass_write#:#Редактиране на индивидуална оценка
 rbac#:#il_lti_global_role#:#LTI потребител###08 12 2021 new variable
-rbac#:#il_orgu_employee#:#Служител на организационната единица
-rbac#:#il_orgu_superior#:#Висшестояща организационна единица
 rbac#:#il_sess_participant#:#Участник в сесията
 rbac#:#il_sess_status_closed#:#Закрито заседание без участници
 rbac#:#ilias_id#:#ILIAS-ID
@@ -14849,10 +14858,8 @@ skmg#:#skmg_level#:#Level
 skmg#:#skmg_list_skills#:#Списък на уменията
 skmg#:#skmg_local_assignment_profiles#:#Разрешаване на локално присвояване на глобални профили###22 06 2022 new variable
 skmg#:#skmg_lp_triggers_level#:#Събужда се от завършване
-skmg#:#skmg_lp_triggers_level_resources#:#Resources triggered by Completion###31 03 2023 new variable
-skmg#:#skmg_material#:#Материал
 skmg#:#skmg_materials#:#Материали###22 06 2022 new variable
-skmg#:#skmg_materials_ressources#:#Resources/Materials
+skmg#:#skmg_materials_resources#:#Learning Materials###28 07 2023 new variable
 skmg#:#skmg_new_level#:#Ново ниво
 skmg#:#skmg_new_sktr#:#Справка за шаблона на новото умение
 skmg#:#skmg_next_step#:#Следваща стъпка
@@ -14873,7 +14880,9 @@ skmg#:#skmg_previous_step#:#Предходна стъпка
 skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_really_delete_levels#:#Наистина ли искате да изтриете следните нива на умения?
 skmg#:#skmg_really_remove_skills#:# Наистина ли искате да премахнете следните умения от списъка си?
-skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement###31 03 2023 new variable
+skmg#:#skmg_recommended_learning_material_crs#:#Achieve your targets in this course###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group###28 07 2023 new variable
 skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.###31 03 2023 new variable
 skmg#:#skmg_refresh_view#:#Refresh
 skmg#:#skmg_remove_levels#:#Отстраняване на нива
@@ -14911,7 +14920,8 @@ skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to se
 skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#Равнището ви на компетентност е достатъчно за избрания профил.
 skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.###31 03 2023 new variable
-skmg#:#skmg_skill_profile_comparison#:#Profile Comparison###31 03 2023 new variable
+skmg#:#skmg_skill_overview#:#Overview###28 07 2023 new variable
+skmg#:#skmg_skill_profile_records#:#Competence Records###28 07 2023 new variable
 skmg#:#skmg_skill_profiles#:#Profiles
 skmg#:#skmg_skill_template#:#Шаблон на уменията
 skmg#:#skmg_skill_templates#:#Шаблони на умения
@@ -16610,6 +16620,7 @@ user#:#interests_general#:#Общи интереси
 user#:#interests_help_looking#:#Искам помощ
 user#:#interests_help_offered#:#Предлагане на помощ
 user#:#msg_spoint_not_modified#:#Началната точка не е променена
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###28 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#Въведеният референтен идентификатор не съществува
 user#:#restrict_user_access#:#Ограничаване на достъпа до потребителски акаунти
 user#:#restrict_user_access_info#:#Ако е разрешено, достъпът до потребителския акаунт е ограничен. Достъпът зависи от разрешението "Достъп за четене на локален потребителски акаунт" в "Потребителски акаунти" и "Категории".

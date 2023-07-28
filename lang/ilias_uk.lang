@@ -875,6 +875,7 @@ assessment#:#log_user_not_entered_values#:#User did not enter values###22 May 20
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###10 11 2018 new variable
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###28 07 2023 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
 assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -2739,6 +2740,7 @@ certificate#:#certificate_settings#:#Certificate Settings###24 02 2009 new varia
 certificate#:#certificate_short_name#:#Certificate file short title###07 09 2009 new variable
 certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.###07 09 2009 new variable
 certificate#:#certificate_text#:#Certificate Text###24 02 2009 new variable
+certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.###28 07 2023 new variable
 certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###24 02 2009 new variable
 certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available on the main page of the ILIAS administration in section Webservices.###24 02 2009 new variable
 certificate#:#certificate_var_max_points#:#46###24 02 2009 new variable
@@ -7572,6 +7574,8 @@ crs#:#crs_members_groups#:#Course Members Groups###16 07 2010 new variable
 crs#:#crs_members_map#:#Course Members Map###02 04 2007 new variable
 crs#:#crs_members_print_title#:#Члени курсу
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.###12 08 2009 new variable
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#Your new status is:###21 09 2009 new variable
 crs#:#crs_new_subscription#:#Нова підписка на курс###23 Dec 2005 content changed
 crs#:#crs_new_subscription_body#:#Новий користувач підписаний###23 Dec 2005 content changed
@@ -7973,6 +7977,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes###07 02 2020 new variable
 dash#:#dash_tile#:#Tile###07 02 2020 new variable
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 2020 new variable
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###28 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###28 07 2023 new variable
 dateplaner#:#Fr_long#:#П'ятниця
 dateplaner#:#Fr_short#:#Пт
 dateplaner#:#Mo_long#:#Понеділок
@@ -10650,6 +10656,7 @@ lti#:#lti_con_tool_url#:#Login URL###31 03 2023 new variable
 lti#:#lti_con_version#:#LTI Version###31 03 2023 new variable
 lti#:#lti_con_version_1.1#:#Version 1.1###31 03 2023 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###31 03 2023 new variable
+lti#:#lti_con_version_1.3_before_id#:#If dynamic registration is not used, after entering the data provided by the tool, additional data will appear that must be entered with the tool.###28 07 2023 new variable
 lti#:#lti_confirm_delete_providers#:#Are you sure that you want to delete the following provider(s)?###07 02 2020 new variable
 lti#:#lti_consumer#:#Freigabe für###31 08 2017 new variable
 lti#:#lti_consumer_created#:#Consumer created###31 08 2017 new variable
@@ -12281,8 +12288,6 @@ orgu#:#employee#:#Employee###24 10 2013 new variable
 orgu#:#ext_id#:#External ID###24 10 2013 new variable
 orgu#:#ext_id_updated#:#The external ID has been updated successfully.###24 10 2013 new variable
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions###31 08 2017 new variable
-orgu#:#il_orgu_employee#:#Employee###24 10 2013 new variable
-orgu#:#il_orgu_superior#:#Superior###24 10 2013 new variable
 orgu#:#import_failed#:#The import failed. Make sure your file is in the xml format and is has a valid structure.###24 10 2013 new variable
 orgu#:#import_successful#:#The import terminated successfully. Created: %s, edited/moved: %s, deleted: %s.###24 10 2013 new variable
 orgu#:#import_terminated_with_errors#:#The import terminated with errors, some organisational couldn't be created, edited or deleted.###24 10 2013 new variable
@@ -12643,6 +12648,8 @@ prg#:#prg_belongs_to#:#Belongs to###30 08 2015 new variable
 prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.###23 12 2015 new variable
 prg#:#prg_cancel#:#Cancel###30 04 2021 new variable
 prg#:#prg_cancel_tree_order#:#Dismiss tree order###30 08 2015 new variable
+prg#:#prg_change_deadline#:#Change deadline###28 07 2023 new variable
+prg#:#prg_change_expire_date#:#Change expire date###28 07 2023 new variable
 prg#:#prg_changed_by#:#Changed by###30 08 2015 new variable
 prg#:#prg_completed_by_subnodes#:#subprogrammes###31 03 2023 new variable
 prg#:#prg_completion_by#:#Completion by###30 08 2015 new variable
@@ -12693,6 +12700,7 @@ prg#:#prg_mark_accredited#:#Mark Accredited###30 08 2015 new variable
 prg#:#prg_mark_accredited_multi_success#:#Mark Selected Users As Accredited###22 11 2017 new variable
 prg#:#prg_mark_accredited_success#:#Accredited Program Node for User successfully.###30 08 2015 new variable
 prg#:#prg_mark_not_relevant_multi_success#:#Unmark Selected Users As Relevant###22 11 2017 new variable
+prg#:#prg_mark_relevant#:#Mark Relevant###28 07 2023 new variable
 prg#:#prg_mark_relevant_multi_success#:#Mark Selected Users As Relevant###22 11 2017 new variable
 prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more objects you can't see because of less permissions.###23 12 2015 new variable
 prg#:#prg_multi_change_deadline#:#Change deadline###07 02 2020 new variable
@@ -12784,6 +12792,7 @@ prg#:#prg_type_msg_unable_delete#:#Unable to delete type because it is still ass
 prg#:#prg_unmark_accredited#:#Unmark Accredited###30 08 2015 new variable
 prg#:#prg_unmark_accredited_multi_success#:#Unmark Selected Users As Accredited###22 11 2017 new variable
 prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.###30 08 2015 new variable
+prg#:#prg_unmark_relevant#:#Unmark Relevant###28 07 2023 new variable
 prg#:#prg_update_from_current_plan#:#Update from current Plan###30 08 2015 new variable
 prg#:#prg_update_from_current_plan_not_possible#:#Update From Current Plan Not Possible###22 11 2017 new variable
 prg#:#prg_update_from_current_plan_partitial_success#:#Update From Current Plan Partically###22 11 2017 new variable
@@ -13285,7 +13294,9 @@ rbac#:#crs_visible#:#Курс є видимим
 rbac#:#crs_write#:#Редагувати Курс
 rbac#:#crsr_copy#:#Copy Course Reference###23 09 2008 new variable
 rbac#:#crsr_delete#:#Delete Course Reference###23 09 2008 new variable
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###28 07 2023 new variable
 rbac#:#crsr_edit_permission#:#Change Permission Settings###23 09 2008 new variable
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###28 07 2023 new variable
 rbac#:#crsr_visible#:#Course Reference is visible###23 09 2008 new variable
 rbac#:#crsr_write#:#Edit Course Reference###23 09 2008 new variable
 rbac#:#crss_edit_permission#:#User can change permission settings in Course administration###30 12 2013 new variable
@@ -13444,8 +13455,6 @@ rbac#:#iass_read_learning_progress#:#View learning progress information of a Ind
 rbac#:#iass_visible#:#Individual Assessment is visible###25 10 2016 new variable
 rbac#:#iass_write#:#Edit a Individual Assessment###25 10 2016 new variable
 rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
-rbac#:#il_orgu_employee#:#Organisational Unit Employee###30 12 2013 new variable
-rbac#:#il_orgu_superior#:#Organisational Unit Superior###30 12 2013 new variable
 rbac#:#il_sess_participant#:#Session Participant###31 08 2017 new variable
 rbac#:#il_sess_status_closed#:#Non-Participant Closed Session###31 08 2017 new variable
 rbac#:#ilias_id#:#ILIAS-ID###27 01 2015 new variable
@@ -14849,10 +14858,8 @@ skmg#:#skmg_level#:#Level###02 09 2011 new variable
 skmg#:#skmg_list_skills#:#List Skills###18 07 2011 new variable
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles###30 04 2021 new variable
 skmg#:#skmg_lp_triggers_level#:#Triggered by Completion###31 08 2017 new variable
-skmg#:#skmg_lp_triggers_level_resources#:#Resources triggered by Completion###31 03 2023 new variable
-skmg#:#skmg_material#:#Material###02 09 2011 new variable
 skmg#:#skmg_materials#:#Materials###18 07 2011 new variable
-skmg#:#skmg_materials_ressources#:#Resources/Materials###10 11 2018 new variable
+skmg#:#skmg_materials_resources#:#Learning Materials###28 07 2023 new variable
 skmg#:#skmg_new_level#:#New Level###18 07 2011 new variable
 skmg#:#skmg_new_sktr#:#New Skill Template Reference###18 07 2011 new variable
 skmg#:#skmg_next_step#:#Next Step###18 07 2011 new variable
@@ -14873,7 +14880,9 @@ skmg#:#skmg_previous_step#:#Previous Step###18 07 2011 new variable
 skmg#:#skmg_profile#:#Profile###24 10 2013 new variable
 skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following skill levels?###18 07 2011 new variable
 skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig skills from your list?###18 07 2011 new variable
-skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement###31 03 2023 new variable
+skmg#:#skmg_recommended_learning_material_crs#:#Achieve your targets in this course###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group###28 07 2023 new variable
 skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.###31 03 2023 new variable
 skmg#:#skmg_refresh_view#:#Refresh###10 11 2018 new variable
 skmg#:#skmg_remove_levels#:#Remove Levels###24 10 2013 new variable
@@ -14911,7 +14920,8 @@ skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to se
 skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#Your competence level is sufficient for the selected profile.###24 10 2013 new variable
 skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.###31 03 2023 new variable
-skmg#:#skmg_skill_profile_comparison#:#Profile Comparison###31 03 2023 new variable
+skmg#:#skmg_skill_overview#:#Overview###28 07 2023 new variable
+skmg#:#skmg_skill_profile_records#:#Competence Records###28 07 2023 new variable
 skmg#:#skmg_skill_profiles#:#Profiles###24 10 2013 new variable
 skmg#:#skmg_skill_template#:#Skill Template###18 07 2011 new variable
 skmg#:#skmg_skill_templates#:#Skill Templates###18 07 2011 new variable
@@ -16610,6 +16620,7 @@ user#:#interests_general#:#General Interests###26 09 2014 new variable
 user#:#interests_help_looking#:#Looking For Help###26 09 2014 new variable
 user#:#interests_help_offered#:#Offering Help###26 09 2014 new variable
 user#:#msg_spoint_not_modified#:#Starting point not modified###07 02 2020 new variable
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###28 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###07 02 2020 new variable
 user#:#restrict_user_access#:#Restriced Access to User Accounts###16 07 2010 new variable
 user#:#restrict_user_access_info#:#If enabled, the access to user account is restricted. The access depends on the permission "Read Access to Local User Account" in "User Accounts" and "Categories". ###16 07 2010 new variable

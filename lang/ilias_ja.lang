@@ -875,6 +875,7 @@ assessment#:#log_user_not_entered_values#:#ユーザは値を未入力です
 assessment#:#log_user_solution_willingly_deleted#:#ユーザは回答を削除しました。
 assessment#:#log_wrong_test_password_entered#:#受講者は間違ったテストパスワードを入力しました。入力: '%s'
 assessment#:#longmenu#:#Longmenu
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###28 07 2023 new variable
 assessment#:#longmenu_text#:#長いメニューテキスト
 assessment#:#mailnottype#:#ユーザがテスト終了しても通知を送る
 assessment#:#mailnottype_desc#:#<strong>たとえ</strong> テスト試行回数が上限をこえていなくてもテストオーナーへ通知する。
@@ -2739,6 +2740,7 @@ certificate#:#certificate_settings#:#証明書設定
 certificate#:#certificate_short_name#:#短いタイトルの証明書ファイル
 certificate#:#certificate_short_name_description#:#証明書の名前用の短いタイトルを入力してください。短いタイトルは証明書名 YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdfの一部になります。
 certificate#:#certificate_text#:#証明書テキスト
+certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.###28 07 2023 new variable
 certificate#:#certificate_unit_description#:#10mm又は3inの例のように値[cm|mm|in|pt|pc|px|em]の単位を入力
 certificate#:#certificate_usage#:#ILIASJavaサーバーが稼働中の場合は、証明書の使用法のみ利用可能である事に注意願います。Javaサーバーの設定はILIASWebサービスの管理メインページにあります。
 certificate#:#certificate_var_max_points#:#46
@@ -7572,6 +7574,8 @@ crs#:#crs_members_groups#:#グループのメンバーシップ
 crs#:#crs_members_map#:#コースメンバーのマップ
 crs#:#crs_members_print_title#:#コースメンバー
 crs#:#crs_min_one_admin#:#このコース割当てのための管理者が一人は必要です。
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#新しいステータスは次の通り:
 crs#:#crs_new_subscription#:#コース "%s"へユーザ が登録されました
 crs#:#crs_new_subscription_body#:#%sさんをコース "%s"へ登録しました。
@@ -7973,6 +7977,8 @@ dash#:#dash_studyprogramme#:#マイ学習プログラム
 dash#:#dash_tile#:#Tile
 dash#:#dash_view_courses_groups#:#セクション‘マイコースとグループ’
 dash#:#dash_view_favourites#:#‘Favourites’セクション
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###28 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###28 07 2023 new variable
 dateplaner#:#Fr_long#:#金曜日
 dateplaner#:#Fr_short#:#金
 dateplaner#:#Mo_long#:#月曜日
@@ -10650,6 +10656,7 @@ lti#:#lti_con_tool_url#:#Login URL
 lti#:#lti_con_version#:#LTI Version
 lti#:#lti_con_version_1.1#:#Version 1.1
 lti#:#lti_con_version_1.3#:#Version 1.3
+lti#:#lti_con_version_1.3_before_id#:#If dynamic registration is not used, after entering the data provided by the tool, additional data will appear that must be entered with the tool.###28 07 2023 new variable
 lti#:#lti_confirm_delete_providers#:#本当に次のプロバイダーを削除しますか?
 lti#:#lti_consumer#:#リリース用
 lti#:#lti_consumer_created#:#Consumer作成
@@ -12281,8 +12288,6 @@ orgu#:#employee#:#従業員
 orgu#:#ext_id#:#外部ID
 orgu#:#ext_id_updated#:#外部IDは正しく更新されました。
 orgu#:#form_title_org_default_permissions_update#:#アクセス権限既定値
-orgu#:#il_orgu_employee#:#従業員
-orgu#:#il_orgu_superior#:#上長
 orgu#:#import_failed#:#インポートに失敗しました。ファイルがxml形式で有効な構成になっている事を確認してください。
 orgu#:#import_successful#:#正しくインポートを完了しました。作成: %s, 編集/moved: %s, 削除: %s。
 orgu#:#import_terminated_with_errors#:#作成や編集や削除のできなかった組織がいくつかあり、エラー状態でインポートを完了しました。
@@ -12643,6 +12648,8 @@ prg#:#prg_belongs_to#:#所有者
 prg#:#prg_can_not_manage_in_repo#:#ユーザ割り当ての理由によりこの学習プログラムを管理することは許可されていません。
 prg#:#prg_cancel#:#キャンセル
 prg#:#prg_cancel_tree_order#:#ツリー順を解除
+prg#:#prg_change_deadline#:#Change deadline###28 07 2023 new variable
+prg#:#prg_change_expire_date#:#Change expire date###28 07 2023 new variable
 prg#:#prg_changed_by#:#更新者
 prg#:#prg_completed_by_subnodes#:#サブプログラム
 prg#:#prg_completion_by#:#完了者
@@ -12693,6 +12700,7 @@ prg#:#prg_mark_accredited#:#認定マーク
 prg#:#prg_mark_accredited_multi_success#:#新任の選択されたユーザをマーク
 prg#:#prg_mark_accredited_success#:#ユーザ用プログラムノードを正しく認定しました
 prg#:#prg_mark_not_relevant_multi_success#:#関連の選択されたユーザのマークを外す
+prg#:#prg_mark_relevant#:#Mark Relevant###28 07 2023 new variable
 prg#:#prg_mark_relevant_multi_success#:#関連の選択されたユーザをマーク
 prg#:#prg_more_objects_without_read_permission#:#権限がないので目標以上に含まれる学習プログラムを見ることができません。
 prg#:#prg_multi_change_deadline#:#締切日を変更
@@ -12784,6 +12792,7 @@ prg#:#prg_type_msg_unable_delete#:#次の学習プログラム: %sにまだ割�
 prg#:#prg_unmark_accredited#:#適切化マーク解除
 prg#:#prg_unmark_accredited_multi_success#:#新任の選択されたユーザのマークを外す
 prg#:#prg_unmark_accredited_success#:#ユーザ用のプログラムノードを正しく適切化解除しました
+prg#:#prg_unmark_relevant#:#Unmark Relevant###28 07 2023 new variable
 prg#:#prg_update_from_current_plan#:#現在のプランを更新
 prg#:#prg_update_from_current_plan_not_possible#:#現状の計画の更新はできません
 prg#:#prg_update_from_current_plan_partitial_success#:#現在の計画の一部を更新
@@ -13285,7 +13294,9 @@ rbac#:#crs_visible#:#コースを表示
 rbac#:#crs_write#:#ユーザはコース設定編集と内容管理ができます
 rbac#:#crsr_copy#:#コースリンクをコピー
 rbac#:#crsr_delete#:#コースリンクを削除
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###28 07 2023 new variable
 rbac#:#crsr_edit_permission#:#アクセス権限設定を変更
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###28 07 2023 new variable
 rbac#:#crsr_visible#:#コースリンクを表示
 rbac#:#crsr_write#:#コースリンクを編集
 rbac#:#crss_edit_permission#:#ユーザはコース管理のアクセス権設定変更ができます
@@ -13444,8 +13455,6 @@ rbac#:#iass_read_learning_progress#:#個別アセスメントの学習進捗情�
 rbac#:#iass_visible#:#個別アセスメントを表示します
 rbac#:#iass_write#:#個別アセスメントを編集
 rbac#:#il_lti_global_role#:#LTI User
-rbac#:#il_orgu_employee#:#組織のユニット従業員
-rbac#:#il_orgu_superior#:#組織のユニット上司
 rbac#:#il_sess_participant#:#セッション参加者
 rbac#:#il_sess_status_closed#:#非参加者限定セッション
 rbac#:#ilias_id#:#ILIAS-ID
@@ -14849,10 +14858,8 @@ skmg#:#skmg_level#:#レベル
 skmg#:#skmg_list_skills#:#能力をリスト
 skmg#:#skmg_local_assignment_profiles#:#グローバルプロファイルのローカル割当を許可
 skmg#:#skmg_lp_triggers_level#:#完了によりトリガーされました
-skmg#:#skmg_lp_triggers_level_resources#:#完了でトリガーした教材
-skmg#:#skmg_material#:#教材
 skmg#:#skmg_materials#:#教材
-skmg#:#skmg_materials_ressources#:#リソース/教材
+skmg#:#skmg_materials_resources#:#Learning Materials###28 07 2023 new variable
 skmg#:#skmg_new_level#:#新規レベル
 skmg#:#skmg_new_sktr#:#新規能力テンプレートレファレンス
 skmg#:#skmg_next_step#:#次のステップ
@@ -14873,7 +14880,9 @@ skmg#:#skmg_previous_step#:#以前の設定
 skmg#:#skmg_profile#:#プロファイル
 skmg#:#skmg_really_delete_levels#:#次の能力レベルを本当に削除しますか?
 skmg#:#skmg_really_remove_skills#:#一覧から次の能力を本当に削除しますか?
-skmg#:#skmg_recommended_learning_material#:#目標達成のための学習教材
+skmg#:#skmg_recommended_learning_material_crs#:#Achieve your targets in this course###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group###28 07 2023 new variable
 skmg#:#skmg_recommended_learning_material_info#:#次の学習教材の一つだけを選択。そのComptence目標達成に取り組んで下さい。
 skmg#:#skmg_refresh_view#:#リフレッシュ
 skmg#:#skmg_remove_levels#:#レベル削除
@@ -14911,7 +14920,8 @@ skmg#:#skmg_skill_needs_self_eval#:#あなたの能力目標をわかるため�
 skmg#:#skmg_skill_needs_self_eval_box#:#このプロファイル一つも自己評価を実行されていない事に注意願います。
 skmg#:#skmg_skill_no_needs_impr#:#能力レベルは選択したプロファイルに適合します。
 skmg#:#skmg_skill_no_needs_impr_info#:#このComptenceの目標を達成しました。
-skmg#:#skmg_skill_profile_comparison#:#プロファイル比較
+skmg#:#skmg_skill_overview#:#Overview###28 07 2023 new variable
+skmg#:#skmg_skill_profile_records#:#Competence Records###28 07 2023 new variable
 skmg#:#skmg_skill_profiles#:#プロファイル
 skmg#:#skmg_skill_template#:#能力テンプレート
 skmg#:#skmg_skill_templates#:#能力テンプレート
@@ -16610,6 +16620,7 @@ user#:#interests_general#:#一般的な興味
 user#:#interests_help_looking#:#ヘルプを探す
 user#:#interests_help_offered#:#ヘルプを提案
 user#:#msg_spoint_not_modified#:#開始点未修整
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###28 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#入力のReference-IDが存在しません
 user#:#restrict_user_access#:#ユーザアカウントへの限定アクセス
 user#:#restrict_user_access_info#:#有効にするとユーザアカウントへのアクセスが制限されます。アクセス権は"ユーザアカウント"と"カテゴリ"の"ローカルユーザアカウントの読み込み”に依存します。

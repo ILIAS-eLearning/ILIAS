@@ -875,6 +875,7 @@ assessment#:#log_user_not_entered_values#:#Uživatel nevložil hodnoty
 assessment#:#log_user_solution_willingly_deleted#:#Uživatel smazal odpověď.
 assessment#:#log_wrong_test_password_entered#:#Účastník zadal nesprávné heslo k testu.
 assessment#:#longmenu#:#Dlouhé menu
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###28 07 2023 new variable
 assessment#:#longmenu_text#:#Text dlouhého menu
 assessment#:#mailnottype#:#Zaslat oznámení vždy, když uživatel ukončil průchod testem
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###09 11 2022 new variable
@@ -2739,6 +2740,7 @@ certificate#:#certificate_settings#:#Nastavení certifikátu
 certificate#:#certificate_short_name#:#Krátký název certifikátu
 certificate#:#certificate_short_name_description#:#Vložte prosím krátký název pro název certifikátu. Tento krátký název bude částí názvu certifikátu: RRMMDD_[příjmení]_[SHORT_TITLE]_certifikat.pdf.
 certificate#:#certificate_text#:#Text certifikátu
+certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.###28 07 2023 new variable
 certificate#:#certificate_unit_description#:#Vložte jednotky měřítka jako hodnotu [cm|mm|in|pt|pc|px|em], např. 10mm nebo 3in
 certificate#:#certificate_usage#:#Povšimněte si prosím, že použití certifikátů je možné jen když v ILIAS běží Java-Server. Konfigurace Java-Serveru je dostupná na hlavní stránce správy ILIAS v části Webové služby.
 certificate#:#certificate_var_max_points#:#46
@@ -7572,6 +7574,8 @@ crs#:#crs_members_groups#:#Členství ve skupině
 crs#:#crs_members_map#:#Mapa členů kurzu
 crs#:#crs_members_print_title#:#Členové kurzu
 crs#:#crs_min_one_admin#:#K tomuto kurzu musí být přiřazen alespoň jeden správce.
+crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
+crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#Váš nový status je:
 crs#:#crs_new_subscription#:#Uživatel zařazen do kurzu "%s"
 crs#:#crs_new_subscription_body#:#%s byl registrován do kurzu "%s".
@@ -7973,6 +7977,8 @@ dash#:#dash_studyprogramme#:#My Study Programmes###07 02 2020 new variable
 dash#:#dash_tile#:#Tile###07 02 2020 new variable
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’###07 02 2020 new variable
 dash#:#dash_view_favourites#:#Section ‘Favourites’###07 02 2020 new variable
+dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###28 07 2023 new variable
+dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###28 07 2023 new variable
 dateplaner#:#Fr_long#:#Pátek
 dateplaner#:#Fr_short#:#Pá
 dateplaner#:#Mo_long#:#Pondělí
@@ -10650,6 +10656,7 @@ lti#:#lti_con_tool_url#:#Login URL###31 03 2023 new variable
 lti#:#lti_con_version#:#LTI Version###31 03 2023 new variable
 lti#:#lti_con_version_1.1#:#Version 1.1###31 03 2023 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###31 03 2023 new variable
+lti#:#lti_con_version_1.3_before_id#:#If dynamic registration is not used, after entering the data provided by the tool, additional data will appear that must be entered with the tool.###28 07 2023 new variable
 lti#:#lti_confirm_delete_providers#:#Are you sure that you want to delete the following provider(s)?###07 02 2020 new variable
 lti#:#lti_consumer#:#Zpřístupnění pro
 lti#:#lti_consumer_created#:#Spotřebitel byl vytvořen
@@ -12281,8 +12288,6 @@ orgu#:#employee#:#Zaměstnanec
 orgu#:#ext_id#:#Externí ID
 orgu#:#ext_id_updated#:#Externí ID bylo úspěšně aktualizováno.
 orgu#:#form_title_org_default_permissions_update#:#Výchozí oprávnění
-orgu#:#il_orgu_employee#:#Zaměstnanec
-orgu#:#il_orgu_superior#:#Nadřízený
 orgu#:#import_failed#:#Import se nezdařil. Zkontrolujte, zda je soubor ve formátu xml a zda má platnou strukturu.
 orgu#:#import_successful#:#Import byl úspěšně ukončen. Vytvořeno: %s, upraveno / přesunuto: %s, smazáno: %s.
 orgu#:#import_terminated_with_errors#:#Import byl ukončen s chybami, některé organizační položky nemohly být vytvořeny, upraveny ani odstraněny.
@@ -12643,6 +12648,8 @@ prg#:#prg_belongs_to#:#Patří k
 prg#:#prg_can_not_manage_in_repo#:#Není dovoleno řídit tento studijní program z důvodu přiřazení uživatelů.
 prg#:#prg_cancel#:#Cancel###30 04 2021 new variable
 prg#:#prg_cancel_tree_order#:#Zrušit pořadí stromu
+prg#:#prg_change_deadline#:#Change deadline###28 07 2023 new variable
+prg#:#prg_change_expire_date#:#Change expire date###28 07 2023 new variable
 prg#:#prg_changed_by#:#Změněno
 prg#:#prg_completed_by_subnodes#:#subprogrammes###31 03 2023 new variable
 prg#:#prg_completion_by#:#Dokončeno
@@ -12693,6 +12700,7 @@ prg#:#prg_mark_accredited#:#Označit akreditované
 prg#:#prg_mark_accredited_multi_success#:#Označit vybrané uživatele jako akreditované
 prg#:#prg_mark_accredited_success#:#Úspěšně akreditovaný uzel programu pro uživatele.
 prg#:#prg_mark_not_relevant_multi_success#:#Zrušit označení vybraných uživatelů jako relevantních
+prg#:#prg_mark_relevant#:#Mark Relevant###28 07 2023 new variable
 prg#:#prg_mark_relevant_multi_success#:#Označit vybrané uživatele jako relevantní
 prg#:#prg_more_objects_without_read_permission#:#Studijní program obsahuje více objektů, které nevidíte z důvodu nedostatečného oprávnění.
 prg#:#prg_multi_change_deadline#:#Change deadline###07 02 2020 new variable
@@ -12784,6 +12792,7 @@ prg#:#prg_type_msg_unable_delete#:#Nelze odstranit typ, protože je stále při�
 prg#:#prg_unmark_accredited#:#Zrušit označení jako akreditované
 prg#:#prg_unmark_accredited_multi_success#:#Zrušit označení vybraných uživatelů jako akreditovaných
 prg#:#prg_unmark_accredited_success#:#Úspěšně zrušena akreditace programového uzlu pro uživatele.
+prg#:#prg_unmark_relevant#:#Unmark Relevant###28 07 2023 new variable
 prg#:#prg_update_from_current_plan#:#Aktualizovat ze současného plánu
 prg#:#prg_update_from_current_plan_not_possible#:#Aktualizace ze současného plánu není možná
 prg#:#prg_update_from_current_plan_partitial_success#:#Provést částečnou aktualizaci ze současného plánu
@@ -13285,7 +13294,9 @@ rbac#:#crs_visible#:#Kurz je viditelný
 rbac#:#crs_write#:#Upravit kurz
 rbac#:#crsr_copy#:#Kopírovat odkaz kurzu
 rbac#:#crsr_delete#:#Smazat odkaz kurzu
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###28 07 2023 new variable
 rbac#:#crsr_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###28 07 2023 new variable
 rbac#:#crsr_visible#:#Odkaz kurzu je viditelný
 rbac#:#crsr_write#:#Upravit odkaz kurzu
 rbac#:#crss_edit_permission#:#Uživatel může měnit nastavení oprávnění ve správě kurzu
@@ -13444,8 +13455,6 @@ rbac#:#iass_read_learning_progress#:#Zobrazit informace o postupu výuky individ
 rbac#:#iass_visible#:#Individuální hodnocení je viditelné
 rbac#:#iass_write#:#Upravit individuální hodnocení
 rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
-rbac#:#il_orgu_employee#:#Zaměstnanec organizační jednotky
-rbac#:#il_orgu_superior#:#Nadřízený organizační jednotky
 rbac#:#il_sess_participant#:#Účastník relace
 rbac#:#il_sess_status_closed#:#Relace uzavřena pro ty, kteří nejsou účastníky
 rbac#:#ilias_id#:#ILIAS-ID
@@ -14849,10 +14858,8 @@ skmg#:#skmg_level#:#Úroveň
 skmg#:#skmg_list_skills#:#Seznam způsobilostí
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles###30 04 2021 new variable
 skmg#:#skmg_lp_triggers_level#:#Spuštěno dokončením
-skmg#:#skmg_lp_triggers_level_resources#:#Resources triggered by Completion###31 03 2023 new variable
-skmg#:#skmg_material#:#Materiál
 skmg#:#skmg_materials#:#Materiály
-skmg#:#skmg_materials_ressources#:#Zdroje / materiály
+skmg#:#skmg_materials_resources#:#Learning Materials###28 07 2023 new variable
 skmg#:#skmg_new_level#:#Nová úroveň
 skmg#:#skmg_new_sktr#:#Nová reference šablony způsobilosti
 skmg#:#skmg_next_step#:#Další krok
@@ -14873,7 +14880,9 @@ skmg#:#skmg_previous_step#:#Předchozí krok
 skmg#:#skmg_profile#:#Profil
 skmg#:#skmg_really_delete_levels#:#Skutečně chcete smazat následující úroveň způsobilosti?
 skmg#:#skmg_really_remove_skills#:#Skutečně chcete smazat následující způsobilosti z Vašeho seznamu?
-skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement###31 03 2023 new variable
+skmg#:#skmg_recommended_learning_material_crs#:#Achieve your targets in this course###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group###28 07 2023 new variable
 skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.###31 03 2023 new variable
 skmg#:#skmg_refresh_view#:#Obnovit
 skmg#:#skmg_remove_levels#:#Odstranit úrovně
@@ -14911,7 +14920,8 @@ skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to se
 skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.###09 11 2022 new variable
 skmg#:#skmg_skill_no_needs_impr#:#Vaše úroveň způsobilosti je pro vybraný profil dostatečná.
 skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.###31 03 2023 new variable
-skmg#:#skmg_skill_profile_comparison#:#Profile Comparison###31 03 2023 new variable
+skmg#:#skmg_skill_overview#:#Overview###28 07 2023 new variable
+skmg#:#skmg_skill_profile_records#:#Competence Records###28 07 2023 new variable
 skmg#:#skmg_skill_profiles#:#Profily
 skmg#:#skmg_skill_template#:#Šablona způsobilosti
 skmg#:#skmg_skill_templates#:#Šablony způsobilosti
@@ -16610,6 +16620,7 @@ user#:#interests_general#:#Obecné zájmy
 user#:#interests_help_looking#:#Vyhledání nápovědy
 user#:#interests_help_offered#:#Nabídka pomoci
 user#:#msg_spoint_not_modified#:#Výchozí bod nebyl změněn
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.###28 07 2023 new variable
 user#:#obj_ref_id_not_exist#:#Zadané ID odkazu neexistuje
 user#:#restrict_user_access#:#Omezený přístup k uživatelským účtům
 user#:#restrict_user_access_info#:#Je-li zapnuto, přístup k uživatelským účtům je omezen. Přísup závisí na oprávnění "Přístup číst na lokální uživatelské účty" v "Uživatelských účtech" a "Kategoriích".
