@@ -4838,6 +4838,7 @@ CREATE TABLE `etal_data` (
   `location` varchar(200) DEFAULT NULL,
   `completed` tinyint(4) NOT NULL,
   `standalone_date` tinyint(4) NOT NULL DEFAULT 0,
+  `template_id` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`object_id`),
   KEY `ser_idx` (`series_id`),
   KEY `emp_idx` (`employee`)
@@ -7103,6 +7104,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\EmployeeTalk\\Setup\\ilEmployeeTalkDBU
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\EmployeeTalk\\Setup\\ilEmployeeTalkDBUpdateSteps',3,'2023-03-31 13:10:08.109016','2023-03-31 13:10:08.113395');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\EmployeeTalk\\Setup\\ilEmployeeTalkDBUpdateSteps',4,'2023-03-31 13:10:08.113869','2023-03-31 13:10:08.114215');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\EmployeeTalk\\Setup\\ilEmployeeTalkDBUpdateSteps',5,'2023-03-31 13:10:08.114687','2023-03-31 13:10:08.124076');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\EmployeeTalk\\Setup\\ilEmployeeTalkDBUpdateSteps',6,'2023-07-28 17:12:14.485536','2023-07-28 17:12:14.490372');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',1,'2023-03-31 13:10:08.129616','2023-03-31 13:10:08.135395');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',2,'2023-03-31 13:10:08.135857','2023-03-31 13:10:08.141652');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',3,'2023-03-31 13:10:08.142114','2023-03-31 13:10:08.147516');
@@ -7165,6 +7167,7 @@ INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',11,'2023-03
 INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',12,'2023-03-31 13:10:08.605426','2023-03-31 13:10:08.609941');
 INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',13,'2023-03-31 13:10:08.610402','2023-03-31 13:10:08.615003');
 INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',14,'2023-03-31 13:10:08.615457','2023-03-31 13:10:08.619766');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',15,'2023-07-28 17:12:14.493335','2023-07-28 17:12:14.510427');
 INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',1,'2023-03-31 13:10:08.620489','2023-03-31 13:10:08.625748');
 INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',2,'2023-03-31 13:10:08.626326','2023-03-31 13:10:08.630986');
 INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',3,'2023-03-31 13:10:08.631545','2023-03-31 13:10:08.638425');
@@ -7231,6 +7234,7 @@ INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',6,'2023-06
 INSERT INTO `il_db_steps` VALUES ('ilTestQuestionPool80DBUpdateSteps',7,'2023-06-21 14:26:12.975621','2023-06-21 14:26:12.980100');
 INSERT INTO `il_db_steps` VALUES ('ilTreeDBUpdateSteps8',1,'2023-06-21 14:26:12.980841','2023-06-21 14:26:12.989938');
 INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',1,'2023-06-21 14:26:12.990740','2023-06-21 14:26:13.010246');
+INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',2,'2023-07-28 17:12:14.517581','2023-07-28 17:12:14.535810');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDBUpdateSteps',1,'2023-05-17 16:34:13.602077','2023-05-17 16:34:13.608141');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',1,'2023-03-31 13:10:08.936274','2023-03-31 13:10:08.941518');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',2,'2023-03-31 13:10:08.942181','2023-03-31 13:10:08.947666');
@@ -7917,6 +7921,7 @@ INSERT INTO `il_event_handling` VALUES ('Modules/Course','raise','addToWaitingLi
 INSERT INTO `il_event_handling` VALUES ('Modules/Course','raise','create');
 INSERT INTO `il_event_handling` VALUES ('Modules/Course','raise','delete');
 INSERT INTO `il_event_handling` VALUES ('Modules/Course','raise','deleteParticipant');
+INSERT INTO `il_event_handling` VALUES ('Modules/Course','raise','participantHasPassedCourse');
 INSERT INTO `il_event_handling` VALUES ('Modules/Course','raise','update');
 INSERT INTO `il_event_handling` VALUES ('Modules/CourseReference','listen','Services/AccessControl');
 INSERT INTO `il_event_handling` VALUES ('Modules/EmployeeTalk','raise','create');
@@ -8033,6 +8038,9 @@ INSERT INTO `il_event_handling` VALUES ('Services/Skill','listen','Services/Trac
 INSERT INTO `il_event_handling` VALUES ('Services/Tagging','listen','Services/Object');
 INSERT INTO `il_event_handling` VALUES ('Services/TermsOfService','listen','Services/User');
 INSERT INTO `il_event_handling` VALUES ('Services/TermsOfService','raise','ilTermsOfServiceEventWithdrawn');
+INSERT INTO `il_event_handling` VALUES ('Services/Tracking','listen','Modules/Course');
+INSERT INTO `il_event_handling` VALUES ('Services/Tracking','listen','Modules/Group');
+INSERT INTO `il_event_handling` VALUES ('Services/Tracking','listen','Modules/LearningSequence');
 INSERT INTO `il_event_handling` VALUES ('Services/Tracking','listen','Services/Object');
 INSERT INTO `il_event_handling` VALUES ('Services/Tracking','listen','Services/Tree');
 INSERT INTO `il_event_handling` VALUES ('Services/Tracking','raise','updateStatus');
@@ -11808,6 +11816,43 @@ CREATE TABLE `lti2_user_result_seq` (
 
 
 --
+-- Table structure for table `lti_consumer_grades`
+--
+
+CREATE TABLE `lti_consumer_grades` (
+  `id` int(11) NOT NULL,
+  `obj_id` int(11) NOT NULL,
+  `usr_id` int(11) NOT NULL,
+  `score_given` double DEFAULT NULL,
+  `score_maximum` double DEFAULT NULL,
+  `activity_progress` varchar(20) NOT NULL,
+  `grading_progress` varchar(20) NOT NULL,
+  `lti_timestamp` datetime DEFAULT NULL,
+  `stored` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`obj_id`,`usr_id`)
+) ;
+
+--
+-- Dumping data for table `lti_consumer_grades`
+--
+
+
+--
+-- Table structure for table `lti_consumer_grades_seq`
+--
+
+CREATE TABLE `lti_consumer_grades_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `lti_consumer_grades_seq`
+--
+
+
+--
 -- Table structure for table `lti_consumer_results`
 --
 
@@ -13046,7 +13091,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2023-06-21 14:26:12','',NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2023-07-28 17:12:14','',NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
@@ -20047,7 +20092,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','8.3.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','8.4.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -23820,8 +23865,8 @@ CREATE TABLE `usr_data` (
   `fax` varchar(40) DEFAULT NULL,
   `time_limit_owner` int(11) DEFAULT 0,
   `time_limit_unlimited` int(11) DEFAULT 0,
-  `time_limit_from` int(11) DEFAULT 0,
-  `time_limit_until` int(11) DEFAULT 0,
+  `time_limit_from` bigint(20) DEFAULT 0,
+  `time_limit_until` bigint(20) DEFAULT 0,
   `time_limit_message` int(11) DEFAULT 0,
   `referral_comment` varchar(250) DEFAULT NULL,
   `matriculation` varchar(40) DEFAULT NULL,
@@ -25017,4 +25062,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2023-06-21 14:26:13
+-- Dump completed on 2023-07-28 17:12:15
