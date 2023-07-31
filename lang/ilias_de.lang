@@ -1620,9 +1620,9 @@ assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_position_without_total#:#Frage %s
 assessment#:#tst_postpone#:#Nicht beantwortete Fragen
 assessment#:#tst_postpone_off#:#Nicht beantwortete Fragen bleiben an ihrem Platz
-assessment#:#tst_postpone_off_desc#:#Auch wenn Teilnehmer Antworten verwerfen oder Fragen überblättern, verbleiben die Fragen an ihrer Position im Test. Diese Einstellung wirkt sich nicht auf den Modus 'Wiedervorlage' aus.
+assessment#:#tst_postpone_off_desc#:#Auch wenn Teilnehmer Antworten verwerfen oder Fragen überblättern, verbleiben die Fragen an ihrer Position im Test.
 assessment#:#tst_postpone_on#:#Nicht beantwortete Fragen werden ans Testende geschoben
-assessment#:#tst_postpone_on_desc#:#Fragen, deren Antworten die Teilnehmer verwerfen oder überblättern, präsentiert ILIAS am Ende des Test noch einmal. Diese Einstellung wirkt sich nicht auf den Modus 'Wiedervorlage' aus.
+assessment#:#tst_postpone_on_desc#:#Fragen, deren Antworten die Teilnehmer verwerfen oder überblättern, präsentiert ILIAS am Ende des Test noch einmal.
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_presentation_settings_section#:#Darstellung
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
