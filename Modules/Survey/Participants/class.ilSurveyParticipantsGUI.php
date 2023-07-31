@@ -1593,7 +1593,6 @@ class ilSurveyParticipantsGUI
             $this->ctrl->redirect($this, "editRaters");
         }
 
-        // $_POST["rtr_id"]
         ilMailFormCall::setRecipients($rec);
 
         $contextParameters = [

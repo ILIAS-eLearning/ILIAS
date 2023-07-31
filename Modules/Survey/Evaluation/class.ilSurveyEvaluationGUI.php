@@ -224,14 +224,6 @@ class ilSurveyEvaluationGUI
                 return true;
             }
 
-            /* try to find code for current (registered) user from existing run
-            if($this->object->findCodeForUser($ilUser->getId()))
-            {
-                $_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
-                return true;
-            }
-            */
-
             // code needed
             $this->tpl->setVariable("TABS", "");
             $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_checkaccess.html", "Modules/Survey");
