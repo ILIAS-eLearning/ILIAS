@@ -26,10 +26,13 @@ class ilSystemStylesTableGUI extends ilTable2GUI
     protected bool $with_actions = false;
     protected bool $management_enabled = false;
     protected bool $read_documentation = true;
+    protected \ILIAS\DI\UIServices $ui;
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd = '')
     {
+        global $DIC;
         parent::__construct($a_parent_obj, $a_parent_cmd);
+        $this->ui = $DIC->ui();
         $this->getStyles();
 
         $this->setLimit(9999);
@@ -112,8 +115,6 @@ class ilSystemStylesTableGUI extends ilTable2GUI
      */
     protected function fillRow(array $a_set): void
     {
-        global $DIC;
-
         $this->tpl->setVariable('STYLE_NAME', $a_set['style_name']);
         $this->tpl->setVariable('SKIN_NAME', $a_set['skin_name']);
         $is_substyle = $a_set['substyle_of'] != '';
@@ -177,10 +178,10 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                 }
             }
 
-            $listing = $DIC->ui()->factory()->listing()->unordered($categories);
+            $listing = $this->ui->factory()->listing()->unordered($categories);
             $this->tpl->setVariable(
                 'CATEGORIES',
-                $this->lng->txt('local') . $DIC->ui()->renderer()->render($listing)
+                $this->lng->txt('local') . $this->ui->renderer()->render($listing)
             );
         } else {
             $this->tpl->setVariable('SUB_STYLE_OF');
@@ -190,22 +191,19 @@ class ilSystemStylesTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VERSION', $a_set['version']);
 
         if ($this->isWithActions()) {
+            $action_items = [];
             /** @noinspection PhpIfWithCommonPartsInspection */
             if ($a_set['skin_id'] == 'other') {
                 $this->tpl->setCurrentBlock('actions');
                 $this->tpl->setVariable('ACTIONS');
                 $this->tpl->parseCurrentBlock();
             } else {
-                $action_list = new ilAdvancedSelectionListGUI();
-                $action_list->setId('id_action_list_' . $a_set['id']);
-                $action_list->setListTitle($this->lng->txt('actions'));
 
                 if ($this->isReadDocumentation()) {
-                    $DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI', 'skin_id', $a_set['skin_id']);
-                    $DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI', 'style_id', $a_set['style_id']);
-                    $action_list->addItem(
+                    $this->ctrl->setParameterByClass('ilSystemStyleDocumentationGUI', 'skin_id', $a_set['skin_id']);
+                    $this->ctrl->setParameterByClass('ilSystemStyleDocumentationGUI', 'style_id', $a_set['style_id']);
+                    $action_items[] = $this->ui->factory()->link()->standard(
                         $this->lng->txt('open_documentation'),
-                        'documentation',
                         $this->ctrl->getLinkTargetByClass('ilSystemStyleDocumentationGUI', 'entries')
                     );
                 }
@@ -219,37 +217,38 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 
                     $config = new ilSystemStyleConfig();
                     if ($a_set['skin_id'] != $config->getDefaultSkinId()) {
-                        $this->addManagementActionsToList($action_list);
+                        $action_items = $this->addManagementActionsToList($action_items);
                         $this->addMultiActions($a_set['id']);
                     }
                     if (!$is_substyle && $a_set['skin_id'] != 'default') {
-                        $action_list->addItem(
+                        $action_items[] = $this->ui->factory()->link()->standard(
                             $this->lng->txt('export'),
-                            'export',
                             $this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI', 'export')
                         );
                     }
                 }
 
                 $this->tpl->setCurrentBlock('actions');
-                $this->tpl->setVariable('ACTIONS', $action_list->getHTML());
+                $action_dropdown = $this->ui->factory()->dropdown()->standard($action_items)->withLabel(
+                    $this->lng->txt('actions')
+                );
+                $this->tpl->setVariable('ACTIONS', $this->ui->renderer()->render($action_dropdown));
                 $this->tpl->parseCurrentBlock();
             }
         }
     }
 
-    protected function addManagementActionsToList(ilAdvancedSelectionListGUI $action_list)
+    protected function addManagementActionsToList(array $action_items): array
     {
-        $action_list->addItem(
+        $action_items[] = $this->ui->factory()->link()->standard(
             $this->lng->txt('edit'),
-            'edit',
             $this->ctrl->getLinkTargetByClass('ilsystemstyleconfiggui')
         );
-        $action_list->addItem(
+        $action_items[] = $this->ui->factory()->link()->standard(
             $this->lng->txt('delete'),
-            'delete',
             $this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI', 'deleteStyle')
         );
+        return $action_items;
     }
 
     protected function addMultiActions($id)
