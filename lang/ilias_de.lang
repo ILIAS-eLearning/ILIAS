@@ -2028,7 +2028,7 @@ auth#:#auth_oidc_settings_session_duration#:#Dauer
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
 auth#:#auth_oidc_settings_txt#:#Text
 auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein, der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenID-Connect-Anmeldeskript.
-auth#:#auth_oidc_settings_user_attr#:#Attributname der ILIAS-Konten
+auth#:#auth_oidc_settings_user_attr#:#Attributname der Anmeldekonten
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
 auth#:#auth_oidc_settings_user_sync_info#:#Für Personen, die noch kein ILIAS-Konto besitzen, sich aber erfolgreich gegen Open ID Connect authentifiziert haben, wird automatisch ein neues ILIAS-Konto erzeugt.
 auth#:#auth_oidc_settings_validate_scope_custom#:#Eigene OpenID Connect Discovery URL angeben
@@ -2790,9 +2790,9 @@ chatroom#:#chat_anonymous_not_allowed#:#Um den Chatraum nutzen zu können, logge
 chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber einen <b>eindeutigen</b> Namen.
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_broadcast_typing#:#Tippen im Chat anzeigen
-chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu schreiben.
+chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu tippen.
 chatroom#:#chat_broadcast_typing_no#:#Anderen das Tippen von Nachrichten nicht anzeigen
-chatroom#:#chat_broadcast_typing_yes#:#Tippen von Nachrichten den Anwesenden anzeigen
+chatroom#:#chat_broadcast_typing_yes#:#Tippen von Nachrichten anderen im Chat anzeigen
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> hat den Chatraum verlassen ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum betreten +++
 chatroom#:#chat_deletion_disabled#:#Deaktiviert
@@ -2826,7 +2826,7 @@ chatroom#:#chat_message#:#Nachricht
 chatroom#:#chat_message_display#:#Anzeigen
 chatroom#:#chat_message_options#:#Optionen
 chatroom#:#chat_message_to_all#:#An alle
-chatroom#:#chat_no_use_typing_broadcast#:#Tippen wird Chatpartnern nicht angezeigt
+chatroom#:#chat_no_use_typing_broadcast#:#Tippen wird anderen im Chat nicht angezeigt
 chatroom#:#chat_not_use_osc#:#Nutzt On-Screen-Chat nicht
 chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
 chatroom#:#chat_osc_accept_msg_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
@@ -2856,8 +2856,8 @@ chatroom#:#chat_osc_search_modal_info#:#Suchen Sie hier nach einer Person, die S
 chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht am Chat teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben.
 chatroom#:#chat_osc_send#:#Senden
 chatroom#:#chat_osc_start_conversation#:#Chat starten
-chatroom#:#chat_osc_subs_rej_msgs#:#Ihr Chat-Partner möchte zur Zeit keine Nachrichten empfangen. Er kann den Empfang von Chat-Nachrichten in seinen Chat-Einstellungen wieder aktivieren.
-chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Chatspartner möchten aktuell keine Nachrichten mehr empfangen: %s
+chatroom#:#chat_osc_subs_rej_msgs#:#Die kontaktierte Person möchte zur Zeit keine Nachrichten empfangen. Sie kann den Empfang von Chat-Nachrichten in ihren Chat-Einstellungen aber wieder aktivieren.
+chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Personen möchten aktuell keine Nachrichten mehr empfangen: %s
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie den Gruppenchat verlassen möchten?
 chatroom#:#chat_osc_user#:#Benutzer
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat den Gruppenchat verlassen.
@@ -2867,7 +2867,7 @@ chatroom#:#chat_settings_functions_header#:#Funktionen des Chats
 chatroom#:#chat_show_auto_messages#:#Automatische Meldungen anzeigen
 chatroom#:#chat_to_mainroom#:#Zum Hauptraum
 chatroom#:#chat_use_osc#:#Nutzt On-Screen-Chat
-chatroom#:#chat_use_typing_broadcast#:#Tippen wird Chatpartnern angezeigt
+chatroom#:#chat_use_typing_broadcast#:#Tippen wird anderen im Chat angezeigt
 chatroom#:#chat_user_action_invite_osd#:#On-Screen-Chat starten
 chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einladen
 chatroom#:#chat_user_x_is_typing#:#Benutzer %s tippt gerade ...
@@ -3813,13 +3813,13 @@ common#:#defaults#:#Standardeinstellungen
 common#:#delete#:#Löschen
 common#:#delete_existing_file#:#Bestehende Datei löschen
 common#:#delete_inactivated_user_accounts#:#Inaktive ILIAS-Konten löschen
-common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden ILIAS-Konten %s Tage nach ihrer Inaktivierung gelöscht.
+common#:#delete_inactivated_user_accounts_desc#:#ILIAS-Konten werden %s Tage nach ihrer Deaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
 common#:#delete_inactivated_user_accounts_include_roles_desc#:#Nur inaktive Konten mit einer der ausgewählten globalen Rollen werden gelöscht. Ist ein Konto (auch) einer der nicht ausgewählten Rollen zugewiesen, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
 common#:#delete_inactivated_user_accounts_period_desc#:#ILIAS-Konto wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_inactive_user_accounts#:#ILIAS-Konten mit lange zurückliegendem Login löschen
-common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden ILIAS-Konten abhängig vom Zeitpunkt des letzten Logins gelöscht.
+common#:#delete_inactive_user_accounts_desc#:#ILIAS-Konten werden abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Nur inaktivierte Konten mit einer der ausgewählten globalen Rollen werden gelöscht. Ist ein Konto (auch) einer der nicht ausgewählten Rollen zugewiesen, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
@@ -5009,7 +5009,7 @@ common#:#obj_type#:#Objekttyp
 common#:#obj_user#:#Benutzer
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#ILIAS-Konten
-common#:#obj_usrf_desc#:#Verwaltung der ILIAS-Konten
+common#:#obj_usrf_desc#:#Verwaltung der Anmeldekonten für ILIAS
 common#:#obj_wbdv#:#WebDAV
 common#:#obj_wbdv_desc#:#Konfiguration der WebDAV-Einstellungen.
 common#:#obj_wbrs#:#Weblink
@@ -8887,7 +8887,7 @@ ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
 ecs#:#ecs_released#:#Freigegebene Kurse
 ecs#:#ecs_released_content#:#Freigegebener E-Content
 ecs#:#ecs_remote_imported#:#Die Informationen über Kursänderungen wurden neu eingelesen.
-ecs#:#ecs_remote_user_settings#:#Einstellungen für ECS-Zugänge
+ecs#:#ecs_remote_user_settings#:#Vom ECS angelegte Anmeldekonten
 ecs#:#ecs_role#:#Rollenzuordnung
 ecs#:#ecs_role_mapping_value#:#Attributwert
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
@@ -10374,7 +10374,7 @@ ldap#:#ldap_tbl_role_ass#:#Aktive Regeln für die Rollenzuordnung
 ldap#:#ldap_tls_conflict#:#LDAP-TLS kann nicht in Kombination mit Protokollversion 2 genutzt werden.
 ldap#:#ldap_update_field_info#:#Automatisch aktualisieren
 ldap#:#ldap_update_roles#:#Rollenzuordnungen
-ldap#:#ldap_user_attribute#:#Attributname der ILIAS-Konten
+ldap#:#ldap_user_attribute#:#Attributname der Anmeldekonten
 ldap#:#ldap_user_dn#:#Suchbasis
 ldap#:#ldap_user_mapping#:#Zuordnung der Profildaten
 ldap#:#ldap_user_scope#:#Suchbereich
@@ -10568,7 +10568,7 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mi
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den Benutzer zulassen.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
-lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_user_id#:#ID des ILIAS-Kontos kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-Id. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
 lti#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 lti#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
