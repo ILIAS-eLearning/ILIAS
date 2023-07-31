@@ -42,6 +42,7 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
             "tpl.dashboard_sortation_row.html",
             "Services/Dashboard"
         );
+        $this->setEnableNumInfo(false);
         $this->initData();
     }
 
