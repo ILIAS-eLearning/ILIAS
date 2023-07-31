@@ -173,7 +173,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
             $question_gui = assQuestion::instantiateQuestionGUI($a_set["question_id"]);
             $question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
             if (strcmp($this->outputmode, "detailed") == 0) {
-                $solutionoutput = $question_gui->getSolutionOutput("", null, false, false, false, false, true, false);
+                $solutionoutput = $question_gui->getSolutionOutput(0, null, false, false, false, false, true, false);
                 if (strlen($solutionoutput) == 0) {
                     $solutionoutput = $question_gui->getPreview();
                 }
