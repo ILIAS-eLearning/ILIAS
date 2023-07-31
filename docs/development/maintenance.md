@@ -498,7 +498,7 @@ file containes the following fields:
 * **Glossary**
 	* Maintenance Model: Classic
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
+	* 2nd Maintainer: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
 	* Testcases: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
 	* Tester: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
 
@@ -795,7 +795,7 @@ file containes the following fields:
 * **Metadata**
 	* Maintenance Model: Classic
 	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
+	* 2nd Maintainer: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
 	* Testcases: [daniela.weber](https://docu.ilias.de/goto_docu_usr_40672.html)
 	* Tester: [daniela.weber](https://docu.ilias.de/goto_docu_usr_40672.html)
 
@@ -905,7 +905,7 @@ file containes the following fields:
 * **Poll**
 	* Maintenance Model: Classic
 	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
+	* 2nd Maintainer: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [Qndrs](https://docu.ilias.de/goto_docu_usr_42611.html)
 
