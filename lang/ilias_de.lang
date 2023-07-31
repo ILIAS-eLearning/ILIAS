@@ -2395,7 +2395,7 @@ blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_posting#:#Beitrag
 blog#:#blog_posting_deleted#:#Der Beitrag wurde gelöscht.
 blog#:#blog_posting_deletion_confirmation#:#Wollen Sie diesen Beitrag wirklich löschen?
-blog#:#blog_posting_edit_approval_info#:#Der Beitrag muss vor der Veröffentlichung durch einen Tutor freigeschaltet werden.
+blog#:#blog_posting_edit_approval_info#:#Der Beitrag muss vor der Veröffentlichung durch die Blog-Redaktion freigeschaltet werden.
 blog#:#blog_posting_not_found#:#Der Beitrag ist nicht verfügbar.
 blog#:#blog_postings#:#Beiträge
 blog#:#blog_presentation_frame#:#Darstellung
@@ -4236,7 +4236,7 @@ common#:#il_chat_moderator#:#Chatmoderation###Modified as part of gender mainstr
 common#:#il_crs_admin#:#Kursadministrator
 common#:#il_crs_member#:#Kursmitglied
 common#:#il_crs_non_member#:#Kein Kursmitglied
-common#:#il_crs_tutor#:#Kurstutor
+common#:#il_crs_tutor#:#Kursbetreuung
 common#:#il_frm_moderator#:#Forenmoderation###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_grp_admin#:#Gruppenadministrator
 common#:#il_grp_member#:#Gruppenmitglied
@@ -5681,7 +5681,7 @@ common#:#tst_statistical_evaluation#:#Statistik
 common#:#tst_statistics#:#Statistik
 common#:#tst_user_not_invited#:#Sie dürfen an dieser Online-Prüfung nicht teilnehmen.
 common#:#tst_warning_test_not_complete#:#Der Test ist nicht vollständig!
-common#:#tutors#:#Tutoren
+common#:#tutors#:#Kursbetreuung
 common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte auf den untenstehenden Button, um in ILIAS zu gelangen.
 common#:#txt_registered_passw_gen#:#Sie haben sich erfolgreich bei ILIAS registriert. Sie werden in Kürze eine E-Mail mit Ihrem Passwort erhalten.
 common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr Konto muss noch von der Systemadministration freigegeben werden. Wir bitten um Ihre Geduld.
@@ -7306,7 +7306,7 @@ crs#:#crs_agreement_header#:#Nutzungsvereinbarung
 crs#:#crs_agreement_required#:#Sie können diesem Kurs nur beitreten, wenn Sie der Nutzungsvereinbarung zustimmen.
 crs#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet sein.
 crs#:#crs_auto_notification#:#Begrüßungsmail für neue Mitglieder
-crs#:#crs_auto_notification_info#:#Mail-Benachrichtigungen werden automatisch an jene Mitglieder versendet, die von einem Tutor oder Administrator in den Kurs aufgenommen wurden.
+crs#:#crs_auto_notification_info#:#Werden Mitglieder manuell in den Kurs aufgenommen, erhalten sie eine Benachrichtigung per Mail.
 crs#:#crs_awrn_current_course#:#Aktueller Kurs
 crs#:#crs_awrn_current_course_info#:#Innerhalb eines Kurses werden alle Mitglieder des Kurses aufgelistet.
 crs#:#crs_awrn_support_contacts#:#Kursbetreuung
@@ -7506,14 +7506,14 @@ crs#:#crs_loc_tt_info#:#Sie haben %1$d%% erreicht. Der Test gilt mit %2$d%% als 
 crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele.
 crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft.
 crs#:#crs_mail_all#:#Für alle Mitglieder
-crs#:#crs_mail_all_info#:#Mitglieder, Administratoren und Tutoren können die Funktion "Mail an Mitglieder" im Reiter "Mitglieder" nutzen.
+crs#:#crs_mail_all_info#:#Alle, die am Kurs teilnehmen, können die Funktion „Mail an Mitglieder” im Reiter „Mitglieder” nutzen.
 crs#:#crs_mail_context_member_info#:#Für die Kontakt-E-Mails auf der Info-Seite eines Kurses
 crs#:#crs_mail_context_member_title#:#Kurs: Info-Seite
 crs#:#crs_mail_context_tutor_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Kurses
 crs#:#crs_mail_context_tutor_title#:#Kurs: Mail an Mitglieder
 crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Kursinhalt zuzugreifen:
-crs#:#crs_mail_tutors_only#:#Nur für Administratoren und Tutoren
-crs#:#crs_mail_tutors_only_info#:#Nur Administratoren und Tutoren können die Funktion "Mail an Mitglieder" im Reiter "Mitglieder" nutzen.
+crs#:#crs_mail_tutors_only#:#Nur für Kursadminstration und Kursbetreuung
+crs#:#crs_mail_tutors_only_info#:#Nur Kursadminstration und Kursbetreuung können die Funktion „Mail an Mitglieder“ im Reiter „Mitglieder” nutzen.
 crs#:#crs_mail_type#:#Mail an Mitglieder
 crs#:#crs_map_location#:#Ort auf Karte zum Kurs
 crs#:#crs_map_settings#:#Karte
@@ -7650,8 +7650,8 @@ crs#:#crs_reg_subject#:#Nachricht
 crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_subscribed#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung.
 crs#:#crs_registration#:#Zum Kurs beitreten
-crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er durch einen Kursadministrator oder Kurstutor bestätigt wird.
-crs#:#crs_registration_deactivated#:#Nur Kursadministratoren und Kurstutoren können Benutzer in den Kurs aufnehmen.
+crs#:#crs_registration_confirmation_info#:#Kursadministration oder Kursbetreuung müssen den Beitritt im Reiter „Mitglieder” bestätigen.
+crs#:#crs_registration_deactivated#:#Nur Kursadministration oder Kursbetreuung können Mitglieder in den Kurs aufnehmen.
 crs#:#crs_registration_limited#:#Zeitlich begrenzter Beitritt
 crs#:#crs_registration_limited_info#:#Mitglieder können dem Kurs nur in einen bestimmten Zeitraum beitreten.
 crs#:#crs_registration_period#:#Zeitraum
@@ -7689,8 +7689,8 @@ crs#:#crs_status_changed#:#Status in Kurs "%s"
 crs#:#crs_status_changed_body#:#Ihr Status in Kurs "%s" wurde geändert.
 crs#:#crs_status_determination#:#Bestimmung des Status "Bestanden"
 crs#:#crs_status_determination_lp#:#Aus Lernfortschritt ableiten
-crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf "Bearbeitet", wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben.
-crs#:#crs_status_determination_manual#:#Nur manuell durch Tutor
+crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf „Bearbeitet“, wird der Status „Bestanden“ gesetzt. Die Kursadministration oder Kursbetreuung kann den Status manuell im Reiter „Lernfortschritt » Benutzer“ überschreiben.
+crs#:#crs_status_determination_manual#:#Nur manuell setzen
 crs#:#crs_status_determination_sync#:#Der Lernfortschritt dieses Kurses wird automatisch auf „Bestanden“ gesetzt, sobald jemand alle dafür erforderlichen Aktivitäten abgeschlossen hat. Bereits erzielte Lernfortschritte werden berücksichtigt. Ein manuell gesetzter Status bleibt unverändert. Möchten Sie den Status „Bestanden“ jetzt automatisch bestimmen?###Modified as part of gender mainstreaming activities for ILIAS 8
 crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subject_course_group_notification#:#Mail-Zusammenfassung für %s
@@ -7707,7 +7707,7 @@ crs#:#crs_subscription_max_members_short#:#Begrenzte Mitgliederanzahl
 crs#:#crs_subscription_max_members_short_info#:#Es kann eine minimale bzw. maximale Anzahl von Mitgliedern festgelegt werden. Es kann eine Warteliste eingerichtet werden.
 crs#:#crs_subscription_min_members#:#Minimale Anzahl
 crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.
-crs#:#crs_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann der Kurs nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Kursaustritt nicht erreicht, versendet ILIAS eine Mail an jene Kursadministratoren oder -tutoren, für die im Reiter 'Mitglieder' die Option 'Benachrichtigung' aktiviert ist.
+crs#:#crs_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann der Kurs nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Kursaustritt nicht erreicht, versendet ILIAS eine Mail an die Personen, für die im Reiter „Mitglieder“ die Option „Benachrichtigung“ aktiviert ist.
 crs#:#crs_subscription_options_confirmation#:#Beitritt nach Bestätigung
 crs#:#crs_subscription_options_direct#:#Direkter Beitritt
 crs#:#crs_subscription_options_password#:#Beitritt mit Kurspasswort
@@ -7767,8 +7767,8 @@ crs#:#crs_timings_visibility#:#Wenn aktiviert, ist das Lernmaterial auch außerh
 crs#:#crs_timings_visibility_short#:#Sichtbarkeit
 crs#:#crs_timings_warning_timing_exists#:#Achtung: für dieses Objekt existiert ein  aktiver Lernplan. Wenn sie die zeitlich begrenzte Verfügbarkeit aktivieren, werden die Lernplanungszeiten zurückgesetzt.
 crs#:#crs_to#:#Bis:
-crs#:#crs_tutor#:#Tutor
-crs#:#crs_tutors#:#Tutoren
+crs#:#crs_tutor#:#Kursbetreuung
+crs#:#crs_tutors#:#Kursbetreuung
 crs#:#crs_unblocked#:#Freigeschaltet
 crs#:#crs_unblocked_member#:#Status in Kurs "%s"
 crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft für Kurs "%s" wurde freigeschaltet.
@@ -7846,8 +7846,8 @@ crs#:#event_tbl_member#:#Mitglied
 crs#:#event_tbl_members#:#Mitglieder
 crs#:#event_tbl_participated#:#Teilgenommen
 crs#:#event_tbl_registered#:#Angemeldet
-crs#:#event_tbl_tutor#:#Tutor
-crs#:#event_tbl_tutors#:#Tutoren
+crs#:#event_tbl_tutor#:#Kursbetreuung
+crs#:#event_tbl_tutors#:#Kursbetreuung
 crs#:#event_title#:#Titel
 crs#:#event_tutor_data#:#Präsentation von
 crs#:#event_unregister#:#Abmelden
@@ -7881,7 +7881,7 @@ crs#:#timing_accept_table#:#Lernplanung: Bemerkungen
 crs#:#timing_accepted#:#Akzeptiert
 crs#:#timing_not_accepted#:#Nicht akzeptiert
 crs#:#timing_remark#:#Bemerkung
-crs#:#timing_tutor_visible#:#Bemerkung ist sichtbar für den Tutor
+crs#:#timing_tutor_visible#:#Bemerkung ist sichtbar für die Kursbetreuung
 crs#:#timing_user_accept#:#Empfohlenen Lernplan akzeptieren
 crs#:#timing_user_accepted#:#Lernplan akzeptiert
 crs#:#timings#:#Zeitvorgaben
@@ -8996,8 +8996,8 @@ exc#:#exc_comment_for_learner_info#:#Es wird eine Benachrichtigung an den Teilne
 exc#:#exc_compare_selected_submissions#:#Vergleiche ausgewählte Lösungsabgaben
 exc#:#exc_compare_submissions#:#Vergleiche Lösungsabgaben
 exc#:#exc_completion_by_submission#:#Automatisch bei Abgabe
-exc#:#exc_completion_by_submission_info#:#Gibt ein Teilnehmer ein Arbeitsergebnis ab, wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben. Das Ändern dieser Einstellung hat keine Auswirkung auf bestehende Bewertungen.
-exc#:#exc_completion_by_tutor#:#Nur manuell durch Tutor
+exc#:#exc_completion_by_submission_info#:#Reicht ein Teilnehmer eine Lösung ein, wird der Lernfortschrittstatus automatisch auf „Bestanden“ gesetzt. Personen mit dem Recht „Abgaben und Noten bearbeiten“ können den Status manuell überschreiben. Das Ändern dieser Einstellung hat keine Auswirkung auf bereits erfolgte Bewertungen.
+exc#:#exc_completion_by_tutor#:#Nur manuell setzen
 exc#:#exc_conf_del_assignments#:#Möchten Sie die folgenden Übungseinheiten wirklich löschen?
 exc#:#exc_copy#:#Übung kopieren
 exc#:#exc_copy_zip_error#:#Die Abgabe kann nicht geöffnet werden. Es ist ein Fehler beim Kopieren der Dateien aufgetreten.
@@ -9006,7 +9006,7 @@ exc#:#exc_create_blog_select_info#:#Wählen Sie in Ihren persönlichen Ressource
 exc#:#exc_create_portfolio#:#Portfolio erstellen
 exc#:#exc_create_portfolio_no_template#:#Keine Vorlage verwenden
 exc#:#exc_create_team#:#Team erstellen
-exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen. Bitte kontaktieren Sie Ihren Tutor.
+exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen. Die Zeit ist abgelaufen.
 exc#:#exc_create_wiki#:#Wiki erstellen
 exc#:#exc_crit_cat_protected_assignment#:#Aktives Peer-Feedback
 exc#:#exc_crit_cat_protected_assignment_info#:#Kriterienkataloge von Übungseinheiten mit aktivem Peer-Feedback können nicht mehr bearbeitet werden.
@@ -9078,7 +9078,7 @@ exc#:#exc_late_submission_warning#:#Abgaben nach %s werden als verspätet gekenn
 exc#:#exc_limit_characters#:#Anzahl der Zeichen beschränken
 exc#:#exc_list_submission#:#Alle Lösungsabgaben
 exc#:#exc_list_text_assignment#:#Liste aller Abgaben
-exc#:#exc_mail_context_grade_reminder_info#:#Die Tutoren werden an die Bewertung der Enireichungen erinnert.
+exc#:#exc_mail_context_grade_reminder_info#:#Personen, welche in einer Übungseinheit die Erinnerungen aktiviert haben, werden an die Bewertung der Einreichungen erinnert.
 exc#:#exc_mail_context_grade_reminder_title#:#Übung: Erinnerung an Bewertung
 exc#:#exc_mail_context_peer_reminder_info#:#Die Nutzer werden an die Abgabe des Peer-Feedbacks erinnert.
 exc#:#exc_mail_context_peer_reminder_title#:#Übung: Erinnerung an Peer-Feedback
@@ -9109,7 +9109,7 @@ exc#:#exc_msg_missed_minimum_number#:#Sie haben die Mindestanzahl an Übungseinh
 exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur Übung "%s" hinzugefügt.
 exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für Sie hochgeladen.
 exc#:#exc_msg_new_feedback_text_uploaded#:#Es wurde ein neuer Kommentar zur Übung "%s" hinzugefügt.
-exc#:#exc_msg_new_feedback_text_uploaded2#:#Ein Tutor hat einen neuen Kommentar für Sie eingestellt.
+exc#:#exc_msg_new_feedback_text_uploaded2#:#für folgende Einreichung wurde in ILIAS ein neuer Kommentar für Sie abgegeben:
 exc#:#exc_msg_participants_removed#:#Die Teilnehmer wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
 exc#:#exc_msg_saved_grades#:#Die Änderungen wurden gespeichert.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -9129,9 +9129,9 @@ exc#:#exc_no_participants#:#Zur Zeit gibt es keine Teilnehmer.
 exc#:#exc_no_portfolio_templates#:#Es sind keine Portfoliovorlagen vorhanden.
 exc#:#exc_no_team_yet#:#Keinem Team zugeordnet
 exc#:#exc_no_team_yet_info#:#Sie können selbst ein Team erstellen oder in ein anderes Team von dessen Teammitgliedern hinzugefügt werden.
-exc#:#exc_no_team_yet_info_tutor#:#Teams werden von den Übungstutoren verwaltet.
+exc#:#exc_no_team_yet_info_tutor#:#Sie werden später einem Team zugewiesen.
 exc#:#exc_no_team_yet_notice#:#Sie gehören noch keinem Team an.
-exc#:#exc_note_for_tutor#:#Notiz für Tutoren
+exc#:#exc_note_for_tutor#:#Interne Bemerkung
 exc#:#exc_notification#:#Persönliche Benachrichtigung
 exc#:#exc_nr_random_mand#:#Anzahl verpflichtender Übungseinheiten
 exc#:#exc_num_teams#:#Anzahl
@@ -9937,7 +9937,7 @@ grp#:#grp_mail_sub_dec_sub#:#Ablehnung des Aufnahmeantrags für Gruppe "%s"
 grp#:#grp_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Gruppe "%s" erfolgt ist.
 grp#:#grp_mail_subscribe_member_sub#:#Ihre Anmeldung für Gruppe "%s"
 grp#:#grp_mail_tutors_only#:#Nur für Administratoren
-grp#:#grp_mail_tutors_only_info#:#Nur Administratoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
+grp#:#grp_mail_tutors_only_info#:#Nur Administratoren können die Funktion „Mail an Mitglieder“ im Reiter Mitglieder nutzen.
 grp#:#grp_mail_type#:#Mail an Mitglieder
 grp#:#grp_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Gruppe "%s".
 grp#:#grp_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Gruppe "%s"
@@ -12213,7 +12213,7 @@ note#:#note_comments_notification#:#Generelle Benachrichtigung über alle Kommen
 note#:#note_comments_notification_info#:#Kommagetrennte Liste von ILIAS-Konten, welche jeden Kommentar als E-Mail erhalten.
 note#:#note_enable_comments#:#Kommentare aktivieren
 note#:#note_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
-note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" an einem Objekt können alle darin gemachten Kommentare löschen.
+note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht „Einstellungen bearbeiten“ an einem Objekt können alle darin gemachten Kommentare löschen.
 note#:#note_enable_comments_del_user#:#Kommentare können von der Person gelöscht werden, die sie erstellt hat.###Modified as part of gender mainstreaming activities for ILIAS 8
 note#:#note_enable_comments_export_info#:#Erlaubt innerhalb von Objekten wie Portfolios, Blogs oder Wikis die Kommentare zu exportieren.
 note#:#note_enable_notes#:#Notizen aktivieren
@@ -16537,8 +16537,8 @@ trac#:#trac_mode_individual_assessment_info#:#Der Teilnehmer muss abschließend 
 trac#:#trac_mode_lti_outcome#:#Mastery Score muss erreicht werden
 trac#:#trac_mode_lti_outcome_info#:#Der Lernfortschritt gilt als abgeschlossen, wenn das Ergebnis des LTI-Outcome-Service mindestens so hoch wie der Mastery Score ist.
 trac#:#trac_mode_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts für das gesamte Objekt.
-trac#:#trac_mode_manual_by_tutor#:#Tutor entscheidet über den Status des Lernfortschritts
-trac#:#trac_mode_manual_by_tutor_info#:#Tutoren entscheiden, ob Teilnehmer das Objekt erfolgreich bearbeitet haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
+trac#:#trac_mode_manual_by_tutor#:#Die Kursadministration oder Kursbetreuung entscheidet über den Status des Lernfortschritts.
+trac#:#trac_mode_manual_by_tutor_info#:#Die Kursadministration oder Kursbetreuung entscheidet, ob Teilnehmer das Objekt erfolgreich bearbeitet haben. Dazu setzt sie händisch den Status auf „Bearbeitet“.
 trac#:#trac_mode_manual_info#:#Benutzer entscheiden selbst, wann sie das Objekt erfolgreich durchgearbeitet haben. Sowie die Bearbeitung abgeschlossen ist, setzen sie den Status im Reiter 'Info' auf 'Bearbeitet'.
 trac#:#trac_mode_objectives#:#Lernziele
 trac#:#trac_mode_objectives_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der erfüllten Lernziele ermittelt.
