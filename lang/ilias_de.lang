@@ -2815,8 +2815,6 @@ chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeic
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_broadcast_typing#:#Tippen im Chat anzeigen
 chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu tippen.
-chatroom#:#chat_broadcast_typing_no#:#Anderen das Tippen von Nachrichten nicht anzeigen
-chatroom#:#chat_broadcast_typing_yes#:#Tippen von Nachrichten anderen im Chat anzeigen
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> hat den Chatraum verlassen ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum betreten +++
 chatroom#:#chat_create_private_room_button#:#Séparée anlegen
