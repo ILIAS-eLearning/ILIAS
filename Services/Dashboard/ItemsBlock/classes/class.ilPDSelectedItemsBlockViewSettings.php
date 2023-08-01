@@ -345,7 +345,6 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
                 $this->enableStudyProgrammes($status);
                 break;
             case $this->getRecommendedContentView():
-                $this->enableRecommendedContent($status);
                 break;
             case $this->getLearningSequenceView():
                 $this->enableLearningSequences($status);
@@ -527,7 +526,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
     public function enabledRecommendedContent(): bool
     {
-        return (int) $this->settings->get('disable_recommended_content', '1') === 0;
+        return true;
     }
 
     public function enabledLearningSequences(): bool
@@ -538,11 +537,6 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     public function enabledStudyProgrammes(): bool
     {
         return (int) $this->settings->get('disable_study_programmes', '1') === 0;
-    }
-
-    public function enableRecommendedContent(bool $status): void
-    {
-        $this->settings->set('disable_recommended_content', $status ? "0" : "1");
     }
 
     public function enableLearningSequences(bool $status): void
