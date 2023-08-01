@@ -941,15 +941,12 @@ abstract class ilBlockGUI
             $actions[] = $button;
         }
 
-        if (count($actions) > 0) {
-            $actions = $this->factory->dropdown()->standard($actions)
-                               ->withAriaLabel(sprintf(
-                                   $this->lng->txt('actions_for'),
-                                   htmlspecialchars($this->getTitle())
-                               ));
-            return $actions;
-        }
-        return null;
+        $actions = $this->factory->dropdown()->standard($actions)
+                           ->withAriaLabel(sprintf(
+                               $this->lng->txt('actions_for'),
+                               htmlspecialchars($this->getTitle())
+                           ));
+        return $actions;
     }
 
     /** @return ViewControl\Sortation[]|ViewControl\Pagination[] */
@@ -970,8 +967,13 @@ abstract class ilBlockGUI
                 $this->presentations,
                 'label'
             )->withActive($this->activePresentation);
-            $viewControls[] = $presentation;
+        } else {
+            $presentation = $this->factory->viewControl()->mode(
+                [],
+                'label'
+            );
         }
+        $viewControls[] = $presentation;
 
 
         if ($this->getPresentation() === self::PRES_SEC_LIST) {
