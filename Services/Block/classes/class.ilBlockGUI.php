@@ -956,15 +956,17 @@ abstract class ilBlockGUI
     public function getViewControlsForPanel(): array
     {
         $viewControls = [];
-        $sortation = $this->factory->viewControl()->sortation(
-            $this->sort_options
-        )->withTargetURL(
-            $this->sort_target,
-            'sorting'
-        )->withLabel(
-            $this->activeSortOption
-        );
-        $viewControls[] = $sortation;
+        if (count($this->sort_options)) {
+            $sortation = $this->factory->viewControl()->sortation(
+                $this->sort_options
+            )->withTargetURL(
+                $this->sort_target,
+                'sorting'
+            )->withLabel(
+                $this->activeSortOption
+            );
+            $viewControls[] = $sortation;
+        }
         if (count($this->presentations) > 1) {
             $presentation = $this->factory->viewControl()->mode(
                 $this->presentations,
