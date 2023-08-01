@@ -85,12 +85,12 @@ class ilColumnGUI
     );
 
     protected static array $block_types = array(
-        "ilPDMailBlockGUI" => 'pd' . ilDashboardSidePanelSettingsRepository::MAIL,
-        "ilPDTasksBlockGUI" => 'pd' . ilDashboardSidePanelSettingsRepository::TASKS,
-        "ilPDNewsBlockGUI" => 'pd' . ilDashboardSidePanelSettingsRepository::NEWS,
+        "ilPDMailBlockGUI" => "pdmail",
+        "ilPDTasksBlockGUI" => "pdtasks",
+        "ilPDNewsBlockGUI" => "pdnews",
         "ilNewsForContextBlockGUI" => "news",
         "ilCalendarBlockGUI" => "cal",
-        "ilPDCalendarBlockGUI" => 'pd' . ilDashboardSidePanelSettingsRepository::CALENDAR,
+        "ilPDCalendarBlockGUI" => "pdcal",
         "ilSelectedItemsBlockGUI" => "pditems",
         'ilPollBlockGUI' => 'poll',
         'ilClassificationBlockGUI' => 'clsfct',
@@ -147,11 +147,11 @@ class ilColumnGUI
     protected array $check_global_activation =
         array("news" => true,
             "cal" => true,
-            "pd" . ilDashboardSidePanelSettingsRepository::CALENDAR => true,
-            "pd" . ilDashboardSidePanelSettingsRepository::NEWS => true,
+            "pdcal" => true,
+            "pdnews" => true,
             "pdtag" => true,
-            "pd" . ilDashboardSidePanelSettingsRepository::MAIL => true,
-            "pd" . ilDashboardSidePanelSettingsRepository::TASKS => true,
+            "pdmail" => true,
+            "pdtasks" => true,
             "tagcld" => true,
             "clsfct" => true);
 
@@ -545,11 +545,9 @@ class ilColumnGUI
         $this->blocks[IL_COL_RIGHT] = array();
         $this->blocks[IL_COL_CENTER] = array();
 
-        $user_id = 0;
-        if ($this->getColType() === "pd") {
-            $user_id = $ilUser->getId();
-            $positions = array_flip($this->dash_side_panel_settings->getPositions());
-        }
+        $user_id = ($this->getColType() === "pd")
+            ? $ilUser->getId()
+            : 0;
 
         $def_nr = 1000;
         if (isset($this->default_blocks[$this->getColType()])) {
@@ -577,9 +575,6 @@ class ilColumnGUI
                     }
                     if ($side == IL_COL_LEFT) {
                         $side = IL_COL_RIGHT;
-                    }
-                    if ($this->getColType() === 'pd' && in_array(substr($type, 2), $this->dash_side_panel_settings->getValidModules())) {
-                        $nr = $positions[substr($type, 2)] ?? $nr;
                     }
                     $this->blocks[$side][] = array(
                         "nr" => $nr,
@@ -694,12 +689,12 @@ class ilColumnGUI
         }
 
         if (isset($this->check_global_activation[$a_type]) && $this->check_global_activation[$a_type]) {
-            if ($a_type === 'pd' . ilDashboardSidePanelSettingsRepository::NEWS) {
+            if ($a_type == 'pdnews') {
                 return ($this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::NEWS) &&
                     $ilSetting->get('block_activated_news'));
-            } elseif ($a_type === 'pd' . ilDashboardSidePanelSettingsRepository::MAIL) {
+            } elseif ($a_type == 'pdmail') {
                 return $this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::MAIL);
-            } elseif ($a_type === 'pd' . ilDashboardSidePanelSettingsRepository::TASKS) {
+            } elseif ($a_type == 'pdtasks') {
                 return $this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::TASKS);
             } elseif ($a_type == 'news') {
                 return
@@ -720,7 +715,7 @@ class ilColumnGUI
                 return true;
             } elseif ($a_type == 'cal') {
                 return ilCalendarSettings::lookupCalendarContentPresentationEnabled($ilCtrl->getContextObjId());
-            } elseif ($a_type === 'pd' . ilDashboardSidePanelSettingsRepository::CALENDAR) {
+            } elseif ($a_type == 'pdcal') {
                 if (!$this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::CALENDAR)) {
                     return false;
                 }
