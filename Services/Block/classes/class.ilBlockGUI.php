@@ -965,11 +965,13 @@ abstract class ilBlockGUI
             $this->activeSortOption
         );
         $viewControls[] = $sortation;
-        $presentation = $this->factory->viewControl()->mode(
-            $this->presentations,
-            'label'
-        )->withActive($this->activePresentation);
-        $viewControls[] = $presentation;
+        if (count($this->presentations) > 1) {
+            $presentation = $this->factory->viewControl()->mode(
+                $this->presentations,
+                'label'
+            )->withActive($this->activePresentation);
+            $viewControls[] = $presentation;
+        }
 
 
         if ($this->getPresentation() === self::PRES_SEC_LIST) {
