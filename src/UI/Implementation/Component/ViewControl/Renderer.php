@@ -67,10 +67,9 @@ class Renderer extends AbstractComponentRenderer
             $activate_first_item = true;
         }
 
+        $tpl->setVariable("ARIA", $this->txt($component->getAriaLabel()));
+        $tpl->setVariable("ROLE", self::MODE_ROLE);
         foreach ($component->getLabelledActions() as $label => $action) {
-            $tpl->setVariable("ARIA", $this->txt($component->getAriaLabel()));
-            $tpl->setVariable("ROLE", self::MODE_ROLE);
-
             $tpl->setCurrentBlock("view_control");
 
             //At this point we don't have a specific text for the button aria label.
@@ -143,7 +142,7 @@ class Renderer extends AbstractComponentRenderer
             $internal_signal = $component->getSelectSignal();
             $signal = $triggeredSignals[0]->getSignal();
 
-            $component = $component->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$internal_signal', function(event, signalData) {
+            $component = $component->withAdditionalOnLoadCode(fn($id) => "$(document).on('$internal_signal', function(event, signalData) {
 							il.UI.viewcontrol.sortation.onInternalSelect(event, signalData, '$signal', '$id');
 							return false;
 						})");
@@ -188,7 +187,7 @@ class Renderer extends AbstractComponentRenderer
         if ($triggeredSignals) {
             $internal_signal = $component->getInternalSignal();
             $signal = $triggeredSignals[0]->getSignal();
-            $component = $component->withOnLoadCode(fn ($id) => "$(document).on('$internal_signal', function(event, signalData) {
+            $component = $component->withOnLoadCode(fn($id) => "$(document).on('$internal_signal', function(event, signalData) {
 							il.UI.viewcontrol.pagination.onInternalSelect(event, signalData, '$signal', '$id');
 							return false;
 						})");
