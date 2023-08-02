@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\ResponseHeader;
+use ILIAS\UI\Component\Component;
 
 /**
  * Class ilChatroomViewGUI
@@ -145,6 +146,13 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $initial->messages = [];
 
+        if ((int) $room->getSetting('display_past_msgs')) {
+            $initial->messages = array_merge(
+                $initial->messages,
+                array_reverse($room->getLastMessages($room->getSetting('display_past_msgs'), $chat_user))
+            );
+        }
+
         $roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'Modules/Chatroom');
         $roomTpl->setVariable('BASEURL', $settings->generateClientUrl());
         $roomTpl->setVariable('INSTANCE', $settings->getInstance());
@@ -159,82 +167,105 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $showAutoMessages = false;
         }
 
-        $roomTpl->setVariable(
-            'TOGGLE_SCROLLING_COMPONENT',
-            $this->uiRenderer->render(
-                $this->uiFactory->button()->toggle(
-                    $this->ilLng->txt('auto_scroll'),
-                    '#',
-                    '#',
-                    true
-                )
-                ->withAriaLabel($this->ilLng->txt('auto_scroll'))
-                ->withOnLoadCode(static function (string $id): string {
-                    return '
-                        $("#' . $id . '")
-                            .on("click", function(e) {
-                                let t = $(this), msg = $("#chat_messages");
-                                if (t.hasClass("on")) {
-                                    msg.trigger("msg-scrolling:toggle", [true]);
-                                } else {
-                                    msg.trigger("msg-scrolling:toggle", [false]);
-                                }
-                            });
-                    ';
-                })
-            )
-        );
-
-        $toggleUrl = $this->ilCtrl->getFormAction($this->gui, 'view-toggleAutoMessageDisplayState', '', true, false);
-        $roomTpl->setVariable(
-            'TOGGLE_AUTO_MESSAGE_COMPONENT',
-            $this->uiRenderer->render(
-                $this->uiFactory->button()->toggle(
-                    $this->ilLng->txt('chat_show_auto_messages'),
-                    '#',
-                    '#',
-                    $showAutoMessages
-                )
-                ->withAriaLabel($this->ilLng->txt('chat_show_auto_messages'))
-                ->withOnLoadCode(static function (string $id) use ($toggleUrl): string {
-                    return '
-                        $("#' . $id . '")
-                            .on("click", function(e) {
-                                let t = $(this), msg = $("#chat_messages");
-                                if (t.hasClass("on")) {
-                                    msg.trigger("auto-message:toggle", [true, "' . $toggleUrl . '"]);
-                                } else {
-                                    msg.trigger("auto-message:toggle", [false, "' . $toggleUrl . '"]);
-                                }
-                            });
-                    ';
-                })
-            )
-        );
-
         $initial->state = new stdClass();
         $initial->state->scrolling = true;
         $initial->state->show_auto_msg = $showAutoMessages;
 
         $roomTpl->setVariable('INITIAL_DATA', json_encode($initial, JSON_THROW_ON_ERROR));
         $roomTpl->setVariable('INITIAL_USERS', json_encode($room->getConnectedUsers(), JSON_THROW_ON_ERROR));
+        $roomTpl->setVariable('CHAT_OUTPUT', $this->panel($this->ilLng->txt('messages'), $this->legacy('<div id="chat_messages"></div>')));
+        $roomTpl->setVariable('CHAT_INPUT', $this->panel($this->ilLng->txt('write_message'), $this->sendMessageForm()));
 
-        $this->renderSendMessageBox($roomTpl);
         $this->renderLanguageVariables($roomTpl);
 
         ilModalGUI::initJS();
 
+        $this->mainTpl->setContent($roomTpl->get());
+        $this->mainTpl->setRightContent($this->userList() . $this->chatFunctions($showAutoMessages));
+    }
+
+    private function sendMessageForm(): Component
+    {
+        $template = new ilTemplate('tpl.chatroom_send_message_form.html', true, true, 'Modules/Chatroom');
+        $this->renderSendMessageBox($template);
+
+        return $this->legacy($template->get());
+    }
+
+    private function userList(): string
+    {
         $roomRightTpl = new ilTemplate('tpl.chatroom_right.html', true, true, 'Modules/Chatroom');
         $this->renderRightUsersBlock($roomRightTpl);
 
-        $right_content_panel = ilPanelGUI::getInstance();
-        $right_content_panel->setHeading($this->ilLng->txt('users'));
-        $right_content_panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
-        $right_content_panel->setHeadingStyle(ilPanelGUI::HEADING_STYLE_BLOCK);
-        $right_content_panel->setBody($roomRightTpl->get());
+        return $this->panel($this->ilLng->txt('users'), $this->legacy($roomRightTpl->get()));
+    }
 
-        $this->mainTpl->setContent($roomTpl->get());
-        $this->mainTpl->setRightContent($right_content_panel->getHTML());
+    private function chatFunctions(bool $showAutoMessages): string
+    {
+        $auto_scroll = $this
+                     ->uiFactory
+                     ->button()
+                     ->toggle(
+                         $this->ilLng->txt('auto_scroll'),
+                         '#',
+                         '#',
+                         true
+                     )
+                     ->withAriaLabel($this->ilLng->txt('auto_scroll'))
+                     ->withOnLoadCode(static function (string $id): string {
+                         return '$("#' . $id . '").on("click", function(e) {
+                                     let t = $(this), msg = $("#chat_messages");
+                                     if (t.hasClass("on")) {
+                                         msg.trigger("msg-scrolling:toggle", [true]);
+                                     } else {
+                                         msg.trigger("msg-scrolling:toggle", [false]);
+                                     }
+                                 });';
+                     });
+
+        $toggleUrl = $this->ilCtrl->getFormAction($this->gui, 'view-toggleAutoMessageDisplayState', '', true, false);
+        $messages = $this
+                  ->uiFactory
+                  ->button()
+                  ->toggle(
+                      $this->ilLng->txt('chat_show_auto_messages'),
+                      '#',
+                      '#',
+                      $showAutoMessages
+                  )
+                  ->withAriaLabel($this->ilLng->txt('chat_show_auto_messages'))
+                  ->withOnLoadCode(static function (string $id) use ($toggleUrl): string {
+                      return '$("#' . $id . '").on("click", function(e) {
+                                  let t = $(this), msg = $("#chat_messages");
+                                  if (t.hasClass("on")) {
+                                      msg.trigger("auto-message:toggle", [true, "' . $toggleUrl . '"]);
+                                  } else {
+                                      msg.trigger("auto-message:toggle", [false, "' . $toggleUrl . '"]);
+                                  }
+                              });';
+                  });
+
+        return $this->panel($this->ilLng->txt('chat_functions'), [
+            $this->legacy('<div id="chat_function_list"></div>'),
+            $this->legacy(sprintf('<div>%s%s</div>', $this->checkbox($auto_scroll), $this->checkbox($messages))),
+        ]);
+    }
+
+    private function checkbox(Component $component): string
+    {
+        return sprintf('<div class="chatroom-centered-checkboxes">%s</div>', $this->uiRenderer->render($component));
+    }
+
+    private function legacy(string $html): Component
+    {
+        return $this->uiFactory->legacy($html);
+    }
+
+    private function panel(string $title, $body): string
+    {
+        $panel = $this->uiFactory->panel()->standard($title, $body);
+
+        return $this->uiRenderer->render($panel);
     }
 
     public function toggleAutoMessageDisplayState(): void
@@ -273,10 +304,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
     protected function renderSendMessageBox(ilTemplate $roomTpl): void
     {
-        $roomTpl->setVariable('LBL_MESSAGE', $this->ilLng->txt('chat_message'));
         $roomTpl->setVariable('LBL_TOALL', $this->ilLng->txt('chat_message_to_all'));
-        $roomTpl->setVariable('LBL_OPTIONS', $this->ilLng->txt('chat_message_options'));
-        $roomTpl->setVariable('LBL_DISPLAY', $this->ilLng->txt('chat_message_display'));
         $roomTpl->setVariable('LBL_SEND', $this->ilLng->txt('send'));
     }
 
@@ -306,6 +334,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             'LBL_PRIVATE_ROOM_ENTERED_USER' => 'private_room_entered_user',
             'LBL_KICKED_FROM_PRIVATE_ROOM' => 'kicked_from_private_room',
             'LBL_OK' => 'ok',
+            'LBL_DELETE' => 'delete',
             'LBL_INVITE' => 'chat_invite',
             'LBL_CANCEL' => 'cancel',
             'LBL_WHISPER_TO' => 'whisper_to',
@@ -315,7 +344,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             'LBL_CLEAR_ROOM_HISTORY_QUESTION' => 'clear_room_history_question',
             'LBL_END_WHISPER' => 'end_whisper',
             'LBL_TIMEFORMAT' => 'lang_timeformat_no_sec',
-            'LBL_DATEFORMAT' => 'lang_dateformat'
+            'LBL_DATEFORMAT' => 'lang_dateformat',
         ];
         foreach ($js_translations as $placeholder => $lng_variable) {
             $roomTpl->setVariable($placeholder, json_encode($this->ilLng->txt($lng_variable), JSON_THROW_ON_ERROR));
@@ -329,6 +358,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $roomTpl->setVariable('LBL_SHOW_SETTINGS', $this->ilLng->txt('show_settings'));
         $roomTpl->setVariable('LBL_USER_IN_ROOM', $this->ilLng->txt('user_in_room'));
         $roomTpl->setVariable('LBL_USER_IN_ILIAS', $this->ilLng->txt('user_in_ilias'));
+        $roomTpl->setVariable('LBL_NO_USER', $this->ilLng->txt('msg_no_search_result'));
+        $roomTpl->setVariable('LOADING_IMAGE', ilUtil::getImagePath('loader.svg'));
     }
 
     protected function renderRightUsersBlock(ilTemplate $roomTpl): void

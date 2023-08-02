@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\ResponseHeader;
+use ILIAS\Chatroom\AccessBridge;
 
 /**
  * Class ilObjChatroomGUI
@@ -255,6 +256,20 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
                 }
                 break;
         }
+        $this->addHeaderAction();
+    }
+
+    protected function createActionDispatcherGUI(): ilCommonActionDispatcherGUI
+    {
+        global $DIC;
+
+        return new ilCommonActionDispatcherGUI(
+            ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
+            new AccessBridge($DIC->rbac()->system()),
+            $this->object->getType(),
+            $this->ref_id,
+            $this->object->getId()
+        );
     }
 
     public function getConnector(): ilChatroomServerConnector
