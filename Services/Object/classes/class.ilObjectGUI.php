@@ -1100,7 +1100,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->ref_id, $rbac_log);
 
         // use forced callback after object creation
-        $this->callCreationCallback($a_obj, $this->obj_definition, $_GET['crtcb'] ?? 0);
+        $this->callCreationCallback($a_obj, $this->objDefinition, $_GET['crtcb'] ?? 0);
     }
 
     /**
