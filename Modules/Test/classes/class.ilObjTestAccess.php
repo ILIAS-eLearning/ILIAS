@@ -614,7 +614,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             if ($user_id == ANONYMOUS_USER_ID) {
                 $name = "";
             } else {
-                $name = trim($uname["lastname"] . ", " . $uname["firstname"] . " " . $uname["title"]);
+                $name = trim($uname["lastname"] . ", " . $uname["firstname"]);
             }
             if ($is_anonymous) {
                 $name = $lng->txt("anonymous");
