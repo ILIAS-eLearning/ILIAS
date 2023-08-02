@@ -2787,7 +2787,7 @@ chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Pe
 chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#autogen_usernames#:#Auto Generated User Names
 chatroom#:#autogen_usernames_info#:#Pattern for auto generated user names that is assigned to anonymous user accounts. ‘#’ will be automatically replaced by a number.
-chatroom#:#ban_question#:#Do you really want to ban the user from current room?
+chatroom#:#ban_question#:#Do you really want to ban the user from chat?
 chatroom#:#ban_table_title#:#Banned Users
 chatroom#:#banned#:#You have been banned from this chat room
 chatroom#:#bans#:#Bans
@@ -2811,6 +2811,7 @@ chatroom#:#chat_deletion_section_head#:#Deletion of old Messages
 chatroom#:#chat_enable_history#:#Enable History
 chatroom#:#chat_enable_history_info#:#Everybody can read and export past public chat messages in the tab „History“. Messages from within private rooms are only accessible by invited users.
 chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
+chatroom#:#chat_functions#:#Chat Functions
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
 chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
@@ -2896,7 +2897,7 @@ chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#clear_room_history#:#Delete Message History
-chatroom#:#clear_room_history_question#:#Do you really want to delete all messages of the current room?
+chatroom#:#clear_room_history_question#:#Do you really want to delete all messages?
 chatroom#:#client_chatserver_connection#:#Client to Server Connection
 chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.
 chatroom#:#connection_url_info#:#Please insert an URL for the Server connection.
@@ -2923,13 +2924,14 @@ chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default I
 chatroom#:#invite_to_private_room#:#Invite to Chat Room
 chatroom#:#invite_username#:#Username
 chatroom#:#key#:#Key
-chatroom#:#kick_question#:#Do you really want to kick the user from current room?
+chatroom#:#kick_question#:#Do you really want to kick the user from chat?
 chatroom#:#kicked#:#You have been kicked from this chat room
 chatroom#:#kicked_from_private_room#:#You have been kicked from the private room <b>#title#</b>.
 chatroom#:#leave_private_room#:#Leave Private Room
 chatroom#:#left_private_room#:#Left private room
 chatroom#:#lost_connection#:#The connection to the chat server was interrupted.
 chatroom#:#main#:#Main Room
+chatroom#:#messages#:#Messages
 chatroom#:#no_further_users#:#No other users present
 chatroom#:#no_messages#:#There are no saved messages for the given period.
 chatroom#:#no_username_given#:#Please choose a username
@@ -2965,6 +2967,7 @@ chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.
 chatroom#:#users#:#Users
 chatroom#:#welcome_to_chat#:#Welcome to the chat room
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
+chatroom#:#write_message#:#New Message
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom_adm#:#chat_enabled#:#Enable Chat
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
