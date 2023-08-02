@@ -2906,7 +2906,6 @@ chatroom#:#delete_private_room#:#Séparée löschen
 chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Chat-Rückblick
-chatroom#:#display_past_msgs_suffix#:#Beiträge
 chatroom#:#duration_from#:#Von
 chatroom#:#duration_to#:#Bis
 chatroom#:#end_whisper#:#Beenden

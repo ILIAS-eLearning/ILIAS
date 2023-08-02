@@ -64,6 +64,11 @@ class ilChatroomXMLParser extends ilSaxParser
         return $this->import_install_id;
     }
 
+    private function isSameInstallation(): bool
+    {
+        return defined('IL_INST_ID') && IL_INST_ID > 0 && $this->getImportInstallId() == IL_INST_ID;
+    }
+
     public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
@@ -101,7 +106,9 @@ class ilChatroomXMLParser extends ilSaxParser
                 break;
 
             case 'OnlineStatus':
-                $this->room->setSetting('online_status', (int) $this->cdata);
+                $this->chat->setOfflineStatus(
+                    ((int) $this->cdata) !== 0
+                );
                 break;
 
             case 'AllowAnonymousAccess':
@@ -114,10 +121,6 @@ class ilChatroomXMLParser extends ilSaxParser
 
             case 'EnableHistory':
                 $this->room->setSetting('enable_history', (int) $this->cdata);
-                break;
-
-            case 'RestrictHistory':
-                $this->room->setSetting('restrict_history', (int) $this->cdata);
                 break;
 
             case 'DisplayPastMessages':
@@ -163,6 +166,17 @@ class ilChatroomXMLParser extends ilSaxParser
                 break;
 
             case 'Messages':
+                if ($this->isSameInstallation()) {
+                    $message = json_decode($this->message, true, 512, JSON_THROW_ON_ERROR);
+                    if (is_array($message)) {
+                        $message['roomId'] = $this->room->getRoomId();
+                        $message['timestamp'] = $this->timestamp;
+
+                        $this->room->addHistoryEntry($message);
+                    }
+                }
+
+                $this->timestamp = 0;
                 $this->in_messages = false;
                 break;
 
