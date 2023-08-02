@@ -2907,7 +2907,6 @@ chatroom#:#delete_private_room#:#Delete Private Room
 chatroom#:#delete_private_room_question#:#Confirm delete private room?
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Number of Past Messages
-chatroom#:#display_past_msgs_suffix#:#Messages
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
 chatroom#:#end_whisper#:#Cancel

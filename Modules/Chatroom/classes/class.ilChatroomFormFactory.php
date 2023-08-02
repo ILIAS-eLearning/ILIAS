@@ -18,21 +18,23 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilChatroomFormFactory
- * @author  Jan Posselt <jposselt@databay.de>
- * @version $Id$
- * @ingroup ModulesChatroom
- */
 class ilChatroomFormFactory
 {
+    public const PROP_TITLE_AND_DESC = 'title_and_desc';
+    public const PROP_ONLINE_STATUS = 'online_status';
+    public const PROP_TILE_IMAGE = 'tile_image';
+    public const PROP_DISPLAY_PAST_MSG = 'display_past_msgs';
+    public const PROP_ENABLE_HISTORY = 'enable_history';
+    public const PROP_ALLOW_ANONYMOUS = 'allow_anonymous';
+    public const PROP_ALLOW_CUSTOM_NAMES = 'allow_custom_usernames';
+    public const PROP_AUTOGEN_USERNAMES = 'autogen_usernames';
+
     protected ilLanguage $lng;
     protected ilObjUser $user;
     protected \ILIAS\HTTP\Services $http;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -40,6 +42,8 @@ class ilChatroomFormFactory
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->http = $DIC->http();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->refinery = $DIC->refinery();
     }
 
     /**
@@ -47,10 +51,12 @@ class ilChatroomFormFactory
      */
     public static function applyValues(ilPropertyFormGUI $form, array $values): void
     {
-        $form->setValuesByArray(array_map(
-            static fn ($value) => is_int($value) ? (string) $value : $value,
-            $values
-        ));
+        $form->setValuesByArray(
+            array_map(
+                static fn($value) => is_int($value) ? (string) $value : $value,
+                $values
+            )
+        );
     }
 
     /**
@@ -82,96 +88,134 @@ class ilChatroomFormFactory
         return $form;
     }
 
-    public function getSettingsForm(ilObjectService $objectService, ilObjChatroom $chatroom): ilPropertyFormGUI
+    private function mergeValuesTrafo(): \ILIAS\Refinery\Transformation
     {
+        return $this->refinery->custom()->transformation(static fn(array $values): array => array_merge(...$values));
+    }
+
+    private function saniziteArrayElementsTrafo(): \ILIAS\Refinery\Transformation
+    {
+        $sanitize = static function (array $data) use (&$sanitize): array {
+            foreach ($data as $key => $value) {
+                if (is_array($value)) {
+                    $data[$key] = $sanitize($value);
+                } elseif (is_string($value)) {
+                    $data[$key] = ilUtil::stripSlashes($value);
+                }
+            }
+
+            return $data;
+        };
+
+        return $this->refinery->custom()->transformation($sanitize);
+    }
+
+    public function getSettingsForm(
+        ilChatroomObjectGUI $gui,
+        ilCtrlInterface $ctrl,
+        ?array $values = null
+    ): \ILIAS\UI\Component\Input\Container\Form\Form {
+        $this->lng->loadLanguageModule('obj');
         $this->lng->loadLanguageModule('rep');
 
-        $form = new ilPropertyFormGUI();
-        $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
-        $title->setRequired(true);
-        $form->addItem($title);
+        $field_factory = $this->ui_factory->input()->field();
 
-        $description = new ilTextAreaInputGUI($this->lng->txt('description'), 'desc');
-        $form->addItem($description);
+        $title_and_description = $gui->getObject()->getObjectProperties()->getPropertyTitleAndDescription();
+        $general_settings_fields = [
+            self::PROP_TITLE_AND_DESC => $title_and_description->toForm(
+                $this->lng,
+                $field_factory,
+                $this->refinery
+            )
+        ];
 
-        $section = new ilFormSectionHeaderGUI();
-        $section->setTitle($this->lng->txt('rep_activation_availability'));
-        $form->addItem($section);
+        $online_status = $gui->getObject()->getObjectProperties()->getPropertyIsOnline();
+        $availability_fields = [
+            self::PROP_ONLINE_STATUS => $online_status->toForm(
+                $this->lng,
+                $field_factory,
+                $this->refinery
+            )->withByline($this->lng->txt('chtr_activation_online_info')),
+        ];
 
-        $online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'online_status');
-        $online->setInfo($this->lng->txt('chtr_activation_online_info'));
-        $form->addItem($online);
+        $tile_image = $gui->getObject()->getObjectProperties()->getPropertyTileImage();
+        $presentation_fields = [
+            self::PROP_TILE_IMAGE => $tile_image->toForm(
+                $this->lng,
+                $field_factory,
+                $this->refinery
+            ),
+            self::PROP_DISPLAY_PAST_MSG => $field_factory->numeric(
+                $this->lng->txt('display_past_msgs'),
+                $this->lng->txt('hint_display_past_msgs')
+            )->withRequired(
+                true
+            )->withAdditionalTransformation(
+                $this->refinery->logical()->parallel([
+                    $this->refinery->int()->isGreaterThanOrEqual(0),
+                    $this->refinery->int()->isLessThanOrEqual(100)
+                ])
+            )->withValue(
+                $values['display_past_msgs'] ?? 0
+            ),
+            self::PROP_ENABLE_HISTORY => $field_factory->checkbox(
+                $this->lng->txt('chat_enable_history'),
+                $this->lng->txt('chat_enable_history_info')
+            )->withValue((bool) ($values['enable_history'] ?? false)),
+        ];
 
-        $dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), 'access_period');
-        $dur->setShowTime(true);
-        $form->addItem($dur);
+        $function_fields = [
+            self::PROP_ALLOW_ANONYMOUS => $field_factory->checkbox(
+                $this->lng->txt('allow_anonymous'),
+                $this->lng->txt('anonymous_hint')
+            )->withValue((bool) ($values['allow_anonymous'] ?? false)),
+            self::PROP_ALLOW_CUSTOM_NAMES => $field_factory->optionalGroup(
+                [
+                    self::PROP_AUTOGEN_USERNAMES => $field_factory->text(
+                        $this->lng->txt('autogen_usernames'),
+                        $this->lng->txt('autogen_usernames_info')
+                    )->withRequired(true),
+                ],
+                $this->lng->txt('allow_custom_usernames')
+            )->withValue(
+                ($values['allow_custom_usernames'] ?? false) ? [self::PROP_AUTOGEN_USERNAMES => $values['autogen_usernames'] ?? ''] : null
+            ),
+        ];
 
-        $visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'access_visibility');
-        $visible->setValue('1');
-        $visible->setInfo($this->lng->txt('chtr_activation_limited_visibility_info'));
-        $dur->addSubItem($visible);
+        $sections = [
+            $field_factory->section(
+                $general_settings_fields,
+                $this->lng->txt('settings_title'),
+                ''
+            ),
+            $field_factory->section(
+                $availability_fields,
+                $this->lng->txt('rep_activation_availability'),
+                ''
+            ),
+            $field_factory->section(
+                $presentation_fields,
+                $this->lng->txt('settings_presentation_header'),
+                ''
+            ),
+            $field_factory->section(
+                $function_fields,
+                $this->lng->txt('chat_settings_functions_header'),
+                ''
+            ),
+        ];
 
-        $presentationHeader = new ilFormSectionHeaderGUI();
-        $presentationHeader->setTitle($this->lng->txt('settings_presentation_header'));
-        $form->addItem($presentationHeader);
-
-        $objectService->commonSettings()->legacyForm(
-            $form,
-            $chatroom
-        )->addTileImage();
-
-        $num_msg_history = new ilNumberInputGUI($this->lng->txt('display_past_msgs'), 'display_past_msgs');
-        $num_msg_history->setSuffix($this->lng->txt('display_past_msgs_suffix'));
-        $num_msg_history->allowDecimals(false);
-        $num_msg_history->setSize(5);
-        $num_msg_history->setInfo($this->lng->txt('hint_display_past_msgs'));
-        $num_msg_history->setMinValue(0);
-        $num_msg_history->setMaxValue(100);
-        $form->addItem($num_msg_history);
-
-        $cb_history = new ilCheckboxInputGUI($this->lng->txt('chat_enable_history'), 'enable_history');
-        $cb_history->setInfo($this->lng->txt('chat_enable_history_info'));
-        $form->addItem($cb_history);
-
-        $functionsnHeader = new ilFormSectionHeaderGUI();
-        $functionsnHeader->setTitle($this->lng->txt('chat_settings_functions_header'));
-        $form->addItem($functionsnHeader);
-
-        $cb = new ilCheckboxInputGUI($this->lng->txt('allow_anonymous'), 'allow_anonymous');
-        $cb->setInfo($this->lng->txt('anonymous_hint'));
-        $form->addItem($cb);
-
-        $cb = new ilCheckboxInputGUI($this->lng->txt('allow_custom_usernames'), 'allow_custom_usernames');
-        $txt = new ilTextInputGUI($this->lng->txt('autogen_usernames'), 'autogen_usernames');
-        $txt->setRequired(true);
-        $txt->setInfo($this->lng->txt('autogen_usernames_info'));
-        $cb->addSubItem($txt);
-        $form->addItem($cb);
-
-        return $form;
+        return $this->ui_factory->input()
+                                ->container()
+                                ->form()
+                                ->standard(
+                                    $ctrl->getFormAction($gui, 'settings-saveGeneral'),
+                                    $sections
+                                )
+                                ->withAdditionalTransformation($this->mergeValuesTrafo())
+                                ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
     }
 
-    /**
-     * Prepares Fileupload form and returns it.
-     */
-    public function getFileUploadForm(): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $file_input = new ilFileInputGUI();
-
-        $file_input->setPostVar('file_to_upload');
-        $file_input->setTitle($this->lng->txt('upload'));
-        $form->addItem($file_input);
-        $form->addCommandButton('UploadFile-uploadFile', $this->lng->txt('submit'));
-
-        $form->setTarget('_blank');
-
-        return $form;
-    }
-
-    /**
-     * Returns period form.
-     */
     public function getPeriodForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();

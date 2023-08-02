@@ -6,7 +6,7 @@
 	</baseclasses>
 	<objects>
 		<object id="chtr" class_name="Chatroom" dir="classes" default_pos="90" default_pres_pos="150"
-			checkbox="1" inherit="0" translate="0" rbac="1" allow_link="1" allow_copy="1" export="0">
+			checkbox="1" inherit="0" translate="0" rbac="1" allow_link="1" allow_copy="1" export="0" offline_handling="1">
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="fold">fold</parent>
