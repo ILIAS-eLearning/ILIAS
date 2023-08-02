@@ -210,12 +210,13 @@ class PanelTest extends ILIAS_UI_TestBase
         $expected_html = <<<EOT
 <div class="panel panel-primary panel-flex">
 	<div class="panel-heading ilHeader">
-		<h2>Title</h2>
-		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"> <span class="caret"></span></button>
+		<div class="panel-title"><h2>Title</h2></div>
+		<div class="panel-controls"><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"> <span class="caret"></span></button>
 			<ul id="id_3_menu" class="dropdown-menu">
 				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
 				<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
 			</ul>
+		</div>
 		</div>
 	</div>
 	<div class="panel-body"></div>
@@ -290,7 +291,8 @@ EOT;
 			<div class="col-sm-4">
 				<div class="panel panel-secondary panel-flex">
 					<div class="panel-heading ilHeader">
-					    <h2>Legacy panel title</h2>
+					   <div class="panel-title"><h2>Legacy panel title</h2></div>
+					   <div class="panel-controls"></div>
                     </div>
                     <div class="panel-body">Legacy content</div>
 				</div>
@@ -381,8 +383,8 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-primary panel-flex">
 	<div class="panel-heading ilHeader">
-		<h2>Title</h2> 
-		<div class="il-viewcontrol-sortation" id="id_1">
+		<div class="panel-title"><h2>Title</h2></div>
+		<div class="panel-controls"><div class="il-viewcontrol-sortation" id="id_1">
 <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_4"  aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu"> <span class="caret"></span></button>
 <ul id="id_4_menu" class="dropdown-menu">
 	<li><button class="btn btn-link" data-action="?sortation=a" id="id_2">A</button>
@@ -390,6 +392,7 @@ EOT;
 	<li><button class="btn btn-link" data-action="?sortation=b" id="id_3">B</button>
 </li>
 </ul>
+</div>
 </div>
 </div>
 	</div>
@@ -419,8 +422,8 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-primary panel-flex">
 	<div class="panel-heading ilHeader">
-		<h2>Title</h2> 
-		<div class="il-viewcontrol-pagination">
+		<div class="panel-title"><h2>Title</h2></div>
+		<div class="panel-controls"><div class="il-viewcontrol-pagination">
             <span class="browse previous">
                 <a tabindex="0" class="glyph" href="http://ilias.de?page=0" aria-label="back">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -436,6 +439,7 @@ EOT;
                     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                 </a>
             </span>
+        </div>
         </div>
 	</div>
 	<div class="panel-body"></div>
