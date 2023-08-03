@@ -293,8 +293,8 @@ class ilBookingReservation
     public static function isObjectAvailableInPeriod(
         int $a_obj_id,
         ilBookingSchedule $a_schedule,
-        int $a_from,
-        int $a_to
+        ?int $a_from,
+        ?int $a_to
     ): bool {
         if (!$a_from) {
             $a_from = time();
