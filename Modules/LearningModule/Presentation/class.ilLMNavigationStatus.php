@@ -128,7 +128,7 @@ class ilLMNavigationStatus
         $active = ilLMPage::_lookupActive(
             $obj_id,
             $this->lm->getType(),
-            $this->lm_set->get("time_scheduled_page_activation")
+            (bool) $this->lm_set->get("time_scheduled_page_activation")
         );
 
         if ($curr_node["type"] == "pg" &&
