@@ -342,29 +342,21 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 
         $action = '';
         if ($this->getFinishTestCommand() === ilTestPlayerCommands::QUESTION_SUMMARY) {
-            $btn = ilTestPlayerNavButton::getInstance();
-            $btn->setNextCommand($this->getFinishTestCommand());
-            $btn->setUrl($this->ctrl->getLinkTarget(
+            $action = $this->ctrl->getLinkTarget(
                 $this->playerGUI,
-                $this->getFinishTestCommand()
-            ));
-            $btn->setCaption('finish_test');
-            //$btn->setDisabled($this->isDisabledStateEnabled());
-            $btn->setPrimary($this->isFinishTestButtonPrimary());
-            $btn->addCSSClass('ilTstNavElem');
-            $this->addButtonInstance($btn);
-            return;
+                ilTestPlayerCommands::QUESTION_SUMMARY
+            );
+        } else {
+            $modal = $this->ui->factory()->modal()->interruptive(
+                $this->lng->txt('finish_test'),
+                $message,
+                $this->ctrl->getLinkTarget(
+                    $this->playerGUI,
+                    $this->getFinishTestCommand()
+                )
+            )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
+            $this->additional_render_items[] = $modal;
         }
-
-        $modal = $this->ui->factory()->modal()->interruptive(
-            $this->lng->txt('finish_test'),
-            $message,
-            $this->ctrl->getLinkTarget(
-                $this->playerGUI,
-                $this->getFinishTestCommand()
-            )
-        )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
-        $this->additional_render_items[] = $modal;
         if ($this->isFinishTestButtonPrimary()) {
             $button = $this->ui->factory()->button()->primary($this->lng->txt('finish_test'), $action);
         } else {
