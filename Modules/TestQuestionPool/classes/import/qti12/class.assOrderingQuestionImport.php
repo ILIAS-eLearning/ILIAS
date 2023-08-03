@@ -324,7 +324,7 @@ class assOrderingQuestionImport extends assQuestionImport
             return $import_mapping;
         }
 
-        if (isset($tst_id)) {
+        if ($tst_id > 0) {
             $tst_object->questions[$question_counter++] = $this->object->getId();
             $import_mapping[$item->getIdent()] = ["pool" => 0, "test" => $this->object->getId()];
             return $import_mapping;
