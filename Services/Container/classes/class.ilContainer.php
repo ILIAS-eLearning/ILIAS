@@ -439,7 +439,7 @@ class ilContainer extends ilObject
 
         // #10271
         foreach (self::_getContainerSettings($this->getId()) as $keyword => $value) {
-            self::_writeContainerSetting($new_obj->getId(), $keyword, $value);
+            self::_writeContainerSetting($new_obj->getId(), (string) $keyword, (string) $value);
         }
 
         $new_obj->setNewsTimeline($this->getNewsTimeline());
