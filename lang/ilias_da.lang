@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#Mærk denne deltager som "Scored Participant"
 assessment#:#set_manual_feedback#:#Sæt manuel feedback
 assessment#:#shape#:#Form
 assessment#:#showSuggestedSolution#:#Foreslået løsning
+assessment#:#show_all_test_properties_on_info_page#:#Vis den komplette informationsside
+assessment#:#show_all_test_properties_on_info_page_byline#:#Aktiverer visning af den komplette informationsside til testen inkl. test-egenskaber. Ellers vises kun evt. introduktionstekst og de krævede egenskaber på informationssiden.
 assessment#:#show_answer_overview#:#Show Answer Overview###16 09 2013 new variable
 assessment#:#show_detailed_results#:#Vis detaljerede besvarelser
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###16 09 2013 new variable
 assessment#:#show_pass_overview#:#Vis overblik for de markerede besvarelser
 assessment#:#show_user_answers#:#Vis de markerede besvarelser
-assessment#:#showinfo#:#Vis den komplette informationsside
-assessment#:#showinfo_desc#:#Aktiverer visning af den komplette informationsside til testen inkl. test-egenskaber. Ellers vises kun evt. introduktionstekst og de krævede egenskaber på informationssiden.
 assessment#:#shuffle_answers#:#Bland svar
 assessment#:#sign_submission#:#Digitally sign test submissions###16 09 2013 new variable
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###16 09 2013 new variable
@@ -1381,7 +1381,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Nej, gå tilbage til sidste svar
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?###01 Mar 2006 new variable
 assessment#:#tst_finish_notification#:#Mail ved afslutning
 assessment#:#tst_finish_notification_advanced#:#Send komplet testresultat til testens ejer.
-assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#Send navn og afslutningstidspunkt til testens ejer

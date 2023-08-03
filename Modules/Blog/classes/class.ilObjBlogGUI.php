@@ -73,32 +73,35 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     ) {
         global $DIC;
 
-        $this->settings = $DIC->settings();
-        $this->help = $DIC["ilHelp"];
-        $this->tabs = $DIC->tabs();
+        // other services
+        $cs = $DIC->contentStyle();
+        $this->tool_context = $DIC->globalScreen()->tool()->context();
+        $this->notes = $DIC->notes();
+
+        // internal service
+        $service = $DIC->blog()->internal();
+
+        $domain = $service->domain();
+        $this->settings = $domain->settings();
+        $this->user = $domain->user();
+        $this->tree = $domain->repositoryTree();
+        $this->rbac_review = $domain->rbac()->review();
+        $this->rbacadmin = $domain->rbac()->admin();
+
+        $gui = $service->gui();
+        $this->gui = $gui;
+        $this->help = $gui->help();
+        $this->tabs = $gui->tabs();
+        $this->toolbar = $gui->toolbar();
+        $this->ui = $gui->ui();
+        $this->locator = $gui->locator();
+        $this->http = $gui->http();
+
         $this->nav_history = $DIC["ilNavigationHistory"];
-        $this->user = $DIC->user();
-        $this->toolbar = $DIC->toolbar();
-        $this->tree = $DIC->repositoryTree();
-        $this->locator = $DIC["ilLocator"];
-        $this->rbac_review = $DIC->rbac()->review();
-        $this->rbacadmin = $DIC->rbac()->admin();
-        $this->http = $DIC->http();
-        $this->ui = $DIC->ui();
 
-        $lng = $DIC->language();
-        $ilCtrl = $DIC->ctrl();
-
-        $this->blog_request = $DIC->blog()
-            ->internal()
-            ->gui()
-            ->standardRequest();
-        $this->gui = $DIC->blog()
-            ->internal()
-            ->gui();
+        $this->blog_request = $gui->standardRequest();
 
         $req = $this->blog_request;
-
         $this->gtp = $req->getGotoPage();
         $this->edt = $req->getEditing();
         $this->blpg = $req->getBlogPage();
@@ -113,8 +116,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->keyword = $req->getKeyword();
         $this->author = $req->getAuthor();
         $this->prt_id = $req->getPrtId();
-
-        $this->tool_context = $DIC->globalScreen()->tool()->context();
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
@@ -137,14 +138,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 }
             }
 
-            $ilCtrl->setParameter($this, "bmn", $this->month);
+            $this->ctrl->setParameter($this, "bmn", $this->month);
             $blog_id = $this->object->getId();
         }
 
-        $lng->loadLanguageModule("blog");
-        $ilCtrl->saveParameter($this, "prvm");
+        $this->lng->loadLanguageModule("blog");
+        $this->ctrl->saveParameter($this, "prvm");
 
-        $cs = $DIC->contentStyle();
         $this->content_style_gui = $cs->gui();
         if (is_object($this->object)) {
             if ($this->id_type !== self::REPOSITORY_NODE_ID) {
@@ -156,7 +156,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         $this->reading_time_gui = new \ILIAS\Blog\ReadingTime\BlogSettingsGUI($blog_id);
         $this->reading_time_manager = new \ILIAS\Blog\ReadingTime\ReadingTimeManager();
-        $this->notes = $DIC->notes();
     }
 
     public function getType(): string
@@ -191,10 +190,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     protected function setSettingsSubTabs(string $a_active): void
     {
-        global $DIC;
-
-        $tree = $DIC->repositoryTree();
-        $access = $DIC->access();
+        $tree = $this->tree;
+        $access = $this->access;
 
         // general properties
         $this->tabs_gui->addSubTab(
@@ -1125,10 +1122,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
      */
     public function preview(): void
     {
-        global $DIC;
-
-        $lng = $DIC->language();
-        $toolbar = $DIC->toolbar();
+        $lng = $this->lng;
+        $toolbar = $this->toolbar;
 
         if (!$this->checkPermissionBool("read")) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("no_permission"));
@@ -1989,13 +1984,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         array $a_items,
         bool $single_posting = false
     ): void {
-        global $DIC;
+        $toolbar = $this->toolbar;
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
 
-        $toolbar = $DIC->toolbar();
-        $lng = $DIC->language();
-        $ctrl = $DIC->ctrl();
-
-        $f = $DIC->ui()->factory();
+        $f = $this->ui->factory();
 
         $cmd = ($this->prtf_embed)
             ? "previewEmbedded"
@@ -2708,7 +2701,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $this->tpl->setOnScreenMessage('info', sprintf($lng->txt("blog_contribute_other_roles"), implode(", ", $other_roles)));
         }
 
-        $tbl = new ilContributorTableGUI($this, "contributors", $this->object->getAllLocalRoles($this->node_id));
+        $tbl = $this->gui->contributor()->ilContributorTableGUI(
+            $this,
+            "contributors",
+            $this->object->getAllLocalRoles($this->node_id)
+        );
 
         $tpl->setContent($tbl->getHTML());
     }

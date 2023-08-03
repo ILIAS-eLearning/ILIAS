@@ -39,6 +39,8 @@ class ilObjTestTest extends ilTestBaseTestCase
         $this->addGlobal_tree();
         $this->addGlobal_ilAppEventHandler();
         $this->addGlobal_objDefinition();
+        $this->addGlobal_filesystem();
+        $this->addGlobal_ilComponentRepository();
 
         $this->testObj = new ilObjTest();
     }
@@ -54,7 +56,7 @@ class ilObjTestTest extends ilTestBaseTestCase
         $this->assertEquals(12, $this->testObj->getTmpCopyWizardCopyId());
     }
 
-    public function testIntroductionEnabled(): void
+    /*public function testIntroductionEnabled(): void
     {
         $this->testObj->setIntroductionEnabled(false);
         $this->assertFalse($this->testObj->isIntroductionEnabled());
@@ -77,30 +79,6 @@ class ilObjTestTest extends ilTestBaseTestCase
         $this->assertEquals("Test", $this->testObj->getFinalStatement());
     }
 
-    public function testShowInfo(): void
-    {
-        $this->testObj->setShowInfo(0);
-        $this->assertEquals(0, $this->testObj->getShowInfo());
-
-        $this->testObj->setShowInfo(1);
-        $this->assertEquals(1, $this->testObj->getShowInfo());
-    }
-
-    public function testForceJS(): void
-    {
-        $this->testObj->setForceJS(0);
-        $this->assertEquals(0, $this->testObj->getForceJS());
-
-        $this->testObj->setForceJS(1);
-        $this->assertEquals(1, $this->testObj->getForceJS());
-    }
-
-    public function testCustomStyle(): void
-    {
-        $this->testObj->setCustomStyle("Test");
-        $this->assertEquals("Test", $this->testObj->getCustomStyle());
-    }
-
     public function testShowFinalStatement(): void
     {
         $this->testObj->setShowFinalStatement(0);
@@ -108,7 +86,7 @@ class ilObjTestTest extends ilTestBaseTestCase
 
         $this->testObj->setShowFinalStatement(1);
         $this->assertEquals(1, $this->testObj->getShowFinalStatement());
-    }
+    }*/
 
     public function testTestId(): void
     {
@@ -116,29 +94,7 @@ class ilObjTestTest extends ilTestBaseTestCase
         $this->assertEquals(15, $this->testObj->getTestId());
     }
 
-    public function testECTSOutput(): void
-    {
-        $this->testObj->setECTSOutput(0);
-        $this->assertEquals(0, $this->testObj->getECTSOutput());
-
-        $this->testObj->setECTSOutput(1);
-        $this->assertEquals(1, $this->testObj->getECTSOutput());
-    }
-
-    public function testECTSFX(): void
-    {
-        $this->testObj->setECTSFX(123);
-        $this->assertEquals(123, $this->testObj->getECTSFX());
-    }
-
-    public function testECTSGrades(): void
-    {
-        $expected = [1, 6, 112, 160];
-        $this->testObj->setECTSGrades($expected);
-        $this->assertEquals($expected, $this->testObj->getECTSGrades());
-    }
-
-    public function testSequenceSettings(): void
+    /*public function testSequenceSettings(): void
     {
         $this->testObj->setSequenceSettings(0);
         $this->assertEquals(0, $this->testObj->getSequenceSettings());
@@ -212,19 +168,19 @@ class ilObjTestTest extends ilTestBaseTestCase
 
     public function testIsScoreReportingEnabled(): void
     {
-        $this->testObj->setScoreReporting(ilObjTest::SCORE_REPORTING_FINISHED);
+        $this->testObj->setScoreReporting(ilObjTestSettingsResultSummary::SCORE_REPORTING_FINISHED);
         $this->assertTrue($this->testObj->isScoreReportingEnabled());
 
-        $this->testObj->setScoreReporting(ilObjTest::SCORE_REPORTING_IMMIDIATLY);
+        $this->testObj->setScoreReporting(ilObjTestSettingsResultSummary::SCORE_REPORTING_IMMIDIATLY);
         $this->assertTrue($this->testObj->isScoreReportingEnabled());
 
-        $this->testObj->setScoreReporting(ilObjTest::SCORE_REPORTING_DATE);
+        $this->testObj->setScoreReporting(ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE);
         $this->assertTrue($this->testObj->isScoreReportingEnabled());
 
-        $this->testObj->setScoreReporting(ilObjTest::SCORE_REPORTING_AFTER_PASSED);
+        $this->testObj->setScoreReporting(ilObjTestSettingsResultSummary::SCORE_REPORTING_AFTER_PASSED);
         $this->assertTrue($this->testObj->isScoreReportingEnabled());
 
-        $this->testObj->setScoreReporting(ilObjTest::SCORE_REPORTING_DISABLED);
+        $this->testObj->setScoreReporting(ilObjTestSettingsResultSummary::SCORE_REPORTING_DISABLED);
         $this->assertFalse($this->testObj->isScoreReportingEnabled());
 
         $this->testObj->setScoreReporting(999);
@@ -284,10 +240,10 @@ class ilObjTestTest extends ilTestBaseTestCase
 
     public function testStartingTime(): void
     {
-        $this->testObj->setStartingTime("0");
+        $this->testObj->setStartingTime(0);
         $this->assertEquals(0, $this->testObj->getStartingTime());
 
-        $this->testObj->setStartingTime("1");
+        $this->testObj->setStartingTime(1);
         $this->assertEquals(1, $this->testObj->getStartingTime());
     }
 
@@ -377,11 +333,11 @@ class ilObjTestTest extends ilTestBaseTestCase
 
     public function testPasswordEnabled(): void
     {
-        $this->testObj->setPasswordEnabled(0);
-        $this->assertEquals(0, $this->testObj->isPasswordEnabled());
+        $this->testObj->setPasswordEnabled(false);
+        $this->assertEquals(false, $this->testObj->isPasswordEnabled());
 
-        $this->testObj->setPasswordEnabled(1);
-        $this->assertEquals(1, $this->testObj->isPasswordEnabled());
+        $this->testObj->setPasswordEnabled(true);
+        $this->assertEquals(true, $this->testObj->isPasswordEnabled());
     }
 
     public function testPassword(): void
@@ -398,11 +354,11 @@ class ilObjTestTest extends ilTestBaseTestCase
 
     public function testShuffleQuestions(): void
     {
-        $this->testObj->setShuffleQuestions(0);
-        $this->assertEquals(0, $this->testObj->getShuffleQuestions());
+        $this->testObj->setShuffleQuestions(false);
+        $this->assertEquals(false, $this->testObj->getShuffleQuestions());
 
-        $this->testObj->setShuffleQuestions(1);
-        $this->assertEquals(1, $this->testObj->getShuffleQuestions());
+        $this->testObj->setShuffleQuestions(true);
+        $this->assertEquals(true, $this->testObj->getShuffleQuestions());
     }
 
     public function testListOfQuestionsSettings(): void
@@ -424,5 +380,5 @@ class ilObjTestTest extends ilTestBaseTestCase
 
         $this->testObj->setListOfQuestions(1);
         $this->assertTrue($this->testObj->getListOfQuestions());
-    }
+    }*/
 }

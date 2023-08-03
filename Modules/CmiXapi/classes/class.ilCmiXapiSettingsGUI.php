@@ -269,12 +269,12 @@ class ilCmiXapiSettingsGUI
                 $form->addItem($sectionHeader);
                 $bypassProxy = new ilRadioGroupInputGUI($this->language->txt('conf_bypass_proxy'), 'bypass_proxy');
                 $bypassProxy->setInfo($this->language->txt('conf_bypass_proxy_info'));
-                $bypassProxy->setValue((string) $this->object->isBypassProxyEnabled());
                 $opt1 = new ilRadioOption($this->language->txt('conf_bypass_proxy_disabled'), "0");
                 $bypassProxy->addOption($opt1);
                 $opt2 = new ilRadioOption($this->language->txt('conf_bypass_proxy_enabled'), "1");
                 $bypassProxy->addOption($opt2);
-                $bypassProxy->setValue((string) ((int) $this->object->getLrsType()->isBypassProxyEnabled()));
+                $bypassProxy->setValue((string) ((int) $this->object->isBypassProxyEnabled()));
+                //$bypassProxy->setValue((string) ((int) $this->object->getLrsType()->isBypassProxyEnabled()));
                 $form->addItem($bypassProxy);
                 if ($this->object->getLrsType()->isBypassProxyEnabled()) {
                     $bypassProxy->setDisabled(true);
@@ -303,6 +303,18 @@ class ilCmiXapiSettingsGUI
                 (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT
             );
             $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_ext_account_info'));
+            $userIdent->addOption($op);
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_ident_il_uuid_sha256'),
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256
+            );
+            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_sha256_info'));
+            $userIdent->addOption($op);
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_ident_il_uuid_sha256url'),
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256URL
+            );
+            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_sha256url_info'));
             $userIdent->addOption($op);
             $op = new ilRadioOption(
                 $this->language->txt('conf_privacy_ident_il_uuid_random'),
@@ -641,9 +653,11 @@ class ilCmiXapiSettingsGUI
 
         $repository = new ilUserCertificateRepository();
 
-        $pdfGenerator = new ilPdfGenerator($repository);
+        $certLogger = $this->dic->logger()->root();//->cert();
+        $pdfGenerator = new ilPdfGenerator($repository, $certLogger);
 
         $pdfAction = new ilCertificatePdfAction(
+            $certLogger,
             $pdfGenerator,
             new ilCertificateUtilHelper(),
             $this->language->txt('error_creating_certificate_pdf')

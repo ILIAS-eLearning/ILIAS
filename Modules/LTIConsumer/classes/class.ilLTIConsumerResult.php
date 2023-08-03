@@ -19,7 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 /**
- * Class ilObjLTIConsumerLaunch
+ * Class ilObjLTIConsumerResult
  *
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
@@ -106,7 +106,7 @@ class ilLTIConsumerResult
         $this->id = (int) $data['id'];
         $this->obj_id = (int) $data['obj_id'];
         $this->usr_id = (int) $data['usr_id'];
-        $this->result = $data['result'];
+        $this->result = (float) $data['result'];
     }
 
     /**

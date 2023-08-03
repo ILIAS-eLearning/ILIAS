@@ -80,12 +80,12 @@ class ilLTIConsumeProviderSettingsGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $form = $this->buildForm($this->object->getProvider());
+        $provider = $this->object->getProvider();
+        $form = $this->buildForm($provider);
 
         if ($form->checkInput()) {
-            $form->initProvider($this->object->getProvider());
+            $form->initProvider($provider);
             $this->object->getProvider()->save();
-
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_SETTINGS);
         }
 

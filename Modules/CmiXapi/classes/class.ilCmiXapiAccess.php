@@ -47,37 +47,70 @@ class ilCmiXapiAccess
         return ilLearningProgressAccess::checkAccess($this->object->getRefId());
     }
 
-    public function hasWriteAccess(): bool
+    public function hasWriteAccess(?int $usrId = null): bool
     {
-        return $this->access->checkAccess(
-            'write',
-            '',
-            $this->object->getRefId(),
-            $this->object->getType(),
-            $this->object->getId()
-        );
+        if (isset($usrId)) {
+            return $this->access->checkAccessOfUser(
+                $usrId,
+                'write',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
+        } else {
+            return $this->access->checkAccess(
+                'write',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
+        }
     }
 
-    public function hasEditPermissionsAccess(): bool
+    public function hasEditPermissionsAccess(?int $usrId = null): bool
     {
-        return $this->access->checkAccess(
-            'edit_permission',
-            '',
-            $this->object->getRefId(),
-            $this->object->getType(),
-            $this->object->getId()
-        );
+        if (isset($usrId)) {
+            return $this->access->checkAccessOfUser(
+                $usrId,
+                'edit_permission',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
+        } else {
+            return $this->access->checkAccess(
+                'edit_permission',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
+        }
     }
 
-    public function hasOutcomesAccess(): bool
+    public function hasOutcomesAccess(?int $usrId = null): bool
     {
-        return $this->access->checkAccess(
-            'read_outcomes',
-            '',
-            $this->object->getRefId(),
-            $this->object->getType(),
-            $this->object->getId()
-        );
+        if (isset($usrId)) {
+            return $this->access->checkAccessOfUser(
+                $usrId,
+                'read_outcomes',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
+        } else {
+            return $this->access->checkAccess(
+                'read_outcomes',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
+        }
     }
 
     public function hasStatementsAccess(): bool
@@ -85,8 +118,7 @@ class ilCmiXapiAccess
         if ($this->object->isStatementsReportEnabled()) {
             return true;
         }
-
-        return $this->hasOutcomesAccess();
+        return false;
     }
 
     public function hasHighscoreAccess(): bool
@@ -94,8 +126,7 @@ class ilCmiXapiAccess
         if ($this->object->getHighscoreEnabled()) {
             return true;
         }
-
-        return $this->hasOutcomesAccess();
+        return false;
     }
 
     public static function getInstance(ilObjCmiXapi $object): \ilCmiXapiAccess

@@ -193,7 +193,9 @@ class ilCmiXapiLaunchGUI
                 $this->cmixUser->setRegistration((string) ilCmiXapiUser::generateCMI5Registration($this->object->getId(), $this->user->getId()));
             }
             $this->cmixUser->save();
-            ilLPStatusWrapper::_updateStatus($this->object->getId(), $this->user->getId());
+            if (!ilObjUser::_isAnonymous($this->user->getId())) {
+                ilLPStatusWrapper::_updateStatus($this->object->getId(), $this->user->getId());
+            }
         }
     }
 
@@ -267,7 +269,7 @@ class ilCmiXapiLaunchGUI
         $oldSessionLaunchedTimestamp = '';
         $abandoned = false;
         // cmi5_session already exists?
-        if (!empty($oldSession)) {
+        if ($oldSession != null && !empty($oldSession)) {
             $oldSessionData = json_decode($tokenObject->getCmi5SessionData());
             $oldSessionLaunchedTimestamp = $oldSessionData->launchedTimestamp;
             $tokenObject->delete();
@@ -275,7 +277,7 @@ class ilCmiXapiLaunchGUI
             $tokenObject = ilCmiXapiAuthToken::getInstanceByToken($token);
             $lastStatement = $this->object->getLastStatement($oldSession);
             // should never be 'terminated', because terminated statement is sniffed from proxy -> token delete
-            if ($lastStatement[0]['statement']['verb']['id'] != ilCmiXapiVerbList::getInstance()->getVerbUri('terminated')) {
+            if (isset($lastStatement[0]['statement']['verb']['id']) && $lastStatement[0]['statement']['verb']['id'] != ilCmiXapiVerbList::getInstance()->getVerbUri('terminated')) {
                 $abandoned = true;
                 $start = new DateTime($oldSessionLaunchedTimestamp);
                 $end = new DateTime($lastStatement[0]['statement']['timestamp']);
@@ -378,7 +380,7 @@ class ilCmiXapiLaunchGUI
             $promises['defaultSatisfiedStatement'] = $client->sendAsync($defaultSatisfiedStatementRequest, $req_opts);
         }
         try {
-            $responses = GuzzleHttp\Promise\settle($promises)->wait();
+            $responses = GuzzleHttp\Promise\Utils::settle($promises)->wait();
             $body = '';
             foreach ($responses as $response) {
                 ilCmiXapiAbstractRequest::checkResponse($response, $body, [204]);

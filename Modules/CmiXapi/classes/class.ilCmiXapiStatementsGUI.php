@@ -232,4 +232,95 @@ class ilCmiXapiStatementsGUI
 
         return $table;
     }
+    //dynamic verbs
+    public function getVerbs(): ?array
+    {
+        $lrsType = $this->object->getLrsType();
+
+        //$this->getLrsEndpoint())) . '/api/' . self::ENDPOINT_AGGREGATE_SUFFIX;
+        $defaultLrs = $lrsType->getLrsEndpointStatementsAggregationLink();
+        //$fallbackLrs = $lrsType->getLrsFallbackEndpoint();
+        $defaultBasicAuth = $lrsType->getBasicAuth();
+        //$fallbackBasicAuth = $lrsType->getFallbackBasicAuth();
+        $defaultHeaders = [
+            'X-Experience-API-Version' => '1.0.3',
+            'Authorization' => $defaultBasicAuth,
+            'Cache-Control' => 'no-cache, no-store, must-revalidate'
+        ];
+//        $fallbackHeaders = [
+//            'X-Experience-API-Version' => '1.0.3',
+//            'Authorization' => $fallbackBasicAuth,
+//            'Content-Type' => 'application/json;charset=utf-8',
+//            'Cache-Control' => 'no-cache, no-store, must-revalidate'
+//        ];
+        $pipeline = json_encode($this->getVerbsPipline());
+
+        $defaultVerbsUrl = $defaultLrs . "?pipeline=" . urlencode($pipeline);
+
+        $client = new GuzzleHttp\Client();
+        $req_opts = array(
+            GuzzleHttp\RequestOptions::VERIFY => true,
+            GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 10,
+            GuzzleHttp\RequestOptions::HTTP_ERRORS => false
+        );
+        //new GuzzleHttp\Psr7\Request('POST', $defaultUrl, $this->defaultHeaders, $body);
+        $defaultVerbsRequest = new GuzzleHttp\Psr7\Request(
+            'GET',
+            $defaultVerbsUrl,
+            $defaultHeaders
+        );
+        $promises = array();
+        $promises['defaultVerbs'] = $client->sendAsync($defaultVerbsRequest, $req_opts);
+        try {
+            $responses = GuzzleHttp\Promise\Utils::settle($promises)->wait();
+            $body = '';
+            ilCmiXapiAbstractRequest::checkResponse($responses['defaultVerbs'], $body, [200]);
+            return json_decode($body, (bool) JSON_OBJECT_AS_ARRAY);
+        } catch (Exception $e) {
+            //$this->log()->error('error:' . $e->getMessage());
+            return null;
+        }
+        return null;
+    }
+
+    public function getVerbsPipline(): array
+    {
+        $pipeline = array();
+
+        // filter activityId
+        $match = array();
+        $match['statement.object.objectType'] = 'Activity';
+        $match['statement.actor.objectType'] = 'Agent';
+
+        $activityId = array();
+
+        if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$this->object->isMixedContentType()) {
+            // https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#963-extensions
+            $activityId['statement.context.extensions.https://ilias&46;de/cmi5/activityid'] = $this->object->getActivityId();
+        } else {
+            $activityQuery = [
+                '$regex' => '^' . preg_quote($this->object->getActivityId()) . ''
+            ];
+            $activityId['$or'] = [];
+            $activityId['$or'][] = ['statement.object.id' => $activityQuery];
+            $activityId['$or'][] = ['statement.context.contextActivities.parent.id' => $activityQuery];
+        }
+        $match['$and'] = [];
+        $match['$and'][] = $activityId;
+
+        $sort = array();
+        $sort['statement.verb.id'] = 1;
+
+        // project distinct verbs
+        $group = array('_id' => '$statement.verb.id');
+        // $project = array('statement.verb.id' => 1);
+        // project distinct verbs
+
+        $pipeline[] = array('$match' => $match);
+        $pipeline[] = array('$group' => $group);
+        $pipeline[] = array('$sort' => $sort);
+        //$pipeline[] = array('$project' => $project);
+
+        return $pipeline;
+    }
 }

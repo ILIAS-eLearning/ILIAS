@@ -207,15 +207,15 @@ class ilTestPassesSelector
     private function isReportablePass($lastPass, $pass): bool
     {
         switch ($this->testOBJ->getScoreReporting()) {
-            case ilObjTest::SCORE_REPORTING_IMMIDIATLY:
+            case ilObjTestSettingsResultSummary::SCORE_REPORTING_IMMIDIATLY:
 
                 return true;
 
-            case ilObjTest::SCORE_REPORTING_DATE:
+            case ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE:
 
                 return $this->isReportingDateReached();
 
-            case ilObjTest::SCORE_REPORTING_FINISHED:
+            case ilObjTestSettingsResultSummary::SCORE_REPORTING_FINISHED:
 
                 if ($pass < $lastPass) {
                     return true;
@@ -223,7 +223,7 @@ class ilTestPassesSelector
 
                 return $this->isClosedPass($pass);
 
-            case ilObjTest::SCORE_REPORTING_AFTER_PASSED:
+            case ilObjTestSettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
 
                 if (!$this->hasTestPassedOnce($this->getActiveId())) {
                     return false;

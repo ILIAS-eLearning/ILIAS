@@ -46,8 +46,8 @@ class ilStyleConfigStoredObjective implements Setup\Objective
 
         $ini->setVariable(
             "tools",
-            "lessc",
-            $this->config->getPathToLessc() ?? ''
+            "scss",
+            $this->config->getPathToScss() ?? ''
         );
         $ini->setVariable("tools", "enable_system_styles_management", $this->config->getManageSystemStyles() ? "1" : "0");
 
@@ -67,7 +67,7 @@ class ilStyleConfigStoredObjective implements Setup\Objective
         $manage_system_styles = $this->config->getManageSystemStyles() ? "1" : "0";
 
         return
-            $ini->readVariable("tools", "lessc") !== $this->config->getPathToLessc() ||
+            $ini->readVariable("tools", "lessc") !== $this->config->getPathToScss() ||
             $ini->readVariable("tools", "enable_system_styles_management") !== $manage_system_styles
         ;
     }

@@ -93,7 +93,7 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
     public function getValueForXML(ilADT $element): string
     {
         return self::XML_SEPARATOR .
-            implode(self::XML_SEPARATOR, $element->getSelections()) .
+            implode(self::XML_SEPARATOR, (array) $element->getSelections()) .
             self::XML_SEPARATOR;
     }
 

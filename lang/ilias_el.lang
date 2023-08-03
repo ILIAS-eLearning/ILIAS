@@ -1159,13 +1159,13 @@ assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"
 assessment#:#set_manual_feedback#:#Ορίστε χειροκίνητη επανατροφοδότηση
 assessment#:#shape#:#Σχήμα
 assessment#:#showSuggestedSolution#:#Suggested solution###30 04 2009 new variable
+assessment#:#show_all_test_properties_on_info_page#:#Παρουσιάστε την πλήρη σελιδα πληροφοριών
+assessment#:#show_all_test_properties_on_info_page_byline#:#Εάν τικαριστεί, η πλήρης σελίδα πληροφοριών του τέστ θα εμφανιστεί(περιλαμβανομένων των ιδιοτήτων του τέστ). Εάν δέν τικαριστεί, μόνο το εισαγωγικό κείμενο (εφόσον υπάρχει)και οι απαιτούμενες ιδιότητες θα εμφανιστούν στη σελιδα πληροφοριών του τέστ
 assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variable
 assessment#:#show_detailed_results#:#Εμφάνιση λεπτομερειών των αποτελεσμάτων του χρήστη (Επιτυχόντος)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#Εμφάνιση γενικής εικόνας αποτελεσμάτων του Χρήστη
 assessment#:#show_user_answers#:#Εμφάνιση απαντήσεων του Χρήστη
-assessment#:#showinfo#:#Παρουσιάστε την πλήρη σελιδα πληροφοριών
-assessment#:#showinfo_desc#:#Εάν τικαριστεί, η πλήρης σελίδα πληροφοριών του τέστ θα εμφανιστεί(περιλαμβανομένων των ιδιοτήτων του τέστ). Εάν δέν τικαριστεί, μόνο το εισαγωγικό κείμενο (εφόσον υπάρχει)και οι απαιτούμενες ιδιότητες θα εμφανιστούν στη σελιδα πληροφοριών του τέστ
 assessment#:#shuffle_answers#:#Ανακάτεμα απαντήσεων
 assessment#:#sign_submission#:#Digitally sign test submissions###24 10 2013 new variable
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###24 10 2013 new variable
@@ -1382,7 +1382,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Όχι, πήγαινε πίσω 
 assessment#:#tst_finish_confirmation_question#:#Πρόκειται να τελειώσετε το διαγώνισμα και να φθάσετε το μέγιστο αριθμό επιτρεπτών περασμάτων διαγωνίσματος. Δεν θα μπορείτε να ξαναμπείτε σ' αυτό το διαγώνισμα πάλι για ν' αλλάξετε τις απαντήσεις σας. Θέλετε πραγματικά να τελειώσετε το διαγώνισμα;
 assessment#:#tst_finish_notification#:#Mail on completion###24 07 2009 new variable
 assessment#:#tst_finish_notification_advanced#:#Send complete test result to test owner###24 07 2009 new variable
-assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#Send user name and finish date to test owner###24 07 2009 new variable

@@ -25,11 +25,18 @@ class DataService
     public static function initIlias(string $client_id): void
     {
         define("CLIENT_ID", $client_id);
+        // see: commit 2844b5d7bfffe08728ecb54c21acf00fd65d5969
+        //
+        // or set clientId Cookie and Context class ilContextScorm: supportsPersistentSessions = true
+        // or set clientId Cookie support own Context with supportsPersistentSessions = true
+        $_GET['client_id'] = $client_id;
+
         // Im Plugin war das auskommentiert(?)
 //        define('IL_COOKIE_HTTPONLY', true); // Default Value
 //        define('IL_COOKIE_EXPIRE', 0);
 //        define('IL_COOKIE_PATH', '/');
 //        define('IL_COOKIE_DOMAIN', '');
+        require_once("Services/Init/classes/class.ilInitialisation.php");
         \ilContext::init(\ilContext::CONTEXT_SCORM);
         \ilInitialisation::initILIAS();
         // Remember original values

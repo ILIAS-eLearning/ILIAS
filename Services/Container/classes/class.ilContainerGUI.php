@@ -2532,6 +2532,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function trashObject(): void
     {
+        $this->checkPermission("write");
         $tpl = $this->tpl;
 
         $this->tabs_gui->activateTab('trash');
@@ -2572,6 +2573,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function removeFromSystemObject(): void
     {
+        $this->checkPermission("write");
         $ru = new ilRepositoryTrashGUI($this);
         $ru->removeObjectsFromSystem($this->std_request->getTrashIds());
         $this->ctrl->redirect($this, "trash");
@@ -2601,6 +2603,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     public function confirmRemoveFromSystemObject(): void
     {
         $lng = $this->lng;
+        $this->checkPermission("write");
         if (count($this->std_request->getTrashIds()) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "trash");

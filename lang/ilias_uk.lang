@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"
 assessment#:#set_manual_feedback#:#Set Manual Feedback###10 05 2007 new variable
 assessment#:#shape#:#Форма
 assessment#:#showSuggestedSolution#:#Suggested solution###24 02 2009 new variable
+assessment#:#show_all_test_properties_on_info_page#:#Show the complete Information Page###15 09 2008 new variable
+assessment#:#show_all_test_properties_on_info_page_byline#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page. ###15 09 2008 new variable
 assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variable
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)###23 07 2008 new variable
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#Show Marked Pass Overview###31 05 2007 new variable
 assessment#:#show_user_answers#:#Show User's Marked Anwers###31 05 2007 new variable
-assessment#:#showinfo#:#Show the complete Information Page###15 09 2008 new variable
-assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page. ###15 09 2008 new variable
 assessment#:#shuffle_answers#:#Перерозташувати відповіді
 assessment#:#sign_submission#:#Digitally sign test submissions###24 10 2013 new variable
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###24 10 2013 new variable
@@ -1381,7 +1381,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous answ
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?###01 Mar 2006 new variable
 assessment#:#tst_finish_notification#:#Mail on completion###24 07 2009 new variable
 assessment#:#tst_finish_notification_advanced#:#Send complete test result to test owner###24 07 2009 new variable
-assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#Send user name and finish date to test owner###24 07 2009 new variable

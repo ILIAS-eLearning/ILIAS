@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use Jumbojett\OpenIDConnectClient;
 
@@ -163,7 +163,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
             $sync->updateUser();
 
             $user_id = $sync->getUserId();
-            ilSession::set('used_external_auth', true);
+            ilSession::set('used_external_auth_mode', ilAuthUtils::AUTH_OPENID_CONNECT);
             $status->setAuthenticatedUserId($user_id);
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 

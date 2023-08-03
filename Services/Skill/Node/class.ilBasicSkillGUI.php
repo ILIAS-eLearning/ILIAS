@@ -19,7 +19,7 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-use ILIAS\Skill\Tree;
+use ILIAS\Skill\Node;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\ServerRequestInterface;
@@ -74,7 +74,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
      */
     protected array $requested_trigger = [];
 
-    public function __construct(Tree\SkillTreeNodeManager $node_manager, int $a_node_id = 0)
+    public function __construct(Node\SkillTreeNodeManager $node_manager, int $a_node_id = 0)
     {
         global $DIC;
 

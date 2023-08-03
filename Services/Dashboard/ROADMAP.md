@@ -2,7 +2,7 @@
 
 ## Short Term
 
-### Short Term
+### Remove "Personal Desktop"
 
 - Final naming cleanup (remove all "PD" names).
 
@@ -10,13 +10,15 @@
 
 ### Move to global screen concepts
 
-Dashboard blocks should be organised similar to menu items.
+Dashboard blocks should be organised similar to menu items to meet the requirements of the [TB](https://docu.ilias.de/goto_docu_file_8005_download.html)
 
-## Past Refactorings
+In detail a component should provide all the necessary information on its presentation and required settings to the `Dashboard` by implementing a `Provider Interface`. The providers must then be collected by the `Dashboard` dynamicly. This change should ensure that the `Dashboard` has no knowledge about the blocks wich are provided to its presentation beside their offered settings.
+In response to that improvement all static references to the exsisting `Dashboard` blocks ...
 
-### ILIAS 8
+- Favoruites/Selected Items
+- Recommended Content
+- Course and Groups
+- Learning Sequences
+- Study Programme
 
-- Removed issues due to code inspections
-- Removed includes/requires
-- Added signature/return types
-- Migrated GET/POST to http service
+... should be removed from the `Dashboard` itsself.

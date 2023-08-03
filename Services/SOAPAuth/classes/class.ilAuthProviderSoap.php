@@ -87,7 +87,7 @@ class ilAuthProviderSoap extends ilAuthProvider
         if ($status->getAuthenticatedUserId() > 0 && $status->getAuthenticatedUserId() !== ANONYMOUS_USER_ID) {
             $this->logger->info('Successfully authenticated user via SOAP: ' . $this->getCredentials()->getUsername());
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
-            ilSession::set('used_external_auth', true);
+            ilSession::set('used_external_auth_mode', ilAuthUtils::AUTH_SOAP);
 
             return true;
         }

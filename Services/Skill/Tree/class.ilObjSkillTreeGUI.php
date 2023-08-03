@@ -22,6 +22,7 @@ declare(strict_types=1);
 use ILIAS\DI\UIServices;
 use ILIAS\Skill\Service;
 use ILIAS\Skill\Tree;
+use ILIAS\Skill\Node;
 use ILIAS\Skill\Access;
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\GlobalScreen\ScreenContext;
@@ -41,7 +42,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     protected ilTabsGUI $tabs;
     protected ilSkillTree $skill_tree;
     protected Tree\SkillTreeManager $skill_tree_manager;
-    protected Tree\SkillTreeNodeManager $skill_tree_node_manager;
+    protected Node\SkillTreeNodeManager $skill_tree_node_manager;
     protected Access\SkillTreeAccess $skill_tree_access_manager;
     protected Access\SkillManagementAccess $skill_management_access_manager;
     protected ilSkillTreeRepository $skill_tree_repo;

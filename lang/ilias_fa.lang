@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"
 assessment#:#set_manual_feedback#:#Set Manual Feedback
 assessment#:#shape#:#شکل
 assessment#:#showSuggestedSolution#:#راه حل پیشنهادی
+assessment#:#show_all_test_properties_on_info_page#:#نمایش کامل صفحه اطلاعات
+assessment#:#show_all_test_properties_on_info_page_byline#:#اگر انتخاب شده باشد، صفحه اطلاعات تست بطور کامل نشان داده خواهد شد. اگر انتخاب نشده باشد، ، فقط متن دستورالعمل و ویژگی های مورد نیاز نمایش داده خواهد شد.
 assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variable
 assessment#:#show_detailed_results#:#نمایش نتایج دقیق کاربر
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#نمایش مرور کلی دوره انتخاب شده
 assessment#:#show_user_answers#:#نمایش پاسخهای کاربر انتخاب شده
-assessment#:#showinfo#:#نمایش کامل صفحه اطلاعات
-assessment#:#showinfo_desc#:#اگر انتخاب شده باشد، صفحه اطلاعات تست بطور کامل نشان داده خواهد شد. اگر انتخاب نشده باشد، ، فقط متن دستورالعمل و ویژگی های مورد نیاز نمایش داده خواهد شد.
 assessment#:#shuffle_answers#:#قاطی کردن جوابها
 assessment#:#sign_submission#:#Digitally sign test submissions###24 10 2013 new variable
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###24 10 2013 new variable
@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous ques
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification#:#ارسال ایمیل بعد از تکمیل
 assessment#:#tst_finish_notification_advanced#:#ارسال کامل نتیجه تست به مالک تست
-assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#اراسال نام کاربری و تاریخ اتمام به مالک

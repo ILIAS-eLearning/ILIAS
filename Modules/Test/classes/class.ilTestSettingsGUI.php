@@ -24,7 +24,7 @@
  */
 abstract class ilTestSettingsGUI
 {
-    public function __construct(protected ilObjTest $testOBJ)
+    public function __construct(protected ilObjTest $test_object)
     {
     }
 
