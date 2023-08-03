@@ -213,10 +213,6 @@ class ilTestExportGUI extends ilExportGUI
                 }
                 $file_arr = explode("_", $exp_file);
 
-                if (!$file_arr[0] || !is_numeric($file_arr[0])) {
-                    $file_arr[0] = (new \DateTimeImmutable())->format('U');
-                }
-
                 $data[] = [
                     'file' => $exp_file,
                     'size' => filesize($archive_dir . "/" . $exp_file),
