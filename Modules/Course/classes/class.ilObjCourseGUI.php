@@ -2920,6 +2920,11 @@ class ilObjCourseGUI extends ilContainerGUI
                 'tid',
                 $this->refinery->kindlyTo()->int()
             );
+        } elseif ($this->http->wrapper()->post()->has('tid')) {
+            $tid = $this->http->wrapper()->post()->retrieve(
+                'tid',
+                $this->refinery->kindlyTo()->int()
+            );
         }
         ilUtil::redirect(ilLink::_getLink($tid));
     }
