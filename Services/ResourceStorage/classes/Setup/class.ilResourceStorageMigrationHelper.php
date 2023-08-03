@@ -33,6 +33,7 @@ use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 use ILIAS\ResourceStorage\Repositories;
+use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
 
 /**
  * Class ilResourceStorageMigrationHelper
@@ -42,6 +43,7 @@ class ilResourceStorageMigrationHelper
 {
     protected string $client_data_dir;
     protected ilDBInterface $database;
+    protected FlavourBuilder $flavour_builder;
     protected ResourceBuilder $resource_builder;
     protected CollectionBuilder $collection_builder;
     protected ResourceStakeholder $stakeholder;
@@ -88,6 +90,7 @@ class ilResourceStorageMigrationHelper
         $container['filesystem.storage'] = $f->getLocal($storageConfiguration);
 
         $this->resource_builder = $init->getResourceBuilder($container);
+        $this->flavour_builder = $init->getFlavourBuilder($container);
         $this->collection_builder = new CollectionBuilder(
             new CollectionDBRepository($db)
         );
@@ -131,6 +134,10 @@ class ilResourceStorageMigrationHelper
     public function getResourceBuilder(): ResourceBuilder
     {
         return $this->resource_builder;
+    }
+    public function getFlavourBuilder(): FlavourBuilder
+    {
+        return $this->flavour_builder;
     }
 
     public function getCollectionBuilder(): CollectionBuilder

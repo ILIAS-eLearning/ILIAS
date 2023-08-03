@@ -725,7 +725,9 @@ class ilTestRandomQuestionSetConfigGUI
     private function fetchMultiSourcePoolDefinitionIdsParameter(): array
     {
         if (!$this->testrequest->isset('src_pool_def_ids') || !is_array($this->testrequest->raw('src_pool_def_ids'))) {
-            throw new ilTestMissingSourcePoolDefinitionParameterException();
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_please_select_source_pool'), true);
+            $this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
+            return [];
         }
 
         $definitionIds = [];

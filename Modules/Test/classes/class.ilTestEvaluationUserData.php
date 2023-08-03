@@ -84,13 +84,6 @@ class ilTestEvaluationUserData
     public $mark_official;
 
     /**
-    * ECTS Mark
-    *
-    * @var string
-    */
-    public $markECTS;
-
-    /**
     * Questions worked through
     *
     * @var integer
@@ -161,7 +154,7 @@ class ilTestEvaluationUserData
     public function __sleep()
     {
         return array('questions', 'passes', 'passed', 'lastVisit', 'firstVisit', 'timeOfWork', 'numberOfQuestions',
-        'questionsWorkedThrough', 'markECTS', 'mark_official', 'mark', 'maxpoints', 'reached', 'user_id', 'login',
+        'questionsWorkedThrough', 'mark_official', 'mark', 'maxpoints', 'reached', 'user_id', 'login',
         'name', 'passScoring');
     }
 
@@ -267,16 +260,6 @@ class ilTestEvaluationUserData
     public function setMark($a_mark): void
     {
         $this->mark = $a_mark;
-    }
-
-    public function getECTSMark(): ?string
-    {
-        return $this->markECTS;
-    }
-
-    public function setECTSMark($a_mark_ects): void
-    {
-        $this->markECTS = $a_mark_ects;
     }
 
     public function getQuestionsWorkedThrough(): int

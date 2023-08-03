@@ -65,4 +65,68 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->dropTableColumn('tst_tests', 'char_selector_definition');
         }
     }
+
+    public function step_4(): void
+    {
+        if (!$this->db->tableColumnExists('tst_tests', 'introduction_page_id')) {
+            $this->db->addTableColumn(
+                'tst_tests',
+                'introduction_page_id',
+                [
+                    'type' => 'integer',
+                    'length' => 8
+                ]
+            );
+        }
+        if (!$this->db->tableColumnExists('tst_tests', 'concluding_remarks_page_id')) {
+            $this->db->addTableColumn(
+                'tst_tests',
+                'concluding_remarks_page_id',
+                [
+                    'type' => 'integer',
+                    'length' => 8
+                ]
+            );
+        }
+    }
+
+    public function step_5(): void
+    {
+        if ($this->db->tableColumnExists('tst_tests', 'show_examview_html')) {
+            $this->db->dropTableColumn(
+                'tst_tests',
+                'show_examview_html'
+            );
+        }
+        if ($this->db->tableColumnExists('tst_tests', 'showinfo')) {
+            $this->db->dropTableColumn(
+                'tst_tests',
+                'showinfo'
+            );
+        }
+        if ($this->db->tableColumnExists('tst_tests', 'forcejs')) {
+            $this->db->dropTableColumn(
+                'tst_tests',
+                'forcejs'
+            );
+        }
+        if ($this->db->tableColumnExists('tst_tests', 'enable_archiving')) {
+            $this->db->dropTableColumn(
+                'tst_tests',
+                'enable_archiving'
+            );
+        }
+        if ($this->db->tableColumnExists('tst_tests', 'customstyle')) {
+            $this->db->dropTableColumn(
+                'tst_tests',
+                'customstyle'
+            );
+        }
+        if ($this->db->tableColumnExists('tst_tests', 'enabled_view_mode')) {
+            $this->db->dropTableColumn(
+                'tst_tests',
+                'enabled_view_mode'
+            );
+        }
+    }
 }

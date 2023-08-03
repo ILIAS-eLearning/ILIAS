@@ -187,8 +187,8 @@ class ilChatroomAdmin
                 $settings['client'] = CLIENT_ID;
             }
 
-            if (isset($settings['name']) && is_string($settings['name']) && !$settings['name'] === '') {
-                $settings['client_name'] = (string) $settings['name'];
+            if (is_string($settings['name'] ?? null) && $settings['name']) {
+                $settings['client_name'] = $settings['name'];
             } else {
                 $settings['client_name'] = CLIENT_ID;
             }

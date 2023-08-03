@@ -44,7 +44,12 @@ class ilTestServiceGUI
     public ?ilTestService $service = null;
     protected ilDBInterface $db;
     public ilLanguage $lng;
-    public ilGlobalTemplateInterface $tpl;
+    /**
+     * sk 2023-08-01: We need this union type, even if it is wrong! To change this
+     * @todo we have to fix the rendering of the feedback modal in
+     * `ilTestPlayerAbstractGUI::populateIntantResponseModal()`.
+     */
+    public ilGlobalTemplateInterface|ilTemplate $tpl;
     public ilCtrl $ctrl;
     protected ilTabsGUI $tabs;
     protected ilObjectDataCache $objCache;
@@ -666,7 +671,7 @@ class ilTestServiceGUI
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
         $title_client = '';
-        if ($invited_user["clientip"] !== null && strlen($invited_user["clientip"])) {
+        if (isset($invited_user["clientip"]) && strlen($invited_user["clientip"])) {
             $template->setCurrentBlock("client_ip");
             $template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
             $template->setVariable("VALUE_CLIENT_IP", $invited_user["clientip"]);

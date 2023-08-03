@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#Zaznacz jako ocenione
 assessment#:#set_manual_feedback#:#Ustaw ręczną reakcję
 assessment#:#shape#:#Kształt
 assessment#:#showSuggestedSolution#:#Rodzaj
+assessment#:#show_all_test_properties_on_info_page#:#Pokaż pełną stronę informacyjną
+assessment#:#show_all_test_properties_on_info_page_byline#:#Jeśli zaznaczone, pełna strona informacja testu będzie wyświetlona (w tym właściwości testu). Jeżeli odznaczone, tylko wstępne wiadomości (jeśli są dostępne) i wymagane właściwości pojawią się na stronie informacyjnej testu.
 assessment#:#show_answer_overview#:#Pokaż widok ogólny odpowiedzi
 assessment#:#show_detailed_results#:#Szczegółowe wyniki testu (oceniony przebieg testu)
 assessment#:#show_examview_html#:#Na ekranie
 assessment#:#show_pass_overview#:#Pokaż podgląd zaznaczonych wykonań
 assessment#:#show_user_answers#:#Pokaż zaznaczone przez użytkownika odpowiedzi
-assessment#:#showinfo#:#Pokaż pełną stronę informacyjną
-assessment#:#showinfo_desc#:#Jeśli zaznaczone, pełna strona informacja testu będzie wyświetlona (w tym właściwości testu). Jeżeli odznaczone, tylko wstępne wiadomości (jeśli są dostępne) i wymagane właściwości pojawią się na stronie informacyjnej testu.
 assessment#:#shuffle_answers#:#Mieszaj odpowiedzi
 assessment#:#sign_submission#:#Podpis cyfrowy
 assessment#:#sign_submission_info#:#Należy zainstalować, a następnie włączyć wtyczkę do podpisywania, aby móc poprosić uczestników o podpisanie testu.
@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Nie, powrót do poprzedniej odpo
 assessment#:#tst_finish_confirmation_question#:#Kończysz test i wyczerpałeś wszystkie próby. Już nie będziesz mógł powtórzyć tego testu aby zmienić odpowiedzi. Na pewno chcesz skończyć test?
 assessment#:#tst_finish_notification#:#Mail po zakończeniu
 assessment#:#tst_finish_notification_advanced#:#Wyślij wynik testu do uczestnika testu
-assessment#:#tst_finish_notification_content#:#Treść wiadomości
+assessment#:#tst_finish_notification_content_type#:#Treść wiadomości
 assessment#:#tst_finish_notification_desc#:#Właściciel testu otrzyma dla każdego uczestnika, który ukończył test, wiadomość mailową zawierającą następujące informacje.
 assessment#:#tst_finish_notification_no#:#Brak wiadomości
 assessment#:#tst_finish_notification_simple#:#Tylko nazwa użytkownika oraz data ukończenia

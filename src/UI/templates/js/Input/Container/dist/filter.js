@@ -7,6 +7,9 @@ var filter = function($) {
       var cnt_hid = 0;
       var cnt_bar = 1;
 
+      //Set form action
+      $($filter).find(".il-standard-form").attr('action', window.location.pathname);
+
       //Filter fields (hide hidden stuff)
       $($filter).find(".il-filter-field-status").each(function () {
         $hidden_input = this;
@@ -307,6 +310,7 @@ var filter = function($) {
     var url = parse_url(action);
     var url_params = url['query_params'];
     createHiddenInputs($el, url_params);
+    $el.parents('form').attr('action', url['path']);
     $el.parents('form').submit();
   };
 

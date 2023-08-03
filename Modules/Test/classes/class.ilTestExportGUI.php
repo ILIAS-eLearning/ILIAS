@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -212,14 +213,10 @@ class ilTestExportGUI extends ilExportGUI
                 }
                 $file_arr = explode("_", $exp_file);
 
-                if (!$file_arr[0] || !is_numeric($file_arr[0])) {
-                    $file_arr[0] = (new \DateTimeImmutable())->format('U');
-                }
-
                 $data[] = [
                     'file' => $exp_file,
                     'size' => filesize($archive_dir . "/" . $exp_file),
-                    'timestamp' => $file_arr[0],
+                    'timestamp' => $file_arr[4],
                     'type' => $this->getExportTypeFromFileName($exp_file)
                 ];
             }

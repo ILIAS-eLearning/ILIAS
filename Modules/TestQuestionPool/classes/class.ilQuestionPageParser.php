@@ -121,7 +121,7 @@ class ilQuestionPageParser extends ilMDSaxParser
         $this->coType = $this->content_object->getType();
         $this->metadata_parsing_disabled = false;
 
-        if (($this->coType != "tst") and ($this->coType != "qpl")) {
+        if (($this->coType != "tst") && ($this->coType != "qpl")) {
             $this->lm_tree = new ilLMTree($this->content_object->getId());
         }
     }
@@ -430,7 +430,7 @@ class ilQuestionPageParser extends ilMDSaxParser
             case "PageObject":
                 $this->in_page_object = true;
                 $this->cur_qid = "";
-                if (($this->coType != "tst") and ($this->coType != "qpl")) {
+                if (($this->coType != "tst") && ($this->coType != "qpl")) {
                     /** @var ilObjLearningModule $lm $ */
                     $lm = $this->content_object;
                     $this->lm_page_object = new ilLMPageObject($lm);
@@ -445,12 +445,6 @@ class ilQuestionPageParser extends ilMDSaxParser
 
             case "PageAlias":
                 throw new ilLMException("Page Alias not supported.");
-                /*
-                if (($this->coType != "tst") and ($this->coType != "qpl")) {
-                    $this->lm_page_object->setAlias(true);
-                    $this->lm_page_object->setOriginID($a_attribs["OriginId"]);
-                }
-                break;*/
 
             case "MediaObject":
             case "InteractiveImage":
@@ -675,7 +669,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                 // is done in the "Identifier" begin tag processing
                 // the rest is done here
                 if (!$this->in_media_object) {
-                    if (($this->coType != "tst") and ($this->coType != "qpl")) {
+                    if (($this->coType != "tst") && ($this->coType != "qpl")) {
                         // type pg/st
                         if ($this->current_object->getType() == "st" ||
                             $this->current_object->getType() == "pg") {
@@ -832,7 +826,7 @@ class ilQuestionPageParser extends ilMDSaxParser
             && !$this->in_meta_data && !$this->in_media_object) {
             if ($a_name == "Definition") {
                 $app_name = "PageObject";
-                $app_attribs = array();
+                $app_attribs = [];
             } else {
                 $app_name = $a_name;
                 $app_attribs = $a_attribs;
@@ -841,11 +835,9 @@ class ilQuestionPageParser extends ilMDSaxParser
             // change identifier entry of file items to new local file id
             if ($this->in_file_item && $app_name == "Identifier") {
                 $app_attribs["Entry"] = "il__file_" . $this->file_item_mapping[$a_attribs["Entry"]];
-                //$app_attribs["Entry"] = "il__file_".$this->file_item->getId();
             }
 
             $this->page_object->appendXMLContent($this->buildTag("start", $app_name, $app_attribs));
-            //echo "&nbsp;&nbsp;after append, xml:".$this->page_object->getXMLContent().":<br>";
         }
 
 
@@ -921,7 +913,7 @@ class ilQuestionPageParser extends ilMDSaxParser
             case "PageObject":
 
                 $this->in_page_object = false;
-                if (($this->coType != "tst") and ($this->coType != "qpl")) {
+                if (($this->coType != "tst") && ($this->coType != "qpl")) {
                     //if (!$this->lm_page_object->isAlias()) {
                     $this->page_object->updateFromXML();
                     $this->pg_mapping[$this->lm_page_object->getImportId()]
@@ -953,7 +945,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                     if ($this->page_object->getContainsQuestion()) {
                         $this->pages_to_parse["lm:" . $this->page_object->getId()] = "lm:" . $this->page_object->getId();
                     }
-                //}
+                    //}
                 } else {
                     $xml = $this->page_object->getXMLContent();
                     if ($this->cur_qid != "") {
@@ -1123,8 +1115,6 @@ class ilQuestionPageParser extends ilMDSaxParser
                         $parent_id = $this->lm_tree->getRootId();
                     }
 
-                    // create structure object and put it in tree
-                    //$this->current_object->create(true); // now on top
                     $this->st_into_tree[] = array("id" => $this->current_object->getId(),
                         "parent" => $parent_id);
 
@@ -1231,9 +1221,10 @@ class ilQuestionPageParser extends ilMDSaxParser
                 break;
 
             case "Title":
-                if (!$this->in_media_object) {
+                if ($this->in_meta_data) {
                     $this->current_object->setTitle(trim($this->chr_data));
-                } else {
+                }
+                if ($this->in_media_object) {
                     $this->media_object->setTitle(trim($this->chr_data));
                 }
                 break;
