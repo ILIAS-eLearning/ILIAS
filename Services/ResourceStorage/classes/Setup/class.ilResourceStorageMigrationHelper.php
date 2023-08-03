@@ -137,7 +137,7 @@ class ilResourceStorageMigrationHelper
     }
     public function getFlavourBuilder(): FlavourBuilder
     {
-        return $this->resource_builder;
+        return $this->flavour_builder;
     }
 
     public function getCollectionBuilder(): CollectionBuilder
