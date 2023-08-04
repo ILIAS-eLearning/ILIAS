@@ -822,7 +822,6 @@ assessment#:#legend#:#Vysvětlivka
 assessment#:#locked#:#uzamčeno
 assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
 assessment#:#log_answer_changed_points#:#Manuální změna bodů testované osoby %s z %d na %d bodů hodnotícím testu %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Účastník nemůže vstoupit do testu, protože byl dosažen maximální počet simultánních účastníků.
 assessment#:#log_create_new_test#:#Vytvořen nový test
 assessment#:#log_manual_feedback#:#%s přidán manuální ohlas pro testovanou osobu %s a otázku %s: %s
 assessment#:#log_mark_added#:#Známka přidána
@@ -1246,11 +1245,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#All Test Competence###26 09 2014 new variable
 assessment#:#tst_all_user_data_deleted#:#Všechna uživatelská data tohoto testu byly smazány!
-assessment#:#tst_allowed_users#:#Maximální počet uživatelů provádějících test současně
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.###07 11 2014 new variable
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants###27 01 2015 new variable
-assessment#:#tst_allowed_users_time_gap#:#Čas pasivity pro aktivní uživatele
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.###07 11 2014 new variable
 assessment#:#tst_already_submitted#:#Test byl již ukončen a odevzdán.
 assessment#:#tst_analysis#:#Analysis###26 09 2014 new variable
 assessment#:#tst_anonymity#:#Anonymita
@@ -1492,8 +1486,6 @@ assessment#:#tst_mark_minimum_level#:#Minimální hladina (v %)
 assessment#:#tst_mark_official_form#:#Oficiální tvar
 assessment#:#tst_mark_passed#:#Prošel
 assessment#:#tst_mark_short_form#:#Zkrácený tvar
-assessment#:#tst_max_allowed_users_heading#:#Dosažen maximální počet simultánních účastníků v tomto testu
-assessment#:#tst_max_allowed_users_message#:#Maximální počet simultánních účastníků v tomto testu byl dosažen. Zkuste začít nebo pokračovat znovu později. Pokud bude některý z aktivních účastníků nenaktivní déle než %s s., můžete namísto něj do testu vstoupit. Děkujeme za pochopení.
 assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
 assessment#:#tst_maximum_points#:#Maximum bodů
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav

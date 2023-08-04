@@ -821,7 +821,6 @@ assessment#:#legend#:#传说
 assessment#:#locked#:#锁定
 assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#此用户不能进入测试，因为已达到最大用户并发数
 assessment#:#log_create_new_test#:#新的测试已创建
 assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
 assessment#:#log_mark_added#:#标记已添加
@@ -1245,11 +1244,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#All Test Competence###26 09 2014 new variable
 assessment#:#tst_all_user_data_deleted#:#此次测试的所有用户数据已全部删除！
-assessment#:#tst_allowed_users#:#正在进行测试的同时已经达到用户数上限
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.###07 11 2014 new variable
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants###27 01 2015 new variable
-assessment#:#tst_allowed_users_time_gap#:#活跃用户的空闲时间
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.###07 11 2014 new variable
 assessment#:#tst_already_submitted#:#测试已经完成并已提交
 assessment#:#tst_analysis#:#Analysis###26 09 2014 new variable
 assessment#:#tst_anonymity#:#匿名
@@ -1491,8 +1485,6 @@ assessment#:#tst_mark_minimum_level#:#Minimum level (in %)
 assessment#:#tst_mark_official_form#:#Official form官方形式
 assessment#:#tst_mark_passed#:#已通过
 assessment#:#tst_mark_short_form#:#Short form
-assessment#:#tst_max_allowed_users_heading#:#已经达到此次测试中同时允许的用户人数上限
-assessment#:#tst_max_allowed_users_message#:#已经达到此次测试中同翻搅时允许的活跃用户人数上限。请稍后再尝试启动或恢复测试。如果其中某位活跃用户超过 %s 秒未活动，您将有可能进入此次测试。感谢您的理解。
 assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
 assessment#:#tst_maximum_points#:#最大分值
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav

@@ -822,7 +822,6 @@ assessment#:#legend#:#Legende
 assessment#:#locked#:#Gesloten
 assessment#:#log_added_extratime#:#Extra %d minuten zijn toegevoegd aan deelnemer %d
 assessment#:#log_answer_changed_points#:#De handmatige verandering van punten %s van %d to %d door %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#De gebruiker kan de toets niet maken omdat het maximum aantal gebruikers is bereikt.
 assessment#:#log_create_new_test#:#Maak een nieuwe toets
 assessment#:#log_manual_feedback#:#%s toegevoegde handmatige feedback voor toets persoon %s en vraag %s: %s
 assessment#:#log_mark_added#:#Punt toegevoegd
@@ -1246,11 +1245,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Alle toets Competenties
 assessment#:#tst_all_user_data_deleted#:#Alle gebruikersgegevens van deze toets zijn verwijderd!
-assessment#:#tst_allowed_users#:#Maximum aantal gebruikers die deze toets kunnen gebruiken
-assessment#:#tst_allowed_users_desc#:#ILIAS houdt het aantal deelnemers die de toets tegelijkertijd doen in de gaten. Als het toegestane maximum is bereikt, zal ILIAS nieuwe deelnemers niet toelaten dat ze de toets beginnen.
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants###06 02 2015 new variable
-assessment#:#tst_allowed_users_time_gap#:#Inactieve tijd voor actieve gebruikers
-assessment#:#tst_allowed_users_time_gap_desc#:#Deelnemers die niet op tijd klikken in de toets worden beschouwd als inactief en worden verwijderd van de toets.
 assessment#:#tst_already_submitted#:#De toets is al beeindigd en opgestuurd
 assessment#:#tst_analysis#:#Analyse
 assessment#:#tst_anonymity#:#Anonimiteit
@@ -1492,8 +1486,6 @@ assessment#:#tst_mark_minimum_level#:#Minimum niveau (in %
 assessment#:#tst_mark_official_form#:#Officiëel formulier
 assessment#:#tst_mark_passed#:#Geslaagd
 assessment#:#tst_mark_short_form#:#Korte aanduiding
-assessment#:#tst_max_allowed_users_heading#:#Het maximum aantal gebruikers voor de toets is bereikt.
-assessment#:#tst_max_allowed_users_message#:#Het maximum aantal gebruikers voor de toets is bereikt. Probeer laten opnieuw
 assessment#:#tst_max_comp_points#:#Max. competentie-punten
 assessment#:#tst_maximum_points#:#Maximum aantal punten
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav

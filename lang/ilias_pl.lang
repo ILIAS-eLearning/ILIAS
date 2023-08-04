@@ -822,7 +822,6 @@ assessment#:#legend#:#Legenda
 assessment#:#locked#:#zablokowany
 assessment#:#log_added_extratime#:#Do czasu przetwarzania dla uczestników o nr ID %d zostaną dodane dodatkowe %d minuty
 assessment#:#log_answer_changed_points#:#Ręczna zmiana punktów %s od %d do %d przez %s.
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Użytkownik nie może przystąpić do rozwiązywania testu ponieważ została przekroczona maksymalna dopuszczalna liczba jednocześnie pracujących użytkowników.
 assessment#:#log_create_new_test#:#Utworzono nowy test
 assessment#:#log_manual_feedback#:#%s utworzono ręczną punktację dla uczestnika %s oraz pytania %s: %s
 assessment#:#log_mark_added#:#Znacznik dodany
@@ -1246,11 +1245,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Wszystkie kompetencje testu
 assessment#:#tst_all_user_data_deleted#:#Wszystkie dane uczestnika testu zostały skasowane!
-assessment#:#tst_allowed_users#:#Maksymalna liczba użytkowników mogąca rozwiązywać test jednocześnie.
-assessment#:#tst_allowed_users_desc#:#ILIAS sprawdza liczbę uczestników, którzy równocześnie brali udział w teście. Wszystkim uczestnikom próbującym rozpocząć test powyżej dopuszczalnego limitu osób dostęp do niego zostanie uniemożliwiony.
-assessment#:#tst_allowed_users_max#:#Maksymalna liczba
-assessment#:#tst_allowed_users_time_gap#:#Czas bezczynności dla aktywnych użytkowników
-assessment#:#tst_allowed_users_time_gap_desc#:#Uczestnicy, którzy w ciągu podanych sekund nie klikną na żadną z opcji, zostaną sklasyfikowany jako 'nieaktywni' i usunięci z testu.
 assessment#:#tst_already_submitted#:#Test został ukończony i przedstawiony do oceny
 assessment#:#tst_analysis#:#Analiza
 assessment#:#tst_anonymity#:#Anonimowość
@@ -1492,8 +1486,6 @@ assessment#:#tst_mark_minimum_level#:#Minimalny poziom (w %)
 assessment#:#tst_mark_official_form#:#Oficjalna forma
 assessment#:#tst_mark_passed#:#Wykonany
 assessment#:#tst_mark_short_form#:#Krótka forma
-assessment#:#tst_max_allowed_users_heading#:#Została przekroczona maksymalna liczba jednocześnie wykonujących test.
-assessment#:#tst_max_allowed_users_message#:#Została przekroczona maksymalna liczba jednocześnie aktywnych użytkowników teście. Spróbuj później rozpocząć lub odzyskać test. Jeśli jeden z aktywnych użytkowników będzie bezczynny więcej niż %s sekund, to będziesz mógł podejść do testu. Dziękujemy za zrozumienie i cierpliwość.
 assessment#:#tst_max_comp_points#:#Maks. liczba punktów kompetencyjnych
 assessment#:#tst_maximum_points#:#Maksimum punktów
 assessment#:#tst_mc_label_none_above#:#Żadna z powyższych odpowiedzi

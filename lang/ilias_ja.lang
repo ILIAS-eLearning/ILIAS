@@ -827,7 +827,6 @@ assessment#:#legend#:#凡例
 assessment#:#locked#:#固定
 assessment#:#log_added_extratime#:#受験者ID %dへ%d分時間延長しました
 assessment#:#log_answer_changed_points#:#受験者の点数を %sから%dへ%d 点を手動変更
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#同時最大ユーザ数に達しているため、ユーザ テストを入力できませんでした。
 assessment#:#log_create_new_test#:#新規テストを作成
 assessment#:#log_manual_feedback#:#受験者 %sと問題%s:%sを手動フィードバックで%s追加
 assessment#:#log_mark_added#:#マークを追加
@@ -1253,11 +1252,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#ヒント、フィードバ
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#試験に合格です。試験は再開できません。
 assessment#:#tst_all_test_competences#:#全テスト能力
 assessment#:#tst_all_user_data_deleted#:#このテストの全ユーザデータは削除されました!
-assessment#:#tst_allowed_users#:#同時受験者の制限値
-assessment#:#tst_allowed_users_desc#:#ILIASは同時にテストを受験している受験者数をモニターします。ユーザが最大許容アクセス数を超えようとするとILIASはテスト開始を防止します。
-assessment#:#tst_allowed_users_max#:#最大受験者数
-assessment#:#tst_allowed_users_time_gap#:#アクティブユーザのアイドル時間
-assessment#:#tst_allowed_users_time_gap_desc#:#表示された時間のテスト中にクリックしない受験者は'非アクティブ'としてカテゴリー化されてテストから削除されます。
 assessment#:#tst_already_submitted#:#テストはすでに終了して提出済です。
 assessment#:#tst_analysis#:#分析
 assessment#:#tst_anonymity#:#プライバシー
@@ -1500,8 +1494,6 @@ assessment#:#tst_mark_minimum_level#:#最低レベル (%中)
 assessment#:#tst_mark_official_form#:#正式書式
 assessment#:#tst_mark_passed#:#合格
 assessment#:#tst_mark_short_form#:#略式書式
-assessment#:#tst_max_allowed_users_heading#:#テストの同時最大ユーザ数に達しました
-assessment#:#tst_max_allowed_users_message#:#テストの同時最大ユーザ数に達しました。 後でやり直すかもしくはテストを再開してください。 受験中のユーザのだれかが %s 以上中断すると入力できるようになる場合があります。ご理解ありがとうございます。
 assessment#:#tst_max_comp_points#:#最大能力ポイント
 assessment#:#tst_maximum_points#:#最高点
 assessment#:#tst_mc_label_none_above#:#上記回答なし
