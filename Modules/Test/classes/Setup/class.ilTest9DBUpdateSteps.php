@@ -129,4 +129,15 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_6(): void
+    {
+        if ($this->db->tableColumnExists("tst_tests", "allowedusers")) {
+            $this->db->dropTableColumn("tst_tests", "allowedusers");
+        }
+
+        if ($this->db->tableColumnExists("tst_tests", "alloweduserstimegap")) {
+            $this->db->dropTableColumn("tst_tests", "alloweduserstimegap");
+        }
+    }
 }
