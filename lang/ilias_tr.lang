@@ -822,7 +822,6 @@ assessment#:#legend#:#Legend
 assessment#:#locked#:#Kilitli
 assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Eşzamanlı kullanıcı sayısına ulaşıldığından kullanıcı teste giremedi
 assessment#:#log_create_new_test#:#Yeni test oluşturuldu
 assessment#:#log_manual_feedback#:#%s manuel geri bildirim test kişisi %s ve soru %s: %s için eklendi
 assessment#:#log_mark_added#:#İşaret eklendi
@@ -1246,11 +1245,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#All Test Competence###26 09 2014 new variable
 assessment#:#tst_all_user_data_deleted#:#Bu testin tüm kullanıcı verileri silindi !
-assessment#:#tst_allowed_users#:#Aynı testi eş zamanlı olarak çalıştaracak kullanıcı sayısı
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.###07 11 2014 new variable
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants###27 01 2015 new variable
-assessment#:#tst_allowed_users_time_gap#:#Aktif Kullanıcılar için boşa düşme zamanı
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.###07 11 2014 new variable
 assessment#:#tst_already_submitted#:#Test zaten bitmiş ve gönderilmiştir.
 assessment#:#tst_analysis#:#Analysis###26 09 2014 new variable
 assessment#:#tst_anonymity#:#Anonimlik
@@ -1492,8 +1486,6 @@ assessment#:#tst_mark_minimum_level#:#Asgari Seviye (% olarak)
 assessment#:#tst_mark_official_form#:#Resmi Hali
 assessment#:#tst_mark_passed#:#Geçti
 assessment#:#tst_mark_short_form#:#Kısa Hali
-assessment#:#tst_max_allowed_users_heading#:#Bu testte eşzamanlı kullanıcı maksimum sayısına ulaşıldı
-assessment#:#tst_max_allowed_users_message#:#Test eşzamanlı aktif kullanıcı maksimum sayısına ulaşıldı. Testi başlatmak veya sürdürmek için daha sonra tekrar deneyin. Aktif kullanıcı biri% s saniye daha hareketsiz ise, bu test girmek mümkün olabilir. Anlayışınız için teşekkür ederiz.
 assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
 assessment#:#tst_maximum_points#:#Maksimum Puan
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav

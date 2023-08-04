@@ -827,7 +827,6 @@ assessment#:#legend#:#Legenda
 assessment#:#locked#:#zaklenjeno
 assessment#:#log_added_extratime#:#Udeležencu z ID %d je bilo dodeljenih dodatnih %d minut za obdelavo.
 assessment#:#log_answer_changed_points#:#%s je ročno dodelil točke udeležencu %s od %d na %d točk
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Udeleženec ni mogel začeti testa, ker je bilo doseženo maksimalno število sočasnih udeležencev za ta test
 assessment#:#log_create_new_test#:#Ustvarjen je bil nov test
 assessment#:#log_manual_feedback#:#%s je ustvaril ročno oceno za udeleženca %s in vprašanje %s %s: %s
 assessment#:#log_mark_added#:#Ocena dodana
@@ -1251,11 +1250,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_all_test_competences#:#Vse testne kompetence
 assessment#:#tst_all_user_data_deleted#:#Podatki vseh udeležencev testa so bili izbrisani!
-assessment#:#tst_allowed_users#:#Omejite število hkratnih udeležencev
-assessment#:#tst_allowed_users_desc#:#ILIAS preverja število udeležencev, ki hkrati sodelujejo v testu. Če poskuša dostopati več uporabnikov od največjega dovoljenega števila, jim bo Ilias preprečil dostop do testa.
-assessment#:#tst_allowed_users_max#:#Maksimalno število
-assessment#:#tst_allowed_users_time_gap#:#Čas neaktivnosti udeležencev
-assessment#:#tst_allowed_users_time_gap_desc#:#Udeleženci, ki v določenem časovnem obdobju ne kliknejo na test, bodo ocenjeni kot "neaktivni" in odstranjeni iz testa.
 assessment#:#tst_already_submitted#:#Test je že končan in odgovori so bili poslani.
 assessment#:#tst_analysis#:#Analiza
 assessment#:#tst_anonymity#:#Varstvo podatkov
@@ -1498,8 +1492,6 @@ assessment#:#tst_mark_minimum_level#:#Najnižji odstotek (v %)
 assessment#:#tst_mark_official_form#:#Uradno ime
 assessment#:#tst_mark_passed#:#Opravljeno
 assessment#:#tst_mark_short_form#:#Kratko ime
-assessment#:#tst_max_allowed_users_heading#:#Doseženo je bilo maksimalno število sočasnih uporabnikov za ta test
-assessment#:#tst_max_allowed_users_message#:#Doseženo je bilo maksimalno število sočasnih udeležencev za ta test Poskusite test ponovno odpreti ali nadaljevati nekoliko pozneje. Če so aktivni udeleženci neaktivni več kot %s sekund, imate možnost, da opravljate ta test. Hvala za razumevanje.
 assessment#:#tst_max_comp_points#:#maks. Kompetenčne točke
 assessment#:#tst_maximum_points#:#Maksimalno število točk
 assessment#:#tst_mc_label_none_above#:#Nobeden od zgornjih odgovorov

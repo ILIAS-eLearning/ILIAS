@@ -824,7 +824,6 @@ assessment#:#legend#:#Leyenda
 assessment#:#locked#:#bloqueado
 assessment#:#log_added_extratime#:#Añadidos %d minutos extra para el participante id %d
 assessment#:#log_answer_changed_points#:#Modificación manual de puntuación %s desde %d a %d puntos por %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#El usuario no pudo entrar al test porque se ha alcanzado el máximo número simultáneo de conexiones
 assessment#:#log_create_new_test#:#Nuevo Test creado
 assessment#:#log_manual_feedback#:#%s añadió comentario manual para %s y la pregunta %s: %s
 assessment#:#log_mark_added#:#Nota añadida
@@ -1248,11 +1247,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Competencias de todos los Tests
 assessment#:#tst_all_user_data_deleted#:#Todos los datos de usuario de este test han sido eliminados!
-assessment#:#tst_allowed_users#:#Máximo número de usuarios permitidos ejecutando el test a la vez
-assessment#:#tst_allowed_users_desc#:#ILIAS controlará el número de participantes que pueden realizar el test al mismo tiempo. Si hay más usuarios intentando acceder del máximo permitido, ILIAS impedirá que comiencen el test.
-assessment#:#tst_allowed_users_max#:#Máx. Número de Participantes
-assessment#:#tst_allowed_users_time_gap#:#Tiempo de inactividad permitido para los usuarios que están ejecutando el test
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_already_submitted#:#El Test ya ha sido finalizado y enviado
 assessment#:#tst_analysis#:#Análisis
 assessment#:#tst_anonymity#:#Anonimato
@@ -1494,8 +1488,6 @@ assessment#:#tst_mark_minimum_level#:#Nivel Mínimo (en %)
 assessment#:#tst_mark_official_form#:#Forma oficial
 assessment#:#tst_mark_passed#:#Superado
 assessment#:#tst_mark_short_form#:#Forma abreviada
-assessment#:#tst_max_allowed_users_heading#:#Se ha superado el número máximo de usuarios simultáneos en este test
-assessment#:#tst_max_allowed_users_message#:#El máximo número de usuarios activos simultáneos en el test ha sido alcanzado. Por favor intenta otra vez comenzar o retomar el test. Si uno de los usuarios activos está inactivo más de %s segundos, podrás entrar al test. Esto mejora el rendimiento en la ejecución. Disculpa las molestias
 assessment#:#tst_max_comp_points#:#Máx. puntuación de competencia
 assessment#:#tst_maximum_points#:#Máxima puntuación
 assessment#:#tst_mc_label_none_above#:#Ninguna de las respuestas anteriores

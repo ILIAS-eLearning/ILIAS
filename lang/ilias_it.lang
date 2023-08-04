@@ -822,7 +822,6 @@ assessment#:#legend#:#Legenda
 assessment#:#locked#:#Bloccato
 assessment#:#log_added_extratime#:#Aggiunti minuti %d supplementari per l’id dei partecipanti %d
 assessment#:#log_answer_changed_points#:#Impostazione manuale dei punti da %d a %d da parte dell'autore del test
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#L'utente non può fare il test perchè è stato raggiunto il numero massimo di partecipanti
 assessment#:#log_create_new_test#:#Creato nuovo test
 assessment#:#log_manual_feedback#:#aggiunto feedback manuale per studente e domande del test
 assessment#:#log_mark_added#:#Aggiunto marcatore
@@ -1246,11 +1245,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Tutte le competenze di test
 assessment#:#tst_all_user_data_deleted#:#Tutti i dati di questo test sono stati cancellati!
-assessment#:#tst_allowed_users#:#Massimo numero di partecipanti facenti contemporaneamente il test
-assessment#:#tst_allowed_users_desc#:#ILIAS monitorerà il numero di partecipanti che fanno il test allo stesso tempo. Se più utenti di quelli consentiti provano ad accedere, ILIAS impedirà di avviare il test.
-assessment#:#tst_allowed_users_max#:#Numero massimo di partecipanti
-assessment#:#tst_allowed_users_time_gap#:#Tempo di inattività dell'utente
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_already_submitted#:#Il test è gia' stato eseguito e inviato.
 assessment#:#tst_analysis#:#Analisi
 assessment#:#tst_anonymity#:#Anonimato
@@ -1492,8 +1486,6 @@ assessment#:#tst_mark_minimum_level#:#Livello minimo (in %)
 assessment#:#tst_mark_official_form#:#Form ufficiale
 assessment#:#tst_mark_passed#:#Superato
 assessment#:#tst_mark_short_form#:#Form ridotto
-assessment#:#tst_max_allowed_users_heading#:#È stato ragguinto il numero massimo di partecipanti a questo test
-assessment#:#tst_max_allowed_users_message#:#È stato ragguinto il numero massimo di partecipanti a questo test. Per favore riprova più tardi. Se dei partecipanti sono inattivi per più di % secondi , avrai la possibilità di partecipare. Ti ringraziamo per la comprensione.
 assessment#:#tst_max_comp_points#:#Punti di massima competenza
 assessment#:#tst_maximum_points#:#Punteggi massimi
 assessment#:#tst_mc_label_none_above#:#Nessuna delle risposte in alto
