@@ -704,19 +704,19 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                         $this->refinery->kindlyTo()->string()
                     );
             }
-            if (!strlen($data['title'])) {
+            if (!strlen($data['title'] ?? '')) {
                 $invalid[] = $link_id;
                 continue;
             }
-            if (!strlen($data['tar'])) {
+            if (!strlen($data['tar'] ?? '')) {
                 $invalid[] = $link_id;
                 continue;
             }
-            if ($data['nam'] && !$data['val']) {
+            if (($data['nam'] ?? false) && !($data['val'] ?? false)) {
                 $invalid[] = $link_id;
                 continue;
             }
-            if (!$data['nam'] && $data['val']) {
+            if (!($data['nam'] ?? false) && ($data['val'] ?? false)) {
                 $invalid[] = $link_id;
             }
         }
