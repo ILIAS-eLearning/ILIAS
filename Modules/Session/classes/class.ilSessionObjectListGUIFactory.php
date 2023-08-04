@@ -48,13 +48,14 @@ class ilSessionObjectListGUIFactory
             return null;
         }
 
-        $class = $objDefinition->getClassName($a_type);
-        $location = $objDefinition->getLocation($a_type);
-
-        $full_class = "ilObj" . $class . "ListGUI";
-
-        $item_list_gui = new $full_class();
-
+        try {
+            $item_list_gui = ilObjectListGUIFactory::_getListGUIByType($a_type);
+        } catch (ilObjectException $e) {
+            return null;
+        }
+        if (!$item_list_gui instanceof ilObjectListGUI) {
+            return null;
+        }
         $item_list_gui->enableDelete(false);
         $item_list_gui->enableCut(false);
         $item_list_gui->enableCopy(false);
