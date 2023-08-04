@@ -3557,14 +3557,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                         $metadata["entry"] !== null && $metadata["entry"] !== ''
                     )->withPassword($metadata["entry"]);
                     break;
-                case "allowedUsers":
-                    $access_settings = $access_settings->withLimitedUsersEnabled(
-                        $metadata["entry"] !== '0'
-                    )->withLimitedUsersAmount((int) $metadata["entry"]);
-                    break;
-                case "allowedUsersTimeGap":
-                    $access_settings = $access_settings->withLimitedUsersTimeGap((int) $metadata["entry"]);
-                    break;
                 case "pass_scoring":
                     $scoring_settings = $scoring_settings->withPassScoring((int) $metadata["entry"]);
                     break;
@@ -3909,18 +3901,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "password");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getAccessSettings()->getPassword() ?? '');
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        // allowed users
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "allowedUsers");
-        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getAccessSettings()->getLimitedUsersAmount() ?? 0);
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        // allowed users time gap
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "allowedUsersTimeGap");
-        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getAccessSettings()->getLimitedUsersTimeGap() ?? 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // pass scoring
@@ -6185,52 +6165,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
     }
 
-    public function isLimitUsersEnabled(): bool
-    {
-        return $this->getMainSettings()->getAccessSettings()->getLimitedUsersEnabled();
-    }
-
-    public function getAllowedUsers(): ?int
-    {
-        return $this->getMainSettings()->getAccessSettings()->getLimitedUsersAmount();
-    }
-
-    public function getAllowedUsersTimeGap(): ?int
-    {
-        return $this->getMainSettings()->getAccessSettings()->getLimitedUsersTimeGap();
-    }
-
-    public function checkMaximumAllowedUsers(): bool
-    {
-        $nr_of_users = $this->getAllowedUsers();
-        $time_gap = ($this->getAllowedUsersTimeGap()) ? $this->getAllowedUsersTimeGap() : 60;
-        if (($nr_of_users > 0) && ($time_gap > 0)) {
-            $now = time();
-            $time_border = $now - $time_gap;
-            $query = '
-				SELECT DISTINCT tst_times.active_fi
-				FROM tst_times
-				INNER JOIN tst_active
-				ON tst_times.active_fi = tst_active.active_id
-				AND (
-					tst_times.pass > tst_active.last_finished_pass OR tst_active.last_finished_pass IS NULL
-				)
-				WHERE tst_times.tstamp > %s
-				AND tst_active.test_fi = %s
-			';
-            $result = $this->db->queryF($query, array('integer', 'integer'), array($time_border, $this->getTestId()));
-            if ($result->numRows() >= $nr_of_users) {
-                if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                    $this->logAction($this->lng->txtlng("assessment", "log_could_not_enter_test_due_to_simultaneous_users", ilObjAssessmentFolder::_getLogLanguage()));
-                }
-                return false;
-            } else {
-                return true;
-            }
-        }
-        return true;
-    }
-
     public function _getLastAccess($active_id)
     {
         $result = $this->db->queryF(
@@ -6573,9 +6507,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'password_enabled' => (int) $main_settings->getAccessSettings()->getPasswordEnabled(),
             'password' => $main_settings->getAccessSettings()->getPassword(),
             'fixed_participants' => (int) $main_settings->getAccessSettings()->getFixedParticipants(),
-            'limit_users_enabled' => (int) $main_settings->getAccessSettings()->getLimitedUsersEnabled(),
-            'allowedusers' => $main_settings->getAccessSettings()->getLimitedUsersAmount(),
-            'alloweduserstimegap' => $main_settings->getAccessSettings()->getLimitedUsersTimeGap(),
 
             'NrOfTries' => $main_settings->getTestBehaviourSettings()->getNumberOfTries(),
             'BlockAfterPassed' => (int) $main_settings->getTestBehaviourSettings()->getBlockAfterPassedEnabled(),
@@ -6695,9 +6626,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withPasswordEnabled((bool) $testsettings['password_enabled'])
                 ->withPassword($testsettings['password'])
                 ->withFixedParticipants((bool) $testsettings['fixed_participants'])
-                ->withLimitedUsersEnabled((bool) $testsettings['limit_users_enabled'])
-                ->withLimitedUsersAmount($testsettings['allowedusers'])
-                ->withLimitedUsersTimeGap($testsettings['alloweduserstimegap'])
             )
             ->withTestBehaviourSettings(
                 $main_settings->getTestBehaviourSettings()

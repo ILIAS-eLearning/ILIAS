@@ -497,11 +497,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     protected function initTestCmd()
     {
-        if ($this->object->checkMaximumAllowedUsers() == false) {
-            $this->showMaximumAllowedUsersReachedMessage();
-            return;
-        }
-
         if ($this->testSession->isAnonymousUser()
             && !$this->testSession->doesAccessCodeInSessionExists()) {
             $accessCode = $this->testSession->createNewAccessCode();
@@ -1531,18 +1526,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public function outObligationsOnlySummaryCmd()
     {
         $this->outQuestionSummaryCmd(true, true, true, true);
-    }
-
-    public function showMaximumAllowedUsersReachedMessage()
-    {
-        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_max_allowed_users_reached.html", "Modules/Test");
-        $this->tpl->setCurrentBlock("adm_content");
-        $this->tpl->setVariable("MAX_ALLOWED_USERS_MESSAGE", sprintf($this->lng->txt("tst_max_allowed_users_message"), $this->object->getAllowedUsersTimeGap()));
-        $this->tpl->setVariable("MAX_ALLOWED_USERS_HEADING", sprintf($this->lng->txt("tst_max_allowed_users_heading"), $this->object->getAllowedUsersTimeGap()));
-        $this->tpl->setVariable("CMD_BACK_TO_INFOSCREEN", ilTestPlayerCommands::BACK_TO_INFO_SCREEN);
-        $this->tpl->setVariable("TXT_BACK_TO_INFOSCREEN", $this->lng->txt("tst_results_back_introduction"));
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->parseCurrentBlock();
     }
 
     public function backFromFinishingCmd()

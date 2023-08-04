@@ -2700,9 +2700,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if ($this->object->getEnableProcessingTime()) {
             $info->addProperty($this->lng->txt("tst_processing_time"), $this->object->getProcessingTime());
         }
-        if ($this->object->getAllowedUsers() > 0 && ($this->object->getAllowedUsersTimeGap())) {
-            $info->addProperty($this->lng->txt("tst_allowed_users"), $this->object->getAllowedUsers());
-        }
 
         $starting_time = $this->object->getStartingTime();
         if ($this->object->isStartingTimeEnabled() && $starting_time !== 0) {
