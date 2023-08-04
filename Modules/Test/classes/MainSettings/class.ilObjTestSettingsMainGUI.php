@@ -578,10 +578,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             ->withEndTime($section['access_window']['end_time'])
             ->withPasswordEnabled($section['test_password']['password_enabled'])
             ->withPassword($section['test_password']['password_value'])
-            ->withFixedParticipants($section['fixed_participants_enabled'])
-            ->withLimitedUsersEnabled($section['limit_simultaneous_users']['limit_simultaneous_users'])
-            ->withLimitedUsersAmount($section['limit_simultaneous_users']['max_allowed_simultaneous_users'])
-            ->withLimitedUsersTimeGap($section['limit_simultaneous_users']['allowed_simultaneous_users_time_gap']);
+            ->withFixedParticipants($section['fixed_participants_enabled']);
 
         if ($this->test_object->participantDataExist()) {
             return $access_settings;
