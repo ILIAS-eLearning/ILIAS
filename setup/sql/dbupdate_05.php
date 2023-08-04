@@ -2910,7 +2910,7 @@ switch ($tree_type) {
                 break;
 
         case \ilTree::TREE_TYPE_MATERIALIZED_PATH:
-                \ilMaterializedPathTree::createFromParentReleation();
+                \ilMaterializedPathTree::createFromParentRelation($ilDB);
                 break;
 
 
