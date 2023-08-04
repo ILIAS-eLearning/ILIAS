@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,38 +16,41 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Blog;
+declare(strict_types=1);
 
-use ILIAS\DI\Container;
-use ILIAS\Repository\GlobalDICDomainServices;
-use ILIAS\Blog\Exercise\BlogExercise;
+namespace ILIAS\Blog\Exercise;
+
+use ILIAS\Blog\InternalDataService;
+use ILIAS\Blog\InternalDomainService;
+use ILIAS\Blog\InternalGUIService;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class InternalDomainService
+class GUIService
 {
-    use GlobalDICDomainServices;
-
-    protected InternalRepoService $repo_service;
+    protected InternalGUIService $gui;
     protected InternalDataService $data_service;
+    protected InternalDomainService $domain_service;
 
     public function __construct(
-        Container $DIC,
-        InternalRepoService $repo_service,
-        InternalDataService $data_service
+        InternalDataService $data_service,
+        InternalDomainService $domain_service,
+        InternalGUIService $gui
     ) {
-        $this->repo_service = $repo_service;
         $this->data_service = $data_service;
-        $this->initDomainServices($DIC);
+        $this->domain_service = $domain_service;
+        $this->gui = $gui;
     }
 
-    public function exercise(int $a_node_id): BlogExercise
+    public function ilBlogExerciseGUI(int $a_node_id): \ilBlogExerciseGUI
     {
-        return new BlogExercise(
+        return new \ilBlogExerciseGUI(
             $a_node_id,
-            $this->repositoryTree(),
-            $this->user()
+            $this->domain_service->exercise($a_node_id),
+            $this->domain_service->lng(),
+            $this->domain_service->user(),
+            $this->gui
         );
     }
 }
