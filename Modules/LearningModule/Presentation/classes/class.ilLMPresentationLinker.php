@@ -198,7 +198,8 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     break;
 
                 case "sourcecodeDownload":
-                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", $a_obj_id);
+                case "download_paragraph":
+                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", $this->current_page);
                     $link = $this->ctrl->getLinkTargetByClass([self::TARGET_GUI, "ilLMPageGUI"], "", "", false, false);
                     break;
 
