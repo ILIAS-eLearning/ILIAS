@@ -35,6 +35,10 @@ include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 
 class ilLPStatusCollection extends ilLPStatus
 {
+    private $tree;
+    protected $ilObjDataCache;
+
+
     public function __construct($a_obj_id)
     {
         global $DIC;
@@ -43,9 +47,12 @@ class ilLPStatusCollection extends ilLPStatus
 
         parent::__construct($a_obj_id);
         $this->db = $ilDB;
+        $this->tree = $DIC->repositoryTree();
+        $this->ilObjDataCache = $DIC['ilObjDataCache'];
     }
 
-    public static function _getNotAttempted($a_obj_id)
+
+    public static function _getNotAttempted($a_obj_id): array
     {
         $users = array();
         
@@ -297,11 +304,17 @@ class ilLPStatusCollection extends ilLPStatus
                 }
             
                 if ($status['completed']) {
+                    if (!$this->isMember((int) $a_obj_id, (int) $a_user_id)) {
+                        return self::LP_STATUS_IN_PROGRESS_NUM;
+                    }
+
                     return self::LP_STATUS_COMPLETED_NUM;
                 }
+
                 if ($status['failed']) {
                     return self::LP_STATUS_FAILED_NUM;
                 }
+
                 if ($status['in_progress']) {
                     return self::LP_STATUS_IN_PROGRESS_NUM;
                 }
@@ -360,6 +373,44 @@ class ilLPStatusCollection extends ilLPStatus
         return $status;
     }
     
+    /**
+     * @param int $objId
+     * @param int $usrId
+     * @return bool
+     */
+    protected function isMember(int $objId, int $usrId): bool
+    {
+        switch ($this->ilObjDataCache->lookupType($objId)) {
+            case 'crs':
+                $participants = ilCourseParticipant::_getInstanceByObjId($objId, $usrId);
+                return $participants->isMember();
+
+            case 'grp':
+                $participants = ilGroupParticipants::_getInstanceByObjId($objId);
+                return $participants->isMember($usrId);
+
+            case 'fold':
+                $folderRefIds = ilObject::_getAllReferences($objId);
+                $folderRefId = current($folderRefIds);
+                if ($crsRefId = $this->tree->checkForParentType($folderRefId, 'crs')) {
+                    $participants = ilCourseParticipant::_getInstanceByObjId(ilObject::_lookupObjId($crsRefId), $usrId);
+                    return $participants->isMember();
+                }
+
+                if ($grpRefId = $this->tree->checkForParentType($folderRefId, 'grp')) {
+                    $participants = ilGroupParticipants::_getInstanceByObjId(ilObject::_lookupObjId($grpRefId));
+                    return $participants->isMember($usrId);
+                }
+                break;
+
+            case 'lso':
+                $participants = ilLearningSequenceParticipants::_getInstanceByObjId($objId);
+                return $participants->isMember($objId);
+        }
+
+        return true;
+    }
+
     /**
      * Get members for object
      * @param int $a_obj_id

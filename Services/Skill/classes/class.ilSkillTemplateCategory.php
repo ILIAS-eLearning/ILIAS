@@ -35,4 +35,28 @@ class ilSkillTemplateCategory extends ilSkillTreeNode
 
         return $sctp;
     }
+
+    public function delete()
+    {
+        $sctp_id = $this->getId();
+        $childs = $this->skill_tree->getChildsByTypeFilter(
+            $sctp_id,
+            ["sktp", "sctp"]
+        );
+        foreach ($childs as $node) {
+            switch ($node["type"]) {
+                case "sktp":
+                    $obj = new ilBasicSkillTemplate((int) $node["obj_id"]);
+                    $obj->delete();
+                    break;
+
+                case "sctp":
+                    $obj = new ilSkillTemplateCategory((int) $node["obj_id"]);
+                    $obj->delete();
+                    break;
+            }
+        }
+
+        parent::delete();
+    }
 }
