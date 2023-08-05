@@ -1268,7 +1268,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->renderPageTitle();
 
         $this->tpl->setCurrentBlock("ilMedia");
-
         $med_links = ilMediaItem::_getMapAreasIntLinks($this->requested_mob_id);
         $link_xml = $this->linker->getLinkXML($med_links);
 
