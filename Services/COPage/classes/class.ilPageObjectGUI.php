@@ -2418,7 +2418,12 @@ class ilPageObjectGUI
         require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $media_obj = new ilObjMediaObject($_GET["mob_id"]);
         require_once("./Services/COPage/classes/class.ilPageObject.php");
-        $pg_obj = $this->getPageObject();
+        if ($_GET["pg_type"] === "mep") {
+            $pg_obj = new ilMediaPoolPage((int) $_GET["pg_id"]);
+        } else {
+            $pg_obj = $this->getPageObject();
+        }
+
         $pg_obj->buildDom();
 
         if (!empty($_GET["pg_id"])) {
