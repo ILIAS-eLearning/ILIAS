@@ -1968,7 +1968,6 @@ class ilObjCourseGUI extends ilContainerGUI
                 "crs"
             );
         }
-
         $header_action = true;
         switch ($next_class) {
             case strtolower(ilRepositoryTrashGUI::class):
@@ -2373,6 +2372,7 @@ class ilObjCourseGUI extends ilContainerGUI
                     && $cmd != 'unsubscribe'
                     && $cmd != 'deliverCertificate'
                     && $cmd != 'performUnsubscribe'
+                    && $cmd != 'removeFromDesk'
                     && !$this->access->checkAccess("read", '', $this->object->getRefId())
                     || $cmd == 'join'
                     || $cmd == 'subscribe') {
