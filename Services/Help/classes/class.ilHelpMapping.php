@@ -44,14 +44,14 @@ class ilHelpMapping
             $id = trim($id);
             $id = explode("/", $id);
             if ($id[0] != "") {
-                if ($id[1] == "") {
+                if (($id[1] ?? "") ==  "") {
                     $id[1] = "-";
                 }
-                $id2 = explode("#", $id[2]);
+                $id2 = explode("#", ($id[2] ?? ""));
                 if ($id2[0] == "") {
                     $id2[0] = "-";
                 }
-                if ($id2[1] == "") {
+                if (($id2[1] ?? "") == "") {
                     $id2[1] = "-";
                 }
                 $ilDB->replace(
