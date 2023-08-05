@@ -2243,7 +2243,6 @@ class ilObjCourseGUI extends ilContainerGUI
     public function executeCommand()
     {
         global $DIC;
-
         $rbacsystem = $DIC['rbacsystem'];
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
@@ -2268,7 +2267,6 @@ class ilObjCourseGUI extends ilContainerGUI
                 "crs"
             );
         }
-
         $header_action = true;
         switch ($next_class) {
             case 'ilreputilgui':
@@ -2700,6 +2698,7 @@ class ilObjCourseGUI extends ilContainerGUI
                     && $cmd != 'unsubscribe'
                     && $cmd != 'deliverCertificate'
                     && $cmd != 'performUnsubscribe'
+                    && $cmd != 'removeFromDesk'
                     && !$ilAccess->checkAccess("read", '', $this->object->getRefId())
                     || $cmd == 'join'
                     || $cmd == 'subscribe') {
