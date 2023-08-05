@@ -92,4 +92,15 @@ class EditGUIRequest
     {
         return $this->strArray($key);
     }
+
+    public function getPageId(): int
+    {
+        return $this->int("pg_id");
+    }
+
+    public function getPageType(): string
+    {
+        return $this->str("pg_type");
+    }
+
 }

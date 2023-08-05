@@ -2091,7 +2091,11 @@ class ilPageObjectGUI
         $link_xml = $this->page_linker->getLinkXML($med_links);
 
         $media_obj = new ilObjMediaObject($this->request->getMobId());
-        $pg_obj = $this->getPageObject();
+        if ($this->request->getPageType() === "mep") {
+            $pg_obj = new ilMediaPoolPage($this->request->getPageId());
+        } else {
+            $pg_obj = $this->getPageObject();
+        }
         $pg_obj->buildDom();
 
         $xml = "<dummy>";
