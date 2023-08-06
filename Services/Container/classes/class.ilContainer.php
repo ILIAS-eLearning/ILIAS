@@ -28,6 +28,7 @@ use ILIAS\News\Service as News;
 class ilContainer extends ilObject
 {
     protected News $news;
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
     // container view constants
     public const VIEW_SESSIONS = 0;
     public const VIEW_OBJECTIVE = 1;
@@ -105,6 +106,7 @@ class ilContainer extends ilObject
             $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
         }
         $this->recommended_content_manager = new ilRecommendedContentManager();
+        $this->content_style_domain = $DIC->contentStyle()->domain();
     }
 
     /**
@@ -420,17 +422,7 @@ class ilContainer extends ilObject
         }
 
         // #20614 - copy style
-        $style_id = $this->getStyleSheetId();
-        if ($style_id > 0) {
-            if (!ilObjStyleSheet::_lookupStandard($style_id)) {
-                $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
-                $new_id = $style_obj->ilClone();
-                $new_obj->setStyleSheetId($new_id);
-                $new_obj->update();
-            } else {
-                $new_obj->setStyleSheetId($this->getStyleSheetId());
-            }
-        }
+        $this->content_style_domain->styleForRefId($this->getRefId())->cloneTo($new_obj->getId());
 
         // #10271 - copy start objects page
         if (ilContainerStartObjectsPage::_exists(
@@ -821,7 +813,7 @@ class ilContainer extends ilObject
         );
 
         if (($this->getStyleSheetId()) > 0) {
-            ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
+            //ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
         }
 
         $log = ilLoggerFactory::getLogger("cont");
@@ -858,7 +850,7 @@ class ilContainer extends ilObject
         $trans->setDefaultDescription($this->getLongDescription());
         $trans->save();
 
-        ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
+        //ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
         $log = ilLoggerFactory::getLogger("cont");
         $log->debug("Update Container, id: " . $this->getId());
@@ -878,7 +870,7 @@ class ilContainer extends ilObject
 
         $this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
 
-        $this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->getId()));
+        //$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
         $this->readContainerSettings();
         $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
