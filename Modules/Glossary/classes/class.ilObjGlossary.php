@@ -21,6 +21,7 @@
  */
 class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 {
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
     protected ilGlossaryDefPage $page_object;
     protected array $file_ids = [];
     protected array $mob_ids = [];
@@ -37,7 +38,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     public array $auto_glossaries = array();
     protected ilObjUser $user;
     protected array $public_export_file = [];
-    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_service;
 
 
     public function __construct(
@@ -51,10 +51,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->user = $DIC->user();
         $this->type = "glo";
         parent::__construct($a_id, $a_call_by_reference);
-        $this->content_style_service = $DIC
+        $this->content_style_domain = $DIC
             ->contentStyle()
-            ->domain()
-            ->styleForRefId($this->getRefId());
+            ->domain();
     }
 
     public function create(bool $a_upload = false): int
@@ -744,7 +743,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $new_obj->update();
 
         // set/copy stylesheet
-        $this->content_style_service->cloneTo($new_obj->getId());
+        $this->content_style_domain->styleForRefId($this->getRefId())->cloneTo($new_obj->getId());
 
         // copy taxonomy
         if (($tax_id = $this->getTaxonomyId()) > 0) {
