@@ -45,6 +45,8 @@ class ilAdministrationSettingsFormHandler
     public const FORM_CERTIFICATE = 14;
     public const FORM_META_COPYRIGHT = 15;
 
+    public const FORM_CALENDAR = 17;
+
     public const SETTINGS_USER = "usrf";
     public const SETTINGS_GENERAL = "adm";
     public const SETTINGS_FILE = "facs";
