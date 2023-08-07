@@ -25,9 +25,6 @@ class ilChatroomXMLParser extends ilSaxParser
     protected bool $in_messages = false;
     protected ?string $import_install_id = null;
     protected ?int $exportRoomId = 0;
-    protected ?int $owner = 0;
-    protected ?int $closed = 0;
-    protected ?int $public = 0;
     protected ?int $timestamp = 0;
     protected ?string $message = '';
     protected ?string $title = '';
