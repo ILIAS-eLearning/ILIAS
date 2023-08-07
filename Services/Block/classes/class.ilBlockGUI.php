@@ -912,7 +912,7 @@ abstract class ilBlockGUI
             $this->send($html);
         } else {
             // return incl. wrapping div with id
-            $html = '<div id="' . "block_" . $this->getBlockType() . "_" . $this->block_id . '">' .
+            $html = '<div id="' . 'block_' . $this->getBlockType() . '_' . $this->block_id . '">' .
                 $html . '</div>';
         }
 
@@ -926,11 +926,11 @@ abstract class ilBlockGUI
         $modals = [];
 
         foreach ($this->getBlockCommands() as $command) {
-            $href = ($command["onclick"] !== "")
-                ? ""
-                : $command["href"];
-            $button = $this->factory->button()->shy($command["text"], $href);
-            if ($command["onclick"]) {
+            $href = ($command['onclick'] !== '')
+                ? ''
+                : $command['href'];
+            $button = $this->factory->button()->shy($command['text'], $href);
+            if ($command['onclick']) {
                 $button = $button->withOnLoadCode(function ($id) use ($command) {
                     return
                         "$(\"#$id\").click(function() { ilBlockJSHandler('" . "block_" . $this->getBlockType() . "_" . $this->block_id .
@@ -939,7 +939,7 @@ abstract class ilBlockGUI
             }
 
             if (isset($command['modal']) && $command['modal'] instanceof Modal) {
-                $button = $button->withOnClick($command["modal"]->getShowSignal());
+                $button = $button->withOnClick($command['modal']->getShowSignal());
                 $this->modals[] = $command['modal'];
             }
             $actions[] = $button;
