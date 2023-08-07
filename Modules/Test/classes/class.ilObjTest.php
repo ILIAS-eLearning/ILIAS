@@ -785,7 +785,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     public function isScoreReportingEnabled(): bool
     {
-        switch ($this->score_settings->getResultSummarySettings()->getScoreReporting()) {
+        switch ($this->getScoreSettings()->getResultSummarySettings()->getScoreReporting()) {
             case ilObjTestSettingsResultSummary::SCORE_REPORTING_FINISHED:
             case ilObjTestSettingsResultSummary::SCORE_REPORTING_IMMIDIATLY:
             case ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE:
