@@ -19,6 +19,7 @@
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Modal\Interruptive;
 
 /**
 *
@@ -31,10 +32,9 @@ use ILIAS\UI\Component\Component;
 class ilListOfQuestionsTableGUI extends ilTable2GUI
 {
     private bool $userHasAttemptsLeft = true;
-    /** @var Component[] $commandButtons */
-    private array $commandButtons = [];
-    /** @var Component[] $additional_items */
-    private array $additional_items = [];
+    /** @var Component[] $command_buttons */
+    private array $command_buttons = [];
+    private Interruptive $finish_test_modal;
     protected ?bool $showPointsEnabled = false;
     protected ?bool $showMarkerEnabled = false;
 
@@ -70,26 +70,6 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->enable('header');
         $this->disable('sort');
         $this->disable('select_all');
-    }
-
-    private function addAdditionalItems(Component $item): void
-    {
-        $this->additional_items[] = $item;
-    }
-
-    private function getAdditionalItems(): array
-    {
-        return $this->additional_items;
-    }
-
-    private function addTopItem(Component $button): void
-    {
-        $this->commandButtons[] = $button;
-    }
-
-    private function getTopItems(): array
-    {
-        return $this->commandButtons;
     }
 
     public function init(): void
@@ -129,11 +109,10 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         }
 
         // command buttons
-        $btn = $this->factory->button()->standard(
+        $this->command_buttons[] = $this->factory->button()->standard(
             $this->lng->txt('tst_resume_test'),
             $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION)
         );
-        $this->addTopItem($btn);
 
         if (!$this->areObligationsNotAnswered() && $this->isFinishTestButtonEnabled()) {
             $this->addFinishTestButton();
@@ -157,7 +136,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         } else {
             $message = $this->lng->txt('tst_finish_confirmation_question_no_attempts_left');
         }
-        $modal = $this->factory->modal()->interruptive(
+        $this->finish_test_modal = $this->factory->modal()->interruptive(
             $this->lng->txt('finish_test'),
             $message,
             $this->ctrl->getLinkTarget(
@@ -166,16 +145,13 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
             )
         )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
 
-        $button = $this->factory->button()->standard($this->lng->txt('finish_test'), '')
-                           ->withOnClick($modal->getShowSignal());
-
-        $this->addTopItem($button);
-        $this->addAdditionalItems($modal);
+        $this->command_buttons[] = $this->factory->button()->standard($this->lng->txt('finish_test'), '')
+                           ->withOnClick($this->finish_test_modal->getShowSignal());
     }
 
     public function getHTML(): string
     {
-        foreach ($this->getTopItems() as $top_item) {
+        foreach ($this->command_buttons as $top_item) {
             $this->tpl->setCurrentBlock('tbl_header_html');
             $this->tpl->setVariable(
                 "HEADER_HTML",
@@ -184,7 +160,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
         $additional_html = '';
-        foreach ($this->getAdditionalItems() as $additional_item) {
+        foreach ($this->finish_test_modal as $additional_item) {
             $additional_html .= $this->renderer->render($additional_item);
         }
         return parent::getHTML() . $additional_html;

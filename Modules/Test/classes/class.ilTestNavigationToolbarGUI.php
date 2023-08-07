@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Component\Modal\Interruptive;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -75,9 +77,8 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
      * @var bool
      */
     private $disabledStateEnabled = false;
-    /** @var ILIAS\UI\Component\Component[] $additional_render_items  */
     private bool $userHasAttemptsLeft = true;
-    protected array $additional_render_items = [];
+    protected Interruptive $finish_test_modal;
 
     /**
      * @param ilCtrl $ctrl
@@ -267,9 +268,9 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         }
     }
 
-    public function getAdditionalRenderContents(): string
+    public function getFinishTestModalHTML(): string
     {
-        return $this->ui->renderer()->render($this->additional_render_items);
+        return $this->ui->renderer()->render($this->finish_test_modal);
     }
 
     private function addSuspendTestButton()
@@ -347,7 +348,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
                 ilTestPlayerCommands::QUESTION_SUMMARY
             );
         } else {
-            $modal = $this->ui->factory()->modal()->interruptive(
+            $this->finish_test_modal = $this->ui->factory()->modal()->interruptive(
                 $this->lng->txt('finish_test'),
                 $message,
                 $this->ctrl->getLinkTarget(
@@ -355,21 +356,22 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
                     $this->getFinishTestCommand()
                 )
             )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
-            $this->additional_render_items[] = $modal;
         }
         if ($this->isFinishTestButtonPrimary()) {
             $button = $this->ui->factory()->button()->primary($this->lng->txt('finish_test'), $action);
         } else {
             $button = $this->ui->factory()->button()->standard($this->lng->txt('finish_test'), $action);
         }
-        $button = isset($modal) ? $button->withOnClick($modal->getShowSignal()) : $button;
-        $button = $button->withAdditionalOnLoadCode(
-            static function (string $id): string {
-                return "
+        $button =
+            isset($this->finish_test_modal) ?
+                $button->withOnClick($this->finish_test_modal->getShowSignal()) :
+                $button->withAdditionalOnLoadCode(
+                    static function (string $id): string {
+                        return "
                 document.getElementById('$id').addEventListener('click', il.TestPlayerQuestionEditControl.checkNavigationForKSButton);
                 ;";
-            }
-        );
+                    }
+                );
 
         $this->addStickyItem($button);
     }

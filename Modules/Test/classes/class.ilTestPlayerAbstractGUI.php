@@ -245,8 +245,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setCurrentBlock('test_nav_toolbar');
         $this->tpl->setVariable('TEST_NAV_TOOLBAR', $toolbarGUI->getHTML());
         $this->tpl->parseCurrentBlock();
-        $this->tpl->setCurrentBlock('additional_render_content');
-        $this->tpl->setVariable('ADDITIONAL_RENDER_CONTENT', $toolbarGUI->getAdditionalRenderContents());
+        $this->tpl->setCurrentBlock('finish_test_modal');
+        $this->tpl->setVariable('FINISH_TEST_MODAL', $toolbarGUI->getFinishTestModalHTML());
         $this->tpl->parseCurrentBlock();
     }
 
@@ -1063,7 +1063,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $questionNavigationGUI->setDiscardSolutionButtonEnabled(true);
             // fau: testNav - set answere status in question header
             $questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
-            // fau.
+        // fau.
         } elseif ($this->object->isPostponingEnabled()) {
             $questionNavigationGUI->setSkipQuestionLinkTarget(
                 $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SKIP_QUESTION)
