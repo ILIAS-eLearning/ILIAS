@@ -300,14 +300,14 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $keywordString = '';
             if (in_array($this->object->getKeywordRelation(), assTextQuestion::getScoringModesWithPointsByKeyword())) {
                 $keywordString .= $answer->getPoints() . ' ';
-                if ($answer->getPoints() == '1' || $answer->getPoints() == '-1'){
+                if ($answer->getPoints() == '1' || $answer->getPoints() == '-1') {
                     $keywordString .= $this->lng->txt('point');
                 } else {
                     $keywordString .= $this->lng->txt('points');
                 }
                 $keywordString .= ' ' . $this->lng->txt('for') . ' ';
             }
-            $keywordString .=  $answer->getAnswertext();
+            $keywordString .= $answer->getAnswertext();
 
             $tpl->setCurrentBlock('keyword');
             $tpl->setVariable('KEYWORD', $keywordString);
@@ -396,20 +396,17 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $user_solution = "";
         if ($active_id) {
             $solutions = null;
-            // hey: prevPassSolutions - obsolete due to central check
-            #include_once "./Modules/Test/classes/class.ilObjTest.php";
-            #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-            #{
-            #	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-            #}
-            // hey.
+
             $solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
                 $user_solution = $solution_value["value1"];
             }
-        }
-        if ($this->tiny_mce_enabled) {
-            $user_solution = htmlentities($user_solution);
+
+            if ($this->tiny_mce_enabled) {
+                $user_solution = htmlentities($user_solution);
+            }
+
+            $user_solution = str_replace(['{', '}', '\\'], ['&#123', '&#125', '&#92'], $user_solution);
         }
 
         // generate the question output
