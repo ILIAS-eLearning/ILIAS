@@ -16,3 +16,7 @@ Current Problems:
 * There should be an interface segregation for the registration of mail template contexts and the actual provided
   context which is responsible to provide/replace placeholders.
 * To solve the problem, the mail context implementations are currently created with the `Reflection API` in the setup context.
+
+### IRSS Integration
+
+Files should be handled by the IRSS

@@ -1320,7 +1320,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     /**
     * form for new questionpool object import
     */
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
+    protected function importFileObject(int $parent_id = null): void
     {
         if ($_REQUEST['new_type'] === null) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);

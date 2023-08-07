@@ -1968,7 +1968,6 @@ class ilObjCourseGUI extends ilContainerGUI
                 "crs"
             );
         }
-
         $header_action = true;
         switch ($next_class) {
             case strtolower(ilRepositoryTrashGUI::class):
@@ -2373,6 +2372,7 @@ class ilObjCourseGUI extends ilContainerGUI
                     && $cmd != 'unsubscribe'
                     && $cmd != 'deliverCertificate'
                     && $cmd != 'performUnsubscribe'
+                    && $cmd != 'removeFromDesk'
                     && !$this->access->checkAccess("read", '', $this->object->getRefId())
                     || $cmd == 'join'
                     || $cmd == 'subscribe') {
@@ -2912,6 +2912,11 @@ class ilObjCourseGUI extends ilContainerGUI
         $tid = 0;
         if ($this->http->wrapper()->query()->has('tid')) {
             $tid = $this->http->wrapper()->query()->retrieve(
+                'tid',
+                $this->refinery->kindlyTo()->int()
+            );
+        } elseif ($this->http->wrapper()->post()->has('tid')) {
+            $tid = $this->http->wrapper()->post()->retrieve(
                 'tid',
                 $this->refinery->kindlyTo()->int()
             );

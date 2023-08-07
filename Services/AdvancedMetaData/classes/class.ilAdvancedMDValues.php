@@ -299,9 +299,26 @@ class ilAdvancedMDValues
         // new records are created automatically, only if source and target id differs.
         $new_records = $fields_map = array();
 
+        // if we have a sub object and are in a copy process,
+        // get mapping from parent
+        $parent_mapping = null;
+        if (!is_null($a_source_sub_id) && $copy_id > 0) {
+            $parent_mapping = self::getParentMapping($copy_id, (string) $a_target_id);
+            if (!is_null($parent_mapping)) {
+                $new_records = $parent_mapping["records"];
+                $fields_map = $parent_mapping["fields"];
+            }
+        }
+
         $record_mapping = [];
         foreach (ilAdvancedMDRecord::_getRecords() as $record) {
-            if ($record->getParentObject() == $a_source_id) {
+            if ($record->getParentObject() == $a_source_id && is_null($parent_mapping)) {
+                // if we have a sub object and are in a copy process,
+                // the main object must have already copied its records
+                if (!is_null($a_source_sub_id) && $copy_id > 0) {
+                    throw new ilException("ilAdvancedMDValues::_cloneValues must be called for parent object first.");
+                }
+
                 $tmp = array();
                 if ($a_source_id != $a_target_id) {
                     $new_records[$record->getRecordId()] = $record->_clone($tmp, $a_target_id);
@@ -312,11 +329,17 @@ class ilAdvancedMDValues
                 $fields_map[$record->getRecordId()] = $tmp;
             }
         }
-        if ($copy_id > 0) {
+
+        // write mapping when not in sub-object
+        if ($copy_id > 0 && is_null($a_source_sub_id)) {
             $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
             $cp_options->appendMapping(
                 $a_target_id . '_adv_rec',
                 $record_mapping
+            );
+            $cp_options->appendMapping(
+                $a_target_id . '_adv_rec_fields',
+                $fields_map
             );
             $cp_options->read();        // otherwise mapping will not be available for getMappings
         }
@@ -402,6 +425,21 @@ class ilAdvancedMDValues
         } else {
             $ilLog->write(__METHOD__ . ': Start cloning advanced meta data.');
         }
+    }
+
+    protected static function getParentMapping(int $copy_id, string $target): ?array
+    {
+        $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
+        $mappings = $cp_options->getMappings();
+        $key1 = $target . '_adv_rec';
+        $key2 = $target . '_adv_rec_fields';
+        if (is_array($mappings) && isset($mappings[$key1])) {
+            return [
+                "records" => $mappings[$key1],
+                "fields" => $mappings[$key2] ?? []
+            ];
+        }
+        return null;
     }
 
     /**

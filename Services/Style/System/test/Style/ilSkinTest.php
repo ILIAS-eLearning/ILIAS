@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 require_once('libs/composer/vendor/autoload.php');
 
-class ilSkinTest extends ilSystemStyleBaseFSTest
+class ilSkinTest extends ilSystemStyleBaseFS
 {
     protected ilSkin $skin;
     protected ilSkinStyle $style1;
@@ -35,13 +35,13 @@ class ilSkinTest extends ilSystemStyleBaseFSTest
         $this->skin = new ilSkin('skin1', 'skin 1');
 
         $this->style1 = new ilSkinStyle('style1', 'Style 1');
-        $this->style1->setCssFile('style1css');
+        $this->style1->setCssFile('style1');
         $this->style1->setImageDirectory('style1image');
         $this->style1->setSoundDirectory('style1sound');
         $this->style1->setFontDirectory('style1font');
 
         $this->style2 = new ilSkinStyle('style2', 'Style 2');
-        $this->style2->setCssFile('style2css');
+        $this->style2->setCssFile('style2');
         $this->style2->setImageDirectory('style2image');
         $this->style2->setSoundDirectory('style2sound');
         $this->style2->setFontDirectory('style2font');

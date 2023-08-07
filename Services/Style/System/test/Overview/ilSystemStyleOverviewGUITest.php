@@ -26,7 +26,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\FileUpload\FileUpload;
 
-class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFSTest
+class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFS
 {
     protected ilSystemStyleOverviewGUI $overview_gui;
 

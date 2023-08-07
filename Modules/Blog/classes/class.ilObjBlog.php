@@ -32,8 +32,8 @@ class ilObjBlog extends ilObject2
     public const ABSTRACT_DEFAULT_IMAGE_WIDTH = 144;
     public const ABSTRACT_DEFAULT_IMAGE_HEIGHT = 144;
     public const NAV_MODE_LIST_DEFAULT_POSTINGS = 10;
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
     protected \ILIAS\Notes\Service $notes_service;
-    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_service;
 
     protected int $nav_mode_list_months_with_post = 0;
     protected bool $notes = false;
@@ -69,10 +69,9 @@ class ilObjBlog extends ilObject2
         $this->rbac_review = $DIC->rbac()->review();
         $this->image_conversion = $DIC->fileConverters()->legacyImages();
 
-        $this->content_style_service = $DIC
+        $this->content_style_domain = $DIC
             ->contentStyle()
-            ->domain()
-            ->styleForObjId($this->getId());
+            ->domain();
     }
 
     protected function initType(): void
@@ -218,7 +217,7 @@ class ilObjBlog extends ilObject2
         $new_obj->update();
 
         // set/copy stylesheet
-        $this->content_style_service->cloneTo($new_obj->getId());
+        $this->content_style_domain->styleForObjId($this->getId())->cloneTo($new_obj->getId());
     }
 
     public function getNotesStatus(): bool

@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#Отметить как "Оцененый у�
 assessment#:#set_manual_feedback#:#Рецензия
 assessment#:#shape#:#Фигура
 assessment#:#showSuggestedSolution#:#Тип
+assessment#:#show_all_test_properties_on_info_page#:#Показать полную информационную странцу
+assessment#:#show_all_test_properties_on_info_page_byline#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page.
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Показать подробные результаты пользователя (Отмеченные как пройденные)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Показать обзор отмеченных верных ответов
 assessment#:#show_user_answers#:#Показать отмеченные пользователем ответы
-assessment#:#showinfo#:#Показать полную информационную странцу
-assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page.
 assessment#:#shuffle_answers#:#Перемешать ответы
 assessment#:#sign_submission#:#Digitally sign test submissions
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
@@ -1381,7 +1381,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Нет, вернуться к п
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification#:#Уведомление о прохождении теста
 assessment#:#tst_finish_notification_advanced#:#Отослать подробные результаты теста владельцу
-assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#Отсылать имя пользователя и дату завершения владельцу теста

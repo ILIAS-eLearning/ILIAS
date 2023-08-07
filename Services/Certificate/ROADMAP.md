@@ -56,3 +56,7 @@ foreach (ilObject::_getAllReferences($objectId) as $refId) {
 }
 // ...
 ```
+
+### IRSS Integration
+
+Files should be handled by the IRSS

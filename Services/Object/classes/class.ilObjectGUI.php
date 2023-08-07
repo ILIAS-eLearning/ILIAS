@@ -22,6 +22,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory;
+use ILIAS\Object\ImplementsCreationCallback;
+use ILIAS\Object\CreationCallbackTrait;
 
 /**
  * Class ilObjectGUI
@@ -29,8 +31,10 @@ use ILIAS\Refinery\Factory;
  *
  * @author Stefan Meyer <meyer@leifos.com>
  */
-class ilObjectGUI
+class ilObjectGUI implements ImplementsCreationCallback
 {
+    use CreationCallbackTrait;
+
     public const ADMIN_MODE_NONE = "";
     public const ADMIN_MODE_SETTINGS = "settings";
     public const ADMIN_MODE_REPOSITORY = "repository";
@@ -155,8 +159,8 @@ class ilObjectGUI
         // TODO: refactor this with post_wrapper or request_wrapper
         // callback after creation
         $this->requested_crtptrefid = $this->retriever->getMaybeInt('crtptrefid', 0);
-        $this->requested_crtcb = $this->retriever->getMaybeInt("crtcb", 0);
-        $this->requested_new_type = $this->retriever->getMaybeString("new_type", "");
+        $this->requested_crtcb = $this->retriever->getMaybeInt('crtcb', 0);
+        $this->requested_new_type = $this->retriever->getMaybeString('new_type', '');
 
 
         if ($this->id != 0) {
@@ -336,19 +340,24 @@ class ilObjectGUI
         }
     }
 
+    protected function createActionDispatcherGUI(): ilCommonActionDispatcherGUI
+    {
+        return new ilCommonActionDispatcherGUI(
+            ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
+            $this->access,
+            $this->object->getType(),
+            $this->ref_id,
+            $this->object->getId()
+        );
+    }
+
     /**
      * Add header action menu
      */
     protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null): ?ilObjectListGUI
     {
         if (!$this->creation_mode && $this->object) {
-            $dispatcher = new ilCommonActionDispatcherGUI(
-                ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
-                $this->access,
-                $this->object->getType(),
-                $this->ref_id,
-                $this->object->getId()
-            );
+            $dispatcher = $this->createActionDispatcherGUI();
 
             $dispatcher->setSubObject($sub_type, $sub_id);
 
@@ -883,25 +892,7 @@ class ilObjectGUI
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->ref_id, $rbac_log);
 
         // use forced callback after object creation
-        $this->callCreationCallback($obj);
-    }
-
-    public function callCreationCallback(ilObject $obj): void
-    {
-        $objDefinition = $this->obj_definition;
-        // use forced callback after object creation
-        if ($this->requested_crtcb) {
-            $callback_type = ilObject::_lookupType((int) $this->requested_crtcb, true);
-            $class_name = "ilObj" . $objDefinition->getClassName($callback_type) . "GUI";
-            $location = $objDefinition->getLocation($callback_type);
-            if (in_array(strtolower($class_name), array("ilobjitemgroupgui"))) {
-                $callback_obj = new $class_name((int) $this->requested_crtcb);
-            } else {
-                // #10368
-                $callback_obj = new $class_name(null, $this->requested_crtcb, true, false);
-            }
-            $callback_obj->afterSaveCallback($obj);
-        }
+        $this->callCreationCallback($obj, $this->obj_definition, $this->requested_crtcb);
     }
 
     /**
@@ -1094,7 +1085,7 @@ class ilObjectGUI
         return $form;
     }
 
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
+    protected function importFileObject(int $parent_id = null): void
     {
         if (!$parent_id) {
             $parent_id = $this->requested_ref_id;
@@ -1146,13 +1137,8 @@ class ilObjectGUI
                     );
                 }
             } catch (ilException $e) {
-                if (DEVMODE) {
-                    throw $e;
-                }
                 $this->tmp_import_dir = $imp->getTemporaryImportDir();
-                if (!$catch_errors) {
-                    throw $e;
-                }
+
                 // display message and form again
                 $this->tpl->setOnScreenMessage(
                     "failure",
@@ -1175,7 +1161,7 @@ class ilObjectGUI
                     if (count($ref_ids) === 1) {
                         $newObj->setRefId((int) current($ref_ids));
                     }
-                    $this->callCreationCallback($newObj);   // see #24244
+                    $this->callCreationCallback($newObj, $this->obj_definition, $this->requested_crtcb);   // see #24244
                 }
 
                 $this->afterImport($newObj);

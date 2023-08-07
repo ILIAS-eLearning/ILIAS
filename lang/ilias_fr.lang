@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#Marquer ce participant comme "Participant not
 assessment#:#set_manual_feedback#:#Retour d'Information
 assessment#:#shape#:#Forme
 assessment#:#showSuggestedSolution#:#Solution suggérée
+assessment#:#show_all_test_properties_on_info_page#:#Afficher l'introduction complète
+assessment#:#show_all_test_properties_on_info_page_byline#:#Si cochée, la page d'introduction est présentée entièrement (en incluant les paramètres du test). Si non cochée, seul le message d'introduction (s'il existe) et les paramètres requis sont affichés sur la page d'information du test
 assessment#:#show_answer_overview#:#Afficher l'Aperçu de la Réponse
 assessment#:#show_detailed_results#:#Afficher les résultats détaillés de l'utilisateur (passage marqué)
 assessment#:#show_examview_html#:#Utiliser la vue examen sur la page de soumission du test.
 assessment#:#show_pass_overview#:#Afficher les Résultats
 assessment#:#show_user_answers#:#Afficher les Réponses de l'Utilisateur
-assessment#:#showinfo#:#Afficher l'introduction complète
-assessment#:#showinfo_desc#:#Si cochée, la page d'introduction est présentée entièrement (en incluant les paramètres du test). Si non cochée, seul le message d'introduction (s'il existe) et les paramètres requis sont affichés sur la page d'information du test
 assessment#:#shuffle_answers#:#Mélanger les Réponses
 assessment#:#sign_submission#:#Signer électroniquement la soumission du test
 assessment#:#sign_submission_info#:#Lorsque activé, si un plugin de signature est installé et activé, les participants peuvent signer électroniquement la soumission de leur test.
@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Non, revenir à la question pré
 assessment#:#tst_finish_confirmation_question#:#Vous allez terminer ce test et atteindre le nombre maximum de tests autorisés validés. Vous ne pourrez plus refaire ce test une nouvelle fois pour modifier vos réponses. Voulez-vous vraiment terminer ce test ?
 assessment#:#tst_finish_notification#:#Notification par Email en fin de test
 assessment#:#tst_finish_notification_advanced#:#Envoyer résultat complet du test au propriétaire du test
-assessment#:#tst_finish_notification_content#:#Contenu du mail
+assessment#:#tst_finish_notification_content_type#:#Contenu du mail
 assessment#:#tst_finish_notification_desc#:#Envoie un mail au propriétaire du test pour chaque utilisateur qui a terminé le test.
 assessment#:#tst_finish_notification_no#:#Ne pas envoyer de notification par email lorsqu'un utilisateur achève un test
 assessment#:#tst_finish_notification_simple#:#Envoyer nom de l'utilisateur et date d'achèvement au propriétaire du test

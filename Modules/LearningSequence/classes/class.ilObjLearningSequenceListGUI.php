@@ -17,6 +17,8 @@
  *********************************************************************/
 declare(strict_types=1);
 
+declare(strict_types=1);
+
 class ilObjLearningSequenceListGUI extends ilObjectListGUI
 {
     public function __construct()
@@ -42,7 +44,7 @@ class ilObjLearningSequenceListGUI extends ilObjectListGUI
         $this->cut_enabled = true;
         $this->info_screen_enabled = true;
         $this->copy_enabled = true;
-        $this->subscribe_enabled = false;
+        $this->subscribe_enabled = true;
         $this->link_enabled = true;
         $this->gui_class_name = "ilobjlearningsequencegui";
         $this->type = ilObjLearningSequence::OBJ_TYPE;

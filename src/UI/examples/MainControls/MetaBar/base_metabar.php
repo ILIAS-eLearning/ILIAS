@@ -12,7 +12,7 @@ function base_metabar(): string
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $url = 'src/UI/examples/MainControls/Metabar/base_metabar.php?new_metabar_ui=1';
+    $url = $DIC->http()->request()->getUri()->__toString() . '&new_metabar_ui=1';
     $txt = $f->legacy('<p>
             The Metabar Example opens in Fullscreen to showcase the behaviour of the metabar best.
             Note, an comprensive example for developers on how to access the JS API of the Metabar
@@ -47,19 +47,14 @@ function buildMetabar(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Me
 }
 
 global $DIC;
-
-//Render Footer in Fullscreen mode
-if (basename($_SERVER["SCRIPT_FILENAME"]) == "base_metabar.php") {
-    chdir('../../../../../');
-    require_once("libs/composer/vendor/autoload.php");
+$request_wrapper = $DIC->http()->wrapper()->query();
+$refinery = $DIC->refinery();
+if ($request_wrapper->has('new_metabar_ui')
+    && $request_wrapper->retrieve('new_metabar_ui', $refinery->kindlyTo()->int()) === 1
+) {
     \ilInitialisation::initILIAS();
-    $refinery = $DIC->refinery();
-    $request_wrapper = $DIC->http()->wrapper()->query();
-}
-
-
-if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('new_metabar_ui') && $request_wrapper->retrieve('new_metabar_ui', $refinery->kindlyTo()->string()) == '1') {
     echo renderMetaBarInFullscreenMode($DIC);
+    exit();
 }
 
 function renderMetaBarInFullscreenMode(Container $dic): string

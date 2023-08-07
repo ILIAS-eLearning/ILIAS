@@ -19,7 +19,7 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-use ILIAS\Skill\Tree\SkillTreeNodeManager;
+use ILIAS\Skill\Node\SkillTreeNodeManager;
 use ILIAS\Skill\Personal\SelfEvaluationManager;
 
 /**

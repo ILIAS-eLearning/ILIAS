@@ -41,6 +41,9 @@
 		"ext-json": "*",
 		"ext-simplexml": "*",
 		"ext-libxml": "*",
+		"ext-xml": "*",
+		"ext-zip": "*",
+		"ext-imagick": "*",
 		"cweagans/composer-patches": "^1.7",
 		"filp/whoops": "^2.15.1",
 		"monolog/monolog": "^2.3.5",
@@ -67,7 +70,6 @@
 		"guzzlehttp/guzzle": "^7.0",
 		"simplesamlphp/simplesamlphp": "^1.19.8",
 		"seld/jsonlint": "^1.8",
-		"ext-xml": "*",
 		"jasig/phpcas": "^1.4",
 		"league/commonmark": "^2.3"
 	},

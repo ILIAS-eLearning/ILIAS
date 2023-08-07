@@ -34,9 +34,10 @@ class ilTestExporter extends ilXmlExporter
     {
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $id): string
     {
-        $tst = new ilObjTest($a_id, false);
+        $tst = new ilObjTest((int) $id, false);
+        $tst->read();
         $expFactory = new ilTestExportFactory($tst);
         $testExport = $expFactory->getExporter('xml');
         $zip = $testExport->buildExportFile();

@@ -213,7 +213,7 @@ class ilSkillUsage implements ilSkillUsageInfo
         $allnodes = [];
         foreach ($a_tree_ids as $t) {
             $vtree = $this->tree_factory->tree()->getGlobalVirtualTree();
-            $nodes = $vtree->getSubTreeForTreeId($t);
+            $nodes = $vtree->getSubTreeForTreeId((string) $t);
             foreach ($nodes as $n) {
                 $allnodes[] = $n;
             }

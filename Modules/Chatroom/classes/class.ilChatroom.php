@@ -48,11 +48,9 @@ class ilChatroom
      */
     private array $availableSettings = [
         'object_id' => 'integer',
-        'online_status' => 'boolean',
         'allow_anonymous' => 'boolean',
         'allow_custom_usernames' => 'boolean',
         'enable_history' => 'boolean',
-        'restrict_history' => 'boolean',
         'autogen_usernames' => 'string',
         'room_type' => 'string',
         'display_past_msgs' => 'integer',
@@ -117,7 +115,6 @@ class ilChatroom
 
                     $visible = null;
                     $a_obj_id = ilObject::_lookupObjId($refId);
-                    $active = ilObjChatroomAccess::isActivated($refId, $a_obj_id, $visible);
 
                     switch ($permission) {
                         case 'visible':
@@ -161,7 +158,7 @@ class ilChatroom
         global $DIC;
 
         $query = 'SELECT * FROM ' . self::$settingsTable . ' WHERE object_id = %s';
-        $types = ['integer'];
+        $types = [ilDBConstants::T_INTEGER];
         $values = [$object_id];
         $rset = $DIC->database()->queryF($query, $types, $values);
 
@@ -205,7 +202,7 @@ class ilChatroom
 
         $query = 'SELECT * FROM ' . self::$settingsTable . ' WHERE room_id = %s';
 
-        $types = ['integer'];
+        $types = [ilDBConstants::T_INTEGER];
         $values = [$room_id];
 
         $rset = $DIC->database()->queryF($query, $types, $values);
@@ -250,7 +247,7 @@ class ilChatroom
         $localSettings = [];
 
         foreach ($this->availableSettings as $setting => $type) {
-            if (isset($settings[$setting])) {
+            if (array_key_exists($setting, $settings)) {
                 if ($type === 'boolean') {
                     $settings[$setting] = (bool) $settings[$setting];
                 }
@@ -259,7 +256,7 @@ class ilChatroom
         }
 
         if (!isset($localSettings['room_type']) || !$localSettings['room_type'][1]) {
-            $localSettings['room_type'][0] = 'text';
+            $localSettings['room_type'][0] = ilDBConstants::T_TEXT;
             $localSettings['room_type'][1] = 'repository';
         }
 
@@ -267,13 +264,14 @@ class ilChatroom
             $DIC->database()->update(
                 self::$settingsTable,
                 $localSettings,
-                ['room_id' => ['integer', $this->roomId]]
+                ['room_id' => [ilDBConstants::T_INTEGER, $this->roomId]]
             );
         } else {
             $this->roomId = $DIC->database()->nextId(self::$settingsTable);
 
             $localSettings['room_id'] = [
-                'integer', $this->roomId
+                ilDBConstants::T_INTEGER,
+                $this->roomId
             ];
 
             $DIC->database()->insert(self::$settingsTable, $localSettings);
@@ -283,8 +281,8 @@ class ilChatroom
     private function phpTypeToMDBType(string $type): string
     {
         return match ($type) {
-            'string' => 'text',
-            'boolean' => 'integer',
+            'string' => ilDBConstants::T_TEXT,
+            'boolean' => ilDBConstants::T_INTEGER,
             default => $type,
         };
     }
@@ -307,10 +305,10 @@ class ilChatroom
         $DIC->database()->insert(
             self::$historyTable,
             [
-                'hist_id' => ['integer', $id],
-                'room_id' => ['integer', $this->roomId],
-                'message' => ['text', json_encode($message, JSON_THROW_ON_ERROR)],
-                'timestamp' => ['integer', ($timestamp > 0 ? $timestamp : time())],
+                'hist_id' => [ilDBConstants::T_INTEGER, $id],
+                'room_id' => [ilDBConstants::T_INTEGER, $this->roomId],
+                'message' => [ilDBConstants::T_TEXT, json_encode($message, JSON_THROW_ON_ERROR)],
+                'timestamp' => [ilDBConstants::T_INTEGER, ($timestamp > 0 ? $timestamp : time())],
             ]
         );
     }
@@ -325,7 +323,7 @@ class ilChatroom
         ];
 
         $query = 'SELECT user_id FROM ' . self::$userTable . ' WHERE room_id = %s AND user_id = %s';
-        $types = ['integer', 'integer'];
+        $types = [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER];
         $values = [$this->roomId, $user->getUserId()];
 
         if (!$DIC->database()->fetchAssoc($DIC->database()->queryF($query, $types, $values))) {
@@ -334,12 +332,12 @@ class ilChatroom
             $DIC->database()->replace(
                 self::$userTable,
                 [
-                    'room_id' => ['integer', $this->roomId],
-                    'user_id' => ['integer', $user->getUserId()]
+                    'room_id' => [ilDBConstants::T_INTEGER, $this->roomId],
+                    'user_id' => [ilDBConstants::T_INTEGER, $user->getUserId()]
                 ],
                 [
-                    'userdata' => ['text', json_encode($userdata, JSON_THROW_ON_ERROR)],
-                    'connected' => ['integer', time()],
+                    'userdata' => [ilDBConstants::T_TEXT, json_encode($userdata, JSON_THROW_ON_ERROR)],
+                    'connected' => [ilDBConstants::T_INTEGER, time()],
                 ]
             );
 
@@ -354,7 +352,7 @@ class ilChatroom
         global $DIC;
 
         $query = 'SELECT ' . ($only_data ? 'userdata' : '*') . ' FROM ' . self::$userTable . ' WHERE room_id = %s';
-        $types = ['integer'];
+        $types = [ilDBConstants::T_INTEGER];
         $values = [$this->roomId];
         $rset = $DIC->database()->queryF($query, $types, $values);
         $users = [];
@@ -379,17 +377,17 @@ class ilChatroom
         global $DIC;
 
         $query = 'SELECT * FROM ' . self::$userTable . ' WHERE room_id = %s AND ' .
-            $DIC->database()->in('user_id', $userIds, false, 'integer');
+            $DIC->database()->in('user_id', $userIds, false, ilDBConstants::T_INTEGER);
 
-        $types = ['integer'];
+        $types = [ilDBConstants::T_INTEGER];
         $values = [$this->roomId];
         $res = $DIC->database()->queryF($query, $types, $values);
 
         if ($row = $DIC->database()->fetchAssoc($res)) {
             $query = 'DELETE FROM ' . self::$userTable . ' WHERE room_id = %s AND ' .
-                $DIC->database()->in('user_id', $userIds, false, 'integer');
+                $DIC->database()->in('user_id', $userIds, false, ilDBConstants::T_INTEGER);
 
-            $types = ['integer'];
+            $types = [ilDBConstants::T_INTEGER];
             $values = [$this->roomId];
             $DIC->database()->manipulateF($query, $types, $values);
 
@@ -399,12 +397,12 @@ class ilChatroom
                     $DIC->database()->insert(
                         self::$sessionTable,
                         [
-                            'sess_id' => ['integer', $id],
-                            'room_id' => ['integer', $this->roomId],
-                            'user_id' => ['integer', $row['user_id']],
-                            'userdata' => ['text', $row['userdata']],
-                            'connected' => ['integer', $row['connected']],
-                            'disconnected' => ['integer', time()]
+                            'sess_id' => [ilDBConstants::T_INTEGER, $id],
+                            'room_id' => [ilDBConstants::T_INTEGER, $this->roomId],
+                            'user_id' => [ilDBConstants::T_INTEGER, $row['user_id']],
+                            'userdata' => [ilDBConstants::T_TEXT, $row['userdata']],
+                            'connected' => [ilDBConstants::T_INTEGER, $row['connected']],
+                            'disconnected' => [ilDBConstants::T_INTEGER, time()]
                         ]
                     );
                 }
@@ -424,7 +422,7 @@ class ilChatroom
         $query = 'SELECT COUNT(user_id) as cnt FROM ' . self::$userTable .
             ' WHERE room_id = %s AND user_id = %s';
 
-        $types = ['integer', 'integer'];
+        $types = [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER];
         $values = [$this->roomId, $chat_userid];
         $res = $DIC->database()->queryF($query, $types, $values);
 
@@ -449,11 +447,11 @@ class ilChatroom
         $filter = [];
 
         if ($from !== null) {
-            $filter[] = 'timestamp >= ' . $DIC->database()->quote($from->getUnixTime(), 'integer');
+            $filter[] = 'timestamp >= ' . $DIC->database()->quote($from->getUnixTime(), ilDBConstants::T_INTEGER);
         }
 
         if ($to !== null) {
-            $filter[] = 'timestamp <= ' . $DIC->database()->quote($to->getUnixTime(), 'integer');
+            $filter[] = 'timestamp <= ' . $DIC->database()->quote($to->getUnixTime(), ilDBConstants::T_INTEGER);
         }
 
         if ($filter) {
@@ -507,12 +505,12 @@ class ilChatroom
         $DIC->database()->insert(
             self::$uploadTable,
             [
-                'upload_id' => ['integer', $upload_id],
-                'room_id' => ['integer', $this->roomId],
-                'user_id' => ['integer', $user_id],
-                'filename' => ['text', $filename],
-                'filetype' => ['text', $type],
-                'timestamp' => ['integer', time()]
+                'upload_id' => [ilDBConstants::T_INTEGER, $upload_id],
+                'room_id' => [ilDBConstants::T_INTEGER, $this->roomId],
+                'user_id' => [ilDBConstants::T_INTEGER, $user_id],
+                'filename' => [ilDBConstants::T_TEXT, $filename],
+                'filetype' => [ilDBConstants::T_TEXT, $type],
+                'timestamp' => [ilDBConstants::T_INTEGER, time()]
             ]
         );
     }
@@ -524,13 +522,13 @@ class ilChatroom
         $DIC->database()->replace(
             self::$banTable,
             [
-                'room_id' => ['integer', $this->roomId],
-                'user_id' => ['integer', $user_id]
+                'room_id' => [ilDBConstants::T_INTEGER, $this->roomId],
+                'user_id' => [ilDBConstants::T_INTEGER, $user_id]
             ],
             [
-                'actor_id' => ['integer', $actor_id],
-                'timestamp' => ['integer', time()],
-                'remark' => ['text', $comment]
+                'actor_id' => [ilDBConstants::T_INTEGER, $actor_id],
+                'timestamp' => [ilDBConstants::T_INTEGER, time()],
+                'remark' => [ilDBConstants::T_TEXT, $comment]
             ]
         );
     }
@@ -548,8 +546,8 @@ class ilChatroom
             $user_id = [$user_id];
         }
 
-        $query = 'DELETE FROM ' . self::$banTable . ' WHERE room_id = %s AND ' . $DIC->database()->in('user_id', $user_id, false, 'integer');
-        $types = ['integer'];
+        $query = 'DELETE FROM ' . self::$banTable . ' WHERE room_id = %s AND ' . $DIC->database()->in('user_id', $user_id, false, ilDBConstants::T_INTEGER);
+        $types = [ilDBConstants::T_INTEGER];
         $values = [$this->getRoomId()];
 
         return $DIC->database()->manipulateF($query, $types, $values);
@@ -560,7 +558,7 @@ class ilChatroom
         global $DIC;
 
         $query = 'SELECT COUNT(user_id) cnt FROM ' . self::$banTable . ' WHERE user_id = %s AND room_id = %s';
-        $types = ['integer', 'integer'];
+        $types = [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER];
         $values = [$user_id, $this->getRoomId()];
 
         $res = $DIC->database()->queryF($query, $types, $values);
@@ -573,7 +571,7 @@ class ilChatroom
         global $DIC;
 
         $query = 'SELECT chb.* FROM ' . self::$banTable . ' chb INNER JOIN usr_data ud ON chb.user_id = ud.usr_id WHERE chb.room_id = %s ';
-        $types = ['integer'];
+        $types = [ilDBConstants::T_INTEGER];
         $values = [$this->getRoomId()];
         $res = $DIC->database()->queryF($query, $types, $values);
         $result = [];
@@ -603,7 +601,7 @@ class ilChatroom
         global $DIC;
 
         $query = 'SELECT * FROM ' . self::$sessionTable . ' WHERE user_id = ' .
-            $DIC->database()->quote($user->getUserId(), 'integer') .
+            $DIC->database()->quote($user->getUserId(), ilDBConstants::T_INTEGER) .
             ' ORDER BY connected DESC';
 
         $DIC->database()->setLimit(1);
@@ -622,7 +620,7 @@ class ilChatroom
 
         $query = 'SELECT * FROM ' . self::$sessionTable
             . ' WHERE room_id = ' .
-            $DIC->database()->quote($this->getRoomId(), 'integer') .
+            $DIC->database()->quote($this->getRoomId(), ilDBConstants::T_INTEGER) .
             ' ORDER BY connected DESC';
 
         $res = $DIC->database()->query($query);
@@ -695,7 +693,7 @@ class ilChatroom
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
             $notification->setIdentification(new NotificationIdentification(
                 ChatInvitationNotificationProvider::NOTIFICATION_TYPE,
-                self::ROOM_INVITATION . '_' . $gui->getObject()->getRefId(),
+                self::ROOM_INVITATION . '_' . $this->getRefIdByRoomId($this->getRoomId()) . '_' . $subScope,
             ));
             $notification->setHandlerParam('mail.sender', (string) $sender_id);
 
@@ -722,7 +720,7 @@ class ilChatroom
         global $DIC;
 
         $query = 'SELECT COUNT(user_id) cnt FROM ' . self::$userTable . ' WHERE room_id = %s';
-        $types = ['integer'];
+        $types = [ilDBConstants::T_INTEGER];
         $values = [$this->roomId];
         $res = $DIC->database()->queryF($query, $types, $values);
 
@@ -755,7 +753,7 @@ class ilChatroom
 			WHERE od.type = %s
        ";
 
-        $types = ['integer', 'text'];
+        $types = [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT];
         $values = [1, 'chtr'];
         $res = $DIC->database()->queryF($query, $types, $values);
 
@@ -786,7 +784,7 @@ class ilChatroom
        WHERE       cs.room_id = %s
        ";
 
-        $types = ['integer'];
+        $types = [ilDBConstants::T_INTEGER];
         $values = [$room_id];
 
         $res = $DIC->database()->queryF($query, $types, $values);
@@ -807,11 +805,11 @@ class ilChatroom
         $rset = $DIC->database()->query(
             'SELECT *
 			FROM ' . self::$historyTable . '
-			WHERE room_id = ' . $DIC->database()->quote($this->roomId, 'integer') . '
+			WHERE room_id = ' . $DIC->database()->quote($this->roomId, ilDBConstants::T_INTEGER) . '
 			AND (
-				(' . $DIC->database()->like('message', 'text', '%"type":"message"%') . ' AND NOT ' . $DIC->database()->like('message', 'text', '%"public":0%') . ')
-		  		OR ' . $DIC->database()->like('message', 'text', '%"target":{%"id":"' . $chatuser->getUserId() . '"%') . '
-				OR ' . $DIC->database()->like('message', 'text', '%"from":{"id":' . $chatuser->getUserId() . '%') . '
+				(' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%"type":"message"%') . ' AND NOT ' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%"public":0%') . ')
+		  		OR ' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%"target":{%"id":"' . $chatuser->getUserId() . '"%') . '
+				OR ' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%"from":{"id":' . $chatuser->getUserId() . '%') . '
 			)
 			ORDER BY timestamp DESC'
         );
@@ -836,10 +834,10 @@ class ilChatroom
                 'SELECT *
                  FROM ' . self::$historyTable . '
                  WHERE room_id = %s
-                 AND ' . $DIC->database()->like('message', 'text', '%%"type":"notice"%%') . '
+                 AND ' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%%"type":"notice"%%') . '
                  AND timestamp <= %s AND timestamp >= %s
                  ORDER BY timestamp DESC',
-                ['integer', 'integer', 'integer'],
+                [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
                 [$this->roomId, $results[0]->timestamp, $results[$result_count - 1]->timestamp]
             );
 
@@ -865,13 +863,13 @@ class ilChatroom
 
         $DIC->database()->queryF(
             'DELETE FROM ' . self::$historyTable . ' WHERE room_id = %s',
-            ['integer'],
+            [ilDBConstants::T_INTEGER],
             [$this->roomId]
         );
 
         $DIC->database()->queryF(
             'DELETE FROM ' . self::$sessionTable . ' WHERE room_id = %s AND disconnected < %s',
-            ['integer', 'integer'],
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
             [$this->roomId, time()]
         );
     }
