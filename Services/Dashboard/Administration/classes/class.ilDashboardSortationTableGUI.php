@@ -18,11 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+
 class ilDashboardSortationTableGUI extends ilTable2GUI
 {
-    private ilAccessHandler $access;
-    private \ILIAS\UI\Renderer $uiRenderer;
-    private \ILIAS\UI\Factory $uiFactory;
+    private Renderer $uiRenderer;
+    private Factory $uiFactory;
     private ilPDSelectedItemsBlockViewSettings $viewSettings;
     private ilDashboardSidePanelSettingsRepository $side_panel_settings;
 
@@ -49,7 +51,7 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
     public function initColumns(): void
     {
         $this->addColumn($this->lng->txt('topitem_position'), '', '30px');
-        $this->addColumn($this->lng->txt('topitem_title'));
+        $this->addColumn($this->lng->txt('topitem_block'));
         $this->addColumn($this->lng->txt('topitem_active'));
     }
 
@@ -68,7 +70,7 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
             $presentation_cb->setValue('1');
             $presentation_cb->setDisabled($presentation_view === ilPDSelectedItemsBlockConstants::VIEW_RECOMMENDED_CONTENT);
 
-            $position_input = new ilTextInputGUI('', 'main_panel[position][' . $presentation_view . ']');
+            $position_input = new ilNumberInputGUI('', 'main_panel[position][' . $presentation_view . ']');
             $position_input->setSize(3);
             $position_input->setValue((string) (++$position * 10));
 
@@ -97,8 +99,8 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
             $data[] = [
                 'position' => $position_input->render(),
                 'title' => $this->lng->txt("dash_enable_" . $mod),
-                'active_checkbox' => $side_panel_module_cb->render(),
-                ];
+                'active_checkbox' => $side_panel_module_cb->render()
+            ];
         }
         $this->setData($data);
     }

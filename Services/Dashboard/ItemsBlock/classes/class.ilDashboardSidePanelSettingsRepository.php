@@ -39,6 +39,9 @@ class ilDashboardSidePanelSettingsRepository
             : $dashboard_settings;
     }
 
+    /**
+     * @return string[]
+     */
     public function getValidModules(): array
     {
         return [
@@ -54,6 +57,9 @@ class ilDashboardSidePanelSettingsRepository
         $this->setting->set("side_panel_positions", serialize($positions));
     }
 
+    /**
+     * @return string[]
+     */
     public function getPositions(): array
     {
         $positions = $this->setting->get("side_panel_positions", "");

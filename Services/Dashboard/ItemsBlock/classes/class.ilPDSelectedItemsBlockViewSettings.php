@@ -306,6 +306,9 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         $this->settings->set('pd_view_positions', serialize($positions));
     }
 
+    /**
+     * @return int[]
+     */
     public function getViewPositions(): array
     {
         $val = $this->settings->get('pd_view_positions', '');
@@ -350,7 +353,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
                 $this->enableLearningSequences($status);
                 break;
             default:
-                throw new \InvalidArgumentException("Unknown view: $view");
+                throw new InvalidArgumentException("Unknown view: $view");
         }
     }
 

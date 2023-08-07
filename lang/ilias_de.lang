@@ -7944,6 +7944,7 @@ dash#:#dash_view_courses_groups#:#Block ‘Meine Kurse und Gruppen’
 dash#:#dash_view_favourites#:#Block ‘Favoriten’
 dash#:#favourites_disabled_info#:#Das Setzen von Favoriten ist deaktiviert. Sie können dieses in den Magazin-Einstellungen ändern.
 dash#:#memberships_disabled_info#:#Das Setzen von Mitgliedschaften ist deaktiviert. Sie können dieses in den Kurs-Einstellungen ändern.
+dash#:#topitem_block#:#Block
 dateplaner#:#Fr_long#:#Freitag
 dateplaner#:#Fr_short#:#Fr
 dateplaner#:#Mo_long#:#Montag
@@ -12051,7 +12052,7 @@ mme#:#topitem_icon_byline#:#Hochgeladene SVG-Icons werden invertiert angezeigt.
 mme#:#topitem_position#:#Position
 mme#:#topitem_provider#:#Provider
 mme#:#topitem_subentries#:#Einträge
-mme#:#topitem_title#:#Block
+mme#:#topitem_title#:#Title
 mme#:#topitem_title_default#:#Titel (Standard-Sprache)
 mme#:#topitem_title_default_byline#:#Weitere Sprachen können über den Aktionslink "Übersetzen" hinzugefügt werden.
 mme#:#topitem_translate#:#Übersetzen

@@ -579,7 +579,7 @@ class ilColumnGUI
                         $side = IL_COL_RIGHT;
                     }
 
-                    if ($this->getColType() === 'pd' && in_array(substr($type, 2), $this->dash_side_panel_settings->getValidModules())) {
+                    if ($this->getColType() === 'pd' && in_array(substr($type, 2), $this->dash_side_panel_settings->getValidModules(), true)) {
                         $nr = $positions[substr($type, 2)] ?? $nr;
                     }
 

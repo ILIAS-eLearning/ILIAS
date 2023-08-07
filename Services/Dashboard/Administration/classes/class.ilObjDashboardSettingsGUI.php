@@ -238,11 +238,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $this->viewSettings->setViewPositions(array_keys($positions));
 
             foreach ($this->side_panel_settings->getValidModules() as $mod) {
-                if (isset($form_data['side_panel']['enable'][$mod])) {
-                    $this->side_panel_settings->enable($mod, (bool) $form_data['side_panel']['enable'][$mod]);
-                } else {
-                    $this->side_panel_settings->enable($mod, false);
-                }
+                $this->side_panel_settings->enable($mod, (bool) ($form_data['side_panel']['enable'][$mod] ?? false));
             }
 
             $positions = $form_data['side_panel']['position'];

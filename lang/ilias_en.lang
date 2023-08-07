@@ -7937,6 +7937,7 @@ dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.
+dash#:#topitem_block#:#Block
 dateplaner#:#Fr_long#:#Friday
 dateplaner#:#Fr_short#:#Fr
 dateplaner#:#Mo_long#:#Monday
@@ -12044,7 +12045,7 @@ mme#:#topitem_icon_byline#:#Upload a custom icon for this Item. Please note that
 mme#:#topitem_position#:#Position
 mme#:#topitem_provider#:#Provider
 mme#:#topitem_subentries#:#Items
-mme#:#topitem_title#:#Block
+mme#:#topitem_title#:#Title
 mme#:#topitem_title_default#:#Title (Default Language)
 mme#:#topitem_title_default_byline#:#Other Translations can be added with the Translation Action after.
 mme#:#topitem_translate#:#Translate
