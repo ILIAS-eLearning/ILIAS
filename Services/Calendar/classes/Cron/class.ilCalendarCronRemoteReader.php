@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Cron\Schedule\CronJobScheduleType as CronJobScheduleType;
+
 class ilCalendarCronRemoteReader extends ilCronJob
 {
     private const DEFAULT_SYNC_HOURS = 1;
@@ -75,9 +77,9 @@ class ilCalendarCronRemoteReader extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_IN_HOURS;
+        return \ILIAS\Cron\Schedule\CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES;
     }
 
     public function getDefaultScheduleValue(): ?int
