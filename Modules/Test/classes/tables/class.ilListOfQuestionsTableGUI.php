@@ -31,7 +31,7 @@ use ILIAS\UI\Component\Modal\Interruptive;
 
 class ilListOfQuestionsTableGUI extends ilTable2GUI
 {
-    private bool $userHasAttemptsLeft = true;
+    private bool $user_has_attempts_left = true;
     /** @var Component[] $command_buttons */
     private array $command_buttons = [];
     private Interruptive $finish_test_modal;
@@ -121,12 +121,12 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
     public function userHasAttemptsLeft(): bool
     {
-        return $this->userHasAttemptsLeft;
+        return $this->user_has_attempts_left;
     }
 
-    public function setUserHasAttemptsLeft(bool $userHasAttemptsLeft): void
+    public function setUserHasAttemptsLeft(bool $user_has_attempts_left): void
     {
-        $this->userHasAttemptsLeft = $userHasAttemptsLeft;
+        $this->user_has_attempts_left = $user_has_attempts_left;
     }
 
     private function addFinishTestButton(): void

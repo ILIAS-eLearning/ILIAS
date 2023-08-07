@@ -77,7 +77,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
      * @var bool
      */
     private $disabledStateEnabled = false;
-    private bool $userHasAttemptsLeft = true;
+    private bool $user_has_attempts_left = true;
     protected Interruptive $finish_test_modal;
 
     /**
@@ -96,12 +96,12 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 
     public function userHasAttemptsLeft(): bool
     {
-        return $this->userHasAttemptsLeft;
+        return $this->user_has_attempts_left;
     }
 
-    public function setUserHasAttemptsLeft(bool $userHasAttemptsLeft): void
+    public function setUserHasAttemptsLeft(bool $user_has_attempts_left): void
     {
-        $this->userHasAttemptsLeft = $userHasAttemptsLeft;
+        $this->user_has_attempts_left = $user_has_attempts_left;
     }
 
     /**
