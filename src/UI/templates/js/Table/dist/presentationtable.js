@@ -1,3 +1,19 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class PresentationTable {
   /**
    * @type {HTMLDivElement}
@@ -9,8 +25,7 @@ class PresentationTable {
    * @throws {Error} if DOM element is missing
    */
   constructor(componentId) {
-    //this.#component = document.getElementById(componentId);
-    this.#component = document.body.querySelector('#'+ componentId);
+    this.#component = document.getElementById(componentId);
     if (this.#component === null) {
       throw new Error(`Could not find a PresentationTable for id '${componentId}'.`);
     }
@@ -20,10 +35,10 @@ class PresentationTable {
    * @param {string} rowId
    */
   expandRow(rowId) {
-    this.#component.querySelector('#'+ rowId + ' .il-table-presentation-row-controls-expander').style.display = 'none';
-    this.#component.querySelector('#'+ rowId + ' .il-table-presentation-row-controls-collapser').style.display = 'block';
-    this.#component.querySelector('#'+ rowId + ' .il-table-presentation-row-expanded').style.display = 'block';
-    this.#component.querySelector('#'+ rowId + ' .il-table-presentation-row-header-fields').style.display = 'none';
+    this.#component.querySelector(`#${rowId} .il-table-presentation-row-controls-expander`).style.display = 'none';
+    this.#component.querySelector(`#${rowId} .il-table-presentation-row-controls-collapser`).style.display = 'block';
+    this.#component.querySelector(`#${rowId} .il-table-presentation-row-expanded`).style.display = 'block';
+    this.#component.querySelector(`#${rowId} .il-table-presentation-row-header-fields`).style.display = 'none';
     this.#component.classList.remove('collapsed');
     this.#component.classList.add('expanded');
   }
@@ -32,10 +47,10 @@ class PresentationTable {
    * @param {string} rowId
    */
   collapseRow(rowId) {
-    this.#component.querySelector('#'+ rowId + ' .il-table-presentation-row-controls-expander').style.display = 'block';
-    this.#component.querySelector('#'+ rowId + ' .il-table-presentation-row-controls-collapser').style.display = 'none';
-    this.#component.querySelector('#'+ rowId + ' .il-table-presentation-row-expanded').style.display = 'none';
-    this.#component.querySelector('#'+ rowId + ' .il-table-presentation-row-header-fields').style.display = 'block';
+    this.#component.querySelector(`#${rowId} .il-table-presentation-row-controls-expander`).style.display = 'block';
+    this.#component.querySelector(`#${rowId} .il-table-presentation-row-controls-collapser`).style.display = 'none';
+    this.#component.querySelector(`#${rowId} .il-table-presentation-row-expanded`).style.display = 'none';
+    this.#component.querySelector(`#${rowId} .il-table-presentation-row-header-fields`).style.display = 'block';
     this.#component.classList.remove('expanded');
     this.#component.classList.add('collapsed');
   }
@@ -45,10 +60,10 @@ class PresentationTable {
    */
   toggleRow(rowId) {
     const elements = [
-      this.#component.querySelector('#'+ rowId + ' .il-table-presentation-row-controls-expander'),
-      this.#component.querySelector('#'+ rowId + ' .il-table-presentation-row-controls-collapser'),
-      this.#component.querySelector('#'+ rowId + ' .il-table-presentation-row-expanded'),
-      this.#component.querySelector('#'+ rowId + ' .il-table-presentation-row-header-fields'),
+      this.#component.querySelector(`#${rowId} .il-table-presentation-row-controls-expander`),
+      this.#component.querySelector(`#${rowId} .il-table-presentation-row-controls-collapser`),
+      this.#component.querySelector(`#${rowId} .il-table-presentation-row-expanded`),
+      this.#component.querySelector(`#${rowId} .il-table-presentation-row-header-fields`),
     ];
     let i = 0;
     for (i; i < elements.length; i += 1) {
@@ -70,7 +85,7 @@ class PresentationTable {
    * @param {array} signalData
    */
   expandAll(signalData) {
-    const rows = this.#component.querySelectorAll(`.il-table-presentation-row`);
+    const rows = this.#component.querySelectorAll('.il-table-presentation-row');
     if (signalData.options.expand) {
       rows.forEach((row) => this.expandRow(row.id));
     } else {
@@ -78,6 +93,22 @@ class PresentationTable {
     }
   }
 }
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class PresentationTableFactory {
   /**
@@ -103,6 +134,22 @@ class PresentationTableFactory {
     return this.#instances[tableId] ?? null;
   }
 }
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 il.UI = il.UI || {};
 il.UI.table = il.UI.table || {};
