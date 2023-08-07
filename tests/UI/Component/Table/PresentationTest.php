@@ -71,8 +71,8 @@ class PresentationTest extends ILIAS_UI_TestBase
         <div class="il-table-presentation" id="id_3">
             <h3 class="ilHeader">title</h3>
             <div class="il-table-presentation-viewcontrols">
-                <button class="btn btn-default" id="id_1">presentaion_table_expand</button>
-                <button class="btn btn-default" id="id_2">presentaion_table_collapse</button>
+                <button class="btn btn-default" id="id_1">presentation_table_expand</button>
+                <button class="btn btn-default" id="id_2">presentation_table_collapse</button>
             </div>
             <div class="il-table-presentation-data"></div>
         </div>
@@ -89,7 +89,7 @@ EXP;
         $f = $this->getFactory();
         $pt = $f->presentation('title', [], function (): void {
         });
-        $row = new PresentationRow($pt->getSignalGenerator());
+        $row = new PresentationRow($pt->getSignalGenerator(), 'table_id');
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\PresentationRow", $row);
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Signal", $row->getShowSignal());
@@ -172,8 +172,8 @@ EXP;
 <div class="il-table-presentation" id="id_3">
     <h3 class="ilHeader">title</h3>
     <div class="il-table-presentation-viewcontrols">
-        <button class="btn btn-default" id="id_1">presentaion_table_expand</button>
-        <button class="btn btn-default" id="id_2">presentaion_table_collapse</button>
+        <button class="btn btn-default" id="id_1">presentation_table_expand</button>
+        <button class="btn btn-default" id="id_2">presentation_table_collapse</button>
     </div>
     <div class="il-table-presentation-data">
         <div class="il-table-presentation-row row collapsed" id="id_4">
@@ -251,8 +251,8 @@ EXP;
 <div class="il-table-presentation" id="id_3">
     <h3 class="ilHeader">title</h3>
     <div class="il-table-presentation-viewcontrols">
-        <button class="btn btn-default" id="id_1">presentaion_table_expand</button>
-        <button class="btn btn-default" id="id_2">presentaion_table_collapse</button>
+        <button class="btn btn-default" id="id_1">presentation_table_expand</button>
+        <button class="btn btn-default" id="id_2">presentation_table_collapse</button>
     </div>
     <div class="il-table-presentation-data">
         <div class="il-table-presentation-row row collapsed" id="id_4">

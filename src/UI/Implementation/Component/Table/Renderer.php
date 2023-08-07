@@ -70,15 +70,18 @@ class Renderer extends AbstractComponentRenderer
             $sig_ta_expand = clone $sig_ta;
             $sig_ta_expand->addOption('expand', true);
             $vcs[] = $this->getUIFactory()->button()
-                ->standard($this->txt('presentaion_table_expand'), '')
+                ->standard($this->txt('presentation_table_expand'), '')
                 ->withOnClick($sig_ta_expand);
             $sig_ta_collapse = clone $sig_ta;
             $sig_ta_collapse->addOption('expand', false);
             $vcs[] = $this->getUIFactory()->button()
-                ->standard($this->txt('presentaion_table_collapse'), '')
+                ->standard($this->txt('presentation_table_collapse'), '')
                 ->withOnClick($sig_ta_collapse);
             $component = $component->withAdditionalOnLoadCode(
-                fn($id) => "$(document).on('$sig_ta', function(event, signal_data) { il.UI.table.presentation.expandAll('$id', signal_data); return false; });"
+                static fn($id) => "
+                    il.UI.table.presentation.init('{$id}');
+                    $(document).on('$sig_ta', function(event, signal_data) { il.UI.table.presentation.get('$id').expandAll(signal_data); return false; });
+                    "
             );
         }
         $vcs = array_merge($vcs, $component->getViewControls());
@@ -97,10 +100,11 @@ class Renderer extends AbstractComponentRenderer
 
         $row_mapping = $component->getRowMapping();
         $data = $component->getData();
+        $component_id = $id;
 
         foreach ($data as $record) {
             $row = $row_mapping(
-                new PresentationRow($component->getSignalGenerator()),
+                new PresentationRow($component->getSignalGenerator(), $component_id),
                 $record,
                 $this->getUIFactory(),
                 $component->getEnvironment()
@@ -517,7 +521,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/Table/presentation.js');
+        $registry->register('./src/UI/templates/js/Table/dist/presentationtable.js');
         $registry->register('./src/UI/templates/js/Table/dist/datatable.js');
     }
 
@@ -526,11 +530,12 @@ class Renderer extends AbstractComponentRenderer
         $show = $component->getShowSignal();
         $close = $component->getCloseSignal();
         $toggle = $component->getToggleSignal();
+        $table_id = $component->getTableId();
         return $component->withAdditionalOnLoadCode(
             static fn($id): string =>
-            "$(document).on('$show', function() { il.UI.table.presentation.expandRow('$id'); return false; });" .
-            "$(document).on('$close', function() { il.UI.table.presentation.collapseRow('$id'); return false; });" .
-            "$(document).on('$toggle', function() { il.UI.table.presentation.toggleRow('$id'); return false; });"
+            "$(document).on('$show', function() { il.UI.table.presentation.get('$table_id').expandRow('$id'); return false; });" .
+            "$(document).on('$close', function() { il.UI.table.presentation.get('$table_id').collapseRow('$id'); return false; });" .
+            "$(document).on('$toggle', function() { il.UI.table.presentation.get('$table_id').toggleRow('$id'); return false; });"
         );
     }
 

@@ -53,8 +53,10 @@ class PresentationRow implements T\PresentationRow
     private ?Symbol $symbol = null;
     protected SignalGeneratorInterface $signal_generator;
 
-    public function __construct(SignalGeneratorInterface $signal_generator)
-    {
+    public function __construct(
+        SignalGeneratorInterface $signal_generator,
+        protected string $table_id
+    ) {
         $this->signal_generator = $signal_generator;
         $this->initSignals();
     }
@@ -254,5 +256,10 @@ class PresentationRow implements T\PresentationRow
     public function getLeadingSymbol(): ?Symbol
     {
         return $this->symbol;
+    }
+
+    public function getTableId(): string
+    {
+        return $this->table_id;
     }
 }
