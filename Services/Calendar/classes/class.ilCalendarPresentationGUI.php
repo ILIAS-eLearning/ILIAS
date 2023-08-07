@@ -314,7 +314,7 @@ class ilCalendarPresentationGUI
                     break;
                 }
 
-            // no break
+                // no break
             case 'ilcalendarblockgui':
                 $side_cal = new ilCalendarBlockGUI();
                 $side_cal->setRepositoryMode($this->getRepositoryMode());
@@ -350,8 +350,6 @@ class ilCalendarPresentationGUI
                 $this->showSideBlocks();
                 break;
         }
-        // @todo add cron job feature
-        $this->synchroniseExternalCalendars();
     }
 
     public function showViewSelection(string $a_active = "cal_list"): void
@@ -760,41 +758,6 @@ class ilCalendarPresentationGUI
         ilSession::set('cal_seed', $this->seed->get(IL_CAL_DATE));
     }
 
-    /**
-     * Sync external calendars
-     */
-    protected function synchroniseExternalCalendars(): void
-    {
-        if (!ilCalendarSettings::_getInstance()->isWebCalSyncEnabled()) {
-            return;
-        }
-        $limit = new ilDateTime(time(), IL_CAL_UNIX);
-        $limit->increment(IL_CAL_HOUR, -1 * ilCalendarSettings::_getInstance()->getWebCalSyncHours());
-
-        $cats = ilCalendarCategories::_getInstance($this->user->getId());
-        foreach ($cats->getCategoriesInfo() as $cat_id => $info) {
-            if ($info['remote'] ?? false) {
-                // Check for execution
-                $category = new ilCalendarCategory($cat_id);
-
-                if (
-                    $category->getRemoteSyncLastExecution()->isNull() ||
-                    ilDateTime::_before($category->getRemoteSyncLastExecution(), $limit)
-                ) {
-                    // update in any case to avoid multiple updates of invalid calendar sources.
-                    $category->setRemoteSyncLastExecution(new ilDateTime(time(), IL_CAL_UNIX));
-                    $category->update();
-
-                    $remote = new ilCalendarRemoteReader($category->getRemoteUrl());
-                    $remote->setUser($category->getRemoteUser());
-                    $remote->setPass($category->getRemotePass());
-                    $remote->read();
-                    $remote->import($category);
-                    break;
-                }
-            }
-        }
-    }
 
     #21613
     public function showToolbarAndSidebar(): bool
