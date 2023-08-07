@@ -342,7 +342,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd.svg"));
         $this->tpl->setTitle($this->lng->txt("personal_desktop"));
-        $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png"));
+        $this->tpl->setVariable('IMG_SPACE', ilUtil::getImagePath('spacer.png'));
     }
 
     public function setTabs(): void
@@ -506,7 +506,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
             case ilPDSelectedItemsBlockConstants::VIEW_MY_STUDYPROGRAMME:
                 return (new ilStudyProgrammeDashboardViewGUI())->getHTML();
             default:
-                return "";
+                return '';
         }
     }
 }

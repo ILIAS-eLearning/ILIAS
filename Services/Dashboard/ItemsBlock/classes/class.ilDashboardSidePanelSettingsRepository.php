@@ -54,7 +54,7 @@ class ilDashboardSidePanelSettingsRepository
 
     public function setPositions(array $positions): void
     {
-        $this->setting->set("side_panel_positions", serialize($positions));
+        $this->setting->set('side_panel_positions', serialize($positions));
     }
 
     /**
@@ -62,9 +62,9 @@ class ilDashboardSidePanelSettingsRepository
      */
     public function getPositions(): array
     {
-        $positions = $this->setting->get("side_panel_positions", "");
+        $positions = $this->setting->get('side_panel_positions', "");
         if ($positions !== "") {
-            return unserialize($positions, ["allowed_classes" => false]);
+            return unserialize($positions, ['allowed_classes' => false]);
         }
         return $this->getValidModules();
     }
@@ -73,7 +73,6 @@ class ilDashboardSidePanelSettingsRepository
     {
         return in_array($mod, $this->getValidModules());
     }
-
 
     // Enable module
     public function enable(string $mod, bool $active): void

@@ -546,7 +546,7 @@ class ilColumnGUI
         $this->blocks[IL_COL_CENTER] = array();
 
         $user_id = 0;
-        if ($this->getColType() === "pd") {
+        if ($this->getColType() === 'pd') {
             $user_id = $ilUser->getId();
             $positions = array_flip($this->dash_side_panel_settings->getPositions());
         }

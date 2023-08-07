@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Component\Input\Field\Section;
 
 /**
- * @ilCtrl_Calls ilObjDashboardSettingsGUI: ilPermissionGUI
+ * @ilCtrl_Calls      ilObjDashboardSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjDashboardSettingsGUI: ilAdministrationGUI
  */
 class ilObjDashboardSettingsGUI extends ilObjectGUI
@@ -129,7 +129,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $content[] = $this->ui_factory->messageBox()->info($this->lng->txt('memberships_disabled_info'));
         }
         $this->setSettingsSubTabs('general');
-        $table = new ilDashboardSortationTableGUI($this, "editSettings");
+        $table = new ilDashboardSortationTableGUI($this, 'editSettings');
         $this->tpl->setContent($table->getHTML());
     }
 
@@ -179,8 +179,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 $this->viewSettings->getActiveSortingsByView($view)
             )
             ->withAdditionalOnLoadCode(
-                static fn(string $id) =>
-                    "document.getElementById('$id').setAttribute('data-checkbox', 'activeSorting$view');
+                static fn(string $id) => "document.getElementById('$id').setAttribute('data-checkbox', 'activeSorting$view');
                     document.addEventListener('DOMContentLoaded', function () {
                         il.Dashboard.handleUserInputForSortationsByView($view);
                     });"
@@ -192,8 +191,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->withValue($this->viewSettings->getDefaultSortingByView($view))
             ->withRequired(true)
             ->withAdditionalOnLoadCode(
-                static fn(string $id) =>
-                    "document.getElementById('$id').setAttribute('data-select', 'sorting$view');"
+                static fn(string $id) => "document.getElementById('$id').setAttribute('data-select', 'sorting$view');"
             );
         return $this->ui_factory->input()->field()->section(
             $this->maybeDisable(["avail_sorting" => $available_sorting, "default_sorting" => $default_sorting]),
@@ -257,9 +255,8 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 true
             );
         }
-        $this->ctrl->redirect($this, "editSettings");
+        $this->ctrl->redirect($this, 'editSettings');
     }
-
 
     public function setSettingsSubTabs(string $a_active): void
     {
@@ -304,16 +301,23 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $ops = $this->viewSettings->getAvailablePresentationsByView($view);
-        $pres_options = array_column(array_map(
-            static fn(int $k, string $v): array => [$v, $lng->txt('dash_' . $v)],
-            array_keys($ops),
-            $ops
-        ), 1, 0);
-        $avail_pres = $this->ui_factory->input()->field()->multiSelect($lng->txt('dash_avail_presentation'), $pres_options)
-                                 ->withValue($this->viewSettings->getActivePresentationsByView($view));
+        $pres_options = array_column(
+            array_map(
+                static fn(int $k, string $v): array => [$v, $lng->txt('dash_' . $v)],
+                array_keys($ops),
+                $ops
+            ),
+            1,
+            0
+        );
+        $avail_pres = $this->ui_factory->input()->field()->multiSelect(
+            $lng->txt('dash_avail_presentation'),
+            $pres_options
+        )
+                                       ->withValue($this->viewSettings->getActivePresentationsByView($view));
         $default_pres = $this->ui_factory->input()->field()->radio($lng->txt('dash_default_presentation'))
-                                   ->withOption('list', $lng->txt('dash_list'))
-                                   ->withOption('tile', $lng->txt('dash_tile'));
+                                         ->withOption('list', $lng->txt('dash_list'))
+                                         ->withOption('tile', $lng->txt('dash_tile'));
         $default_pres = $default_pres->withValue($this->viewSettings->getDefaultPresentationByView($view));
         return $this->ui_factory->input()->field()->section(
             $this->maybeDisable(['avail_pres' => $avail_pres, 'default_pres' => $default_pres]),
@@ -373,7 +377,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 );
             }
         }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->editSorting();
     }
 

@@ -47,10 +47,10 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     ];
     /** @var string[] */
     protected static array $availableSortOptions = [
-            self::SORT_BY_LOCATION,
-            self::SORT_BY_TYPE,
-            self::SORT_BY_START_DATE,
-            self::SORT_BY_ALPHABET,
+        self::SORT_BY_LOCATION,
+        self::SORT_BY_TYPE,
+        self::SORT_BY_START_DATE,
+        self::SORT_BY_ALPHABET,
     ];
 
     /**
@@ -273,7 +273,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     }
 
     /**
-     * @param string[]  $active
+     * @param string[] $active
      */
     public function storeViewPresentation(int $view, string $default, array $active): void
     {
@@ -353,7 +353,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
                 $this->enableLearningSequences($status);
                 break;
             default:
-                throw new InvalidArgumentException("Unknown view: $view");
+                throw new InvalidArgumentException('Unknown view: $view');
         }
     }
 

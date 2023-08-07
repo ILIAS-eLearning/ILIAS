@@ -41,8 +41,8 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
         $this->addCommandButton('saveSettings', $this->lng->txt('save'));
         $this->setRowTemplate(
-            "tpl.dashboard_sortation_row.html",
-            "Services/Dashboard"
+            'tpl.dashboard_sortation_row.html',
+            'Services/Dashboard'
         );
         $this->setEnableNumInfo(false);
         $this->initData();
@@ -58,9 +58,11 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
     public function initData(): void
     {
         $data[] = [
-            'position' => $this->uiRenderer->render($this->uiFactory->divider()->horizontal()->withLabel($this->lng->txt("dash_main_panel"))),
+            'position' => $this->uiRenderer->render(
+                $this->uiFactory->divider()->horizontal()->withLabel($this->lng->txt('dash_main_panel'))
+            ),
             'title' => '',
-            'active_checkbox' => '',
+            'active_checkbox' => ''
         ];
 
         $position = 0;
@@ -68,7 +70,9 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
             $presentation_cb = new ilCheckboxInputGUI('', 'main_panel[enable][' . $presentation_view . ']');
             $presentation_cb->setChecked($this->viewSettings->isViewEnabled($presentation_view));
             $presentation_cb->setValue('1');
-            $presentation_cb->setDisabled($presentation_view === ilPDSelectedItemsBlockConstants::VIEW_RECOMMENDED_CONTENT);
+            $presentation_cb->setDisabled(
+                $presentation_view === ilPDSelectedItemsBlockConstants::VIEW_RECOMMENDED_CONTENT
+            );
 
             $position_input = new ilNumberInputGUI('', 'main_panel[position][' . $presentation_view . ']');
             $position_input->setSize(3);
@@ -76,16 +80,18 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
 
             $data[] = [
                 'position' => $position_input->render(),
-                'title' => $this->lng->txt("dash_enable_" . $this->viewSettings->getViewName($presentation_view)),
-                'active_checkbox' => $presentation_cb->render(),
+                'title' => $this->lng->txt('dash_enable_' . $this->viewSettings->getViewName($presentation_view)),
+                'active_checkbox' => $presentation_cb->render()
             ];
         }
 
         $data[] = [
-                'position' => $this->uiRenderer->render($this->uiFactory->divider()->horizontal()->withLabel($this->lng->txt("dash_side_panel"))),
-                'title' => '',
-                'active_checkbox' => '',
-            ];
+            'position' => $this->uiRenderer->render(
+                $this->uiFactory->divider()->horizontal()->withLabel($this->lng->txt('dash_side_panel'))
+            ),
+            'title' => '',
+            'active_checkbox' => ''
+        ];
 
         $sp_fields = [];
         $position = 0;
@@ -93,12 +99,13 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
             $side_panel_module_cb = new ilCheckboxInputGUI('', 'side_panel[enable][' . $mod . ']');
             $side_panel_module_cb->setChecked($this->side_panel_settings->isEnabled($mod));
 
-            $position_input = new ilTextInputGUI('', 'side_panel[position][' . $mod . ']');
+            $position_input = new ilNumberInputGUI('', 'side_panel[position][' . $mod . ']');
+            $position_input->setSize(3);
             $position_input->setValue((string) (++$position * 10));
 
             $data[] = [
                 'position' => $position_input->render(),
-                'title' => $this->lng->txt("dash_enable_" . $mod),
+                'title' => $this->lng->txt('dash_enable_' . $mod),
                 'active_checkbox' => $side_panel_module_cb->render()
             ];
         }
