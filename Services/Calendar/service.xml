@@ -18,6 +18,7 @@
 	</events>
 	<crons>
 		<cron id="cal_consultation" class="ilConsultationHourCron" path="Services/Calendar/classes/ConsultationHours/" />
+		<cron id="cal_remote_reader" class="ilCalendarCronRemoteReader" path="Services/Calendar/classes/Cron/" />
 	</crons>
 	<pluginslots>
 		<pluginslot id="capm" name="AppointmentCustomModal" />
