@@ -615,7 +615,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             return $lng->txt("deleted_user");
         }
 
-        return trim($uname["lastname"] . ", " . $uname["firstname"] . " " . $uname["title"]);
+        return trim($uname["lastname"] . ", " . $uname["firstname"]);
     }
 
     /**

@@ -32,7 +32,6 @@ abstract class ilObjPortfolioBase extends ilObject2
     protected string $img = "";
     protected string $ppic = "";
     protected bool $style = false;
-    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
         int $a_id = 0,
@@ -47,10 +46,6 @@ abstract class ilObjPortfolioBase extends ilObject2
         $this->setting = $DIC->settings();
 
         $this->db = $DIC->database();
-        $this->content_style_domain = $DIC
-            ->contentStyle()
-            ->domain()
-            ->styleForObjId($this->getId());
     }
 
 

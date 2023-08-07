@@ -1620,6 +1620,7 @@ assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test.
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.
 assessment#:#tst_position#:#Question %s of %s
 assessment#:#tst_position_without_total#:#Question %s
@@ -2907,7 +2908,6 @@ chatroom#:#delete_private_room#:#Delete Private Room
 chatroom#:#delete_private_room_question#:#Confirm delete private room?
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Number of Past Messages
-chatroom#:#display_past_msgs_suffix#:#Messages
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
 chatroom#:#end_whisper#:#Cancel

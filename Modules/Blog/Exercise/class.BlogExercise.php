@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,23 +16,27 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+namespace ILIAS\Blog\Exercise;
+
 /**
  * Blog Exercise
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilBlogExercise
+class BlogExercise
 {
-    protected ilObjUser $user;
+    protected \ilObjUser $user;
     protected int $node_id;
-    protected ilTree $tree;
+    protected \ilTree $tree;
 
     public function __construct(
-        int $a_node_id
+        int $a_node_id,
+        \ilTree $tree,
+        \ilObjUser $user
     ) {
-        global $DIC;
-
-        $this->tree = $DIC->repositoryTree();
-        $this->user = $DIC->user();
+        $this->tree = $tree;
+        $this->user = $user;
         $this->node_id = $a_node_id;
     }
 
@@ -46,19 +48,19 @@ class ilBlogExercise
 
         $assignments = [];
 
-        $exercises = ilExSubmission::findUserFiles($user->getId(), (string) $node_id);
+        $exercises = \ilExSubmission::findUserFiles($user->getId(), (string) $node_id);
         // #0022794
         if (count($exercises) === 0) {
-            $exercises = ilExSubmission::findUserFiles($user->getId(), $node_id . ".sec");
+            $exercises = \ilExSubmission::findUserFiles($user->getId(), $node_id . ".sec");
         }
         if (count($exercises) === 0) {
-            $exercises = ilExSubmission::findUserFiles($user->getId(), $node_id . ".zip");
+            $exercises = \ilExSubmission::findUserFiles($user->getId(), $node_id . ".zip");
         }
         if ($exercises) {
             foreach ($exercises as $exercise) {
                 // #9988
                 $active_ref = false;
-                foreach (ilObject::_getAllReferences($exercise["obj_id"]) as $ref_id) {
+                foreach (\ilObject::_getAllReferences($exercise["obj_id"]) as $ref_id) {
                     if (!$tree->isSaved($ref_id)) {
                         $active_ref = true;
                         break;

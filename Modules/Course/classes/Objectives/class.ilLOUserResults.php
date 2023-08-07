@@ -45,6 +45,18 @@ class ilLOUserResults
         $this->db = $DIC->database();
     }
 
+    public static function updateResultLimit(int $a_objective_id, int $a_test_type, int $a_limit) : void
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        $query = 'UPDATE loc_user_results ' .
+            'SET limit_perc = ' . $db->quote($a_limit, ilDBConstants::T_INTEGER) . ' ' .
+            'WHERE objective_id = ' . $db->quote($a_objective_id, ilDBConstants::T_INTEGER) . ' ' .
+            'AND type = ' . $db->quote($a_test_type, ilDBConstants::T_INTEGER);
+        $db->manipulate($query);
+    }
+
     public static function lookupResult(
         int $a_course_obj_id,
         int $a_user_id,

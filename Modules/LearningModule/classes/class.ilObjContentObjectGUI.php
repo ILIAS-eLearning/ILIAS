@@ -2685,7 +2685,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilToolbar->addInputItem($si, true);
         $ilToolbar->addFormButton($lng->txt("help_filter"), "filterTooltips");
 
-        $tbl = new ilHelpTooltipTableGUI($this, "showTooltipList", ilSession::get("help_tt_comp"));
+        $tbl = new ilHelpTooltipTableGUI($this, "showTooltipList", (string) ilSession::get("help_tt_comp"));
 
         $tpl->setContent($tbl->getHTML());
     }

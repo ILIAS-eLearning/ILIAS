@@ -1620,6 +1620,7 @@ assessment#:#tst_password_form#:#Eingabe Testpasswort
 assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet bzw. fortgeführt werden. Bitte tragen Sie das Passwort hier ein.
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_player_answer_saved_and_locked#:#Antwort wird gespeichert und gesperrt. Dadurch kann die Antwort nicht mehr geändert werden.
+assessment#:#tst_please_select_source_pool#:#Bitte wählen Sie einen Fragenpool aus.
 assessment#:#tst_please_select_target_for_pool_derives#:#Bitte wählen Sie einen Zielcontainer aus.
 assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_position_without_total#:#Frage %s
@@ -2907,7 +2908,6 @@ chatroom#:#delete_private_room#:#Séparée löschen
 chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Chat-Rückblick
-chatroom#:#display_past_msgs_suffix#:#Beiträge
 chatroom#:#duration_from#:#Von
 chatroom#:#duration_to#:#Bis
 chatroom#:#end_whisper#:#Beenden
