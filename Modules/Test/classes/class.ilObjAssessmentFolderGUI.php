@@ -288,27 +288,25 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         }
 
         $this->getAssessmentFolder()->setSkillTriggeringNumAnswersBarrier((int) $_POST['num_req_answers']);
-        $this->getAssessmentFolder()->setExportEssayQuestionsWithHtml((bool) $_POST["export_essay_qst_with_html"]);
-        $this->getAssessmentFolder()->_setManualScoring($_POST["chb_manual_scoring"]);
-        $questiontypes = ilObjQuestionPool::_getQuestionTypes(true);
+        $this->getAssessmentFolder()->setExportEssayQuestionsWithHtml((bool) ($_POST["export_essay_qst_with_html"] ?? '0'));
+        $this->getAssessmentFolder()->_setManualScoring($_POST["chb_manual_scoring"] ?? []);
+        $question_types = ilObjQuestionPool::_getQuestionTypes(true);
         $forbidden_types = [];
-        foreach ($questiontypes as $name => $row) {
-            if (!in_array($row["question_type_id"], $_POST["chb_allowed_questiontypes"])) {
+        foreach ($question_types as $name => $row) {
+            if (!isset($_POST["chb_allowed_questiontypes"]) || !in_array($row["question_type_id"], $_POST["chb_allowed_questiontypes"])) {
                 $forbidden_types[] = (int) $row["question_type_id"];
             }
         }
         $this->getAssessmentFolder()->_setForbiddenQuestionTypes($forbidden_types);
-
-        $this->getAssessmentFolder()->setScoringAdjustmentEnabled((bool) $_POST['chb_scoring_adjust']);
+        $this->getAssessmentFolder()->setScoringAdjustmentEnabled((bool) ($_POST['chb_scoring_adjust'] ?? '0'));
         $scoring_types = [];
-        foreach ($questiontypes as $name => $row) {
-            if (in_array($row["question_type_id"], (array) $_POST["chb_scoring_adjustment"])) {
+        foreach ($question_types as $name => $row) {
+            if (isset($_POST["chb_scoring_adjustment"]) && in_array($row["question_type_id"], $_POST["chb_scoring_adjustment"])) {
                 $scoring_types[] = $row["question_type_id"];
             }
         }
         $this->getAssessmentFolder()->setScoringAdjustableQuestions($scoring_types);
-
-        if (!$_POST['ass_process_lock']) {
+        if (!isset($_POST['ass_process_lock'])) {
             $this->getAssessmentFolder()->setAssessmentProcessLockMode(ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
         } elseif (in_array(
             $_POST['ass_process_lock_mode'],
