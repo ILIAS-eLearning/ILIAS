@@ -303,6 +303,9 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $ops = $this->viewSettings->getAvailablePresentationsByView($view);
         $pres_options = array_column(
             array_map(
+                /**
+                 * @return array{0: string, 1: string}
+                 */
                 static fn(int $k, string $v): array => [$v, $lng->txt('dash_' . $v)],
                 array_keys($ops),
                 $ops

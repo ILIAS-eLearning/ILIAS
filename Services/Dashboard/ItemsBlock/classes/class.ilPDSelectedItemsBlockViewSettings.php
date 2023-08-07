@@ -301,6 +301,9 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
             : unserialize($val, ['allowed_classes' => false]);
     }
 
+    /**
+     * @param int[] $positions
+     */
     public function setViewPositions(array $positions): void
     {
         $this->settings->set('pd_view_positions', serialize($positions));

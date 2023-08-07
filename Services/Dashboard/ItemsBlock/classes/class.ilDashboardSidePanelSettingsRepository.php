@@ -52,6 +52,9 @@ class ilDashboardSidePanelSettingsRepository
         ];
     }
 
+    /**
+     * @param string[] $positions
+     */
     public function setPositions(array $positions): void
     {
         $this->setting->set('side_panel_positions', serialize($positions));
