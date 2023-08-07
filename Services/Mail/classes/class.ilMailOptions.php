@@ -41,7 +41,9 @@ class ilMailOptions
     protected string $signature = '';
     protected bool $isCronJobNotificationEnabled = false;
     protected int $incomingType = self::INCOMING_LOCAL;
+    protected int $default_incoming_type = self::INCOMING_LOCAL;
     protected int $emailAddressMode = self::FIRST_EMAIL;
+    protected int $default_email_address_mode = self::FIRST_EMAIL;
     protected ilMailTransportSettings $mailTransportSettings;
     protected string $firstEmailAddress = '';
     protected string $secondEmailAddress = '';
@@ -59,13 +61,17 @@ class ilMailOptions
         $this->mailTransportSettings = $mailTransportSettings ?? new ilMailTransportSettings($this);
 
         $this->incomingType = self::INCOMING_LOCAL;
-        if ($this->settings->get('mail_incoming_mail', '') !== '') {
-            $this->incomingType = (int) $this->settings->get('mail_incoming_mail');
+        $default_incoming_type = $this->settings->get('mail_incoming_mail', '');
+        if ($default_incoming_type !== '') {
+            $this->default_incoming_type = (int) $default_incoming_type;
+            $this->incomingType = $this->default_incoming_type;
         }
 
         $this->emailAddressMode = self::FIRST_EMAIL;
-        if ($this->settings->get('mail_address_option', '') !== '') {
-            $this->emailAddressMode = (int) $this->settings->get('mail_address_option');
+        $default_email_address_mode = $this->settings->get('mail_address_option', '');
+        if ($default_email_address_mode !== '') {
+            $this->default_email_address_mode = (int) $default_email_address_mode;
+            $this->emailAddressMode = $this->default_email_address_mode;
         }
 
         $this->linebreak = self::DEFAULT_LINE_BREAK;
@@ -89,9 +95,9 @@ class ilMailOptions
             [
                 'linebreak' => ['integer', $this->linebreak],
                 'signature' => ['text', $this->signature],
-                'incoming_type' => ['integer', $this->incomingType],
-                'mail_address_option' => ['integer', $this->emailAddressMode],
-                'cronjob_notification' => ['integer', (int) $this->isCronJobNotificationEnabled],
+                'incoming_type' => ['integer', $this->default_incoming_type],
+                'mail_address_option' => ['integer', $this->default_email_address_mode],
+                'cronjob_notification' => ['integer', (int) $this->isCronJobNotificationEnabled]
             ]
         );
     }
