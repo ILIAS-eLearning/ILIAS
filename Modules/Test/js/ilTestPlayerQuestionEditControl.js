@@ -380,12 +380,9 @@ il.TestPlayerQuestionEditControl = new function() {
         }
     }
     this.checkNavigationForKSButton = function(event) {
-        event.stopImmediatePropagation();
         // attributes of the clicked link
         var element = event.target;
-        var id = $(element).attr('id');
         var link = $(element).attr('data-action');
-
         // check explictly again at navigation
         detectFormChange();
 
@@ -393,20 +390,10 @@ il.TestPlayerQuestionEditControl = new function() {
             && link                                     // link is not an anchor
             && link.charAt(0) != '#'                    // link is not a fragment
         ) {
+            event.stopImmediatePropagation();
             // remember the url for saveWithNavigation()
             navUrl = link;
             saveWithNavigation();
-
-            // prevent the default event handler
-
-            event.preventDefault();
-            return false;
-        }
-        else
-        {
-            event.preventDefault();
-            // apply the default event handler (go to href)
-            return true;
         }
     }
 
