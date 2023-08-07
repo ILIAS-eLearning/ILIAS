@@ -387,7 +387,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 }
                 $keywordString .= ' ' . $this->lng->txt('for') . ' ';
             }
-            $keywordString .=  $answer->getAnswertext();
+            $keywordString .= $answer->getAnswertext();
 
             $tpl->setCurrentBlock('keyword');
             $tpl->setVariable('KEYWORD', $keywordString);
@@ -482,9 +482,12 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             foreach ($solutions as $idx => $solution_value) {
                 $user_solution = $solution_value["value1"];
             }
-        }
-        if ($this->tiny_mce_enabled) {
-            $user_solution = htmlentities($user_solution);
+
+            if ($this->tiny_mce_enabled) {
+                $user_solution = htmlentities($user_solution);
+            }
+
+            $user_solution = str_replace(['{', '}', '\\'], ['&#123', '&#125', '&#92'], $user_solution);
         }
 
         // generate the question output
