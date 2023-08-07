@@ -17,12 +17,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclNumberRecordFieldModel
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version $Id:
- */
+declare(strict_types=1);
+
 class ilDclNumberRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     public function parseValue($value): ?float

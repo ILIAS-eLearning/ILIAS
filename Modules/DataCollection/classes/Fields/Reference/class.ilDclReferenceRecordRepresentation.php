@@ -16,11 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclReferenceRecordRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     public function getHTML(bool $link = true, array $options = []): string
@@ -67,15 +64,11 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
             $html .= '<br>';
         }
 
-        $html = substr($html, 0, -4); // cut away last <br>
-
-        return $html;
+        // cut away last <br>
+        return substr($html, 0, -4);
     }
 
-    /**
-     * @param string|null|int $value
-     */
-    protected function getLinkHTML(?string $link_name = null, $value): string
+    protected function getLinkHTML(?string $link_name = null, $value = null): string
     {
         if (!$value || $value == "-") {
             return "";

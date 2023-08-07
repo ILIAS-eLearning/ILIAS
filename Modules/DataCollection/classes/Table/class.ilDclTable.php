@@ -16,16 +16,8 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclTable
 {
     protected int $id = 0;
@@ -57,11 +49,8 @@ class ilDclTable
     protected bool $export_enabled = false;
     protected int $table_order = 0;
     protected bool $import_enabled = false;
-    /**
-     * ID of the default sorting field. Can be a DB field (int) or a standard field (string)
-     * @var int|string $default_sort_field
-     */
-    protected $default_sort_field = 0;
+
+    protected string $default_sort_field = "0";
     /**
      * Default sort-order (asc|desc)
      */
@@ -73,7 +62,7 @@ class ilDclTable
     /**
      * True if users can add comments on each record of this table
      */
-    protected int $public_comments = 0;
+    protected bool $public_comments = false;
     /**
      * True if user can only view his/her own entries in the table
      */
@@ -522,13 +511,13 @@ class ilDclTable
      * get id of first (for current user) available view
      * @return bool|int|null
      */
-    public function getFirstTableViewId(int $ref_id, int $user_id = 0)
+    public function getFirstTableViewId(int $ref_id, int $user_id = 0): ?int
     {
         $uid = $user_id;
         $array = $this->getVisibleTableViews($ref_id, false, $uid);
         $tableview = array_shift($array);
 
-        return $tableview ? $tableview->getId() : false;
+        return $tableview ? $tableview->getId() : null;
     }
 
     /**
@@ -984,10 +973,6 @@ class ilDclTable
         $this->save_confirmation = $save_confirmation;
     }
 
-    /**
-     * hasCustomFields
-     * @return boolean
-     */
     public function hasCustomFields(): bool
     {
         $this->loadCustomFields();
@@ -1051,7 +1036,7 @@ class ilDclTable
                 $class_name = get_class($orig_field);
                 $new_field = new $class_name();
                 $new_field->setTableId($this->getId());
-                $new_field->cloneStructure($orig_field->getId());
+                $new_field->cloneStructure((int) $orig_field->getId());
                 $new_fields[$orig_field->getId()] = $new_field;
 
                 if ($orig_field->getId() === $original->getDefaultSortField()) {
@@ -1265,7 +1250,7 @@ class ilDclTable
 
         $as = ' AS ';
 
-        $sql .= rtrim($select_str, ',') . " FROM il_dcl_record {$as} record ";
+        $sql .= rtrim($select_str, ',') . " FROM il_dcl_record $as record ";
         $sql .= $join_str;
         $sql .= " WHERE record.table_id = " . $this->db->quote($this->getId(), 'integer');
 
@@ -1284,7 +1269,7 @@ class ilDclTable
         $set = $this->db->query($sql);
         $total_record_ids = [];
 
-        $is_allowed_to_view = (ilObjDataCollectionAccess::hasWriteAccess($ref_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id));
+        $is_allowed_to_view = (ilObjDataCollectionAccess::hasWriteAccess((int) $ref_id) || ilObjDataCollectionAccess::hasEditAccess((int) $ref_id));
         while ($rec = $this->db->fetchAssoc($set)) {
             // Quick check if the current user is allowed to view the record
             if (!$is_allowed_to_view && ($this->getViewOwnRecordsPerm() && $this->user->getId() != $rec['owner'])) {

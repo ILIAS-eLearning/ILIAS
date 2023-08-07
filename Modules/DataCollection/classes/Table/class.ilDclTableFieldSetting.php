@@ -16,12 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclTableFieldSetting
- * defines table/field specific settings: field_order, editable, exportable
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclTableFieldSetting extends ActiveRecord
 {
     /**
@@ -129,7 +125,7 @@ class ilDclTableFieldSetting extends ActiveRecord
      */
     public static function getInstance(int $table_id, string $field): ActiveRecord
     {
-        $setting = self::where(array('table_id' => $table_id, 'field' => $field))->first();
+        $setting = self::where(['table_id' => $table_id, 'field' => $field])->first();
         if (!$setting) {
             $setting = new self();
             $setting->setField($field);

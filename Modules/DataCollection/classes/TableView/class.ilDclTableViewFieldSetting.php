@@ -16,12 +16,9 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclTableViewFieldSetting
- * defines tableview/field specific settings: visible, in_filter, filter_value, filter_changeable
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- * @ingroup ModulesDataCollection
- */
+
+declare(strict_types=1);
+
 class ilDclTableViewFieldSetting extends ActiveRecord
 {
     /**
@@ -71,7 +68,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected $filter_value = "";
+    protected string $filter_value = "";
     /**
      * @var bool
      * @db_has_field        true
@@ -183,7 +180,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->in_filter = $in_filter;
     }
 
-    public function getFilterValue()
+    public function getFilterValue(): string
     {
         return $this->filter_value;
     }
@@ -318,11 +315,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return $creation_mode ? $this->isRequiredCreate() : $this->isRequiredEdit();
     }
 
-    /**
-     * @param $field_name
-     * @return null|string
-     */
-    public function sleep($field_name)
+    public function sleep($field_name): ?string
     {
         if ($field_name == 'filter_value' && is_array($this->filter_value)) {
             return json_encode($this->filter_value);
@@ -334,14 +327,14 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     public function wakeUp($field_name, $field_value): ?array
     {
         if ($field_name == 'filter_value') {
-            $return = array();
+            $return = [];
             $json = json_decode($field_value, true);
             if (is_array($json)) {
                 foreach ($json as $key => $value) {
                     $return['filter_' . $this->getField() . '_' . $key] = $value;
                 }
             } else {
-                $return = array('filter_' . $this->getField() => $field_value);
+                $return = ['filter_' . $this->getField() => $field_value];
             }
 
             return $return;
@@ -390,9 +383,9 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      */
     public static function getTableViewFieldSetting(string $id, int $tableview_id): ActiveRecord
     {
-        return parent::where(array('field' => $id,
-                                   'tableview_id' => $tableview_id
-        ))->first();
+        return parent::where(['field' => $id,
+                              'tableview_id' => $tableview_id
+        ])->first();
     }
 
     /**
@@ -402,9 +395,9 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      */
     public static function getInstance(int $tableview_id, int $field_id): ActiveRecord
     {
-        if (!($setting = self::where(array('field' => $field_id, 'tableview_id' => $tableview_id))->first())) {
+        if (!($setting = self::where(['field' => $field_id, 'tableview_id' => $tableview_id])->first())) {
             $setting = new self();
-            $setting->setField($field_id);
+            $setting->setField((string) $field_id);
             $setting->setTableviewId($tableview_id);
         }
         return $setting;

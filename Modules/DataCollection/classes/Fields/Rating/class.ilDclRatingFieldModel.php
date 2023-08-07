@@ -16,11 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclRatingFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclRatingFieldModel extends ilDclBaseFieldModel
 {
     public function getRecordQuerySortObject(
@@ -54,7 +51,10 @@ class ilDclRatingFieldModel extends ilDclBaseFieldModel
 
         $sql_obj = new ilDclRecordQueryObject();
         $sql_obj->setWhereStatement($where_additions);
-        $sql_obj->setJoinStatement($join_str);
+
+        if (isset($join_str)) {
+            $sql_obj->setJoinStatement($join_str);
+        }
 
         return $sql_obj;
     }

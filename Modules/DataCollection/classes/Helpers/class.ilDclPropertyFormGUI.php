@@ -16,10 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilDclPropertyFormGUI
- * @author       Michael Herren <mh@studer-raimann.ch>
- * @version      1.0.0
  * @ilCtrl_Calls ilDclPropertyFormGUI: ilFormPropertyDispatchGUI
  */
 class ilDclPropertyFormGUI extends ilPropertyFormGUI
@@ -47,11 +47,11 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
         ?string $a_index = null,
         ?string $a_sub_index = null
     ): string {
-        $a_name = ilFileUtils::getAsciiFileName($a_name);
+        $a_name = ilFileUtils::getASCIIFilename($a_name);
 
         $tmp_file_name = implode(
             "~~",
-            array(
+            [
                 mb_substr(session_id(), 0, 8),
                 $a_hash,
                 $a_field,
@@ -59,7 +59,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
                 $a_sub_index,
                 str_replace("/", "~~", $a_type),
                 str_replace("~~", "_", $a_name),
-            )
+            ]
         );
 
         // make sure temp directory exists

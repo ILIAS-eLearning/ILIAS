@@ -15,17 +15,14 @@
  *
  ********************************************************************
  */
-/**
- * Export User Interface Class
- * @author       Michael Herren <mh@studer-raimann.ch>
- */
+
+declare(strict_types=1);
+
 class ilDclExportGUI extends ilExportGUI
 {
     protected function buildExportTableGUI(): ilExportTableGUI
     {
-        $table = new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
-
-        return $table;
+        return new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
     }
 
     /**

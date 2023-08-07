@@ -17,16 +17,8 @@
 
 use ILIAS\Notes\Service;
 
-/**
- * Class ilDclBaseRecordModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclBaseRecordModel
 {
     protected Service $notes;
@@ -309,7 +301,7 @@ class ilDclBaseRecordModel
      * Get Field Value
      * @return int|string|array|null
      */
-    public function getRecordFieldValue(?int $field_id)
+    public function getRecordFieldValue(?string $field_id)
     {
         if ($field_id === null) {
             return null;
@@ -528,10 +520,9 @@ class ilDclBaseRecordModel
     {
         switch ($field_id) {
             case "last_edit_by":
-                return $this->getLastEditBy();
+                return ilObjUser::_lookupName($this->getLastEditBy())['login'];
             case 'owner':
-                $usr_data = ilObjUser::_lookupName($this->getOwner());
-                return $usr_data['login'];
+                return ilObjUser::_lookupName($this->getOwner())['login'];
         }
 
         return $this->{$field_id};
@@ -549,7 +540,7 @@ class ilDclBaseRecordModel
     {
         switch ($field_id) {
             case 'id':
-                return $this->getId();
+                return (string)$this->getId();
             case 'owner':
                 return ilUserUtil::getNamePresentation($this->getOwner());
             case 'last_edit_by':
@@ -576,7 +567,7 @@ class ilDclBaseRecordModel
 
                 return "<a class='dcl_comment' href='#' onclick=\"return " . $ajax_link . "\">
                         <img src='" . ilUtil::getImagePath("comment_unlabeled.svg")
-                    . "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
+                    . "' alt='$nComments Comments'><span class='ilHActProp'>$nComments</span></a>";
         }
 
         return "";
@@ -660,7 +651,7 @@ class ilDclBaseRecordModel
     // TODO: Find better way to copy data (including all references)
     public function cloneStructure(int $original_id, array $new_fields): void
     {
-        $original = ilDclCache::getRecordCache($original_id);
+        $original = ilDclCache::getRecordCache((string)$original_id);
         $this->setCreateDate($original->getCreateDate());
         $this->setLastEditBy($original->getLastEditBy());
         $this->setLastUpdate($original->getLastUpdate());

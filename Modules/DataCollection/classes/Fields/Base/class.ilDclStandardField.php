@@ -16,15 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclStandardField extends ilDclBaseFieldModel
 {
     private ilGlobalTemplateInterface $main_tpl;
@@ -61,7 +54,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
 
     public function clone(ilDclStandardField $original_record): void
     {
-        $this->setOrder($original_record->getOrder());
+        $this->setOrder((string) $original_record->getOrder());
         $this->setUnique($original_record->isUnique());
         $this->setExportable($original_record->getExportable());
 
@@ -79,7 +72,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
         //TODO: this isn't particularly pretty especially as $lng is used in the model. On the long run the standard fields should be refactored into "normal" fields.
         global $DIC;
         $lng = $DIC->language();
-        $stdfields = [
+        return [
             [
                 "id" => "id",
                 "title" => $lng->txt("dcl_id"),
@@ -117,13 +110,11 @@ class ilDclStandardField extends ilDclBaseFieldModel
                 'datatype_id' => ilDclDatatype::INPUTFORMAT_TEXT
             ],
         ];
-
-        return $stdfields;
     }
 
     public static function _getStandardFields(int $table_id): array
     {
-        $stdFields = array();
+        $stdFields = [];
         foreach (self::_getStandardFieldsAsArray() as $array) {
             $array["table_id"] = $table_id;
             $field = new ilDclStandardField();
@@ -144,13 +135,13 @@ class ilDclStandardField extends ilDclBaseFieldModel
         $ilDB = $DIC['ilDB'];
         $identifiers = '';
         foreach (
-            array(
+            [
                 'dcl_id',
                 'dcl_creation_date',
                 'dcl_last_update',
                 'dcl_last_edited_by',
                 'dcl_comments',
-            ) as $id
+            ] as $id
         ) {
             $identifiers .= $ilDB->quote($id, 'text') . ',';
         }
@@ -159,7 +150,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
             'SELECT value FROM lng_data WHERE identifier IN (' . $identifiers
             . ')'
         );
-        $titles = array();
+        $titles = [];
         while ($rec = $ilDB->fetchAssoc($sql)) {
             $titles[] = $rec['value'];
         }
@@ -176,15 +167,14 @@ class ilDclStandardField extends ilDclBaseFieldModel
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $identifiers = '';
-        foreach (array('dcl_owner') as $id) {
-            $identifiers .= $ilDB->quote($id, 'text') . ',';
-        }
+        $id = 'dcl_owner';
+        $identifiers .= $ilDB->quote($id, 'text') . ',';
         $identifiers = rtrim($identifiers, ',');
         $sql = $ilDB->query(
             'SELECT value, identifier FROM lng_data WHERE identifier IN ('
             . $identifiers . ')'
         );
-        $titles = array();
+        $titles = [];
         while ($rec = $ilDB->fetchAssoc($sql)) {
             $titles[$rec['identifier']][] = $rec['value'];
         }

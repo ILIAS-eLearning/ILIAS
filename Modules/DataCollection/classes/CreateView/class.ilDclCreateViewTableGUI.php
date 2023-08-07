@@ -16,10 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclCreateViewTableGUI
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclCreateViewTableGUI extends ilTable2GUI
 {
     public const VALID_DEFAULT_VALUE_TYPES = [
@@ -76,7 +74,7 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
             $this->exportData($this->getExportMode(), true);
         }
         $this->prepareOutput();
-        if (is_object($ilCtrl) && is_object($this->getParentObject()) && $this->getId() == "") {
+        if (is_object($this->getParentObject()) && $this->getId() == "") {
             $ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
         }
         if (!$this->getPrintMode()) {
@@ -177,7 +175,7 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
         $field = $a_set->getFieldObject();
-        $match = ilDclTableViewBaseDefaultValue::findSingle($field->getDataTypeId(), $a_set->getId());
+        $match = ilDclTableViewBaseDefaultValue::findSingle($field->getDatatypeId(), $a_set->getId());
 
         /** @var ilDclTextInputGUI $item */
         $item = ilDclCache::getFieldRepresentation($field)->getInputField(new ilPropertyFormGUI());

@@ -16,11 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclFormulaFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclFormulaFieldModel extends ilDclBaseFieldModel
 {
     /**
@@ -31,14 +28,12 @@ class ilDclFormulaFieldModel extends ilDclBaseFieldModel
         bool $sort_by_status = false
     ): ilDclFormulaRecordQueryObject {
         // use custom record query object for adding custom sorting
-        $sql_obj = new ilDclFormulaRecordQueryObject();
-
-        return $sql_obj;
+        return new ilDclFormulaRecordQueryObject();
     }
 
     public function getValidFieldProperties(): array
     {
-        return array(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
+        return [ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION];
     }
 
     public function allowFilterInListView(): bool

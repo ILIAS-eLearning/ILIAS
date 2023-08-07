@@ -15,16 +15,9 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+
+declare(strict_types=1);
+
 class ilDclBaseRecordFieldModel
 {
     protected ?int $id = null;
@@ -121,11 +114,11 @@ class ilDclBaseRecordFieldModel
                 $this->doCreate();
             }
 
-            $insert_params = array(
-                "value" => array($datatype->getDbType(), $value),
-                "record_field_id" => array("integer", $this->getId()),
-                "id" => array("integer", $next_id),
-            );
+            $insert_params = [
+                "value" => [$datatype->getDbType(), $value],
+                "record_field_id" => ["integer", $this->getId()],
+                "id" => ["integer", $next_id],
+            ];
 
             $this->db->insert("il_dcl_stloc" . $storage_location . "_value", $insert_params);
         }
@@ -206,7 +199,6 @@ class ilDclBaseRecordFieldModel
         $this->loadValue();
         if (!$omit_parsing) {
             $tmp = $this->parseValue($value);
-            $old = $this->value;
             //if parse value fails keep the old value
             if ($tmp !== false) {
                 $this->value = $tmp;

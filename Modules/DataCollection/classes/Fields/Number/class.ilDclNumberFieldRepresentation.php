@@ -16,11 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclDateTimeREpresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilNumberInputGUI
@@ -69,8 +66,6 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
 
     protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
     {
-        $opt = parent::buildFieldCreationInput($dcl, $mode);
-
-        return $opt;
+        return parent::buildFieldCreationInput($dcl, $mode);
     }
 }

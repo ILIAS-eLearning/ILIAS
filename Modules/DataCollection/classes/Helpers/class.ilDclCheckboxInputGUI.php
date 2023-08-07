@@ -16,10 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclCheckboxInputGUI
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclCheckboxInputGUI extends ilCheckboxInputGUI
 {
     public function checkInput(): bool

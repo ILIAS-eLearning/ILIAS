@@ -16,10 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclSelectionRecordRepresentation
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 abstract class ilDclSelectionRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     // those should be overwritten by subclasses
@@ -29,8 +27,8 @@ abstract class ilDclSelectionRecordRepresentation extends ilDclBaseRecordReprese
     public function getHTML(bool $link = true, array $options = []): string
     {
         $record_field_value = $this->getRecordField()->getValue();
-        $values = ilDclSelectionOption::getValues($this->getField()->getId(), $record_field_value);
+        $values = ilDclSelectionOption::getValues((int) $this->getField()->getId(), $record_field_value);
 
-        return is_array($values) ? implode('<br>', $values) : $values;
+        return implode('<br>', $values);
     }
 }

@@ -15,11 +15,8 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclTextFieldRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     public const LINK_MAX_LENGTH = 40;

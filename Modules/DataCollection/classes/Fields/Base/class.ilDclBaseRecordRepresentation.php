@@ -16,13 +16,11 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclBaseRecordRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclBaseRecordRepresentation
 {
+    protected \ILIAS\UI\Factory $factory;
     protected ilDclBaseRecordFieldModel $record_field;
     protected ilLanguage $lng;
     protected ilAccess $access;
@@ -72,7 +70,7 @@ class ilDclBaseRecordRepresentation
         if ($input_field) {
             $value = $this->getFormInput();
             if (!is_null($value)) {
-                $input_field->setValueByArray(array("field_" . $this->getRecordField()->getField()->getId() => $value));
+                $input_field->setValueByArray(["field_" . $this->getRecordField()->getField()->getId() => $value]);
             }
         }
     }

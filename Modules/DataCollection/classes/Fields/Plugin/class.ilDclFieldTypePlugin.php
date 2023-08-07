@@ -16,12 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclFieldTypePlugin
- * Definition of the PluginHook
- * @author  Michael Herren
- * @extends ilPlugin
- */
+declare(strict_types=1);
+
 abstract class ilDclFieldTypePlugin extends ilPlugin
 {
     public const COMPONENT_NAME = "DataCollection";
@@ -31,7 +27,7 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
     /**
      * @var ilDclFieldTypePlugin[] singleton-instance
      */
-    protected static array $instances = array();
+    protected static array $instances = [];
 
     /**
      * Singleton for abstract class

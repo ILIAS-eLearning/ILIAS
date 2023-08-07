@@ -16,11 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclFileuploadFieldRepresentaion
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilDclCheckboxInputGUI
@@ -45,11 +42,11 @@ class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation
             $this->getField()->getId()
         );
         $input->setOptions(
-            array(
+            [
                 "" => $this->lng->txt("dcl_any"),
                 "not_checked" => $this->lng->txt("dcl_not_checked"),
                 "checked" => $this->lng->txt("dcl_checked"),
-            )
+            ]
         );
 
         $this->setupFilterInputField($input);

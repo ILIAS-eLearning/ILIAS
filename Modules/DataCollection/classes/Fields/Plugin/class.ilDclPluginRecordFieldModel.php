@@ -16,10 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclPluginRecordFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclPluginRecordFieldModel extends ilDclBaseRecordFieldModel
 {
 }

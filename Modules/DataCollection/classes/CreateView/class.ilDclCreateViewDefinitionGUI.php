@@ -16,9 +16,11 @@
  ********************************************************************
  */
 
+
+declare(strict_types=1);
+
 /**
  * Class ilDclCreateViewDefinitionGUI
- * @author       studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @ilCtrl_Calls ilDclCreateViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilDclCreateViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
@@ -34,7 +36,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
     public function __construct(int $tableview_id)
     {
         global $DIC;
-        $this->ctrl = $DIC['ilCtrl'];
+        $this->ctrl = $DIC->ctrl();
         $this->tableview_id = $tableview_id;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -68,20 +70,15 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $next_class = $this->ctrl->getNextClass($this);
 
         $viewdef = $this->getPageObject();
-        if ($viewdef) {
-            $this->ctrl->setParameter($this, "dclv", $viewdef->getId());
-            $title = $lng->txt("dcl_view_viewdefinition");
-        }
+        $this->ctrl->setParameter($this, "dclv", $viewdef->getId());
+        $title = $lng->txt("dcl_view_viewdefinition");
 
         switch ($next_class) {
             case "ilpageobjectgui":
                 throw new ilCOPageException("Deprecated. ilDclDetailedViewDefinitionGUI gui forwarding to ilpageobject");
             default:
-                if ($viewdef) {
-                    $this->setPresentationTitle($title);
-                    $ilLocator->addItem($title, $this->ctrl->getLinkTarget($this, "preview"));
-                }
-
+                $this->setPresentationTitle($title);
+                $ilLocator->addItem($title, $this->ctrl->getLinkTarget($this, "preview"));
                 return parent::executeCommand();
         }
     }
@@ -113,7 +110,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $conf->setFormAction($ilCtrl->getFormAction($this));
         $conf->setHeaderText($lng->txt('dcl_confirm_delete_detailed_view_title'));
 
-        $conf->addItem('tableview', $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
+        $conf->addItem('tableview', (string)$this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
 
         $conf->setConfirm($lng->txt('delete'), 'deleteView');
         $conf->setCancel($lng->txt('cancel'), 'cancelDelete');
@@ -211,7 +208,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                 $data_type_id = intval($parts[2]);
 
                 // Delete all field values associated with this id
-                $existing_values = ilDclTableViewBaseDefaultValue::findAll($data_type_id, $id);
+                $existing_values = ilDclTableViewBaseDefaultValue::findAll((string)$data_type_id, (int)$id);
 
                 if (!is_null($existing_values)) {
                     foreach ($existing_values as $existing_value) {
@@ -235,7 +232,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                     }
 
                     $default_value = $f->create($data_type_id);
-                    $default_value->setTviewSetId($id);
+                    $default_value->setTviewSetId((int)$id);
                     $default_value->setValue($value);
                     $default_value->create();
                 }
@@ -248,50 +245,48 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
             if (!$setting->getFieldObject()->isStandardField()) {
 
                 // Radio Inputs
-                foreach (array("RadioGroup") as $attribute) {
-                    $selection_key = $attribute . '_' . $setting->getField();
-                    $selection = $this->http->wrapper()->post()->retrieve(
-                        $selection_key,
-                        $this->refinery->kindlyTo()->string()
-                    );
-                    $selected_radio_attribute = explode("_", $selection)[0];
+                $attribute = "RadioGroup";
+                $selection_key = $attribute . '_' . $setting->getField();
+                $selection = $this->http->wrapper()->post()->retrieve(
+                    $selection_key,
+                    $this->refinery->kindlyTo()->string()
+                );
+                $selected_radio_attribute = explode("_", $selection)[0];
 
-                    foreach (array("LockedCreate",
-                                   "RequiredCreate",
-                                   "VisibleCreate",
-                                   "NotVisibleCreate"
-                             ) as $radio_attribute) {
-                        $result = false;
+                foreach (["LockedCreate",
+                          "RequiredCreate",
+                          "VisibleCreate",
+                          "NotVisibleCreate"
+                         ] as $radio_attribute) {
+                    $result = false;
 
-                        if ($selected_radio_attribute === $radio_attribute) {
-                            $result = true;
-                        }
-
-                        $setting->{'set' . $radio_attribute}($result);
+                    if ($selected_radio_attribute === $radio_attribute) {
+                        $result = true;
                     }
+
+                    $setting->{'set' . $radio_attribute}($result);
                 }
 
                 // Text Inputs
-                foreach (array("DefaultValue") as $attribute) {
-                    $key = $attribute . '_' . $setting->getField();
-                    if ($this->http->wrapper()->post()->has($key)) {
-                        $attribute_value = $this->http->wrapper()->post()->retrieve(
-                            $key,
-                            $this->refinery->kindlyTo()->string()
-                        );
-                    } else {
-                        $attribute_value = "";
-                    }
-
-                    $setting->{'set' . $attribute}($attribute_value);
+                $attribute = "DefaultValue";
+                $key = $attribute . '_' . $setting->getField();
+                if ($this->http->wrapper()->post()->has($key)) {
+                    $attribute_value = $this->http->wrapper()->post()->retrieve(
+                        $key,
+                        $this->refinery->kindlyTo()->string()
+                    );
+                } else {
+                    $attribute_value = "";
                 }
+
+                $setting->{'set' . $attribute}($attribute_value);
 
                 $setting->update();
             }
         }
 
         // Set Workflow flag to true
-        $view = ilDclTableView::getCollection()->where(array("id" => filter_input(INPUT_GET, "tableview_id")))->first();
+        $view = ilDclTableView::getCollection()->where(["id" => filter_input(INPUT_GET, "tableview_id")])->first();
         if (!is_null($view)) {
             $view->setStepC(true);
             $view->save();

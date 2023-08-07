@@ -16,16 +16,13 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclTextRecordQueryObject
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclTextRecordQueryObject extends ilDclRecordQueryObject
 {
     public function applyCustomSorting(ilDclBaseFieldModel $field, array $all_records, $direction = 'asc'): array
     {
-        $sort_array = array();
+        $sort_array = [];
         foreach ($all_records as $id) {
             $url_field = ilDclCache::getRecordFieldCache(new ilDclBaseRecordModel($id), $field);
             $sort_array[$id] = $url_field->getSortingValue();

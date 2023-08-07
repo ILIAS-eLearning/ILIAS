@@ -15,11 +15,8 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclTextFieldRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public const REFERENCE_SEPARATOR = " -> ";
@@ -91,7 +88,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         // TT #0019091: restore the actual values after sorting with timestamp
         if ($reffield->getDatatypeId() == ilDclDatatype::INPUTFORMAT_DATETIME) {
             foreach ($options as $key => $opt) {
-                if ($key != "") {
+                if ($key != "" && isset($options2) && is_array($options2)) {
                     $options[$key] = $options2[$key];
                 }
             }

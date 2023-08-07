@@ -17,15 +17,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclTableEditGUI
 {
     private ?int $table_id;
@@ -115,7 +108,7 @@ class ilDclTableEditGUI
 
     public function getValues(): void
     {
-        $values = array(
+        $values = [
             'title' => $this->table->getTitle(),
             'add_perm' => (int) $this->table->getAddPerm(),
             'edit_perm' => (int) $this->table->getEditPerm(),
@@ -135,7 +128,7 @@ class ilDclTableEditGUI
             'description' => $this->table->getDescription(),
             'view_own_records_perm' => $this->table->getViewOwnRecordsPerm(),
             'save_confirmation' => $this->table->getSaveConfirmation(),
-        );
+        ];
         if (!$this->table->getLimitStart()) {
             $values['limit_start'] = null;
         }
@@ -147,7 +140,7 @@ class ilDclTableEditGUI
 
     public function getStandardValues(): void
     {
-        $values = array(
+        $values = [
             'title' => "",
             'add_perm' => 1,
             'edit_perm' => 1,
@@ -160,7 +153,7 @@ class ilDclTableEditGUI
             'limited' => 0,
             'limit_start' => null,
             'limit_end' => null,
-        );
+        ];
         $this->form->setValuesByArray($values);
     }
 
@@ -189,7 +182,7 @@ class ilDclTableEditGUI
             $fields = array_filter($this->table->getFields(), function (ilDclBaseFieldModel $field) {
                 return !is_null($field->getRecordQuerySortObject());
             });
-            $options = array(0 => $this->lng->txt('dcl_please_select'));
+            $options = [0 => $this->lng->txt('dcl_please_select')];
             foreach ($fields as $field) {
                 if ($field->getId() == 'comments') {
                     continue;
@@ -200,7 +193,7 @@ class ilDclTableEditGUI
             $this->form->addItem($item);
 
             $item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field_order'), 'default_sort_field_order');
-            $options = array('asc' => $this->lng->txt('dcl_asc'), 'desc' => $this->lng->txt('dcl_desc'));
+            $options = ['asc' => $this->lng->txt('dcl_asc'), 'desc' => $this->lng->txt('dcl_desc')];
             $item->setOptions($options);
             $this->form->addItem($item);
         }
@@ -388,7 +381,7 @@ class ilDclTableEditGUI
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_table'));
 
-        $conf->addItem('table', $this->table->getId(), $this->table->getTitle());
+        $conf->addItem('table', (string) $this->table->getId(), $this->table->getTitle());
 
         $conf->setConfirm($this->lng->txt('delete'), 'delete');
         $conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
@@ -411,7 +404,7 @@ class ilDclTableEditGUI
             ); //TODO change lng var
             $this->table->doDelete(true);
         } else {
-            $this->table->doDelete(false);
+            $this->table->doDelete();
         }
         $this->ctrl->clearParameterByClass("ilobjdatacollectiongui", "table_id");
         $this->ctrl->redirectByClass("ildcltablelistgui", "listtables");
@@ -435,6 +428,7 @@ class ilDclTableEditGUI
         // Show tables
         $tables = $this->parent_object->getDataCollectionObject()->getTables();
 
+        $options = [];
         foreach ($tables as $table) {
             $options[$table->getId()] = $table->getTitle();
         }

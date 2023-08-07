@@ -16,9 +16,9 @@
  ********************************************************************
  */
 
+declare(strict_types=1);
+
 /**
- * Class ilDclTableListGUI
- * @author       Theodor Truffer <tt@studer-raimann.ch>
  * @ilCtrl_Calls ilDclTableListGUI: ilDclFieldListGUI, ilDclFieldEditGUI, ilDclTableViewGUI, ilDclTableEditGUI
  */
 class ilDclTableListGUI
@@ -220,7 +220,6 @@ class ilDclTableListGUI
     public function confirmDeleteTables(): void
     {
         //at least one table must exist
-        $tables = [];
         $has_dcl_table_ids = $this->http->wrapper()->post()->has('dcl_table_ids');
         if (!$has_dcl_table_ids) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_delete_tables_no_selection'), true);

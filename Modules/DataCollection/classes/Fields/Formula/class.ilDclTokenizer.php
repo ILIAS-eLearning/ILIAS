@@ -16,11 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclTokenizer
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclTokenizer
 {
     /**

@@ -17,13 +17,9 @@
  ********************************************************************
  */
 
-/**
- * Class ilObjDataCollectionListGUI
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * $Id: class.ilObjRootFolderListGUI.php 23764 2010-05-06 15:11:30Z smeyer $
- * @extends ilObjectListGUI
- */
+
+declare(strict_types=1);
+
 class ilObjDataCollectionListGUI extends ilObjectListGUI
 {
     /**
@@ -53,17 +49,14 @@ class ilObjDataCollectionListGUI extends ilObjectListGUI
      */
     public function getProperties(): array
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
-        $props = array();
+        $props = [];
 
         if (!ilObjDataCollectionAccess::_lookupOnline($this->obj_id)) {
-            $props[] = array(
+            $props[] = [
                 "alert" => true,
-                "property" => $lng->txt("status"),
-                "value" => $lng->txt("offline"),
-            );
+                "property" => $this->lng->txt("status"),
+                "value" => $this->lng->txt("offline"),
+            ];
         }
 
         return $props;

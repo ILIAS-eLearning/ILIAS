@@ -16,11 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclFieldProperty
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclFieldProperty extends ActiveRecord
 {
     /**
@@ -104,10 +101,7 @@ class ilDclFieldProperty extends ActiveRecord
         $this->name = $name;
     }
 
-    /**
-     * @return string|array
-     */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }

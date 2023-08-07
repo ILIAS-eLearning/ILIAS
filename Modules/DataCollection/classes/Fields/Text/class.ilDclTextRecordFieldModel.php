@@ -18,19 +18,17 @@
 
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
-/**
- * Class ilDclTextRecordFieldModel
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     public function setValueFromForm(ilPropertyFormGUI $form): void
     {
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
-            $value = array(
+            $value = [
                 "link" => $form->getInput("field_" . $this->getField()->getId()),
                 "title" => $form->getInput("field_" . $this->getField()->getId() . '_title'),
-            );
+            ];
         } else {
             $value = $form->getInput("field_" . $this->getField()->getId());
         }

@@ -16,10 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclTextSelectionFieldModel
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclTextSelectionFieldModel extends ilDclSelectionFieldModel
 {
     public const PROP_SELECTION_TYPE = 'text_selection_type';

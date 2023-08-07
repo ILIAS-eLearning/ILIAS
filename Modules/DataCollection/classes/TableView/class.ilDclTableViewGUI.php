@@ -16,10 +16,10 @@
  ********************************************************************
  */
 
+
+declare(strict_types=1);
+
 /**
- * Class ilDclTableViewGUI
- * @author       Theodor Truffer <tt@studer-raimann.ch>
- * @ingroup      ModulesDataCollection
  * @ilCtrl_Calls ilDclTableViewGUI: ilDclTableViewEditGUI
  */
 class ilDclTableViewGUI
@@ -126,6 +126,7 @@ class ilDclTableViewGUI
         // Show tables
         $tables = $this->parent_obj->getDataCollectionObject()->getTables();
 
+        $options = [];
         foreach ($tables as $table) {
             $options[$table->getId()] = $table->getTitle();
         }
@@ -161,7 +162,6 @@ class ilDclTableViewGUI
     public function confirmDeleteTableviews(): void
     {
         //at least one view must exist
-        $tableviews = [];
         $has_dcl_tableview_ids = $this->http->wrapper()->post()->has('dcl_tableview_ids');
         if (!$has_dcl_tableview_ids) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_delete_views_no_selection'), true);
@@ -189,7 +189,6 @@ class ilDclTableViewGUI
 
     protected function deleteTableviews(): void
     {
-        $tableviews = [];
         $has_dcl_tableview_ids = $this->http->wrapper()->post()->has('dcl_tableview_ids');
         if ($has_dcl_tableview_ids) {
             $tableviews = $this->http->wrapper()->post()->retrieve(
@@ -228,7 +227,7 @@ class ilDclTableViewGUI
             $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
         );
         asort($orders);
-        $tableviews = array();
+        $tableviews = [];
         foreach (array_keys($orders) as $tableview_id) {
             $tableviews[] = ilDclTableView::find($tableview_id);
         }

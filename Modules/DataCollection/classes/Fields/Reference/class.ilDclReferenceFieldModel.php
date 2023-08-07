@@ -15,22 +15,14 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclReferenceFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclReferenceFieldModel extends ilDclBaseFieldModel
 {
     public const PROP_REFERENCE = 'table_id';
     public const PROP_N_REFERENCE = 'multiple_selection';
 
-    /**
-     * Returns a query-object for building the record-loader-sql-query
-     * @param string  $direction
-     * @param boolean $sort_by_status The specific sort object is a status field
-     * @return null|ilDclRecordQueryObject
-     */
+
     public function getRecordQuerySortObject(
         string $direction = "asc",
         bool $sort_by_status = false
@@ -126,7 +118,7 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
     public function afterClone(array $records): void
     {
         /** @var ilDclReferenceFieldModel $clone */
-        $clone = ilDclCache::getCloneOf($this->getId(), ilDclCache::TYPE_FIELD);
+        $clone = ilDclCache::getCloneOf((int)$this->getId(), ilDclCache::TYPE_FIELD);
         $reference_clone = ilDclCache::getCloneOf(
             (int) $clone->getProperty(ilDclBaseFieldModel::PROP_REFERENCE),
             ilDclCache::TYPE_FIELD

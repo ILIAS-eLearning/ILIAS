@@ -16,12 +16,8 @@
  ********************************************************************
  */
 
-/**
- * View definition page configuration
- * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclDetailedViewDefinitionConfig extends ilPageConfig
 {
     /**

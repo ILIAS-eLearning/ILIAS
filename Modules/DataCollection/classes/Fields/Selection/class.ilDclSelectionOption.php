@@ -16,10 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclSelectionOption
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclSelectionOption extends ActiveRecord
 {
     public const DB_TABLE_NAME = "il_dcl_sel_opts";
@@ -126,7 +124,7 @@ class ilDclSelectionOption extends ActiveRecord
     public static function storeOption(int $field_id, int $opt_id, int $sorting, string $value): void
     {
         /** @var ilDclSelectionOption $option */
-        $option = self::where(array("field_id" => $field_id, "opt_id" => $opt_id))->first();
+        $option = self::where(["field_id" => $field_id, "opt_id" => $opt_id])->first();
         if (!$option) {
             $option = new self();
         }
@@ -149,7 +147,7 @@ class ilDclSelectionOption extends ActiveRecord
      */
     public static function getAllForField(int $field_id): array
     {
-        return self::where(array("field_id" => $field_id))->orderBy('sorting')->get();
+        return self::where(["field_id" => $field_id])->orderBy('sorting')->get();
     }
 
     /**
@@ -158,18 +156,18 @@ class ilDclSelectionOption extends ActiveRecord
      */
     public static function getValues(int $field_id, $opt_ids): array
     {
-        $operators = array('field_id' => '=');
+        $operators = ['field_id' => '='];
         if (is_array($opt_ids)) {
             if (empty($opt_ids)) {
-                return array();
+                return [];
             }
             $operators['opt_id'] = 'IN';
         } else {
             $operators['opt_id'] = '=';
         }
-        $return = array();
+        $return = [];
         foreach (self::where(
-            array("field_id" => $field_id, "opt_id" => $opt_ids),
+            ["field_id" => $field_id, "opt_id" => $opt_ids],
             $operators
         )->orderBy('sorting')->get() as $opt) {
             $return[] = $opt->getValue();

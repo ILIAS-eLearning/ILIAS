@@ -16,11 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclExpressionParser
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclExpressionParser
 {
     public const N_DECIMALS = 1;
@@ -31,24 +28,24 @@ class ilDclExpressionParser
     protected ilDclBaseFieldModel $field;
     protected string $expression;
     protected static array $operators
-        = array(
-            '+' => array('precedence' => 1),
-            '-' => array('precedence' => 1),
-            '*' => array('precedence' => 2),
-            '/' => array('precedence' => 2),
-            '^' => array('precedence' => 3),
-        );
-    protected static array $cache_tokens = array();
-    protected static array $cache_fields = array();
-    protected static array $cache_math_tokens = array();
-    protected static array $cache_math_function_tokens = array();
+        = [
+            '+' => ['precedence' => 1],
+            '-' => ['precedence' => 1],
+            '*' => ['precedence' => 2],
+            '/' => ['precedence' => 2],
+            '^' => ['precedence' => 3],
+        ];
+    protected static array $cache_tokens = [];
+    protected static array $cache_fields = [];
+    protected static array $cache_math_tokens = [];
+    protected static array $cache_math_function_tokens = [];
     protected static array $functions
-        = array(
+        = [
             'SUM',
             'AVERAGE',
             'MIN',
             'MAX',
-        );
+        ];
 
     public function __construct(string $expression, ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
@@ -103,7 +100,7 @@ class ilDclExpressionParser
      * @param float|int $value
      * @return string|int
      */
-    protected function formatScientific($value)
+    protected function formatScientific($value): string
     {
         if (abs($value) >= self::SCIENTIFIC_NOTATION_UPPER) {
             return sprintf("%e", $value);
@@ -111,7 +108,7 @@ class ilDclExpressionParser
         if (abs($value) <= self::SCIENTIFIC_NOTATION_LOWER && $value != 0) {
             return sprintf("%e", $value);
         }
-        return $value;
+        return (string)$value;
     }
 
     public static function getOperators(): array
@@ -185,10 +182,10 @@ class ilDclExpressionParser
      */
     protected function getFunctionArgs(int $index, array $data): array
     {
-        $return = array(
+        $return = [
             'function' => '',
-            'args' => array(),
-        );
+            'args' => [],
+        ];
         for ($i = 1; $i < count($data); $i++) {
             $_data = $data[$i];
             if ($_data[$index]) {
@@ -208,7 +205,7 @@ class ilDclExpressionParser
      */
     protected function substituteFieldValues(array $tokens): array
     {
-        $replaced = array();
+        $replaced = [];
         foreach ($tokens as $token) {
             if (strpos($token, '[[') === 0) {
                 $replaced[] = $this->substituteFieldValue($token);
@@ -264,7 +261,7 @@ class ilDclExpressionParser
         $precedences = new ilDclStack();
         $in_bracket = false;
         foreach ($tokens as $token) {
-            if (empty($token) or is_null($token)) {
+            if (empty($token)) {
                 $token = 0;
             }
             if (is_numeric($token) or $token === '(') {
@@ -295,7 +292,7 @@ class ilDclExpressionParser
                 }
             } elseif ($token === ')') {
                 // Need to calculate stack back to opening bracket
-                $_tokens = array();
+                $_tokens = [];
                 $elem = $stack->pop();
                 while ($elem !== '(' && !$stack->isEmpty()) {
                     $_tokens[] = $elem;
@@ -321,9 +318,7 @@ class ilDclExpressionParser
                 $left = $stack->count() ? $stack->pop() : 0;
                 $stack->push($this->calculate($operator, $left, $right));
             }
-            $result = $stack->pop();
-
-            return $result;
+            return $stack->pop();
         }
     }
 
@@ -332,7 +327,7 @@ class ilDclExpressionParser
      * @return float|int|number
      * @throws ilException
      */
-    protected function calculateFunction(string $function, array $args = array())
+    protected function calculateFunction(string $function, array $args = [])
     {
         switch ($function) {
             case 'AVERAGE':

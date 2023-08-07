@@ -16,14 +16,11 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclStack
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclStack
 {
-    protected array $stack = array();
+    protected array $stack = [];
 
     /**
      * @param float|int|string $elem
@@ -69,7 +66,7 @@ class ilDclStack
 
     public function reset(): void
     {
-        $this->stack = array();
+        $this->stack = [];
     }
 
     public function count(): int
@@ -79,6 +76,6 @@ class ilDclStack
 
     public function debug(): void
     {
-        echo "<pre>" . print_r($this->stack, 1) . "</pre>";
+        echo "<pre>" . print_r($this->stack, true) . "</pre>";
     }
 }

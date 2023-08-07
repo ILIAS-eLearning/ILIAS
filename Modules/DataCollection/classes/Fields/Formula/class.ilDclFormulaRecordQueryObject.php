@@ -16,11 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclFormulaRecordQueryObject
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclFormulaRecordQueryObject extends ilDclRecordQueryObject
 {
     public function applyCustomSorting(
@@ -28,7 +25,7 @@ class ilDclFormulaRecordQueryObject extends ilDclRecordQueryObject
         array $all_records,
         string $direction = 'asc'
     ): array {
-        $sort_array = array();
+        $sort_array = [];
         foreach ($all_records as $id) {
             $formula_field = ilDclCache::getRecordFieldCache(new ilDclBaseRecordModel($id), $field);
             $sort_array[$id] = $formula_field->getValue();

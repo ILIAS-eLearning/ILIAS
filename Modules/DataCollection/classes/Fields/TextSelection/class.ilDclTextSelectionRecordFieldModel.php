@@ -18,10 +18,8 @@
 
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
-/**
- * Class ilDclTextSelectionRecordFieldModel
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclTextSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
 {
     public const PROP_SELECTION_TYPE = 'text_selection_type';

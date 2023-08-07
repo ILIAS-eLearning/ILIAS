@@ -16,12 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Hook-Class for exporting data-collections (used in SOAP-Class)
- * This Class avoids duplicated code by routing the request to the right place
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclContentImporter
 {
     //const SOAP_FUNCTION_NAME = 'exportDataCollectionContent';
@@ -80,10 +76,10 @@ class ilDclContentImporter
     public function import(string $file, bool $simulate = false): array
     {
         $this->warnings = [];
+        $excel = new ilExcel();
         try {
-            $excel = new ilExcel();
             $excel->loadFromFile($file);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->warnings[] = $this->lng->txt("dcl_file_not_readable");
         }
 
@@ -97,6 +93,8 @@ class ilDclContentImporter
         if (count($this->warnings)) {
             return ['line' => 0, 'warnings' => $this->warnings];
         }
+
+        $i = 0;
 
         for ($sheet = 0; $sheet < $sheet_count; $sheet++) {
             $excel->setActiveSheet($sheet);
@@ -174,7 +172,7 @@ class ilDclContentImporter
             }
         }
 
-        return array('line' => ($i - 2 < 0 ? 0 : $i - 2), 'warnings' => $this->warnings);
+        return ['line' => (max($i - 2, 0)), 'warnings' => $this->warnings];
     }
 
     protected function checkImportType(ilDclBaseFieldModel $field): bool
@@ -195,7 +193,7 @@ class ilDclContentImporter
     protected function getImportFieldsFromTitles(ilDclTable $table, array $titles): array
     {
         $fields = $table->getRecordFields();
-        $import_fields = array();
+        $import_fields = [];
         foreach ($fields as $field) {
             if ($this->checkImportType($field)) {
                 // the fields will add themselves to $import_fields (at the correct position) if their title is in $titles

@@ -17,14 +17,9 @@
  ********************************************************************
  */
 
+declare(strict_types=1);
+
 /**
- * Class ilObjDataCollectionGUI
- * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @author       Martin Studer <martin@fluxlabs.ch>
- * @author       Marcel Raimann <mr@studer-raimann.ch>
- * @author       Fabian Schmid <fs@studer-raimann.ch>
- * @author       Oskar Truffer <ot@studer-raimann.ch>
- * @author       Stefan Wanzenried <sw@studer-raimann.ch>
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI, ilDclExportGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListGUI, ilDclRecordEditGUI
@@ -34,7 +29,6 @@
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilRatingGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPropertyFormGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclPropertyFormGUI
- * @extends      ilObject2GUI
  */
 class ilObjDataCollectionGUI extends ilObject2GUI
 {
@@ -48,12 +42,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     public const TAB_LIST_PERMISSIONS = 'perm_settings';
     public const TAB_INFO = 'info_short';
     public const TAB_CONTENT = 'content';
+    private \ILIAS\Notes\Service $notes;
 
     public ?ilObject $object = null;
-
-    private ilDataCollectionUiPort $dclUi;
-    private ilDataCollectionEndpointPort $dclEndPoint;
-    private ilDataCollectionAccessPort $dclAccess;
 
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -68,6 +59,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         $this->http = $DIC->http();
         $this->tabs = $DIC->tabs();
+        $this->notes = $DIC->notes();
 
         $this->lng->loadLanguageModule("dcl");
         $this->lng->loadLanguageModule('content');
@@ -76,15 +68,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         $this->setTableId($this->getRefId());
 
-        $this->dclEndPoint = ilDataCollectionEndpointAdapter::new();
-        $this->dclAccess = ilDataCollectionAccessAdapter::new();
-        $this->dclUi = ilDataCollectionUiAdapter::new();
-
         if ($this->ctrl->isAsynch() === false) {
             $this->addJavaScript();
         }
 
-        $this->dclEndPoint->saveParameterTableId($this);
+        $this->ctrl->saveParameter($this, "table_id");
     }
 
     private function setTableId(int $objectOrRefId = 0): void
@@ -107,13 +95,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     private function addJavaScript(): void
     {
-        global $DIC;
-        $DIC->notes()->gui()->initJavascript();
+        $this->notes->gui()->initJavascript();
         ilYuiUtil::initConnection();
         ilOverlayGUI::initJavascript();
         // # see  https://mantis.ilias.de/view.php?id=26463
-        $this->dclUi->addJavaScriptFile("./Services/UIComponent/Modal/js/Modal.js");
-        $this->dclUi->addJavaScriptFile("Modules/DataCollection/js/datacollection.js");
+        $this->tpl->addJavaScript("./Services/UIComponent/Modal/js/Modal.js");
+        $this->tpl->addJavaScript("Modules/DataCollection/js/datacollection.js");
     }
 
     public function getStandardCmd(): string
@@ -366,16 +353,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->ctrl->forwardCommand($info);
     }
 
-    /**
-     * @throws ilCtrlException
-     */
     protected function addLocatorItems(): void
     {
         if (is_object($this->object) === true) {
-            $this->dclUi->addLocatorItem(
+            $this->locator->addItem(
                 $this->object->getTitle(),
                 $this->ctrl->getLinkTarget($this, ""),
-                $this->object->getRefId()
+                (string)$this->object->getRefId()
             );
         }
     }
@@ -385,35 +369,22 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         global $DIC;
         $lng = $DIC->language();
 
-        $dclConfig = ilDataCollectionOutboundsAdapter::new();
-        $dclUi = $dclConfig->getDataCollectionUi();
-
         $ilCtrl = $DIC->ctrl();
-        $dclAccess = $dclConfig->getDataCollectionAccess();
+        $access = $DIC->access();
+        $tpl = $DIC->ui()->mainTemplate();
 
-        $targetParts = explode("_", $a_target);
-        if (count($targetParts) === 1) {
-            [$refId] = $targetParts;
-        } elseif (count($targetParts) === 2) {
-            [$refId, $viewId] = $targetParts;
+        $target_parts = explode("_", $a_target);
+        if (count($target_parts) === 1) {
+            [$ref_id] = $target_parts;
+        } elseif (count($target_parts) === 2) {
+            [$ref_id, $viewId] = $target_parts;
         } else {
-            [$refId, $viewId, $recordId] = $targetParts;
-        }
-
-        //redirect if no permission given
-        if ($dclAccess->hasVisibleOrReadPermission($refId) === false) {
-            $dclUi->displayFailureMessage(
-                sprintf(
-                    $lng->txt("msg_no_perm_read_item"),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-                )
-            );
-            ilObjectGUI::_gotoRepositoryRoot();
+            [$ref_id, $viewId, $recordId] = $target_parts;
         }
 
         //load record list
-        if ($dclAccess->hasReadPermission($refId) === true) {
-            $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_REF_ID, $refId);
+        if ($access->checkAccess('read', "", (int)$ref_id)) {
+            $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_REF_ID, $ref_id);
             if (isset($viewId)) {
                 $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_VIEW_ID, $viewId);
             }
@@ -422,19 +393,26 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             }
             $ilCtrl->redirectByClass("ilRepositoryGUI", "listRecords");
         }
-
         //redirect to info screen
-        if ($dclAccess->hasVisiblePermission($refId) === true) {
-            ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
+        elseif ($access->checkAccess('visbile', "", (int)$ref_id)) {
+            ilObjectGUI::_gotoRepositoryNode((int)$a_target, "infoScreen");
+        }
+        //redirect if no permission given
+        else {
+            $message = sprintf(
+                $lng->txt("msg_no_perm_read_item"),
+                ilObject::_lookupTitle(ilObject::_lookupObjId((int)$a_target))
+            );
+            $tpl->setOnScreenMessage('failure', $message, true);
+
+            ilObjectGUI::_gotoRepositoryRoot();
         }
     }
 
     protected function afterSave(ilObject $new_object): void
     {
-        $this->dclUi->displaySuccessMessage($this->lng->txt("object_added"));
-
-        $listTablesLink = $this->dclEndPoint->getListTablesLink();
-        $this->dclEndPoint->redirect($listTablesLink);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
+        $this->ctrl->redirectByClass(ilDclTableListGUI::class, "listTables");
     }
 
     /**
@@ -444,34 +422,43 @@ class ilObjDataCollectionGUI extends ilObject2GUI
      */
     protected function setTabs(): void
     {
-        $refId = $this->object->getRefId();
+        $ref_id = $this->object->getRefId();
 
         // read permission
-        if ($this->dclAccess->hasReadPermission($refId) === true) {
+        if ($this->access->checkAccess('read', "", $ref_id) === true) {
             // list records
-            $this->addTab(self::TAB_CONTENT, $this->dclEndPoint->getListRecordsLink($this->getTableViewId()));
+            $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, "tableview_id", $this->getTableViewId());
+            $link = $this->ctrl->getLinkTargetByClass(ilDclRecordListGUI::class, "show");
+            $this->addTab(self::TAB_CONTENT, $link);
         }
 
-        // visible permission
-        if ($this->dclAccess->hasVisibleOrReadPermission($refId) === true) {
+        // visible or read permission
+        if ($this->access->checkAccess('visible', "", $ref_id) === true
+            || $this->access->checkAccess('read', "", $ref_id) === true) {
             // info screen
-            $this->addTab(self::TAB_INFO, $this->dclEndPoint->getInfoScreenLink());
+            $this->addTab(self::TAB_INFO, $this->ctrl->getLinkTargetByClass(
+                ilInfoScreenGUI::class,
+                "showSummary"
+            ));
         }
 
         // write permission
-        if ($this->dclAccess->hasWritePermission($refId) === true) {
+        if ($this->access->checkAccess('write', "", $ref_id) === true) {
             // settings
-            $this->addTab(self::TAB_EDIT_DCL, $this->dclEndPoint->getEditDclLink($this));
+            $this->addTab(self::TAB_EDIT_DCL, $this->ctrl->getLinkTarget($this, "editObject"));
             // list tables
-            $this->addTab(self::TAB_LIST_TABLES, $this->dclEndPoint->getListTablesLink());
+            $this->addTab(self::TAB_LIST_TABLES, $this->ctrl->getLinkTarget($this, "listTables"));
             // export
-            $this->addTab(self::TAB_EXPORT, $this->dclEndPoint->getDataCollectionExportLink());
+            $this->addTab(self::TAB_EXPORT, $this->ctrl->getLinkTargetByClass(ilDclExportGUI::class, ""));
         }
 
         // edit permissions
-        if ($this->dclAccess->hasEditPermissionPermission($refId) === true) {
+        if ($this->access->checkAccess('edit_permission', "", $ref_id) === true) {
             //list permissions
-            $this->addTab(self::TAB_LIST_PERMISSIONS, $this->dclEndPoint->getListPermissionsLink());
+            $this->addTab(self::TAB_LIST_PERMISSIONS, $this->ctrl->getLinkTargetByClass(
+                ilPermissionGUI::class,
+                "perm"
+            ));
         }
     }
 
@@ -488,11 +475,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     {
         $dataCollectionTemplate = $this->tpl;
 
-        $refId = $this->object->getRefId();
-        if ($this->dclAccess->hasWritePermission($refId) === false) {
-            $this->dclUi->displayErrorMessage(
-                $this->lng->txt("msg_no_perm_write")
-            );
+        $ref_id = $this->object->getRefId();
+        if ($this->access->checkAccess('write', "", $ref_id) === false) {
+            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), null);
         }
 
         $this->tabs->activateTab(self::TAB_EDIT_DCL);
@@ -552,8 +537,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     final public function listRecords(): void
     {
-        $listRecordsLink = $this->dclEndPoint->getListRecordsLink($this->getTableViewId());
-        $this->dclEndPoint->redirect($listRecordsLink);
+        $this->ctrl->setParameterByClass("ildclrecordlistgui", "tableview_id", $this->getTableViewId());
+        $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "show");
     }
 
     public function getDataCollectionObject(): ilObjDataCollection
@@ -621,10 +606,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     protected function addHeaderAction(): void
     {
-        ilObjectListGUI::prepareJSLinks(
+        ilObjectListGUI::prepareJsLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
             "",
-            $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true)
+            $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true)
         );
 
         $dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $this->access, "dcl", $this->ref_id, $this->obj_id);

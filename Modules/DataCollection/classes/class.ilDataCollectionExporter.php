@@ -15,11 +15,9 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDataCollectionExporter
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
+
+declare(strict_types=1);
+
 class ilDataCollectionExporter extends ilXmlExporter
 {
     protected ilDataCollectionDataSet $ds;
@@ -40,15 +38,15 @@ class ilDataCollectionExporter extends ilXmlExporter
      */
     public function getValidSchemaVersions(string $a_entity): array
     {
-        return array(
-            '4.5.0' => array(
+        return [
+            '4.5.0' => [
                 'namespace' => 'https://www.ilias.de/Modules/DataCollection/dcl/4_5',
                 'xsd_file" => "ilias_dcl_4_5.xsd',
                 'uses_dataset' => true,
                 'min' => '4.5.0',
                 'max' => '',
-            ),
-        );
+            ],
+        ];
     }
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
@@ -69,18 +67,18 @@ class ilDataCollectionExporter extends ilXmlExporter
      */
     public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
-        $dependencies = array(
-            ilDclDatatype::INPUTFORMAT_FILEUPLOAD => array(
+        $dependencies = [
+            ilDclDatatype::INPUTFORMAT_FILEUPLOAD => [
                 'component' => 'Modules/File',
                 'entity' => 'file',
-                'ids' => array(),
-            ),
-            ilDclDatatype::INPUTFORMAT_MOB => array(
+                'ids' => [],
+            ],
+            ilDclDatatype::INPUTFORMAT_MOB => [
                 'component' => 'Services/MediaObjects',
                 'entity' => 'mob',
-                'ids' => array(),
-            ),
-        );
+                'ids' => [],
+            ],
+        ];
 
         // Direct SQL query is faster than looping over objects
         foreach ($a_ids as $dcl_obj_id) {
@@ -103,7 +101,7 @@ class ilDataCollectionExporter extends ilXmlExporter
         }
 
         // Return external dependencies/IDs if there are any
-        $return = array();
+        $return = [];
         if (count($dependencies[ilDclDatatype::INPUTFORMAT_FILEUPLOAD]['ids'])) {
             $return[] = $dependencies[ilDclDatatype::INPUTFORMAT_FILEUPLOAD];
         }
@@ -122,7 +120,7 @@ class ilDataCollectionExporter extends ilXmlExporter
      */
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
-        $page_object_ids = array();
+        $page_object_ids = [];
         foreach ($a_ids as $dcl_obj_id) {
             // If a DCL table has a detail view, we need to export the associated page objects!
             $sql = "SELECT page_id FROM page_object "
@@ -136,15 +134,15 @@ class ilDataCollectionExporter extends ilXmlExporter
             }
         }
         if (count($page_object_ids)) {
-            return array(
-                array(
+            return [
+                [
                     'component' => 'Services/COPage',
                     'entity' => 'pg',
                     'ids' => $page_object_ids,
-                ),
-            );
+                ],
+            ];
         }
 
-        return array();
+        return [];
     }
 }

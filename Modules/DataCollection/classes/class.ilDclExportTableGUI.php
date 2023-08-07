@@ -15,10 +15,9 @@
  *
  ********************************************************************
  */
-/**
- * Export User Interface Class
- * @author       Michael Herren <mh@studer-raimann.ch>
- */
+
+declare(strict_types=1);
+
 class ilDclExportTableGUI extends ilExportTableGUI
 {
     public function __construct(ilDclExportGUI $a_parent_obj, string $a_parent_cmd, ilObject $a_exp_obj)
@@ -126,7 +125,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
         }
     }
 
-    protected function isExportInProgress(string $file): string
+    protected function isExportInProgress(string $file): bool
     {
         $ending = substr($file, -strlen(ilDclContentExporter::IN_PROGRESS_POSTFIX));
 

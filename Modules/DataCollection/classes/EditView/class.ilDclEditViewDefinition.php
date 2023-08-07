@@ -16,11 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclEditViewDefinition
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclEditViewDefinition extends ilPageObject
 {
     public const PARENT_TYPE = 'dclf';
@@ -42,7 +39,7 @@ class ilDclEditViewDefinition extends ilPageObject
      */
     public function getAvailablePlaceholders(): array
     {
-        $all = array();
+        $all = [];
 
         $tableview = new ilDclTableView($this->getId());
         $table_id = $tableview->getTableId();

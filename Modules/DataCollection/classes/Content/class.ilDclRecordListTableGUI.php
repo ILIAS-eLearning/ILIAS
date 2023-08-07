@@ -16,15 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclRecordListTableGUI extends ilTable2GUI
 {
     public const EXPORT_EXCEL_ASYNC = 10;
@@ -42,6 +35,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     protected int $userId;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
+    protected \ILIAS\DI\UIServices $ui;
 
     public function __construct(
         ilDclRecordListGUI $a_parent_obj,
@@ -54,6 +48,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->ctrl = $DIC->ctrl();
         $this->userId = $DIC->user()->getId();
         $this->lng = $DIC->language();
+        $this->ui = $DIC->ui();
 
         $this->tableview = ilDclTableView::find($tableview_id);
         $identifier = 'dcl_rl_' . $table->getId() . '_' . $tableview_id;
@@ -111,7 +106,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                     }
                 }
             } else {
-                $default_sort_title = ilDclCache::getFieldCache($fieldId)->getTitle();
+                $default_sort_title = ilDclCache::getFieldCache((int)$fieldId)->getTitle();
             }
             $this->setDefaultOrderField($default_sort_title);
         }
@@ -192,7 +187,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             }
 
             $alist = new ilAdvancedSelectionListGUI();
-            $alist->setId($record->getId());
+            $alist->setId((string)$record->getId());
             $alist->setListTitle($this->lng->txt("actions"));
 
             if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
@@ -233,7 +228,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                 );
             }
 
-            $record_data["_actions"] = $alist->getHTML();
             $data[] = $record_data;
         }
         $this->setData($data);

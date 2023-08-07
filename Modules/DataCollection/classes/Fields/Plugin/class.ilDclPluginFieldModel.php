@@ -15,15 +15,14 @@
  *
  ********************************************************************
  */
-/**
- * Class ilDclPluginFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- */
+
+declare(strict_types=1);
+
 class ilDclPluginFieldModel extends ilDclBaseFieldModel
 {
     public function getValidFieldProperties(): array
     {
-        return array_merge(array(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME), $this->getCustomValidFieldProperties());
+        return array_merge([ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME], $this->getCustomValidFieldProperties());
     }
 
     /**
@@ -31,7 +30,7 @@ class ilDclPluginFieldModel extends ilDclBaseFieldModel
      */
     public function getCustomValidFieldProperties(): array
     {
-        return array();
+        return [];
     }
 
     /**

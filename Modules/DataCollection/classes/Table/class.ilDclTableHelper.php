@@ -16,10 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclTableHelper
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclTableHelper
 {
     protected int $obj_id = 0;
@@ -91,7 +89,7 @@ class ilDclTableHelper
          * @var $ilDclTableView                   ilDclTableView
          * @var $view_for_data_collection_object  ilDclTableView
          */
-        foreach ($views_for_data_collection as $key => $view_for_data_collection_array_of_objects) {
+        foreach ($views_for_data_collection as $view_for_data_collection_array_of_objects) {
             foreach ($view_for_data_collection_array_of_objects as $view_for_data_collection_object) {
                 $ilDclTableView = ilDclTableView::find($view_for_data_collection_object->getId());
                 $roles_of_view = $ilDclTableView->getRoles();
@@ -121,8 +119,8 @@ class ilDclTableHelper
         $visible_tables_for_data_collection = [];
         $res = $this->database->queryF(
             "SELECT * FROM il_dcl_table WHERE obj_id = %s AND is_visible = 1",
-            array('integer'),
-            array($this->obj_id)
+            ['integer'],
+            [$this->obj_id]
         );
         while ($rec = $this->database->fetchAssoc($res)) {
             $visible_tables_for_data_collection[] = $rec;
@@ -155,7 +153,7 @@ class ilDclTableHelper
         }
 
         //check if current user id is in the array of user ids with read right on standard view
-        if ($this->in_array_r($this->user->getId(), $user_ids_with_read_right_on_any_standard_view)) {
+        if ($this->in_array_r((string) $this->user->getId(), $user_ids_with_read_right_on_any_standard_view)) {
             return true;
         } else {
             return false;

@@ -16,10 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclDateSelectionFieldRepresentation
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclDateSelectionFieldRepresentation extends ilDclSelectionFieldRepresentation
 {
     public const PROP_SELECTION_TYPE = 'date_selection_type';

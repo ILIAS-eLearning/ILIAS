@@ -16,11 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclDateTimeREpresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclRatingFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilTextInputGUI
@@ -44,7 +41,7 @@ class ilDclRatingFieldRepresentation extends ilDclBaseFieldRepresentation
             false,
             $this->getField()->getId()
         );
-        $options = array("" => $this->lng->txt("dcl_any"), 1 => ">1", 2 => ">2", 3 => ">3", 4 => ">4", 5 => "5");
+        $options = ["" => $this->lng->txt("dcl_any"), 1 => ">1", 2 => ">2", 3 => ">3", 4 => ">4", 5 => "5"];
         $input->setOptions($options);
 
         $this->setupFilterInputField($input);

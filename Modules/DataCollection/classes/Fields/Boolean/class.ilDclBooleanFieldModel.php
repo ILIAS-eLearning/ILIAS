@@ -16,11 +16,9 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclBooleanFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+
+declare(strict_types=1);
+
 class ilDclBooleanFieldModel extends ilDclBaseFieldModel
 {
     /**
@@ -34,6 +32,7 @@ class ilDclBooleanFieldModel extends ilDclBaseFieldModel
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
+        $where_additions = null;
         $join_str
             = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
             . $ilDB->quote($this->getId(), 'integer') . ")";
@@ -49,7 +48,9 @@ class ilDclBooleanFieldModel extends ilDclBaseFieldModel
 
         $sql_obj = new ilDclRecordQueryObject();
         $sql_obj->setJoinStatement($join_str);
-        $sql_obj->setWhereStatement($where_additions);
+        if ($where_additions) {
+            $sql_obj->setWhereStatement($where_additions);
+        }
 
         return $sql_obj;
     }

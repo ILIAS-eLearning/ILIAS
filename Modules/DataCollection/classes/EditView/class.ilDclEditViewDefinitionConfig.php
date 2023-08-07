@@ -16,10 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclEditViewDefinitionConfig
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclEditViewDefinitionConfig extends ilPageConfig
 {
     /**

@@ -16,11 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclFileuploadFieldRepresentaion
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
 {
     public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFileInputGUI

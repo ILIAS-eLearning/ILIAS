@@ -15,11 +15,9 @@
  *
  ********************************************************************
  */
-/**
- * Class ilDclGenericMultiInputGUI
- * @author Michael Herren <mh@studer-raimann.ch>
- * @author Theodor Truffer <tt@studer-raimann.ch>
- */
+
+declare(strict_types=1);
+
 class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 {
     public const HOOK_IS_LINE_REMOVABLE = "hook_is_line_removable";
@@ -185,7 +183,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
-     * @return    boolean        Input ok, true/false
      */
     public function checkInput(): bool
     {
@@ -237,7 +234,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return $this->cust_attr;
     }
 
-    protected function createInputPostVar(int $iterator_id, ilFormPropertyGUI $input): string
+    protected function createInputPostVar(string $iterator_id, ilFormPropertyGUI $input): string
     {
         if ($this->getMulti()) {
             return $this->getPostVar() . '[' . $iterator_id . '][' . $input->getPostVar() . ']';
@@ -250,7 +247,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      * Render item
      * @throws ilTemplateException
      */
-    public function render(int $iterator_id = 0, bool $clean_render = false): string
+    public function render(string $iterator_id = "0", bool $clean_render = false): string
     {
         $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'Modules/DataCollection');
 
@@ -339,9 +336,8 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      */
     public function insert(ilTemplate $a_tpl): void
     {
-        $output = "";
 
-        $output .= $this->render(0, true);
+        $output = $this->render("0", true);
 
         if ($this->getMulti() && is_array($this->line_values) && count($this->line_values) > 0) {
             $counter = 0;
@@ -352,7 +348,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
                 $counter++;
             }
         } else {
-            $output .= $this->render(1, true);
+            $output .= $this->render("1", true);
         }
 
         if ($this->getMulti()) {
@@ -376,9 +372,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      */
     public function getTableFilterHTML(): string
     {
-        $html = $this->render();
-
-        return $html;
+        return $this->render();
     }
 
     /**

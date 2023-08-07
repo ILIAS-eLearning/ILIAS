@@ -17,15 +17,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     protected ?int $dcl_obj_id;
@@ -41,14 +34,12 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->dcl_obj_id = $dclTable->getObjId();
     }
 
-    /**
-     * @return int|string
-     */
-    public function getExportValue()
+    public function getExportValue(): string
     {
         $value = $this->getValue();
         if ($value) {
             if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
+                $names = [];
                 if (!is_array($value)) {
                     $value = [$value];
                 }
@@ -62,16 +53,15 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
                 }
 
                 return implode('; ', $names);
-            } else {
-                $ref_rec = ilDclCache::getRecordCache($this->getValue());
-                $ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
-                $exp_value = $ref_record_field->getExportValue();
-
-                return (is_array($exp_value) ? array_shift($exp_value) : $exp_value);
             }
-        } else {
-            return "";
+
+            $ref_rec = ilDclCache::getRecordCache($this->getValue());
+            $ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+            $exp_value = $ref_record_field->getExportValue();
+
+            return (string)(is_array($exp_value) ? array_shift($exp_value) : $exp_value);
         }
+        return "";
     }
 
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
@@ -136,7 +126,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         $table = ilDclCache::getTableCache($field->getTableId());
         $record_id = 0;
         foreach ($table->getRecords() as $record) {
-            $record_value = $record->getRecordField($field->getId())->getExportValue();
+            $record_value = $record->getRecordField((int)$field->getId())->getExportValue();
             // in case of a url-field
             if (is_array($record_value) && !is_array($value)) {
                 $record_value = array_shift($record_value);
@@ -151,15 +141,15 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function afterClone(): void
     {
-        $field_clone = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
+        $field_clone = ilDclCache::getCloneOf((int)$this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record_clone = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);
 
         if ($field_clone && $record_clone) {
             $record_field_clone = ilDclCache::getRecordFieldCache($record_clone, $field_clone);
             $clone_references = $record_field_clone->getValue();
-
+            $value = [];
             if (is_array($clone_references)) {
-                $value = [];
+
                 foreach ($clone_references as $clone_reference) {
                     if (!is_null($temp_value = $this->getCloneRecordId($clone_reference))) {
                         $value[] = $temp_value;

@@ -16,11 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclBooleanFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclNumberFieldModel extends ilDclBaseFieldModel
 {
     /**
@@ -43,10 +40,10 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
             = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
             . $ilDB->quote($this->getId(), 'integer') . ") ";
         $join_str .= "INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id";
-        if (!is_null($from)) {
+        if (isset($from)) {
             $join_str .= " AND filter_stloc_{$this->getId()}.value >= " . $ilDB->quote($from, 'integer');
         }
-        if (!is_null($to)) {
+        if (isset($to)) {
             $join_str .= " AND filter_stloc_{$this->getId()}.value <= " . $ilDB->quote($to, 'integer');
         }
         $join_str .= ") ";

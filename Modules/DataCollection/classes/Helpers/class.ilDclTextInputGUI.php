@@ -16,10 +16,8 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclTextInputGUI
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclTextInputGUI extends ilTextInputGUI
 {
     public function setValueByArray(array $a_values): void
@@ -48,7 +46,7 @@ class ilDclTextInputGUI extends ilTextInputGUI
 
             try {
                 preg_match($regex, '');
-            } catch (Exception $e) {
+            } catch (Exception) {
                 global $DIC;
                 $lng = $DIC['lng'];
                 $this->setAlert($lng->txt('msg_input_does_not_match_regexp'));

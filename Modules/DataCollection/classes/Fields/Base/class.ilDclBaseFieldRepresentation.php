@@ -16,11 +16,9 @@
  ********************************************************************
  */
 
-/**
- * Class ilDclBaseFieldRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+
+declare(strict_types=1);
+
 abstract class ilDclBaseFieldRepresentation
 {
     protected ilDclBaseFieldModel $field;
@@ -85,11 +83,7 @@ abstract class ilDclBaseFieldRepresentation
         return $pass;
     }
 
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    public function parseSortingValue(string $value, bool $link = true)
+    public function parseSortingValue(string $value, bool $link = true): mixed
     {
         return $value;
     }

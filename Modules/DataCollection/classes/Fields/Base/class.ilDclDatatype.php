@@ -15,16 +15,8 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclDatatype
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclDatatype
 {
     public const INPUTFORMAT_NONE = 0;
@@ -44,7 +36,7 @@ class ilDclDatatype
     public const INPUTFORMAT_DATE_SELECTION = 15;
     public const INPUTFORMAT_FILE = 16;
 
-    protected int $id = 0;
+    protected string $id = "0";
     protected string $title = "";
     protected int $storageLocation = 0;
     protected string $dbType;
@@ -57,7 +49,7 @@ class ilDclDatatype
      * Constructor
      * @access public
      */
-    public function __construct(int $a_id = 0)
+    public function __construct(string $a_id = "0")
     {
         if ($a_id != 0) {
             $this->id = $a_id;
@@ -65,7 +57,7 @@ class ilDclDatatype
         }
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
@@ -128,7 +120,7 @@ class ilDclDatatype
         $ilDB = $DIC['ilDB'];
 
         if (self::$datatype_cache == null) {
-            self::$datatype_cache = array();
+            self::$datatype_cache = [];
 
             $query = "SELECT * FROM il_dcl_datatype ORDER BY sort";
             $set = $ilDB->query($query);

@@ -15,11 +15,9 @@
  *
  ********************************************************************
  */
-/**
- * Class ilDclDateTimeREpresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+
+declare(strict_types=1);
+
 class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilTextInputGUI
@@ -38,7 +36,7 @@ class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
 
         $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
         $table = ilDclCache::getTableCache($table_id);
-        $fields = array();
+        $fields = [];
         foreach ($table->getFieldsForFormula() as $f) {
             $placeholder = ($f->isStandardField()) ? $f->getId() : $f->getTitle();
             $fields[] = '<a class="dclPropExpressionField" data-placeholder="' . $placeholder . '">' . $f->getTitle() . '</a>';
