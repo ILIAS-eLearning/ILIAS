@@ -363,6 +363,13 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
             $button = $this->ui->factory()->button()->standard($this->lng->txt('finish_test'), $action);
         }
         $button = isset($modal) ? $button->withOnClick($modal->getShowSignal()) : $button;
+        $button = $button->withAdditionalOnLoadCode(
+            static function (string $id): string {
+                return "
+                document.getElementById('$id').addEventListener('click', il.TestPlayerQuestionEditControl.checkNavigationForKSButton);
+                ;";
+            }
+        );
 
         $this->addStickyItem($button);
     }
