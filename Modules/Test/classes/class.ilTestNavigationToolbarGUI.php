@@ -78,7 +78,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
      */
     private $disabledStateEnabled = false;
     private bool $user_has_attempts_left = true;
-    protected Interruptive $finish_test_modal;
+    protected ?Interruptive $finish_test_modal = null;
 
     /**
      * @param ilCtrl $ctrl
@@ -270,6 +270,9 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 
     public function getFinishTestModalHTML(): string
     {
+        if ($this->finish_test_modal === null) {
+            return '';
+        }
         return $this->ui->renderer()->render($this->finish_test_modal);
     }
 

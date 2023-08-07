@@ -159,11 +159,8 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
             );
             $this->tpl->parseCurrentBlock();
         }
-        $additional_html = '';
-        foreach ($this->finish_test_modal as $additional_item) {
-            $additional_html .= $this->renderer->render($additional_item);
-        }
-        return parent::getHTML() . $additional_html;
+
+        return parent::getHTML() . $this->renderer->render($this->finish_test_modal);
     }
 
     public function fillRow(array $a_set): void
