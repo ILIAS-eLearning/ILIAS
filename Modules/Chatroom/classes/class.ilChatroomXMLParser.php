@@ -18,14 +18,10 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilChatroomXMLParser
- */
 class ilChatroomXMLParser extends ilSaxParser
 {
     protected ilChatroom $room;
     protected string $cdata = '';
-    protected bool $in_sub_rooms = false;
     protected bool $in_messages = false;
     protected ?string $import_install_id = null;
     protected ?int $exportRoomId = 0;
@@ -35,8 +31,6 @@ class ilChatroomXMLParser extends ilSaxParser
     protected ?int $timestamp = 0;
     protected ?string $message = '';
     protected ?string $title = '';
-    /** @var int[]  */
-    protected array $userIds = [];
 
     public function __construct(protected ilObjChatroom $chat, string $a_xml_data)
     {
@@ -94,11 +88,7 @@ class ilChatroomXMLParser extends ilSaxParser
 
         switch ($a_name) {
             case 'Title':
-                if ($this->in_sub_rooms) {
-                    $this->title = ilUtil::stripSlashes($this->cdata);
-                } else {
-                    $this->chat->setTitle(ilUtil::stripSlashes($this->cdata));
-                }
+                $this->chat->setTitle(ilUtil::stripSlashes($this->cdata));
                 break;
 
             case 'Description':
@@ -107,7 +97,7 @@ class ilChatroomXMLParser extends ilSaxParser
 
             case 'OnlineStatus':
                 $this->chat->setOfflineStatus(
-                    ((int) $this->cdata) !== 0
+                    ((int) $this->cdata) === 0
                 );
                 break;
 
@@ -135,27 +125,8 @@ class ilChatroomXMLParser extends ilSaxParser
                 $this->exportRoomId = (int) $this->cdata;
                 break;
 
-            case 'Owner':
-                $this->owner = (int) $this->cdata;
-                break;
-
-            case 'Closed':
-                $this->closed = (int) $this->cdata;
-                break;
-
-            case 'Public':
-                $this->public = (int) $this->cdata;
-                break;
-
             case 'CreatedTimestamp':
                 $this->timestamp = (int) $this->cdata;
-                break;
-
-            case 'PrivilegedUserId':
-                $this->userIds[] = (int) $this->cdata;
-                break;
-            case 'SubRooms':
-                $this->in_sub_rooms = false;
                 break;
 
             case 'Body':
@@ -181,9 +152,9 @@ class ilChatroomXMLParser extends ilSaxParser
                 break;
 
             case 'Chatroom':
-                $this->chat->update();
                 // Set imported chats to offline
-                $this->room->setSetting('online_status', 0);
+                $this->chat->setOfflineStatus(true);
+                $this->chat->update();
                 $this->room->save();
                 break;
         }
