@@ -1,7 +1,22 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Consultation hour appointments
@@ -125,9 +140,9 @@ class ilConsultationHourAppointments
         $row = $ilDB->fetchAssoc($set);
         if ($row && $row['admin_id']) {
             if ($a_as_name && $a_full_name) {
-                return ilObjUser::_lookupFullname($row['admin_id']);
+                return ilObjUser::_lookupFullname((int) $row['admin_id']);
             } elseif ($a_as_name) {
-                return ilObjUser::_lookupLogin($row['admin_id']);
+                return ilObjUser::_lookupLogin((int) $row['admin_id']);
             }
             return (int) $row['admin_id'];
         }

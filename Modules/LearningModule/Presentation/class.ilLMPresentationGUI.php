@@ -1268,7 +1268,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->renderPageTitle();
 
         $this->tpl->setCurrentBlock("ilMedia");
-
         $med_links = ilMediaItem::_getMapAreasIntLinks($this->requested_mob_id);
         $link_xml = $this->linker->getLinkXML($med_links);
 
@@ -1448,16 +1447,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $nodes = $this->lm_tree->getSubTree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
         $nodes = $this->filterNonAccessibleNode($nodes);
-
-        /* this was written to _POST["item"] before, but never used?
-        $items = $this->service->getRequest()->getItems();
-        if (count($items) == 0) {
-            if ($this->requested_obj_id != "") {
-                $items[$this->requested_obj_id] = "y";
-            } else {
-                $items[1] = "y";
-            }
-        }*/
 
         $this->initPrintViewSelectionForm();
 

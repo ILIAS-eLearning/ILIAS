@@ -22,6 +22,7 @@ namespace ILIAS\Blog;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\Blog\Exercise\BlogExercise;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -43,21 +44,12 @@ class InternalDomainService
         $this->initDomainServices($DIC);
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
+    public function exercise(int $a_node_id): BlogExercise
     {
-        return new Access\AccessManager(
-            $this,
-            $this->access,
-            $ref_id,
-            $user_id
+        return new BlogExercise(
+            $a_node_id,
+            $this->repositoryTree(),
+            $this->user()
         );
-    }*/
-
-    /*public function clipboard() : ClipboardManager
-    {
-        return new ClipboardManager(
-            $this->repo_service->clipboard()
-        );
-    }*/
+    }
 }

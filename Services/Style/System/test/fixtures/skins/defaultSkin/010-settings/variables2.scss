@@ -1,0 +1,11 @@
+@use "./_settings_color-palette.scss" as s-color;
+@use "./_settings_typography.scss" as s-typo;
+@use "./settings_borders" as s-border;
+
+//== Buttons
+//
+
+//** Size of the font displayed inside a button
+$il-button-font-size: s-typo.$il-font-size-small !default;
+//** Weight of the font displayed inside a button
+$il-button-font-weight: s-typo.$il-font-weight-base !default;

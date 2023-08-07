@@ -638,6 +638,8 @@ assessment#:#ects_grade_f_desc#:#es sind erhebliche Verbesserungen erforderlich
 assessment#:#ects_grade_fx_desc#:#es sind Verbesserungen erforderlich, bevor die Leistung anerkannt wird
 assessment#:#ects_output_of_ects_grades#:#Ausgabe von ECTS-Noten
 assessment#:#edit_answer#:#Antwort ändern
+assessment#:#edit_concluding_remarks#:#Abschließende Bemerkung bearbeiten
+assessment#:#edit_introduction#:#Einleitung bearbeiten
 assessment#:#edit_page#:#Seite bearbeiten
 assessment#:#edit_question#:#Frage bearbeiten
 assessment#:#edit_test_questions#:#Listenansicht
@@ -1168,13 +1170,15 @@ assessment#:#set_manscoring_done#:#Als bewertet markieren
 assessment#:#set_manual_feedback#:#Manuelle Rückmeldung
 assessment#:#shape#:#Form
 assessment#:#showSuggestedSolution#:#Art
+assessment#:#show_all_test_properties_on_info_page#:#Testeigenschaften anzeigen
+assessment#:#show_all_test_properties_on_info_page_byline#:#Den Benutzern werden auf dem 'Info'-Reiter alle Testeigenschaften angezeigt, z.B. Reihenfolge, Bewertung oder Ergebnisausgabe.
 assessment#:#show_answer_overview#:#Antwortübersicht zeigen
 assessment#:#show_detailed_results#:#Detaillierte Testergebnisse (bewerteter Testdurchlauf)
 assessment#:#show_examview_html#:#Am Bildschirm
+assessment#:#show_old_concluding_remarks#:#Alte Abschliessende Bemerkungen anzeigen
+assessment#:#show_old_introduction#:#Alten Einleitungstext anzeigen
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
-assessment#:#showinfo#:#Testeigenschaften anzeigen
-assessment#:#showinfo_desc#:#Den Benutzern werden auf dem 'Info'-Reiter alle Testeigenschaften angezeigt, z.B. Reihenfolge, Bewertung oder Ergebnisausgabe.
 assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#sign_submission#:#Digitale Signatur
 assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und aktiviert sein, damit Teilnehmer aufgefordert werden, ihre Testabgabe zu signieren.
@@ -1391,7 +1395,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwo
 assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finish_notification#:#Benachrichtigung
 assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis pro Benutzer
-assessment#:#tst_finish_notification_content#:#Inhalt der Benachrichtigung
+assessment#:#tst_finish_notification_content_type#:#Inhalt der Benachrichtigung
 assessment#:#tst_finish_notification_desc#:#Für jede Person, die einen Test beendet, wird eine Mail versendet. Die Mail wird an den Benutzer versendet, welcher im Reiter „Rechte“ unter „Im Besitz von“ eingetragen ist. Die Mail enthält die folgenden Informationen:###Modified as part of gender mainstreaming activities for ILIAS 8
 assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
 assessment#:#tst_finish_notification_simple#:#Nur Anmeldename und Datum des Beendens
@@ -1615,21 +1619,22 @@ assessment#:#tst_password_form#:#Eingabe Testpasswort
 assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet bzw. fortgeführt werden. Bitte tragen Sie das Passwort hier ein.
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_player_answer_saved_and_locked#:#Antwort wird gespeichert und gesperrt. Dadurch kann die Antwort nicht mehr geändert werden.
+assessment#:#tst_please_select_source_pool#:#Bitte wählen Sie einen Fragenpool aus.
 assessment#:#tst_please_select_target_for_pool_derives#:#Bitte wählen Sie einen Zielcontainer aus.
 assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_position_without_total#:#Frage %s
 assessment#:#tst_postpone#:#Nicht beantwortete Fragen
 assessment#:#tst_postpone_off#:#Nicht beantwortete Fragen bleiben an ihrem Platz
-assessment#:#tst_postpone_off_desc#:#Auch wenn Teilnehmer Antworten verwerfen oder Fragen überblättern, verbleiben die Fragen an ihrer Position im Test. Diese Einstellung wirkt sich nicht auf den Modus 'Wiedervorlage' aus.
+assessment#:#tst_postpone_off_desc#:#Auch wenn Teilnehmer Antworten verwerfen oder Fragen überblättern, verbleiben die Fragen an ihrer Position im Test.
 assessment#:#tst_postpone_on#:#Nicht beantwortete Fragen werden ans Testende geschoben
-assessment#:#tst_postpone_on_desc#:#Fragen, deren Antworten die Teilnehmer verwerfen oder überblättern, präsentiert ILIAS am Ende des Test noch einmal. Diese Einstellung wirkt sich nicht auf den Modus 'Wiedervorlage' aus.
+assessment#:#tst_postpone_on_desc#:#Fragen, deren Antworten die Teilnehmer verwerfen oder überblättern, präsentiert ILIAS am Ende des Test noch einmal.
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_presentation_settings_section#:#Darstellung
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_proceed#:#Fortfahren
 assessment#:#tst_processing_time#:#Bearbeitungsdauer begrenzen
 assessment#:#tst_processing_time_desc#:#Nutzen Sie diese Einstellung für E-Klausuren/Fernklausuren, damit Teilnehmer einen festen Zeitraum für die Bearbeitung des Tests bekommen. Die Zeit läuft für jeden Teilnehmer ab dem Moment, an dem der erste Testdurchlauf gestartet wurde. „Test unterbrechen“ stoppt den Ablauf der Bearbeitungsdauer nicht. Wurde die Anzahl möglicher Testdurchläufe eingeschränkt, erscheint im Reiter „Dashboard“ eine Funktion, um Teilnehmern zusätzliche Bearbeitungszeit zu gewähren.
-assessment#:#tst_processing_time_duration#:#Bearbeitungsdauer
+assessment#:#tst_processing_time_duration#:#Bearbeitungsdauer in Minuten
 assessment#:#tst_processing_time_duration_desc#:#Maximal zur Verfügung stehende Zeit zur Durchführung des Tests
 assessment#:#tst_qbt_filter_question_title#:#Fragentitel
 assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
@@ -1804,7 +1809,9 @@ assessment#:#tst_setting_enable_obligations_info#:#Verpflichtende Fragen werden 
 assessment#:#tst_setting_enable_obligations_label#:#Verpflichtende Fragen
 assessment#:#tst_setting_offer_hints_info#:#Teilnehmer können Lösungshinweise anfordern, um eine Frage zu beantworten. Pro gegebenem Lösungshinweis verringern sich die Punkte für die richtige Antwort.
 assessment#:#tst_setting_offer_hints_label#:#Lösungshinweise
-assessment#:#tst_settings_conflict_message#:#Es wurden Kombinationen von Einstellungen gewählt, die nicht erlaubt sind.
+assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Verpflichtende Fragen" kann nicht zusammen mit "Antworten festschreiben" verwendet werden.
+assessment#:#tst_settings_conflict_postpone_and_lock#:#"Nicht beantwortete Fragen werden ans Testende geschoben" kann nicht zusammen mit "Antworten bei Anzeige der Folgefrage festschreiben" verwendet werden.
+assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Fragen mischen" kann nicht zusammen mit "Antworten bei Anzeige der Folgefrage festschreiben" verwendet werden.
 assessment#:#tst_settings_header_execution#:#Durchführung: Zugang
 assessment#:#tst_settings_header_intro#:#Informationen zum Einstieg
 assessment#:#tst_settings_header_test_run#:#Durchführung: Steuerung Testdurchlauf
@@ -2028,7 +2035,7 @@ auth#:#auth_oidc_settings_session_duration#:#Dauer
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
 auth#:#auth_oidc_settings_txt#:#Text
 auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein, der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenID-Connect-Anmeldeskript.
-auth#:#auth_oidc_settings_user_attr#:#Attributname der ILIAS-Konten
+auth#:#auth_oidc_settings_user_attr#:#Attributname der Anmeldekonten
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
 auth#:#auth_oidc_settings_user_sync_info#:#Für Personen, die noch kein ILIAS-Konto besitzen, sich aber erfolgreich gegen Open ID Connect authentifiziert haben, wird automatisch ein neues ILIAS-Konto erzeugt.
 auth#:#auth_oidc_settings_validate_scope_custom#:#Eigene OpenID Connect Discovery URL angeben
@@ -2395,7 +2402,7 @@ blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_posting#:#Beitrag
 blog#:#blog_posting_deleted#:#Der Beitrag wurde gelöscht.
 blog#:#blog_posting_deletion_confirmation#:#Wollen Sie diesen Beitrag wirklich löschen?
-blog#:#blog_posting_edit_approval_info#:#Der Beitrag muss vor der Veröffentlichung durch einen Tutor freigeschaltet werden.
+blog#:#blog_posting_edit_approval_info#:#Der Beitrag muss vor der Veröffentlichung durch die Blog-Redaktion freigeschaltet werden.
 blog#:#blog_posting_not_found#:#Der Beitrag ist nicht verfügbar.
 blog#:#blog_postings#:#Beiträge
 blog#:#blog_presentation_frame#:#Darstellung
@@ -2781,7 +2788,7 @@ chatroom#:#anonymous_hint#:#Bitte beachten Sie, dass für den Zugriff von anonym
 chatroom#:#auto_scroll#:#Automatisch an das Ende scrollen
 chatroom#:#autogen_usernames#:#Chat-Namen für anonyme Teilnahme
 chatroom#:#autogen_usernames_info#:#Nicht angemeldete Personen bekommen automatisch einen Chat-Namen, damit sie unterschieden werden können. Die Raute wird dabei automatisch durch eine Zahl ersetzt.
-chatroom#:#ban_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum ausschließen?
+chatroom#:#ban_question#:#Wollen Sie den Benutzer wirklich aus dem Chat ausschließen?
 chatroom#:#ban_table_title#:#Gesperrte Benutzer
 chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt.
 chatroom#:#bans#:#Gesperrte Benutzer
@@ -2790,9 +2797,7 @@ chatroom#:#chat_anonymous_not_allowed#:#Um den Chatraum nutzen zu können, logge
 chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber einen <b>eindeutigen</b> Namen.
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_broadcast_typing#:#Tippen im Chat anzeigen
-chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu schreiben.
-chatroom#:#chat_broadcast_typing_no#:#Anderen das Tippen von Nachrichten nicht anzeigen
-chatroom#:#chat_broadcast_typing_yes#:#Tippen von Nachrichten den Anwesenden anzeigen
+chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu tippen.
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> hat den Chatraum verlassen ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum betreten +++
 chatroom#:#chat_deletion_disabled#:#Deaktiviert
@@ -2807,6 +2812,7 @@ chatroom#:#chat_deletion_section_head#:#Löschen alter Nachrichten
 chatroom#:#chat_enable_history#:#Verlauf
 chatroom#:#chat_enable_history_info#:#Alle können im Reiter „Verlauf“ öffentliche Chat-Beiträge aus der Vergangenheit lesen und exportieren. Beiträge aus Séparées sind nur für Benutzer zugänglich, die dort eingeladen waren.
 chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat_errors.log), in die der Chat-Server Fehler protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
+chatroom#:#chat_functions#:#Chat Funktionen
 chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum SSL-Zertifikat an (bspw.: /etc/ssl/certs/server.pem).
 chatroom#:#chat_https_dhparam_info#:#Bitte geben Sie hier den absoluten Serverpfad zu einer Datei an (bspw.: /etc/ssl/private/dhparam.pem), um Diffie-Hellman-Parameter auszuhandeln (z.B. generiert via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Bitte geben Sie den absoluten Serverpfad zum privaten Schlüssel an (bspw.: /etc/ssl/private/server.key).
@@ -2826,7 +2832,7 @@ chatroom#:#chat_message#:#Nachricht
 chatroom#:#chat_message_display#:#Anzeigen
 chatroom#:#chat_message_options#:#Optionen
 chatroom#:#chat_message_to_all#:#An alle
-chatroom#:#chat_no_use_typing_broadcast#:#Tippen wird Chatpartnern nicht angezeigt
+chatroom#:#chat_no_use_typing_broadcast#:#Tippen wird anderen im Chat nicht angezeigt
 chatroom#:#chat_not_use_osc#:#Nutzt On-Screen-Chat nicht
 chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
 chatroom#:#chat_osc_accept_msg_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
@@ -2856,8 +2862,8 @@ chatroom#:#chat_osc_search_modal_info#:#Suchen Sie hier nach einer Person, die S
 chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht am Chat teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben.
 chatroom#:#chat_osc_send#:#Senden
 chatroom#:#chat_osc_start_conversation#:#Chat starten
-chatroom#:#chat_osc_subs_rej_msgs#:#Ihr Chat-Partner möchte zur Zeit keine Nachrichten empfangen. Er kann den Empfang von Chat-Nachrichten in seinen Chat-Einstellungen wieder aktivieren.
-chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Chatspartner möchten aktuell keine Nachrichten mehr empfangen: %s
+chatroom#:#chat_osc_subs_rej_msgs#:#Die kontaktierte Person möchte zur Zeit keine Nachrichten empfangen. Sie kann den Empfang von Chat-Nachrichten in ihren Chat-Einstellungen aber wieder aktivieren.
+chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Personen möchten aktuell keine Nachrichten mehr empfangen: %s
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie den Gruppenchat verlassen möchten?
 chatroom#:#chat_osc_user#:#Benutzer
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat den Gruppenchat verlassen.
@@ -2867,7 +2873,7 @@ chatroom#:#chat_settings_functions_header#:#Funktionen des Chats
 chatroom#:#chat_show_auto_messages#:#Automatische Meldungen anzeigen
 chatroom#:#chat_to_mainroom#:#Zum Hauptraum
 chatroom#:#chat_use_osc#:#Nutzt On-Screen-Chat
-chatroom#:#chat_use_typing_broadcast#:#Tippen wird Chatpartnern angezeigt
+chatroom#:#chat_use_typing_broadcast#:#Tippen wird anderen im Chat angezeigt
 chatroom#:#chat_user_action_invite_osd#:#On-Screen-Chat starten
 chatroom#:#chat_user_action_invite_public_room#:#In öffentlichen Chatraum einladen
 chatroom#:#chat_user_x_is_typing#:#Benutzer %s tippt gerade ...
@@ -2892,7 +2898,7 @@ chatroom#:#chtr_ban_ts_tbl_head#:#Zeitpunkt
 chatroom#:#chtr_new#:#Neuen Chatraum anlegen
 chatroom#:#chtr_server_status#:#Server-Status
 chatroom#:#clear_room_history#:#Nachrichtenverlauf löschen
-chatroom#:#clear_room_history_question#:#Wollen Sie wirklich alle Nachrichten des aktuellen Raumes löschen?
+chatroom#:#clear_room_history_question#:#Wollen Sie wirklich alle Nachrichten löschen?
 chatroom#:#client_chatserver_connection#:#Verbindung Client zum Server
 chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen Client und Server zu definieren.
 chatroom#:#connection_url_info#:#Tragen Sie hier einen URL ein, über welchen der Server zu erreichen ist.
@@ -2901,7 +2907,6 @@ chatroom#:#delete_private_room#:#Séparée löschen
 chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Chat-Rückblick
-chatroom#:#display_past_msgs_suffix#:#Beiträge
 chatroom#:#duration_from#:#Von
 chatroom#:#duration_to#:#Bis
 chatroom#:#end_whisper#:#Beenden
@@ -2919,13 +2924,14 @@ chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Ad
 chatroom#:#invite_to_private_room#:#In Chatraum einladen
 chatroom#:#invite_username#:#Anmeldename
 chatroom#:#key#:#Schlüssel
-chatroom#:#kick_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum rauswerfen?
+chatroom#:#kick_question#:#Wollen Sie den Benutzer wirklich aus dem Chat rauswerfen?
 chatroom#:#kicked#:#Die Moderation hat Sie aus dem Chat entfernt.###Modified as part of gender mainstreaming activities for ILIAS 8
 chatroom#:#kicked_from_private_room#:#Sie wurden aus dem Separée <b>#title#</b> geworfen.
 chatroom#:#leave_private_room#:#Séparée verlassen
 chatroom#:#left_private_room#:#Séparée verlassen
 chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
 chatroom#:#main#:#Hauptraum
+chatroom#:#messages#:#Nachrichten
 chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend
 chatroom#:#no_messages#:#Es sind keine Nachrichten für den ausgewählten Zeitraum verfügbar.
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Anmeldenamen!
@@ -2961,6 +2967,7 @@ chatroom#:#user_kicked#:#Der Benutzer <b>#user#</b> wurde aus dem Chatraum gewor
 chatroom#:#users#:#Benutzer
 chatroom#:#welcome_to_chat#:#Willkommen im Chatraum
 chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
+chatroom#:#write_message#:#Neue Nachricht
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
 chatroom_adm#:#chat_enabled#:#Chat aktivieren
 chatroom_adm#:#chatserver_settings_title#:#Chat-Server
@@ -3813,13 +3820,13 @@ common#:#defaults#:#Standardeinstellungen
 common#:#delete#:#Löschen
 common#:#delete_existing_file#:#Bestehende Datei löschen
 common#:#delete_inactivated_user_accounts#:#Inaktive ILIAS-Konten löschen
-common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden ILIAS-Konten %s Tage nach ihrer Inaktivierung gelöscht.
+common#:#delete_inactivated_user_accounts_desc#:#ILIAS-Konten werden %s Tage nach ihrer Deaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
 common#:#delete_inactivated_user_accounts_include_roles_desc#:#Nur inaktive Konten mit einer der ausgewählten globalen Rollen werden gelöscht. Ist ein Konto (auch) einer der nicht ausgewählten Rollen zugewiesen, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
 common#:#delete_inactivated_user_accounts_period_desc#:#ILIAS-Konto wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_inactive_user_accounts#:#ILIAS-Konten mit lange zurückliegendem Login löschen
-common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden ILIAS-Konten abhängig vom Zeitpunkt des letzten Logins gelöscht.
+common#:#delete_inactive_user_accounts_desc#:#ILIAS-Konten werden abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Nur inaktivierte Konten mit einer der ausgewählten globalen Rollen werden gelöscht. Ist ein Konto (auch) einer der nicht ausgewählten Rollen zugewiesen, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
@@ -4236,7 +4243,7 @@ common#:#il_chat_moderator#:#Chatmoderation###Modified as part of gender mainstr
 common#:#il_crs_admin#:#Kursadministrator
 common#:#il_crs_member#:#Kursmitglied
 common#:#il_crs_non_member#:#Kein Kursmitglied
-common#:#il_crs_tutor#:#Kurstutor
+common#:#il_crs_tutor#:#Kursbetreuung
 common#:#il_frm_moderator#:#Forenmoderation###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_grp_admin#:#Gruppenadministrator
 common#:#il_grp_member#:#Gruppenmitglied
@@ -5009,7 +5016,7 @@ common#:#obj_type#:#Objekttyp
 common#:#obj_user#:#Benutzer
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#ILIAS-Konten
-common#:#obj_usrf_desc#:#Verwaltung der ILIAS-Konten
+common#:#obj_usrf_desc#:#Verwaltung der Anmeldekonten für ILIAS
 common#:#obj_wbdv#:#WebDAV
 common#:#obj_wbdv_desc#:#Konfiguration der WebDAV-Einstellungen.
 common#:#obj_wbrs#:#Weblink
@@ -5681,7 +5688,7 @@ common#:#tst_statistical_evaluation#:#Statistik
 common#:#tst_statistics#:#Statistik
 common#:#tst_user_not_invited#:#Sie dürfen an dieser Online-Prüfung nicht teilnehmen.
 common#:#tst_warning_test_not_complete#:#Der Test ist nicht vollständig!
-common#:#tutors#:#Tutoren
+common#:#tutors#:#Kursbetreuung
 common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte auf den untenstehenden Button, um in ILIAS zu gelangen.
 common#:#txt_registered_passw_gen#:#Sie haben sich erfolgreich bei ILIAS registriert. Sie werden in Kürze eine E-Mail mit Ihrem Passwort erhalten.
 common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr Konto muss noch von der Systemadministration freigegeben werden. Wir bitten um Ihre Geduld.
@@ -7306,7 +7313,7 @@ crs#:#crs_agreement_header#:#Nutzungsvereinbarung
 crs#:#crs_agreement_required#:#Sie können diesem Kurs nur beitreten, wenn Sie der Nutzungsvereinbarung zustimmen.
 crs#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet sein.
 crs#:#crs_auto_notification#:#Begrüßungsmail für neue Mitglieder
-crs#:#crs_auto_notification_info#:#Mail-Benachrichtigungen werden automatisch an jene Mitglieder versendet, die von einem Tutor oder Administrator in den Kurs aufgenommen wurden.
+crs#:#crs_auto_notification_info#:#Werden Mitglieder manuell in den Kurs aufgenommen, erhalten sie eine Benachrichtigung per Mail.
 crs#:#crs_awrn_current_course#:#Aktueller Kurs
 crs#:#crs_awrn_current_course_info#:#Innerhalb eines Kurses werden alle Mitglieder des Kurses aufgelistet.
 crs#:#crs_awrn_support_contacts#:#Kursbetreuung
@@ -7506,14 +7513,14 @@ crs#:#crs_loc_tt_info#:#Sie haben %1$d%% erreicht. Der Test gilt mit %2$d%% als 
 crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele.
 crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft.
 crs#:#crs_mail_all#:#Für alle Mitglieder
-crs#:#crs_mail_all_info#:#Mitglieder, Administratoren und Tutoren können die Funktion "Mail an Mitglieder" im Reiter "Mitglieder" nutzen.
+crs#:#crs_mail_all_info#:#Alle, die am Kurs teilnehmen, können die Funktion „Mail an Mitglieder” im Reiter „Mitglieder” nutzen.
 crs#:#crs_mail_context_member_info#:#Für die Kontakt-E-Mails auf der Info-Seite eines Kurses
 crs#:#crs_mail_context_member_title#:#Kurs: Info-Seite
 crs#:#crs_mail_context_tutor_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Kurses
 crs#:#crs_mail_context_tutor_title#:#Kurs: Mail an Mitglieder
 crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Kursinhalt zuzugreifen:
-crs#:#crs_mail_tutors_only#:#Nur für Administratoren und Tutoren
-crs#:#crs_mail_tutors_only_info#:#Nur Administratoren und Tutoren können die Funktion "Mail an Mitglieder" im Reiter "Mitglieder" nutzen.
+crs#:#crs_mail_tutors_only#:#Nur für Kursadminstration und Kursbetreuung
+crs#:#crs_mail_tutors_only_info#:#Nur Kursadminstration und Kursbetreuung können die Funktion „Mail an Mitglieder“ im Reiter „Mitglieder” nutzen.
 crs#:#crs_mail_type#:#Mail an Mitglieder
 crs#:#crs_map_location#:#Ort auf Karte zum Kurs
 crs#:#crs_map_settings#:#Karte
@@ -7650,8 +7657,8 @@ crs#:#crs_reg_subject#:#Nachricht
 crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_subscribed#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung.
 crs#:#crs_registration#:#Zum Kurs beitreten
-crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er durch einen Kursadministrator oder Kurstutor bestätigt wird.
-crs#:#crs_registration_deactivated#:#Nur Kursadministratoren und Kurstutoren können Benutzer in den Kurs aufnehmen.
+crs#:#crs_registration_confirmation_info#:#Kursadministration oder Kursbetreuung müssen den Beitritt im Reiter „Mitglieder” bestätigen.
+crs#:#crs_registration_deactivated#:#Nur Kursadministration oder Kursbetreuung können Mitglieder in den Kurs aufnehmen.
 crs#:#crs_registration_limited#:#Zeitlich begrenzter Beitritt
 crs#:#crs_registration_limited_info#:#Mitglieder können dem Kurs nur in einen bestimmten Zeitraum beitreten.
 crs#:#crs_registration_period#:#Zeitraum
@@ -7689,8 +7696,8 @@ crs#:#crs_status_changed#:#Status in Kurs "%s"
 crs#:#crs_status_changed_body#:#Ihr Status in Kurs "%s" wurde geändert.
 crs#:#crs_status_determination#:#Bestimmung des Status "Bestanden"
 crs#:#crs_status_determination_lp#:#Aus Lernfortschritt ableiten
-crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf "Bearbeitet", wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben.
-crs#:#crs_status_determination_manual#:#Nur manuell durch Tutor
+crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf „Bearbeitet“, wird der Status „Bestanden“ gesetzt. Die Kursadministration oder Kursbetreuung kann den Status manuell im Reiter „Lernfortschritt » Benutzer“ überschreiben.
+crs#:#crs_status_determination_manual#:#Nur manuell setzen
 crs#:#crs_status_determination_sync#:#Der Lernfortschritt dieses Kurses wird automatisch auf „Bestanden“ gesetzt, sobald jemand alle dafür erforderlichen Aktivitäten abgeschlossen hat. Bereits erzielte Lernfortschritte werden berücksichtigt. Ein manuell gesetzter Status bleibt unverändert. Möchten Sie den Status „Bestanden“ jetzt automatisch bestimmen?###Modified as part of gender mainstreaming activities for ILIAS 8
 crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subject_course_group_notification#:#Mail-Zusammenfassung für %s
@@ -7707,7 +7714,7 @@ crs#:#crs_subscription_max_members_short#:#Begrenzte Mitgliederanzahl
 crs#:#crs_subscription_max_members_short_info#:#Es kann eine minimale bzw. maximale Anzahl von Mitgliedern festgelegt werden. Es kann eine Warteliste eingerichtet werden.
 crs#:#crs_subscription_min_members#:#Minimale Anzahl
 crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.
-crs#:#crs_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann der Kurs nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Kursaustritt nicht erreicht, versendet ILIAS eine Mail an jene Kursadministratoren oder -tutoren, für die im Reiter 'Mitglieder' die Option 'Benachrichtigung' aktiviert ist.
+crs#:#crs_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann der Kurs nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Kursaustritt nicht erreicht, versendet ILIAS eine Mail an die Personen, für die im Reiter „Mitglieder“ die Option „Benachrichtigung“ aktiviert ist.
 crs#:#crs_subscription_options_confirmation#:#Beitritt nach Bestätigung
 crs#:#crs_subscription_options_direct#:#Direkter Beitritt
 crs#:#crs_subscription_options_password#:#Beitritt mit Kurspasswort
@@ -7767,8 +7774,8 @@ crs#:#crs_timings_visibility#:#Wenn aktiviert, ist das Lernmaterial auch außerh
 crs#:#crs_timings_visibility_short#:#Sichtbarkeit
 crs#:#crs_timings_warning_timing_exists#:#Achtung: für dieses Objekt existiert ein  aktiver Lernplan. Wenn sie die zeitlich begrenzte Verfügbarkeit aktivieren, werden die Lernplanungszeiten zurückgesetzt.
 crs#:#crs_to#:#Bis:
-crs#:#crs_tutor#:#Tutor
-crs#:#crs_tutors#:#Tutoren
+crs#:#crs_tutor#:#Kursbetreuung
+crs#:#crs_tutors#:#Kursbetreuung
 crs#:#crs_unblocked#:#Freigeschaltet
 crs#:#crs_unblocked_member#:#Status in Kurs "%s"
 crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft für Kurs "%s" wurde freigeschaltet.
@@ -7846,8 +7853,8 @@ crs#:#event_tbl_member#:#Mitglied
 crs#:#event_tbl_members#:#Mitglieder
 crs#:#event_tbl_participated#:#Teilgenommen
 crs#:#event_tbl_registered#:#Angemeldet
-crs#:#event_tbl_tutor#:#Tutor
-crs#:#event_tbl_tutors#:#Tutoren
+crs#:#event_tbl_tutor#:#Kursbetreuung
+crs#:#event_tbl_tutors#:#Kursbetreuung
 crs#:#event_title#:#Titel
 crs#:#event_tutor_data#:#Präsentation von
 crs#:#event_unregister#:#Abmelden
@@ -7881,7 +7888,7 @@ crs#:#timing_accept_table#:#Lernplanung: Bemerkungen
 crs#:#timing_accepted#:#Akzeptiert
 crs#:#timing_not_accepted#:#Nicht akzeptiert
 crs#:#timing_remark#:#Bemerkung
-crs#:#timing_tutor_visible#:#Bemerkung ist sichtbar für den Tutor
+crs#:#timing_tutor_visible#:#Bemerkung ist sichtbar für die Kursbetreuung
 crs#:#timing_user_accept#:#Empfohlenen Lernplan akzeptieren
 crs#:#timing_user_accepted#:#Lernplan akzeptiert
 crs#:#timings#:#Zeitvorgaben
@@ -8888,7 +8895,7 @@ ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
 ecs#:#ecs_released#:#Freigegebene Kurse
 ecs#:#ecs_released_content#:#Freigegebener E-Content
 ecs#:#ecs_remote_imported#:#Die Informationen über Kursänderungen wurden neu eingelesen.
-ecs#:#ecs_remote_user_settings#:#Einstellungen für ECS-Zugänge
+ecs#:#ecs_remote_user_settings#:#Vom ECS angelegte Anmeldekonten
 ecs#:#ecs_role#:#Rollenzuordnung
 ecs#:#ecs_role_mapping_value#:#Attributwert
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
@@ -8997,8 +9004,8 @@ exc#:#exc_comment_for_learner_info#:#Es wird eine Benachrichtigung an den Teilne
 exc#:#exc_compare_selected_submissions#:#Vergleiche ausgewählte Lösungsabgaben
 exc#:#exc_compare_submissions#:#Vergleiche Lösungsabgaben
 exc#:#exc_completion_by_submission#:#Automatisch bei Abgabe
-exc#:#exc_completion_by_submission_info#:#Gibt ein Teilnehmer ein Arbeitsergebnis ab, wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben. Das Ändern dieser Einstellung hat keine Auswirkung auf bestehende Bewertungen.
-exc#:#exc_completion_by_tutor#:#Nur manuell durch Tutor
+exc#:#exc_completion_by_submission_info#:#Reicht ein Teilnehmer eine Lösung ein, wird der Lernfortschrittstatus automatisch auf „Bestanden“ gesetzt. Personen mit dem Recht „Abgaben und Noten bearbeiten“ können den Status manuell überschreiben. Das Ändern dieser Einstellung hat keine Auswirkung auf bereits erfolgte Bewertungen.
+exc#:#exc_completion_by_tutor#:#Nur manuell setzen
 exc#:#exc_conf_del_assignments#:#Möchten Sie die folgenden Übungseinheiten wirklich löschen?
 exc#:#exc_copy#:#Übung kopieren
 exc#:#exc_copy_zip_error#:#Die Abgabe kann nicht geöffnet werden. Es ist ein Fehler beim Kopieren der Dateien aufgetreten.
@@ -9007,7 +9014,7 @@ exc#:#exc_create_blog_select_info#:#Wählen Sie in Ihren persönlichen Ressource
 exc#:#exc_create_portfolio#:#Portfolio erstellen
 exc#:#exc_create_portfolio_no_template#:#Keine Vorlage verwenden
 exc#:#exc_create_team#:#Team erstellen
-exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen. Bitte kontaktieren Sie Ihren Tutor.
+exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen. Die Zeit ist abgelaufen.
 exc#:#exc_create_wiki#:#Wiki erstellen
 exc#:#exc_crit_cat_protected_assignment#:#Aktives Peer-Feedback
 exc#:#exc_crit_cat_protected_assignment_info#:#Kriterienkataloge von Übungseinheiten mit aktivem Peer-Feedback können nicht mehr bearbeitet werden.
@@ -9079,7 +9086,7 @@ exc#:#exc_late_submission_warning#:#Abgaben nach %s werden als verspätet gekenn
 exc#:#exc_limit_characters#:#Anzahl der Zeichen beschränken
 exc#:#exc_list_submission#:#Alle Lösungsabgaben
 exc#:#exc_list_text_assignment#:#Liste aller Abgaben
-exc#:#exc_mail_context_grade_reminder_info#:#Die Tutoren werden an die Bewertung der Enireichungen erinnert.
+exc#:#exc_mail_context_grade_reminder_info#:#Personen, welche in einer Übungseinheit die Erinnerungen aktiviert haben, werden an die Bewertung der Einreichungen erinnert.
 exc#:#exc_mail_context_grade_reminder_title#:#Übung: Erinnerung an Bewertung
 exc#:#exc_mail_context_peer_reminder_info#:#Die Nutzer werden an die Abgabe des Peer-Feedbacks erinnert.
 exc#:#exc_mail_context_peer_reminder_title#:#Übung: Erinnerung an Peer-Feedback
@@ -9110,7 +9117,7 @@ exc#:#exc_msg_missed_minimum_number#:#Sie haben die Mindestanzahl an Übungseinh
 exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur Übung "%s" hinzugefügt.
 exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für Sie hochgeladen.
 exc#:#exc_msg_new_feedback_text_uploaded#:#Es wurde ein neuer Kommentar zur Übung "%s" hinzugefügt.
-exc#:#exc_msg_new_feedback_text_uploaded2#:#Ein Tutor hat einen neuen Kommentar für Sie eingestellt.
+exc#:#exc_msg_new_feedback_text_uploaded2#:#für folgende Einreichung wurde in ILIAS ein neuer Kommentar für Sie abgegeben:
 exc#:#exc_msg_participants_removed#:#Die Teilnehmer wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
 exc#:#exc_msg_saved_grades#:#Die Änderungen wurden gespeichert.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -9130,9 +9137,9 @@ exc#:#exc_no_participants#:#Zur Zeit gibt es keine Teilnehmer.
 exc#:#exc_no_portfolio_templates#:#Es sind keine Portfoliovorlagen vorhanden.
 exc#:#exc_no_team_yet#:#Keinem Team zugeordnet
 exc#:#exc_no_team_yet_info#:#Sie können selbst ein Team erstellen oder in ein anderes Team von dessen Teammitgliedern hinzugefügt werden.
-exc#:#exc_no_team_yet_info_tutor#:#Teams werden von den Übungstutoren verwaltet.
+exc#:#exc_no_team_yet_info_tutor#:#Sie werden später einem Team zugewiesen.
 exc#:#exc_no_team_yet_notice#:#Sie gehören noch keinem Team an.
-exc#:#exc_note_for_tutor#:#Notiz für Tutoren
+exc#:#exc_note_for_tutor#:#Interne Bemerkung
 exc#:#exc_notification#:#Persönliche Benachrichtigung
 exc#:#exc_nr_random_mand#:#Anzahl verpflichtender Übungseinheiten
 exc#:#exc_num_teams#:#Anzahl
@@ -9938,7 +9945,7 @@ grp#:#grp_mail_sub_dec_sub#:#Ablehnung des Aufnahmeantrags für Gruppe "%s"
 grp#:#grp_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Gruppe "%s" erfolgt ist.
 grp#:#grp_mail_subscribe_member_sub#:#Ihre Anmeldung für Gruppe "%s"
 grp#:#grp_mail_tutors_only#:#Nur für Administratoren
-grp#:#grp_mail_tutors_only_info#:#Nur Administratoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
+grp#:#grp_mail_tutors_only_info#:#Nur Administratoren können die Funktion „Mail an Mitglieder“ im Reiter Mitglieder nutzen.
 grp#:#grp_mail_type#:#Mail an Mitglieder
 grp#:#grp_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Gruppe "%s".
 grp#:#grp_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Gruppe "%s"
@@ -10375,7 +10382,7 @@ ldap#:#ldap_tbl_role_ass#:#Aktive Regeln für die Rollenzuordnung
 ldap#:#ldap_tls_conflict#:#LDAP-TLS kann nicht in Kombination mit Protokollversion 2 genutzt werden.
 ldap#:#ldap_update_field_info#:#Automatisch aktualisieren
 ldap#:#ldap_update_roles#:#Rollenzuordnungen
-ldap#:#ldap_user_attribute#:#Attributname der ILIAS-Konten
+ldap#:#ldap_user_attribute#:#Attributname der Anmeldekonten
 ldap#:#ldap_user_dn#:#Suchbasis
 ldap#:#ldap_user_mapping#:#Zuordnung der Profildaten
 ldap#:#ldap_user_scope#:#Suchbereich
@@ -10569,7 +10576,7 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mi
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den Benutzer zulassen.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
-lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_user_id#:#ID des ILIAS-Kontos kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-Id. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
 lti#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 lti#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
@@ -12214,7 +12221,7 @@ note#:#note_comments_notification#:#Generelle Benachrichtigung über alle Kommen
 note#:#note_comments_notification_info#:#Kommagetrennte Liste von ILIAS-Konten, welche jeden Kommentar als E-Mail erhalten.
 note#:#note_enable_comments#:#Kommentare aktivieren
 note#:#note_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
-note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" an einem Objekt können alle darin gemachten Kommentare löschen.
+note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht „Einstellungen bearbeiten“ an einem Objekt können alle darin gemachten Kommentare löschen.
 note#:#note_enable_comments_del_user#:#Kommentare können von der Person gelöscht werden, die sie erstellt hat.###Modified as part of gender mainstreaming activities for ILIAS 8
 note#:#note_enable_comments_export_info#:#Erlaubt innerhalb von Objekten wie Portfolios, Blogs oder Wikis die Kommentare zu exportieren.
 note#:#note_enable_notes#:#Notizen aktivieren
@@ -12404,8 +12411,8 @@ orgu#:#org_unit_not_found#:#Die Organisationseinheit wurde nicht gefunden.
 orgu#:#orgu_add#:#Organisationseinheit hinzufügen
 orgu#:#orgu_adv_settings#:#Erweiterte Einstellungen
 orgu#:#orgu_already_deleted#:#Das Objekt wurde bereits gelöscht.
-orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
-orgu#:#orgu_enable_my_staff_info#:#Die Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
+orgu#:#orgu_enable_my_staff#:#Hauptmenüeintrag aktivieren
+orgu#:#orgu_enable_my_staff_info#:#Ein neuer Haupteintrag wird im Hauptmenü angezeigt. Er kann die Einträge Mitarbeiterliste, Einschreibungen, Zertifikate, Kompetenzen, Gespräche enthalten.
 orgu#:#orgu_global_set_form#:#Globale Einstellungen
 orgu#:#orgu_global_set_positions#:#Nutzung von Positionen in Objekttypen
 orgu#:#orgu_global_set_positions_type_active#:#Positionen in:
@@ -15044,15 +15051,15 @@ style#:#adapt_icon#:#Anpassung der Icons
 style#:#adapt_icon_description#:#Passe die Iconfarbe oder das Icon an.
 style#:#adapt_icons#:#Anpassung der Iconfarben
 style#:#adapt_icons_description#:#Alle svg Icons, welche im Ordner images gefunden wurden, werden hier aufgelistet. Wenn eine Farbe geändert wird, ist dies in allen hier aufgelisteten Icons sofort ersichtlich.
-style#:#adapt_less#:#Anpassung der Less-Datei
-style#:#adapt_less_description#:#Dies ist die Darstellung aller less Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird beim Aktualisieren/Zurücksetzen der Variablen vollständig neu kompiliert. Das Zurücksetzten der Variablen erstellt eine exakte Kopie des ursprünglichen "delos style".
+style#:#adapt_scss#:#Anpassung der Scss-Datei
+style#:#adapt_scss_description#:#Dies ist die Darstellung aller scss Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird beim Aktualisieren/Zurücksetzen der Variablen vollständig neu kompiliert. Das Zurücksetzen der Variablen erstellt eine Kopie der Settings des ursprünglichen "delos style".
 style#:#add_substyle#:#Neuer Sub-Style
 style#:#add_system_style#:#Neuer System-Style
 style#:#assignment#:#Zuweisung
 style#:#blue_color#:#Blauton
 style#:#blue_colors#:#Blaue Farben
 style#:#blue_colors_description#:#Blauton Beschreibung
-style#:#can_not_read_less_file#:#Less-Datei kann nicht gelesen werden. Pfad:
+style#:#can_not_read_scss_file#:#Scss-Datei kann nicht gelesen werden. Pfad:
 style#:#cant_deactivate_default_style#:#Standard Styles können nicht deaktiviert werden.
 style#:#cant_delete_activated_style#:#Aktive Styles können nicht gelöscht werden.
 style#:#cant_delete_if_users_assigned#:#Styles können nicht gelöscht werden, solange Benutzer ihnen zugewiesen sind.
@@ -15087,24 +15094,15 @@ style#:#icons#:#Icons
 style#:#icons_gallery#:#Icon Galerie
 style#:#image_dir#:#Icon-Ordner
 style#:#image_dir_description#:#Ordner für das Speichern von Bildern (hauptsächlich Icons) vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub-Styles geteilt werden.
-style#:#in_main_less_file#:#ist nicht in der System-Styles-Main-Less-Datei importiert:
-style#:#invalid_less_path#:#Der angegebene lessc-Pfad ist ungültig oder kann vom Webserver nicht gelesen und ausgeführt werden. Die lessc-Datei unter dem angegebenen Pfad (oder die verlinkte Datei, falls der Pfad auf einen symlink verweist) muss vom Webserver gelesen und ausgeführt werden können.
+style#:#in_main_scss_file#:#ist nicht in der System-Styles-Main-Scss-Datei importiert:
+style#:#invalid_scss_path#:#Der angegebene sass/scss-Pfad ist ungültig oder kann vom Webserver nicht gelesen und ausgeführt werden. Die sass/scss-Datei unter dem angegebenen Pfad (oder die verlinkte Datei, falls der Pfad auf einen symlink verweist) muss vom Webserver gelesen und ausgeführt werden können.
 style#:#ks_documentation_of_style#:#'Kitchen Sink'-Dokumentation von Style:
 style#:#ks_documentation_of_substyle#:#'Kitchen Sink'-Dokumentation von Sub-Style:
-style#:#less#:#Less
-style#:#less_can_not_be_modified#:#Less kann nicht verändert werden.
-style#:#less_compile_failed#:#Die Less Datei konnte nicht kompiliert werden. Lessc muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein.
-style#:#less_file_reset#:#Die less-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
-style#:#less_file_updated#:#Die less-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
-style#:#less_less_installation_detected#:#Less-Installation gefunden:
-style#:#less_variable_empty#:#Für diese Variabel wurde kein Wert gesetzt. Der Wert aus der variables.less wurde nun geladen. Bitte überprüfen Sie dieses Feld bevor Sie komplilieren.
-style#:#less_variables_empty_might_have_changed#:#Less Variabeln ohne Wert waren im Formular enthalten. Die Ursache kann sein, dass die variables.less Datei seit dem Laden dieses Formulares geändert wurde. Die leeren Variabeln wurden mit den Werten aus der variables.less Datei ersetzt und markiert. Bitte überprüfen Sie diese Werte, bevor Sie kompilieren und somit auch die Werte im Formular in die variables.less Datei schreiben.
-style#:#less_variables_file_not_included#:#Die Less-Variablen-Datei:
 style#:#manage_system_styles#:#System-Styles verwalten
 style#:#msg_sub_style_created#:#Der Sub-Style wurde erstellt.
 style#:#msg_sys_style_created#:#Die neue System-Style-Datei wurde erfolgreich erstellt.
 style#:#msg_sys_style_update#:#System-Styles wurden aktualisiert.
-style#:#no_less_path_set#:#Das Less-Verzeichnis ist nicht gesetzt.
+style#:#no_scss_path_set#:#Das Scss-Verzeichnis ist nicht gesetzt.
 style#:#no_style_selected#:#Es wurde kein Sub-Style ausgewählt.
 style#:#of_parent#:#vom Parent:
 style#:#open_documentation#:#Dokumentation öffnen
@@ -15112,7 +15110,7 @@ style#:#parent#:#Parent-Style
 style#:#personal#:#Persönlich
 style#:#personal_style_set_to#:#Der persönliche Style wurde geändert zu:
 style#:#preview#:#Vorschau
-style#:#provided_less_path#:#Angegebener lessc-Pfad:
+style#:#provided_scss_path#:#Angegebener scss-Pfad:
 style#:#red_color#:#Rotton
 style#:#red_colors#:#Rote Farben
 style#:#red_colors_description#:#Rotton Beschreibung
@@ -15121,6 +15119,15 @@ style#:#remove_assignment#:#Zuweisung löschen
 style#:#reset_icons#:#Farben zurücksetzen
 style#:#reset_variables#:#Variablen zurücksetzen
 style#:#scope#:#Gültigkeitsbereich
+style#:#scss#:#Scss
+style#:#scss_can_not_be_modified#:#Scss kann nicht verändert werden.
+style#:#scss_compile_failed#:#Die Scss Datei konnte nicht kompiliert werden. Sass/scss muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein.
+style#:#scss_file_reset#:#Die scss-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#scss_file_updated#:#Die scss-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#scss_scss_installation_detected#:#Scss-Installation gefunden:
+style#:#scss_variable_empty#:#Für diese Variabel wurde kein Wert gesetzt. Der Wert aus den Settings Dateien wurde nun geladen. Bitte überprüfen Sie dieses Feld bevor Sie komplilieren.
+style#:#scss_variables_empty_might_have_changed#:#Scss Variabeln ohne Wert waren im Formular enthalten. Die Ursache kann sein, dass die Settings Dateien seit dem Laden dieses Formulares geändert wurde. Die leeren Variabeln wurden mit den Werten aus den Settings Dateien ersetzt und markiert. Bitte überprüfen Sie diese Werte, bevor Sie kompilieren und somit auch die Werte im Formular in die Settings Dateien schreiben.
+style#:#scss_variables_file_not_included#:#Die Scss-Variablen-Datei:
 style#:#select_icon#:#Selektieres Icon
 style#:#settings_of_style#:#Styles verwalten
 style#:#settings_of_substyle#:#Sub-Style verwalten
@@ -15458,7 +15465,7 @@ style#:#style_delete_style#:#Style löschen
 style#:#style_deleted#:#Gelöschter Style:
 style#:#style_edit_style#:#Style editieren
 style#:#style_id#:#Style-ID
-style#:#style_id_description#:#Die Style ID wird für Style-spezifische css- und less-Dateien unterhalb des Skin Ordners verwendet. Die Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#style_id_description#:#Die Style ID wird für Style-spezifische css- und scss-Dateien unterhalb des Skin Ordners verwendet. Die Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
 style#:#style_imported#:#Style wurde erfolgreich importiert nach:
 style#:#style_name#:#Style-Titel
 style#:#style_name_description#:#Der Style-Titel kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI-Elementen aufgelistet, in denen ein Skin ausgewählt werden kann.
@@ -15471,7 +15478,7 @@ style#:#style_support_reuse_info#:#Allow sub-objects of the current container to
 style#:#styles_not_deleted#:#Die Styles konnten aus folgenden Gründen nicht gelöscht werden:
 style#:#sub_style#:#Sub-Style
 style#:#sub_style_id#:#Sub-Style-ID
-style#:#sub_style_id_description#:#Die Sub-Style-ID wird für die betreffenden css und less Dateien verwendet. Diese sind innerhalb des betreffenden Skin Ordners. Die Sub-Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
+style#:#sub_style_id_description#:#Die Sub-Style-ID wird für die betreffenden css und scss Dateien verwendet. Diese sind innerhalb des betreffenden Skin Ordners. Die Sub-Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
 style#:#sub_style_name#:#Sub-Style-Name
 style#:#sub_style_name_description#:#Der Sub-Style-Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Es wird in allen UI-Elementen aufgelistet, welche eine Selektierung des Skins erlauben.
 style#:#sub_style_parent_style_description#:#Sub-Styles werden genau einem Parent-Style zugewiesen. Sie werden nur den Usern angezeigt, welche auch Zugang zum Parent-Style haben. Der Parent-Style eines Sub-Styles kann nur während der Erstellung des Sub-Styles einmalig zugeordnet werden.
@@ -16538,8 +16545,8 @@ trac#:#trac_mode_individual_assessment_info#:#Der Teilnehmer muss abschließend 
 trac#:#trac_mode_lti_outcome#:#Mastery Score muss erreicht werden
 trac#:#trac_mode_lti_outcome_info#:#Der Lernfortschritt gilt als abgeschlossen, wenn das Ergebnis des LTI-Outcome-Service mindestens so hoch wie der Mastery Score ist.
 trac#:#trac_mode_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts für das gesamte Objekt.
-trac#:#trac_mode_manual_by_tutor#:#Tutor entscheidet über den Status des Lernfortschritts
-trac#:#trac_mode_manual_by_tutor_info#:#Tutoren entscheiden, ob Teilnehmer das Objekt erfolgreich bearbeitet haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
+trac#:#trac_mode_manual_by_tutor#:#Die Kursadministration oder Kursbetreuung entscheidet über den Status des Lernfortschritts.
+trac#:#trac_mode_manual_by_tutor_info#:#Die Kursadministration oder Kursbetreuung entscheidet, ob Teilnehmer das Objekt erfolgreich bearbeitet haben. Dazu setzt sie händisch den Status auf „Bearbeitet“.
 trac#:#trac_mode_manual_info#:#Benutzer entscheiden selbst, wann sie das Objekt erfolgreich durchgearbeitet haben. Sowie die Bearbeitung abgeschlossen ist, setzen sie den Status im Reiter 'Info' auf 'Bearbeitet'.
 trac#:#trac_mode_objectives#:#Lernziele
 trac#:#trac_mode_objectives_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der erfüllten Lernziele ermittelt.

@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#Označi kao ‘ocijenjen sudionik’
 assessment#:#set_manual_feedback#:#Ručna povratna informacija
 assessment#:#shape#:#Oblik
 assessment#:#showSuggestedSolution#:#Vrsta
+assessment#:#show_all_test_properties_on_info_page#:#Prikaži sve karakterstike testa
+assessment#:#show_all_test_properties_on_info_page_byline#:#Korisnicima će se na kartici ‘Info’ prikazati sve karakteristike testa, npr. informacije o bodovima te izvješće o rezultatima.
 assessment#:#show_answer_overview#:#Prikaži pregled odgovora
 assessment#:#show_detailed_results#:#Prikaži detaljne rezultate korisnika (ocijenjen prolaz)
 assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_pass_overview#:#Prikaži pregled rezultata ocijenjenog prolaza testa
 assessment#:#show_user_answers#:#Pokaži ocijenjene odgovore korisnika
-assessment#:#showinfo#:#Prikaži sve karakterstike testa
-assessment#:#showinfo_desc#:#Korisnicima će se na kartici ‘Info’ prikazati sve karakteristike testa, npr. informacije o bodovima te izvješće o rezultatima.
 assessment#:#shuffle_answers#:#Pomiješaj odgovore
 assessment#:#sign_submission#:#Digitalni potpis za predaju testa
 assessment#:#sign_submission_info#:#Ako je ova opcija aktivirana te ako je instaliran i aktivan plugin za potpis, od sudionika će biti zatraženo da prilikom predaje digitalno potpišu test.
@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Ne, želim se vratiti na prethod
 assessment#:#tst_finish_confirmation_question#:#Završavate ovaj test i dolazite do maksimalnog broja dozvoljenih prolaza testa. Nakon toga nećete moći ponovno ući u ovaj test kako biste promijenili svoje odgovore. Želite li zaista završiti test?
 assessment#:#tst_finish_notification#:#Obavijest
 assessment#:#tst_finish_notification_advanced#:#Pošalji potpuni rezultat testa po korisniku
-assessment#:#tst_finish_notification_content#:#Sadržaj e-pošte
+assessment#:#tst_finish_notification_content_type#:#Sadržaj e-pošte
 assessment#:#tst_finish_notification_desc#:#Pošalje e-poštu vlasniku testa za svakog korisnika koji je završio test.
 assessment#:#tst_finish_notification_no#:#Nema e-pošte
 assessment#:#tst_finish_notification_simple#:#Pošalji korisničko ime i datum završetka

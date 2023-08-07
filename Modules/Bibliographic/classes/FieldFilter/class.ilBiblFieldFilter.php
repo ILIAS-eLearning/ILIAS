@@ -50,7 +50,7 @@ class ilBiblFieldFilter extends ActiveRecord implements ilBiblFieldFilterInterfa
      * @con_is_notnull true
      * @con_is_unique  true
      */
-    protected int $field_id;
+    protected ?int $field_id = null;
     /**
      * @con_has_field  true
      * @con_fieldtype  integer
@@ -58,13 +58,13 @@ class ilBiblFieldFilter extends ActiveRecord implements ilBiblFieldFilterInterfa
      * @con_is_notnull true
      * @con_is_unique  true
      */
-    protected int $object_id;
+    protected ?int $object_id = null;
     /**
      * @con_has_field true
      * @con_fieldtype integer
      * @con_length    1
      */
-    protected int $filter_type;
+    protected ?int $filter_type = null;
 
     public function getId(): ?int
     {

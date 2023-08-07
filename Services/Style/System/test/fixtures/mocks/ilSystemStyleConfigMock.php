@@ -13,7 +13,7 @@ class ilSystemStyleConfigMock extends ilSystemStyleConfig
     protected string $default_template_path = './Services/Style/System/test/fixtures/skins_temp/defaultSkin/template.xml';
     protected string $delos_path = './Services/Style/System/test/fixtures/skins_temp/defaultSkin/defaultStyle';
     protected string $rel_delos_path = './Services/Style/System/test/fixtures/skins_temp/defaultSkin/defaultStyle';
-    protected string $default_variables_path = './Services/Style/System/test/fixtures/skins_temp/defaultSkin/less/variables.less';
+    protected string $default_settings_path = './Services/Style/System/test/fixtures/skins_temp/defaultSkin/010-settings';
     protected string $default_images_path = './Services/Style/System/test/fixtures/skins_temp/defaultSkin/images/';
     protected string $default_fonts_path = './Services/Style/System/test/fixtures/skins_temp/defaultSkin/fonts/';
     protected string $default_sounds_path = '';

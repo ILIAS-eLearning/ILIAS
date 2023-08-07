@@ -367,8 +367,8 @@ class ilUserProfile
             "group" => "settings",
             "default" => "y",
             "options" => array(
-                "n" => "chat_broadcast_typing_no",
-                "y" => "chat_broadcast_typing_yes"
+                "n" => "chat_no_use_typing_broadcast",
+                "y" => "chat_use_typing_broadcast"
             )
         ),
         "preferences" => array(

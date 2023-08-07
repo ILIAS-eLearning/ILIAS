@@ -1163,13 +1163,13 @@ assessment#:#set_manscoring_done#:#この受講者を"採点済み受講者”�
 assessment#:#set_manual_feedback#:#手動フィードバック
 assessment#:#shape#:#形状
 assessment#:#showSuggestedSolution#:#推奨の解答
+assessment#:#show_all_test_properties_on_info_page#:#全テストプロパティの表示
+assessment#:#show_all_test_properties_on_info_page_byline#:#ユーザは"Info"タブのテストプロパティの全リスト(例:点数とレポートの情報)へ表示されます。
 assessment#:#show_answer_overview#:#解答概要を表示
 assessment#:#show_detailed_results#:#ユーザの詳細結果を表示(パスしたものをマーク)
 assessment#:#show_examview_html#:#画面上に
 assessment#:#show_pass_overview#:#マークした試験状況を表示
 assessment#:#show_user_answers#:#マークしたユーザの解答を表示
-assessment#:#showinfo#:#全テストプロパティの表示
-assessment#:#showinfo_desc#:#ユーザは"Info"タブのテストプロパティの全リスト(例:点数とレポートの情報)へ表示されます。
 assessment#:#shuffle_answers#:#解答をシャッフル
 assessment#:#sign_submission#:#デジタル署名テスト送信
 assessment#:#sign_submission_info#:#アクティブ化されてシグネチャプラグインがインストール済で有効の場合に受験者はデジタル署名の提出を要求されます。
@@ -1387,7 +1387,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#いいえ、前の問題へ戻�
 assessment#:#tst_finish_confirmation_question#:#このテストを終了すると最大受験可能回数に達します。解答を変更しようとしても再度入力する事はできなくなります。本当にこのテストを終了しますか?
 assessment#:#tst_finish_notification#:#通知
 assessment#:#tst_finish_notification_advanced#:#完了テスト結果を送信
-assessment#:#tst_finish_notification_content#:#e-mailの内容
+assessment#:#tst_finish_notification_content_type#:#e-mailの内容
 assessment#:#tst_finish_notification_desc#:#テスト完了のユーザごとにテストオーナーへe-mailを送付する
 assessment#:#tst_finish_notification_no#:#e-mailしない
 assessment#:#tst_finish_notification_simple#:#ユーザ名と終了日を送る

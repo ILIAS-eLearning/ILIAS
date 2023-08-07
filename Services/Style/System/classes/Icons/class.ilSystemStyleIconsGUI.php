@@ -86,7 +86,7 @@ class ilSystemStyleIconsGUI
 
         if ($this->ctrl->getCmd() != 'reset') {
             try {
-                $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($this->style_id)));
+                $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesStylePath($this->style_id)));
             } catch (ilSystemStyleExceptionBase $e) {
                 $this->message_stack->addMessage(new ilSystemStyleMessage(
                     $e->getMessage(),
@@ -290,7 +290,7 @@ class ilSystemStyleIconsGUI
                 }
             }
             $this->getIconFolder()->changeIconColors($color_changes);
-            $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($this->style_id)));
+            $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesStylePath($this->style_id)));
             $skin = $this->getStyleContainer()->getSkin();
             $skin->getVersionStep($skin->getVersion());
             $this->getStyleContainer()->updateSkin($skin);

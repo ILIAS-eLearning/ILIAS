@@ -1,33 +1,16 @@
 # Repository Service
 
-There is currently no main entrance in the DIC for the repository service. The services for **Recommended Content** and **Favourites** are added here but without the appropriate time for discussion due to lack of time. 
+This part of the documentation deals with concepts and business rules, for technical documentation see [README-technical.md](./README-technical.md).
 
-## [WIP] Favourites
+## Trash
 
-Before ILIAS 6 consumers used to call
+- To view the trash of a container class the "write" permission of the container is needed.
+- To finally delete objects from a container trash, the "write" permission of the container is needed. Note: it is currently not possible to check permission on trashed objects.
 
-- `ilDesktopItemGUI::addToDesktop();`
-- `ilObjUser::_addDesktopItem(...)`
-- `ilObjUser::isDesktopItem(...)`
+## Recommended Content
 
-and similar calls.
+- Recommended content is configured in the settings of a role. A content assigned to the roles of a user will be initially listed as recommended content on the dashboard. [1]
+- Items are removed from the recommended content list, if they are selected as a favourite by the user. [1]
 
-These calls are now replaced by using a  `ilFavouritesManager` class.
-```
-$favourites = new ilFavouritesManager();
 
-// add favourite for user
-$favourites->add($user_id,$ref_id);
-
-// remove favourite for user
-$favourites->remove($user_id, $ref_id);
-
-// check if repository item is favourite of user
-$favourites->ifIsFavourite($user_id, $ref_id) {
-    ...
-}
-
-// load data into cache
-$favourites->loadData($user_id, $ref_ids);
-
-```
+[1] https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html

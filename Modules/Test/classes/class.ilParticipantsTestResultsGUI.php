@@ -222,7 +222,7 @@ class ilParticipantsTestResultsGUI
             }
         }
 
-        $tableGUI->setAnonymity($this->getTestObj()->getAnonymity());
+        $tableGUI->setAnonymity($this->getTestObj()->getMainSettings()->getGeneralSettings()->getAnonymity());
 
         $tableGUI->initColumns();
         $tableGUI->initCommands();

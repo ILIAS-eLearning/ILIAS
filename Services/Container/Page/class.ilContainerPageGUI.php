@@ -79,9 +79,10 @@ class ilContainerPageGUI extends ilPageObjectGUI
             $items[] = $ui->factory()->link()->standard(
                 $lng->txt("obj_sty"),
                 $ctrl->getLinkTargetByClass([
-                    "ilRepositoryGUI",
-                    "ilObj" . $class . "GUI"
-                ], "editStyleProperties")
+                    ilRepositoryGUI::class,
+                    "ilObj" . $class . "GUI",
+                    ilObjectContentStyleSettingsGUI::class
+                ], "")
             );
         }
         return $items;

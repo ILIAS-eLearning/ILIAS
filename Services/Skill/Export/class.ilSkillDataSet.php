@@ -20,7 +20,6 @@ declare(strict_types=1);
  */
 
 use ILIAS\Skill\Tree\SkillTreeFactory;
-use ILIAS\Skill\Tree\SkillTreeNodeManager;
 use ILIAS\Skill\Service\SkillInternalManagerService;
 use ILIAS\Skill\Service\SkillInternalFactoryService;
 

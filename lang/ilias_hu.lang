@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#'Pontozott résztvevő'-ként megjelölés
 assessment#:#set_manual_feedback#:#Manuális visszajelzés
 assessment#:#shape#:#Alakzat
 assessment#:#showSuggestedSolution#:#Típus
+assessment#:#show_all_test_properties_on_info_page#:#Az összes teszttulajdonság megjelenítése
+assessment#:#show_all_test_properties_on_info_page_byline#:#Az összes teszttulajdonság felsorolása jelenik meg először a felhasználónak, mint például információ a pontozásról, vagy az eredmények megjelenítéséről.
 assessment#:#show_answer_overview#:#Válaszok áttekintésének megjelenítése
 assessment#:#show_detailed_results#:#Figyelembe vett tesztkitöltés részletes áttekintése
 assessment#:#show_examview_html#:#Képernyőn
 assessment#:#show_pass_overview#:#Figyelembe vett tesztkitöltés áttekintése
 assessment#:#show_user_answers#:#Figyelembe vett tesztkitöltés válaszainak megjelenítése
-assessment#:#showinfo#:#Az összes teszttulajdonság megjelenítése
-assessment#:#showinfo_desc#:#Az összes teszttulajdonság felsorolása jelenik meg először a felhasználónak, mint például információ a pontozásról, vagy az eredmények megjelenítéséről.
 assessment#:#shuffle_answers#:#Kevert válaszok
 assessment#:#sign_submission#:#Tesztbeadványok digitális aláírása
 assessment#:#sign_submission_info#:#Ha ez be van kapcsolva, az aláíró-bővítményt telepítették és az aktív, akkor a résztvevők digitálisan aláírják beadványukat.
@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Nem, menjen vissza az előző k�
 assessment#:#tst_finish_confirmation_question#:#Ha befejezi ezt a tesztet, eléri az engedélyezett tesztkitöltések maximális számát. Nem fog tudni visszatérni a tesztbe, hogy megváltoztassa válaszait. Biztos, hogy be szeretné fejezni a tesztet?
 assessment#:#tst_finish_notification#:#Értesítés
 assessment#:#tst_finish_notification_advanced#:#Az összes teszteredmény küldése
-assessment#:#tst_finish_notification_content#:#E-mail tartalma
+assessment#:#tst_finish_notification_content_type#:#E-mail tartalma
 assessment#:#tst_finish_notification_desc#:#Minden alkalommal e-mail küldése a teszt tulajdonosának, amikor egy résztvevő befejezi a teszt kitöltését.
 assessment#:#tst_finish_notification_no#:#Nincs e-mail
 assessment#:#tst_finish_notification_simple#:#Felhasználónév és záró dátum küldése

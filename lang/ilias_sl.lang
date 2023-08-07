@@ -1163,13 +1163,13 @@ assessment#:#set_manscoring_done#:#Označi kot ocenjeno
 assessment#:#set_manual_feedback#:#Ročna povratna informacija
 assessment#:#shape#:#Oblika
 assessment#:#showSuggestedSolution#:#Vrsta
+assessment#:#show_all_test_properties_on_info_page#:#Prikaži lastnosti testa
+assessment#:#show_all_test_properties_on_info_page_byline#:#Uporabnikom se na zavihku 'Info' prikažejo vse značilnosti testa, npr. zaporedje, ocena ali poročilo o rezultatih.
 assessment#:#show_answer_overview#:#Pokaži pregled odgovorov
 assessment#:#show_detailed_results#:#Podrobni rezultati testov (ocenjeno opravljanje testa)
 assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_pass_overview#:#Pregled rezultatov (ocenjeno opravljanje testa)
 assessment#:#show_user_answers#:#Odgovori (ocenjeno opravljanje testa)
-assessment#:#showinfo#:#Prikaži lastnosti testa
-assessment#:#showinfo_desc#:#Uporabnikom se na zavihku 'Info' prikažejo vse značilnosti testa, npr. zaporedje, ocena ali poročilo o rezultatih.
 assessment#:#shuffle_answers#:#Pomešaj odgovore
 assessment#:#sign_submission#:#Digitalni podpis
 assessment#:#sign_submission_info#:#Nameščen in aktiviran mora biti vtičnik za podpis, ki omogoča poziv udeležencev k podpisu ob oddaji testa.
@@ -1385,7 +1385,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Ne, rad bi se vrnil na prejšnji
 assessment#:#tst_finish_confirmation_question#:#Kmalu boste zaključili ta test in dosegli maksimalno število dovoljenih opravljanj testa. Po tem se ne boste mogli znova prijaviti na ta test, da bi spremenili svoje odgovore. Ali res želite dokončati test?
 assessment#:#tst_finish_notification#:#Obveščanje
 assessment#:#tst_finish_notification_advanced#:#Celoten rezultat testa na uporabnika
-assessment#:#tst_finish_notification_content#:#Vsebina obvestila
+assessment#:#tst_finish_notification_content_type#:#Vsebina obvestila
 assessment#:#tst_finish_notification_desc#:#Za vsakega udeleženca, ki zaključi test, prejme imetnik testa e-pošto z naslednjimi informacijami.
 assessment#:#tst_finish_notification_no#:#Ni obvestila
 assessment#:#tst_finish_notification_simple#:#Le uporabniško ime in datum zaključka

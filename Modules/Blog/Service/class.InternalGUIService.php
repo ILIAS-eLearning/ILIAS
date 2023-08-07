@@ -22,6 +22,8 @@ namespace ILIAS\Blog;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
+use ILIAS\Blog\Contributor;
+use ILIAS\Blog\Exercise;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -56,6 +58,24 @@ class InternalGUIService
         return new StandardGUIRequest(
             $this->http(),
             $this->domain_service->refinery()
+        );
+    }
+
+    public function contributor(): Contributor\GUIService
+    {
+        return new Contributor\GUIService(
+            $this->data_service,
+            $this->domain_service,
+            $this
+        );
+    }
+
+    public function exercise(): Exercise\GUIService
+    {
+        return new Exercise\GUIService(
+            $this->data_service,
+            $this->domain_service,
+            $this
         );
     }
 }

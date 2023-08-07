@@ -1158,13 +1158,13 @@ assessment#:#set_manscoring_done#:#Označit účastníka jako "Bodovaný účast
 assessment#:#set_manual_feedback#:#Nastavit ohlas manuálně
 assessment#:#shape#:#Tvar
 assessment#:#showSuggestedSolution#:#Doporučené řešení
+assessment#:#show_all_test_properties_on_info_page#:#Zobrazit úplnou stránku informací
+assessment#:#show_all_test_properties_on_info_page_byline#:#Pokud je vybráno, úplná stránka informací testu bude zobrazena (včetně vlastností test). Pokud není vybráno, bude zobrazen pouze úvodní text (je-li dostupný) a požadované vlastnosti budou zobrazeny na stránce informací testu.
 assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variable
 assessment#:#show_detailed_results#:#Zobrazit podrobné výsledky uživatele. (Známkovaný průchod)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#Zobrazit přehled označených průchodů
 assessment#:#show_user_answers#:#Zobrazit označené odpovědi uživatelů
-assessment#:#showinfo#:#Zobrazit úplnou stránku informací
-assessment#:#showinfo_desc#:#Pokud je vybráno, úplná stránka informací testu bude zobrazena (včetně vlastností test). Pokud není vybráno, bude zobrazen pouze úvodní text (je-li dostupný) a požadované vlastnosti budou zobrazeny na stránce informací testu.
 assessment#:#shuffle_answers#:#Zamíchat odpovědi
 assessment#:#sign_submission#:#Digitally sign test submissions###24 10 2013 new variable
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###24 10 2013 new variable
@@ -1379,7 +1379,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Ne, jít zpět na předchozí ot
 assessment#:#tst_finish_confirmation_question#:#Hodláte ukončit tento test a dosáhl(a) jste maximálního počtu povolených průchodů testem. Nebudete již moci do tohoto testu vstoupit znovu a změnit své odpovědi. Upravdu chcete tento test ukončit?
 assessment#:#tst_finish_notification#:#E-mail při dokončení
 assessment#:#tst_finish_notification_advanced#:#Poslat kompletní výsledky testu jeho vlastníkovi
-assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#Poslat uživatelské jméno a finální datum vlastníkovi testu

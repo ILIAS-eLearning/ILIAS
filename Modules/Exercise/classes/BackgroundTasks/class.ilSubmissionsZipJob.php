@@ -66,10 +66,21 @@ class ilSubmissionsZipJob extends AbstractJob
     ): Value {
         $tmpdir = $input[0]->getValue();
 
+        $this->logger->debug("Calling zip...");
+        $this->logger->debug("... dir: " . $tmpdir);
+        $this->logger->debug("... file: " . $tmpdir . '.zip');
         ilFileUtils::zip($tmpdir, $tmpdir . '.zip');
 
         // delete temp directory
+        $this->logger->debug("Deleting dir: " . $tmpdir);
         ilFileUtils::delDir($tmpdir);
+
+        $this->logger->debug("Check zip file exists.");
+        if (is_file($tmpdir . '.zip')) {
+            $this->logger->debug("File ok.");
+        } else {
+            $this->logger->debug("File missing.");
+        }
 
         $zip_file_name = new StringValue();
         $zip_file_name->setValue($tmpdir . '.zip');

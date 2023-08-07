@@ -24,14 +24,18 @@ declare(strict_types=1);
  */
 class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
 {
+
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
+
     private int $server_id;
     private int $mid;
-
     /**
      * Table gui constructor
      */
     public function __construct(int $a_server_id, int $a_mid, ?object $a_parent_obj, string $a_parent_cmd)
     {
+        global $DIC;
         $this->server_id = $a_server_id;
         $this->mid = $a_mid;
 
@@ -46,6 +50,9 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.ecs_node_mapping_tree_table_row.html", "Services/WebServices/ECS");
 
         $this->setEnableHeader(true);
+
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
     }
 
     /**
@@ -80,28 +87,30 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_STATUS', ilECSMappingUtils::mappingStatusToString($a_set['status']));
 
         // Actions
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setSelectionHeaderClass('small');
-        $list->setItemLinkClass('small');
-        $list->setId('actl_' . $a_set['id']);
-        $list->setListTitle($this->lng->txt('actions'));
+        $items = [];
 
         $this->ctrl->setParameter($this->getParentObject(), 'tid', $a_set['id']);
         $this->tpl->setVariable('EDIT_TITLE', $this->ctrl->getLinkTarget($this->getParentObject(), 'dInitEditTree'));
 
-        $list->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'dInitEditTree'));
+        $item[] = [$this->lng->txt('edit'), $this->ctrl->getLinkTarget($this->getParentObject(), 'dInitEditTree')];
 
         if ($a_set['status'] !== ilECSMappingUtils::MAPPED_UNMAPPED &&
                 ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(), $this->getMid())->isDirectoryMappingEnabled()) {
-            $list->addItem(
+            $items[] = [
                 $this->lng->txt('ecs_cms_tree_synchronize'),
-                '',
                 $this->ctrl->getLinkTarget($this->getParentObject(), 'dSynchronizeTree')
-            );
+            ];
         }
 
-        $list->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'dConfirmDeleteTree'));
-        $this->tpl->setVariable('ACTIONS', $list->getHTML());
+        $items[] = [$this->lng->txt('delete'), $this->ctrl->getLinkTarget($this->getParentObject(), 'dConfirmDeleteTree')];
+        $render_items = [];
+        foreach ($items as $item) {
+            $render_items[] = $this->ui_factory->button()->shy(...$item);
+        }
+        $this->tpl->setVariable(
+            'ACTIONS',
+            $this->ui_renderer->render($this->ui_factory->dropdown()->standard($render_items)->withLabel($this->lng->txt('actions')))
+        );
 
         $this->ctrl->clearParameters($this->getParentObject());
     }

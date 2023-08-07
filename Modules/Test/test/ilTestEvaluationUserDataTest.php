@@ -49,7 +49,6 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
             "timeOfWork",
             "numberOfQuestions",
             "questionsWorkedThrough",
-            "markECTS",
             "mark_official",
             "mark",
             "maxpoints",
@@ -154,12 +153,6 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
     {
         $this->testObj->setMark("testMark");
         $this->assertEquals("testMark", $this->testObj->getMark());
-    }
-
-    public function testECTSMark(): void
-    {
-        $this->testObj->setECTSMark("testECTSMark");
-        $this->assertEquals("testECTSMark", $this->testObj->getECTSMark());
     }
 
     public function testGetQuestionsWorkedThrough(): void

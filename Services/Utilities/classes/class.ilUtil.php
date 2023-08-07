@@ -156,6 +156,7 @@ class ilUtil
 
         // add version as parameter to force reload for new releases
         // use ilStyleDefinition instead of account to get the current style
+
         $stylesheet_name = (strlen($a_css_name))
             ? $a_css_name
             : ilStyleDefinition::getCurrentStyle() . ".css";
@@ -167,7 +168,7 @@ class ilUtil
         // use ilStyleDefinition instead of account to get the current skin
         if (ilStyleDefinition::getCurrentSkin() != "default") {
             $filename = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin(
-            ) . "/" . $a_css_location . $stylesheet_name;
+            ) . "/" . ilStyleDefinition::getCurrentStyle() . "/" . $a_css_location . $stylesheet_name;
         }
         if (strlen($filename) == 0 || !file_exists($filename)) {
             $filename = "./" . $a_css_location . "templates/default/" . $stylesheet_name;

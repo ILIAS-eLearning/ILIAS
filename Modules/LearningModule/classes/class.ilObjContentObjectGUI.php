@@ -928,7 +928,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         return $form;
     }
 
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
+    protected function importFileObject(int $parent_id = null): void
     {
         $tpl = $this->tpl;
 
@@ -936,7 +936,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         try {
             // the new import
-            parent::importFileObject(null, false);
+            parent::importFileObject(null);
             return;
         } catch (ilManifestFileNotFoundImportException $e) {
             // we just run through in this case.
@@ -2685,7 +2685,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilToolbar->addInputItem($si, true);
         $ilToolbar->addFormButton($lng->txt("help_filter"), "filterTooltips");
 
-        $tbl = new ilHelpTooltipTableGUI($this, "showTooltipList", ilSession::get("help_tt_comp"));
+        $tbl = new ilHelpTooltipTableGUI($this, "showTooltipList", (string) ilSession::get("help_tt_comp"));
 
         $tpl->setContent($tbl->getHTML());
     }

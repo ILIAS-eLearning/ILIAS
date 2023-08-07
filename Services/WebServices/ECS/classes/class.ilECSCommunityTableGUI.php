@@ -23,9 +23,10 @@ declare(strict_types=1);
 class ilECSCommunityTableGUI extends ilTable2GUI
 {
     private ilAccessHandler $access;
-
-
     private ilECSSetting $server;
+
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct(ilECSSetting $set, ?object $a_parent_obj, string $a_parent_cmd, int $cid)
     {
@@ -34,6 +35,8 @@ class ilECSCommunityTableGUI extends ilTable2GUI
         global $DIC;
 
         $this->access = $DIC->access();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         // TODO: set id
         $this->setId($set->getServerId() . '_' . $cid . '_' . 'community_table');
@@ -67,7 +70,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
     /**
      * Fill row
      *
-     * @param array row data
+     * @param array $a_set row data
      */
     protected function fillRow(array $a_set): void
     {
@@ -124,19 +127,12 @@ class ilECSCommunityTableGUI extends ilTable2GUI
         );
         $this->tpl->setVariable('IMPORT_SEL', $sel);
 
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setItemLinkClass('small');
-        $list->setSelectionHeaderClass('small');
-        $list->setId('actl_' . $this->getServer()->getServerId() . '_' . $a_set['mid']);
-        $list->setListTitle($this->lng->txt('actions'));
-
+        $items = [];
         $this->ctrl->setParameter($this->getParentObject(), 'server_id', $this->getServer()->getServerId());
         $this->ctrl->setParameter($this->getParentObject(), 'mid', $a_set['mid']);
-        $list->addItem(
-            $this->lng->txt('edit'),
-            '',
+        $items[] = [ $this->lng->txt('edit'),
             $this->ctrl->getLinkTargetByClass('ilecsparticipantsettingsgui', 'settings')
-        );
+        ];
 
         switch ($part->getImportType()) {
             case ilECSParticipantSetting::IMPORT_RCRS:
@@ -147,11 +143,10 @@ class ilECSCommunityTableGUI extends ilTable2GUI
                 // Possible action => Edit course allocation
                 $this->ctrl->setParameter($this->getParentObject(), 'server_id', $this->getServer()->getServerId());
                 $this->ctrl->setParameter($this->getParentObject(), 'mid', $a_set['mid']);
-                $list->addItem(
+                $items[] = [
                     $this->lng->txt('ecs_crs_alloc_set'),
-                    '',
                     $this->ctrl->getLinkTargetByClass('ilecsmappingsettingsgui', 'cStart')
-                );
+                ];
                 break;
 
             case ilECSParticipantSetting::IMPORT_CMS:
@@ -159,22 +154,24 @@ class ilECSCommunityTableGUI extends ilTable2GUI
                 $this->ctrl->setParameter($this->getParentObject(), 'server_id', $this->getServer()->getServerId());
                 $this->ctrl->setParameter($this->getParentObject(), 'mid', $a_set['mid']);
                 // Possible action => Edit course allocation, edit node mapping
-                $list->addItem(
+                $items[] = [
                     $this->lng->txt('ecs_dir_alloc_set'),
-                    '',
                     $this->ctrl->getLinkTargetByClass('ilecsmappingsettingsgui', 'dStart')
-                );
-                $list->addItem(
+                ];
+                $items[] = [
                     $this->lng->txt('ecs_crs_alloc_set'),
-                    '',
                     $this->ctrl->getLinkTargetByClass('ilecsmappingsettingsgui', 'cStart')
-                );
+                ];
                 break;
         }
 
         if ($this->access->checkAccess('write', '', (int) $_REQUEST["ref_id"])) {
             $this->tpl->setCurrentBlock("actions");
-            $this->tpl->setVariable('ACTIONS', $list->getHTML());
+            $render_items = [];
+            foreach ($items as $item) {
+                $render_items[] = $this->ui_factory->button()->shy(...$item);
+            }
+            $this->tpl->setVariable('ACTIONS', $this->ui_renderer->render($this->ui_factory->dropdown()->standard($render_items)->withLabel($this->lng->txt('actions'))));
             $this->tpl->parseCurrentBlock();
         }
     }

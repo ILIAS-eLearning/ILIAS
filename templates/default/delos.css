@@ -4140,14 +4140,14 @@ input[type=checkbox]:focus:focus-visible {
 .c-launcher .btn-bulky {
   min-width: 50%;
   width: max-content;
-  border-radius: 6px;
+  border-radius: 10px;
   color: white;
   background-color: #557b2e;
   border-color: #557b2e;
   padding: 12px 15px;
   font-size: 1rem;
   line-height: 1.428571429;
-  border-radius: 6px;
+  border-radius: 10px;
 }
 .c-launcher .btn-bulky:focus, .c-launcher .btn-bulky.focus {
   color: white;
@@ -5780,52 +5780,121 @@ footer {
   margin: 3px 3px 6px 0px;
 }
 
-.il-mode-info {
-  border-top: 3px solid #B54F00;
-  border-left: 3px solid #B54F00;
-  border-right: 3px solid #B54F00;
-  text-align: center;
-  z-index: 1010;
+/*
+	These classes are used to limit the number of rows when displaying larger chunks of text.
+	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
+	can be used to limit the number of rows for text to 2,3,5 or 10 lines in any template,
+	e.g. the Standard Listing Panels limit the property values to 3 lines using il-multi-line-cap-3
+
+	Technical discussion can be found in https://mantis.ilias.de/view.php?id=21583
+	The background/gradient fallback can be removed as soon as all browsers support line-clamp.
+ */
+.c-mode-info {
+  display: flex;
   position: absolute;
+  z-index: 1010;
+  width: 100%;
+  align-items: start;
+  justify-content: center;
+  text-align: center;
+}
+.c-mode-info__pageframe {
+  border: 3px solid #B54F00;
   height: 100%;
+  position: fixed;
   width: 100%;
   pointer-events: none;
+  z-index: 1010;
 }
-
-.il-mode-info + div {
-  border: 3px solid #B54F00;
-  border-top: 0 none;
+.c-mode-info__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #B54F00;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  -webkit-box-shadow: 20px 10px 30px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 20px 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 20px 10px 30px rgba(0, 0, 0, 0.15);
+  padding: 1px 18px;
+  gap: 18px;
+  min-height: 35px;
+  min-width: 20%;
+  max-width: 50%;
 }
 @media only screen and (max-width: 768px) {
-  .il-mode-info + div {
-    padding-top: 30px;
+  .c-mode-info__content {
+    border-radius: 0;
+    width: 100%;
+    min-height: 45px;
+    max-width: 100%;
   }
 }
-
-.il-mode-info span.il-mode-info-content {
-  margin: auto;
-  background-color: #B54F00;
-  padding: 3px 9px 3px 9px;
-  -webkit-box-shadow: 0px 2px 2px 0px rgb(128, 128, 128);
-  -moz-box-shadow: 0px 2px 2px 0px rgb(128, 128, 128);
-  box-shadow: 0px 2px 2px 0px rgb(128, 128, 128);
-  pointer-events: all;
-}
-
-.il-mode-info span {
+.c-mode-info__label, .c-mode-info__close {
   color: white;
   font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+  position: relative;
+}
+.c-mode-info__label a,
+.c-mode-info__label a:hover, .c-mode-info__close a,
+.c-mode-info__close a:hover {
+  color: white;
+}
+.c-mode-info__label {
+  /* edge, chrome, safari go here... */
+  /* may come with next firefox 68, https://caniuse.com/#search=clamp */
+  flex-grow: 1;
+}
+.c-mode-info__label {
+  position: relative;
+  max-height: 1.5em;
+  overflow: hidden;
+  line-height: 1.5;
+}
+.c-mode-info__label:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.5em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255) 80%);
+}
+@supports (-webkit-line-clamp: 2) {
+  .c-mode-info__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  .c-mode-info__label:after {
+    display: none;
+  }
+}
+@supports (-moz-line-clamp: 2) {
+  .c-mode-info__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -moz-box;
+    -moz-line-clamp: 1;
+    -moz-box-orient: vertical;
+  }
+  .c-mode-info__label:after {
+    display: none;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .c-mode-info__mobile-padding {
+    height: 45px;
+  }
 }
 
-@media only screen and (max-width: 768px) {
-  .il-mode-info {
-    margin-bottom: 0;
-  }
-  span.il-mode-info-content {
-    display: block;
-    width: 100%;
-  }
-}
 /*
 **************************************************************
 	System Infos
@@ -10112,7 +10181,6 @@ ul.il-book-obj-selection li {
   -webkit-hyphens: auto;
   hyphens: auto;
   width: 100%;
-  background-color: #f9f9f9;
   position: relative;
 }
 #chat_messages .messageContainer {
@@ -10136,12 +10204,14 @@ ul.il-book-obj-selection li {
   width: 100%;
 }
 
-#message-controls .msg-control {
-  display: inline-block;
+.chatroom-centered-checkboxes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
 }
-#message-controls .msg-control label {
-  position: relative;
-  top: 5px;
+.chatroom-centered-checkboxes label {
+  margin: 0 5px 0 0;
 }
 
 @media only screen and (max-width: 768px) {
@@ -12017,7 +12087,8 @@ div.ilc_Page.readonly textarea[disabled] {
   font-size: 0.875rem;
 }
 #tst_output #tst_right li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem, #ilAssQuestionPreview li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem, #il_prop_cont_order_elems li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem {
-  border: 2px white solid;
+  border: 1px #4c6586 solid;
+  border-left: 9px #4c6586 solid;
 }
 
 #tst_pass_details_overview tr {

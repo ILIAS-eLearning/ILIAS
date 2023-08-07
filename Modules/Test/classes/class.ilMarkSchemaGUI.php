@@ -31,18 +31,12 @@ class ilMarkSchemaGUI
     private Request $request;
     private Refinery $refinery;
 
-    /**
-     * @var ilMarkSchemaAware|ilEctsGradesEnabled
-     */
     protected $object;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilGlobalPageTemplate $tpl;
     protected ilToolbarGUI $toolbar;
 
-    /**
-     * @param ilMarkSchemaAware|ilEctsGradesEnabled $object
-     */
     public function __construct($object)
     {
         /** @var ILIAS\DI\Container $DIC */
@@ -70,14 +64,6 @@ class ilMarkSchemaGUI
     protected function ensureMarkSchemaCanBeEdited(): void
     {
         if (!$this->object->canEditMarks()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->redirect($this, 'showMarkSchema');
-        }
-    }
-
-    protected function ensureEctsGradesCanBeEdited(): void
-    {
-        if (!$this->object->canEditEctsGrades()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirect($this, 'showMarkSchema');
         }
@@ -213,12 +199,7 @@ class ilMarkSchemaGUI
         $this->showMarkSchema();
     }
 
-    private function objectSupportsEctsGrades(): bool
-    {
-        return $this->object instanceof ilEctsGradesEnabled;
-    }
-
-    protected function showMarkSchema(?ilPropertyFormGUI $ects_form = null): void
+    protected function showMarkSchema(): void
     {
         if (!$this->object->canEditMarks()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_marks'));
@@ -245,125 +226,6 @@ class ilMarkSchemaGUI
 
         $content_parts = array($mark_schema_table->getHTML());
 
-        if ($this->objectSupportsEctsGrades() && $this->object->canShowEctsGrades()) {
-            if (!($ects_form instanceof ilPropertyFormGUI)) {
-                $ects_form = $this->getEctsForm();
-                $this->populateEctsForm($ects_form);
-            }
-            $content_parts[] = $ects_form->getHTML();
-        }
-
         $this->tpl->setContent(implode('<br />', $content_parts));
-    }
-
-    protected function populateEctsForm(ilPropertyFormGUI $form): void
-    {
-        $data = array();
-
-        $data['ectcs_status'] = $this->object->getECTSOutput();
-        $data['use_ects_fx'] = preg_match('/\d+/', $this->object->getECTSFX());
-        $data['ects_fx_threshold'] = $this->object->getECTSFX();
-
-        $ects_grades = $this->object->getECTSGrades();
-        for ($i = ord('a'); $i <= ord('e'); $i++) {
-            $mark = chr($i);
-            $data['ects_grade_' . $mark] = $ects_grades[chr($i - 32)];
-        }
-
-        $form->setValuesByArray($data);
-    }
-
-    protected function getEctsForm(): ilPropertyFormGUI
-    {
-        $disabled = !$this->object->canEditEctsGrades();
-
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, 'saveEctsForm'));
-        $form->setTitle($this->lng->txt('ects_output_of_ects_grades'));
-
-        $allow_ects_marks = new ilCheckboxInputGUI($this->lng->txt('ects_allow_ects_grades'), 'ectcs_status');
-        $allow_ects_marks->setDisabled($disabled);
-        for ($i = ord('a'); $i <= ord('e'); $i++) {
-            $mark = chr($i);
-
-            $mark_step = new ilNumberInputGUI(chr($i - 32), 'ects_grade_' . $mark);
-            $mark_step->setInfo(
-                $this->lng->txt('ects_grade_desc_prefix') . ' ' . $this->lng->txt('ects_grade_' . $mark . '_desc')
-            );
-            $mark_step->setSize(5);
-            $mark_step->allowDecimals(true);
-            $mark_step->setMinValue(0, true);
-            $mark_step->setMaxValue(100, true);
-            $mark_step->setSuffix($this->lng->txt('percentile'));
-            $mark_step->setRequired(true);
-            $mark_step->setDisabled($disabled);
-            $allow_ects_marks->addSubItem($mark_step);
-        }
-
-        $mark_step = new ilNonEditableValueGUI('F', 'ects_grade_f');
-        $mark_step->setInfo(
-            $this->lng->txt('ects_grade_desc_prefix') . ' ' . $this->lng->txt('ects_grade_f_desc')
-        );
-        $allow_ects_marks->addSubItem($mark_step);
-
-        $use_ects_fx = new ilCheckboxInputGUI($this->lng->txt('use_ects_fx'), 'use_ects_fx');
-        $use_ects_fx->setDisabled($disabled);
-        $allow_ects_marks->addSubItem($use_ects_fx);
-
-        $mark_step = new ilNonEditableValueGUI('FX', 'ects_grade_fx');
-        $mark_step->setInfo(
-            $this->lng->txt('ects_grade_desc_prefix') . ' ' . $this->lng->txt('ects_grade_fx_desc')
-        );
-        $use_ects_fx->addSubItem($mark_step);
-
-        $threshold = new ilNumberInputGUI($this->lng->txt('ects_fx_threshold'), 'ects_fx_threshold');
-        $threshold->setInfo($this->lng->txt('ects_fx_threshold_info'));
-        $threshold->setSuffix($this->lng->txt('percentile'));
-        $threshold->allowDecimals(true);
-        $threshold->setSize(5);
-        $threshold->setRequired(true);
-        $threshold->setDisabled($disabled);
-        $use_ects_fx->addSubItem($threshold);
-
-
-        $form->addItem($allow_ects_marks);
-
-        if (!$disabled) {
-            $form->addCommandButton('saveEctsForm', $this->lng->txt('save'));
-        }
-
-        return $form;
-    }
-
-    protected function saveEctsForm(): void
-    {
-        $this->ensureEctsGradesCanBeEdited();
-
-        $ects_form = $this->getEctsForm();
-        if (!$ects_form->checkInput()) {
-            $ects_form->setValuesByPost();
-            $this->showMarkSchema($ects_form);
-            return;
-        }
-
-        $grades = array();
-        for ($i = ord('a'); $i <= ord('e'); $i++) {
-            $mark = chr($i);
-            $grades[chr($i - 32)] = $ects_form->getInput('ects_grade_' . $mark);
-        }
-
-        $this->object->setECTSGrades($grades);
-        $this->object->setECTSOutput((int) $ects_form->getInput('ectcs_status'));
-        $this->object->setECTSFX(
-            $ects_form->getInput('use_ects_fx') && preg_match('/\d+/', $ects_form->getInput('ects_fx_threshold')) ?
-            $ects_form->getInput('ects_fx_threshold') :
-            null
-        );
-
-        $this->object->saveECTSStatus();
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
-        $ects_form->setValuesByPost();
-        $this->showMarkSchema($ects_form);
     }
 }

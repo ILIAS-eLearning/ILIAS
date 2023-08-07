@@ -478,18 +478,12 @@ class ilLTIConsumeProviderList implements Iterator
         return current($this->providers);
     }
 
-    /**
-     * @return false|ilLTIConsumeProvider|void
-     */
-    public function next()
+    public function next(): void
     {
-        return next($this->providers);
+        next($this->providers);
     }
 
-    /**
-     * @return bool|float|int|mixed|string|null
-     */
-    public function key()
+    public function key(): mixed
     {
         return key($this->providers);
     }
@@ -499,12 +493,9 @@ class ilLTIConsumeProviderList implements Iterator
         return key($this->providers) !== null;
     }
 
-    /**
-     * @return false|ilLTIConsumeProvider|void
-     */
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->providers);
+        reset($this->providers);
     }
 
     protected function getKeywordsFormatted(array $keywords): string
