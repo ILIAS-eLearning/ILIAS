@@ -183,19 +183,11 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $cb->setChecked($this->calendar_settings->getShowWeeks());
         $form->addItem($cb);
 
-        $sync = new ilCheckboxInputGUI($this->lng->txt('cal_webcal_sync'), 'webcal');
-        $sync->setValue('1');
-        $sync->setChecked($this->calendar_settings->isWebCalSyncEnabled());
-        $sync->setInfo($this->lng->txt('cal_webcal_sync_info'));
-
-        $sync_min = new ilNumberInputGUI('', 'webcal_hours');
-        $sync_min->setSize(2);
-        $sync_min->setMaxLength(3);
-        $sync_min->setValue((string) $this->calendar_settings->getWebCalSyncHours());
-        $sync_min->setSuffix($this->lng->txt('hours'));
-        $sync->addSubItem($sync_min);
-
-        $form->addItem($sync);
+        ilAdministrationSettingsFormHandler::addFieldsToForm(
+            ilAdministrationSettingsFormHandler::FORM_CALENDAR,
+            $form,
+            $this
+        );
 
         //Batch File Downloads in Calendar
         $batch_files_download = new ilCheckboxInputGUI($this->lng->txt('cal_batch_file_downloads'), "batch_files");

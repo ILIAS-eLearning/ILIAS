@@ -108,7 +108,7 @@ class ilCalendarCategories
         $res = $db->query($query);
         $remote = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $remote[] = new ilCalendarCategory($row->cat_id);
+            $remote[] = new ilCalendarCategory((int) $row->cat_id);
         }
         return $remote;
     }

@@ -8147,6 +8147,8 @@ dateplaner#:#cal_create#:#Erzeuge
 dateplaner#:#cal_created_appointment#:#Ein neuer Termin wurde angelegt.
 dateplaner#:#cal_created_milestone#:#Der Meilenstein wurde angelegt.
 dateplaner#:#cal_created_milestone_resp_q#:#Der Meilenstein wurde angelegt. Bitte wählen Sie die Mitglieder aus, die für den Meilenstein verantwortlich sein sollen.
+dateplaner#:#cal_cronjob_remote_description#:#Wenn aktiviert, werden Termine des Kalendertyps "Web-Kalender" automatisch nach dem vorgegeben Zeitintervall synchronisiert.
+dateplaner#:#cal_cronjob_remote_title#:#Synchronisierung externer Kalender
 dateplaner#:#cal_crs_info#:#Course Information
 dateplaner#:#cal_crs_new_notification_body#:#ein neuer Termin ist im Kurs "%s" angelegt worden.
 dateplaner#:#cal_crs_new_notification_sub#:#Neuer Termin in Kurs "%s"

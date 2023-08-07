@@ -18,23 +18,20 @@
 
 declare(strict_types=1);
 
-namespace Cron;
-
-use ilCronJob;
-use ilCronJobResult;
-
-class ilCalendarRemoteReaderCron extends ilCronJob
+class ilCalendarCronRemoteReader extends ilCronJob
 {
-    private \ilLanguage $lng;
+    private const DEFAULT_SYNC_HOURS = 1;
 
-    private \ilCalendarSettings $calendar_settings;
+    private ilLanguage $lng;
+
+    private ?ilCalendarSettings $calendar_settings = null;
 
     public function __construct()
     {
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->calendar_settings = \ilCalendarSettings::_getInstance();
+        $this->calendar_settings = ilCalendarSettings::_getInstance();
     }
 
     public function getId(): string
@@ -44,12 +41,12 @@ class ilCalendarRemoteReaderCron extends ilCronJob
 
     public function getTitle(): string
     {
-        $this->lng->txt('cal_cronjob_remote_title');
+        return $this->lng->txt('cal_cronjob_remote_title');
     }
 
     public function getDescription(): string
     {
-        $this->lng->txt('cal_cronjob_remote_description');
+        return $this->lng->txt('cal_cronjob_remote_description');
     }
 
     public function hasAutoActivation(): bool
@@ -62,6 +59,22 @@ class ilCalendarRemoteReaderCron extends ilCronJob
         return true;
     }
 
+    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active): void
+    {
+        switch ($a_form_id) {
+            case ilAdministrationSettingsFormHandler::FORM_CALENDAR:
+                $a_fields['cal_webcal_sync'] = $a_is_active ?
+                    $this->lng->txt('enabled') :
+                    $this->lng->txt('disabled');
+                break;
+        }
+    }
+
+    public function hasCustomSettings(): bool
+    {
+        return true;
+    }
+
     public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_IN_HOURS;
@@ -69,6 +82,9 @@ class ilCalendarRemoteReaderCron extends ilCronJob
 
     public function getDefaultScheduleValue(): ?int
     {
+        if ($this->calendar_settings === null) {
+            return self::DEFAULT_SYNC_HOURS;
+        }
         return $this->calendar_settings->getWebCalSyncHours();
     }
 
@@ -77,15 +93,15 @@ class ilCalendarRemoteReaderCron extends ilCronJob
         $status = ilCronJobResult::STATUS_NO_ACTION;
 
         $counter = 0;
-        foreach (\ilCalendarCategories::lookupRemoteCalendars() as $remoteCalendar) {
+        foreach (ilCalendarCategories::lookupRemoteCalendars() as $remoteCalendar) {
             $status = ilCronJobResult::STATUS_CRASHED;
-            $reader = new \ilCalendarRemoteReader($remoteCalendar->getRemoteUrl());
+            $reader = new ilCalendarRemoteReader($remoteCalendar->getRemoteUrl());
             $reader->setUser($remoteCalendar->getRemoteUser());
             $reader->setPass($remoteCalendar->getRemotePass());
             $reader->read();
             $reader->import($remoteCalendar);
 
-            $remoteCalendar->setRemoteSyncLastExecution(new \ilDateTime(time(), IL_CAL_UNIX));
+            $remoteCalendar->setRemoteSyncLastExecution(new ilDateTime(time(), IL_CAL_UNIX));
             $remoteCalendar->update();
             $status = ilCronJobResult::STATUS_OK;
             ++$counter;
@@ -94,4 +110,6 @@ class ilCalendarRemoteReaderCron extends ilCronJob
         $result->setStatus($status);
         return $result;
     }
+
+
 }
