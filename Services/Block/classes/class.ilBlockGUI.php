@@ -25,6 +25,11 @@ use ILIAS\UI\Component\Dropdown\Dropdown;
 use ILIAS\UI\Component\ViewControl;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Modal\RoundTrip;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Component\Panel\Listing\Standard as StandardListingPanel;
+use ILIAS\UI\Component\Panel\Standard as StandardPanel;
+use ILIAS\UI\Component\Panel\Secondary\Listing as SecondaryListingPanel;
+use ILIAS\UI\Component\Panel\Secondary\Legacy as SecondaryLegacyPanel;
 
 /**
  * This class represents a block method of a block.
@@ -54,7 +59,7 @@ abstract class ilBlockGUI
     private string $activePresentation = '';
     private string $activeSortOption = '';
     private string $sort_target = '';
-    protected \ILIAS\UI\Factory $factory;
+    protected Factory $factory;
     protected object $gui_object;
     protected \ILIAS\Block\StandardGUIRequest $request;
     protected \ILIAS\Block\BlockManager $block_manager;
@@ -90,7 +95,6 @@ abstract class ilBlockGUI
 
     public function __construct()
     {
-        global $DIC;
         global $DIC;
         $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
@@ -866,9 +870,9 @@ abstract class ilBlockGUI
         }
 
         // check for empty list panel
-        if (in_array($this->getPresentation(), [self::PRES_SEC_LIST, self::PRES_MAIN_LIST]) &&
-            (count($panel->getItemGroups()) == 0 || (count($panel->getItemGroups()) == 1 && count($panel->getItemGroups()[0]->getItems()) == 0))) {
-            if ($this->getPresentation() == self::PRES_SEC_LIST) {
+        if (in_array($this->getPresentation(), [self::PRES_SEC_LIST, self::PRES_MAIN_LIST], true) &&
+            ($panel->getItemGroups() === [] || (count($panel->getItemGroups()) === 1 && $panel->getItemGroups()[0]->getItems() === []))) {
+            if ($this->getPresentation() === self::PRES_SEC_LIST) {
                 $panel = $this->factory->panel()->secondary()->legacy(
                     $this->getTitle(),
                     $this->factory->legacy($this->getNoItemFoundContent())
@@ -888,10 +892,10 @@ abstract class ilBlockGUI
         $viewControls = $this->getViewControlsForPanel();
         if ($viewControls !== [] &&
             (
-                $panel instanceof \ILIAS\UI\Component\Panel\Standard ||
-                $panel instanceof \ILIAS\UI\Component\Panel\Secondary\Listing ||
-                $panel instanceof \ILIAS\UI\Component\Panel\Secondary\Legacy ||
-                $panel instanceof \ILIAS\UI\Component\Panel\Listing\Standard
+                $panel instanceof StandardPanel ||
+                $panel instanceof SecondaryListingPanel ||
+                $panel instanceof SecondaryLegacyPanel ||
+                $panel instanceof StandardListingPanel
             )
         ) {
             $panel = $panel->withViewControls($viewControls);
@@ -956,7 +960,7 @@ abstract class ilBlockGUI
     public function getViewControlsForPanel(): array
     {
         $viewControls = [];
-        if (count($this->sort_options)) {
+        if ($this->sort_options !== []) {
             $sortation = $this->factory->viewControl()->sortation(
                 $this->sort_options
             )->withTargetURL(
@@ -978,7 +982,7 @@ abstract class ilBlockGUI
 
         if ($this->getPresentation() === self::PRES_SEC_LIST) {
             $pg_view_control = $this->getPaginationViewControl();
-            if (!is_null($pg_view_control)) {
+            if ($pg_view_control !== null) {
                 $viewControls[] = $pg_view_control;
             }
         }
