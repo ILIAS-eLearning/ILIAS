@@ -13,21 +13,18 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
 
-declare(strict_types=1);
+namespace ILIAS\UI\Component\Input\ViewControl;
 
-namespace ILIAS\UI\Component\Input\Field;
-
-use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
 use ILIAS\UI\Component\Input\Group as GroupInterface;
 
 /**
- * Describes the monoid operation of grouping form inputs.
+ * Describes the monoid operation of grouping view control inputs.
  *
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface Group extends FormInput, GroupInterface
+interface Group extends ViewControlInput, GroupInterface
 {
 }

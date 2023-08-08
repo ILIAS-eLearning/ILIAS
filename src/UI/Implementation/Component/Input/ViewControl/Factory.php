@@ -35,7 +35,8 @@ class Factory implements VCInterface\Factory
         protected FieldFactory $field_factory,
         protected DataFactory $data_factory,
         protected Refinery $refinery,
-        protected SignalGeneratorInterface $signal_generator
+        protected SignalGeneratorInterface $signal_generator,
+        protected \ilLanguage $language,
     ) {
     }
 
@@ -60,13 +61,23 @@ class Factory implements VCInterface\Factory
         );
     }
 
-    public function pagination(
-    ): VCInterface\Pagination {
+    public function pagination(): VCInterface\Pagination
+    {
         return new Pagination(
             $this->field_factory,
             $this->data_factory,
             $this->refinery,
             $this->signal_generator
+        );
+    }
+
+    public function group(array $view_contorls): VCInterface\Group
+    {
+        return new Group(
+            $this->data_factory,
+            $this->refinery,
+            $this->language,
+            $view_contorls,
         );
     }
 }

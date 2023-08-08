@@ -227,8 +227,7 @@ class InitUIFramework
         $c["ui.factory.input.container.viewcontrol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Container\ViewControl\Factory(
                 $c["ui.signal_generator"],
-                $c["ui.factory.input.field"],
-                $c["ui.data_factory"]
+                $c["ui.factory.input.viewcontrol"],
             );
         };
         $c["ui.factory.input.viewcontrol"] = function ($c) {
@@ -236,7 +235,8 @@ class InitUIFramework
                 $c["ui.factory.input.field"],
                 $c["ui.data_factory"],
                 $c["refinery"],
-                $c["ui.signal_generator"]
+                $c["ui.signal_generator"],
+                $c["lng"],
             );
         };
         $c["ui.factory.dropzone.file"] = function ($c) {

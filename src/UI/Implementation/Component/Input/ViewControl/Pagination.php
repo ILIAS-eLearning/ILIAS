@@ -28,10 +28,10 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Range;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 
-class Pagination extends ViewControl implements VCInterface\Pagination
+class Pagination extends ViewControlInput implements VCInterface\Pagination, HasInputGroup
 {
     use ComponentHelper;
     use GroupDecorator;

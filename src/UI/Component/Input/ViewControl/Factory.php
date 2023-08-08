@@ -93,4 +93,20 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\ViewControl\Pagination
      */
     public function pagination(): Pagination;
+
+    /**
+    * ---
+     * description:
+     *   purpose: >
+     *      This view control is only used for logical grouping of other view controls provided
+     *      by this factory, to comply with the monoid-structure of UI Inputs.
+     *   composition: >
+     *      The view control must consist of 0, 1 or more view controls.
+     *   effect: >
+     *      Each view control will be rendered in the same order as provided.
+     * ---
+     * @param \ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput[] $view_contorls
+     * @return \ILIAS\UI\Component\Input\ViewControl\Group
+     */
+    public function group(array $view_contorls): Group;
 }

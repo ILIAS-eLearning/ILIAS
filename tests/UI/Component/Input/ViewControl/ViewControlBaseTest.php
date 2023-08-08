@@ -73,7 +73,8 @@ abstract class ViewControlBaseTest extends ILIAS_UI_TestBase
             $this->buildFieldFactory(),
             $this->buildDataFactory(),
             $this->buildRefinery(),
-            new SignalGenerator()
+            new SignalGenerator(),
+            $this->getLanguage(),
         );
     }
 

@@ -25,6 +25,9 @@ use ILIAS\UI\Implementation\Component\Input\Container\ViewControl;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use LogicException;
+use ILIAS\UI\Implementation\Component\Input\ViewControl\HasInputGroup;
+use ILIAS\UI\Implementation\Component\ViewControl\Pagination;
+use ILIAS\UI\Implementation\Component\Input\ViewControl\Sortation;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -43,14 +46,18 @@ class Renderer extends AbstractComponentRenderer
     }
 
 
-    protected function getComponentInternalNames(Component\Component $component, array $names = []): array
+    protected function getComponentInternalNames(Component\Input\Group $component, array $names = []): array
     {
-        if (method_exists($component, 'getInputs')) {
-            foreach ($component->getInputs() as $input) {
-                $names[] = $input->getName();
-                $names = array_merge($names, $this->getComponentInternalNames($input));
+        foreach ($component->getInputs() as $input) {
+            if ($input instanceof Component\Input\Group) {
+                $names = $this->getComponentInternalNames($input, $names);
             }
+            if ($input instanceof HasInputGroup) {
+                $names = $this->getComponentInternalNames($input->getInputGroup(), $names);
+            }
+            $names[] = $input->getName();
         }
+
         return $names;
     }
 
@@ -68,9 +75,9 @@ class Renderer extends AbstractComponentRenderer
         );
         $id = $this->bindJavaScript($component);
 
-        $input_names = $this->getComponentInternalNames($component);
+        $input_names = $this->getComponentInternalNames($component->getInputGroup());
         $query_params = array_filter(
-            $component->getRequest()->getQueryParams(),
+            $component->getRequest()?->getQueryParams(),
             fn($k) => ! in_array($k, $input_names),
             ARRAY_FILTER_USE_KEY
         );

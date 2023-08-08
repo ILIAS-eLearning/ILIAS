@@ -23,6 +23,8 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\Data\Result;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Input\GroupInternal;
+use ILIAS\UI\Implementation\Component\Input\Group as GroupInternals;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Data\Factory as DataFactory;
 use ilLanguage;
@@ -30,25 +32,14 @@ use ILIAS\Refinery\Constraint;
 use Closure;
 use ILIAS\Data\Result\Ok;
 use Generator;
-use ILIAS\UI\Implementation\Component\Input\Input;
-use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 /**
  * This implements the group input.
  */
-class Group extends FormInput implements C\Input\Field\Group
+class Group extends FormInput implements C\Input\Field\Group, GroupInternal
 {
-    use ComponentHelper;
-
-    protected ilLanguage $lng;
-
-    /**
-     * Inputs that are contained by this group
-     *
-     * @var    Input[]
-     */
-    protected array $inputs = [];
+    use GroupInternals;
 
     /**
      * @param \ILIAS\UI\Component\Input\Input[] $inputs
@@ -56,28 +47,27 @@ class Group extends FormInput implements C\Input\Field\Group
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        ilLanguage $lng,
+        protected ilLanguage $lng,
         array $inputs,
         string $label,
         ?string $byline = null
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->checkArgListElements("inputs", $inputs, C\Input\Input::class);
-        $this->inputs = $inputs;
-        $this->lng = $lng;
+        $this->checkInputListElements('inputs', $inputs, [C\Input\Container\Form\FormInput::class]);
+        $this->setInputs($inputs);
     }
 
     public function withDisabled(bool $is_disabled): self
     {
         $clone = parent::withDisabled($is_disabled);
-        $clone->inputs = array_map(fn($i) => $i->withDisabled($is_disabled), $this->inputs);
+        $clone->setInputs(array_map(fn($i) => $i->withDisabled($is_disabled), $this->getInputs()));
         return $clone;
     }
 
     public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): self
     {
         $clone = parent::withRequired($is_required, $requirement_constraint);
-        $clone->inputs = array_map(fn($i) => $i->withRequired($is_required, $requirement_constraint), $this->inputs);
+        $clone->setInputs(array_map(fn($i) => $i->withRequired($is_required, $requirement_constraint), $this->getInputs()));
         return $clone;
     }
 
@@ -87,11 +77,6 @@ class Group extends FormInput implements C\Input\Field\Group
             return true;
         }
         foreach ($this->getInputs() as $input) {
-            // there are some inputs like view controls, which do not support required.
-            if ($input instanceof C\Input\Container\ViewControl\ViewControlInput) {
-                continue;
-            }
-
             if ($input->isRequired()) {
                 return true;
             }
@@ -102,7 +87,7 @@ class Group extends FormInput implements C\Input\Field\Group
     public function withOnUpdate(Signal $signal): self
     {
         $clone = parent::withOnUpdate($signal);
-        $clone->inputs = array_map(fn($i) => $i->withOnUpdate($signal), $this->inputs);
+        $clone->setInputs(array_map(fn($i) => $i->withOnUpdate($signal), $this->getInputs()));
         return $clone;
     }
 
@@ -130,121 +115,12 @@ class Group extends FormInput implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    public function isClientSideValueOk($value): bool
-    {
-        if (!is_array($value)) {
-            return false;
-        }
-        if (count($this->getInputs()) !== count($value)) {
-            return false;
-        }
-        foreach ($this->getInputs() as $key => $input) {
-            if (!array_key_exists($key, $value)) {
-                return false;
-            }
-            if (!$input->isClientSideValueOk($value[$key])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Get the value that is displayed in the input client side.
-     *
-     * @return    mixed
-     */
-    public function getValue()
-    {
-        return array_map(fn ($i) => $i->getValue(), $this->inputs);
-    }
-
-
-    /**
-     * Get an input like this with another value displayed on the
-     * client side.
-     *
-     * @param   mixed
-     * @throws  \InvalidArgumentException    if value does not fit client side input
-     */
-    public function withValue($value): self
-    {
-        $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
-        $clone = clone $this;
-        foreach ($this->inputs as $k => $i) {
-            $clone->inputs[$k] = $i->withValue($value[$k]);
-        }
-        return $clone;
-    }
-
-    /**
-     * Collects the input, applies trafos and forwards the input to its children and returns
-     * a new input group reflecting the inputs with data that was put in.
-     *
-     * @inheritdoc
-     */
-    public function withInput(InputData $input): self
-    {
-        if (sizeof($this->getInputs()) === 0) {
-            return $this;
-        }
-
-        $clone = clone $this;
-
-        $inputs = [];
-        $contents = [];
-        $error = false;
-
-        foreach ($this->getInputs() as $key => $in) {
-            $inputs[$key] = $in->withInput($input);
-            $content = $inputs[$key]->getContent();
-            if ($content->isError()) {
-                $error = true;
-            } else {
-                $contents[$key] = $content->value();
-            }
-        }
-
-        $clone->inputs = $inputs;
-        if ($error) {
-            $clone->content = $clone->data_factory->error($this->lng->txt("ui_error_in_group"));
-        } else {
-            $clone->content = $clone->applyOperationsTo($contents);
-        }
-
-        if ($clone->content->isError()) {
-            $clone = $clone->withError("" . $clone->content->error());
-        }
-
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function withNameFrom(NameSource $source, ?string $parent_name = null): self
     {
+        /** @var $clone self */
         $clone = parent::withNameFrom($source, $parent_name);
-
-        /**
-         * @var $clone C\Input\Field\Group
-         */
-        $named_inputs = [];
-        foreach ($this->getInputs() as $key => $input) {
-            $named_inputs[$key] = $input->withNameFrom($source, $clone->getName());
-        }
-
-        $clone->inputs = $named_inputs;
-
+        $clone->setInputs($this->nameInputs($source, $clone->getName()));
         return $clone;
-    }
-
-    /**
-     * @return Input[]
-     */
-    public function getInputs(): array
-    {
-        return $this->inputs;
     }
 
     /**
@@ -252,9 +128,27 @@ class Group extends FormInput implements C\Input\Field\Group
      */
     public function getContent(): Result
     {
-        if (0 === count($this->getInputs())) {
+        if (empty($this->getInputs())) {
             return new Ok([]);
         }
         return parent::getContent();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function setError(string $error): void
+    {
+        $this->error = $error;
+    }
+
+    protected function getLanguage(): \ilLanguage
+    {
+        return $this->lng;
+    }
+
+    protected function getDataFactory(): DataFactory
+    {
+        return $this->data_factory;
     }
 }

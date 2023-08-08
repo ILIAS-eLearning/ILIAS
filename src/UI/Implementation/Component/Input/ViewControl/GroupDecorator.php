@@ -19,12 +19,11 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\ViewControl;
 
+use ILIAS\UI\Component\Input\Group;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Data\Result;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Component\Input\Field\Group;
-use ILIAS\Refinery\Transformation;
-use InvalidArgumentException;
-use ILIAS\Data\Result;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>

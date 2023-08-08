@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\ViewControl;
 
-use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
+use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput as ViewControlInputInterface;
 use ILIAS\UI\Implementation\Component\Input\Input;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
 
-abstract class ViewControl extends Input implements ViewControlInput
+abstract class ViewControlInput extends Input implements ViewControlInputInterface
 {
     use JavaScriptBindable;
     use Triggerer;
@@ -42,7 +42,7 @@ abstract class ViewControl extends Input implements ViewControlInput
 
     public function getOnChangeSignal(): Signal
     {
-        if (! $this->change_signal) {
+        if (!$this->change_signal) {
             throw new \LogicException('View Control must be inside of View Control Container');
         }
         return $this->change_signal;

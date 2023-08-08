@@ -30,13 +30,13 @@ require_once('ViewControlBaseTest.php');
 
 class ViewControlGenericTest extends ViewControlBaseTest
 {
-    protected function getViewControl(): Control\ViewControl
+    protected function getViewControl(): Control\ViewControlInput
     {
         return new class (
             $this->buildDataFactory(),
             $this->buildRefinery(),
             ''
-        ) extends Control\ViewControl {
+        ) extends Control\ViewControlInput {
             public function isClientSideValueOk($value): bool
             {
                 return true;

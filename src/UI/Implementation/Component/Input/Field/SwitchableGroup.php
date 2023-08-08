@@ -49,7 +49,7 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
         string $label,
         ?string $byline = null
     ) {
-        $this->checkArgListElements("inputs", $inputs, Group::class);
+        $this->checkArgListElements('inputs', $inputs, [I\Group::class]);
         parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);
     }
 
@@ -73,11 +73,12 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
         if (!is_string($value) && !is_int($value)) {
             return false;
         }
-        return array_key_exists($value, $this->inputs);
+        return array_key_exists($value, $this->getInputs());
     }
 
     public function withRequired($is_required, ?Constraint $requirement_constraint = null): self
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return FormInput::withRequired($is_required, $requirement_constraint);
     }
 
@@ -87,6 +88,7 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
     public function withValue($value): self
     {
         if (is_string($value) || is_int($value)) {
+            /** @noinspection PhpIncompatibleReturnTypeInspection */
             return FormInput::withValue($value);
         }
         if (!is_array($value) || count($value) !== 2) {
@@ -96,8 +98,10 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
             );
         }
         list($key, $group_value) = $value;
+
+        /** @var $clone self */
         $clone = FormInput::withValue($key);
-        $clone->inputs[$key] = $clone->inputs[$key]->withValue($group_value);
+        $clone->setInputs($clone->getInputsWithOperationForKey($key, fn($i) => $i->withValue($group_value)));
         return $clone;
     }
 
@@ -110,7 +114,13 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
         if (is_null($key)) {
             return null;
         }
-        return [$key, $this->inputs[$key]->getValue()];
+
+        $input = $this->getInputs()[$key] ?? null;
+        if (null === $input) {
+            return null;
+        }
+
+        return [$key, $input->getValue()];
     }
 
     /**
@@ -129,36 +139,57 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
             if ($this->isRequired()) {
                 $clone->content = $clone->data_factory->error($this->lng->txt("ui_error_switchable_group_required"));
                 return $clone->withError("" . $clone->content->error());
-            } else {
-                $clone->content = $clone->data_factory->ok([$key, []]);
             }
+
+            $clone->content = $clone->data_factory->ok([$key, []]);
             return $clone;
         }
 
         if (!$this->isDisabled()) {
             $clone = $clone->withValue($key);
-            $clone->inputs[$key] = $clone->inputs[$key]->withInput($input);
+            $clone->setInputs($clone->getInputsWithOperationForKey($key, fn($i) => $i->withInput($input)));
         }
 
-        if (array_key_exists($key, $clone->inputs) && $clone->inputs[$key]->getContent()->isError()) {
+        /** @var $inputs I\Group[] */
+        $inputs = $clone->getInputs();
+        if (!array_key_exists($key, $inputs)) {
+            $clone->content = $clone->data_factory->ok([$key, []]);
+            return $clone;
+        }
+
+        if ($inputs[$key]->getContent()->isError()) {
             $clone->content = $clone->data_factory->error($this->lng->txt("ui_error_in_group"));
-        } else {
-            $contents = [];
-            $group_inputs = $clone->inputs[$key]->getInputs();
+            return $clone;
+        }
 
-            foreach ($group_inputs as $subkey => $group_input) {
-                $content = $group_input->getContent();
-                if ($content->isOK()) {
-                    $contents[$subkey] = $content->value();
-                }
+        $contents = [];
+        foreach ($inputs[$key]->getInputs() as $subkey => $group_input) {
+            $content = $group_input->getContent();
+            if ($content->isOK()) {
+                $contents[$subkey] = $content->value();
             }
+        }
 
-            $clone->content = $this->applyOperationsTo([$key, $contents]);
-            if ($clone->content->isError()) {
-                return $clone->withError("" . $clone->content->error());
-            }
+        $clone->content = $this->applyOperationsTo([$key, $contents]);
+        if ($clone->content->isError()) {
+            return $clone->withError("" . $clone->content->error());
         }
 
         return $clone;
+    }
+
+    /**
+     * Returns the inputs for @see Group::setInputs() with $operation applied to the input for
+     * the given $key. The callable will recieve the input as its only argument and must return
+     * it again with applied operations.
+     */
+    protected function getInputsWithOperationForKey(int|string $key, \Closure $operation): array
+    {
+        $inputs = $this->getInputs();
+        if (!array_key_exists($key, $inputs)) {
+            throw new LogicException("Key '$key' does not exist in inputs.");
+        }
+        $inputs[$key] = $operation($inputs[$key]);
+        return $inputs;
     }
 }

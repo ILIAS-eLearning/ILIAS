@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+require_once './libs/composer/vendor/autoload.php';
+require_once './tests/UI/Base.php';
+
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input\ViewControl as Control;
 use ILIAS\UI\Implementation\Component\Input\Container\ViewControl as VC;
@@ -46,8 +49,7 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
     {
         return new VC\Factory(
             new I\SignalGenerator(),
-            $this->buildFieldFactory(),
-            $this->buildDataFactory()
+            $this->buildVCFactory(),
         );
     }
     protected function buildFieldFactory(): FieldFactory
@@ -67,7 +69,8 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
             $this->buildFieldFactory(),
             $this->buildDataFactory(),
             $this->buildRefinery(),
-            new I\SignalGenerator()
+            new I\SignalGenerator(),
+            $this->getLanguage(),
         );
     }
 
@@ -92,7 +95,7 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
         $this->assertSameSize($controls, $vc->getInputs());
 
         $named = array_map(
-            fn($input) => $input->withNameFrom($name_source, 'form'),
+            fn($input) => $input->withNameFrom($name_source, 'view_control'),
             $vc->getInputs()
         );
 
@@ -106,9 +109,9 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
             ->expects($this->once())
             ->method("getQueryParams")
             ->willReturn([
-                'form/input_0' => ['a1', 'a3'],
-                'form/input_1/input_2' => 'a2',
-                'form/input_1/input_3' => 'DESC'
+                'view_control/input_0' => ['a1', 'a3'],
+                'view_control/input_1/input_2' => 'a2',
+                'view_control/input_1/input_3' => 'DESC'
             ]);
 
         $c_factory = $this->buildVCFactory();

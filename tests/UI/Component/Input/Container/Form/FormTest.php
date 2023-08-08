@@ -28,7 +28,7 @@ use ILIAS\UI\Implementation\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Data;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Input\Field\Group;
+use ILIAS\UI\Component\Input\Group;
 use ILIAS\Refinery\Custom\Transformation;
 use ILIAS\Refinery\Factory as Refinery;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -50,10 +50,10 @@ class ConcreteForm extends Form
     protected Group $input_group;
     protected array $inputs;
 
-    public function __construct(Input\Field\Factory $field_factory, NameSource $name_source, array $inputs)
+    public function __construct(Input\Field\Factory $input_factory, NameSource $name_source, array $inputs)
     {
-        $this->input_factory = $field_factory;
-        parent::__construct($field_factory, $name_source, $inputs);
+        $this->input_factory = $input_factory;
+        parent::__construct($input_factory, $name_source, $inputs);
     }
 
     public function _extractRequestData(ServerRequestInterface $request): Input\InputData

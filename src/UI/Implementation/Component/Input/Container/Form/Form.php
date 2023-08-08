@@ -25,12 +25,25 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\Input\PostDataFromServerRequest;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 /**
  * This implements commonalities between all forms.
  */
 abstract class Form extends Container implements C\Input\Container\Form\Form
 {
+    /**
+     * @param C\Input\Container\Form\FormInput[] $inputs
+     */
+    public function __construct(
+        C\Input\Field\Factory $field_factory,
+        NameSource $name_source,
+        array $inputs,
+    ) {
+        parent::__construct($name_source);
+        $this->setInputGroup($field_factory->group($inputs)->withDedicatedName('form'));
+    }
+
     public function hasRequiredInputs(): bool
     {
         foreach ($this->getInputs() as $input) {
@@ -47,13 +60,5 @@ abstract class Form extends Container implements C\Input\Container\Form\Form
     protected function extractRequestData(ServerRequestInterface $request): InputData
     {
         return new PostDataFromServerRequest($request);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function getAllowedInputs(): array
-    {
-        return [C\Input\Container\Form\FormInput::class];
     }
 }

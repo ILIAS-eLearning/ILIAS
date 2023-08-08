@@ -28,7 +28,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Implementation\Component\Input\Input;
 
-class FieldSelection extends ViewControl implements VCInterface\FieldSelection
+class FieldSelection extends ViewControlInput implements VCInterface\FieldSelection
 {
     protected Signal $internal_selection_signal;
     protected string $button_label = '';

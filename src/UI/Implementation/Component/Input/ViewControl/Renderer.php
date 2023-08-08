@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Input\ViewControl;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use LogicException;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -42,6 +43,8 @@ class Renderer extends AbstractComponentRenderer
                 return $this->renderSortation($component, $default_renderer);
             case ($component instanceof Pagination):
                 return $this->renderPagination($component, $default_renderer);
+            case ($component instanceof Component\Input\ViewControl\Group):
+                return $default_renderer->render($component->getInputs());
             default:
                 throw new LogicException("Cannot render '" . get_class($component) . "'");
         }
@@ -52,7 +55,8 @@ class Renderer extends AbstractComponentRenderer
         return [
             Component\Input\ViewControl\FieldSelection::class,
             Component\Input\ViewControl\Sortation::class,
-            Component\Input\ViewControl\Pagination::class
+            Component\Input\ViewControl\Pagination::class,
+            Component\Input\ViewControl\Group::class,
         ];
     }
 

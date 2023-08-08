@@ -20,27 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Container;
 
-use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component as CI;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
-use LogicException;
 
 /**
  * This implements commonalities between all forms.
  */
 abstract class Container implements C\Input\Container\Container
 {
-    use ComponentHelper;
+    use CI\ComponentHelper;
 
-    protected const NESTED_INPUT_LIMIT = 25;
-
-    protected C\Input\Field\Group $input_group;
-    protected ?Transformation $transformation;
+    protected C\Input\Group $input_group;
+    protected ?Transformation $transformation = null;
     protected ?string $error = null;
     protected ?string $dedicated_name = null;
     protected CI\Input\NameSource $name_source;
@@ -48,21 +43,9 @@ abstract class Container implements C\Input\Container\Container
     /**
      * For the implementation of NameSource.
      */
-    public function __construct(
-        FieldFactory $field_factory,
-        NameSource $name_source,
-        array $inputs
-    ) {
-        $this->checkArgListInputs("input", $inputs, $this->getAllowedInputs());
-
+    public function __construct(NameSource $name_source)
+    {
         $this->name_source = clone $name_source;
-        $this->input_group = $field_factory->group(
-            $inputs
-        )
-       ->withDedicatedName('form')
-       ->withNameFrom($name_source);
-
-        $this->transformation = null;
     }
 
     /**
@@ -71,11 +54,6 @@ abstract class Container implements C\Input\Container\Container
     public function getInputs(): array
     {
         return $this->getInputGroup()->getInputs();
-    }
-
-    public function getInputGroup(): C\Input\Field\Group
-    {
-        return $this->input_group;
     }
 
     /**
@@ -143,25 +121,17 @@ abstract class Container implements C\Input\Container\Container
         return $clone;
     }
 
-    /**
-     * Checks the given array recursively for elements of the given classes.
-     */
-    protected function checkArgListInputs(string $which, array $values, array $classes, int $depth = 0): void
+    public function getInputGroup(): C\Input\Group
     {
-        if (self::NESTED_INPUT_LIMIT < $depth) {
-            throw new LogicException("Input nesting limit of " . self::NESTED_INPUT_LIMIT . " exceeded.");
-        }
+        return $this->input_group;
+    }
 
-        foreach ($values as $input) {
-            if ($input instanceof C\Input\Field\Group) {
-                $this->checkArgListInputs($which, $input->getInputs(), $classes, $depth + 1);
-                continue;
-            }
-
-            foreach ($classes as $class) {
-                $this->checkArgInstanceOf($which, $input, $class);
-            }
-        }
+    /**
+     * This setter should be used in the constructor only, to initialize the group input property.
+     */
+    protected function setInputGroup(C\Input\Group $input_group): void
+    {
+        $this->input_group = $input_group->withNameFrom($this->name_source);
     }
 
     /**
@@ -169,12 +139,4 @@ abstract class Container implements C\Input\Container\Container
      * since different containers may allow different request methods.
      */
     abstract protected function extractRequestData(ServerRequestInterface $request): InputData;
-
-    /**
-     * Returns a list of container-specific inputs, which are checked against when creating a new
-     * container. Please try to use the most generic input-interfaces possible.
-     *
-     * @return string[]
-     */
-    abstract protected function getAllowedInputs(): array;
 }

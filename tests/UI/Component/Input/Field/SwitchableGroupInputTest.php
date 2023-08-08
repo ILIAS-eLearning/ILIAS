@@ -24,7 +24,6 @@ require_once(__DIR__ . "/../../../Base.php");
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input\Field\SwitchableGroup;
 use ILIAS\UI\Implementation\Component\Input\Field\Group;
-use ILIAS\UI\Implementation\Component\Input\Field\Field;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data;
@@ -54,6 +53,11 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
     protected $child2;
 
     /**
+     * @var I\Input\Field\FormInputInternal|mixed|MockObject
+     */
+    protected $nested_child;
+
+    /**
      * @var ilLanguage|mixed|MockObject
      */
     protected $lng;
@@ -65,26 +69,30 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
 
     public function setUp(): void
     {
+        $this->nested_child = $this->createMock(I\Input\Field\FormInputInternal::class);
         $this->child1 = $this->createMock(Group1::class);
         $this->child2 = $this->createMock(Group2::class);
         $this->data_factory = new Data\Factory();
         $this->refinery = new Refinery($this->data_factory, $this->createMock(ilLanguage::class));
         $this->lng = $this->createMock(ilLanguage::class);
 
+        $this->nested_child
+            ->method("withNameFrom")
+            ->willReturn($this->nested_child);
+
         $this->child1
             ->method("withNameFrom")
             ->willReturn($this->child1);
         $this->child1
             ->method("getInputs")
-            ->willReturn([$this->child1]);
+            ->willReturn([$this->nested_child]);
 
         $this->child2
             ->method("withNameFrom")
             ->willReturn($this->child2);
         $this->child2
             ->method("getInputs")
-            ->willReturn([$this->child2]);
-
+            ->willReturn([$this->nested_child]);
 
         $this->switchable_group = (new SwitchableGroup(
             $this->data_factory,
@@ -242,16 +250,23 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             ->with("name0")
             ->willReturn("child1");
 
+        $expected_result = $this->data_factory->ok("one");
+
         $this->child1
             ->expects($this->once())
             ->method("withInput")
             ->with($input_data)
             ->willReturn($this->child1);
         $this->child1
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method("getContent")
             ->with()
-            ->willReturn($this->data_factory->ok("one"));
+            ->willReturn($expected_result);
+        $this->nested_child
+            ->expects($this->once())
+            ->method("getContent")
+            ->with()
+            ->willReturn($expected_result);
         $this->child2
             ->expects($this->never())
             ->method("withInput");

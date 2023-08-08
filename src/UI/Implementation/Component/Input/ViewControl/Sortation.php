@@ -28,9 +28,9 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Order;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Group;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 
-class Sortation extends ViewControl implements VCInterface\Sortation
+class Sortation extends ViewControlInput implements VCInterface\Sortation, HasInputGroup
 {
     use GroupDecorator;
 
@@ -39,12 +39,12 @@ class Sortation extends ViewControl implements VCInterface\Sortation
     protected string $direction;
 
     /**
-     * @var array<string, Order[]>
+     * @var array<string, Order>
      */
     protected array $options;
 
     /**
-     * @param array<string, Order[]> $options
+     * @param array<string, Order> $options
      */
     public function __construct(
         FieldFactory $field_factory,
