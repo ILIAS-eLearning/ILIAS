@@ -19,7 +19,7 @@ source code. The system is complex for new developers and they need to know the 
 in the development guide.
  
 Communication among developers that are working on a specific component needs to be assured. Final decision about 
-getting write access to the ILIAS development system (Github) is handled by the product manager.
+getting write access to the ILIAS development system (GitHub) is handled by the product manager.
  
 ILIAS is currently maintained by two types of maintainerships:
 

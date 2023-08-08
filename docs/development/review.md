@@ -51,7 +51,7 @@ We adapted this slightly by bundling questions, suggestions and change requests 
 the reactions up front.
 
 ## Inline Comments
-Github makes it very easy to leave inline comments. However, in the past, we observed, that large
+GitHub makes it very easy to leave inline comments. However, in the past, we observed, that large
 numbers of inline comments make a review hard to read and understand. We therefore propose
 only the leave inline comments for trivial directly actionable suggestions and change request, that
 do not need an rational (E.g. *Change Request: typo in word actionalbe*).

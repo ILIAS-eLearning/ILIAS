@@ -106,7 +106,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $actions = $this->getUIFactory()->dropdown()->standard(array(
             $this->getUIFactory()->button()->shy("ILIAS", "https://www.ilias.de"),
-            $this->getUIFactory()->button()->shy("Github", "https://www.github.com")
+            $this->getUIFactory()->button()->shy("GitHub", "https://www.github.com")
         ));
 
         $secondary_panel = $this->getUIFactory()->legacyPanel("title", $legacy)
@@ -182,7 +182,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $actions = $this->getUIFactory()->dropdown()->standard(array(
             $this->getUIFactory()->button()->shy("ILIAS", "https://www.ilias.de"),
-            $this->getUIFactory()->button()->shy("Github", "https://www.github.com")
+            $this->getUIFactory()->button()->shy("GitHub", "https://www.github.com")
         ));
 
         $sec = $this->getUIFactory()->legacyPanel("Title", $legacy)->withActions($actions);
@@ -196,7 +196,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu" > <span class="caret"></span></button>
 			<ul id="id_3_menu" class="dropdown-menu">
 				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
-				<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">Github</button></li>
+				<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
 			</ul>
 		</div>
 	</div>
