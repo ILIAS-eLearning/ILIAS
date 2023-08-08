@@ -29,26 +29,28 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $this->db->dropTableColumn('tst_tests', 'show_examview_pdf');
+        if ($this->db->tableColumnExists('tst_tests', 'show_examview_pdf')) {
+            $this->db->dropTableColumn('tst_tests', 'show_examview_pdf');
+        }
     }
 
     public function step_2(): void
     {
-        if (!$this->db->tableExists("manscoring_done")) {
-            $this->db->createTable("manscoring_done", [
-                "active_id" => [
-                    "type" => "integer",
-                    "length" => 8,
-                    "notnull" => true
+        if (!$this->db->tableExists('manscoring_done')) {
+            $this->db->createTable('manscoring_done', [
+                'active_id' => [
+                    'type' => 'integer',
+                    'length' => 8,
+                    'notnull' => true
                 ],
-                "done" => [
-                    "type" => "integer",
-                    "length" => 1,
-                    "notnull" => true,
-                    "default" => 0
+                'done' => [
+                    'type' => 'integer',
+                    'length' => 1,
+                    'notnull' => true,
+                    'default' => 0
                 ]
             ]);
-            $this->db->addPrimaryKey("manscoring_done", ["active_id"]);
+            $this->db->addPrimaryKey('manscoring_done', ['active_id']);
         }
     }
 
@@ -132,16 +134,16 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_6(): void
     {
-        if ($this->db->tableColumnExists("tst_tests", "allowedusers")) {
-            $this->db->dropTableColumn("tst_tests", "allowedusers");
+        if ($this->db->tableColumnExists('tst_tests', 'allowedusers')) {
+            $this->db->dropTableColumn('tst_tests', 'allowedusers');
         }
 
-        if ($this->db->tableColumnExists("tst_tests", "alloweduserstimegap")) {
-            $this->db->dropTableColumn("tst_tests", "alloweduserstimegap");
+        if ($this->db->tableColumnExists('tst_tests', 'alloweduserstimegap')) {
+            $this->db->dropTableColumn('tst_tests', 'alloweduserstimegap');
         }
 
-        if ($this->db->tableColumnExists("tst_tests", "limit_users_enabled")) {
-            $this->db->dropTableColumn("tst_tests", "limit_users_enabled");
+        if ($this->db->tableColumnExists('tst_tests', 'limit_users_enabled')) {
+            $this->db->dropTableColumn('tst_tests', 'limit_users_enabled');
         }
     }
 }
