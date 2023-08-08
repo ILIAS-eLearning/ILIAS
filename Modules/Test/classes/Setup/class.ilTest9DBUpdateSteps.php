@@ -139,5 +139,9 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
         if ($this->db->tableColumnExists("tst_tests", "alloweduserstimegap")) {
             $this->db->dropTableColumn("tst_tests", "alloweduserstimegap");
         }
+
+        if ($this->db->tableColumnExists("tst_tests", "limit_users_enabled")) {
+            $this->db->dropTableColumn("tst_tests", "limit_users_enabled");
+        }
     }
 }
