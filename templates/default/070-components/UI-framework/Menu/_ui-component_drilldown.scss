@@ -7,7 +7,7 @@
 //== Drilldown Menu
 //
 //##
-$il-drilldown-item-height: $il-input-min-height;
+$il-drilldown-header-height: 80px;
 $il-drilldown-spacing-vertical: $il-padding-large-vertical;
 $il-drilldown-spacing-horizontal: $il-padding-large-horizontal;
 $il-drilldown-menulevel-bg: $il-bulky-bg-color;
@@ -29,13 +29,12 @@ $il-drilldown-item-font-line-height: $il-bulky-label-size * 1.133333333333333; /
 		position: relative; // so backnav can be positioned on top
 		display: flex;
 		align-items: center;
-		min-height: $il-drilldown-item-height; // content is centered by flex-box, not through padding
+		min-height: $il-drilldown-header-height; // content is centered by flex-box, not through padding
 		margin-bottom: $il-drilldown-item-spacing;
-		padding: $il-drilldown-spacing-vertical $il-drilldown-spacing-horizontal;
-		padding-left: 0;
+		padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
 		z-index: initial; // so slate can cover up this specific header
 		h2 {
-			// remove default headline margin, headline is centered using flex, padding keeps distance to border
+			font-size: $il-font-size-xlarge;
 			margin: 0;
 		}
 		.backnav {
