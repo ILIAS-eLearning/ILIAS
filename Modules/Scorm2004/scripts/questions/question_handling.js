@@ -1087,9 +1087,12 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 
 		case 'assImagemapQuestion':
 			//reinit map
-			jQuery(function() {
-		  		jQuery('.cmap'+a_id).maphilight_mod({fade:true});
-			});
+			
+			// fix #24085: commented because this prevented a correct selection from being shown after the check
+			// jQuery(function() {
+		  	// 	jQuery('.cmap'+a_id).maphilight_mod({fade:true});
+			// });
+			
 			for (var i=0;i<questions[a_id].answers.length;i++) {
 				// display correct
 				if (questions[a_id].answers[i].points > 0) {
