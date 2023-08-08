@@ -472,7 +472,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 }
                 $changed_fields = [];
                 foreach ($oldrow as $key => $value) {
-                    if (strcmp($oldrow[$key], $newrow[$key]) != 0) {
+                    if ($oldrow[$key] !== $newrow[$key]) {
                         array_push($changed_fields, "$key: " . $oldrow[$key] . " => " . $newrow[$key]);
                     }
                 }
@@ -4737,10 +4737,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     * @param integer $question_id If given, saves the question id to the database
     * @access public
     */
-    public function logAction($logtext = "", $question_id = "")
+    public function logAction($logtext = "", $question_id = 0)
     {
-        $original_id = "";
-        if (strcmp($question_id, "") != 0) {
+        $original_id = 0;
+        if ($question_id !== 0) {
             $original_id = assQuestion::_getOriginalId($question_id);
         }
         ilObjAssessmentFolder::_addLog($this->user->getId(), $this->getId(), $logtext, $question_id, $original_id, true, $this->getRefId());
