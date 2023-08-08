@@ -1979,6 +1979,7 @@ th {
 }
 
 /* Responsive container system from Bootstrap 5 has been removed */
+.hidden,
 .visible-xs-block,
 .visible-xs-inline,
 .visible-xs-inline-block,
@@ -2884,7 +2885,6 @@ input.btn, input.il-link.link-bulky,
   font-size: inherit;
   font-weight: 400;
   color: #4c6586;
-  border-radius: 0;
 }
 .btn-link, .btn-link:active, .btn-link.active, .btn-link[disabled], fieldset[disabled] .btn-link {
   background-color: transparent;
@@ -2899,11 +2899,17 @@ input.btn, input.il-link.link-bulky,
   text-decoration: underline;
   background-color: transparent;
 }
-.btn-link[disabled]:hover, .btn-link[disabled]:focus, fieldset[disabled] .btn-link:hover, fieldset[disabled] .btn-link:focus {
+.btn-link[disabled], fieldset[disabled] .btn-link {
   background-color: #b0b0b0;
   color: black;
-  border-color: #b0b0b0;
+  border: 1px solid #b0b0b0;
+}
+.btn-link[disabled]:hover, .btn-link[disabled]:focus, fieldset[disabled] .btn-link:hover, fieldset[disabled] .btn-link:focus {
   text-decoration: none;
+}
+.btn-link.engaged {
+  color: #161616;
+  background-color: #e2e8ef;
 }
 
 .btn-bulky,

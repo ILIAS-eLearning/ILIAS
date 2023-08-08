@@ -107,7 +107,6 @@ input.btn {
   font-size: inherit;
   font-weight: s.$il-font-weight-base;
   color: s.$il-link-color;
-  border-radius: 0;
 
   &,
   &:active,
@@ -131,13 +130,17 @@ input.btn {
   }
   &[disabled],
   fieldset[disabled] & {
+    background-color: s.$il-disabled-btn-bg;
+    color: s.$il-disabled-btn-color;
+    border: 1px solid s.$il-disabled-btn-border;
     &:hover,
     &:focus {
-      background-color: s.$il-disabled-btn-bg;
-		  color: s.$il-disabled-btn-color;
-		  border-color: s.$il-disabled-btn-border;
       text-decoration: none;
     }
+  }
+  &.engaged {
+    color: $il-engaged-btn-color;
+    background-color: s.$il-highlight-bg;
   }
 }
 
