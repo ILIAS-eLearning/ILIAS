@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilObjTestSettingsAdditional extends TestSettings
@@ -31,16 +31,12 @@ class ilObjTestSettingsAdditional extends TestSettings
         parent::__construct($test_id);
     }
 
-    /**
-     *
-     * @return array<ILIAS\UI\Component\Input\Field\Input>
-     */
     public function toForm(
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Input {
+    ): FormInput {
         $skills_service = $f->checkbox(
             $lng->txt('tst_activate_skill_service'),
             $lng->txt('tst_activate_skill_service_desc')
