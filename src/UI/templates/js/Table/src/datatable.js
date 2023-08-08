@@ -11,8 +11,6 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- ********************************************************************
  */
 
 import DataTableFactory from './datatable.factory';
