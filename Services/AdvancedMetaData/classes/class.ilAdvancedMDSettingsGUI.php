@@ -196,12 +196,12 @@ class ilAdvancedMDSettingsGUI
         return null;
     }
 
-    protected function getOidFromQuery(): ?int
+    protected function getOidFromQuery(): ?string
     {
         if ($this->http->wrapper()->query()->has('oid')) {
             return $this->http->wrapper()->query()->retrieve(
                 'oid',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->string()
             );
         }
         return null;
@@ -2105,10 +2105,10 @@ class ilAdvancedMDSettingsGUI
                 }
                 // scope needs to match in object context
                 if (
-                ilAdvancedMDRecord::isFilteredByScope(
-                    $this->ref_id,
-                    $record->getScopes()
-                )
+                    ilAdvancedMDRecord::isFilteredByScope(
+                        $this->ref_id,
+                        $record->getScopes()
+                    )
                 ) {
                     continue;
                 }
