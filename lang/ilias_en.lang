@@ -8092,7 +8092,7 @@ dateplaner#:#cal_created_appointment#:#Created new appointment.
 dateplaner#:#cal_created_milestone#:#Milestone added.
 dateplaner#:#cal_created_milestone_resp_q#:#Milestone added. Please select users that are responsible to meet the milestone.
 dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.
-dateplaner#:#cal_cronjob_remote_title=External Calendar Synchronisation
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation
 dateplaner#:#cal_crs_info#:#Course Information
 dateplaner#:#cal_crs_new_notification_body#:#a new appointment has been created in course "%s".
 dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"
