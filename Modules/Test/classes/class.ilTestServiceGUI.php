@@ -671,7 +671,7 @@ class ilTestServiceGUI
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
         $title_client = '';
-        if (isset($invited_user["clientip"]) && strlen($invited_user["clientip"])) {
+        if (isset($invited_user['clientip']) && $invited_user["clientip"] !== '') {
             $template->setCurrentBlock("client_ip");
             $template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
             $template->setVariable("VALUE_CLIENT_IP", $invited_user["clientip"]);

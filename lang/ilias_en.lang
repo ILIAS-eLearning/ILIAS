@@ -1386,7 +1386,8 @@ assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_final_information#:#Finishing the Test
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
-assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
+assessment#:#tst_finish_confirmation_question#:#You are going to finish this test. You won’t be able to enter this test attempt again to change your answers. Do you really want to finish this test?
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test passes. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification#:#Notification
 assessment#:#tst_finish_notification_advanced#:#Send complete test result
 assessment#:#tst_finish_notification_content_type#:#Content of e-mail

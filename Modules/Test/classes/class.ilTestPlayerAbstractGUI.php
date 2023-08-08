@@ -245,6 +245,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setCurrentBlock('test_nav_toolbar');
         $this->tpl->setVariable('TEST_NAV_TOOLBAR', $toolbarGUI->getHTML());
         $this->tpl->parseCurrentBlock();
+        $this->tpl->setCurrentBlock('finish_test_modal');
+        $this->tpl->setVariable('FINISH_TEST_MODAL', $toolbarGUI->getFinishTestModalHTML());
+        $this->tpl->parseCurrentBlock();
     }
 
     protected function populateQuestionNavigation($sequenceElement, $disabled, $primaryNext)
@@ -727,34 +730,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
 
-    /**
-     * The final submission of a test was confirmed
-     */
-    protected function confirmFinishCmd()
-    {
-        $this->finishTestCmd(false);
-    }
-
-    /**
-     * Confirmation of the tests final submission
-     */
-    protected function confirmFinishTestCmd()
-    {
-        /**
-         * @var $ilUser ilObjUser
-         */
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-
-        $confirmation = new ilConfirmationGUI();
-        $confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmFinish'));
-        $confirmation->setHeaderText($this->lng->txt("tst_finish_confirmation_question"));
-        $confirmation->setConfirm($this->lng->txt("tst_finish_confirm_button"), 'confirmFinish');
-        $confirmation->setCancel($this->lng->txt("tst_finish_confirm_cancel_button"), ilTestPlayerCommands::BACK_FROM_FINISHING);
-
-        $this->populateHelperGuiContent($confirmation);
-    }
-
     public function finishTestCmd($requires_confirmation = true)
     {
         $this->handleCheckTestPassValid();
@@ -794,15 +769,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return;
         }
 
-        // Last try in limited tries & !confirmed
-        if (($requires_confirmation) && ($actualpass == $this->object->getNrOfTries() - 1)) {
-            // show confirmation page
-            $this->confirmFinishTestCmd();
-            return;
-        }
-
         // Last try in limited tries & confirmed?
-        if (($actualpass == $this->object->getNrOfTries() - 1) && (!$requires_confirmation)) {
+        if ($actualpass == $this->object->getNrOfTries() - 1) {
             // @todo: php7 ask mister test
             #$ilAuth->setIdle(ilSession::getIdleValue(), false);
             #$ilAuth->setExpire(0);
@@ -1487,7 +1455,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($fullpage) {
             $table_gui = new ilListOfQuestionsTableGUI($this, 'showQuestion');
-
+            if (($this->object->getNrOfTries() - 1) === $this->testSession->getPass()) {
+                $table_gui->setUserHasAttemptsLeft(false);
+            }
             $table_gui->setShowPointsEnabled(!$this->object->getTitleOutput());
             $table_gui->setShowMarkerEnabled($this->object->getShowMarker());
             $table_gui->setObligationsNotAnswered(!$obligationsFulfilled);

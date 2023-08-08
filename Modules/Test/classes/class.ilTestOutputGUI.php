@@ -383,6 +383,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $navigationToolbarGUI->setFinishTestButtonEnabled(true);
 
         $isNextPrimary = $this->handlePrimaryButton($navigationToolbarGUI, $questionId);
+        if (($this->object->getNrOfTries() - 1) === $this->testSession->getPass()) {
+            $navigationToolbarGUI->setUserHasAttemptsLeft(false);
+        }
 
         $this->ctrl->setParameter($this, 'sequence', $sequenceElement);
         $this->ctrl->setParameter($this, 'pmode', $presentationMode);
