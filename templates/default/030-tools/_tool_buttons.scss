@@ -87,6 +87,10 @@ $set-full-width: false !default;
     $engaged_text-color: contrast-col.contrast-color($engaged_bg-color, #000, #fff),
     $engaged_border-color: $bg-color,
 
+    $engaged_hover_bg-color: $hover_bg-color,
+    $engaged_hover_text-color: $hover_text-color,
+    $engaged_hover_border-color: $hover_border-color,
+
     // DESIGN ELMENTS
     $engaged_border-width: 3px,
 
@@ -197,10 +201,10 @@ $set-full-width: false !default;
             cursor: $disabled_cursor;
             transform: if($active-transform, none, null);
 
-            @if $disabled_hover_bg-color !=$disabled_bg-color
-            or $disabled_hover_border-color !=$disabled_border-color
-            or $disabled_hover_text-color !=$disabled_text-color
-            or $disabled_hover_border-width !=$disabled_border-width {
+            @if $disabled_hover_bg-color != $disabled_bg-color
+            or $disabled_hover_border-color != $disabled_border-color
+            or $disabled_hover_text-color != $disabled_text-color
+            or $disabled_hover_border-width != $disabled_border-width {
 
                 &:hover,
                 &:focus,
@@ -222,6 +226,18 @@ $set-full-width: false !default;
             border-style: solid;
             border-color: $engaged_border-color;
             color: $engaged_text-color;
+            @if $engaged_hover_bg-color != $hover_bg-color
+            or $engaged_hover_border-color != $hover_border-color
+            or $engaged_hover_text-color != $hover_text-color {
+
+                &:hover {
+                    background-color: $engaged_hover_bg-color;
+                    border-width: $hover_border-width;
+                    border-style: solid;
+                    border-color: $engaged_hover_border-color;
+                    color: $engaged_hover_text-color;
+                }
+            }
         }
 
         @if $set-full-width {

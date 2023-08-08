@@ -64,7 +64,7 @@ grid-based layout
 		grid-template-columns: auto 1fr;
 
 		.il-maincontrols-mainbar {
-			width: $il-standard-page-slate-width + $il-mainbar-btn-width;
+			width: $il-standard-page-slate-width + $il-mainbar-width;
 
 			// slate
 			.il-mainbar-slates {
@@ -161,7 +161,7 @@ nav.il-maincontrols {
 	height: 100%;
 	grid-template-columns: $il-mainbar-btn-width $il-standard-page-slate-width;
 	grid-template-rows: 1fr;
-	width: $il-mainbar-btn-width;
+	width: $il-mainbar-width;
 	&.engaged {
 
 	}

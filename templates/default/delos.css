@@ -4711,11 +4711,11 @@ footer {
     flex-direction: row;
   }
   .il-mainbar-tools-button button {
-    height: 3.75rem;
+    height: 45px;
     width: 80px;
   }
   .il-mainbar-tools-entries button {
-    height: 3.75rem;
+    height: 45px;
     width: 80px;
   }
   .il-mainbar-tools-entries.engaged {
@@ -4725,7 +4725,7 @@ footer {
     flex-direction: row;
   }
   .il-mainbar-tools-entries .il-mainbar-tools-entries-bg {
-    height: 3.75rem;
+    height: 45px;
   }
   .il-mainbar-slates {
     -ms-grid-column: 2;
@@ -5241,14 +5241,8 @@ footer {
   margin-top: 0;
   top: 32px;
 }
-.il-maincontrols-metabar > li > .il-link.link-bulky {
-  display: block;
-  text-align: center;
-  padding: 3px 9px;
-  line-height: 60px;
-  border: 1px solid transparent;
-}
 .il-maincontrols-metabar > li > .btn-bulky, .il-maincontrols-metabar > li > .link-bulky {
+  border: 1px solid transparent;
   background-color: transparent;
   height: 60px;
   min-width: 60px;
@@ -5265,7 +5259,7 @@ footer {
 .il-maincontrols-metabar > li > .btn-bulky.engaged, .il-maincontrols-metabar > li > .link-bulky.engaged {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
-  border: none;
+  border: 1px solid transparent;
   color: initial;
   outline-color: transparent;
 }
@@ -5383,7 +5377,6 @@ footer {
 }
 
 .il-mainbar {
-  background-color: #2c2c2c;
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -5489,9 +5482,6 @@ footer {
   }
 }
 
-.il-mainbar-triggers {
-  background: #2c2c2c;
-}
 .il-mainbar-triggers .il-mainbar-entries {
   min-width: 100%;
   list-style: none;
@@ -5573,7 +5563,7 @@ footer {
   color: white;
 }
 .il-mainbar-triggers.engaged {
-  background: white;
+  background: #2c2c2c;
 }
 @media (hover: none) {
   .il-mainbar-triggers .btn-bulky:hover,
@@ -5612,7 +5602,7 @@ footer {
 }
 
 .il-maincontrols-mainbar {
-  background-color: white;
+  background-color: #2c2c2c;
 }
 
 .il-maincontrols-mainbar .il-item-shy,
@@ -5785,7 +5775,7 @@ footer {
   .il-mainbar-tools-button .il-link.link-bulky {
     flex-shrink: 0;
     border: 0;
-    height: 3.75rem;
+    height: 45px;
     width: 80px;
   }
   .il-mainbar-triggers .btn-bulky .icon.small,
@@ -5796,14 +5786,14 @@ footer {
     width: 20px;
   }
   .il-mainbar-tools-entries.engaged {
-    height: 3.75rem;
+    height: 45px;
   }
   .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
     top: 0;
   }
   .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool .close {
     font-size: 2.5rem;
-    height: 3.75rem;
+    height: 45px;
   }
 }
 @media only screen and (min-width: 768px) {

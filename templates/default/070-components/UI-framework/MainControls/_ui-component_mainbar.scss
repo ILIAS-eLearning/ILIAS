@@ -13,6 +13,7 @@ $il-mainbar-btn-label-icon-gap: $il-padding-xs-vertical;
 
 $il-mainbar-btn-color: white;
 $il-mainbar-btn-bg-color: $il-neutral-color;
+$il-mainbar-btn-border-radius: null;
 
 $il-mainbar-btn-color-hover: $il-neutral-color;
 $il-mainbar-btn-bg-color-hover: $il-main-bg;
@@ -24,7 +25,10 @@ $il-mainbar-btn-icon-filter: brightness(5);
 $il-mainbar-btn-hover-icon-filter: invert(50%);
 $il-mainbar-btn-engaged-icon-filter: invert(50%);
 
-$il-maincontrols-mainbar-bg-color: $il-main-bg;
+$il-mainbar-btn-border: 1px solid $il-standard-page-border-light-color;
+$il-mainbar-btn-label-size: $il-font-size-xsmall;
+$il-mainbar-trigger-icon-size: 25px;
+$il-mainbar-remove-tools-btn-height: 45px;
 
 // TOOLS VARIABLES
 
@@ -37,13 +41,10 @@ $il-mainbar-tools-btn-bg-engaged: lighten($il-main-color, 50%);
 $il-mainbar-tools-tab-btn-bg-engaged: white;
 $il-mainbar-tools-tab-btn-bg-disengaged: $il-main-color;
 
-$il-mainbar-slates-bg-color: $il-main-bg;
-$il-mainbar-btn-border: 1px solid $il-standard-page-border-light-color;
-$il-mainbar-btn-label-size: $il-font-size-xsmall;
-$il-mainbar-trigger-icon-size: 25px;
-$il-mainbar-remove-tools-btn-height: 45px;
-
 // SLATES VARIABLES
+
+$il-mainbar-slates-bg-color: $il-main-bg;
+$il-maincontrols-mainbar-bg-color: $il-mainbar-btn-bg-color;
 
 // bulky colors are in button settings
 $il-slate-bulky-padding-vertical: $il-padding-xxxlarge-vertical;
@@ -55,7 +56,6 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 //
 
 .il-mainbar {
-	background-color: $il-mainbar-btn-bg-color;
 	box-shadow: $il-mainbar-shadow-right;
 }
 
@@ -71,10 +71,10 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 	.il-link.link-bulky {
 		height:$il-mainbar-btn-height;
 		width: $il-mainbar-btn-width;
-		margin: $il-mainbar-btn-margin;
 		padding: $il-mainbar-btn-padding;
 		border: 0;
 		border-bottom: $il-mainbar-btn-border;
+		border-radius: $il-mainbar-btn-border-radius;
 		flex-flow: column nowrap;
 		justify-content: center;
 		gap: $il-mainbar-btn-label-icon-gap;
@@ -97,19 +97,21 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 //
 
 .il-mainbar-triggers {
-	background: $il-mainbar-btn-bg-color;
 	.il-mainbar-entries {
 		// reset li styles
 		min-width: 100%;
 		list-style: none;
 		padding: 0px;
 		margin: 0px;
+		li {
+			margin: $il-mainbar-btn-margin;
+		}
 	}
 	.btn-bulky,
 	.il-link.link-bulky {
 		background: $il-mainbar-btn-bg-color;
 		.bulky-label {
-			color: $il-mainbar-btn-bg-color-engaged;
+			color: $il-mainbar-btn-color;
 			text-align: center;
 		}
 		.icon {
