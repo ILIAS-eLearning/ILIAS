@@ -4323,7 +4323,7 @@ input[type=checkbox]:focus:focus-visible {
 .c-launcher .btn-bulky[disabled] {
   cursor: not-allowed;
 }
-.c-launcher .btn-bulky .glyph {
+.c-launcher .btn-bulky:not([disabled]) .glyph {
   color: white;
 }
 @media screen and (max-width: 768px) {
@@ -6116,13 +6116,13 @@ footer {
   position: relative;
   display: flex;
   align-items: center;
-  min-height: 28px;
+  min-height: 80px;
   margin-bottom: 2px;
-  padding: 6px 12px;
-  padding-left: 0;
+  padding: 9px 15px;
   z-index: initial;
 }
 .il-drilldown header h2 {
+  font-size: 1.115rem;
   margin: 0;
 }
 .il-drilldown header .backnav {

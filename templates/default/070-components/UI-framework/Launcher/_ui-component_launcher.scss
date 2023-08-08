@@ -19,7 +19,7 @@
         &[disabled] {
             cursor: not-allowed;
         }
-        .glyph {
+        &:not([disabled]) .glyph {
             color: s.$il-text-color-invert;
         }
         @media screen and (max-width: s.$il-grid-float-breakpoint-max) {
