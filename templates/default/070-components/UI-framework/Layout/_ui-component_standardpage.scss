@@ -15,23 +15,6 @@ $il-standard-page-zindex-mainbar-slates: $il-standard-page-zindex-mainbar - 1;
 $il-standard-page-zindex-breadcrumbs: $il-standard-page-zindex-mainbar-slates - 1;
 $il-standard-page-zindex-systeminfo: $il-standard-page-zindex-header - 1;
 
-
-
-* {
-	box-sizing: border-box;
-}
-
-menu,
-article,
-aside,
-details,
-footer,
-header,
-nav,
-section {
-    display: block;
-}
-
 /*
 *********************
 grid-based layout
@@ -174,7 +157,6 @@ nav.il-maincontrols {
 
 // Subgrid mainbar
 .il-maincontrols-mainbar {
-	background-color: $il-maincontrols-mainbar-bg-color;
 	display: grid;
 	height: 100%;
 	grid-template-columns: $il-mainbar-btn-width $il-standard-page-slate-width;
@@ -187,37 +169,9 @@ nav.il-maincontrols {
 
 // mainbar
 .il-mainbar {
-	background-color: $il-mainbar-btn-bg-color;
 	grid-column: 1;
 	grid-row: 1;
 	z-index: $il-standard-page-zindex-mainbar;
-	@include shadow-right();
-}
-
-// tools section
-.il-mainbar-tools-button {
-    display: flex;
-    flex-direction: row;
-}
-
-.il-mainbar-tools-button button {
-	height:$il-mainbar-btn-height;
-	width: $il-mainbar-btn-width;
-}
-
-.il-mainbar-tools-entries {
-	button {
-		height:$il-mainbar-btn-height;
-		width: $il-mainbar-btn-width;
-	}
-	&.engaged {
-		display: flex;
-		flex-direction: row;
-	}
-}
-
-// mainbar triggers
-.il-mainbar-triggers {
 }
 
 // mainbar slates
@@ -248,8 +202,8 @@ main {
 footer {
 	background-color: $il-footer-bg-color;
 	min-height: auto;
-	padding: $il-footer-padding;
 	text-align: center;
+	height: $il-footer-height;
 }
 
 
@@ -460,7 +414,6 @@ footer {
 
 	// mainbar
 	.il-mainbar {
-		background-color: $il-mainbar-btn-bg-color;
 		box-shadow: none;
 		display: -ms-flexbox;
 		display: flex;

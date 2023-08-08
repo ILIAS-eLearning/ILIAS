@@ -5,13 +5,17 @@
 @use "../../../../050-layout/basics/" as *;
 @use "../../../../050-layout/standardpage/" as *;
 
+$il-slate-bulky-level2-bg-color: $il-main-dark-bg;
+$il-slate-tree-padding: $il-padding-small-vertical 0;
+
 .il-maincontrols-slate {
 	&.disengaged {
 		display:none;
 	}
 	.btn-bulky,
 	.link-bulky {
-		// see styling in button component
+		// see general styling in button component
+		// this styling is for expandable entries
 		&.engaged::after,
 		&.disengaged::after {
 				font-family: "il-icons";
@@ -116,16 +120,16 @@
 		}
 	}
 	p, h1, h2, h3, li {
-		padding: $il-slate-content-padding $il-slate-content-padding*2;
+		padding: $il-slate-content-spacing $il-slate-content-spacing*2;
 	}
 	> hr {
-		margin: $il-slate-content-padding 0;
+		margin: $il-slate-content-spacing 0;
 	}
 	li.jstree-node {
 		padding: $il-slate-tree-padding;
 	}
 	li.il-workflow-step {
-		padding: 0 $il-slate-content-padding*2;
+		padding: 0 $il-slate-content-spacing*2;
 	}
 }
 

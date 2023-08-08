@@ -117,10 +117,6 @@ $set-full-width: false !default;
             vertical-align: middle;
         }
 
-        @if $border-radius !=null or $border-radius !=0px {
-            border-radius: $border-radius;
-        }
-
         &+& {
             margin-left: $space-between-btns;
         }
@@ -161,6 +157,9 @@ $set-full-width: false !default;
         border-width: $border-width;
         border-style: solid;
         border-color: $border-color;
+        @if $border-radius !=null or $border-radius !=0px {
+            border-radius: $border-radius;
+        }
 
         // HOVER
         &:hover {

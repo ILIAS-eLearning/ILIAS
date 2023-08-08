@@ -11,6 +11,8 @@ $il-metabar-entry-width: 60px;
 $il-metabar-glyph-size: 1.4375rem;
 $il-metabar-slates-width: 500px;
 
+$il-metabar-bulky-glyph-margin-right: $il-margin-small-horizontal;
+
 //** small devices
 $il-metabar-small-entry-height: $il-standard-page-small-header-height;
 $il-metabar-small-entry-width: $il-standard-page-small-header-height;
@@ -32,7 +34,7 @@ $il-metabar-small-glyph-size: 1.25rem;
 		filter: invert(50%);
 		font-family: 'il-icons';
 		font-size: $il-slate-bulky-glyph-size;
-		margin-right: $il-slate-bulky-glyph-margin-right;
+		margin-right: $il-metabar-bulky-glyph-margin-right;
 		position: relative;
 	}
 
@@ -179,7 +181,7 @@ $il-metabar-small-glyph-size: 1.25rem;
 				position: absolute;
 				font-size: $il-slate-bulky-glyph-size;
 				right: $il-margin-large-horizontal;
-				top: $il-slate-bulky-padding-vertical;
+				top: $il-padding-xxxlarge-vertical;
 				line-height: $il-line-height-computed;
 			}
 		}

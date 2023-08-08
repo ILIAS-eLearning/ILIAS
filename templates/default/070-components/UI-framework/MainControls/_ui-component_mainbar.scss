@@ -2,35 +2,200 @@
 @use "../../../010-settings/legacy-settings/legacy-settings_symbol" as *;
 @use "../../../030-tools/tool_focus-outline" as *;
 @use "../../../030-tools/tool_screen-reader-only" as *;
+@use "../../../030-tools/tool_multi-line-cap" as t-line-cap;
 @use "../../../050-layout/basics" as *;
 @use "../../../050-layout/standardpage/" as *;
 @use "../../../070-components/legacy/component_screen-reader-only" as *;
 
-//== mainbar
+// MAINBAR VARIABLES
+$il-mainbar-btn-padding: 0;
+$il-mainbar-btn-label-icon-gap: $il-padding-xs-vertical;
 
-/* .il-maincontrols-mainbar,
-.il-maincontrols-metabar {
+$il-mainbar-btn-color: white;
+$il-mainbar-btn-bg-color: $il-neutral-color;
+
+$il-mainbar-btn-color-hover: $il-neutral-color;
+$il-mainbar-btn-bg-color-hover: $il-main-bg;
+
+$il-mainbar-btn-color-engaged: $il-neutral-color;
+$il-mainbar-btn-bg-color-engaged: $il-main-bg;
+
+$il-mainbar-btn-icon-filter: brightness(5);
+$il-mainbar-btn-hover-icon-filter: invert(50%);
+$il-mainbar-btn-engaged-icon-filter: invert(50%);
+
+$il-maincontrols-mainbar-bg-color: $il-main-bg;
+
+// TOOLS VARIABLES
+
+$il-mainbar-tools-item-gap: 3px;
+
+$il-mainbar-tools-btn-bg: $il-warning-color;
+$il-mainbar-tools-bg: $il-main-dark-bg;
+
+$il-mainbar-tools-btn-bg-engaged: lighten($il-main-color, 50%);
+$il-mainbar-tools-tab-btn-bg-engaged: white;
+$il-mainbar-tools-tab-btn-bg-disengaged: $il-main-color;
+
+$il-mainbar-slates-bg-color: $il-main-bg;
+$il-mainbar-btn-border: 1px solid $il-standard-page-border-light-color;
+$il-mainbar-btn-label-size: $il-font-size-xsmall;
+$il-mainbar-trigger-icon-size: 25px;
+$il-mainbar-remove-tools-btn-height: 45px;
+
+// SLATES VARIABLES
+
+// bulky colors are in button settings
+$il-slate-bulky-padding-vertical: $il-padding-xxxlarge-vertical;
+$il-slate-bulky-padding: $il-slate-bulky-padding-vertical 40px $il-slate-bulky-padding-vertical $il-padding-base-horizontal;
+$il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-horizontal $il-slate-bulky-padding-vertical $il-padding-base-horizontal;
+
+//
+// GENERAL
+//
+
+.il-mainbar {
+	background-color: $il-mainbar-btn-bg-color;
+	@include shadow-right();
+}
+
+//
+// ALL SQUARE BUTTONS
+// in mainbar, metabar und toolbar tabs
+//
+
+.il-mainbar-triggers,
+.il-mainbar-tools-button,
+.il-mainbar-tool-trigger-item {
 	.btn-bulky,
 	.il-link.link-bulky {
-		&:focus,
-		&:active {
-			box-shadow: none;
+		height:$il-mainbar-btn-height;
+		width: $il-mainbar-btn-width;
+		padding: $il-mainbar-btn-padding;
+		border: 0;
+		border-bottom: $il-mainbar-btn-border;
+		flex-flow: column nowrap;
+		justify-content: center;
+		gap: $il-mainbar-btn-label-icon-gap;
+		font-size: $il-mainbar-btn-label-size;
+		line-height: $il-mainbar-btn-label-size * $il-line-height-large;
+		.bulky-label {
+			@include t-line-cap.il-multi-line-cap-mixin(2);
+			word-break: break-word;
+			-ms-hyphens: auto;
+			-moz-hyphens: auto;
+			-webkit-hyphens: auto;
+			hyphens: auto;
 		}
-		&:focus-visible,
-		&:active:focus-visible {
-			border: $il-focus-outline-inner;
-			outline: none;
+	}
+}
 
-			&::after {
-				content: none;
+//
+// MAINBAR TRIGGERS
+// the left button bar
+//
+
+.il-mainbar-triggers {
+	background: $il-mainbar-btn-bg-color;
+	.il-mainbar-entries {
+		// reset li styles
+		min-width: 100%;
+		list-style: none;
+		padding: 0px;
+		margin: 0px;
+	}
+	.btn-bulky,
+	.il-link.link-bulky {
+		background: $il-mainbar-btn-bg-color;
+		.bulky-label {
+			color: $il-mainbar-btn-bg-color-engaged;
+			text-align: center;
+		}
+		.icon {
+			filter: $il-mainbar-btn-icon-filter;
+			&.small {
+				width: $il-mainbar-trigger-icon-size;
+				height: $il-mainbar-trigger-icon-size;
+			}
+		}
+		//Mixin for hovered, engaged or visible focus for triggers for slates, neede due to: #31811
+		@mixin focus_hovered_engaged_slate_trigger($hover-or-engaged) {
+			@if $hover-or-engaged != "hover" and $hover-or-engaged != "engaged" {
+				@error "You must select if mixin should create 'hover' or 'engaged' state.";
+			}
+			background-color: if($hover-or-engaged == "hover", $il-mainbar-btn-bg-color-hover, $il-mainbar-btn-bg-color-engaged);
+			color: if($hover-or-engaged == "hover", $il-mainbar-btn-color-hover, $il-mainbar-btn-color-engaged);
+			.glyph{
+				color: if($hover-or-engaged == "hover", $il-mainbar-btn-color-hover, $il-mainbar-btn-color-engaged);
+			}
+			.icon {
+				filter: if($hover-or-engaged == "hover", $il-mainbar-btn-hover-icon-filter, $il-mainbar-btn-engaged-icon-filter);
+			}
+			.bulky-label {
+				color: if($hover-or-engaged == "hover", $il-mainbar-btn-color-hover, $il-mainbar-btn-color-engaged);
+			}
+		}
+		//Note, for some reason, safari needs this in a seperate section, see:
+		&.engaged{
+			@include focus_hovered_engaged_slate_trigger($hover-or-engaged: "engaged");
+		}
+		&:focus-visible{
+			@include focus_hovered_engaged_slate_trigger($hover-or-engaged: "engaged");
+		}
+		&:hover {
+			transition: all .15s ease-in;
+			@include focus_hovered_engaged_slate_trigger($hover-or-engaged: "hover");
+		}
+		.glyph{
+			color: $il-mainbar-btn-color;
+		}
+	}
+	&.engaged {
+		background: $il-maincontrols-mainbar-bg-color;
+	}
+	// no hover on mobile devices
+	@media (hover: none) {
+		.btn-bulky,
+		.il-link.link-bulky {
+			&:hover {
+				background-color: $il-mainbar-btn-bg-color;
+				color: $il-mainbar-btn-color-engaged;
+				.icon {
+					filter: $il-mainbar-btn-icon-filter;
+				}
+				.bulky-label {
+					color: $il-mainbar-btn-color;
+				}
+			}
+			&.engaged {
+				background-color: $il-mainbar-btn-bg-color-engaged;
+				color: $il-mainbar-btn-color-engaged;
+				.icon  {
+					filter: $il-mainbar-btn-engaged-icon-filter;
+				}
+				.bulky-label {
+					color: $il-mainbar-btn-color-engaged;
+				}
 			}
 		}
 	}
-	.bulky-label {
-		white-space: normal;
-	    display: block;
-	}
-} */
+}
+
+//
+// SLATES IN MAINBAR
+//
+
+// mainbar slates
+.il-mainbar-slates {
+	@include shadow-right;
+	background: $il-mainbar-slates-bg-color;
+	display: none; // will be flex when engaged
+	position: relative;
+}
+
+.il-maincontrols-mainbar {
+	background-color: $il-maincontrols-mainbar-bg-color;
+}
 
 .il-maincontrols-mainbar,
 .il-maincontrols-metabar {
@@ -44,151 +209,25 @@
 
 .il-maincontrols-mainbar,
 .il-maincontrols-metabar {
-	/* .btn,a {
-	  &:active {
-		  outline: 0;
-		  outline-offset: 0;
-	  }
-	} */
-
 	> .il-metabar-slate-auxillary {
 		display: none;
 	}
 }
 
-// mainbar triggers
-.il-mainbar-triggers {
-	background: $il-mainbar-btn-bg-color;
-	display: flex;
-	position: relative;
-	width: $il-mainbar-btn-width;
-	z-index: 1;
-	.btn-bulky,
-	.il-link.link-bulky {
-		font-size: $il-mainbar-btn-label-size;
-		line-height: $il-mainbar-btn-label-size * $il-line-height-large;
-		background: $il-mainbar-btn-bg-color;
-		border: 0;
-		border-bottom: $il-mainbar-btn-border;
-		color: $il-mainbar-btn-bg-color-engaged;
-		flex-flow: column wrap;
-		height: $il-mainbar-btn-height;
-		justify-content: center;
-		margin-bottom: 0;
-		padding: 0;
-		width: $il-mainbar-btn-height;
-		width: 100%;
-		.icon {
-			filter: $il-mainbar-trigger-icon-filter;
-			&.small {
-				width: $il-mainbar-trigger-icon-size;
-				height: $il-mainbar-trigger-icon-size;
-			}
-		}
-		//Mixin for hovered, engaged or visible focus for triggers for slates, neede due to: #31811
-		@mixin focus_hovered_engaged_slate_trigger {
-			background-color: $il-mainbar-btn-bg-color-engaged;
-			color: $il-mainbar-btn-bg-color;
-			.glyph{
-				color: $il-mainbar-btn-color-engaged;
-			}
-			.icon {
-				filter: $il-mainbar-icon-filter;
-			}
-			.bulky-label {
-				color: $il-mainbar-btn-color-engaged;
-			}
-		}
-		//Note, for some reason, safari needs this in a seperate section, see:
-		&.engaged{
-			@include focus_hovered_engaged_slate_trigger;
-		}
-		&:focus-visible{
-			@include focus_hovered_engaged_slate_trigger;
-		}
-		&:hover {
-			transition: all .15s ease-in;
-			@include focus_hovered_engaged_slate_trigger;
-		}
-		.glyph{
-			color: $il-mainbar-btn-color;
-		}
-		.bulky-label {
-			flex-grow: initial;
-			color: $il-mainbar-btn-bg-color-engaged;
-			display: -webkit-box;
-			white-space: normal;
-			word-break: break-word;
-    		padding: 0 2px;
-			text-align: center;
-			overflow: hidden;
-			-webkit-line-clamp: 2;
-		    -webkit-box-orient: vertical;
-		}
-	}
-	&.engaged {
-		background: $il-maincontrols-mainbar-bg-color;
-	}
-	// no hover on mobile devices
-	@media (hover: none) {
-		.btn-bulky,
-		.il-link.link-bulky {
-			&:hover {
-				background-color: $il-mainbar-btn-bg-color;
-				color: $il-mainbar-btn-bg-color-engaged;
-				.icon {
-					filter: $il-mainbar-trigger-icon-filter;
-				}
-				.bulky-label {
-					color: $il-mainbar-btn-bg-color-engaged;
-				}
-			}
-			&.engaged {
-				background-color: $il-mainbar-btn-bg-color-engaged;
-				color: $il-mainbar-btn-bg-color;
-				.icon  {
-					filter: $il-mainbar-icon-filter;
-				}
-				.bulky-label {
-					color: $il-mainbar-btn-bg-color;
-				}
-			}
-		}
-	}
-}
+//
+// TOOLS
+//
 
-// mainbar entries
-.il-mainbar-entries {
-	min-width: 100%;
-	list-style: none;
-	padding: 0px;
-	margin: 0px;
-}
-
-// mainbar slates
-.il-mainbar-slates {
-	@include shadow-right;
-	background: $il-mainbar-slates-bg-color;
-	display: none;
-	position: relative;
-	width: $il-standard-page-slate-width;
-
-	.bulky-label{
-		margin-top: auto;
-		margin-bottom: auto;
-	}
-
-}
+// Tool Button in Mainbar
 
 .il-mainbar-tools-button {
+	flex-direction: row;
 	.btn-bulky,
 	.btn-bulky.engaged {
 		background-color: $il-mainbar-tools-btn-bg;
-		border: 0;
 		color: white;
-		padding: 0;
 		.icon  {
-			filter: $il-mainbar-trigger-icon-filter;
+			filter: $il-mainbar-btn-icon-filter;
 		}
 	}
 	.btn-bulky.engaged {
@@ -199,6 +238,8 @@
 		}
 	}
 }
+
+// Tool Tabs
 
 .il-mainbar-tools-entries {
 	display: none;
@@ -211,9 +252,8 @@
 	.il-link.link-bulky {
 		background-color: $il-mainbar-tools-tab-btn-bg-disengaged;
 		color: $il-mainbar-btn-color;
-		padding: 0;
 		.icon {
-			filter: $il-mainbar-trigger-icon-filter;
+			filter: $il-mainbar-btn-icon-filter;
 		}
 		.bulky-label {
 			text-overflow: ellipsis;
@@ -250,6 +290,7 @@
 }
 
 // remove tools
+
 .il-mainbar-remove-tool {
 	display: none;
 	.il-mainbar-tools-entries.engaged & {
@@ -267,6 +308,8 @@
 		width: auto;
 	}
 }
+
+// BUTTON TO CLOE the engaged slate
 
 .il-mainbar-close-slates {
 	display: flex;
@@ -309,12 +352,9 @@
 	 }
 }
 
-/*
-**************************************************************
-       mobile Layout
-**************************************************************
-*/
-
+//
+// MOBILE LAYOUT
+//
 
 @media only screen and (max-width: $il-grid-float-breakpoint-max) {
 	.il-mainbar-entries {
@@ -325,16 +365,17 @@
 	}
 
 	.il-mainbar-tools-entries-bg {
-		// @include shadow-bottom();
+		@include shadow-bottom();
 	}
 
 	.il-mainbar-triggers {
-	   background: $il-mainbar-btn-bg-color;
-	   display: flex;
-	   position: relative;
 	   width: 100%;
 	   z-index: 1;
-	   .btn-bulky,
+	}
+
+	.il-mainbar-triggers,
+	.il-mainbar-tools-button {
+		.btn-bulky,
 	   .il-link.link-bulky {
 	   	   flex-shrink: 0;
 		   border: 0;

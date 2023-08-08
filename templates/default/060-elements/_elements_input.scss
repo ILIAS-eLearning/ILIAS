@@ -18,6 +18,7 @@ input, select {
 }
 
 input[type="text"],
-input[type="submit"] {
-	min-height: $il-input-height-base;
+input[type="submit"],
+select {
+	min-height: $il-input-min-height;
 }

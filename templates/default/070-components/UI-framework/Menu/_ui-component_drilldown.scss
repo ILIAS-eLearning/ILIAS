@@ -1,4 +1,5 @@
-@use "../../../010-settings/"as *;
+@use "../../../010-settings/" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
 @use "../../../050-layout/basics" as *;
 @use "../../../050-layout/standardpage/" as *;
 
@@ -6,15 +7,15 @@
 //== Drilldown Menu
 //
 //##
-$il-drilldown-item-height: 2 * $il-slate-bulky-padding-vertical + $il-line-height-computed;
+$il-drilldown-item-height: $il-input-min-height;
 $il-drilldown-spacing-vertical: $il-padding-large-vertical;
 $il-drilldown-spacing-horizontal: $il-padding-large-horizontal;
-$il-drilldown-menulevel-bg: $il-slate-bulky-bg-color;
+$il-drilldown-menulevel-bg: $il-bulky-bg-color;
 $il-drilldown-bulky-bg: transparent;
-$il-drilldown-item-hover-bg: $il-slate-bulky-bg-color-engaged;
-$il-drilldown-item-font-size: $il-slate-bulky-label-size;
+$il-drilldown-item-hover-bg: $il-bulky-bg-color-engaged;
+$il-drilldown-item-font-size: $il-bulky-label-size;
 $il-drilldown-item-spacing: $il-slate-content-spacing;
-$il-drilldown-item-font-line-height: $il-slate-bulky-label-size * 1.133333333333333; // line-height of slate bulky btn/link
+$il-drilldown-item-font-line-height: $il-bulky-label-size * 1.133333333333333; // line-height of slate bulky btn/link
 
 .il-drilldown {
 	// reset user agent CSS for lists

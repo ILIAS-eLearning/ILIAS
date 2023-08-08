@@ -14,7 +14,7 @@
   $border-radius: s.$il-border-radius-base,
   $line-height: inherit,
   // button height is by default largely determined by this value
-  $input-field-height: s-form.$il-input-height-base,
+  $input-field-height: s-form.$il-input-min-height,
   $padding-small-x: l.$il-padding-small-horizontal,
   // padding y is only a small buffer for when the button contains multiple lines
   $padding-small-y: l.$il-padding-small-vertical,
@@ -30,7 +30,7 @@
 $il-engaged-btn-color: s.$il-text-color;
 $il-engaged-btn-bg: white;
 
-$il-input-height-large: s-form.$il-input-height-base * 1.8;
+$input-min-height-large: s-form.$il-input-min-height * 1.8;
 
 //** many variables can be found on settings layer
 
@@ -100,6 +100,11 @@ input.btn {
 
 // Make a button look and behave like a link
 .btn-link {
+  padding: 0;
+	text-align: left;
+	white-space: normal;
+  vertical-align: baseline;
+  font-size: inherit;
   font-weight: s.$il-font-weight-base;
   color: s.$il-link-color;
   border-radius: 0;
@@ -128,64 +133,12 @@ input.btn {
   fieldset[disabled] & {
     &:hover,
     &:focus {
-      color: s.$il-disabled-btn-color;
+      background-color: s.$il-disabled-btn-bg;
+		  color: s.$il-disabled-btn-color;
+		  border-color: s.$il-disabled-btn-border;
       text-decoration: none;
     }
   }
-}
-
-
-// Button Sizes
-// --------------------------------------------------
-
-.btn-lg {
-  // line-height: ensure even-numbered height of button next to large input
-  @include make-button($set-basics: false, $set-design: false, $set-size: true,
-  $font-size: s.$il-font-size-large,
-  $input-field-height: $il-input-height-large,
-  $padding-small-y: l.$il-padding-xlarge-vertical,
-  $padding-small-x: l.$il-padding-xlarge-horizontal);
-}
-.btn-sm {
-  // line-height: ensure proper height of button next to small input
-  @include make-button($set-basics: false, $set-design: false, $set-size: true,
-  $font-size: s.$il-font-size-xsmall,
-  $input-field-height: s-form.$il-input-height-base - l.$il-padding-base-vertical,
-  $padding-small-y: l.$il-padding-small-vertical,
-  $padding-small-x: l.$il-padding-small-horizontal);
-}
-
-// #16322
-button > .glyphicon {
-  pointer-events: none;
-}
-
-a[disabled], a fieldset[disabled] {
-	&,
-	&:hover,
-	&:focus,
-	&:active,
-	&.active {
-		background-color: s.$il-disabled-btn-bg;
-		color: s.$il-disabled-btn-color;
-		border-color: s.$il-disabled-btn-border;
-		padding: 0;
-		cursor: default;
-	}
-}
-
-.il-btn-month .dropdown-menu {
-  min-width:250px;
-}
-
-// shy buttons
-.btn.btn-link {
-	padding: 0;
-	text-align: left;
-	white-space: normal;
-
-    vertical-align: baseline;
-    font-size: inherit;
 }
 
 //
@@ -193,26 +146,27 @@ a[disabled], a fieldset[disabled] {
 //
 
 // base styling for all
-.link-bulky,
+.il-link.link-bulky,
 .il-drilldown .menulevel {
   @extend .btn;
 }
 .btn-bulky,
-.link-bulky,
+.il-link.link-bulky,
 .il-drilldown .menulevel {
 	@include make-button($set-basics: false, $set-design: true,
-    $button-color: l-spage.$il-slate-bulky-bg-color,
-    $text-color: s.$il-text-color,
-    $font-size: l-spage.$il-slate-bulky-label-size,
-    $input-field-height: $il-input-height-large,
+    $button-color: s.$il-bulky-bg-color,
+    $text-color: s.$il-bulky-text-color,
+    $border-color: s.$il-bulky-border-color,
+    $font-size: s.$il-bulky-label-size,
+    $input-field-height: $input-min-height-large,
 
     $set-full-width: true,
     $padding-small-x: l.$il-padding-large-horizontal,
     $padding-small-y: l.$il-padding-large-vertical,
     $inner-spacing: l.$il-padding-large-vertical,
 
-    $hover_bg-color: l-spage.$il-slate-bulky-bg-color-engaged,
-    $hover_border-color: transparent,
+    $hover_bg-color: s.$il-bulky-bg-color-engaged,
+    $hover_border-color: s.$il-bulky-bg-color-engaged,
 
     $disabled_bg-color: s.$il-disabled-btn-bg,
     $disabled_text-color: s.$il-disabled-btn-color,
@@ -221,15 +175,15 @@ a[disabled], a fieldset[disabled] {
     $active_transform: null,
 
     $engaged_text-color: inherit,
-    $engaged_bg-color: l-spage.$il-slate-bulky-bg-color-engaged,
+    $engaged_bg-color: s.$il-bulky-bg-color-engaged,
     $engaged_border-width: 1px);
 }
 
-// same styling for bulky buttons and links in slate and drilldown
+// same visual design for bulky buttons and links in slate and drilldown
 .il-maincontrols-slate,
 .il-drilldown {
   .btn-bulky,
-  .link-bulky {
+  .il-link.link-bulky {
     margin-bottom: l-spage.$il-slate-content-spacing;
     .bulky-label {
       flex-grow: 1;
@@ -243,6 +197,34 @@ a[disabled], a fieldset[disabled] {
   margin-bottom: l-spage.$il-slate-content-spacing;
 }
 
+// Button Sizes
+// --------------------------------------------------
+
+.btn-lg {
+  // line-height: ensure even-numbered height of button next to large input
+  @include make-button($set-basics: false, $set-design: false, $set-size: true,
+  $font-size: s.$il-font-size-large,
+  $input-field-height: $input-min-height-large,
+  $padding-small-y: l.$il-padding-xlarge-vertical,
+  $padding-small-x: l.$il-padding-xlarge-horizontal);
+}
+.btn-sm {
+  // line-height: ensure proper height of button next to small input
+  @include make-button($set-basics: false, $set-design: false, $set-size: true,
+  $font-size: s.$il-font-size-xsmall,
+  $input-field-height: s-form.$il-input-line-height-base - l.$il-padding-base-vertical,
+  $padding-small-y: l.$il-padding-small-vertical,
+  $padding-small-x: l.$il-padding-small-horizontal);
+}
+
+// #16322
+button > .glyphicon {
+  pointer-events: none;
+}
+
+.il-btn-month .dropdown-menu {
+  min-width:250px;
+}
 
 
 //
@@ -250,6 +232,12 @@ a[disabled], a fieldset[disabled] {
 //
 .il-btn-with-loading-animation {
 	background-image: url("#{s.$il-background-images-path}loader.svg");
+  background-color: s.$il-disabled-btn-bg;
+  border-color: s.$il-disabled-btn-border;
+  &:hover {
+    background-color: s.$il-disabled-btn-bg;
+    border-color: s.$il-disabled-btn-border;
+  }
 	background-repeat: no-repeat;
 	background-position: right center;
 	padding-right: 18px;

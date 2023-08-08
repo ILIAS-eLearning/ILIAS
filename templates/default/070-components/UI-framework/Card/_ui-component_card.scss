@@ -23,6 +23,7 @@ $il-card-max-width-xs: 350px;
 $il-card-box-shadow: $il-panel-shadow;
 $il-card-border: $il-panel-border;
 $il-card-border-radius: 0;
+$card-head-icon-filter: invert(50%);
 
 .il-card {
 	padding: 0 0 $il-padding-large-vertical 0;
@@ -119,7 +120,7 @@ $il-card-border-radius: 0;
 		z-index: 300;
 
 		.icon {
-			filter: $il-mainbar-trigger-icon-filter;
+			filter: $card-head-icon-filter;
 		}
 
 		> div {
