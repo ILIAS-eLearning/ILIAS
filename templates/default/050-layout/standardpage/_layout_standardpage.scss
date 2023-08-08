@@ -21,6 +21,7 @@ $il-standard-page-slate-width: 329px;
 
 $il-mainbar-btn-height: 80px;
 $il-mainbar-btn-width: 80px;
+$il-mainbar-btn-margin: null;
 
 //
 // SLATES
@@ -50,16 +51,3 @@ $il-standard-page-shadow-color: rgba(0, 0, 0, .1);
 $il-mainbar-shadow-right: 1px 3px 4px $il-standard-page-shadow-color;
 $il-mainbar-shadow-top: 0 0 4px $il-standard-page-shadow-color;
 $il-standard-page-header-shadow-bottom: 0 1px 2px $il-standard-page-shadow-color;
-
-// mixins
-@mixin shadow-right {
-	box-shadow: $il-mainbar-shadow-right;
-}
-
-@mixin shadow-bottom {
-	box-shadow: $il-standard-page-header-shadow-bottom;
-}
-
-@mixin shadow-top {
-	box-shadow: $il-mainbar-shadow-top;
-}

@@ -90,7 +90,7 @@ $il-metabar-small-glyph-size: 1.25rem;
 			box-shadow: none;
 		}
 		&.engaged {
-			@include shadow-right;
+			box-shadow: $il-mainbar-shadow-right;
 			background-color: $il-metabar-slates-bg-color;
 			border: none;
 			color: initial;
@@ -133,7 +133,7 @@ $il-metabar-small-glyph-size: 1.25rem;
 }
 
 .il-metabar-slates {
-	@include shadow-right;
+	box-shadow: $il-mainbar-shadow-right;
     background-color: $il-metabar-slates-bg-color;
 	position: absolute;
 

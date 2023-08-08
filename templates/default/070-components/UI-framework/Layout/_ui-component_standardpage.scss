@@ -91,7 +91,7 @@ header {
 	grid-column-end: 3;
 	grid-row: 2;
 	z-index: $il-standard-page-zindex-header;
-	@include shadow-bottom();
+	box-shadow: $il-standard-page-header-shadow-bottom;
 }
 
 //Breadcrumbs
@@ -103,7 +103,7 @@ header {
 	display: flex;
 	flex-direction: row;
 	z-index: $il-standard-page-zindex-breadcrumbs;
-	@include shadow-bottom();
+	box-shadow: $il-standard-page-header-shadow-bottom;
 }
 
 // system-infos
@@ -270,7 +270,7 @@ footer {
 					-ms-grid-row: 2;
 					grid-column: 1;
 					grid-row: 2;
-					@include shadow-top();
+					box-shadow: $il-mainbar-shadow-top;
 				}
 				.il-mainbar-slates {
 					-ms-grid-column: 1;
@@ -297,7 +297,7 @@ footer {
 					grid-template-rows: 1fr $il-standard-page-small-mainbar-height-w-bottom-safe-area;
 					width: 100%;
 					.il-mainbar {
-						@include shadow-top();
+						box-shadow: $il-mainbar-shadow-top;
 					}
 					// slate
 					.il-mainbar-slates {
@@ -339,7 +339,7 @@ footer {
 	    height: $il-standard-page-small-header-height;
 	    padding: 0;
 	    width: 100%;
-		@include shadow-bottom();
+		box-shadow: $il-standard-page-header-shadow-bottom;
 	}
 
 	// mobile logo

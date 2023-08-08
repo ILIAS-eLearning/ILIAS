@@ -56,7 +56,7 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 
 .il-mainbar {
 	background-color: $il-mainbar-btn-bg-color;
-	@include shadow-right();
+	box-shadow: $il-mainbar-shadow-right;
 }
 
 //
@@ -71,6 +71,7 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 	.il-link.link-bulky {
 		height:$il-mainbar-btn-height;
 		width: $il-mainbar-btn-width;
+		margin: $il-mainbar-btn-margin;
 		padding: $il-mainbar-btn-padding;
 		border: 0;
 		border-bottom: $il-mainbar-btn-border;
@@ -187,7 +188,7 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 
 // mainbar slates
 .il-mainbar-slates {
-	@include shadow-right;
+	box-shadow: $il-mainbar-shadow-right;
 	background: $il-mainbar-slates-bg-color;
 	display: none; // will be flex when engaged
 	position: relative;
@@ -365,7 +366,7 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 	}
 
 	.il-mainbar-tools-entries-bg {
-		@include shadow-bottom();
+		box-shadow: $il-standard-page-header-shadow-bottom;
 	}
 
 	.il-mainbar-triggers {
