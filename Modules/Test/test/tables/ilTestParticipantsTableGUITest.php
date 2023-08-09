@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestParticipantsTableGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -29,29 +29,26 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
 
-        $lng_mock = $this->createMock(ilLanguage::class);
+        $this->addGlobal_lng();
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
+        $this->addGlobal_tpl();
+        $this->addGlobal_ilComponentRepository();
+
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock->expects($this->any())
-                  ->method("getFormAction")
-                  ->willReturnCallback(function () {
-                      return "testFormAction";
-                  });
-
-        $renderer_mock = $this->createMock(\ILIAS\UI\Renderer::class);
-        $ui_factory_mock = $this->createMock(\ILIAS\UI\Factory::class);
-        $this->setGlobalVariable("lng", $lng_mock);
+            ->method("getFormAction")
+            ->willReturnCallback(function () {
+                return "testFormAction";
+            });
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
-        $this->setGlobalVariable("tpl", $this->createMock(ilGlobalPageTemplate::class));
-        $this->setGlobalVariable("ui.renderer", $renderer_mock);
-        $this->setGlobalVariable("ui.factory", $ui_factory_mock);
 
-        $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
         $component_factory = $this->createMock(ilComponentFactory::class);
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->setGlobalVariable("component.factory", $component_factory);
-        $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
 
         $this->parentObj_mock = $this->createMock(ilTestParticipantsGUI::class);
         $objTest_mock = $this->createMock(ilObjTest::class);
@@ -62,7 +59,7 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
             ->willReturn($objTest_mock);
 
         $this->parentObj_mock->object = $objTest_mock;
-        $this->tableGui = new ilTestParticipantsTableGUI($this->parentObj_mock, "");
+        $this->tableGui = new ilTestParticipantsTableGUI($this->parentObj_mock, "", $DIC['ui.factory'], $DIC['ui.renderer']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -92,12 +89,6 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
     {
         $this->tableGui->setRowKeyDataField("test");
         $this->assertEquals("test", $this->tableGui->getRowKeyDataField());
-    }
-
-    public function testAnonymity(): void
-    {
-        $this->tableGui->setAnonymity("test");
-        $this->assertEquals("test", $this->tableGui->getAnonymity());
     }
 
     public function testParticipantHasSolutionsFilterEnabled(): void

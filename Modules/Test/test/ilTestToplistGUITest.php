@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestToplistGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -28,6 +28,7 @@ class ilTestToplistGUITest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
 
         $this->addGlobal_ilCtrl();
@@ -36,10 +37,16 @@ class ilTestToplistGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilUser();
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
-        $this->addGlobal_ilDB();
 
         $this->testObj = new ilTestToplistGUI(
-            $this->createMock(ilObjTest::class)
+            $this->createMock(ilObjTest::class),
+            $this->createMock(ilTestTopList::class),
+            $DIC['ilCtrl'],
+            $DIC['tpl'],
+            $DIC['lng'],
+            $DIC['ilUser'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer']
         );
     }
 

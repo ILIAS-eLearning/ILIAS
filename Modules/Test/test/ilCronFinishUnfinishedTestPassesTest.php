@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
@@ -26,27 +26,28 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
  */
 class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
 {
-    private ilCronFinishUnfinishedTestPasses $testObj;
+    private ilCronFinishUnfinishedTestPasses $test_obj;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->addGlobal_ilObjDataCache();
+        $this->addGlobal_ilUser();
         $this->addGlobal_lng();
         $this->addGlobal_ilDB();
 
-        $this->testObj = new ilCronFinishUnfinishedTestPasses();
+        $this->test_obj = new ilCronFinishUnfinishedTestPasses();
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilCronFinishUnfinishedTestPasses::class, $this->testObj);
+        $this->assertInstanceOf(ilCronFinishUnfinishedTestPasses::class, $this->test_obj);
     }
 
     public function testGetId(): void
     {
-        $this->assertEquals("finish_unfinished_passes", $this->testObj->getId());
+        $this->assertEquals("finish_unfinished_passes", $this->test_obj->getId());
     }
 
     public function testGetTitle(): void
@@ -59,8 +60,9 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
             ->willReturn("testString");
 
         $this->setGlobalVariable("lng", $lng_mock);
+        $test_obj = new ilCronFinishUnfinishedTestPasses();
 
-        $this->assertEquals("testString", $this->testObj->getTitle());
+        $this->assertEquals("testString", $test_obj->getTitle());
     }
 
     public function testGetDescription(): void
@@ -73,35 +75,36 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
             ->willReturn("testString");
 
         $this->setGlobalVariable("lng", $lng_mock);
+        $test_obj = new ilCronFinishUnfinishedTestPasses();
 
-        $this->assertEquals("testString", $this->testObj->getDescription());
+        $this->assertEquals("testString", $test_obj->getDescription());
     }
 
     public function testGetDefaultScheduleType(): void
     {
         $this->assertEquals(
             CronJobScheduleType::SCHEDULE_TYPE_DAILY,
-            $this->testObj->getDefaultScheduleType()
+            $this->test_obj->getDefaultScheduleType()
         );
     }
 
     public function testHasAutoActivation(): void
     {
-        $this->assertFalse($this->testObj->hasAutoActivation());
+        $this->assertFalse($this->test_obj->hasAutoActivation());
     }
 
     public function testHasFlexibleSchedule(): void
     {
-        $this->assertTrue($this->testObj->hasFlexibleSchedule());
+        $this->assertTrue($this->test_obj->hasFlexibleSchedule());
     }
 
     public function testHasCustomSettings(): void
     {
-        $this->assertTrue($this->testObj->hasCustomSettings());
+        $this->assertTrue($this->test_obj->hasCustomSettings());
     }
 
     public function testRun(): void
     {
-        $this->assertInstanceOf(ilCronJobResult::class, $this->testObj->run());
+        $this->assertInstanceOf(ilCronJobResult::class, $this->test_obj->run());
     }
 }

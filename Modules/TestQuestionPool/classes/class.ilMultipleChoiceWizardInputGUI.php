@@ -57,7 +57,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             return false;
         }
 
-        $values = $this->post_wrapper->retrieve($post_var, $this->refinery->custom()->transformation(fn ($v) => $v));
+        $values = $this->post_wrapper->retrieve($post_var, $this->refinery->custom()->transformation(fn($v) => $v));
 
         $values = ilArrayUtil::stripSlashesRecursive( //TODO: move into transform
             $values,

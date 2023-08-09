@@ -44,7 +44,7 @@ class Readable
      */
     public function references(array $references): bool
     {
-        return $this->incident->any(fn (int $ref_id): bool => (
+        return $this->incident->any(fn(int $ref_id): bool => (
             $this->container->access()->checkAccess('read', '', $ref_id)
         ), $references);
     }

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Helmut Schottmüller <ilias@aurealis.de>
  * @version $Id$
@@ -23,19 +25,12 @@
  */
 class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
 {
-    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
+    public function __construct(ilTestEvaluationGUI $parent_obj, string $parent_cmd)
     {
         $this->setId('tstAvgReachedPointsTbl');
         $this->setPrefix('tstAvgReachedPointsTbl');
 
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        parent::__construct($parent_obj, $parent_cmd);
 
         $this->setFormName('average_reached_points');
         $this->setTitle($this->lng->txt('average_reached_points'));
@@ -48,7 +43,7 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
 
         $this->setRowTemplate("tpl.il_as_tst_average_reached_points_row.html", "Modules/Test");
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
 
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");

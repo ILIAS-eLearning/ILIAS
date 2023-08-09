@@ -16,315 +16,150 @@
  *
  *********************************************************************/
 
-/**
- * Class ilTestParticipant
- *
- * @author    Björn Heyser <info@bjoernheyser.de>
- * @version    $Id$
- *
- * @package    Modules/Test
- */
+declare(strict_types=1);
+
 class ilTestParticipant
 {
-    /**
-     * @var string
-     */
-    protected $activeId;
+    protected ?int $active_id = null;
+    protected ?int $anonymous_id = null;
+    protected ?int $usr_id = null;
+    protected ?string $login = null;
+    protected ?string $lastname = null;
+    protected ?string $firstname = null;
+    protected ?string $matriculation = null;
+    protected ?bool $active_status = null;
+    protected ?string $client_id = null;
+    protected ?int $finished_tries = null;
+    protected ?bool $test_finished = null;
+    protected ?bool $unfinished_passes = null;
+    protected ?ilTestParticipantScoring $scoring = null;
 
-    /**
-     * @var string
-     */
-    protected $anonymousId;
-
-    /**
-     * @var string
-     */
-    protected $usrId;
-
-    /**
-     * @var string
-     */
-    protected $login;
-
-    /**
-     * @var string
-     */
-    protected $lastname;
-
-    /**
-     * @var string
-     */
-    protected $firstname;
-
-    /**
-     * @var string
-     */
-    protected $matriculation;
-
-    /**
-     * @var bool
-     */
-    protected $activeStatus;
-
-    /**
-     * @var string
-     */
-    protected $clientIp;
-
-    /**
-     * @var integer
-     */
-    protected $finishedTries;
-
-    /**
-     * @var bool
-     */
-    protected $testFinished;
-
-    /**
-     * @var bool
-     */
-    protected $unfinishedPasses;
-
-    /**
-     * @var ilTestParticipantScoring
-     */
-    protected $scoring;
-
-    /**
-     * ilTestParticipant constructor.
-     * @param string $activeId
-     * @param string $anonymousId
-     * @param string $usrId
-     * @param string $login
-     * @param string $lastname
-     * @param string $firstname
-     * @param string $matriculation
-     * @param string $clientIp
-     * @param int $finishedTries
-     * @param bool $testFinished
-     * @param bool $unfinishedPasses
-     */
-    public function __construct()
+    public function getActiveId(): ?int
     {
-        $this->activeId = null;
-        $this->anonymousId = null;
-        $this->usrId = null;
-        $this->login = null;
-        $this->lastname = null;
-        $this->firstname = null;
-        $this->matriculation = null;
-        $this->activeStatus = null;
-        $this->clientIp = null;
-        $this->finishedTries = null;
-        $this->testFinished = null;
-        $this->unfinishedPasses = null;
+        return $this->active_id;
     }
 
-    /**
-     * @return string
-     */
-    public function getActiveId(): ?string
+    public function setActiveId(int $active_id): void
     {
-        return $this->activeId;
+        $this->active_id = $active_id;
     }
 
-    /**
-     * @param string $activeId
-     */
-    public function setActiveId($activeId)
+    public function getAnonymousId(): ?int
     {
-        $this->activeId = $activeId;
+        return $this->anonymous_id;
     }
 
-    /**
-     * @return string
-     */
-    public function getAnonymousId(): ?string
+    public function setAnonymousId(int $anonymous_id): void
     {
-        return $this->anonymousId;
+        $this->anonymous_id = $anonymous_id;
     }
 
-    /**
-     * @param string $anonymousId
-     */
-    public function setAnonymousId($anonymousId)
+    public function getUsrId(): ?int
     {
-        $this->anonymousId = $anonymousId;
+        return $this->usr_id;
     }
 
-    /**
-     * @return string
-     */
-    public function getUsrId(): ?string
+    public function setUsrId(int $usr_id): void
     {
-        return $this->usrId;
+        $this->usr_id = $usr_id;
     }
 
-    /**
-     * @param string $usrId
-     */
-    public function setUsrId($usrId)
-    {
-        $this->usrId = $usrId;
-    }
-
-    /**
-     * @return string
-     */
     public function getLogin(): ?string
     {
         return $this->login;
     }
 
-    /**
-     * @param string $login
-     */
-    public function setLogin($login)
+    public function setLogin(string $login): void
     {
         $this->login = $login;
     }
 
-    /**
-     * @return string
-     */
     public function getLastname(): ?string
     {
         return $this->lastname;
     }
 
-    /**
-     * @param string $lastname
-     */
-    public function setLastname($lastname)
+    public function setLastname(string $lastname): void
     {
         $this->lastname = $lastname;
     }
 
-    /**
-     * @return string
-     */
     public function getFirstname(): ?string
     {
         return $this->firstname;
     }
 
-    /**
-     * @param string $firstname
-     */
-    public function setFirstname($firstname)
+    public function setFirstname(string $firstname): void
     {
         $this->firstname = $firstname;
     }
 
-    /**
-     * @return string
-     */
     public function getMatriculation(): ?string
     {
         return $this->matriculation;
     }
 
-    /**
-     * @param string $matriculation
-     */
-    public function setMatriculation($matriculation)
+    public function setMatriculation(string $matriculation): void
     {
         $this->matriculation = $matriculation;
     }
 
-    /**
-     * @return bool
-     */
     public function isActiveStatus(): ?bool
     {
-        return $this->activeStatus;
+        return $this->active_status;
     }
 
-    /**
-     * @param bool $activeStatus
-     */
-    public function setActiveStatus($activeStatus)
+    public function setActiveStatus(bool $active_status): void
     {
-        $this->activeStatus = $activeStatus;
+        $this->active_status = $active_status;
     }
 
-    /**
-     * @return string
-     */
     public function getClientIp(): ?string
     {
-        return $this->clientIp;
+        return $this->client_id;
     }
 
-    /**
-     * @param string $clientIp
-     */
-    public function setClientIp($clientIp)
+    public function setClientIp(string $client_id): void
     {
-        $this->clientIp = $clientIp;
+        $this->client_id = $client_id;
     }
 
-    /**
-     * @return int
-     */
     public function getFinishedTries(): ?int
     {
-        return $this->finishedTries;
+        return $this->finished_tries;
     }
 
-    /**
-     * @param int $finishedTries
-     */
-    public function setFinishedTries($finishedTries)
+    public function setFinishedTries(int $finished_tries): void
     {
-        $this->finishedTries = $finishedTries;
+        $this->finished_tries = $finished_tries;
     }
 
-    /**
-     * @return bool
-     */
     public function isTestFinished(): ?bool
     {
-        return $this->testFinished;
+        return $this->test_finished;
     }
 
-    /**
-     * @param bool $testFinished
-     */
-    public function setTestFinished($testFinished)
+    public function setTestFinished(bool $test_finished): void
     {
-        $this->testFinished = $testFinished;
+        $this->test_finished = $test_finished;
     }
 
-    /**
-     * @return bool
-     */
     public function hasUnfinishedPasses(): ?bool
     {
-        return $this->unfinishedPasses;
+        return $this->unfinished_passes;
     }
 
-    /**
-     * @param bool $unfinishedPasses
-     */
-    public function setUnfinishedPasses($unfinishedPasses)
+    public function setUnfinishedPasses(bool $unfinished_passes): void
     {
-        $this->unfinishedPasses = $unfinishedPasses;
+        $this->unfinished_passes = $unfinished_passes;
     }
 
-    /**
-     * @return ilTestParticipantScoring
-     */
     public function getScoring(): ilTestParticipantScoring
     {
         return $this->scoring;
     }
 
-    /**
-     * @param ilTestParticipantScoring $scoring
-     */
-    public function setScoring(ilTestParticipantScoring $scoring)
+    public function setScoring(ilTestParticipantScoring $scoring): void
     {
         $this->scoring = $scoring;
     }

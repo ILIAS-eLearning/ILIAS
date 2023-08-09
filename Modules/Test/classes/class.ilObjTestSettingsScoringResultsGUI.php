@@ -47,8 +47,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     public const CMD_CANCEL_RECALC = 'cancelSaveForm';
     private const F_CONFIRM_SETTINGS = 'f_settings';
 
-    private ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory;
-
     public function __construct(
         protected ilCtrlInterface $ctrl,
         protected ilAccessHandler $access,
@@ -68,18 +66,11 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     ) {
         parent::__construct($test_gui->getObject());
 
-        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
-            $this->tree,
-            $this->db,
-            $this->component_repository,
-            $this->test_object
-        );
+        $template_id = $this->test_object->getTemplate();
 
-        $templateId = $this->test_object->getTemplate();
-
-        if ($templateId) {
+        if ($template_id) {
             $this->settingsTemplate = new ilSettingsTemplate(
-                (int)$templateId,
+                (int)$template_id,
                 ilObjAssessmentFolderGUI::getSettingsTemplateConfig()
             );
         }
@@ -230,7 +221,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         }
 
         if (
-            $this->test_object->getScoreReporting() == ilObjTest::SCORE_REPORTING_DATE
+            $this->test_object->getScoreReporting() == ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE
             && $this->test_object->getReportingDate() > time()
         ) {
             return false;
@@ -255,7 +246,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     protected function getTaxonomyOptions(): array
     {
         $available_taxonomy_ids = ilObjTaxonomy::getUsageOfObject($this->test_object->getId());
-        $taxononmy_translator = new ilTestTaxonomyFilterLabelTranslater($this->db);
+        $taxononmy_translator = new ilTestQuestionFilterLabelTranslater($this->db, $this->lng);
         $taxononmy_translator->loadLabelsFromTaxonomyIds($available_taxonomy_ids);
 
         $taxonomy_options = [];

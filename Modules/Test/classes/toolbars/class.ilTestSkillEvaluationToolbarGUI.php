@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -24,66 +26,56 @@
  */
 class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
 {
-    public const SKILL_PROFILE_PARAM = 'skill_profile';
+    private array $availableSkillProfiles;
+    private bool $noSkillProfileOptionEnabled;
+    private int $selectedEvaluationMode;
 
-    private ilCtrl $ctrl;
-
-    private $parentGUI;
-    private $parentCMD;
-    private $availableSkillProfiles;
-    private $noSkillProfileOptionEnabled;
-    private $selectedEvaluationMode;
-
-    public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI, $parentCMD)
-    {
-        $this->ctrl = $ctrl;
-
-        $this->parentGUI = $parentGUI;
-        $this->parentCMD = $parentCMD;
-
+    public function __construct(
+        private ilCtrl $ctrl
+    ) {
         parent::__construct();
     }
 
-    public function setAvailableSkillProfiles($availableSkillProfiles): void
+    public function setAvailableSkillProfiles(array $availableSkillProfiles): void
     {
         $this->availableSkillProfiles = $availableSkillProfiles;
     }
 
-    public function getAvailableSkillProfiles()
+    public function getAvailableSkillProfiles(): array
     {
         return $this->availableSkillProfiles;
     }
 
-    public function setNoSkillProfileOptionEnabled($noSkillProfileOptionEnabled): void
+    public function setNoSkillProfileOptionEnabled(bool $noSkillProfileOptionEnabled): void
     {
         $this->noSkillProfileOptionEnabled = $noSkillProfileOptionEnabled;
     }
 
-    public function isNoSkillProfileOptionEnabled()
+    public function isNoSkillProfileOptionEnabled(): bool
     {
         return $this->noSkillProfileOptionEnabled;
     }
 
-    public function setSelectedEvaluationMode($selectedEvaluationMode): void
+    public function setSelectedEvaluationMode(int $selectedEvaluationMode): void
     {
         $this->selectedEvaluationMode = $selectedEvaluationMode;
     }
 
-    public function getSelectedEvaluationMode()
+    public function getSelectedEvaluationMode(): int
     {
         return $this->selectedEvaluationMode;
     }
 
     public function build(): void
     {
-        $this->setFormAction($this->ctrl->getFormAction($this->parentGUI));
+        $this->setFormAction($this->ctrl->getFormActionByClass(ilTestSkillEvaluationGUI::class));
 
-        $select = new ilSelectInputGUI($this->lng->txt("tst_analysis"), self::SKILL_PROFILE_PARAM);
+        $select = new ilSelectInputGUI($this->lng->txt('tst_analysis'), ilTestSkillEvaluationGUI::SKILL_PROFILE_PARAM);
         $select->setOptions($this->buildEvaluationModeOptionsArray());
         $select->setValue($this->getSelectedEvaluationMode());
         $this->addInputItem($select, true);
 
-        $this->addFormButton($this->lng->txt("select"), $this->parentCMD);
+        $this->addFormButton($this->lng->txt('select'), ilTestSkillEvaluationGUI::CMD_SHOW);
     }
 
     private function buildEvaluationModeOptionsArray(): array
@@ -100,14 +92,5 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
         }
 
         return $options;
-    }
-
-    public static function fetchSkillProfileParam($postData): int
-    {
-        if (isset($postData[self::SKILL_PROFILE_PARAM])) {
-            return (int) $postData[self::SKILL_PROFILE_PARAM];
-        }
-
-        return 0;
     }
 }

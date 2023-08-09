@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestSkillEvaluationGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -31,12 +31,14 @@ class ilTestSkillEvaluationGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->testObj = new ilTestSkillEvaluationGUI(
+            $this->createMock(ilObjTest::class),
             $this->createMock(ilCtrl::class),
-            $this->createMock(ilTabsGUI::class),
             $this->createMock(ilGlobalPageTemplate::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilObjTest::class)
+            $this->createMock(\ILIAS\DI\LoggingServices::class),
+            $this->createMock(ILIAS\Skill\Service\SkillService::class),
+            $this->createMock(ILIAS\Test\InternalRequestService::class)
         );
     }
 

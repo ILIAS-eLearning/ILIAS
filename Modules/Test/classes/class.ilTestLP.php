@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Test\InternalRequestService;
+
 /**
  * Test to lp connector
  *
@@ -25,12 +29,8 @@
  */
 class ilTestLP extends ilObjectLP
 {
-    private \ILIAS\Test\InternalRequestService $request;
-
-    /**
-     * @var \ilObjTest
-     */
-    protected $test_object;
+    private InternalRequestService $request;
+    protected ilObjTest $test_object;
 
     public function __construct(int $obj_id)
     {

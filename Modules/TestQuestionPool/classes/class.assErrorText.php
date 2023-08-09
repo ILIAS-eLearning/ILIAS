@@ -641,7 +641,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     ): string {
         $output_array = [];
         foreach ($this->getParsedErrorText() as $paragraph) {
-            $array_reduce_function = fn (?string $carry, int $position)
+            $array_reduce_function = fn(?string $carry, int $position)
                 => $carry . $this->generateOutputStringFromPosition(
                     $position,
                     $selections,
@@ -1101,7 +1101,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $error_text_array = array_reduce(
             $this->parsed_errortext,
-            fn ($c, $v) => $c + $v
+            fn($c, $v) => $c + $v
         );
 
         if ($index === null) {

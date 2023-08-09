@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Test\InternalRequestService;
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -24,27 +28,14 @@
  */
 class ilTestLearningObjectivesStatusGUI
 {
-    private \ILIAS\Test\InternalRequestService $testrequest;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng = null;
+    private ?int $crsObjId = null;
+    private ?int $usrId = null;
 
-    /**
-     * @var integer
-     */
-    private $crsObjId = null;
-
-    /**
-     * @var integer
-     */
-    private $usrId = null;
-
-    public function __construct(ilLanguage $lng)
-    {
-        global $DIC;
-        $this->testrequest = $DIC->test()->internal()->request();
-        $this->lng = $lng;
+    public function __construct(
+        private ilLanguage $lng,
+        private ilCtrl $ctrl,
+        private InternalRequestService $testrequest
+    ) {
     }
 
     /**
@@ -135,9 +126,7 @@ class ilTestLearningObjectivesStatusGUI
                 // since ilContainerObjectiveGUI::buildObjectiveProgressBar() "sets an empty ref_id" for ilObjTestGUI,
                 // after creating links for different test refs, the "saved ref_id param" for ilObjTestGUI gets overwritten.
                 // (!) we need to set an explicit ref_id param for ilObjTestGUI again to keep the things running (!)
-
-                global $DIC; /* @var \ILIAS\DI\Container $DIC */
-                $DIC->ctrl()->setParameterByClass('ilObjTestGUI', 'ref_id', $this->testrequest->getRefId());
+                $this->ctrl->setParameterByClass('ilObjTestGUI', 'ref_id', $this->testrequest->getRefId());
             }
 
             $tpl->parseCurrentBlock();

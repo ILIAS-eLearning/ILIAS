@@ -62,8 +62,9 @@ abstract class assQuestionGUI
     private ilTabsGUI $ilTabs;
     private ilRbacSystem $rbacsystem;
 
-    private $tree;
-    private ilDBInterface $ilDB;
+    private ilTree $tree;
+    private ilDBInterface $db;
+    private ilLogger $logger;
     private ilComponentRepository $component_repository;
 
     protected \ILIAS\Notes\GUIService $notes_gui;
@@ -88,7 +89,7 @@ abstract class assQuestionGUI
     /** question count in test */
     public int $question_count;
 
-    private $taxonomyIds = array();
+    private $taxonomyIds = [];
 
     private $targetGuiClass = null;
 
@@ -137,7 +138,8 @@ abstract class assQuestionGUI
         $this->rbacsystem = $DIC['rbacsystem'];
         $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->tree = $DIC['tree'];
-        $this->ilDB = $DIC->database();
+        $this->db = $DIC->database();
+        $this->logger = $DIC['ilLog'];
         $this->component_repository = $DIC['component.repository'];
         $this->ctrl->saveParameter($this, "q_id");
         $this->ctrl->saveParameter($this, "prev_qid");
@@ -701,7 +703,7 @@ abstract class assQuestionGUI
                 $_GET["ref_id"] = $this->request->raw("test_ref_id");
                 $test = new ilObjTest($this->request->raw("test_ref_id"), true);
 
-                $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->ilDB, $this->component_repository, $test);
+                $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->component_repository, $test);
 
                 $test->insertQuestion($testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId());
 
@@ -746,12 +748,15 @@ abstract class assQuestionGUI
             if ($this->request->raw("calling_test")) {
                 $test = new ilObjTest($this->request->raw("calling_test"));
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
-                    $tree = $this->tree;
-                    $ilDB = $this->ilDB;
-                    $component_repository = $this->component_repository;
-
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
-                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
+                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+                        $this->tree,
+                        $this->db,
+                        $this->lng,
+                        $this->logger,
+                        $this->component_repository,
+                        $test
+                    );
 
                     $test->insertQuestion(
                         $testQuestionSetConfigFactory->getQuestionSetConfig(),
@@ -782,13 +787,15 @@ abstract class assQuestionGUI
                         $test->moveQuestionAfter($this->request->raw('prev_qid'), $this->object->getId());
                     }
                     if ($this->request->raw('express_mode')) {
-                        $tree = $this->tree;
-                        $ilDB = $this->ilDB;
-                        $component_repository = $this->component_repository;
-
-                        // TODO: Courier Antipattern!
                         $test = new ilObjTest($this->request->getRefId(), true);
-                        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
+                        $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+                            $this->tree,
+                            $this->db,
+                            $this->lng,
+                            $this->logger,
+                            $this->component_repository,
+                            $test
+                        );
                         $test->insertQuestion(
                             $testQuestionSetConfigFactory->getQuestionSetConfig(),
                             $this->object->getId()
@@ -832,12 +839,16 @@ abstract class assQuestionGUI
             } elseif ($this->request->raw("calling_test")) {
                 $test = new ilObjTest($this->request->raw("calling_test"));
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
-                    $tree = $this->tree;
-                    $ilDB = $this->ilDB;
-                    $component_repository = $this->component_repository;
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
 
-                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
+                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+                        $this->tree,
+                        $this->db,
+                        $this->lng,
+                        $this->logger,
+                        $this->component_repository,
+                        $test
+                    );
 
                     $test->insertQuestion(
                         $testQuestionSetConfigFactory->getQuestionSetConfig(),

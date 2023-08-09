@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilTestEvaluationGUITest
@@ -35,8 +35,6 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilToolbar();
         $this->addGlobal_ilCtrl();
         $this->addGlobal_ilias();
-        $this->addGlobal_tree();
-        $this->addGlobal_ilDB();
         $this->addGlobal_ilUser();
         $this->addGlobal_ilLoggerFactory();
         $this->addGlobal_ilComponentRepository();
@@ -46,6 +44,14 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilErr();
         $this->addGlobal_GlobalScreenService();
         $this->addGlobal_ilUser();
+        $this->addGlobal_ilHelp();
+        $this->addGlobal_ilLog();
+        $this->addGlobal_rbacsystem();
+        $this->addGlobal_ilAccess();
+        $this->addGlobal_ilSetting();
+        $this->addGlobal_ilNavigationHistory();
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
 
         $this->testObj = new ilTestEvaluationGUI($this->createMock(ilObjTest::class));
     }
@@ -62,79 +68,6 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->testObj->setTestAccess($testAccess_mock);
 
         $this->assertEquals($testAccess_mock, $this->testObj->getTestAccess());
-    }
-
-    public function testGetHeaderNames(): void
-    {
-        $objTest_mock = $this->createMock(ilObjTest::class);
-        $objTest_mock
-            ->expects($this->any())
-            ->method("getEvaluationAdditionalFields")
-            ->willReturn([]);
-        $this->testObj->object = $objTest_mock;
-
-        $expectedTranslationCalls = [
-            ["name", ""],
-            ["login", ""],
-            ["tst_reached_points", ""],
-            ["tst_mark", ""],
-            ["tst_answered_questions", ""],
-            ["working_time", ""],
-            ["detailed_evaluation", ""]
-        ];
-
-        $expectedResult = [
-            "translation_name",
-            "translation_login",
-            "translation_tst_reached_points",
-            "translation_tst_mark",
-            "translation_tst_answered_questions",
-            "translation_working_time",
-            "translation_detailed_evaluation"
-        ];
-
-        $lng_mock = $this->createMock(ilLanguage::class);
-        $lng_mock
-            ->expects($this->any())
-            ->method("txt")
-            ->withConsecutive(...$expectedTranslationCalls)
-            ->willReturnOnConsecutiveCalls(...$expectedResult);
-        $this->testObj->lng = $lng_mock;
-
-        $this->assertEquals($expectedResult, $this->testObj->getHeaderNames());
-    }
-
-    public function testGetHeaderVars(): void
-    {
-        $expectedResult1 = [
-            "name",
-            "login",
-            "resultspoints",
-            "resultsmarks",
-            "qworkedthrough",
-            "timeofwork",
-            ""
-        ];
-
-        $expectedResult2 = [
-            "counter",
-            "resultspoints",
-            "resultsmarks",
-            "qworkedthrough",
-            "timeofwork",
-            ""
-        ];
-
-        $this->assertEquals($expectedResult1, $this->testObj->getHeaderVars());
-
-        $objTest_mock = $this->createMock(ilObjTest::class);
-        $objTest_mock
-            ->expects($this->any())
-            ->method("getAnonymity")
-            ->willReturn(true);
-        $this->testObj->object = $objTest_mock;
-
-        $this->assertEquals($expectedResult2, $this->testObj->getHeaderVars());
     }
 
     public function testGetEvaluationQuestionId(): void

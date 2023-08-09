@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -32,9 +34,12 @@ class ASS_MarkSchema
 {
     public array $mark_steps;
 
-    public function __construct()
-    {
-        $this->mark_steps = array();
+    public function __construct(
+        protected ilDBInterface $db,
+        protected ilLanguage $lang,
+        protected int $current_user_id
+    ) {
+        $this->mark_steps = [];
     }
 
     /**
@@ -86,20 +91,16 @@ class ASS_MarkSchema
 
     public function saveToDb(int $test_id): void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilDB = $DIC['ilDB'];
-
-        $oldmarks = array();
+        $oldmarks = [];
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-            $result = $ilDB->queryF(
+            $result = $this->db->queryF(
                 "SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
                 array('integer'),
                 array($test_id)
             );
             if ($result->numRows()) {
                 /** @noinspection PhpAssignmentInConditionInspection */
-                while ($row = $ilDB->fetchAssoc($result)) {
+                while ($row = $this->db->fetchAssoc($result)) {
                     $oldmarks[$row["minimum_level"]] = $row;
                 }
             }
@@ -109,7 +110,7 @@ class ASS_MarkSchema
             return;
         }
         // Delete all entries
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM tst_mark WHERE test_fi = %s",
             array('integer'),
             array($test_id)
@@ -120,8 +121,8 @@ class ASS_MarkSchema
 
         // Write new datasets
         foreach ($this->mark_steps as $key => $value) {
-            $next_id = $ilDB->nextId('tst_mark');
-            $ilDB->manipulateF(
+            $next_id = $this->db->nextId('tst_mark');
+            $this->db->manipulateF(
                 "INSERT INTO tst_mark (mark_id, test_fi, short_name, official_name, minimum_level, passed, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                 array('integer','integer','text','text','float','text','integer'),
                 array(
@@ -136,7 +137,7 @@ class ASS_MarkSchema
             );
         }
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-            $result = $ilDB->queryF(
+            $result = $this->db->queryF(
                 "SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
                 array('integer'),
                 array($test_id)
@@ -144,7 +145,7 @@ class ASS_MarkSchema
             $newmarks = array();
             if ($result->numRows()) {
                 /** @noinspection PhpAssignmentInConditionInspection */
-                while ($row = $ilDB->fetchAssoc($result)) {
+                while ($row = $this->db->fetchAssoc($result)) {
                     $newmarks[$row["minimum_level"]] = $row;
                 }
             }
@@ -164,23 +165,23 @@ class ASS_MarkSchema
                         }
                     }
                     if (count($difffields)) {
-                        $this->logAction($test_id, $lng->txtlng("assessment", "log_mark_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . join(", ", $difffields));
+                        $this->logAction($test_id, $this->lng->txtlng("assessment", "log_mark_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . join(", ", $difffields));
                     }
                 } else {
-                    $this->logAction($test_id, $lng->txtlng("assessment", "log_mark_removed", ilObjAssessmentFolder::_getLogLanguage()) . ": " .
-                        $lng->txtlng("assessment", "tst_mark_minimum_level", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["minimum_level"] . ", " .
-                        $lng->txtlng("assessment", "tst_mark_short_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["short_name"] . ", " .
-                        $lng->txtlng("assessment", "tst_mark_official_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["official_name"] . ", " .
-                        $lng->txtlng("assessment", "tst_mark_passed", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["passed"]);
+                    $this->logAction($test_id, $this->lng->txtlng("assessment", "log_mark_removed", ilObjAssessmentFolder::_getLogLanguage()) . ": " .
+                        $this->lng->txtlng("assessment", "tst_mark_minimum_level", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["minimum_level"] . ", " .
+                        $this->lng->txtlng("assessment", "tst_mark_short_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["short_name"] . ", " .
+                        $this->lng->txtlng("assessment", "tst_mark_official_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["official_name"] . ", " .
+                        $this->lng->txtlng("assessment", "tst_mark_passed", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["passed"]);
                 }
             }
             foreach ($newmarks as $level => $row) {
                 if (!array_key_exists($level, $oldmarks)) {
-                    $this->logAction($test_id, $lng->txtlng("assessment", "log_mark_added", ilObjAssessmentFolder::_getLogLanguage()) . ": " .
-                        $lng->txtlng("assessment", "tst_mark_minimum_level", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["minimum_level"] . ", " .
-                        $lng->txtlng("assessment", "tst_mark_short_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["short_name"] . ", " .
-                        $lng->txtlng("assessment", "tst_mark_official_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["official_name"] . ", " .
-                        $lng->txtlng("assessment", "tst_mark_passed", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["passed"]);
+                    $this->logAction($test_id, $this->lng->txtlng("assessment", "log_mark_added", ilObjAssessmentFolder::_getLogLanguage()) . ": " .
+                        $this->lng->txtlng("assessment", "tst_mark_minimum_level", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["minimum_level"] . ", " .
+                        $this->lng->txtlng("assessment", "tst_mark_short_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["short_name"] . ", " .
+                        $this->lng->txtlng("assessment", "tst_mark_official_form", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["official_name"] . ", " .
+                        $this->lng->txtlng("assessment", "tst_mark_passed", ilObjAssessmentFolder::_getLogLanguage()) . " = " . $row["passed"]);
                 }
             }
         }
@@ -188,20 +189,17 @@ class ASS_MarkSchema
 
     public function loadFromDb(int $test_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         if (!$test_id) {
             return;
         }
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
             array('integer'),
             array($test_id)
         );
         if ($result->numRows() > 0) {
             /** @noinspection PhpAssignmentInConditionInspection */
-            while ($data = $ilDB->fetchAssoc($result)) {
+            while ($data = $this->db->fetchAssoc($result)) {
                 $this->addMarkStep($data["short_name"], $data["official_name"], (float) $data["minimum_level"], (int) $data["passed"]);
             }
         }
@@ -293,91 +291,6 @@ class ASS_MarkSchema
     }
 
     /**
-     * Returns the matching mark for a given percentage.
-     *
-     * @see $mark_steps
-     *
-     * @param integer 	$test_id 	The database id of the test.
-     * @param double 	$percentage	A percentage value between 0 and 100.
-     *
-     * @return false|ASS_Mark The mark object, if a matching mark was found, false otherwise.
-     */
-    public static function _getMatchingMark($test_id, $percentage)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->queryF(
-            "SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level DESC",
-            array('integer'),
-            array($test_id)
-        );
-
-        /** @noinspection PhpAssignmentInConditionInspection */
-        while ($row = $ilDB->fetchAssoc($result)) {
-            if ($percentage >= $row["minimum_level"]) {
-                return $row;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Returns the matching mark for a given percentage.
-     *
-     * @see $mark_steps
-     *
-     * @param integer	$a_obj_id 	The database id of the test.
-     *
-     * @return false|ASS_Mark The mark object, if a matching mark was found, false otherwise.
-     */
-    public static function _getMatchingMarkFromObjId($a_obj_id, float $percentage)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->queryF(
-            "SELECT tst_mark.* FROM tst_mark, tst_tests WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.obj_fi = %s ORDER BY minimum_level DESC",
-            array('integer'),
-            array($a_obj_id)
-        );
-        while ($row = $ilDB->fetchAssoc($result)) {
-            if ($percentage >= $row["minimum_level"]) {
-                return $row;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Returns the matching mark for a given percentage
-     *
-     * @see $mark_steps
-     *
-     * @param int 		$active_id 	The database id of the test
-     * @param double 	$percentage A percentage value between 0 and 100
-     *
-     * @return ASS_Mark|bool The mark object, if a matching mark was found, false otherwise
-    */
-    public static function _getMatchingMarkFromActiveId($active_id, $percentage)
-    {
-        /** @var $ilDB ilDBInterface */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->queryF(
-            "SELECT tst_mark.* FROM tst_active, tst_mark, tst_tests WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s ORDER BY minimum_level DESC",
-            array('integer'),
-            array($active_id)
-        );
-
-        /** @noinspection PhpAssignmentInConditionInspection */
-        while ($row = $ilDB->fetchAssoc($result)) {
-            if ($percentage >= $row["minimum_level"]) {
-                return $row;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Check the marks for consistency.
      *
      * @see $mark_steps
@@ -428,9 +341,6 @@ class ASS_MarkSchema
      */
     public function logAction($test_id, string $logtext = ""): void
     {
-        /** @var $ilUser ilObjUser */
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        ilObjAssessmentFolder::_addLog($ilUser->getId(), ilObjTest::_getObjectIDFromTestID($test_id), $logtext, "", "", true);
+        ilObjAssessmentFolder::_addLog($this->current_user_id, ilObjTest::_getObjectIDFromTestID($test_id), $logtext, "", "", true);
     }
 }

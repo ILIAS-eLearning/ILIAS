@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestParticipantList
  *
@@ -28,51 +30,37 @@
 class ilTestParticipantList implements Iterator
 {
     /**
-     * @var ilTestParticipant[]
+     * @var array<ilTestParticipant>
      */
     protected array $participants = [];
 
-    /**
-     * @var ilObjTest
-     */
-    protected $testObj;
-
-    /**
-     * @param ilObjTest $testObj
-     */
-    public function __construct(ilObjTest $testObj)
-    {
-        $this->testObj = $testObj;
+    public function __construct(
+        private ilObjTest $test_obj,
+        private ilObjUser $user,
+        private ilLanguage $lng,
+        private ilDBInterface $db
+    ) {
     }
 
-    /**
-     * @return ilObjTest
-     */
-    public function getTestObj(): ilObjTest
+    private function getTestObj(): ilObjTest
     {
-        return $this->testObj;
+        return $this->test_obj;
     }
 
-    /**
-     * @param ilObjTest $testObj
-     */
-    public function setTestObj($testObj)
+    public function setTestObj(ilObjTest $test_obj): void
     {
-        $this->testObj = $testObj;
+        $this->test_obj = $test_obj;
     }
 
-    /**
-     * @param ilTestParticipant $participant
-     */
-    public function addParticipant(ilTestParticipant $participant)
+    public function addParticipant(ilTestParticipant $participant): void
     {
         $this->participants[] = $participant;
     }
 
-    public function getParticipantByUsrId($usrId)
+    public function getParticipantByUsrId(int $usr_id): ?ilTestParticipant
     {
         foreach ($this as $participant) {
-            if ($participant->getUsrId() != $usrId) {
+            if ($participant->getUsrId() != $usr_id) {
                 continue;
             }
 
@@ -81,10 +69,10 @@ class ilTestParticipantList implements Iterator
         return null;
     }
 
-    public function getParticipantByActiveId($activeId): ?ilTestParticipant
+    public function getParticipantByActiveId($active_id): ?ilTestParticipant
     {
         foreach ($this as $participant) {
-            if ($participant->getActiveId() != $activeId) {
+            if ($participant->getActiveId() != $active_id) {
                 continue;
             }
 
@@ -93,9 +81,6 @@ class ilTestParticipantList implements Iterator
         return null;
     }
 
-    /**
-     * @return bool
-     */
     public function hasUnfinishedPasses(): bool
     {
         foreach ($this as $participant) {
@@ -107,9 +92,6 @@ class ilTestParticipantList implements Iterator
         return false;
     }
 
-    /**
-     * @return bool
-     */
     public function hasScorings(): bool
     {
         foreach ($this as $participant) {
@@ -143,10 +125,10 @@ class ilTestParticipantList implements Iterator
         return $activeIds;
     }
 
-    public function isActiveIdInList($activeId): bool
+    public function isActiveIdInList(int $active_id): bool
     {
         foreach ($this as $participant) {
-            if ($participant->getActiveId() == $activeId) {
+            if ($participant->getActiveId() == $active_id) {
                 return true;
             }
         }
@@ -154,20 +136,20 @@ class ilTestParticipantList implements Iterator
         return false;
     }
 
-    public function getAccessFilteredList(callable $userAccessFilter): ilTestParticipantList
+    public function getAccessFilteredList(Closure $user_access_filter): ilTestParticipantList
     {
-        $usrIds = call_user_func_array($userAccessFilter, [$this->getAllUserIds()]);
+        $usr_ids = $user_access_filter($this->getAllUserIds());
 
-        $accessFilteredList = new self($this->getTestObj());
+        $access_filtered_list = new self($this->getTestObj(), $this->user, $this->lng, $this->db);
 
         foreach ($this as $participant) {
-            if (in_array($participant->getUsrId(), $usrIds)) {
+            if (in_array($participant->getUsrId(), $usr_ids)) {
                 $participant = clone $participant;
-                $accessFilteredList->addParticipant($participant);
+                $access_filtered_list->addParticipant($participant);
             }
         }
 
-        return $accessFilteredList;
+        return $access_filtered_list;
     }
 
     public function current(): ilTestParticipant
@@ -191,51 +173,43 @@ class ilTestParticipantList implements Iterator
         reset($this->participants);
     }
 
-    /**
-     * @param array[] $dbRows
-     */
-    public function initializeFromDbRows($dbRows)
+    public function initializeFromDbRows(array $db_rows): void
     {
-        foreach ($dbRows as $rowKey => $rowData) {
+        foreach ($db_rows as $row_data) {
             $participant = new ilTestParticipant();
 
-            if ((int) $rowData['active_id']) {
-                $participant->setActiveId((int) $rowData['active_id']);
+            if ((int) $row_data['active_id']) {
+                $participant->setActiveId((int) $row_data['active_id']);
             }
 
-            $participant->setUsrId((int) $rowData['usr_id']);
+            $participant->setUsrId((int) $row_data['usr_id']);
 
-            $participant->setLogin($rowData['login']);
-            $participant->setLastname($rowData['lastname']);
-            $participant->setFirstname($rowData['firstname']);
-            $participant->setMatriculation($rowData['matriculation']);
+            $participant->setLogin($row_data['login']);
+            $participant->setLastname($row_data['lastname']);
+            $participant->setFirstname($row_data['firstname']);
+            $participant->setMatriculation($row_data['matriculation']);
 
-            $participant->setActiveStatus((bool) ($rowData['active'] ?? false));
+            $participant->setActiveStatus((bool) ($row_data['active'] ?? false));
 
-            if (isset($rowData['clientip'])) {
-                $participant->setClientIp($rowData['clientip']);
+            if (isset($row_data['clientip'])) {
+                $participant->setClientIp($row_data['clientip']);
             }
 
-            $participant->setFinishedTries((int) $rowData['tries']);
-            $participant->setTestFinished((bool) $rowData['test_finished']);
-            $participant->setUnfinishedPasses((bool) $rowData['unfinished_passes']);
+            $participant->setFinishedTries((int) $row_data['tries']);
+            $participant->setTestFinished((bool) $row_data['test_finished']);
+            $participant->setUnfinishedPasses((bool) $row_data['unfinished_passes']);
 
             $this->addParticipant($participant);
         }
     }
 
-    /**
-     * @return ilTestParticipantList
-     */
     public function getScoredParticipantList(): ilTestParticipantList
     {
-        $scoredParticipantList = new self($this->getTestObj());
+        $scored_participant_list = new self($this->getTestObj(), $this->user, $this->lng, $this->db);
 
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        $res = $this->db->query($this->buildScoringsQuery());
 
-        $res = $DIC->database()->query($this->buildScoringsQuery());
-
-        while ($row = $DIC->database()->fetchAssoc($res)) {
+        while ($row = $this->db->fetchAssoc($res)) {
             $scoring = new ilTestParticipantScoring();
 
             $scoring->setActiveId((int) $row['active_fi']);
@@ -252,19 +226,17 @@ class ilTestParticipantList implements Iterator
 
             $this->getParticipantByActiveId($row['active_fi'])->setScoring($scoring);
 
-            $scoredParticipantList->addParticipant(
+            $scored_participant_list->addParticipant(
                 $this->getParticipantByActiveId($row['active_fi'])
             );
         }
 
-        return $scoredParticipantList;
+        return $scored_participant_list;
     }
 
     public function buildScoringsQuery(): string
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $IN_activeIds = $DIC->database()->in(
+        $IN_activeIds = $this->db->in(
             'tres.active_fi',
             $this->getAllActiveIds(),
             false,
@@ -285,10 +257,10 @@ class ilTestParticipantList implements Iterator
 
     public function getParticipantsTableRows(): array
     {
-        $rows = array();
+        $rows = [];
 
         foreach ($this as $participant) {
-            $row = array(
+            $row = [
                 'usr_id' => $participant->getUsrId(),
                 'active_id' => $participant->getActiveId(),
                 'login' => $participant->getLogin(),
@@ -301,7 +273,7 @@ class ilTestParticipantList implements Iterator
                 'finished' => $participant->isTestFinished() ? 1 : 0,
                 'access' => $this->lookupLastAccess($participant->getActiveId()),
                 'tries' => $this->lookupNrOfTries($participant->getActiveId())
-            );
+            ];
 
             $rows[] = $row;
         }
@@ -350,39 +322,30 @@ class ilTestParticipantList implements Iterator
         return $rows;
     }
 
-    /**
-     * @param integer $activeId
-     * @return int|null
-     */
-    public function lookupNrOfTries($activeId): ?int
+    public function lookupNrOfTries(?int $active_id): ?int
     {
-        $maxPassIndex = ilObjTest::_getMaxPass($activeId);
-
-        if ($maxPassIndex !== null) {
-            $nrOfTries = $maxPassIndex + 1;
-            return $nrOfTries;
+        if ($active_id === null) {
+            return null;
         }
 
-        return null;
+        $max_pass_index = ilObjTest::_getMaxPass($active_id);
+
+        if ($max_pass_index === null) {
+            return null;
+        }
+
+        return $max_pass_index + 1;
     }
 
-    /**
-     * @param integer $activeId
-     * @return string
-     */
-    protected function lookupLastAccess($activeId): string
+    protected function lookupLastAccess(?int $active_id): string
     {
-        if (!$activeId) {
+        if ($active_id === null) {
             return '';
         }
 
-        return $this->getTestObj()->_getLastAccess($activeId);
+        return $this->getTestObj()->_getLastAccess($active_id);
     }
 
-    /**
-     * @param ilTestParticipant $participant
-     * @return string
-     */
     protected function buildFullname(ilTestParticipant $participant): string
     {
         if ($this->getTestObj()->getMainSettings()->getAccessSettings()->getFixedParticipants() && !$participant->getActiveId()) {
@@ -392,29 +355,19 @@ class ilTestParticipantList implements Iterator
         return $this->buildParticipantsFullname($participant);
     }
 
-    /**
-     * @param ilTestParticipant $participant
-     * @return string
-     */
     protected function buildInviteeFullname(ilTestParticipant $participant): string
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         if (strlen($participant->getFirstname() . $participant->getLastname()) == 0) {
-            return $DIC->language()->txt("deleted_user");
+            return $this->lng->txt("deleted_user");
         }
 
         if ($this->getTestObj()->getAnonymity()) {
-            return $DIC->language()->txt('anonymous');
+            return $this->lng->txt('anonymous');
         }
 
         return trim($participant->getLastname() . ", " . $participant->getFirstname());
     }
 
-    /**
-     * @param ilTestParticipant $participant
-     * @return string
-     */
     protected function buildParticipantsFullname(ilTestParticipant $participant): string
     {
         return ilObjTestAccess::_getParticipantData($participant->getActiveId());

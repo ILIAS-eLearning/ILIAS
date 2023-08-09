@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,12 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Test\InternalRequestService;
 
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -39,49 +43,25 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     public const CMD_RESET_FILTER = 'resetFilter';
     public const CMD_INSERT_QUESTIONS = 'insertQuestions';
 
-    private \ILIAS\Test\InternalRequestService $testrequest;
-    private \ILIAS\HTTP\GlobalHttpState $httpState;
-    private \ILIAS\Refinery\Factory $refinery;
     private bool $writeAccess = false;
-    private ilGlobalTemplateInterface $mainTpl;
-    private ilTabsGUI $tabs;
-    private ilTree $tree;
-    private ilDBInterface $db;
-    private ilComponentRepository $component_repository;
-    private ilObjTest $testOBJ;
-    private ilAccessHandler $access;
 
     /** @var array<string, mixed> */
     private array $filter = [];
 
     public function __construct(
-        ilCtrl $ctrl,
-        ilGlobalTemplateInterface $mainTpl,
-        ilTabsGUI $tabs,
-        ilLanguage $lng,
-        ilTree $tree,
-        ilDBInterface $db,
-        ilComponentRepository $component_repository,
-        ilObjTest $testOBJ,
-        ilAccessHandler $access,
-        ILIAS\HTTP\GlobalHttpState $httpState,
-        ILIAS\Refinery\Factory $refinery
+        private ilTabsGUI $tabs,
+        private ilTree $tree,
+        private ilDBInterface $db,
+        private ilLogger $log,
+        private ilComponentRepository $component_repository,
+        private ilObjTest $test_obj,
+        private ilAccessHandler $access,
+        private GlobalHttpState $http_state,
+        private Refinery $refinery,
+        private InternalRequestService $testrequest
     ) {
-        $this->ctrl = $ctrl;
-        $this->mainTpl = $mainTpl;
-        $this->tabs = $tabs;
-        $this->lng = $lng;
-        $this->tree = $tree;
-        $this->db = $db;
-        $this->component_repository = $component_repository;
-        $this->testOBJ = $testOBJ;
-        $this->access = $access;
-        $this->httpState = $httpState;
-        $this->refinery = $refinery;
+        $this->setId('qpl_brows_tabl_' . $this->test_obj->getId());
 
-        $this->setId('qpl_brows_tabl_' . $this->testOBJ->getId());
-        global $DIC;
-        $this->testrequest = $DIC->test()->internal()->request();
         parent::__construct($this, self::CMD_BROWSE_QUESTIONS);
         $this->setFilterCommand(self::CMD_APPLY_FILTER);
         $this->setResetCommand(self::CMD_RESET_FILTER);
@@ -154,7 +134,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     {
         $this->setData($this->getQuestionsData());
 
-        $this->mainTpl->setContent($this->ctrl->getHTML($this));
+        $this->main_tpl->setContent($this->ctrl->getHTML($this));
         return true;
     }
 
@@ -173,15 +153,15 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     private function insertQuestionsCmd(): void
     {
         $selected_array = [];
-        if ($this->httpState->wrapper()->post()->has('q_id')) {
-            $selected_array = $this->httpState->wrapper()->post()->retrieve(
+        if ($this->http_state->wrapper()->post()->has('q_id')) {
+            $selected_array = $this->http_state->wrapper()->post()->retrieve(
                 'q_id',
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
         }
 
         if ($selected_array === []) {
-            $this->mainTpl->setOnScreenMessage('info', $this->lng->txt("tst_insert_missing_question"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("tst_insert_missing_question"), true);
             $this->ctrl->redirect($this, self::CMD_BROWSE_QUESTIONS);
         }
 
@@ -190,19 +170,19 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $manscoring = false;
 
         foreach ($selected_array as $key => $value) {
-            $last_question_id = $this->testOBJ->insertQuestion($testQuestionSetConfig, $value);
+            $last_question_id = $this->test_obj->insertQuestion($testQuestionSetConfig, $value);
 
             if (!$manscoring) {
                 $manscoring |= assQuestion::_needsManualScoring($value);
             }
         }
 
-        $this->testOBJ->saveCompleteStatus($testQuestionSetConfig);
+        $this->test_obj->saveCompleteStatus($testQuestionSetConfig);
 
         if ($manscoring) {
-            $this->mainTpl->setOnScreenMessage('info', $this->lng->txt("manscoring_hint"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("manscoring_hint"), true);
         } else {
-            $this->mainTpl->setOnScreenMessage('success', $this->lng->txt("tst_questions_inserted"), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("tst_questions_inserted"), true);
         }
 
         $this->ctrl->redirectByClass($this->getBackTargetCmdClass(), $this->getBackTargetCommand());
@@ -447,8 +427,10 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
             $this->tree,
             $this->db,
+            $this->lng,
+            $this->log,
             $this->component_repository,
-            $this->testOBJ
+            $this->test_obj
         );
 
         return $testQuestionSetConfigFactory->getQuestionSetConfig();
@@ -459,7 +441,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
 
         $questionList->setQuestionInstanceTypeFilter($this->getQuestionInstanceTypeFilter());
-        $questionList->setExcludeQuestionIdsFilter($this->testOBJ->getExistingQuestions());
+        $questionList->setExcludeQuestionIdsFilter($this->test_obj->getExistingQuestions());
 
         $repositoryRootNode = self::REPOSITORY_ROOT_NODE_ID;
 
@@ -521,7 +503,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $parentIds = [];
 
         foreach ($parents as $nodeData) {
-            if ((int) $nodeData['obj_id'] === $this->testOBJ->getId()) {
+            if ((int) $nodeData['obj_id'] === $this->test_obj->getId()) {
                 continue;
             }
 
