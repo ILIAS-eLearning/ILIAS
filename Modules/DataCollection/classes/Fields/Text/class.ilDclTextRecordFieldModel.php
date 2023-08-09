@@ -16,9 +16,9 @@
  ********************************************************************
  */
 
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
-
 declare(strict_types=1);
+
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
 {

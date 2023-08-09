@@ -55,6 +55,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
+
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
         $this->http = $DIC->http();
@@ -447,7 +448,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             // settings
             $this->addTab(self::TAB_EDIT_DCL, $this->ctrl->getLinkTarget($this, "editObject"));
             // list tables
-            $this->addTab(self::TAB_LIST_TABLES, $this->ctrl->getLinkTarget($this, "listTables"));
+            $this->addTab(self::TAB_LIST_TABLES, $this->ctrl->getLinkTargetByClass(ilDclTableListGUI::class, "listTables"));
             // export
             $this->addTab(self::TAB_EXPORT, $this->ctrl->getLinkTargetByClass(ilDclExportGUI::class, ""));
         }

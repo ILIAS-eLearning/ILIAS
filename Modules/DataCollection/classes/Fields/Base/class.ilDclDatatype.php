@@ -36,7 +36,7 @@ class ilDclDatatype
     public const INPUTFORMAT_DATE_SELECTION = 15;
     public const INPUTFORMAT_FILE = 16;
 
-    protected string $id = "0";
+    protected int $id = 0;
     protected string $title = "";
     protected int $storageLocation = 0;
     protected string $dbType;
@@ -49,7 +49,7 @@ class ilDclDatatype
      * Constructor
      * @access public
      */
-    public function __construct(string $a_id = "0")
+    public function __construct(int $a_id = 0)
     {
         if ($a_id != 0) {
             $this->id = $a_id;
@@ -57,7 +57,7 @@ class ilDclDatatype
         }
     }
 
-    public function getId(): string
+    public function getId(): int
     {
         return $this->id;
     }

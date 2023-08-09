@@ -158,7 +158,7 @@ class ilDclFieldFactory
      * Get FieldModel from field-id and datatype
      * @throws ilDclException
      */
-    public static function getFieldModelInstance(int $field_id, ?string $datatype = null): ilDclBaseFieldModel
+    public static function getFieldModelInstance(int $field_id, ?int $datatype = null): ilDclBaseFieldModel
     {
         $base = new ilDclBaseFieldModel($field_id);
         if ($datatype != null) {

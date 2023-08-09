@@ -253,7 +253,7 @@ class ilDclExpressionParser
      * Parse a math expression
      * @throws Exception
      */
-    protected function parseMath(array $tokens): ?string
+    protected function parseMath(array $tokens)
     {
         $operators = self::$operators;
         $precedence = 0;

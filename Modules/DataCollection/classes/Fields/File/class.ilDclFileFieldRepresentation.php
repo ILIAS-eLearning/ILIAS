@@ -47,7 +47,7 @@ class ilDclFileFieldRepresentation extends ilDclBaseFieldRepresentation
         ?int $record_id
     ): void {
         if ($record_id !== null) {
-            $record = ilDclCache::getRecordCache((string)$record_id);
+            $record = ilDclCache::getRecordCache($record_id);
         }
 
         $this->setupInputField($input, $this->getField());

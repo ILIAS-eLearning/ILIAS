@@ -24,7 +24,7 @@ class ilDclBaseFieldModel
     protected int $table_id = 0;
     protected string $title = "";
     protected string $description = "";
-    protected string $datatypeId = "0";
+    protected int $datatype_id = 0;
     protected ?int $order = null;
     protected bool $unique;
     /** @var ilDclFieldProperty[] */
@@ -108,7 +108,7 @@ class ilDclBaseFieldModel
      */
     public function setId($a_id): void
     {
-        $this->id = $a_id;
+        $this->id = (string)$a_id;
     }
 
     /**
@@ -174,23 +174,23 @@ class ilDclBaseFieldModel
     /**
      * Set datatype id
      */
-    public function setDatatypeId(string $a_id): void
+    public function setDatatypeId(int $a_id): void
     {
         //unset the cached datatype.
         $this->datatype = null;
-        $this->datatypeId = $a_id;
+        $this->datatype_id = $a_id;
     }
 
     /**
      * Get datatype_id
      */
-    public function getDatatypeId(): ?string
+    public function getDatatypeId(): ?int
     {
         if ($this->isStandardField()) {
             return ilDclStandardField::_getDatatypeForId($this->getId());
         }
 
-        return $this->datatypeId;
+        return $this->datatype_id;
     }
 
     public function isUnique(): bool
@@ -237,7 +237,7 @@ class ilDclBaseFieldModel
     protected function loadDatatype(): void
     {
         if ($this->datatype == null) {
-            $this->datatype = ilDclCache::getDatatype($this->datatypeId);
+            $this->datatype = ilDclCache::getDatatype($this->datatype_id);
         }
     }
 
@@ -299,7 +299,7 @@ class ilDclBaseFieldModel
                 $this->setDescription($rec["description"]);
             }
             $this->setDatatypeId($rec["datatype_id"]);
-            $this->setUnique($rec["is_unique"]);
+            $this->setUnique((bool)$rec["is_unique"]);
         }
 
         $this->loadProperties();
@@ -451,9 +451,9 @@ class ilDclBaseFieldModel
         return !$this->order ? 0 : $this->order;
     }
 
-    public function setOrder(string $order): void
+    public function setOrder(int $order): void
     {
-        $this->order = (int)$order;
+        $this->order = $order;
     }
 
     /**

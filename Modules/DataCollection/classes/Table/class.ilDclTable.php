@@ -44,8 +44,8 @@ class ilDclTable
     protected bool $delete_by_owner = false;
     protected bool $save_confirmation = false;
     protected bool $limited = false;
-    protected ?string $limit_start = null;
-    protected ?string $limit_end = null;
+    protected string $limit_start = "";
+    protected string $limit_end = "";
     protected bool $export_enabled = false;
     protected int $table_order = 0;
     protected bool $import_enabled = false;
@@ -104,27 +104,27 @@ class ilDclTable
         if (null !== $rec["title"]) {
             $this->setTitle($rec["title"]);
         }
-        $this->setAddPerm($rec["add_perm"]);
-        $this->setEditPerm($rec["edit_perm"]);
-        $this->setDeletePerm($rec["delete_perm"]);
-        $this->setEditByOwner($rec["edit_by_owner"]);
+        $this->setAddPerm((bool)$rec["add_perm"]);
+        $this->setEditPerm((bool)$rec["edit_perm"]);
+        $this->setDeletePerm((bool)$rec["delete_perm"]);
+        $this->setEditByOwner((bool)$rec["edit_by_owner"]);
         if (null !== $rec["export_enabled"]) {
             $this->setExportEnabled((bool) $rec["export_enabled"]);
         }
-        $this->setImportEnabled($rec["import_enabled"]);
-        $this->setLimited($rec["limited"]);
-        $this->setLimitStart($rec["limit_start"]);
-        $this->setLimitEnd($rec["limit_end"]);
-        $this->setIsVisible($rec["is_visible"]);
+        $this->setImportEnabled((bool)$rec["import_enabled"]);
+        $this->setLimited((bool)$rec["limited"]);
+        $this->setLimitStart((string)$rec["limit_start"]);
+        $this->setLimitEnd((string)$rec["limit_end"]);
+        $this->setIsVisible((bool)$rec["is_visible"]);
         if (null !== $rec['description']) {
             $this->setDescription($rec['description']);
         }
-        $this->setDefaultSortField($rec['default_sort_field_id']);
+        $this->setDefaultSortField((string)$rec['default_sort_field_id']);
         $this->setDefaultSortFieldOrder($rec['default_sort_field_order']);
-        $this->setPublicCommentsEnabled($rec['public_comments']);
-        $this->setViewOwnRecordsPerm($rec['view_own_records_perm']);
-        $this->setDeleteByOwner($rec['delete_by_owner']);
-        $this->setSaveConfirmation($rec['save_confirmation']);
+        $this->setPublicCommentsEnabled((bool)$rec['public_comments']);
+        $this->setViewOwnRecordsPerm((bool)$rec['view_own_records_perm']);
+        $this->setDeleteByOwner((bool)$rec['delete_by_owner']);
+        $this->setSaveConfirmation((bool)$rec['save_confirmation']);
         if (null !== $rec['table_order']) {
             $this->setOrder($rec['table_order']);
         }
@@ -879,22 +879,22 @@ class ilDclTable
         return $this->limited;
     }
 
-    public function setLimitEnd(?string $limit_end): void
+    public function setLimitEnd(string $limit_end): void
     {
         $this->limit_end = $limit_end;
     }
 
-    public function getLimitEnd(): ?string
+    public function getLimitEnd(): string
     {
         return $this->limit_end;
     }
 
-    public function setLimitStart(?string $limit_start): void
+    public function setLimitStart(string $limit_start): void
     {
         $this->limit_start = $limit_start;
     }
 
-    public function getLimitStart(): ?string
+    public function getLimitStart(): string
     {
         return $this->limit_start;
     }
@@ -921,7 +921,7 @@ class ilDclTable
 
     public function setDefaultSortField(string $default_sort_field): void
     {
-        $default_sort_field = ($default_sort_field) ?: 0; // Change null or empty strings to zero
+        $default_sort_field = ($default_sort_field) ?: ""; // Change null or empty strings to zero
         $this->default_sort_field = $default_sort_field;
     }
 

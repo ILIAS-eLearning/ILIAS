@@ -73,37 +73,37 @@ class ilDclStandardField extends ilDclBaseFieldModel
         global $DIC;
         $lng = $DIC->language();
         return [
-            [
+            "id" => [
                 "id" => "id",
                 "title" => $lng->txt("dcl_id"),
                 "description" => $lng->txt("dcl_id_description"),
                 "datatype_id" => ilDclDatatype::INPUTFORMAT_NUMBER
             ],
-            [
+            "create_date" => [
                 "id" => "create_date",
                 "title" => $lng->txt("dcl_creation_date"),
                 "description" => $lng->txt("dcl_creation_date_description"),
                 "datatype_id" => ilDclDatatype::INPUTFORMAT_DATETIME
             ],
-            [
+            "last_update" => [
                 "id" => "last_update",
                 "title" => $lng->txt("dcl_last_update"),
                 "description" => $lng->txt("dcl_last_update_description"),
                 "datatype_id" => ilDclDatatype::INPUTFORMAT_DATETIME
             ],
-            [
+            "owner" => [
                 "id" => "owner",
                 "title" => $lng->txt("dcl_owner"),
                 "description" => $lng->txt("dcl_owner_description"),
                 "datatype_id" => ilDclDatatype::INPUTFORMAT_TEXT
             ],
-            [
+            "last_edit_by" => [
                 "id" => "last_edit_by",
                 "title" => $lng->txt("dcl_last_edited_by"),
                 "description" => $lng->txt("dcl_last_edited_by_description"),
                 "datatype_id" => ilDclDatatype::INPUTFORMAT_TEXT
             ],
-            [
+            'comments' => [
                 'id' => 'comments',
                 'title' => $lng->txt('dcl_comments'),
                 'description' => $lng->txt('dcl_comments_desc'),
@@ -202,17 +202,9 @@ class ilDclStandardField extends ilDclBaseFieldModel
      * gives you the datatype id of a specified standard field.
      * @param string $id the id of the standardfield eg. "create_date"
      */
-    public static function _getDatatypeForId(string $id): ?string
+    public static function _getDatatypeForId(string $id): ?int
     {
-        $datatype = null;
-        foreach (self::_getStandardFieldsAsArray() as $fields_data) {
-            if ($id == $fields_data['id']) {
-                $datatype = $fields_data['datatype_id'];
-                break;
-            }
-        }
-
-        return $datatype;
+        return self::_getStandardFieldsAsArray()[$id]['datatype_id'];
     }
 
     public function isStandardField(): bool

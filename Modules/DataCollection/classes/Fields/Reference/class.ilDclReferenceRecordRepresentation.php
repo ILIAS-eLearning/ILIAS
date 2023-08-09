@@ -36,7 +36,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
         $html = "";
 
         foreach ($value as $k => $v) {
-            $ref_record = ilDclCache::getRecordCache($v);
+            $ref_record = ilDclCache::getRecordCache((int)$v);
             if (!$ref_record->getId() || !$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()) {
                 //the referenced record_field does not seem to exist.
                 unset($value[$k]);
@@ -47,7 +47,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
             } else {
                 $field = $this->getRecordField()->getField();
                 if ($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE_LINK)) {
-                    $ref_record = ilDclCache::getRecordCache($v);
+                    $ref_record = ilDclCache::getRecordCache((int)$v);
                     $ref_table = $ref_record->getTable();
 
                     $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());

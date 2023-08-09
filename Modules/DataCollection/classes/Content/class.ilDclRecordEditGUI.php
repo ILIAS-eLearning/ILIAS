@@ -253,7 +253,7 @@ class ilDclRecordEditGUI
         $record_id = ($record_id) ?: $get_record_id;
         $return = [];
         if ($record_id) {
-            $record = ilDclCache::getRecordCache((string) $record_id);
+            $record = ilDclCache::getRecordCache($record_id);
             $return = $record->getRecordFieldValues();
         }
         if ($this->ctrl->isAsynch()) {
@@ -282,7 +282,7 @@ class ilDclRecordEditGUI
         $this->form->addItem($hidden_prop);
         if ($this->record_id) {
             $hidden_prop = new ilHiddenInputGUI("record_id");
-            $hidden_prop->setValue($this->record_id);
+            $hidden_prop->setValue((string)$this->record_id);
             $this->form->addItem($hidden_prop);
         }
 

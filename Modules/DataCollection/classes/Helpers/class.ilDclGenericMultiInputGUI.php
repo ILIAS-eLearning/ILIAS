@@ -344,7 +344,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
             foreach ($this->line_values as $i => $data) {
                 $object = $this;
                 $object->setValue($data);
-                $output .= $object->render($i);
+                $output .= $object->render((string)$i);
                 $counter++;
             }
         } else {

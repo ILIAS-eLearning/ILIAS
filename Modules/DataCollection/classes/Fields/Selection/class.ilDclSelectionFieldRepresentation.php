@@ -99,7 +99,7 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
                 foreach ($options as $opt) {
                     $input->addOption(new ilRadioOption($opt->getValue(), (string)$opt->getOptId()));
                 }
-                $input->setValue(array_keys($options)[0]);
+                $input->setValue((string)array_keys($options)[0]);
                 break;
         }
         $this->setupInputField($input, $this->getField());

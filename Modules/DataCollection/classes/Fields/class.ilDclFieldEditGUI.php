@@ -65,7 +65,7 @@ class ilDclFieldEditGUI
             if ($has_datatype) {
                 $datatype_value = $this->http->wrapper()->post()->retrieve(
                     'datatype',
-                    $this->refinery->kindlyTo()->string()
+                    $this->refinery->kindlyTo()->int()
                 );
                 if (in_array(
                     $datatype_value,
@@ -305,13 +305,13 @@ class ilDclFieldEditGUI
 
             $this->field_obj->setTitle($title);
             $this->field_obj->setDescription($this->form->getInput("description"));
-            $this->field_obj->setDatatypeId($this->form->getInput("datatype"));
-            $this->field_obj->setUnique($this->form->getInput("unique"));
+            $this->field_obj->setDatatypeId((int)$this->form->getInput("datatype"));
+            $this->field_obj->setUnique((bool)$this->form->getInput("unique"));
 
             if ($a_mode == "update") {
                 $this->field_obj->doUpdate();
             } else {
-                $this->field_obj->setOrder((string)$this->table->getNewFieldOrder());
+                $this->field_obj->setOrder($this->table->getNewFieldOrder());
                 $this->field_obj->doCreate();
             }
 
@@ -349,7 +349,7 @@ class ilDclFieldEditGUI
         $datatype_id = $this->form->getInput('datatype');
         if ($datatype_id != null && is_numeric($datatype_id)) {
             $base_model = new ilDclBaseFieldModel();
-            $base_model->setDatatypeId($datatype_id);
+            $base_model->setDatatypeId((int)$datatype_id);
             $field_validation_class = ilDclFieldFactory::getFieldModelInstanceByClass($base_model);
 
             if (!$field_validation_class->checkFieldCreationInput($this->form)) {

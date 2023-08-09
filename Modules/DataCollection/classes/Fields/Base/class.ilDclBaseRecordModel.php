@@ -15,9 +15,9 @@
  *
  *********************************************************************/
 
-use ILIAS\Notes\Service;
-
 declare(strict_types=1);
+
+use ILIAS\Notes\Service;
 
 class ilDclBaseRecordModel
 {
@@ -651,7 +651,7 @@ class ilDclBaseRecordModel
     // TODO: Find better way to copy data (including all references)
     public function cloneStructure(int $original_id, array $new_fields): void
     {
-        $original = ilDclCache::getRecordCache((string)$original_id);
+        $original = ilDclCache::getRecordCache($original_id);
         $this->setCreateDate($original->getCreateDate());
         $this->setLastEditBy($original->getLastEditBy());
         $this->setLastUpdate($original->getLastUpdate());

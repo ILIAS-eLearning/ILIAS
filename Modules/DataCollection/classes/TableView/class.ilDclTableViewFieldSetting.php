@@ -68,7 +68,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected string $filter_value = "";
+    protected $filter_value = "";
     /**
      * @var bool
      * @db_has_field        true
@@ -180,7 +180,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->in_filter = $in_filter;
     }
 
-    public function getFilterValue(): string
+    public function getFilterValue()
     {
         return $this->filter_value;
     }
@@ -365,7 +365,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     public function getFieldObject()
     {
         if (is_numeric($this->field)) {   //normal field
-            return ilDclCache::getFieldCache($this->field);
+            return ilDclCache::getFieldCache((int)$this->field);
         } else {   //standard field
             global $DIC;
             $lng = $DIC['lng'];

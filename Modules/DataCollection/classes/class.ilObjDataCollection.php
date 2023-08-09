@@ -23,14 +23,10 @@ declare(strict_types=1);
 class ilObjDataCollection extends ilObject2
 {
     private bool $is_online = false;
-    private string $rating = "";
-    private string $approval = "";
-    private string $public_notes = "";
-    private string $notification = "";
-
-    public function __construct(int $a_id = 0, bool $a_reference = true)
-    {
-    }
+    private bool $rating = false;
+    private bool $approval = false;
+    private bool $public_notes = false;
+    private bool $notification = false;
 
     protected function initType(): void
     {
@@ -43,11 +39,11 @@ class ilObjDataCollection extends ilObject2
 
         $data = $this->db->fetchObject($result);
         if ($data) {
-            $this->setOnline($data->is_online);
-            $this->setRating($data->rating);
-            $this->setApproval($data->approval);
-            $this->setPublicNotes($data->public_notes);
-            $this->setNotification($data->notification);
+            $this->setOnline((bool)$data->is_online);
+            $this->setRating((bool)$data->rating);
+            $this->setApproval((bool)$data->approval);
+            $this->setPublicNotes((bool)$data->public_notes);
+            $this->setNotification((bool)$data->notification);
         }
     }
 
@@ -128,7 +124,7 @@ class ilObjDataCollection extends ilObject2
 
         $dclObj = new ilObjDataCollection($ref_id);
 
-        if ($dclObj->getNotification() != 1) {
+        if ($dclObj->getNotification() != true) {
             return;
         }
         $obj_table = ilDclCache::getTableCache($a_table_id);
@@ -319,7 +315,7 @@ class ilObjDataCollection extends ilObject2
     /**
      * setOnline
      */
-    public function setOnline($a_val): void
+    public function setOnline(bool $a_val): void
     {
         $this->is_online = $a_val;
     }
@@ -332,42 +328,42 @@ class ilObjDataCollection extends ilObject2
         return $this->is_online;
     }
 
-    public function setRating(string $a_val): void
+    public function setRating(bool $a_val): void
     {
         $this->rating = $a_val;
     }
 
-    public function getRating(): string
+    public function getRating(): bool
     {
         return $this->rating;
     }
 
-    public function setPublicNotes(string $a_val)
+    public function setPublicNotes(bool $a_val)
     {
         $this->public_notes = $a_val;
     }
 
-    public function getPublicNotes(): string
+    public function getPublicNotes(): bool
     {
         return $this->public_notes;
     }
 
-    public function setApproval(string $a_val): void
+    public function setApproval(bool $a_val): void
     {
         $this->approval = $a_val;
     }
 
-    public function getApproval(): string
+    public function getApproval(): bool
     {
         return $this->approval;
     }
 
-    public function setNotification(string $a_val): void
+    public function setNotification(bool $a_val): void
     {
         $this->notification = $a_val;
     }
 
-    public function getNotification(): string
+    public function getNotification(): bool
     {
         return $this->notification;
     }

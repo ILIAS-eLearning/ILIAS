@@ -151,7 +151,7 @@ class ilDclCache
         return $fields_cache[$field_id];
     }
 
-    public static function getRecordCache(?string $record_id): ilDclBaseRecordModel
+    public static function getRecordCache(?int $record_id): ilDclBaseRecordModel
     {
         $records_cache = &self::$records_cache;
         if (!$record_id || !isset($records_cache[$record_id])) {
@@ -252,7 +252,7 @@ class ilDclCache
      * Get cached datatypes
      * @throws ilDclException
      */
-    public static function getDatatype(string $datatyp_id): ilDclDatatype
+    public static function getDatatype(int $datatyp_id): ilDclDatatype
     {
         if (self::$datatype_cache == null) {
             self::$datatype_cache = ilDclDatatype::getAllDatatype();
@@ -281,7 +281,7 @@ class ilDclCache
             $field->setDescription($rec["description"]);
         }
         $field->setDatatypeId($rec["datatype_id"]);
-        $field->setUnique($rec["is_unique"]);
+        $field->setUnique((bool)$rec["is_unique"]);
         $fields_cache[$rec["id"]] = $field;
 
         return $field;

@@ -183,50 +183,49 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->ctrl->setParameterByClass("ildclrecordeditgui", "mode", $this->mode);
 
             if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
-                $record_data["_front"] = $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord');
+                $record_data["_front"] = $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord');
             }
 
-            $alist = new ilAdvancedSelectionListGUI();
-            $alist->setId((string)$record->getId());
-            $alist->setListTitle($this->lng->txt("actions"));
+            $action_links = [];
 
             if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
-                $alist->addItem(
+                $action_links[] = $this->ui->factory()->link()->standard(
                     $this->lng->txt('view'),
-                    'view',
-                    $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord')
+                    $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord')
                 );
             }
 
             if ($record->hasPermissionToEdit($this->parent_obj->getRefId())) {
-                $alist->addItem(
+                $action_links[] = $this->ui->factory()->link()->standard(
                     $this->lng->txt('edit'),
-                    'edit',
-                    $this->ctrl->getLinkTargetByClass("ildclrecordeditgui", 'edit')
+                    $this->ctrl->getLinkTargetByClass(ilDclRecordEditGUI::class, 'edit')
                 );
             }
 
             if ($record->hasPermissionToDelete($this->parent_obj->getRefId())) {
-                $alist->addItem(
+                $action_links[] = $this->ui->factory()->link()->standard(
                     $this->lng->txt('delete'),
-                    'delete',
-                    $this->ctrl->getLinkTargetByClass("ildclrecordeditgui", 'confirmDelete')
+                    $this->ctrl->getLinkTargetByClass(ilDclRecordEditGUI::class, 'confirmDelete')
                 );
             }
 
             if ($this->table->getPublicCommentsEnabled()) {
-                $alist->addItem(
+                $action_links[] = $this->ui->factory()->link()->standard(
                     $this->lng->txt('dcl_comments'),
-                    'comment',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    $this->getCommentsAjaxLink($record->getId())
+                    $this->ctrl->getLinkTargetByClass(ilDclRecordEditGUI::class, 'confirmDelete')
                 );
+
+                $js_code = $this->getCommentJsLinkCode($record->getId());
+                $action_links[] = $this->ui->factory()->button()->shy(
+                    $this->lng->txt('dcl_comments'),
+                    "#"
+                )->withAdditionalOnLoadCode(function ($id) use ($js_code) {
+                    return $js_code;
+                });
             }
+            $action_dropdown = $this->ui->factory()->dropdown()->standard($action_links)
+                                        ->withLabel($this->lng->txt("actions"));
+            $record_data["_actions"] = $this->ui->renderer()->render($action_dropdown);
 
             $data[] = $record_data;
         }
@@ -399,7 +398,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     /**
      * @description Get the ajax link for displaying the comments in the right panel (to be wrapped in an onclick attr)
      */
-    protected function getCommentsAjaxLink(int $recordId): string
+    protected function getCommentJsLinkCode(int $recordId): string
     {
         $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
             1,

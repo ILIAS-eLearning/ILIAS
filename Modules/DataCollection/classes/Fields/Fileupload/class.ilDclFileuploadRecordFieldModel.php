@@ -16,9 +16,9 @@
  *
  *********************************************************************/
 
-use ILIAS\Filesystem\Stream\Streams;
-
 declare(strict_types=1);
+
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * @deprecated

@@ -40,7 +40,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 
         $fieldref = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
 
-        $reffield = ilDclCache::getFieldCache($fieldref);
+        $reffield = ilDclCache::getFieldCache((int)$fieldref);
         $options = [];
         if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
             $options[""] = $this->lng->txt('dcl_please_select');
@@ -67,7 +67,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                     break;
                 case ilDclDatatype::INPUTFORMAT_TEXT:
                     $value = $record->getRecordFieldValue($fieldref);
-                    if ($record->getRecordField($fieldref)->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
+                    if ($record->getRecordField((int)$fieldref)->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
                         if (!is_array($value)) {
                             $value = ['title' => '', 'link' => $value];
                         }
