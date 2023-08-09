@@ -46,8 +46,4 @@ interface Pagination extends ViewControlInput
      * something like "1 ... 7 8 9 ... 302"
      */
     public function withNumberOfVisibleEntries(int $number_of_entries): self;
-
-    public function withLabelOffset(string $label): self;
-
-    public function withAriaLabelLimit(string $label): self;
 }

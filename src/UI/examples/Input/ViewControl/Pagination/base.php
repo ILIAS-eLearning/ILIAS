@@ -7,8 +7,8 @@ namespace ILIAS\UI\examples\Input\ViewControl\Pagination;
 function base()
 {
     global $DIC;
-    $f = $DIC['ui.factory'];
-    $r = $DIC['ui.renderer'];
+    $f = $DIC->ui()->factory();
+    $r = $DIC->ui()->renderer();
 
     $pagination = $f->input()->viewControl()->pagination()
         ->withTotalCount(932)

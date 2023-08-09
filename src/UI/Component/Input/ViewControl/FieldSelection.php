@@ -27,7 +27,5 @@ use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
  */
 interface FieldSelection extends ViewControlInput
 {
-    public function withAriaLabel(string $label): self;
-
     public function withButtonLabel(string $label): self;
 }

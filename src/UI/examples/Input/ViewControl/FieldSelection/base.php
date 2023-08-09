@@ -10,8 +10,8 @@ namespace ILIAS\UI\examples\Input\ViewControl\FieldSelection;
 function base()
 {
     global $DIC;
-    $f = $DIC['ui.factory'];
-    $r = $DIC['ui.renderer'];
+    $f = $DIC->ui()->factory();
+    $r = $DIC->ui()->renderer();
 
     //construct with options and labels for aria and button.
     $fs = $f->input()->viewControl()->fieldSelection(

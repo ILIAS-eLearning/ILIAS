@@ -7,8 +7,8 @@ namespace ILIAS\UI\examples\Input\ViewControl\Pagination;
 function with_limit_options()
 {
     global $DIC;
-    $f = $DIC['ui.factory'];
-    $r = $DIC['ui.renderer'];
+    $f = $DIC->ui()->factory();
+    $r = $DIC->ui()->renderer();
 
     $dummy_signal = new \ILIAS\UI\Implementation\Component\Signal('');
 

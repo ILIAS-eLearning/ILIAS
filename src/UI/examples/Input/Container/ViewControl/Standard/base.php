@@ -9,9 +9,9 @@ use ILIAS\Data\Order;
 function base()
 {
     global $DIC;
-    $f = $DIC['ui.factory'];
-    $r = $DIC['ui.renderer'];
-    $refinery = $DIC['refinery'];
+    $f = $DIC->ui()->factory();
+    $r = $DIC->ui()->renderer();
+    $refinery = $DIC->refinery();
     $request = $DIC->http()->request();
 
     $vcs = [
