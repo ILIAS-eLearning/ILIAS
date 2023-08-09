@@ -1003,7 +1003,7 @@ abstract class assQuestion
             $isPassed = isset($mark["passed"]) && $mark["passed"];
 
             $hint_count = $test_pass_result_row['hint_count'] ?? 0;
-            $hint_points = $test_pass_result['hint_points'] ?? 0.0;
+            $hint_points = $test_pass_result_row['hint_points'] ?? 0.0;
 
             $userTestResultUpdateCallback = function () use ($ilDB, $active_id, $pass, $max, $reached, $isPassed, $obligationsAnswered, $hint_count, $hint_points, $mark) {
                 $passedOnceBefore = 0;
@@ -2145,7 +2145,7 @@ abstract class assQuestion
     {
         if (array_key_exists($subquestion_index, $this->suggested_solutions)) {
             $title = $this->suggested_solutions[$subquestion_index]["internal_link"];
-        // TO DO: resolve internal link an get link type and title
+            // TO DO: resolve internal link an get link type and title
         } else {
             $title = "";
         }
