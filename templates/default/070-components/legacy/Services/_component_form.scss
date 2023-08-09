@@ -572,12 +572,12 @@ input[type="checkbox"] {
 }
 
 .ilFormFooter {
-	padding: $il-padding-small-vertical $il-padding-xlarge-horizontal $il-padding-small-vertical 0;
+	margin: 0; // counteracts grid system negative margin
+	padding: $il-padding-small-vertical 0 $il-padding-small-vertical 0;
 }
 
 .ilFormFooter .ilFormCmds {
 	text-align: right;
-	padding: 0;
 }
 
 /* jQuery ui autocomplete menu */
