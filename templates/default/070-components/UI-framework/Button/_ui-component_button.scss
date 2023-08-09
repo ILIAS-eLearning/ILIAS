@@ -94,22 +94,14 @@ input.btn {
 }
 
 .btn-ctrl {
-  @include button-variant($il-btn-ctrl-color, $il-btn-ctrl-bg, $il-btn-ctrl-border);
-  min-height: $il-btn-ctrl-outer-height;
-  min-width: $il-btn-ctrl-outer-height;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: $il-border-radius-secondary-large;
-  // flex fixes for dropdown carets
-  gap: $il-margin-base-horizontal;
-  .caret {
-    width: auto;
-    height: auto;
+  @include make-button($input-field-height: s.$il-btn-ctrl-outer-height, $border-radius: s.$il-border-radius-secondary-large, $button-text-color: s.$il-btn-ctrl-color, $button-color: s.$il-btn-ctrl-bg, $border-color: s.$il-btn-ctrl-border);
+  &.engaged,
+  .open & {
+    border: 1px solid s.$il-btn-ctrl-engaged-border;
+    background-color: s.$il-main-bg;
   }
-  &.engaged {
-    border: 1px solid $il-btn-ctrl-engaged-border;
-    background-color: $il-main-bg;
+  .open & {
+    box-shadow: none;
   }
 }
 
