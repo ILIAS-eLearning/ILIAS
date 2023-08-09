@@ -14519,12 +14519,12 @@ fieldset[disabled] .checkbox label {
 }
 
 .ilFormFooter {
-  padding: 3px 15px 3px 0;
+  margin: 0;
+  padding: 3px 0 3px 0;
 }
 
 .ilFormFooter .ilFormCmds {
   text-align: right;
-  padding: 0;
 }
 
 /* jQuery ui autocomplete menu */
@@ -14772,9 +14772,6 @@ div.ilStartupSection form.form-horizontal {
   border-radius: 3px;
   text-align: left;
   width: 40em;
-}
-div.ilStartupSection form.form-horizontal .ilFormFooter {
-  margin: 0;
 }
 div.ilStartupSection form.form-horizontal .ilFormHeader {
   padding: 9px 15px;
