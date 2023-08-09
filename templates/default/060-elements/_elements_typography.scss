@@ -83,9 +83,7 @@ a {
     text-decoration: $il-link-hover-decoration;
   }
 
-  &:focus {
-    @include t-focus.tab-focus;
-  }
+  @include t-focus.il-focus();
 }
 
 // Emphasis & misc

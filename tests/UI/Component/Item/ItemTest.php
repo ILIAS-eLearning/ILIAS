@@ -200,7 +200,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
         <div class="il-item il-std-item ">
             <div class="il-item-title">Item Title</div>
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"> <span class="caret"></span></button>
+			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                 <ul id="id_3_menu" class="dropdown-menu">
 	                <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button>
                     </li>
