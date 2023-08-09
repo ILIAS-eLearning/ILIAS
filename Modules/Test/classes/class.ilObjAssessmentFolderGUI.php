@@ -169,7 +169,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $numRequiredAnswers->allowDecimals(false);
         $numRequiredAnswers->setMinValue(1);
         $numRequiredAnswers->setMinvalueShouldBeGreater(false);
-        $numRequiredAnswers->setValue((string) $this->getAssessmentFolder()->getSkillTriggeringNumAnswersBarrier());
+        $numRequiredAnswers->setValue($this->getAssessmentFolder()->getSkillTriggeringNumAnswersBarrier());
         $form->addItem($numRequiredAnswers);
 
         $ceeqwh = new ilCheckboxInputGUI($this->lng->txt('export_essay_qst_with_html'), 'export_essay_qst_with_html');

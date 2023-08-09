@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Importer class for files
  *
@@ -28,7 +30,19 @@ class ilTestImporter extends ilXmlImporter
     /**
      * @var array
      */
-    public static $finallyProcessedTestsRegistry = array();
+    public static $finallyProcessedTestsRegistry = [];
+
+    private ilLogger $log;
+    private ilDBInterface $db;
+
+    public function __construct()
+    {
+        global $DIC;
+        $this->log = $DIC['ilLog'];
+        $this->db = $DIC['ilDB'];
+
+        parent::__construct();
+    }
 
     /**
      * Import XML
@@ -63,13 +77,12 @@ class ilTestImporter extends ilXmlImporter
 
         list($xml_file, $qti_file) = $this->parseXmlFileNames();
 
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
         if (!@file_exists($xml_file)) {
-            $DIC['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
+            $this->log->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
             return;
         }
         if (!@file_exists($qti_file)) {
-            $DIC['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $qti_file);
+            $this->log->write(__METHOD__ . ': Cannot find xml definition: ' . $qti_file);
             return;
         }
 
@@ -123,7 +136,7 @@ class ilTestImporter extends ilXmlImporter
 
         // import test results
         if (@file_exists(ilSession::get("tst_import_results_file"))) {
-            $results = new ilTestResultsImportParser(ilSession::get("tst_import_results_file"), $newObj);
+            $results = new ilTestResultsImportParser(ilSession::get("tst_import_results_file"), $newObj, $this->db, $this->log);
             $results->setQuestionIdMapping($a_mapping->getMappingsOfEntity('Modules/Test', 'quest'));
             $results->setSrcPoolDefIdMapping($a_mapping->getMappingsOfEntity('Modules/Test', 'rnd_src_pool_def'));
             $results->startParsing();
@@ -183,17 +196,13 @@ class ilTestImporter extends ilXmlImporter
             }
         }
 
-        // update all source pool definition's tax/taxNode ids with new mapped id
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $ilDB = $DIC['ilDB'];
-
         $srcPoolDefFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
-            $ilDB,
+            $this->db,
             $testOBJ
         );
 
         $srcPoolDefList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
-            $ilDB,
+            $this->db,
             $testOBJ,
             $srcPoolDefFactory
         );
@@ -262,8 +271,7 @@ class ilTestImporter extends ilXmlImporter
      */
     protected function parseXmlFileNames(): array
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $DIC['ilLog']->write(__METHOD__ . ': ' . $this->getImportDirectory());
+        $this->log->write(__METHOD__ . ': ' . $this->getImportDirectory());
 
         $basename = basename($this->getImportDirectory());
 
@@ -336,7 +344,7 @@ class ilTestImporter extends ilXmlImporter
         $parser = new ilTestSkillLevelThresholdXmlParser($xmlFile);
         $parser->startParsing();
 
-        $importer = new ilTestSkillLevelThresholdImporter();
+        $importer = new ilTestSkillLevelThresholdImporter($this->db);
         $importer->setTargetTestId($testOBJ->getTestId());
         $importer->setImportInstallationId($this->getInstallId());
         $importer->setImportMappingRegistry($mapping);

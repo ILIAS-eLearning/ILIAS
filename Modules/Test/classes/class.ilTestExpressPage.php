@@ -16,8 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Test\InternalRequestService;
+
 class ilTestExpressPage
 {
+    private InternalRequestService $testrequest;
     public function __construct()
     {
         global $DIC;

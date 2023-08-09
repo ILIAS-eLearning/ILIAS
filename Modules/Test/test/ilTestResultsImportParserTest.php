@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,10 +26,13 @@ class ilTestResultsImportParserTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
 
+        $this->addGlobal_ilLog();
+
         $testObject = $this->createMock(ilObjTest::class);
-        $this->testObj = new ilTestResultsImportParser("", $testObject);
+        $this->testObj = new ilTestResultsImportParser("", $testObject, $DIC['ilDB'], $DIC['ilLog']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

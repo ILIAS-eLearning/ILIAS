@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * class that manages/holds the data for a question set configuration for continues tests
  *
@@ -26,24 +28,14 @@
  */
 class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 {
-    /**
-     * returns the fact wether a useable question set config exists or not
-     *
-     * @return boolean
-     */
     public function isQuestionSetConfigured(): bool
     {
-        if ($this->testOBJ->getQuestionCountWithoutReloading() > 0) {
+        if ($this->test_obj->getQuestionCountWithoutReloading() > 0) {
             return true;
         }
         return false;
     }
 
-    /**
-     * returns the fact wether a useable question set config exists or not
-     *
-     * @return boolean
-     */
     public function doesQuestionSetRelatedDataExist(): bool
     {
         return $this->isQuestionSetConfigured();
@@ -54,72 +46,58 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
         $res = $this->db->queryF(
             'SELECT question_fi FROM tst_test_question WHERE test_fi = %s',
             ['integer'],
-            [$this->testOBJ->getTestId()]
+            [$this->test_obj->getTestId()]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
-            $this->testOBJ->removeQuestion((int) $row['question_fi']);
+            $this->test_obj->removeQuestion((int) $row['question_fi']);
         }
 
         $this->db->manipulateF(
             'DELETE FROM tst_test_question WHERE test_fi = %s',
             ['integer'],
-            [$this->testOBJ->getTestId()]
+            [$this->test_obj->getTestId()]
         );
 
-        $this->testOBJ->questions = [];
+        $this->test_obj->questions = [];
 
-        $this->testOBJ->saveCompleteStatus($this);
+        $this->test_obj->saveCompleteStatus($this);
     }
 
-    public function resetQuestionSetRelatedTestSettings()
+    public function resetQuestionSetRelatedTestSettings(): void
     {
         // nothing to do
     }
 
-    /**
-     * removes all question set config related data for cloned/copied test
-     *
-     * @param ilObjTest $cloneTestOBJ
-     */
-    public function cloneQuestionSetRelatedData(ilObjTest $clone_test_obj)
+    public function cloneQuestionSetRelatedData(ilObjTest $clone_test_obj): void
     {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-
         $cwo = ilCopyWizardOptions::_getInstance($clone_test_obj->getTmpCopyWizardCopyId());
 
-        foreach ($this->testOBJ->questions as $key => $question_id) {
-            $question = assQuestion::instantiateQuestion($question_id);
+        foreach ($this->test_obj->questions as $key => $question_id) {
+            $question_orig = assQuestion::instantiateQuestion($question_id);
 
-            $clone_test_obj->questions[$key] = $question->duplicate(true, '', '', '', $clone_test_obj->getId());
+            $clone_test_obj->questions[$key] = $question_orig->duplicate(true, '', '', '', $clone_test_obj->getId());
 
             $original_id = assQuestion::_getOriginalId($question_id);
 
-            $question = assQuestion::instantiateQuestion($clone_test_obj->questions[$key]);
-            $question->saveToDb($original_id);
+            $question_clone = assQuestion::instantiateQuestion($clone_test_obj->questions[$key]);
+            $question_clone->saveToDb($original_id);
 
             // Save the mapping of old question id <-> new question id
             // This will be used in class.ilObjCourse::cloneDependencies to copy learning objectives
-            $originalKey = $this->testOBJ->getRefId() . '_question_' . $question_id;
-            $mappedKey = $clone_test_obj->getRefId() . '_question_' . $clone_test_obj->questions[$key];
-            $cwo->appendMapping($originalKey, $mappedKey);
-            $ilLog->write(__METHOD__ . ": Added question id mapping $originalKey <-> $mappedKey");
+            $original_key = $this->test_obj->getRefId() . '_question_' . $question_id;
+            $mapped_key = $clone_test_obj->getRefId() . '_question_' . $clone_test_obj->questions[$key];
+            $cwo->appendMapping($original_key, $mapped_key);
+            $this->log->write(__METHOD__ . ": Added question id mapping $original_key <-> $mapped_key");
         }
     }
 
-    /**
-     * loads the question set config for current test from the database
-     */
-    public function loadFromDb()
+    public function loadFromDb(): void
     {
         // TODO: Implement loadFromDb() method.
     }
 
-    /**
-     * saves the question set config for current test to the database
-     */
-    public function saveToDb()
+    public function saveToDb(): void
     {
         // TODO: Implement saveToDb() method.
     }
@@ -135,7 +113,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
         $res = $this->db->queryF(
             $query,
             ['integer'],
-            [$this->testOBJ->getTestId()]
+            [$this->test_obj->getTestId()]
         );
 
         $sequenceIndex = 0;
@@ -157,20 +135,12 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
         return $reindexedSequencePositionMap;
     }
 
-    /**
-     * saves the question set config for test with given id to the database
-     *
-     * @param $testId
-     */
-    public function cloneToDbForTestId($testId)
+    public function cloneToDbForTestId(int $test_id): void
     {
         // TODO: Implement saveToDbByTestId() method.
     }
 
-    /**
-     * deletes the question set config for current test from the database
-     */
-    public function deleteFromDb()
+    public function deleteFromDb(): void
     {
         // TODO: Implement deleteFromDb() method.
     }

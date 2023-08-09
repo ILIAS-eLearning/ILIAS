@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestPassFinishTasksTest
  * @author Marvin Beym <mbeym@databay.de>
@@ -29,18 +29,8 @@ class ilTestPassFinishTasksTest extends ilTestBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->addGlobal_ilUser();
 
-        $return_statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
-
-        $db_mock = $this->createMock(ilDBInterface::class);
-        $db_mock->expects($this->any())
-                ->method("queryF")
-                ->willReturn($return_statement);
-
-        $this->setGlobalVariable("ilDB", $db_mock);
-
-        $this->testObj = new ilTestPassFinishTasks(0, 0);
+        $this->testObj = new ilTestPassFinishTasks($this->createMock(ilTestSession::class), 0, 0);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

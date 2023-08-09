@@ -49,47 +49,22 @@ class ilAssQuestionPreviewGUI
 
     public const FEEDBACK_FOCUS_ANCHOR = 'focus';
 
-    private RBACServices $rbac_services;
-
-    private ilCtrlInterface $ctrl;
-    private ilRbacSystem $rbac_system;
-    private ilTabsGUI $tabs;
-    private ilGlobalTemplateInterface $tpl;
-    private ilLanguage $lng;
-    private ilDBInterface $db;
-    private ilObjUser $user;
     private assQuestionGUI $questionGUI;
     private assQuestion $questionOBJ;
     private ?ilAssQuestionPreviewSettings $previewSettings = null;
     private ?ilAssQuestionPreviewSession $previewSession = null;
     private ?ilAssQuestionPreviewHintTracking $hintTracking = null;
-    private RandomGroup $randomGroup;
-
-    private int $parent_ref_id;
 
     public function __construct(
-        ilCtrl $ctrl,
-        ilRbacSystem $rbac_system,
-        ilTabsGUI $tabs,
-        ilGlobalTemplateInterface $tpl,
-        ilLanguage $lng,
-        ilDBInterface $db,
-        ilObjUser $user,
-        RandomGroup $randomGroup,
-        int $parent_ref_id,
-        RBACServices $rbac_services
+        private ilCtrl $ctrl,
+        private ilRbacSystem $rbac_system,
+        private ilTabsGUI $tabs,
+        private ilGlobalTemplateInterface $tpl,
+        private ilLanguage $lng,
+        private ilDBInterface $db,
+        private ilObjUser $user,
+        private RandomGroup $randomGroup,
     ) {
-        $this->ctrl = $ctrl;
-        $this->rbac_system = $rbac_system;
-        $this->tabs = $tabs;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->db = $db;
-        $this->user = $user;
-        $this->randomGroup = $randomGroup;
-        $this->rbac_services = $rbac_services;
-        $this->parent_ref_id = $parent_ref_id;
-
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
@@ -245,7 +220,7 @@ class ilAssQuestionPreviewGUI
             return false;
         }
 
-        return (bool) $this->rbac_services->system()->checkAccess('write', (int) $_GET['ref_id']);
+        return (bool) $this->rbac_system->checkAccess('write', (int) $_GET['ref_id']);
     }
 
     private function showCmd($notesPanelHTML = ''): void
@@ -367,7 +342,7 @@ class ilAssQuestionPreviewGUI
         $toolbarGUI->setResetPreviewCmd(self::CMD_RESET);
 
         // Check Permissions first, some Toolbar Actions are only available for write access
-        if ($this->rbac_services->system()->checkAccess('write', (int) $_GET['ref_id'])) {
+        if ($this->rbac_system->checkAccess('write', (int) $_GET['ref_id'])) {
             $toolbarGUI->setEditPageCmd(
                 $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit')
             );

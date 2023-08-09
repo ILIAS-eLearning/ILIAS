@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -53,8 +51,8 @@ class ilTestPersonalSkillsGUITest extends ilTestBaseTestCase
 
     public function testSelectedSkillProfile(): void
     {
-        $this->testObj->setSelectedSkillProfile("testString");
-        $this->assertEquals("testString", $this->testObj->getSelectedSkillProfile());
+        $this->testObj->setSelectedSkillProfile(4);
+        $this->assertEquals(4, $this->testObj->getSelectedSkillProfile());
     }
 
     public function testReachedSkillLevels(): void

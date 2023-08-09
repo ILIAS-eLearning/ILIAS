@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Base Exception for all Exceptions relating to Modules/Test.
  *

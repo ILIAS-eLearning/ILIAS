@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilTestCorrectionsGUITest
@@ -39,9 +39,21 @@ class ilTestCorrectionsGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilTabs();
         $this->addGlobal_http();
         $this->addGlobal_refinery();
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
 
         $this->testObj = new ilTestCorrectionsGUI(
-            $DIC,
+            $DIC['ilDB'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ilTabs'],
+            $DIC['ilHelp'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['tpl'],
+            $DIC['refinery'],
+            $DIC->http()->request(),
+            $this->createMock(ILIAS\Test\InternalRequestService::class),
             $this->createMock(ilObjTest::class)
         );
     }

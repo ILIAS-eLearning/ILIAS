@@ -104,6 +104,8 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
             $this->tree,
             $this->db,
+            $this->lng,
+            $DIC['ilLog'],
             $this->component_repository,
             $this->test_gui->getTestObject()
         );

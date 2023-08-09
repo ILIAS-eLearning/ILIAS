@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -30,13 +32,13 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
      */
     public function checkBuildableNewer(): bool
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $lng = $DIC['lng'];
-
         $isBuildable = true;
 
-        $quantitiesDistribution = new ilTestRandomQuestionsQuantitiesDistribution($this);
-        $quantitiesDistribution->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
+        $quantitiesDistribution = new ilTestRandomQuestionsQuantitiesDistribution(
+            $this->db,
+            $this,
+            $this->sourcePoolDefinitionList
+        );
         $quantitiesDistribution->initialise();
 
         // perhaps not every with every BUT every with any next ??!
@@ -54,7 +56,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 
             $isBuildable = false;
 
-            $this->checkMessages[] = $quantityCalculation->getDistributionReport($lng);
+            $this->checkMessages[] = $quantityCalculation->getDistributionReport($this->lng);
         }
 
         return $isBuildable;
@@ -97,14 +99,11 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
             } else {
                 // fau: fixRandomTestBuildable - log missing questions for a random test rule
                 if ($actualQuestionStage->isSmallerThan($requiredQuestionAmount)) {
-                    global $DIC;
-                    $ilDB = $DIC['ilDB'];
-                    $ilLog = $DIC['ilLog'];
                     if (!isset($translator)) {
-                        $translator = new ilTestTaxonomyFilterLabelTranslater($ilDB);
+                        $translator = new ilTestQuestionFilterLabelTranslater($this->db, $this->lng);
                         $translator->loadLabels($this->sourcePoolDefinitionList);
                     }
-                    $ilLog->write("RANDOM TEST: missing questions for: "
+                    $this->log->write("RANDOM TEST: missing questions for: "
                         . implode(" - ", array($definition->getPoolTitle(), $translator->getTaxonomyFilterLabel($definition->getMappedTaxonomyFilter()))));
                 }
                 // fau.
