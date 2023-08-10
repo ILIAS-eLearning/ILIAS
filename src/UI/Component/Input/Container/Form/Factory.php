@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Component\Input\Container\Form;
+declare(strict_types=1);
 
-use ILIAS\UI\Component\Input\Field\FormInput;
+namespace ILIAS\UI\Component\Input\Container\Form;
 
 /**
  * This is how a factory for forms looks like.
@@ -42,7 +40,7 @@ interface Factory
      * rules:
      *   usage:
      *     1: Standard Forms MUST NOT be used on the same page as tables.
-     *     2: Standard Forms MUST NOT be used on the same page as toolbars.
+     *     2: Standard Forms SHOULD NOT be used on the same page as toolbars.
      *   composition:
      *     1: Each form SHOULD contain at least one section displaying a title.
      *     2: >
@@ -56,12 +54,12 @@ interface Factory
      *     4: >
      *        On top and bottom of a standard form there SHOULD be the “Save” button for the form.
      *     5: >
-     *        In some rare exceptions the Buttons MAY be named differently: if “Save” is
+     *        In some rare exceptions the Buttons MAY be labeled differently: if “Save” is
      *        clearly a misleading since the action is more than storing
      *        the data into the database. “Send Mail” would be an example of this.
      * ---
      * @param    string $post_url
-     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
+     * @param    array<mixed,\ILIAS\UI\Component\Input\Container\Form\FormInput>    $inputs
      * @return    \ILIAS\UI\Component\Input\Container\Form\Standard
      */
     public function standard(string $post_url, array $inputs): Standard;

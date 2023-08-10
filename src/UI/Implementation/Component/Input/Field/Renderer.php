@@ -24,6 +24,7 @@ use ILIAS\Data\DateFormat;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component\Input\Field as F;
 use ILIAS\UI\Component\Input\Field as FI;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -33,6 +34,7 @@ use Closure;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\Data\DataSize;
+use ILIAS\UI\Implementation\Component\Input\Input;
 
 /**
  * Class Renderer
@@ -50,6 +52,7 @@ class Renderer extends AbstractComponentRenderer
         'l' => 'dddd',
         'D' => 'dd',
         'S' => 'o',
+        'i' => 'mm',
         'W' => '',
         'm' => 'MM',
         'F' => 'MMMM',
@@ -132,7 +135,7 @@ class Renderer extends AbstractComponentRenderer
     }
 
     protected function wrapInFormContext(
-        FI\FormInput $component,
+        FormInput $component,
         string $input_html,
         string $id_pointing_to_input = '',
         string $dependant_group_html = '',
@@ -171,21 +174,21 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function maybeDisable(FI\FormInput $component, Template $tpl): void
+    protected function maybeDisable(FormInput $component, Template $tpl): void
     {
         if ($component->isDisabled()) {
             $tpl->setVariable("DISABLED", 'disabled="disabled"');
         }
     }
 
-    protected function applyName(FI\FormInput $component, Template $tpl): ?string
+    protected function applyName(FormInput $component, Template $tpl): ?string
     {
         $name = $component->getName();
         $tpl->setVariable("NAME", $name);
         return $name;
     }
 
-    protected function bindJSandApplyId(FI\FormInput $component, Template $tpl): string
+    protected function bindJSandApplyId(FormInput $component, Template $tpl): string
     {
         $id = $this->bindJavaScript($component) ?? $this->createId();
         $tpl->setVariable("ID", $id);
@@ -200,13 +203,13 @@ class Renderer extends AbstractComponentRenderer
      * for this specific component and the placement of {VALUE} in its template.
      * Please note: this may not work for customized templates!
      */
-    protected function applyValue(FI\FormInput $component, Template $tpl, callable $escape = null): void
+    protected function applyValue(FormInput $component, Template $tpl, callable $escape = null): void
     {
         $value = $component->getValue();
         if (!is_null($escape)) {
             $value = $escape($value);
         }
-        if (isset($value) && strlen($value) > 0) {
+        if (isset($value) && $value !== '') {
             $tpl->setVariable("VALUE", $value);
         }
     }
@@ -472,6 +475,7 @@ class Renderer extends AbstractComponentRenderer
             $id = $this->bindJSandApplyId($component, $tpl);
         }
 
+        $this->applyName($component, $tpl);
         $this->applyValue($component, $tpl, $this->htmlEntities());
         $this->maybeDisable($component, $tpl);
         return $this->wrapInFormContext($component, $tpl->get(), $id);
@@ -759,9 +763,9 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * @param Input $input
-     * @return F\Input|JavaScriptBindable
+     * @return F\FormInput|JavaScriptBindable
      */
-    protected function setSignals(Input $input)
+    protected function setSignals(F\FormInput $input)
     {
         $signals = null;
         foreach ($input->getTriggeredSignals() as $s) {
@@ -834,7 +838,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderFilePreview(
         FI\File $file_input,
-        FI\Input $metadata_input,
+        FormInput $metadata_input,
         RendererInterface $default_renderer,
         ?FileInfoResult $file_info,
         Template $template

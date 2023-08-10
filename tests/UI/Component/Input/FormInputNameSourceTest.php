@@ -33,13 +33,28 @@ class FormInputNameSourceTest extends TestCase
         $name_source = new FormInputNameSource();
 
         $this->assertEquals(
-            'form_input_0',
+            'input_0',
             $name_source->getNewName()
         );
 
         $this->assertEquals(
-            'form_input_1',
+            'input_1',
             $name_source->getNewName()
+        );
+
+        $this->assertEquals(
+            'dedicated',
+            $name_source->getNewDedicatedName('dedicated')
+        );
+
+        $this->assertEquals(
+            'input_2',
+            $name_source->getNewName()
+        );
+
+        $this->assertEquals(
+            'dedicated_3',
+            $name_source->getNewDedicatedName('dedicated')
         );
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 
@@ -40,7 +40,8 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
                 $this->lng,
                 $this->js_binding,
                 $this->refinery,
-                $this->image_path_resolver
+                $this->image_path_resolver,
+                $this->data_factory
             );
         }
         return new Renderer(
@@ -49,7 +50,8 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
             $this->lng,
             $this->js_binding,
             $this->refinery,
-            $this->image_path_resolver
+            $this->image_path_resolver,
+            $this->data_factory
         );
     }
 }

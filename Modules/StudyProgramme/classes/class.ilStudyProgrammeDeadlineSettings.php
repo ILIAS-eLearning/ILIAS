@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Data\Factory;
 use ILIAS\UI\Component\Input\Field;
@@ -70,7 +70,7 @@ class ilStudyProgrammeDeadlineSettings
         ilLanguage $lng,
         Refinery $refinery,
         Factory $data_factory
-    ): Field\Input {
+    ): \ILIAS\UI\Component\Input\Container\Form\FormInput {
         $format = $data_factory->dateFormat()->germanShort();
 
         $grp1 = $input->group([], $lng->txt('prg_no_deadline'));

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 abstract class TestSettings
@@ -47,7 +47,7 @@ abstract class TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Input;
+    ): FormInput;
 
     abstract public function toStorage(): array;
 }

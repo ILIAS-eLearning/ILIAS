@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component;
@@ -29,8 +29,7 @@ use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Implementation\Component\Input\Container\Filter\ProxyFilterField;
 use LogicException;
 use Closure;
-use ILIAS\UI\Component\Input\Field\FilterInput;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 
 /**
  * Class FilterContextRenderer
@@ -44,7 +43,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         /**
-         * @var $component Input
+         * @var $component FilterInput
          */
         $this->checkComponent($component);
 
@@ -300,10 +299,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/Input/Field/groups.js');
     }
 
-    /**
-     * @return FilterInput|JavaScriptBindable
-     */
-    protected function setSignals(Input $input): \ILIAS\UI\Implementation\Component\Input\Field\Input
+    protected function setSignals(FilterInput $input): FilterInput
     {
         $signals = null;
         foreach ($input->getTriggeredSignals() as $s) {
@@ -316,9 +312,6 @@ class FilterContextRenderer extends AbstractComponentRenderer
         if ($signals !== null) {
             $signals = json_encode($signals);
 
-            /**
-             * @var $input FilterInput
-             */
             $input = $input->withAdditionalOnLoadCode(fn ($id) => "il.UI.input.setSignalsForId('$id', $signals);");
 
             $input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());

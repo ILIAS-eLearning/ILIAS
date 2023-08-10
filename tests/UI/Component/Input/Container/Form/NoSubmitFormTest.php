@@ -24,7 +24,6 @@ use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Component\Input\Container\Form\Factory as FormFactory;
 use ILIAS\UI\Component\Input\Field\Factory as InputFactory;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -37,6 +36,14 @@ class InputNameSource implements NameSource
     public function getNewName(): string
     {
         $name = "form_input_$this->count";
+        $this->count++;
+
+        return $name;
+    }
+
+    public function getNewDedicatedName(string $dedicated_name): string
+    {
+        $name = $dedicated_name . "_$this->count";
         $this->count++;
 
         return $name;
@@ -146,7 +153,7 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getParsedBody')->willReturn([
-            'form_input_1' => '',
+            'form_0/form_input_1' => '',
         ]);
 
         $form = $form->withRequest($request);

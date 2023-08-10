@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Component\Input\DynamicInputDataIterator;
 use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
-use ILIAS\UI\Component\Input\Field\Input as InputInterface;
+use ILIAS\UI\Component\Input\Container\Form\FormInput as FormInputInterface;
 use ILIAS\UI\Component\Input\Field\HasDynamicInputs;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
@@ -35,17 +35,17 @@ use ilLanguage;
 /**
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
+abstract class HasDynamicInputsBase extends FormInput implements HasDynamicInputs
 {
     // ==========================================
     // BEGIN IMPLEMENTATION OF DynamicInputsAware
     // ==========================================
 
     /**
-     * @var InputInterface[]
+     * @var FormInputInterface[]
      */
     protected array $dynamic_inputs = [];
-    protected InputInterface $dynamic_input_template;
+    protected FormInputInterface $dynamic_input_template;
     protected ilLanguage $language;
 
     public function __construct(
@@ -53,7 +53,7 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
         DataFactory $data_factory,
         Refinery $refinery,
         string $label,
-        InputInterface $template,
+        FormInputInterface $template,
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
@@ -62,10 +62,10 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
     }
 
     /**
-     * Returns the instance of Input which should be used to generate
+     * Returns the instance of Field which should be used to generate
      * dynamic inputs on clientside.
      */
-    public function getTemplateForDynamicInputs(): InputInterface
+    public function getTemplateForDynamicInputs(): FormInputInterface
     {
         return $this->dynamic_input_template;
     }
@@ -73,7 +73,7 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
     /**
      * Returns serverside generated dynamic Inputs, which happens when
      * providing this InputInterface::withValue().
-     * @return InputInterface[]
+     * @return FormInputInterface[]
      */
     public function getDynamicInputs(): array
     {
@@ -118,9 +118,9 @@ abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
         return $clone;
     }
 
-    public function withNameFrom(NameSource $source): self
+    public function withNameFrom(NameSource $source, ?string $parent_name = null): self
     {
-        $clone = parent::withNameFrom($source);
+        $clone = parent::withNameFrom($source, $parent_name);
 
         $clone->dynamic_input_template = $clone->dynamic_input_template->withNameFrom(
             new DynamicInputsNameSource($clone->getName())

@@ -75,7 +75,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->buildFactory();
         $pwd = $f->password("label", "byline");
-        $this->assertInstanceOf(Field\Input::class, $pwd);
+        $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $pwd);
         $this->assertInstanceOf(Field\Password::class, $pwd);
     }
 
@@ -90,12 +90,12 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $expected = '
             <div class="form-group row">
-                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">'.$label.'</label>
+                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label . '</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div class="il-input-password" id="id_1_container">
-                        <input id="id_1" type="password" name="'.$name.'" class="form-control form-control-sm" />
+                        <input id="id_1" type="password" name="' . $name . '" class="form-control form-control-sm" />
                     </div>
-                    <div class="help-block">'.$byline.'</div>
+                    <div class="help-block">' . $byline . '</div>
                 </div>
             </div>';
         $this->assertHTMLEquals($expected, $r->render($pwd));
@@ -134,10 +134,10 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $expected = '
             <div class="form-group row">
-                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">'.$label.'</label>
+                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label . '</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div class="il-input-password" id="id_1_container">
-                        <input id="id_1" type="password" name="'.$name.'" class="form-control form-control-sm" />
+                        <input id="id_1" type="password" name="' . $name . '" class="form-control form-control-sm" />
                     </div>
                 </div>
             </div>';
@@ -155,10 +155,10 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $expected = '
             <div class="form-group row">
-                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">'.$label.'</label>
+                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label . '</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div class="il-input-password" id="id_1_container">
-                        <input id="id_1" type="password" name="'.$name.'" value="'.$value.'" class="form-control form-control-sm" />
+                        <input id="id_1" type="password" name="' . $name . '" value="' . $value . '" class="form-control form-control-sm" />
                     </div>
                 </div>
             </div>';
@@ -177,10 +177,10 @@ class PasswordInputTest extends ILIAS_UI_TestBase
 
         $expected = '
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">'.$label.'<span class="asterisk">*</span></label>
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label . '<span class="asterisk">*</span></label>
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <div class="il-input-password" id="id_1_container">
-                    <input id="id_1" type="password" name="'.$name.'" class="form-control form-control-sm" />
+                    <input id="id_1" type="password" name="' . $name . '" class="form-control form-control-sm" />
                 </div>
             </div>
         </div>';
@@ -199,10 +199,10 @@ class PasswordInputTest extends ILIAS_UI_TestBase
 
         $expected = '
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">'.$label.'</label>
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label . '</label>
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <div class="il-input-password" id="id_1_container">
-                    <input id="id_1" type="password" name="'.$name.'" disabled="disabled" class="form-control form-control-sm" />
+                    <input id="id_1" type="password" name="' . $name . '" disabled="disabled" class="form-control form-control-sm" />
                 </div>
             </div>
         </div>';

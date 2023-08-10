@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Render;
 
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Triggerer;
@@ -52,7 +53,8 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
         ilLanguage $lng,
         JavaScriptBinding $js_binding,
         \ILIAS\Refinery\Factory $refinery,
-        ImagePathResolver $image_path_resolver
+        ImagePathResolver $image_path_resolver,
+        private DataFactory $data_factory
     ) {
         $this->ui_factory = $ui_factory;
         $this->tpl_factory = $tpl_factory;
@@ -68,6 +70,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         $registry->register('./src/UI/templates/js/Core/ui.js');
+        $registry->register('./src/UI/templates/js/Core/dist/core.js');
     }
 
     /**
@@ -78,6 +81,11 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
     final protected function getUIFactory(): Factory
     {
         return $this->ui_factory;
+    }
+
+    final protected function getDataFactory(): DataFactory
+    {
+        return $this->data_factory;
     }
 
     final protected function getRefinery(): \ILIAS\Refinery\Factory

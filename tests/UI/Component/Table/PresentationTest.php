@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -33,7 +33,11 @@ class PresentationTest extends ILIAS_UI_TestBase
     private function getFactory(): I\Component\Table\Factory
     {
         return new I\Component\Table\Factory(
-            new I\Component\SignalGenerator()
+            new I\Component\SignalGenerator(),
+            new \ILIAS\Data\Factory(),
+            new I\Component\Table\Column\Factory(),
+            new I\Component\Table\Action\Factory(),
+            new I\Component\Table\DataRowBuilder()
         );
     }
 
@@ -63,12 +67,17 @@ class PresentationTest extends ILIAS_UI_TestBase
         $f = $this->getFactory();
         $pt = $f->presentation('title', [], function (): void {
         });
-        $expected = '' .
-            '<div class="il-table-presentation">' .
-            '	<h3 class="ilHeader">title</h3>' .
-            '	<div class="il-table-presentation-data">		</div>' .
-            '</div>';
-        $this->assertHTMLEquals($expected, $r->render($pt->withData([])));
+        $expected = <<<EXP
+        <div class="il-table-presentation" id="id_1">
+            <h3 class="ilHeader">title</h3>
+            <div class="il-table-presentation-data"></div>
+        </div>
+EXP;
+
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($r->render($pt->withData([])))
+        );
     }
 
     public function testRowConstruction(): void
@@ -76,7 +85,7 @@ class PresentationTest extends ILIAS_UI_TestBase
         $f = $this->getFactory();
         $pt = $f->presentation('title', [], function (): void {
         });
-        $row = new PresentationRow($pt->getSignalGenerator());
+        $row = new PresentationRow($pt->getSignalGenerator(), 'table_id');
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\PresentationRow", $row);
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Signal", $row->getShowSignal());
@@ -108,6 +117,8 @@ class PresentationTest extends ILIAS_UI_TestBase
     public function getUIFactory(): NoUIFactory
     {
         $factory = new class () extends NoUIFactory {
+            public I\Component\SignalGenerator $sig_gen;
+
             public function button(): C\Button\Factory
             {
                 return new I\Component\Button\Factory(
@@ -154,30 +165,30 @@ class PresentationTest extends ILIAS_UI_TestBase
         };
 
         $expected = <<<EXP
-<div class="il-table-presentation">
+<div class="il-table-presentation" id="id_1">
     <h3 class="ilHeader">title</h3>
     <div class="il-table-presentation-data">
-        <div class="il-table-presentation-row row collapsed" id="id_1">
+        <div class="il-table-presentation-row row collapsed" id="id_2">
 
             <div class="il-table-presentation-row-controls">
                 <div class="il-table-presentation-row-controls-expander inline">
-                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_2">
+                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_3">
                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div class="il-table-presentation-row-controls-collapser">
-                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_3">
+                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_4">
                         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                     </a>
                 </div>
             </div>
 
             <div class="il-table-presentation-row-contents">
-                <div class="il-table-presentation-actions"><button class="btn btn-default" data-action="#" id="id_5">do</button><br /></div>
+                <div class="il-table-presentation-actions"><button class="btn btn-default" data-action="#" id="id_6">do</button><br /></div>
                 <div class="il-table-presentation-row-header">
                     <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title<br /><small>some type</small>
                     </h4>
-                    <div class="il-table-presentation-row-header-fields">important-1|important-2|<button class="btn btn-link" id="id_4">presentation_table_more</button></div>
+                    <div class="il-table-presentation-row-header-fields">important-1|important-2|<button class="btn btn-link" id="id_5">presentation_table_more</button></div>
                 </div>
 
                 <div class="il-table-presentation-row-expanded">
@@ -229,19 +240,19 @@ EXP;
         };
 
         $expected = <<<EXP
-<div class="il-table-presentation">
+<div class="il-table-presentation" id="id_1">
     <h3 class="ilHeader">title</h3>
     <div class="il-table-presentation-data">
-        <div class="il-table-presentation-row row collapsed" id="id_1">
+        <div class="il-table-presentation-row row collapsed" id="id_2">
 
             <div class="il-table-presentation-row-controls">
                 <div class="il-table-presentation-row-controls-expander inline">
-                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_2">
+                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_3">
                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div class="il-table-presentation-row-controls-collapser">
-                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_3">
+                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_4">
                         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                     </a>
                 </div>
@@ -252,7 +263,7 @@ EXP;
                 <div class="il-table-presentation-row-header">
                     <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h4>
                     <div class="il-table-presentation-row-header-fields">
-                        <button class="btn btn-link" id="id_4">presentation_table_more</button>
+                        <button class="btn btn-link" id="id_5">presentation_table_more</button>
                     </div>
                 </div>
                 <div class="il-table-presentation-row-expanded">

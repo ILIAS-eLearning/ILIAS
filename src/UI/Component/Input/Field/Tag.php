@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Input\Field;
 
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Implementation\Component\Input\Field\FormInputInternal;
 use InvalidArgumentException;
 
 /**
@@ -31,7 +31,7 @@ use InvalidArgumentException;
  *
  * @package ILIAS\UI\Component\Input\Field
  */
-interface Tag extends FormInput, FormInputInternal
+interface Tag extends FormInput
 {
     /**
      * @return string[] of tags such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -38,7 +38,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
+class Tag extends FormInput implements C\Input\Field\Tag
 {
     use JavaScriptBindable;
     use Triggerer;
@@ -117,6 +117,10 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
      */
     protected function getConstraintForRequirement(): ?Constraint
     {
+        if ($this->requirement_constraint !== null) {
+            return $this->requirement_constraint;
+        }
+
         return $this->refinery->logical()->sequential([
             $this->refinery->logical()->not($this->refinery->null()),
             $this->refinery->string()->hasMinLength(1)
@@ -128,7 +132,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         if ($this->getMaxTags() > 0) {
             $max_tags = $this->getMaxTags();
@@ -225,7 +229,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function withTagMaxLength(int $max_length): C\Input\Field\Tag
+    public function withTagMaxLength(int $max_length): self
     {
         $clone = clone $this;
         $clone->tag_max_length = $max_length;
@@ -244,7 +248,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function withMaxTags(int $max_tags): C\Input\Field\Tag
+    public function withMaxTags(int $max_tags): self
     {
         $clone = clone $this;
         $clone->max_tags = $max_tags;
@@ -263,7 +267,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function withInput(InputData $input): C\Input\Field\Input
+    public function withInput(InputData $input): self
     {
         // ATTENTION: This is a slightly modified copy of parent::withInput, which
         // fixes #27909 but makes the Tag Input unusable in Filter Containers.
@@ -287,12 +291,12 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     }
 
     // Events
-    public function withAdditionalOnTagAdded(Signal $signal): C\Input\Field\Tag
+    public function withAdditionalOnTagAdded(Signal $signal): self
     {
         return $this->appendTriggeredSignal($signal, self::EVENT_ITEM_ADDED);
     }
 
-    public function withAdditionalOnTagRemoved(Signal $signal): C\Input\Field\Tag
+    public function withAdditionalOnTagRemoved(Signal $signal): self
     {
         return $this->appendTriggeredSignal($signal, self::EVENT_ITEM_REMOVED);
     }

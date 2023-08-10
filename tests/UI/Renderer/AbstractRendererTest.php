@@ -207,7 +207,8 @@ namespace {
                 $this->lng,
                 $this->js_binding,
                 $this->getRefinery(),
-                $this->image_path_resolver
+                $this->image_path_resolver,
+                $this->getDataFactory()
             );
             $r->_getTemplate("tpl.glyph.html", true, false);
 
@@ -226,7 +227,8 @@ namespace {
                 $this->lng,
                 $this->js_binding,
                 $this->getRefinery(),
-                $this->image_path_resolver
+                $this->image_path_resolver,
+                $this->getDataFactory()
             );
 
             $this->expectException(TypeError::class);
@@ -246,7 +248,8 @@ namespace {
                 $this->lng,
                 $this->js_binding,
                 $this->getRefinery(),
-                $this->image_path_resolver
+                $this->image_path_resolver,
+                $this->getDataFactory()
             );
 
             $g = new Glyph(C\Symbol\Glyph\Glyph::SETTINGS, "aria_label");
@@ -271,7 +274,8 @@ namespace {
                 $this->lng,
                 $this->js_binding,
                 $this->getRefinery(),
-                $this->image_path_resolver
+                $this->image_path_resolver,
+                $this->getDataFactory()
             );
 
             $g = new Glyph(C\Symbol\Glyph\Glyph::SETTINGS, "aria_label");

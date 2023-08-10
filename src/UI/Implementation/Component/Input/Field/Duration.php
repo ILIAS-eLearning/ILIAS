@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Refinery as Refinery;
+use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use DateTimeImmutable;
@@ -54,8 +55,8 @@ class Duration extends Group implements C\Input\Field\Duration
         ?string $byline
     ) {
         $inputs = [
-            $field_factory->dateTime($lng->txt('duration_default_label_start')),
-            $field_factory->dateTime($lng->txt('duration_default_label_end'))
+            $field_factory->dateTime($lng->txt('duration_default_label_start'), null)->withDedicatedName('start'),
+            $field_factory->dateTime($lng->txt('duration_default_label_end'), null)->withDedicatedName('end')
         ];
 
         parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);
@@ -93,7 +94,7 @@ class Duration extends Group implements C\Input\Field\Duration
             if (is_null($v)) {
                 return true;
             }
-            return $v['start'] < $v['end'];
+            return $v['start'] <= $v['end'];
         };
 
         $from_before_until = $this->refinery->custom()->constraint($is_ok, $error);
@@ -275,7 +276,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return true;
     }
@@ -283,8 +284,12 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement(): ?Refinery\Custom\Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
+        if ($this->requirement_constraint !== null) {
+            return $this->requirement_constraint;
+        }
+
         return null;
     }
 
