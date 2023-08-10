@@ -56,9 +56,18 @@ abstract class FormInput extends Input implements FormInputInternal
     {
         if (!$this->isDisabled()) {
             return parent::withInput($input);
+        } else {
+            $clone = $this;
+            $clone->content = $this->applyOperationsTo($clone->getValue());
+            if ($clone->content->isError()) {
+                $error = $clone->content->error();
+                if ($error instanceof \Exception) {
+                    $error = $error->getMessage();
+                }
+                return $clone->withError("" . $error);
+            }
+            return $clone;
         }
-
-        return $this;
     }
 
     /**
