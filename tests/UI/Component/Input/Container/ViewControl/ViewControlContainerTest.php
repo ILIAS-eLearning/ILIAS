@@ -137,6 +137,18 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, array_values($data));
     }
 
+    public function testViewControlContainerRenderWithoutRequest(): void
+    {
+        $this->expectException(\LogicException::class);
+
+        $c_factory = $this->buildVCFactory();
+        $controls = [
+            $c_factory->fieldSelection(['a1' => 'A','a2' => 'B','a3' => 'C'])
+        ];
+        $vc = $this->buildContainerFactory()->standard($controls);
+        $this->getDefaultRenderer()->render($vc);
+    }
+
     public function testViewControlContainerTransforms(): void
     {
         $transform = $this->buildRefinery()->custom()->transformation(

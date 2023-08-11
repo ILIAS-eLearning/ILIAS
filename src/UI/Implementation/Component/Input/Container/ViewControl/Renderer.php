@@ -39,6 +39,9 @@ class Renderer extends AbstractComponentRenderer
         $this->checkComponent($component);
 
         if ($component instanceof ViewControl\Standard) {
+            if (!$component->getRequest()) {
+                throw new LogicException("No request was passed to the container. Please call 'withRequest' on the Container.");
+            }
             return $this->renderStandard($component, $default_renderer);
         }
 
