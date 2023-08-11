@@ -108,6 +108,13 @@ function base()
              * Parameters are passed to the call, but you will have to completely
              * build the contents of the response. DO NOT render an entire page ;)
              */
+            ->withAsync(),
+        'info' =>
+            $f->table()->action()->standard( //in both
+                'Info',
+                $url_builder->withParameter($action_parameter_token, "info"),
+                $row_id_token
+            )
             ->withAsync()
     ];
 
@@ -223,11 +230,17 @@ function base()
             }
             echo($r->renderAsync([
                 $f->modal()->interruptive(
-                    'My Title',
+                    'Deletion',
                     'You are about to delete items!',
                     '#'
                 )->withAffectedItems($items)
             ]));
+            exit();
+        }
+        if ($action === 'info') {
+            echo($r->render(
+                $f->messageBox()->info('an info message: <br>' . $ids)
+            ));
             exit();
         }
 

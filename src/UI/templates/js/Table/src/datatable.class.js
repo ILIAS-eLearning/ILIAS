@@ -203,25 +203,23 @@ export default class DataTable {
    * @return void
    */
   asyncAction(target) {
-    const responseContainer = this.#component.getElementsByClassName('c-table-data__async').item(0);
-    const responseContent = responseContainer.getElementsByClassName('c-table-data__response').item(0);
+    const modalResponseArea = this.#component.getElementsByClassName('c-table-data__async_modal_container').item(0);
+    const responseContainer = this.#component.getElementsByClassName('c-table-data__async_message').item(0);
+    const responseContent = responseContainer.getElementsByClassName('c-table-data__async_messageresponse').item(0);
     this.#jquery.ajax({
       url: target,
       dataType: 'html',
     }).done(
       (html) => {
+        let modalId = '';
         if (this.#jquery(html).first().hasClass('modal')) {
-          this.#jquery(html).modal({ backdrop: false });
+          modalResponseArea.innerHTML = html;
+          modalId = this.#jquery(html).first().get(0).id;
         } else {
-          responseContainer.querySelector('.modal-header > button').addEventListener(
-            'click',
-            () => {
-              responseContainer.style.display = 'none';
-            },
-          );
           responseContent.innerHTML = html;
-          responseContainer.style.display = 'block';
+          modalId = responseContainer.id;
         }
+        il.UI.modal.showModal(modalId, {}, { id: modalId });
       },
     );
   }
