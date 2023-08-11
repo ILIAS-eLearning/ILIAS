@@ -534,6 +534,7 @@ class Renderer extends AbstractComponentRenderer
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Table/dist/presentationtable.min.js');
         $registry->register('./src/UI/templates/js/Table/dist/datatable.min.js');
+        $registry->register('./src/UI/templates/js/Modal/modal.js');
     }
 
     protected function registerSignals(Component\Table\PresentationRow $component): Component\JavaScriptBindable

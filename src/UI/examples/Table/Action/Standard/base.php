@@ -57,17 +57,27 @@ function base()
         $action = $query->retrieve($action_token->getName(), $refinery->to()->string());
         $ids = $query->retrieve($id_token->getName(), $refinery->custom()->transformation(fn($v) => $v));
 
-        $items = $f->listing()->characteristicValue()->text(
-            [
-                'table_action' => $action,
-                'id' => print_r($ids, true),
-            ]
-        );
-
         if ($action === 'do_something_else') {
-            echo($r->render($items));
+            $items = [];
+            $ids = explode(',', $ids);
+            foreach ($ids as $id) {
+                $items[] = $f->modal()->interruptiveItem()->keyValue($id, $id_token->getName(), $id);
+            }
+            echo($r->renderAsync([
+                $f->modal()->interruptive(
+                    'do something else',
+                    'affected items',
+                    '#'
+                )->withAffectedItems($items)
+            ]));
             exit();
         } else {
+            $items = $f->listing()->characteristicValue()->text(
+                [
+                    'table_action' => $action,
+                    'id' => print_r($ids, true),
+                ]
+            );
             $result[] = $f->divider()->horizontal();
             $result[] = $items;
         }
