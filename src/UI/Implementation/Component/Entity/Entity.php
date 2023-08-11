@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -105,7 +106,7 @@ abstract class Entity implements I\Entity
      * @inheritdoc
      */
     public function withBlockingAvailabilityConditions(
-        PropertyListing|StandardLink|Legacy ...$blocking_conditions
+        PropertyListing | StandardLink | Legacy ...$blocking_conditions
     ): self {
         $clone = clone $this;
         $clone->blocking_conditions = $blocking_conditions;
@@ -123,7 +124,7 @@ abstract class Entity implements I\Entity
      * @inheritdoc
      */
     public function withFeaturedProperties(
-        PropertyListing|StandardLink|Legacy ...$featured_props
+        PropertyListing | StandardLink | Legacy ...$featured_props
     ): self {
         $clone = clone $this;
         $clone->featured_props = $featured_props;
@@ -141,7 +142,7 @@ abstract class Entity implements I\Entity
      * @inheritdoc
      */
     public function withMainDetails(
-        PropertyListing|Legacy ...$main_details
+        PropertyListing | Legacy ...$main_details
     ): self {
         $clone = clone $this;
         $clone->main_details = $main_details;
@@ -158,7 +159,7 @@ abstract class Entity implements I\Entity
     /**
      * @inheritdoc
      */
-    public function withPrioritizedReactions(Glyph|Tag ...$prio_reactions): self
+    public function withPrioritizedReactions(Glyph | Tag ...$prio_reactions): self
     {
         $this->checkArgListElements(
             "Entity Prioritized Reactions",
@@ -180,7 +181,7 @@ abstract class Entity implements I\Entity
     /**
      * @inheritdoc
      */
-    public function withReactions(Glyph|Tag ...$reactions): self
+    public function withReactions(Glyph | Tag ...$reactions): self
     {
         $this->checkArgListElements(
             "Entity Reactions",
@@ -204,7 +205,7 @@ abstract class Entity implements I\Entity
      * @inheritdoc
      */
     public function withAvailability(
-        PropertyListing|StandardLink|Legacy ...$availability
+        PropertyListing | StandardLink | Legacy ...$availability
     ): self {
         $clone = clone $this;
         $clone->availability = $availability;
@@ -222,7 +223,7 @@ abstract class Entity implements I\Entity
      * @inheritdoc
      */
     public function withDetails(
-        PropertyListing|Legacy ...$details
+        PropertyListing | Legacy ...$details
     ): self {
         $clone = clone $this;
         $clone->details = $details;
@@ -257,7 +258,7 @@ abstract class Entity implements I\Entity
      * @inheritdoc
      */
     public function withPersonalStatus(
-        PropertyListing|Legacy ...$personal_status
+        PropertyListing | Legacy ...$personal_status
     ): self {
         $clone = clone $this;
         $clone->personal_status = $personal_status;

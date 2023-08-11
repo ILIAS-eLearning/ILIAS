@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -62,7 +63,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable('SECONDARY_IDENTIFIER', is_string($secondary_identifier) ? $secondary_identifier : $this->maybeRender($default_renderer, $secondary_identifier));
 
-        $primary_identifier  = $component->getPrimaryIdentifier();
+        $primary_identifier = $component->getPrimaryIdentifier();
         $primary_identifier = is_string($primary_identifier) ? $primary_identifier : $this->maybeRender($default_renderer, $primary_identifier);
         $tpl->setVariable('PRIMARY_IDENTIFIER', $primary_identifier);
 
@@ -87,7 +88,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function maybeRender(RendererInterface $default_renderer, Component\Component|null ...$values): ?string
+    protected function maybeRender(RendererInterface $default_renderer, Component\Component | null ...$values): ?string
     {
         //$values = array_filter($values);
         if ($values === []) {

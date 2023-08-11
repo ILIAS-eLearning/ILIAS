@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -41,7 +42,7 @@ interface Entity extends Component
      * some access restriction for the user on this object.
      */
     public function withBlockingAvailabilityConditions(
-        PropertyListing|StandardLink|Legacy ...$blocking_conditions
+        PropertyListing | StandardLink | Legacy ...$blocking_conditions
     ): self;
 
     /**
@@ -51,7 +52,7 @@ interface Entity extends Component
      * place.
      */
     public function withFeaturedProperties(
-        PropertyListing|StandardLink|Legacy ...$featured_props
+        PropertyListing | StandardLink | Legacy ...$featured_props
     ): self;
 
     /**
@@ -59,7 +60,7 @@ interface Entity extends Component
      * "Description" would be one of the most prominent examples.
      */
     public function withMainDetails(
-        PropertyListing|Legacy ...$main_details
+        PropertyListing | Legacy ...$main_details
     ): self;
 
     /**
@@ -69,7 +70,7 @@ interface Entity extends Component
      * Another way of distinguishing Reactions might be the availability/significance
      * for everybody in contrast to the current user (e.g. rating vs. my favorite)
      */
-    public function withPrioritizedReactions(Glyph|Tag ...$prio_reactions): self;
+    public function withPrioritizedReactions(Glyph | Tag ...$prio_reactions): self;
 
 
     //Further Areas
@@ -77,7 +78,7 @@ interface Entity extends Component
     /**
      * Reactions that are less prominent than Prioritized Reactions go here.
      */
-    public function withReactions(Glyph|Tag ...$reactions): self;
+    public function withReactions(Glyph | Tag ...$reactions): self;
 
     /**
      * Properties that could potentially limit a users access to the object
@@ -85,7 +86,7 @@ interface Entity extends Component
      * you should place them into Blocking Availability Conditions.
      */
     public function withAvailability(
-        PropertyListing|StandardLink|Legacy ...$availability
+        PropertyListing | StandardLink | Legacy ...$availability
     ): self;
 
     /**
@@ -93,7 +94,7 @@ interface Entity extends Component
      * but not as significantly important than Main Details or Featured Properties.
      */
     public function withDetails(
-        PropertyListing|Legacy ...$details
+        PropertyListing | Legacy ...$details
     ): self;
 
     /**
@@ -108,6 +109,6 @@ interface Entity extends Component
      * the learning Progress of a Course.
      */
     public function withPersonalStatus(
-        PropertyListing|Legacy ...$personal_status
+        PropertyListing | Legacy ...$personal_status
     ): self;
 }
