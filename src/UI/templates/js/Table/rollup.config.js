@@ -23,7 +23,7 @@ export default [
     input: './src/datatable.js',
     output: {
       file: './dist/datatable.min.js',
-      format: 'es',
+      format: 'iife',
       banner: copyright,
       plugins: [
         terser({
