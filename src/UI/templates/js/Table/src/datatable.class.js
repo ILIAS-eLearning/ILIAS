@@ -50,6 +50,21 @@ export default class DataTable {
   #component;
 
   /**
+   * @type {HTMLDivElement}
+   */
+  #modalResponseArea;
+
+  /**
+   * @type {HTMLDivElement}
+   */
+  #responseContainer;
+
+  /**
+   * @type {HTMLDivElement}
+   */
+  #responseContent;
+
+  /**
    * @type {HTMLTableElement}
    */
   #table;
@@ -75,6 +90,10 @@ export default class DataTable {
     if (this.#table === null) {
       throw new Error('There is no <table> in the component\'s HTML.');
     }
+    this.#modalResponseArea = this.#component.getElementsByClassName('c-table-data__async_modal_container').item(0);
+    this.#responseContainer = this.#component.getElementsByClassName('c-table-data__async_message').item(0);
+    this.#responseContent = this.#responseContainer.getElementsByClassName('c-table-data__async_messageresponse').item(0);
+
     this.#jquery = jquery;
     this.#signalConstants = {
       actionId: optActionId,
@@ -203,9 +222,6 @@ export default class DataTable {
    * @return void
    */
   asyncAction(target) {
-    const modalResponseArea = this.#component.getElementsByClassName('c-table-data__async_modal_container').item(0);
-    const responseContainer = this.#component.getElementsByClassName('c-table-data__async_message').item(0);
-    const responseContent = responseContainer.getElementsByClassName('c-table-data__async_messageresponse').item(0);
     this.#jquery.ajax({
       url: target,
       dataType: 'html',
@@ -213,11 +229,11 @@ export default class DataTable {
       (html) => {
         let modalId = '';
         if (this.#jquery(html).first().hasClass('modal')) {
-          modalResponseArea.innerHTML = html;
+          this.#modalResponseArea.innerHTML = html;
           modalId = this.#jquery(html).first().get(0).id;
         } else {
-          responseContent.innerHTML = html;
-          modalId = responseContainer.id;
+          this.#responseContent.innerHTML = html;
+          modalId = this.#responseContainer.id;
         }
         il.UI.modal.showModal(modalId, {}, { id: modalId });
       },
