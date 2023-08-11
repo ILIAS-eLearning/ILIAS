@@ -218,6 +218,8 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
                         $this->log->info('Max Processing time reached for user id (' . $data['usr_id'] . ') so test with active id (' . $data['active_id'] . ') will be finished.');
                         $this->finishPassForUser($data['active_id'], $this->test_ending_times[$test_id]['obj_fi']);
                         $can_not_be_finished = false;
+                    } else {
+                        $this->log->info('Max Processing time not reached for user id (' . $data['usr_id'] . ') in test with active id (' . $data['active_id'] . '). Starting time: ' . $startingTime . ' Processing time: ' . $test_obj->getProcessingTime() . ' / ' .$test_obj->getProcessingTimeInSeconds() .'s');
                     }
                 } else {
                     $this->log->info('Test (' . $test_id . ') has no processing time.');
