@@ -167,8 +167,11 @@ class ilMMItemInformation implements ItemInformation
             }
 
             $aria_label = empty($aria_label) ? $id : $aria_label;
-
-            $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($src->getSrc(), $aria_label);
+            try {
+                $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($src->getSrc(), $aria_label);
+            } catch (Exception $e) {
+                return $item;
+            }
 
             return $item->withSymbol($symbol);
         }
