@@ -328,7 +328,10 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         if ($field_name == 'filter_value') {
             $return = [];
-            $json = json_decode($field_value, true);
+            $json = null;
+            if ($field_value) {
+                $json = json_decode($field_value, true);
+            }
             if (is_array($json)) {
                 foreach ($json as $key => $value) {
                     $return['filter_' . $this->getField() . '_' . $key] = $value;

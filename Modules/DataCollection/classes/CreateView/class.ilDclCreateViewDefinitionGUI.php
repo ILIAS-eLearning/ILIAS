@@ -230,7 +230,10 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                             $this->ctrl->saveParameter($this, 'tableview_id');
                             $this->ctrl->redirect($this, 'presentation');
                         }
-                        $default_value->setValue((int)$value);
+                    }
+
+                    if ($default_value::class == ilDclTableViewNumberDefaultValue::class) {
+                        $default_value->setValue((int) $value);
                     } else {
                         $default_value->setValue($value);
                     }

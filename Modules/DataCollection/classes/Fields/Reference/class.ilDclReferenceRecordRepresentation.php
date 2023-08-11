@@ -74,7 +74,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
             return "";
         }
         $record_field = $this;
-        $ref_record = ilDclCache::getRecordCache($value);
+        $ref_record = ilDclCache::getRecordCache((int)$value);
         if (!$link_name) {
             $link_name = $ref_record->getRecordFieldHTML($record_field->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
         }

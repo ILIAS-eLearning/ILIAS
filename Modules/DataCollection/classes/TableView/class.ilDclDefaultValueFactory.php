@@ -21,8 +21,8 @@ declare(strict_types=1);
 class ilDclDefaultValueFactory
 {
     public const STORAGE_LOCATION_MAPPING = [
-        1 => ilDclTableViewNumberDefaultValue::class,
-        2 => ilDclTableViewTextDefaultValue::class,
+        1 => ilDclTableViewTextDefaultValue::class,
+        2 => ilDclTableViewNumberDefaultValue::class,
         3 => ilDclTableViewDateDefaultValue::class
     ];
 

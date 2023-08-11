@@ -184,7 +184,7 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
             if ($item instanceof ilDclCheckboxInputGUI) {
                 $item->setChecked((bool)$match->getValue());
             } else {
-                $item->setValue($match->getValue());
+                $item->setValue((string)$match->getValue());
             }
         }
 

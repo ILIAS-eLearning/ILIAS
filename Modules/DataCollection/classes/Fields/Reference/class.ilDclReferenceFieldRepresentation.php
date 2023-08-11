@@ -122,7 +122,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
             $this->getField()->getId()
         );
         $ref_field_id = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
-        $ref_field = ilDclCache::getFieldCache($ref_field_id);
+        $ref_field = ilDclCache::getFieldCache((int)$ref_field_id);
         $ref_table = ilDclCache::getTableCache($ref_field->getTableId());
         $options = [];
         foreach ($ref_table->getRecords() as $record) {
