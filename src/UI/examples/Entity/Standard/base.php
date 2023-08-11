@@ -100,9 +100,12 @@ function base()
             ->withCounter($f->counter()->status(7))
     ];
 
-    $details = $f->listing()->property()
-        ->withProperty('detail: ', '7')
-        ->withProperty('detail2', 'unlabled detail', false);
+    $main_detail_1 = $f->listing()->property()
+        ->withProperty('Room', '7')
+    ;
+    $main_detail_2 = $f->listing()->property()
+        ->withProperty('Description', 'This lecture is an introduction to basic concepts fundamental for an intuitive user experience. These basic principles are not directly connected to the visual design, yet they help us to discover a hierarchy in relevance that needs to be respected for the visual appearance.', false)
+    ;
 
     $entity = $entity
         ->withFeaturedProperties($featured_properties)

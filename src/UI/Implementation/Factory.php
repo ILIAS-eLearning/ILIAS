@@ -53,6 +53,7 @@ class Factory implements \ILIAS\UI\Factory
         protected C\Symbol\Factory $symbol_factory,
         protected C\Toast\Factory $toast_factory,
         protected C\Legacy\Factory $legacy_factory,
+        protected C\launcher\Factory $launcher_factory,
         protected C\Entity\Factory $entity_factory
     ) {
     }
@@ -279,7 +280,7 @@ class Factory implements \ILIAS\UI\Factory
     public function helpTopics(string ...$topics): array
     {
         return array_map(
-            fn ($t) => new Help\Topic($t),
+            fn($t) => new Help\Topic($t),
             $topics
         );
     }
