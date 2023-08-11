@@ -18,44 +18,23 @@ import terser from '@rollup/plugin-terser';
 import copyright from '../../../../../CI/Copyright-Checker/copyright';
 import preserveCopyright from '../../../../../CI/Copyright-Checker/preserveCopyright';
 
-export default [
-  {
-    input: './src/datatable.js',
-    output: {
-      file: './dist/datatable.min.js',
-      format: 'iife',
-      banner: copyright,
-      plugins: [
-        terser({
-          format: {
-            comments: preserveCopyright,
-          },
-        }),
-      ],
-      globals: {
-        il: 'il',
-        jquery: '$',
-      },
+export default {
+  input: './src/table.js',
+  output: {
+    file: './dist/table.min.js',
+    format: 'iife',
+    banner: copyright,
+    plugins: [
+      terser({
+        format: {
+          comments: preserveCopyright,
+        },
+      }),
+    ],
+    globals: {
+      il: 'il',
+      jquery: '$',
     },
-    external: ['il', 'jquery'],
   },
-  {
-    input: './src/presentationtable.js',
-    output: {
-      file: './dist/presentationtable.min.js',
-      format: 'es',
-      banner: copyright,
-      plugins: [
-        terser({
-          format: {
-            comments: preserveCopyright,
-          },
-        }),
-      ],
-      globals: {
-        il: 'il',
-      },
-    },
-    external: ['il'],
-  },
-];
+  external: ['il', 'jquery'],
+};

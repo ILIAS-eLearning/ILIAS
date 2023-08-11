@@ -532,8 +532,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/Table/dist/presentationtable.min.js');
-        $registry->register('./src/UI/templates/js/Table/dist/datatable.min.js');
+        $registry->register('./src/UI/templates/js/Table/dist/table.min.js');
         $registry->register('./src/UI/templates/js/Modal/modal.js');
     }
 
