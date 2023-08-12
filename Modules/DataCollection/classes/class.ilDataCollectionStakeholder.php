@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+
 declare(strict_types=1);
 
 class ilDataCollectionStakeholder extends \ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder
