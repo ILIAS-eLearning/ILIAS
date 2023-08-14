@@ -17,19 +17,15 @@
  ********************************************************************
  */
 
+
+declare(strict_types=1);
+
 /**
- * Class ilDclFieldListTableGUI
- * @author       Martin Studer <ms@studer-raimann.ch>
- * @author       Marcel Raimann <mr@studer-raimann.ch>
- * @author       Fabian Schmid <fs@studer-raimann.ch>
- * @author       Oskar Truffer <ot@studer-raimann.ch>
- * @version      $Id:
- * @extends      ilTable2GUI
  * @ilCtrl_Calls ilDateTime
  */
 class ilDclFieldListTableGUI extends ilTable2GUI
 {
-    private $order = null;
+    private ?int $order = null;
 
     protected ilDclTable $table;
 
@@ -108,7 +104,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
 
         $this->prepareOutput();
 
-        if (is_object($ilCtrl) && is_object($this->getParentObject()) && $this->getId() == "") {
+        if (is_object($this->getParentObject()) && $this->getId() == "") {
             $ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
         }
 
@@ -246,7 +242,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('CHECKBOX_EXPORTABLE_CHECKED', 'checked');
             }
         } else {
-            $this->tpl->setVariable('NO_FILTER_EXPORTABLE', '');
+            $this->tpl->setVariable('NO_FILTER_EXPORTABLE');
         }
 
         $this->order = $this->order + 10;
@@ -258,17 +254,14 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         $this->tpl->setVariable('DATATYPE', $a_set->getDatatypeTitle());
 
         if (!$a_set->isStandardField()) {
-            switch ($a_set->isUnique()) {
-                case 0:
-                    $icon = $this->factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_not_ok_monochrome.svg'), $this->lng->txt("yes"));
-                    break;
-                case 1:
-                    $icon = $this->factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_ok_monochrome.svg'), $this->lng->txt("no"));
-                    break;
+            if ($a_set->isUnique()) {
+                $icon = $this->factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_ok_monochrome.svg'), $this->lng->txt("yes"));
+            } else {
+                $icon = $this->factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_not_ok_monochrome.svg'), $this->lng->txt("no"));
             }
             $this->tpl->setVariable('ICON_UNIQUE', $this->renderer->render($icon));
         } else {
-            $this->tpl->setVariable('NO_UNIQUE', '');
+            $this->tpl->setVariable('NO_UNIQUE');
         }
 
         $ilCtrl->setParameterByClass('ildclfieldeditgui', 'field_id', $a_set->getId());

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,24 +14,21 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
-/**
- * Class ilDclTextRecordFieldModel
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
 class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     public function setValueFromForm(ilPropertyFormGUI $form): void
     {
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
-            $value = array(
+            $value = [
                 "link" => $form->getInput("field_" . $this->getField()->getId()),
                 "title" => $form->getInput("field_" . $this->getField()->getId() . '_title'),
-            );
+            ];
         } else {
             $value = $form->getInput("field_" . $this->getField()->getId());
         }

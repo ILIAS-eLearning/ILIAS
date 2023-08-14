@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,18 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclRecordListTableGUI extends ilTable2GUI
 {
     public const EXPORT_EXCEL_ASYNC = 10;
@@ -42,6 +35,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     protected int $userId;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
+    protected \ILIAS\DI\UIServices $ui;
 
     public function __construct(
         ilDclRecordListGUI $a_parent_obj,
@@ -54,6 +48,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->ctrl = $DIC->ctrl();
         $this->userId = $DIC->user()->getId();
         $this->lng = $DIC->language();
+        $this->ui = $DIC->ui();
 
         $this->tableview = ilDclTableView::find($tableview_id);
         $identifier = 'dcl_rl_' . $table->getId() . '_' . $tableview_id;
@@ -111,7 +106,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                     }
                 }
             } else {
-                $default_sort_title = ilDclCache::getFieldCache($fieldId)->getTitle();
+                $default_sort_title = ilDclCache::getFieldCache((int)$fieldId)->getTitle();
             }
             $this->setDefaultOrderField($default_sort_title);
         }
@@ -188,52 +183,50 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->ctrl->setParameterByClass("ildclrecordeditgui", "mode", $this->mode);
 
             if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
-                $record_data["_front"] = $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord');
+                $record_data["_front"] = $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord');
             }
 
-            $alist = new ilAdvancedSelectionListGUI();
-            $alist->setId($record->getId());
-            $alist->setListTitle($this->lng->txt("actions"));
+            $action_links = [];
 
             if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
-                $alist->addItem(
+                $action_links[] = $this->ui->factory()->link()->standard(
                     $this->lng->txt('view'),
-                    'view',
-                    $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord')
+                    $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord')
                 );
             }
 
             if ($record->hasPermissionToEdit($this->parent_obj->getRefId())) {
-                $alist->addItem(
+                $action_links[] = $this->ui->factory()->link()->standard(
                     $this->lng->txt('edit'),
-                    'edit',
-                    $this->ctrl->getLinkTargetByClass("ildclrecordeditgui", 'edit')
+                    $this->ctrl->getLinkTargetByClass(ilDclRecordEditGUI::class, 'edit')
                 );
             }
 
             if ($record->hasPermissionToDelete($this->parent_obj->getRefId())) {
-                $alist->addItem(
+                $action_links[] = $this->ui->factory()->link()->standard(
                     $this->lng->txt('delete'),
-                    'delete',
-                    $this->ctrl->getLinkTargetByClass("ildclrecordeditgui", 'confirmDelete')
+                    $this->ctrl->getLinkTargetByClass(ilDclRecordEditGUI::class, 'confirmDelete')
                 );
             }
 
             if ($this->table->getPublicCommentsEnabled()) {
-                $alist->addItem(
+                $action_links[] = $this->ui->factory()->link()->standard(
                     $this->lng->txt('dcl_comments'),
-                    'comment',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    $this->getCommentsAjaxLink($record->getId())
+                    $this->ctrl->getLinkTargetByClass(ilDclRecordEditGUI::class, 'confirmDelete')
                 );
-            }
 
-            $record_data["_actions"] = $alist->getHTML();
+                $js_code = $this->getCommentJsLinkCode($record->getId());
+                $action_links[] = $this->ui->factory()->button()->shy(
+                    $this->lng->txt('dcl_comments'),
+                    "#"
+                )->withAdditionalOnLoadCode(function ($id) use ($js_code) {
+                    return $js_code;
+                });
+            }
+            $action_dropdown = $this->ui->factory()->dropdown()->standard($action_links)
+                                        ->withLabel($this->lng->txt("actions"));
+            $record_data["_actions"] = $this->ui->renderer()->render($action_dropdown);
+
             $data[] = $record_data;
         }
         $this->setData($data);
@@ -405,7 +398,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     /**
      * @description Get the ajax link for displaying the comments in the right panel (to be wrapped in an onclick attr)
      */
-    protected function getCommentsAjaxLink(int $recordId): string
+    protected function getCommentJsLinkCode(int $recordId): string
     {
         $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
             1,

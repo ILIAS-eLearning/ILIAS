@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,13 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclEditViewTableGUI
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclEditViewTableGUI extends ilTable2GUI
 {
     protected ilLanguage $lng;
@@ -72,7 +70,7 @@ class ilDclEditViewTableGUI extends ilTable2GUI
 
         $this->prepareOutput();
 
-        if (is_object($ilCtrl) && is_object($this->getParentObject()) && $this->getId() == "") {
+        if (is_object($this->getParentObject()) && $this->getId() == "") {
             $ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
         }
 

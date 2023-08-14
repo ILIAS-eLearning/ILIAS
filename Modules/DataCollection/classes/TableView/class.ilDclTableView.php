@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclTableView
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclTableView extends ActiveRecord
 {
     /**
@@ -56,7 +53,7 @@ class ilDclTableView extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           256
      */
-    protected array $roles = array();
+    protected array $roles = [];
     /**
      * @var string
      * @db_has_field        true
@@ -282,7 +279,7 @@ class ilDclTableView extends ActiveRecord
     /**
      * @return ActiveRecord|ilDclTableView
      */
-    public static function findOrGetInstance($primary_key, array $add_constructor_args = array()): ActiveRecord
+    public static function findOrGetInstance($primary_key, array $add_constructor_args = []): ActiveRecord
     {
         return parent::findOrGetInstance($primary_key, $add_constructor_args);
     }
@@ -295,12 +292,12 @@ class ilDclTableView extends ActiveRecord
     public function getFilterableFieldSettings(): array
     {
         return ilDclTableViewFieldSetting::where(
-            array(
+            [
                 "tableview_id" => $this->id,
                 'in_filter' => 1,
                 'il_dcl_tfield_set.table_id' => $this->getTableId(),
-            )
-        )->innerjoin('il_dcl_tfield_set', 'field', 'field', array())
+            ]
+        )->innerjoin('il_dcl_tfield_set', 'field', 'field', [])
                                          ->orderBy('il_dcl_tfield_set.field_order')
                                          ->get();
     }
@@ -313,18 +310,18 @@ class ilDclTableView extends ActiveRecord
     {
         if (!$this->visible_fields_cache) {
             $visible = ilDclTableViewFieldSetting::where(
-                array(
+                [
                     "tableview_id" => $this->id,
                     'visible' => true,
                     'il_dcl_tfield_set.table_id' => $this->getTableId(),
-                )
+                ]
             )->innerjoin(
                 'il_dcl_tfield_set',
                 'field',
                 'field',
-                array()
+                []
             )->orderBy('il_dcl_tfield_set.field_order')->get();
-            $fields = array();
+            $fields = [];
             foreach ($visible as $field_rec) {
                 $fields[] = $field_rec->getFieldObject();
             }
@@ -341,11 +338,11 @@ class ilDclTableView extends ActiveRecord
     public function getFieldSettings(): array
     {
         return ilDclTableViewFieldSetting::where(
-            array(
+            [
                 'tableview_id' => $this->getId(),
                 'il_dcl_tfield_set.table_id' => $this->getTableId(),
-            )
-        )->innerjoin('il_dcl_tfield_set', 'field', 'field', array('field_order'))->orderBy('field_order')->get();
+            ]
+        )->innerjoin('il_dcl_tfield_set', 'field', 'field', ['field_order'])->orderBy('field_order')->get();
     }
 
     /**
@@ -393,10 +390,10 @@ class ilDclTableView extends ActiveRecord
     public function createFieldSetting($field_id): void
     {
         if (!ilDclTableViewFieldSetting::where(
-            array(
+            [
                 'tableview_id' => $this->id,
                 'field' => $field_id,
-            )
+            ]
         )->get()
         ) {
             $field_set = new ilDclTableViewFieldSetting();
@@ -476,12 +473,12 @@ class ilDclTableView extends ActiveRecord
      */
     public static function getAllForTableId(int $table_id): array
     {
-        return self::where(array('table_id' => $table_id))->orderBy('tableview_order')->get();
+        return self::where(['table_id' => $table_id])->orderBy('tableview_order')->get();
     }
 
     public static function getCountForTableId(int $table_id): int
     {
-        return self::where(array('table_id' => $table_id))->orderBy('tableview_order')->count();
+        return self::where(['table_id' => $table_id])->orderBy('tableview_order')->count();
     }
 
     /**
@@ -491,7 +488,7 @@ class ilDclTableView extends ActiveRecord
      */
     public static function createOrGetStandardView(int $table_id, bool $create_default_settings = true): ActiveRecord
     {
-        if ($standardview = self::where(array('table_id' => $table_id))->orderBy('tableview_order')->first()) {
+        if ($standardview = self::where(['table_id' => $table_id])->orderBy('tableview_order')->first()) {
             return $standardview;
         }
 
@@ -500,7 +497,7 @@ class ilDclTableView extends ActiveRecord
         $http = $DIC->http();
         $refinery = $DIC->refinery();
 
-        $roles = array();
+        $roles = [];
 
         $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
         foreach ($rbacreview->getParentRoleIds($ref_id) as $role_array) {
@@ -517,7 +514,7 @@ class ilDclTableView extends ActiveRecord
 
             $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
 
-            $roles = array();
+            $roles = [];
             foreach ($rbacreview->getParentRoleIds($ref_id) as $role_array) {
                 $roles[] = $role_array['obj_id'];
             }

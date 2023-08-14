@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,13 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-/**
- * Class ilDclTextFieldRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+ *********************************************************************/
+
+declare(strict_types=1);
+
 class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public function addFilterInputFieldToTable(ilTable2GUI $table): ?string
@@ -64,9 +62,9 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_LENGTH)) {
             $input->setInfo($this->lng->txt("dcl_max_text_length") . ": " . $this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
             if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
-                $input->setMaxLength($this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
+                $input->setMaxLength((int)$this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
             } else {
-                $input->setMaxNumOfChars($this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
+                $input->setMaxNumOfChars((int)$this->getField()->getProperty(ilDclBaseFieldModel::PROP_LENGTH));
             }
         }
 

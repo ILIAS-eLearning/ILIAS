@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,15 +16,8 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclRecordEditGUI
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- */
+declare(strict_types=1);
+
 class ilDclRecordEditGUI
 {
     /**
@@ -47,9 +41,6 @@ class ilDclRecordEditGUI
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * @param ilObjDataCollectionGUI $parent_obj
-     */
     public function __construct(ilObjDataCollectionGUI $parent_obj, int $table_id, int $tableview_id)
     {
         global $DIC;
@@ -212,13 +203,13 @@ class ilDclRecordEditGUI
             $field_record = ilDclCache::getRecordFieldCache($record, $field);
 
             $record_representation = ilDclCache::getRecordRepresentation($field_record);
-            if ($record_representation->getConfirmationHTML() !== false) {
+            if ($record_representation->getConfirmationHTML() != false) {
                 $record_data .= $field->getTitle() . ": " . $record_representation->getConfirmationHTML() . "<br />";
             }
         }
-        $conf->addItem('record_id', $record->getId(), $record_data);
-        $conf->addHiddenItem('table_id', $this->table_id);
-        $conf->addHiddenItem('tableview_id', $this->tableview_id);
+        $conf->addItem('record_id', (string)$record->getId(), $record_data);
+        $conf->addHiddenItem('table_id', (string)$this->table_id);
+        $conf->addHiddenItem('tableview_id', (string)$this->tableview_id);
         $conf->setConfirm($this->lng->txt('delete'), 'delete');
         $conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
         $this->tpl->setContent($conf->getHTML());
@@ -261,12 +252,10 @@ class ilDclRecordEditGUI
         $get_record_id = $this->http->wrapper()->query()->retrieve('record_id', $this->refinery->kindlyTo()->int());
 
         $record_id = ($record_id) ?: $get_record_id;
-        $return = array();
+        $return = [];
         if ($record_id) {
-            $record = ilDclCache::getRecordCache((int) $record_id);
-            if (is_object($record)) {
-                $return = $record->getRecordFieldValues();
-            }
+            $record = ilDclCache::getRecordCache($record_id);
+            $return = $record->getRecordFieldValues();
         }
         if ($this->ctrl->isAsynch()) {
             echo json_encode($return);
@@ -287,14 +276,14 @@ class ilDclRecordEditGUI
         $this->form->setId($prefix . $this->table_id . $this->record_id);
 
         $hidden_prop = new ilHiddenInputGUI("table_id");
-        $hidden_prop->setValue($this->table_id);
+        $hidden_prop->setValue((string)$this->table_id);
         $this->form->addItem($hidden_prop);
         $hidden_prop = new ilHiddenInputGUI("tableview_id");
-        $hidden_prop->setValue($this->tableview_id);
+        $hidden_prop->setValue((string)$this->tableview_id);
         $this->form->addItem($hidden_prop);
         if ($this->record_id) {
             $hidden_prop = new ilHiddenInputGUI("record_id");
-            $hidden_prop->setValue($this->record_id);
+            $hidden_prop->setValue((string)$this->record_id);
             $this->form->addItem($hidden_prop);
         }
 
@@ -452,9 +441,9 @@ class ilDclRecordEditGUI
 
         $record_data = "";
 
-        $empty_fileuploads = array();
+        $empty_fileuploads = [];
         foreach ($all_fields as $field) {
-            $record_field = $record_obj->getRecordField($field->getId());
+            $record_field = $record_obj->getRecordField((int)$field->getId());
             /** @var ilDclBaseRecordFieldModel $record_field */
             $record_field->addHiddenItemsToConfirmation($confirmation);
 
@@ -471,16 +460,16 @@ class ilDclRecordEditGUI
             }
             $record_representation = ilDclFieldFactory::getRecordRepresentationInstance($record_field);
 
-            if ($record_representation->getConfirmationHTML() !== false) {
+            if ($record_representation->getConfirmationHTML() != false) {
                 $record_data .= $field->getTitle() . ": " . $record_representation->getConfirmationHTML() . "<br />";
             }
         }
 
         $confirmation->addHiddenItem('ilfilehash', $filehash);
         $confirmation->addHiddenItem('empty_fileuploads', htmlspecialchars(json_encode($empty_fileuploads)));
-        $confirmation->addHiddenItem('table_id', $this->table_id);
-        $confirmation->addHiddenItem('tableview_id', $this->tableview_id);
-        $confirmation->addItem('save_confirmed', 1, $record_data);
+        $confirmation->addHiddenItem('table_id', (string)$this->table_id);
+        $confirmation->addHiddenItem('tableview_id', (string)$this->tableview_id);
+        $confirmation->addItem('save_confirmed', "1", $record_data);
 
         if ($this->ctrl->isAsynch()) {
             echo $confirmation->getHTML();
@@ -557,7 +546,7 @@ class ilDclRecordEditGUI
             } catch (ilDclInputException $e) {
                 $valid = false;
                 $item = $this->form->getItemByPostVar('field_' . $field->getId());
-                $item->setAlert($e);
+                $item->setAlert($e->getMessage());
             }
         }
 
@@ -565,7 +554,6 @@ class ilDclRecordEditGUI
             // Form not valid...
             //TODO: URL title flushes on invalid form
             ilDclPropertyFormGUI::rebuildTempFileByHash($ilfilehash);
-            $hash = $this->rebuildUploadsForFileHash($has_ilfilehash);
             $this->form->setValuesByPost();
             $this->tpl->setContent($this->form->getHTML());
             $this->sendFailure($this->lng->txt('form_input_not_valid'));
@@ -589,7 +577,7 @@ class ilDclRecordEditGUI
 
                 //edit values, they are valid we already checked them above
                 foreach ($all_fields as $field) {
-                    $record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
+                    $record_obj->setRecordFieldValueFromForm((int)$field->getId(), $this->form);
                 }
 
                 $this->saveConfirmation($record_obj, $hash);
@@ -618,7 +606,7 @@ class ilDclRecordEditGUI
             if ($field_setting->isVisibleInForm($create_mode) &&
                     (!$field_setting->isLocked($create_mode) || ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId()))) {
                 // set all visible fields
-                $record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
+                $record_obj->setRecordFieldValueFromForm((int)$field->getId(), $this->form);
             } elseif ($create_mode) {
                 // set default values when creating
                 $default_value = ilDclTableViewBaseDefaultValue::findSingle(
@@ -650,12 +638,12 @@ class ilDclRecordEditGUI
 
         $dispatchEvent = "update";
 
-        $dispatchEventData = array(
+        $dispatchEventData = [
                 'dcl' => $this->parent_obj->getDataCollectionObject(),
                 'table_id' => $this->table_id,
                 'record_id' => $record_obj->getId(),
                 'record' => $record_obj,
-            );
+        ];
 
         if ($create_mode) {
             $dispatchEvent = "create";
@@ -819,9 +807,9 @@ class ilDclRecordEditGUI
      */
     protected function parseSearchResults(array $a_res): array
     {
-        $rows = array();
+        $rows = [];
         foreach ($a_res as $obj_id => $references) {
-            $r = array();
+            $r = [];
             $r['title'] = ilObject::_lookupTitle($obj_id);
             $r['desc'] = ilObject::_lookupDescription($obj_id);
             $r['obj_id'] = $obj_id;

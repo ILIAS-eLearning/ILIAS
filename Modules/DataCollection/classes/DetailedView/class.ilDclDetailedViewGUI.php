@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
+declare(strict_types=1);
 /**
- * @author       Martin Studer <ms@studer-raimann.ch>
- * @author       Marcel Raimann <mr@studer-raimann.ch>
- * @author       Fabian Schmid <fs@studer-raimann.ch>
- * @version      $Id:
  * @ilCtrl_Calls ilDclDetailedViewGUI: ilDclDetailedViewDefinitionGUI, ilEditClipboardGUI
  */
 class ilDclDetailedViewGUI
@@ -40,30 +37,15 @@ class ilDclDetailedViewGUI
     protected ilCtrlInterface $ctrl;
     private ilGlobalTemplateInterface $main_tpl;
 
-    private ilDataCollectionUiPort $dclUi;
-    private ilDataCollectionEndpointPort $dclEndPoint;
-
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
-    protected int $record_id;
+    protected ?int $record_id;
     protected ilNoteGUI $notesGUI;
     protected ilDclBaseFieldModel $currentField;
 
-    private function init(
-        ilDataCollectionOutboundsAdapter $adapter
-    ): void {
-        $this->dclUi = $adapter->getDataCollectionUi();
-        $this->dclAccess = $adapter->getDataCollectionAccess();
-        $this->dclEndPoint = $adapter->getDataCollectionEndpoint();
-    }
-
-    /**
-     * @param ilObjDataCollectionGUI $a_dcl_object
-     */
     public function __construct(ilObjDataCollectionGUI $a_dcl_object, int $tableview_id)
     {
         global $DIC;
-        $this->init(ilDataCollectionOutboundsAdapter::new());
 
         $tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
@@ -73,6 +55,7 @@ class ilDclDetailedViewGUI
         $this->refinery = $DIC->refinery();
         $this->main_tpl = $DIC->ui()->mainTemplate();
 
+        $this->record_id = null;
         if ($this->http->wrapper()->query()->has('record_id')) {
             $this->record_id = $this->http->wrapper()->query()->retrieve(
                 'record_id',
@@ -85,13 +68,15 @@ class ilDclDetailedViewGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        $this->record_obj = ilDclCache::getRecordCache($this->record_id);
-
         $ref_id = $this->dcl_gui_object->getRefId();
-        if (!$this->record_obj->hasPermissionToView($ref_id)) {
-            $this->dclUi->displayFailureMessage($this->lng->txt('dcl_msg_no_perm_view'));
 
-            $this->dclEndPoint->redirect($this->dclEndPoint->getListRecordsLink());
+        if ($this->record_id) {
+            $this->record_obj = ilDclCache::getRecordCache($this->record_id);
+            $this->table = $this->record_obj->getTable();
+            if (!$this->record_obj->hasPermissionToView($ref_id)) {
+                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_no_perm_view'), true);
+                $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "show");
+            }
         }
 
         // content style (using system defaults)
@@ -103,14 +88,12 @@ class ilDclDetailedViewGUI
         $tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
         $tpl->parseCurrentBlock();
 
-        $this->table = $this->record_obj->getTable();
-
         // Comments
         $repId = $this->dcl_gui_object->getDataCollectionObject()->getId();
         $objId = $this->record_id;
         $this->notesGUI = new ilNoteGUI($repId, $objId);
-        $this->notesGUI->enablePublicNotes(true);
-        $this->notesGUI->enablePublicNotesDeletion(true);
+        $this->notesGUI->enablePublicNotes();
+        $this->notesGUI->enablePublicNotesDeletion();
         $this->ctrl->setParameterByClass("ilnotegui", "record_id", $this->record_id);
         $this->ctrl->setParameterByClass("ilnotegui", "rep_id", $repId);
 
@@ -320,13 +303,7 @@ class ilDclDetailedViewGUI
             $tpl->setVariable("CONTENT", $ref_record->getRecordFieldHTML($field->getId()));
             $tpl->parseCurrentBlock();
         }
-
-        //$ref_rec->getRecordFieldHTML($field->getId())
-        if ($field) {
-            return $tpl->get();
-        }
-
-        return null;
+        return $tpl->get();
     }
 
     protected function renderComments(bool $edit = false): string
@@ -376,11 +353,11 @@ class ilDclDetailedViewGUI
         $nextStr = $this->lng->txt('dcl_next_record');
         $ilCtrl->setParameter($this, 'record_id', $this->prev_record_id);
         $url = $ilCtrl->getLinkTarget($this, 'renderRecord');
-        $out = ($this->prev_record_id) ? "<a href='{$url}'>{$prevStr}</a>" : "<span class='light'>{$prevStr}</span>";
+        $out = ($this->prev_record_id) ? "<a href='$url'>$prevStr</a>" : "<span class='light'>$prevStr</span>";
         $out .= " | ";
         $ilCtrl->setParameter($this, 'record_id', $this->next_record_id);
         $url = $ilCtrl->getLinkTarget($this, 'renderRecord');
-        $out .= ($this->next_record_id) ? "<a href='{$url}'>{$nextStr}</a>" : "<span class='light'>{$nextStr}</span>";
+        $out .= ($this->next_record_id) ? "<a href='$url'>$nextStr</a>" : "<span class='light'>$nextStr</span>";
 
         return $out;
     }
@@ -393,7 +370,7 @@ class ilDclDetailedViewGUI
         $out = '';
         foreach ($this->record_ids as $k => $recId) {
             $selected = ($recId == $this->record_id) ? " selected" : "";
-            $out .= "<option value='{$recId}'{$selected}>" . ($k + 1) . "</option>";
+            $out .= "<option value='$recId'$selected>" . ($k + 1) . "</option>";
         }
 
         return $out;
@@ -426,7 +403,7 @@ class ilDclDetailedViewGUI
         );
         //we then partially load the records. note that this also fills up session data.
         $this->table->getPartialRecords(
-            $this->table->getId(),
+            (string)$this->table->getId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $list->getLimit(),

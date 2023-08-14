@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,18 +14,11 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+
+declare(strict_types=1);
+
 class ilDclFieldListGUI
 {
     protected ilCtrl $ctrl;
@@ -127,7 +121,7 @@ class ilDclFieldListGUI
         foreach ($field_ids as $field_id) {
             /** @var ilDclBaseFieldModel $field */
             $field = ilDclCache::getFieldCache($field_id);
-            $conf->addItem('dcl_field_ids[]', $field_id, $field->getTitle());
+            $conf->addItem('dcl_field_ids[]', (string)$field_id, $field->getTitle());
         }
 
         $conf->setConfirm($this->lng->txt('delete'), 'deleteFields');
@@ -194,6 +188,7 @@ class ilDclFieldListGUI
         // Show tableswitcher
         $tables = $this->parent_obj->getDataCollectionObject()->getTables();
 
+        $options = [];
         foreach ($tables as $table) {
             $options[$table->getId()] = $table->getTitle();
         }

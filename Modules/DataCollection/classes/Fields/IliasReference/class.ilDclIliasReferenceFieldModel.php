@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclBooleanFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
 {
     /**
@@ -83,9 +80,9 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
 
     public function getValidFieldProperties(): array
     {
-        return array(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS,
-                     ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK,
-                     ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU
-        );
+        return [ilDclBaseFieldModel::PROP_LEARNING_PROGRESS,
+                ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK,
+                ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU
+        ];
     }
 }
