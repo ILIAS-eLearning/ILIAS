@@ -15,7 +15,7 @@ function with_limit_options()
     $pagination_with_value = $f->input()->viewControl()->pagination()
         ->withOnChange($dummy_signal)
         ->withTotalCount(6932)
-        ->withValue([40,10]);
+        ->withValue(["offset" => 40, "limit" => 10]);
 
     $pagination_with_options = $f->input()->viewControl()->pagination()
         ->withOnChange($dummy_signal)
@@ -24,7 +24,7 @@ function with_limit_options()
 
     $pagination_without_total = $f->input()->viewControl()->pagination()
         ->withOnChange($dummy_signal)
-        ->withValue([42,10]);
+        ->withValue(["offset" => 42, "limit" => 10]);
 
 
     return $r->render([

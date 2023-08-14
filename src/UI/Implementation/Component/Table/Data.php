@@ -71,7 +71,7 @@ class Data extends Table implements T\Data, JSBindable
     /**
      * @var string[]
      */
-    protected array $selected_optional_column_ids = [];
+    protected ?array $selected_optional_column_ids = null;
     protected ?Range $range = null;
     protected ?Order $order = null;
     protected ?array $filter = null;
@@ -101,7 +101,6 @@ class Data extends Table implements T\Data, JSBindable
         $this->async_action_signal = $signal_generator->create();
 
         $this->columns = $this->enumerateColumns($columns);
-        $this->selected_optional_column_ids = $this->filterVisibleColumnIds($columns);
     }
 
     /**
@@ -116,20 +115,6 @@ class Data extends Table implements T\Data, JSBindable
             $ret[$id] = $col->withIndex($idx++);
         }
         return $ret;
-    }
-
-    /**
-     * @param array<string, Column> $columns
-     * @return array<string>
-     */
-    private function filterVisibleColumnIds(array $columns): array
-    {
-        return array_keys(
-            array_filter(
-                $columns,
-                static fn($c): bool => $c->isInitiallyVisible()
-            )
-        );
     }
 
     private function initialOrder(): string
@@ -311,7 +296,7 @@ class Data extends Table implements T\Data, JSBindable
     /**
      * @param string[] $selected_optional_column_ids
      */
-    public function withSelectedOptionalColumns(array $selected_optional_column_ids): self
+    public function withSelectedOptionalColumns(?array $selected_optional_column_ids): self
     {
         $clone = clone $this;
         $clone->selected_optional_column_ids = $selected_optional_column_ids;
@@ -323,7 +308,32 @@ class Data extends Table implements T\Data, JSBindable
      */
     public function getSelectedOptionalColumns(): array
     {
+        if (is_null($this->selected_optional_column_ids)) {
+            return array_keys($this->getInitiallyVisibleColumns());
+        }
         return $this->selected_optional_column_ids;
+    }
+
+    /**
+     * @return array<int, Column>
+     */
+    protected function getOptionalColumns(): array
+    {
+        return array_filter(
+            $this->getColumns(),
+            static fn($c): bool => $c->isOptional()
+        );
+    }
+
+    /**
+     * @return array<int, Column>
+     */
+    protected function getInitiallyVisibleColumns(): array
+    {
+        return array_filter(
+            $this->getOptionalColumns(),
+            static fn($c): bool => $c->isInitiallyVisible()
+        );
     }
 
     /**
@@ -331,9 +341,10 @@ class Data extends Table implements T\Data, JSBindable
      */
     public function getVisibleColumns(): array
     {
+        $visible_optional_columns = $this->getSelectedOptionalColumns();
         return array_filter(
             $this->getColumns(),
-            fn(Column $col, string $col_id): bool => !$col->isOptional() || in_array($col_id, $this->selected_optional_column_ids, true),
+            fn(Column $col, string $col_id): bool => !$col->isOptional() || in_array($col_id, $visible_optional_columns, true),
             ARRAY_FILTER_USE_BOTH
         );
     }
@@ -360,10 +371,12 @@ class Data extends Table implements T\Data, JSBindable
         if ($request = $this->getRequest()) {
             $view_controls = $view_controls->withRequest($request);
             $data = $view_controls->getData();
+            //echo "<pre>------\n";
+            //print_r($data); die();
             $table = $table
                 ->withRange(($data[self::VIEWCONTROL_KEY_PAGINATION] ?? null)?->croppedTo($total_count ?? PHP_INT_MAX))
                 ->withOrder($data[self::VIEWCONTROL_KEY_ORDERING] ?? null)
-                ->withSelectedOptionalColumns($data[self::VIEWCONTROL_KEY_FIELDSELECTION] ?? []);
+                ->withSelectedOptionalColumns($data[self::VIEWCONTROL_KEY_FIELDSELECTION] ?? null);
         }
 
         return [
@@ -389,7 +402,14 @@ class Data extends Table implements T\Data, JSBindable
     {
         $smallest_option = current(\ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination::DEFAULT_LIMITS);
         if (is_null($total_count) || $total_count >= $smallest_option) {
-            return $this->view_control_factory->pagination()->withTotalCount($total_count);
+            $range = $this->getRange();
+            return
+                $this->view_control_factory->pagination()
+                    ->withTotalCount($total_count)
+                    ->withValue([
+                        "offset" => $range->getStart(),
+                        "limit" => $range->getLength()
+                    ]);
         }
         return null;
     }
@@ -414,25 +434,16 @@ class Data extends Table implements T\Data, JSBindable
 
     protected function getViewControlFieldSelection(): ?ViewControl\FieldSelection
     {
-        $optional_cols = array_filter(
-            $this->getColumns(),
-            static fn($c): bool => $c->isOptional()
-        );
+        $optional_cols = $this->getOptionalColumns();
         if ($optional_cols === []) {
             return null;
         }
 
-        $aspect_options = [];
-        $selected = [];
-        foreach ($optional_cols as $id => $col) {
-            $aspect_options[$id] = $col->getTitle();
-            if($col->isInitiallyVisible()) {
-                $selected[] = $id;
-            }
-        }
-
         return $this->view_control_factory
-            ->fieldSelection($aspect_options)
-            ->withValue($selected);
+            ->fieldSelection(array_map(
+                static fn($c): string => $c->getTitle(),
+                $optional_cols
+            ))
+            ->withValue($this->getSelectedOptionalColumns());
     }
 }

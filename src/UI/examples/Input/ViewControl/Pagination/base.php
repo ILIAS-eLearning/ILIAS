@@ -12,7 +12,7 @@ function base()
 
     $pagination = $f->input()->viewControl()->pagination()
         ->withTotalCount(932)
-        ->withValue([31, 10])
+        ->withValue(["offset" => 31, "limit" => 10])
     ;
 
     //view this in a ViewControlContainer with active request

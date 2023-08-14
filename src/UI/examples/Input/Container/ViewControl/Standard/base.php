@@ -22,7 +22,7 @@ function base()
                 )
             )
             ->withTotalCount(312)
-            ->withValue([0, 50]),
+            ->withValue(["offset" => 0, "limit" => 50]),
 
         $f->input()->viewControl()->sortation([
                 'Field 1, ascending' => new Order('field1', 'ASC'),

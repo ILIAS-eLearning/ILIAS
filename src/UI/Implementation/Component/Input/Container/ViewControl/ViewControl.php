@@ -81,6 +81,16 @@ abstract class ViewControl extends Container implements I\ViewControl
      */
     protected function extractRequestData(ServerRequestInterface $request): InputData
     {
-        return new QueryParamsFromServerRequest($request);
+        return new StackedInputData(
+            new QueryParamsFromServerRequest($request),
+            $this->extractCurrentValues()
+        );
+    }
+
+    /**
+     * Gets the current values of the inputs in the container.
+     */
+    public function extractCurrentValues(): InputData
+    {
     }
 }
