@@ -162,4 +162,54 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->dropTable('tst_seq_qst_postponed');
         }
     }
+
+    // TODO: Remove before commit
+    public function step_8(): void
+    {
+        if (!$this->db->tableColumnExists('tst_tests', 'show_info_tab')) {
+            $this->db->addTableColumn('tst_tests', 'show_info_tab', [
+                'type' => 'integer',
+                'length' => 1,
+                'default' => 1,
+                'notnull' => true
+            ]);
+        }
+    }
+
+    public function step_9(): void
+    {
+        if (!$this->db->tableColumnExists('tst_tests', 'show_info_tab')) {
+            $this->db->addTableColumn('tst_tests', 'show_info_tab', [
+                'type' => 'integer',
+                'length' => 1,
+                'default' => 1,
+                'notnull' => true
+            ]);
+        }
+    }
+    // Till here
+
+    public function step_10(): void
+    {
+        if (!$this->db->tableColumnExists('tst_tests', 'hide_info_tab')) {
+            $this->db->addTableColumn('tst_tests', 'hide_info_tab', [
+                'type' => 'integer',
+                'length' => 1,
+                'default' => 1,
+                'notnull' => true
+            ]);
+        }
+    }
+
+    public function step_11(): void
+    {
+        if (!$this->db->tableColumnExists('tst_tests', 'exam_conditions_checkbox_enabled')) {
+            $this->db->addTableColumn('tst_tests', 'exam_conditions_checkbox_enabled', [
+                'type' => 'integer',
+                'length' => 1,
+                'default' => 1,
+                'notnull' => true
+            ]);
+        }
+    }
 }

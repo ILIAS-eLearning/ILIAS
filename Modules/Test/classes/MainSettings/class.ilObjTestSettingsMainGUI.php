@@ -577,7 +577,9 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     private function getIntroductionSettingsForStorage(array $section): ilObjTestSettingsIntroduction
     {
         return $this->main_settings->getIntroductionSettings()
-            ->withIntroductionEnabled($section['introduction_enabled']);
+            ->withIntroductionEnabled($section['introduction_enabled'])
+            ->withHideInfoTab($section['hide_info_tab'])
+            ->withExamConditionsCheckboxEnabled($section['exam_conditions_checkbox_enabled']);
     }
 
     private function getAccessSettingsForStorage(array $section): ilObjTestSettingsAccess

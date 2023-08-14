@@ -28,7 +28,9 @@ class ilObjTestSettingsIntroduction extends TestSettings
         int $test_id,
         protected bool $introduction_enabled = false,
         protected ?string $introduction_text = null,
-        protected ?int $introduction_page_id = null
+        protected ?int $introduction_page_id = null,
+        protected bool $hide_info_tab = false,
+        protected bool $exam_conditions_checkbox_enabled = false,
     ) {
         parent::__construct($test_id);
     }
@@ -44,6 +46,16 @@ class ilObjTestSettingsIntroduction extends TestSettings
             $lng->txt('tst_introduction_desc')
         )->withValue($this->getIntroductionEnabled());
 
+        $inputs['hide_info_tab'] = $f->checkbox(
+            $lng->txt('tst_hide_info_tab'),
+            $lng->txt('tst_hide_info_tab_desc')
+        )->withValue($this->getHideInfoTab());
+
+        $inputs['exam_conditions_checkbox_enabled'] = $f->checkbox(
+            $lng->txt('tst_exam_conditions_checkbox_enabled'),
+            $lng->txt('tst_exam_conditions_checkbox_enabled_desc')
+        )->withValue($this->getExamConditionsCheckboxEnabled());
+
         return $f->section($inputs, $lng->txt('tst_settings_header_intro'));
     }
 
@@ -52,7 +64,9 @@ class ilObjTestSettingsIntroduction extends TestSettings
         return [
             'intro_enabled' => ['integer', (int) $this->getIntroductionEnabled()],
             'introduction' => ['text', $this->getIntroductionText()],
-            'introduction_page_id' => ['integer', $this->getIntroductionPageId()]
+            'introduction_page_id' => ['integer', $this->getIntroductionPageId()],
+            'hide_info_tab' => ['integer', (int) $this->getHideInfoTab()],
+            'exam_conditions_checkbox_enabled' => ['integer', (int) $this->getHideInfoTab()],
         ];
     }
 
@@ -86,6 +100,28 @@ class ilObjTestSettingsIntroduction extends TestSettings
     {
         $clone = clone $this;
         $clone->introduction_page_id = $introduction_page_id;
+        return $clone;
+    }
+
+    public function getHideInfoTab(): bool
+    {
+        return $this->hide_info_tab ?? false;
+    }
+    public function withHideInfoTab(bool $hide_info_tab): self
+    {
+        $clone = clone $this;
+        $clone->hide_info_tab = $hide_info_tab;
+        return $clone;
+    }
+
+    public function getExamConditionsCheckboxEnabled(): bool
+    {
+        return $this->exam_conditions_checkbox_enabled ?? false;
+    }
+    public function withExamConditionsCheckboxEnabled(bool $exam_conditions_checkbox_enabled): self
+    {
+        $clone = clone $this;
+        $clone->exam_conditions_checkbox_enabled = $exam_conditions_checkbox_enabled;
         return $clone;
     }
 }

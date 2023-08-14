@@ -337,20 +337,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                             $btn->setCommand('resumePlayer');
                             $btn->setPrimary(true);
                             $this->addButtonInstance($btn);
-                        } else {
-                            $btn = ilSubmitButton::getInstance();
-                            $btn->setCaption($this->getTestOBJ()->getStartTestLabel($this->getTestSession()->getActiveId()), false);
-                            $btn->setCommand('startPlayer');
-                            $btn->setPrimary(true);
-                            $this->addButtonInstance($btn);
                         }
-                    } else {
-                        // start new test
-                        $btn = ilSubmitButton::getInstance();
-                        $btn->setCaption($this->getTestOBJ()->getStartTestLabel($this->getTestSession()->getActiveId()), false);
-                        $btn->setCommand('startPlayer');
-                        $btn->setPrimary(true);
-                        $this->addButtonInstance($btn);
                     }
                 } else {
                     $this->addInfoMessage($executable['errormessage']);

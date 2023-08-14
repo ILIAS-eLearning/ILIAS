@@ -1464,6 +1464,10 @@ assessment#:#tst_instant_feedback_trigger_manual_desc#:#The feedback is availble
 assessment#:#tst_introduction#:#Introductory Message
 assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab ‘Info’ of the test. This text is accessible already before the test can be started.
 assessment#:#tst_introduction_text#:#Introductory Message
+assessment#:#tst_hide_info_tab#:#Hide Info Tab
+assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.
+assessment#:#tst_exam_conditions_checkbox_enabled#:#Exam Conditions
+assessment#:#tst_exam_conditions_checkbox_enabled_desc#:#Participants must select a checkbox to start the test. Please use the Introductory message to present the exam conditions to the participants.
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
 assessment#:#tst_level#:#Competence Level

@@ -6238,31 +6238,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     }
 
     /**
-    * Returns the "Start the Test" label for the Info page
-    *
-    * @param int $active_id The active id of the current user
-    * @return string The "Start the Test" label
-    * @access public
-    */
-    public function getStartTestLabel($active_id): string
-    {
-        if ($this->getNrOfTries() == 1) {
-            return $this->lng->txt("tst_start_test");
-        }
-        $active_pass = self::_getPass($active_id);
-        $res = $this->getNrOfResultsForPass($active_id, $active_pass);
-        if ($res == 0) {
-            if ($active_pass == 0) {
-                return $this->lng->txt("tst_start_test");
-            } else {
-                return $this->lng->txt("tst_start_new_test_pass");
-            }
-        } else {
-            return $this->lng->txt("tst_resume_test");
-        }
-    }
-
-    /**
      * Returns the available test defaults for the active user
      * @return array An array containing the defaults
      * @access public
@@ -6325,6 +6300,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'activation_visibility' => $this->getActivationVisibility(),
 
             'IntroEnabled' => (int) $main_settings->getIntroductionSettings()->getIntroductionEnabled(),
+            'HideInfoTab' => (int) $main_settings->getIntroductionSettings()->getHideInfoTab(),
+            'ExamConditionsCheckboxEnabled' => (int) $main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled(),
 
             'StartingTimeEnabled' => (int) $main_settings->getAccessSettings()->getStartTimeEnabled(),
             'StartingTime' => $main_settings->getAccessSettings()->getStartTime(),
@@ -6442,6 +6419,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withIntroductionSettings(
                 $main_settings->getIntroductionSettings()
                 ->withIntroductionEnabled($testsettings['IntroEnabled'])
+                ->withHideInfoTab($testsettings['HideInfoTab'])
+                ->withExamConditionsCheckboxEnabled($testsettings['ExamConditionsCheckboxEnabled'])
             )
             ->withAccessSettings(
                 $main_settings->getAccessSettings()

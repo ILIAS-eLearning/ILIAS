@@ -725,14 +725,6 @@ class ilInfoScreenGUI
 
         iljQueryUtil::initjQuery();
 
-        if ($this->hidden) {
-            $tpl->touchBlock("hidden_js");
-            if ($this->show_hidden_toggle) {
-                $this->addButton($lng->txt("show_hidden_sections"), "JavaScript:toggleSections(this, '" . $lng->txt("show_hidden_sections") . "', '" . $lng->txt("hide_visible_sections") . "');");
-            }
-        }
-
-
         // DEPRECATED - use ilToolbarGUI
 
         // add top buttons
@@ -749,32 +741,6 @@ class ilInfoScreenGUI
                     $tpl->setVariable("BTN_CLASS", " btn-primary");
                 }
                 $tpl->parseCurrentBlock();
-            }
-        }
-
-        // add top formbuttons
-        if ((count($this->top_formbuttons) > 0) && ($this->form_action !== '')) {
-            $tpl->addBlockFile("TOP_FORMBUTTONS", "top_submitbuttons", "tpl.submitbuttons.html", "Services/InfoScreen");
-
-            foreach ($this->top_formbuttons as $button) {
-                // view button
-                $tpl->setCurrentBlock("btn_submit_cell");
-                $tpl->setVariable("BTN_COMMAND", $button["command"]);
-                $tpl->setVariable("BTN_NAME", $button["title"]);
-                $tpl->parseCurrentBlock();
-            }
-        }
-
-        // add form action
-        if ($this->form_action != "") {
-            if ($this->open_form_tag) {
-                $tpl->setCurrentBlock("formtop");
-                $tpl->setVariable("FORMACTION", $this->form_action);
-                $tpl->parseCurrentBlock();
-            }
-
-            if ($this->close_form_tag) {
-                $tpl->touchBlock("formbottom");
             }
         }
 
@@ -837,9 +803,6 @@ class ilInfoScreenGUI
                         $tpl->parseCurrentBlock();
                         $tpl->setCurrentBlock("property_row");
                         $tpl->setVariable("TXT_PROPERTY", $property["name"]);
-                    } else {
-                        $tpl->setCurrentBlock("property_full_row");
-                        $tpl->setVariable("TXT_PROPERTY_FULL_VALUE", $property["value"]);
                     }
                     $tpl->parseCurrentBlock();
                 }
