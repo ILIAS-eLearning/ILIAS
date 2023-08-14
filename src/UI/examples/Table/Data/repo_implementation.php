@@ -18,6 +18,9 @@ function repo_implementation()
      *
      * Here is an example, in which the DataRetrieval extends the repository in
      * which the UI-code becomes _very_ small for the actual representation.
+     *
+     * Please note that the pagination is missing due to an amount of records
+     * smaller than the lowest option "number of rows".
     */
 
     global $DIC;
@@ -64,6 +67,9 @@ class DataTableDemoRepo implements I\DataRetrieval
     ): \Generator {
         foreach ($this->doSelect($order, $range) as $idx => $record) {
             $row_id = (string)$record['usr_id'];
+            $record['achieve_txt'] = $record['achieve'] > 80 ? 'passed' : 'failed';
+            $record['failure_txt'] = "not " . $record["achieve_txt"];
+            $record['repeat'] = $record['achieve'] < 80;
             yield $row_builder->buildDataRow($row_id, $record);
         }
     }
@@ -78,10 +84,10 @@ class DataTableDemoRepo implements I\DataRetrieval
     //do the actual reading - note, that e.g. order and range are easily converted to SQL
     protected function doSelect(Order $order, Range $range): array
     {
-        $sql_order_part = $order->join('ORDER BY', fn (...$o) => implode(' ', $o));
+        $sql_order_part = $order->join('ORDER BY', fn(...$o) => implode(' ', $o));
         $sql_range_part = sprintf('LIMIT %2$s OFFSET %1$s', ...$range->unpack());
         return array_map(
-            fn ($rec) => array_merge($rec, ['sql_order' => $sql_order_part, 'sql_range' => $sql_range_part]),
+            fn($rec) => array_merge($rec, ['sql_order' => $sql_order_part, 'sql_range' => $sql_range_part]),
             $this->dummyrecords()
         );
     }
@@ -107,7 +113,7 @@ class DataTableDemoRepo implements I\DataRetrieval
             'fee' => $f->table()->column()->number("Fee")
                 ->withDecimals(2)
                 ->withUnit('£', I\Column\Number::UNIT_POSITION_FORE),
-            'hidden' => $f->table()->column()->status("success")
+            'failure_txt' => $f->table()->column()->status("failure")
                 ->withIsSortable(false)
                 ->withIsOptional(true)
                 ->withIsInitiallyVisible(false),

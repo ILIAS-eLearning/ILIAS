@@ -219,6 +219,14 @@ In addition, the `UploadHandler` interface contains methods which are not requir
 and can be safely removed (along with their implementations): `getExistingFileInfoURL()`,
 `getInfoForExistingFiles()`, and `getInfoResult()`.
 
+### Move JS of Input/Container/ViewControls to proper modules [beginner, 8h]
+
+Currently the JS-code of Input/Container/ViewControls is located in the according
+renderer and untested. The code should be moved out of the renderer and be located
+in properly structured JS-modules. And of course it should be tested by automated
+tests as well.
+
+
 ## Long Term
 
 ### Make Constraint in Tag Input Field work again

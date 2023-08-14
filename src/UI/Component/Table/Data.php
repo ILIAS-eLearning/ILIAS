@@ -56,8 +56,8 @@ interface Data extends Table
      */
     public function withSelectedOptionalColumns(array $selected_optional_column_ids): self;
 
-    public function withOrder(Order $order): self;
-    public function withRange(Range $range): self;
+    public function withOrder(?Order $order): self;
+    public function withRange(?Range $range): self;
     public function withFilter(?array $filter): self;
     public function withAdditionalParameters(?array $additional_parameters): self;
 }
