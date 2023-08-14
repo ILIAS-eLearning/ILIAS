@@ -756,6 +756,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             foreach ($this->answers as $answer){
                 // Only the first appearance of an id is used
                 if ($answer->getId() !== null && !in_array($answer->getId(), array_keys($post_answer_order_for_id))) {
+                    // -1 is happening while import and also if a new multi line answer is generated
                     if ($answer->getId() == -1) {
                         continue;
                     }
