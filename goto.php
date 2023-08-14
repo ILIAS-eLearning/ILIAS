@@ -86,12 +86,12 @@ if (!ilStartUpGUI::_checkGoto($requested_target)) {
     } else {
         // message if target given but not accessible
         $tarr = explode("_", $requested_target);
-        if ($tarr[0] != "pg" && $tarr[0] != "st" && $tarr[1] > 0) {
+        if ($tarr[0] !== "pg" && $tarr[0] !== "st" && isset($tarr[1]) && is_numeric($tarr[1]) && $tarr[1] > 0) {
             $DIC->ui()->mainTemplate()->setOnScreenMessage(
                 'failure',
                 sprintf(
                     $DIC->language()->txt("msg_no_perm_read_item"),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))
+                    ilObject::_lookupTitle(ilObject::_lookupObjId((int) $tarr[1]))
                 ),
                 true
             );
