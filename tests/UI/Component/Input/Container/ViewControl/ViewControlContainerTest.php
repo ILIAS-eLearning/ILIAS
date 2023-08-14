@@ -23,6 +23,7 @@ require_once './tests/UI/Base.php';
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input\ViewControl as Control;
+use ILIAS\UI\Implementation\Component\Input\ArrayInputData;
 use ILIAS\UI\Implementation\Component\Input\Container\ViewControl as VC;
 use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
 use ILIAS\Data;
@@ -170,5 +171,28 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
 
         $expected = ['modified' => 'transformed'];
         $this->assertEquals($expected, $vc->getData());
+    }
+
+    public function testExtractCurrentValues(): void
+    {
+
+        $c_factory = $this->buildVCFactory();
+        $controls = [
+            $c_factory->fieldSelection(['a1' => 'A','a2' => 'B','a3' => 'C']),
+            $c_factory->sortation([
+                '2up' => new Data\Order('a2', 'ASC'),
+                '2down' => new Data\Order('a2', 'DESC')
+            ]),
+        ];
+
+        $vc = $this->buildContainerFactory()->standard($controls);
+
+
+        /*ArrayInputData?
+                      'view_control/input_0' => ['a1', 'a3'],
+                      'view_control/input_1/input_2' => 'a2',
+                      'view_control/input_1/input_3' => 'DESC'
+                      */
+        $data = $vc->extractCurrentValues();
     }
 }

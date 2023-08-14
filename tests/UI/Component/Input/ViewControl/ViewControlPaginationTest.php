@@ -73,13 +73,13 @@ class ViewControlPaginationTest extends ViewControlBaseTest
 
     public function testViewControlPaginationWithInput(): void
     {
-        $v = [5,25];
+        $v = ["offset" => 5, "limit" => 25];
 
         $input = $this->createMock(InputData::class);
         $input->expects($this->exactly(2))
             ->method("getOr")
             ->will(
-                $this->onConsecutiveCalls($v[0], $v[1])
+                $this->onConsecutiveCalls($v["offset"], $v["limit"])
             );
 
         $vc = $this->buildVCFactory()->pagination()
@@ -100,7 +100,7 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         $vc = $this->buildVCFactory()->pagination()
             ->withLimitOptions([2, 5, 10])
             ->withTotalCount(42)
-            ->withValue([12,2])
+            ->withValue(["offset" => 12, "limit" => 2])
             ->withOnChange((new SignalGenerator())->create());
 
         $expected = $this->brutallyTrimHTML('

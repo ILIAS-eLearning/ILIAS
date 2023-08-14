@@ -19,7 +19,7 @@ function base(): string
         ->viewControl()
         ->pagination()
         ->withTotalCount(932)
-        ->withValue([31, 10]);
+        ->withValue(["offset" => 31, "limit" => 10]);
 
     $sortation = $f->input()->viewControl()->sortation([
         'Field 1, ascending' => $d->order('field1', Order::ASC),
