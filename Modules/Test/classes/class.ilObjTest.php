@@ -6656,7 +6656,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 );
             } else {
                 $result = $ilDB->queryF(
-                    "SELECT tst_active.active_id, usr_id, %s login, %s lastname, %s firstname, tst_invited_user.clientip, " .
+                    "SELECT tst_active.active_id, tst_active.tries, usr_id, %s login, %s lastname, %s firstname, tst_invited_user.clientip, " .
                     "tst_active.submitted test_finished, matriculation, COALESCE(tst_active.last_finished_pass, -1) <> tst_active.last_started_pass unfinished_passes  FROM usr_data, tst_invited_user " .
                     "LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
                     "WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
