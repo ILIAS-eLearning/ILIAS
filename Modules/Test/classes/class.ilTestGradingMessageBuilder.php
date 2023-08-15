@@ -88,10 +88,6 @@ class ilTestGradingMessageBuilder
         if ($this->testOBJ->isShowGradingMarkEnabled()) {
             $this->addMessagePart($this->buildGradingMarkMsg());
         }
-
-        if ($this->testOBJ->getECTSOutput()) {
-            $this->addMessagePart($this->buildEctsGradeMsg());
-        }
     }
 
     private function addMessagePart($msgPart)
@@ -123,16 +119,6 @@ class ilTestGradingMessageBuilder
     private function loadResultData()
     {
         $this->resultData = $this->testOBJ->getResultsForActiveId($this->getActiveId());
-
-        if ($this->testOBJ->getECTSOutput()) {
-            $ectsMark = $this->testOBJ->getECTSGrade(
-                $this->testOBJ->getTotalPointsPassedArray(),
-                $this->resultData['reached_points'],
-                $this->resultData['max_points']
-            );
-
-            $this->resultData['ects_grade'] = strtoupper($ectsMark);
-        }
     }
 
     private function buildGradingStatusMsg(): string
@@ -193,16 +179,6 @@ class ilTestGradingMessageBuilder
         return (bool) $this->resultData['obligations_answered'];
     }
 
-    private function buildEctsGradeMsg()
-    {
-        return str_replace('[markects]', $this->getEctsGrade(), $this->lng->txt('mark_tst_ects'));
-    }
-
-    private function getEctsGrade()
-    {
-        return $this->resultData['ects_grade'];
-    }
-
     public function buildList()
     {
         $this->loadResultData();
@@ -233,10 +209,6 @@ class ilTestGradingMessageBuilder
 
         if ($this->testOBJ->isShowGradingMarkEnabled()) {
             $this->populateListEntry($this->lng->txt('tst_mark'), $this->getMarkOfficial());
-        }
-
-        if ($this->testOBJ->getECTSOutput()) {
-            $this->populateListEntry($this->lng->txt('ects_grade'), $this->getEctsGrade());
         }
 
         $this->parseListTemplate();

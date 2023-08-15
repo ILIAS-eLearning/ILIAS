@@ -41,14 +41,11 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     protected ?ilTestSession $testSession = null;
 
     /**
-     * @var ilTestSequence|ilTestSequenceDynamicQuestionSet
+     * @var ilTestSequence
      */
     protected $testSequence;
 
-    /**
-     * @var string
-     */
-    private $sessionLockString;
+    private string $sessionLockString = '';
     private array $infoMessages = array();
     private array $failureMessages = array();
 
@@ -120,7 +117,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     }
 
     /**
-     * @return ilTestSequence|ilTestSequenceDynamicQuestionSet
+     * @return ilTestSequence
      */
     public function getTestSequence()
     {
@@ -128,7 +125,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     }
 
     /**
-     * @param ilTestSequence|ilTestSequenceDynamicQuestionSet $testSequence
+     * @param ilTestSequence $testSequence
      */
     public function setTestSequence($testSequence): void
     {
@@ -265,7 +262,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
     private function ensureInitialisedSessionLockString(): void
     {
-        if (!strlen($this->getSessionLockString())) {
+        if ($this->getSessionLockString() === '') {
             $this->setSessionLockString($this->buildSessionLockString());
         }
     }
@@ -346,15 +343,13 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
     public function build(): void
     {
-        if (!$this->testOBJ->isDynamicTest()) {
-            $this->ensureInitialisedSessionLockString();
+        $this->ensureInitialisedSessionLockString();
 
-            $this->setParameter($this->getTestPlayerGUI(), 'lock', $this->getSessionLockString());
-            $this->setParameter($this->getTestPlayerGUI(), 'sequence', $this->getTestSession()->getLastSequence());
-            $this->setParameter('ilObjTestGUI', 'ref_id', $this->getTestOBJ()->getRefId());
+        $this->setParameter($this->getTestPlayerGUI(), 'lock', $this->getSessionLockString());
+        $this->setParameter($this->getTestPlayerGUI(), 'sequence', $this->getTestSession()->getLastSequence());
+        $this->setParameter('ilObjTestGUI', 'ref_id', $this->getTestOBJ()->getRefId());
 
-            $this->setFormAction($this->buildFormAction($this->getTestPlayerGUI()));
-        }
+        $this->setFormAction($this->buildFormAction($this->getTestPlayerGUI()));
 
         $online_access = false;
         if ($this->getTestOBJ()->getFixedParticipants()) {
@@ -436,7 +431,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
             if ($this->access->checkAccess("write", "", $this->getTestOBJ()->getRefId())) {
                 $links[] = $this->DIC->ui()->factory()->link()->standard(
                     $this->DIC->language()->txt('test_edit_settings'),
-                    $this->buildLinkTarget('ilobjtestsettingsgeneralgui')
+                    $this->buildLinkTarget('ilobjtestsettingsmaingui')
                 );
             }
 
@@ -450,7 +445,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
             $sltImportFails = new ilTestSkillLevelThresholdImportFails($this->testOBJ->getId());
 
             if ($qsaImportFails->failedImportsRegistered() || $sltImportFails->failedImportsRegistered()) {
-                $importFailsMsg = array();
+                $importFailsMsg = [];
 
                 if ($qsaImportFails->failedImportsRegistered()) {
                     $importFailsMsg[] = $qsaImportFails->getFailedImportsMessage($this->lng);

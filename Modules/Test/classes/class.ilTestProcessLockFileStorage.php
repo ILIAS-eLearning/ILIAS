@@ -62,13 +62,13 @@ class ilTestProcessLockFileStorage extends ilFileSystemAbstractionStorage
         });
 
         try {
-            ilFileUtils::makeDirParents($this->getPath());
+            parent::create();
             restore_error_handler();
         } catch (Exception $e) {
             restore_error_handler();
         }
 
-        if (!file_exists($this->getPath())) {
+        if (!$this->getFileSystemService()->has($this->path)) {
             throw new ErrorException(sprintf('Could not find directory: %s', $this->getPath()));
         }
     }

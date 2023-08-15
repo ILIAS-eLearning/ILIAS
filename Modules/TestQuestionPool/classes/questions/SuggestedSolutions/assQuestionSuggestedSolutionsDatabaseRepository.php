@@ -68,6 +68,10 @@ class assQuestionSuggestedSolutionsDatabaseRepository
         while ($row = $this->db->fetchAssoc($result)) {
             $last_update = \DateTimeImmutable::createFromFormat('U', (string) $row['tstamp']);
 
+            if ($row['type'] === null || $row['type'] === '') {
+                continue;
+            }
+
             $ret[] = $this->buildSuggestedSolution(
                 (int) $row['suggested_solution_id'],
                 (int) $row['question_fi'],

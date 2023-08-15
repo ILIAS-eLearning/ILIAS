@@ -1,9 +1,24 @@
 <?php
 
 /**
- * Class ilDclTableViewEditGUI
- * @author       Theodor Truffer <tt@studer-raimann.ch>
- * @ingroup      ModulesDataCollection
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+/**
  * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclDetailedViewDefinitionGUI
  * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclCreateViewDefinitionGUI
  * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclEditViewDefinitionGUI
@@ -129,14 +144,14 @@ class ilDclTableViewEditGUI
                         $renderer = $DIC->ui()->renderer();
 
                         // Set Workflow flag to true
-                        $view = ilDclTableView::getCollection()->where(array("id" => filter_input(
+                        $view = ilDclTableView::getCollection()->where(["id" => filter_input(
                             INPUT_GET,
                             "tableview_id"
                         )
-                        ))->first();
+                        ])->first();
                         if (!is_null($view)) {
                             //setup steps
-                            $step = $f->step('', '');
+                            $step = $f->step('');
                             $steps = [
                                 $f->step($this->lng->txt('dcl_view_settings'))
                                   ->withAvailability($step::AVAILABLE)->withStatus(4), //$view->getStepVs() ? 3 : 4
@@ -234,7 +249,7 @@ class ilDclTableViewEditGUI
          */
         foreach ($this->tableview->getFieldSettings() as $setting) {
             //Checkboxes
-            foreach (array("Visible", "InFilter", "FilterChangeable") as $attribute) {
+            foreach (["Visible", "InFilter", "FilterChangeable"] as $attribute) {
                 $key = $attribute . '_' . $setting->getField();
                 if ($this->http->wrapper()->post()->has($key)) {
                     $checkbox_value = $this->http->wrapper()->post()->retrieve(
@@ -255,15 +270,15 @@ class ilDclTableViewEditGUI
                     $this->refinery->kindlyTo()->string()
                 ));
             } elseif ($this->http->wrapper()->post()->has($key . '_from') && $this->http->wrapper()->post()->has($key . '_to')) {
-                $setting->setFilterValue(array("from" => $this->http->wrapper()->post()->retrieve(
+                $setting->setFilterValue(["from" => $this->http->wrapper()->post()->retrieve(
                     $key . '_from',
                     $this->refinery->kindlyTo()->string()
                 ),
-                                               "to" => $this->http->wrapper()->post()->retrieve(
-                                                   $key . '_to',
-                                                   $this->refinery->kindlyTo()->string()
-                                               )
-                ));
+                                          "to" => $this->http->wrapper()->post()->retrieve(
+                                              $key . '_to',
+                                              $this->refinery->kindlyTo()->string()
+                                          )
+                ]);
             } else {
                 $setting->setFilterValue(null);
             }
@@ -272,7 +287,7 @@ class ilDclTableViewEditGUI
         }
 
         // Set Workflow flag to true
-        $view = ilDclTableView::getCollection()->where(array("id" => filter_input(INPUT_GET, "tableview_id")))->first();
+        $view = ilDclTableView::getCollection()->where(["id" => filter_input(INPUT_GET, "tableview_id")])->first();
         if (!is_null($view)) {
             $view->setStepO(true);
             $view->save();
@@ -304,7 +319,7 @@ class ilDclTableViewEditGUI
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('dcl_tableview_confirm_delete'));
 
-        $conf->addItem('tableview_id', (int) $this->tableview->getId(), $this->tableview->getTitle());
+        $conf->addItem('tableview_id', (string) $this->tableview->getId(), $this->tableview->getTitle());
 
         $conf->setConfirm($this->lng->txt('delete'), 'delete');
         $conf->setCancel($this->lng->txt('cancel'), 'cancel');
@@ -349,7 +364,7 @@ class ilDclTableViewEditGUI
     {
         $new_tableview = new ilDclTableView();
         $new_tableview->setTableId($this->table->getId());
-        $new_tableview->cloneStructure($this->tableview, array());
+        $new_tableview->cloneStructure($this->tableview, []);
         $this->table->sortTableViews();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_tableview_copy"), true);
         $this->cancel();

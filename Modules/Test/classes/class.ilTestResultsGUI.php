@@ -261,23 +261,10 @@ class ilTestResultsGUI
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_SKILL_RESULTS);
 
-                global $DIC; /* @var ILIAS\DI\Container $DIC */
-                if ($this->getTestObj()->isDynamicTest()) {
-                    $dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
-                        $DIC->repositoryTree(),
-                        $DIC->database(),
-                        $DIC['component.repository'],
-                        $this->getTestObj()
-                    );
-                    $dynamicQuestionSetConfig->loadFromDb();
-                    $questionList = new ilAssQuestionList($DIC->database(), $DIC->language(), $DIC['component.repository']);
-                    $questionList->setParentObjId($dynamicQuestionSetConfig->getSourceQuestionPoolId());
-                    $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
-                } else {
-                    $questionList = new ilAssQuestionList($DIC->database(), $DIC->language(), $DIC['component.repository']);
-                    $questionList->setParentObjId($this->getTestObj()->getId());
-                    $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
-                }
+                global $DIC;
+                $questionList = new ilAssQuestionList($DIC->database(), $DIC->language(), $DIC['component.repository']);
+                $questionList->setParentObjId($this->getTestObj()->getId());
+                $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
                 $questionList->load();
 
                 $testSessionFactory = new ilTestSessionFactory($this->getTestObj());

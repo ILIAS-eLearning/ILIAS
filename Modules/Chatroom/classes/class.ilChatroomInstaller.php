@@ -48,7 +48,6 @@ class ilChatroomInstaller
                 'allow_anonymous' => ['type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0],
                 'allow_custom_usernames' => ['type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0],
                 'enable_history' => ['type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0],
-                'restrict_history' => ['type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0],
                 'autogen_usernames' => ['type' => 'text', 'length' => 50, 'notnull' => false, 'default' => 'Anonymous #'],
                 'allow_private_rooms' => ['type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0],
             ];
@@ -451,7 +450,6 @@ class ilChatroomInstaller
                     'allow_anonymous' => ['integer', 0],
                     'allow_custom_usernames' => ['integer', 0],
                     'enable_history' => ['integer', 0],
-                    'restrict_history' => ['integer', 0],
                     'autogen_usernames' => ['text', 'Anonymous #'],
                     'allow_private_rooms' => ['integer', 1],
                 ]

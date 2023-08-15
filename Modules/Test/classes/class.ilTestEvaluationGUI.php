@@ -127,9 +127,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
         array_push($headernames, $this->lng->txt("tst_reached_points"));
         array_push($headernames, $this->lng->txt("tst_mark"));
-        if ($this->object->getECTSOutput()) {
-            array_push($headernames, $this->lng->txt("ects_grade"));
-        }
         array_push($headernames, $this->lng->txt("tst_answered_questions"));
         array_push($headernames, $this->lng->txt("working_time"));
         array_push($headernames, $this->lng->txt("detailed_evaluation"));
@@ -147,9 +144,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
         array_push($headervars, "resultspoints");
         array_push($headervars, "resultsmarks");
-        if ($this->object->getECTSOutput()) {
-            array_push($headervars, "ects_grade");
-        }
         array_push($headervars, "qworkedthrough");
         array_push($headervars, "timeofwork");
         array_push($headervars, "");
@@ -234,9 +228,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $counter = 1;
         if (count($participantData->getActiveIds()) > 0) {
-            if ($this->object->getECTSOutput()) {
-                $passed_array = $this->object->getTotalPointsPassedArray();
-            }
             foreach ($participantData->getActiveIds() as $active_id) {
                 if (!isset($foundParticipants[$active_id]) || !($foundParticipants[$active_id] instanceof ilTestEvaluationUserData)) {
                     continue;
@@ -276,10 +267,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $mark = $this->object->getMarkSchema()->getMatchingMark($percentage);
                     if (is_object($mark)) {
                         $evaluationrow['mark'] = $mark->getShortName();
-                    }
-                    if ($this->object->getECTSOutput()) {
-                        $ects_mark = $this->object->getECTSGrade($passed_array, $userdata->getReached(), $userdata->getMaxPoints());
-                        $evaluationrow['ects_grade'] = $ects_mark;
                     }
                     $evaluationrow['answered'] = $userdata->getQuestionsWorkedThroughInPercent();
                     $evaluationrow['questions_worked_through'] = $userdata->getQuestionsWorkedThrough();
@@ -405,11 +392,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $resultMarks = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_resultsmarks'));
             $resultMarks->setValue($data->getParticipant($active_id)->getMark());
             $form->addItem($resultMarks);
-            if (strlen($data->getParticipant($active_id)->getECTSMark())) {
-                $ectsGrade = new ilNonEditableValueGUI($this->lng->txt('ects_grade'));
-                $ectsGrade->setValue($data->getParticipant($active_id)->getECTSMark());
-                $form->addItem($ectsGrade);
-            }
         }
 
         if ($this->object->isOfferingQuestionHintsEnabled()) {
@@ -1596,7 +1578,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $context = ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW;
         }
 
-        if (!$this->object->isPassDeletionAllowed() && !$this->object->isDynamicTest()) {
+        if (!$this->object->isPassDeletionAllowed()) {
             $this->redirectToPassDeletionContext($context);
         }
 
@@ -1622,11 +1604,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             case ilTestPassDeletionConfirmationGUI::CONTEXT_INFO_SCREEN:
 
                 $this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
-
-                // no break
-            case ilTestPassDeletionConfirmationGUI::CONTEXT_DYN_TEST_PLAYER:
-
-                $this->ctrl->redirectByClass('ilTestPlayerDynamicQuestionSetGUI', 'startTest');
         }
     }
 
@@ -1638,7 +1615,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $context = ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW;
         }
 
-        if (!$this->object->isPassDeletionAllowed() && !$this->object->isDynamicTest()) {
+        if (!$this->object->isPassDeletionAllowed()) {
             $this->redirectToPassDeletionContext($context);
         }
 
@@ -1659,7 +1636,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->ctrl->redirect($this, 'outUserResultsOverview');
         }
 
-        if (!$this->object->isDynamicTest() && $pass == $this->object->_getResultPass($active_fi)) {
+        if ($pass == $this->object->_getResultPass($active_fi)) {
             $this->ctrl->redirect($this, 'outUserResultsOverview');
         }
 
@@ -1696,7 +1673,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             throw new ilTestException('This should not happen, please contact Bjoern Heyser to clean up this pass salad!');
         }
 
-        if (!$this->object->isDynamicTest() && $isActivePass) {
+        if ($isActivePass) {
             $this->ctrl->redirect($this, 'outUserResultsOverview');
         }
 
@@ -1777,29 +1754,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
         }
 
-        if ($this->object->isDynamicTest()) {
-            $tables = array(
-                'tst_seq_qst_tracking', 'tst_seq_qst_answstatus', 'tst_seq_qst_postponed', 'tst_seq_qst_checked'
-            );
-
-            foreach ($tables as $table) {
-                $ilDB->manipulate("
-						DELETE FROM $table
-						WHERE active_fi = {$ilDB->quote($active_fi, 'integer')}
-						AND pass = {$ilDB->quote($pass, 'integer')}
-				");
-
-                if ($must_renumber) {
-                    $ilDB->manipulate("
-						UPDATE $table
-						SET pass = pass - 1
-						WHERE active_fi = {$ilDB->quote($active_fi, 'integer')}
-						AND pass > {$ilDB->quote($pass, 'integer')}
-					");
-                }
-            }
-        }
-
         // tst_solutions
         $ilDB->manipulate(
             'DELETE
@@ -1876,10 +1830,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         assQuestion::_updateTestResultCache($active_fi);
 
-        if ($this->object->isDynamicTest()) {
-            ilSession::clear('form_' . ilTestDynamicQuestionSetStatisticTableGUI::FILTERED_TABLE_ID);
-        }
-
         $this->redirectToPassDeletionContext($context);
     }
 
@@ -1902,7 +1852,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $table_gui->initFilter();
 
         $questionList = new ilAssQuestionList($ilDB, $this->lng, $component_repository);
-
+        $questionList->setParentObjId($this->object->getId());
+        $questionList->setParentObjectType($this->object->getType());
         $questionList->setIncludeQuestionIdsFilter($questionIds);
         $questionList->setQuestionInstanceTypeFilter(null);
 

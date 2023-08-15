@@ -592,8 +592,6 @@ assessment#:#counter#:#Počitadlo
 assessment#:#create_date#:#Vytvořeno
 assessment#:#create_gaps#:#Vytvořit mezery
 assessment#:#create_new#:#Vytvořit nový
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Volitelný styl
 assessment#:#dashboard_tab#:#Ovládací panel
 assessment#:#definition#:#Definice
@@ -822,7 +820,6 @@ assessment#:#legend#:#Vysvětlivka
 assessment#:#locked#:#uzamčeno
 assessment#:#log_added_extratime#:#Přidáno dalších %d minut pro id účastníka %d
 assessment#:#log_answer_changed_points#:#Manuální změna bodů testované osoby %s z %d na %d bodů hodnotícím testu %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Účastník nemůže vstoupit do testu, protože byl dosažen maximální počet simultánních účastníků.
 assessment#:#log_create_new_test#:#Nový test vytvořen
 assessment#:#log_manual_feedback#:#%s přidán manuální ohlas pro testovanou osobu %s a otázku %s: %s
 assessment#:#log_mark_added#:#Známka přidána
@@ -1158,13 +1155,13 @@ assessment#:#set_manscoring_done#:#Označit jako "Bodovaný účastník"
 assessment#:#set_manual_feedback#:#Manuální ohlas
 assessment#:#shape#:#Tvar
 assessment#:#showSuggestedSolution#:#Typ
+assessment#:#show_all_test_properties_on_info_page#:#Zobrazit úplnou stránku informací
+assessment#:#show_all_test_properties_on_info_page_byline#:#Pokud je vybráno, úplná stránka informací testu bude zobrazena (včetně vlastností test). Pokud není vybráno, bude zobrazen pouze úvodní text (je-li dostupný) a požadované vlastnosti budou zobrazeny na stránce informací testu.
 assessment#:#show_answer_overview#:#Zobrazit přehled odpovědí
 assessment#:#show_detailed_results#:#Zobrazit podrobné výsledky uživatele. (Známkovaný průchod)
 assessment#:#show_examview_html#:#Zobrazit přehled zkoušky ve stránce odevzdání testu
 assessment#:#show_pass_overview#:#Zobrazit přehled označených průchodů
 assessment#:#show_user_answers#:#Zobrazit označené odpovědi uživatelů
-assessment#:#showinfo#:#Zobrazit úplnou stránku informací
-assessment#:#showinfo_desc#:#Pokud je vybráno, úplná stránka informací testu bude zobrazena (včetně vlastností test). Pokud není vybráno, bude zobrazen pouze úvodní text (je-li dostupný) a požadované vlastnosti budou zobrazeny na stránce informací testu.
 assessment#:#shuffle_answers#:#Zamíchat odpovědi
 assessment#:#sign_submission#:#Digitální podpis odevzdaného testu.
 assessment#:#sign_submission_info#:#Pokud je toto aktivováno, je nainstalován plugin podpisu a je aktivní, účastníci budou svá řešení testů zasílat digitálně podepsaná
@@ -1246,11 +1243,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Způsobilost ve všech testech
 assessment#:#tst_all_user_data_deleted#:#Všechna uživatelská data tohoto testu byly smazány!
-assessment#:#tst_allowed_users#:#Maximální počet uživatelů provádějících test současně
-assessment#:#tst_allowed_users_desc#:#Systém ILIAS bude sledovat počet účastníků, kteří současně skládají test. Pokud se o přístup snaží více uživatelů než maximálně povolený počet, systém ILIAS zabrání spuštění testu.
-assessment#:#tst_allowed_users_max#:#Max. Počet účastníků
-assessment#:#tst_allowed_users_time_gap#:#Čas pasivity pro aktivní uživatele
-assessment#:#tst_allowed_users_time_gap_desc#:#Účastníci, kteří do testu nekliknou za uvedený čas, budou zařazeni do kategorie „neaktivní“ a budou vyřazeni z testu.
 assessment#:#tst_already_submitted#:#Test byl již ukončen a odevzdán.
 assessment#:#tst_analysis#:#Analýza
 assessment#:#tst_anonymity#:#Anonymita
@@ -1330,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Odvodit nový zásobník otázek
 assessment#:#tst_derive_new_pools#:#Odvodit nové zásobníky otázek
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Znovu nezobrazovat tuto zprávu v mé aktuální relaci.
 assessment#:#tst_dont_use_previous_answers#:#Vaše předchozí odpovědi nebudou použity jako výchozí hodnoty v budoucích průchodech testem
-assessment#:#tst_dyn_keep_answ_freeze#:#Zachovat moje aktuální odpovědi zmrazené
-assessment#:#tst_dyn_quest_set_pool_deleted#:#Byl smazán aktuálně konfigurovaný zásobník otázek „%s“.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (smazáno pernametně)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (smazáno) [%s Otázek]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Právě máte úspěšně zopovězeny všechny otázky ze zdojového zásobníku otázek. Když zde budou nové, nebo upravené otázky v zásobníku otázek, pak můžete pokračovat v testu.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#S aktuálním výběrem otázek máte úspěšně zodpovězeny všechny otázky. Pro pokračování v testu změňte výběr otázek.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Smazat předchozí odpovědi
-assessment#:#tst_dyn_test_pass_deletion_button#:#Vymazat všechny odpovědi testu
-assessment#:#tst_dyn_unfreeze_answers#:#Odpovědět ještě jednou
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Jsou otázky, ke kterým byly pevně stanoveny vaše počáteční odpovědi, a nemohli jste provést žádné změny. Chcete na ně teď ještě jednou odpovědět a uvolnit tak svoje odpovědi?
-assessment#:#tst_dynamic_question_set_complete#:#Celková statistika
-assessment#:#tst_dynamic_question_set_selection#:#Výběr testovací otázky
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Cesta: %s) [%s Otázek]
 assessment#:#tst_edit_competence_assign#:#Upravit vlastnosti přiřazení
 assessment#:#tst_edit_scoring#:#Upravit hodnocení
 assessment#:#tst_ending_time#:#Čas ukončení
@@ -1379,7 +1358,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Ne, jít zpět na předchozí ot
 assessment#:#tst_finish_confirmation_question#:#Hodláte ukončit tento test a dosáhl(a) jste maximálního počtu povolených průchodů testem. Nebudete již moci do tohoto testu vstoupit znovu a změnit své odpovědi. Upravdu chcete tento test ukončit?
 assessment#:#tst_finish_notification#:#E-mail při dokončení
 assessment#:#tst_finish_notification_advanced#:#Poslat kompletní výsledky testu jeho vlastníkovi
-assessment#:#tst_finish_notification_content#:#Obsah e-mailu
+assessment#:#tst_finish_notification_content_type#:#Obsah e-mailu
 assessment#:#tst_finish_notification_desc#:#Odešle e-mail vlastníkovi testu pro každého uživatele, který dokončil test.
 assessment#:#tst_finish_notification_no#:#Žádný e-mail
 assessment#:#tst_finish_notification_simple#:#Poslat uživatelské jméno a finální datum vlastníkovi testu
@@ -1492,8 +1471,6 @@ assessment#:#tst_mark_minimum_level#:#Minimální hladina (v %)
 assessment#:#tst_mark_official_form#:#Oficiální tvar
 assessment#:#tst_mark_passed#:#Prošel
 assessment#:#tst_mark_short_form#:#Zkrácený tvar
-assessment#:#tst_max_allowed_users_heading#:#Dosažen maximální počet simultánních účastníků v tomto testu
-assessment#:#tst_max_allowed_users_message#:#Maximální počet simultánních účastníků v tomto testu byl dosažen. Zkuste začít nebo pokračovat znovu později. Pokud bude některý z aktivních účastníků nenaktivní déle než %s s., můžete namísto něj do testu vstoupit. Děkujeme za pochopení.
 assessment#:#tst_max_comp_points#:#Max. Body způsobilosti
 assessment#:#tst_maximum_points#:#Maximum bodů
 assessment#:#tst_mc_label_none_above#:#Žádná z výše uvedených odpovědí
@@ -1695,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Resetova
 assessment#:#tst_questions_inserted#:#Otázky vloženy!
 assessment#:#tst_questions_removed#:#Otázky odstraněny!
 assessment#:#tst_random_nr_of_questions#:#Kolik otázek?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Cesta: %s) [%s Otázek]
 assessment#:#tst_random_select_questionpool#:#Vyberte zásobník otázek k volbě otázek z
 assessment#:#tst_reached_points#:#Dosažené body
 assessment#:#tst_reached_points_of_max#:#%s z %s

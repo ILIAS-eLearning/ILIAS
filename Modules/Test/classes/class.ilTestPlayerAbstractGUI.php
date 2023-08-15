@@ -67,7 +67,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected $assSettings;
 
     /**
-     * @var ilTestSequence|ilTestSequenceDynamicQuestionSet
+     * @var ilTestSequence
      */
     protected $testSequence = null;
 
@@ -244,6 +244,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         $this->tpl->setCurrentBlock('test_nav_toolbar');
         $this->tpl->setVariable('TEST_NAV_TOOLBAR', $toolbarGUI->getHTML());
+        $this->tpl->parseCurrentBlock();
+        $this->tpl->setCurrentBlock('finish_test_modal');
+        $this->tpl->setVariable('FINISH_TEST_MODAL', $toolbarGUI->getFinishTestModalHTML());
         $this->tpl->parseCurrentBlock();
     }
 
@@ -497,11 +500,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     protected function initTestCmd()
     {
-        if ($this->object->checkMaximumAllowedUsers() == false) {
-            $this->showMaximumAllowedUsersReachedMessage();
-            return;
-        }
-
         if ($this->testSession->isAnonymousUser()
             && !$this->testSession->doesAccessCodeInSessionExists()) {
             $accessCode = $this->testSession->createNewAccessCode();
@@ -548,9 +546,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $request = $DIC->http()->request();
             $post_array = $request->getParsedBody();
         }
-
-        $tst_javascript = array_key_exists("chb_javascript", $post_array) ? 1 : 0;
-        $ilUser->writePref("tst_javascript", $tst_javascript);
 
         if ($this->object->getNrOfTries() != 1
             && $this->object->getUsePreviousAnswers() == 1
@@ -735,34 +730,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
 
-    /**
-     * The final submission of a test was confirmed
-     */
-    protected function confirmFinishCmd()
-    {
-        $this->finishTestCmd(false);
-    }
-
-    /**
-     * Confirmation of the tests final submission
-     */
-    protected function confirmFinishTestCmd()
-    {
-        /**
-         * @var $ilUser ilObjUser
-         */
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-
-        $confirmation = new ilConfirmationGUI();
-        $confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmFinish'));
-        $confirmation->setHeaderText($this->lng->txt("tst_finish_confirmation_question"));
-        $confirmation->setConfirm($this->lng->txt("tst_finish_confirm_button"), 'confirmFinish');
-        $confirmation->setCancel($this->lng->txt("tst_finish_confirm_cancel_button"), ilTestPlayerCommands::BACK_FROM_FINISHING);
-
-        $this->populateHelperGuiContent($confirmation);
-    }
-
     public function finishTestCmd($requires_confirmation = true)
     {
         $this->handleCheckTestPassValid();
@@ -802,15 +769,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return;
         }
 
-        // Last try in limited tries & !confirmed
-        if (($requires_confirmation) && ($actualpass == $this->object->getNrOfTries() - 1)) {
-            // show confirmation page
-            $this->confirmFinishTestCmd();
-            return;
-        }
-
         // Last try in limited tries & confirmed?
-        if (($actualpass == $this->object->getNrOfTries() - 1) && (!$requires_confirmation)) {
+        if ($actualpass == $this->object->getNrOfTries() - 1) {
             // @todo: php7 ask mister test
             #$ilAuth->setIdle(ilSession::getIdleValue(), false);
             #$ilAuth->setExpire(0);
@@ -827,7 +787,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         // Non-last try finish
         if (ilSession::get('tst_pass_finish') == null) {
             ilSession::set('tst_pass_finish', 1);
-            if ($this->object->getMailNotificationType() == 1) {
+            if ($this->object->getMainSettings()->getFinishingSettings()->getAlwaysSendMailNotification()) {
                 switch ($this->object->getMailNotification()) {
                     case 1:
                         $this->object->sendSimpleNotification($active_id);
@@ -864,7 +824,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         // show final statement
         if (!$this->testrequest->isset('skipfinalstatement')) {
-            if ($this->object->getShowFinalStatement()) {
+            if ($this->object->getMainSettings()->getFinishingSettings()->getConcludingRemarksEnabled()) {
                 $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_FINAL_STATMENT);
             }
         }
@@ -872,8 +832,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         // redirect after test
         $redirection_mode = $this->object->getRedirectionMode();
         $redirection_url = $this->object->getRedirectionUrl();
-        if ($redirection_url && $redirection_mode) {
-            if ($redirection_mode == REDIRECT_KIOSK) {
+        if ($redirection_url !== '' && $redirection_mode !== '0') {
+            if ($this->object->isRedirectModeKiosk()) {
                 if ($this->object->getKioskMode()) {
                     ilUtil::redirect($redirection_url);
                 }
@@ -941,6 +901,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
+
+        /**
+         * this is an abomination for release_8 + release_9!
+         * @todo Implement proper "kiosk-handling" for ILIAS 10.
+         */
+        $this->tpl->addCSS('Modules/Test/templates/default/test_kiosk_header.css');
+        //end of hack
 
         $template = new ilTemplate('tpl.il_as_tst_kiosk_head.html', true, true, 'Modules/Test');
         if ($this->object->getShowKioskModeTitle()) {
@@ -1488,7 +1455,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($fullpage) {
             $table_gui = new ilListOfQuestionsTableGUI($this, 'showQuestion');
-
+            if (($this->object->getNrOfTries() - 1) === $this->testSession->getPass()) {
+                $table_gui->setUserHasAttemptsLeft(false);
+            }
             $table_gui->setShowPointsEnabled(!$this->object->getTitleOutput());
             $table_gui->setShowMarkerEnabled($this->object->getShowMarker());
             $table_gui->setObligationsNotAnswered(!$obligationsFulfilled);
@@ -1527,18 +1496,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public function outObligationsOnlySummaryCmd()
     {
         $this->outQuestionSummaryCmd(true, true, true, true);
-    }
-
-    public function showMaximumAllowedUsersReachedMessage()
-    {
-        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_max_allowed_users_reached.html", "Modules/Test");
-        $this->tpl->setCurrentBlock("adm_content");
-        $this->tpl->setVariable("MAX_ALLOWED_USERS_MESSAGE", sprintf($this->lng->txt("tst_max_allowed_users_message"), $this->object->getAllowedUsersTimeGap()));
-        $this->tpl->setVariable("MAX_ALLOWED_USERS_HEADING", sprintf($this->lng->txt("tst_max_allowed_users_heading"), $this->object->getAllowedUsersTimeGap()));
-        $this->tpl->setVariable("CMD_BACK_TO_INFOSCREEN", ilTestPlayerCommands::BACK_TO_INFO_SCREEN);
-        $this->tpl->setVariable("TXT_BACK_TO_INFOSCREEN", $this->lng->txt("tst_results_back_introduction"));
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->parseCurrentBlock();
     }
 
     public function backFromFinishingCmd()
@@ -1796,11 +1753,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return;
         }
 
-        $this->ctrl->setParameter($this, 'lock', $this->getLockParameter());
+        $this->ctrl->setParameterByClass(self::class, 'lock', $this->getLockParameter());
 
         $nextCommand = $this->ctrl->getCmdClass() . '::' . $this->ctrl->getCmd();
-        $this->ctrl->setParameterByClass('ilTestPasswordProtectionGUI', 'nextCommand', $nextCommand);
-        $this->ctrl->redirectByClass('ilTestPasswordProtectionGUI', 'showPasswordForm');
+        $this->ctrl->setParameterByClass(ilTestPasswordProtectionGUI::class, 'nextCommand', $nextCommand);
+        $this->ctrl->redirectByClass(ilTestPasswordProtectionGUI::class, 'showPasswordForm');
     }
 
     protected function isParticipantsAnswerFixed($questionId): bool
@@ -2642,7 +2599,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         // the autosave url is asynch because it will be used by an ajax request
         if ($questionGUI->isAutosaveable() && $this->object->getAutosave()) {
             $config['autosaveUrl'] = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AUTO_SAVE, '', true);
-            $config['autosaveInterval'] = $this->object->getAutosaveIval();
+            $config['autosaveInterval'] = $this->object->getMainSettings()->getQuestionBehaviourSettings()->getAutosaveInterval();
         } else {
             $config['autosaveUrl'] = '';
             $config['autosaveInterval'] = 0;

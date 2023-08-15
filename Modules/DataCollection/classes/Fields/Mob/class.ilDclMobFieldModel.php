@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,24 +14,20 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclBooleanFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclMobFieldModel extends ilDclFileuploadFieldModel
 {
-    public static array $mob_suffixes = array('jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv');
+    public static array $mob_suffixes = ['jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv'];
 
     public function getValidFieldProperties(): array
     {
-        return array(ilDclBaseFieldModel::PROP_WIDTH,
-                     ilDclBaseFieldModel::PROP_HEIGHT,
-                     ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT
-        );
+        return [ilDclBaseFieldModel::PROP_WIDTH,
+                ilDclBaseFieldModel::PROP_HEIGHT,
+                ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT
+        ];
     }
 
     public function allowFilterInListView(): bool

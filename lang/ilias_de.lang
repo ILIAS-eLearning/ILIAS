@@ -593,8 +593,6 @@ assessment#:#counter#:#Zähler
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen und aktualisieren
 assessment#:#create_new#:#Erstelle neue
-assessment#:#ctm_cannot_be_changed#:#Wiedervorlagetests können nicht mehr geändert werden.
-assessment#:#ctm_cannot_be_started#:#Wiedervorlagetests können nicht mehr gestartet werden.
 assessment#:#customstyle#:#Eigenes Stylesheet
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definition
@@ -638,6 +636,8 @@ assessment#:#ects_grade_f_desc#:#es sind erhebliche Verbesserungen erforderlich
 assessment#:#ects_grade_fx_desc#:#es sind Verbesserungen erforderlich, bevor die Leistung anerkannt wird
 assessment#:#ects_output_of_ects_grades#:#Ausgabe von ECTS-Noten
 assessment#:#edit_answer#:#Antwort ändern
+assessment#:#edit_concluding_remarks#:#Abschließende Bemerkung bearbeiten
+assessment#:#edit_introduction#:#Einleitung bearbeiten
 assessment#:#edit_page#:#Seite bearbeiten
 assessment#:#edit_question#:#Frage bearbeiten
 assessment#:#edit_test_questions#:#Listenansicht
@@ -828,7 +828,6 @@ assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
 assessment#:#log_added_extratime#:#Es wurden zusätzliche %d Minuten Bearbeitungsdauer für die Teilnehmer-ID %d hinzugefügt
 assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilnehmers %s von %d auf %d Punkte durch %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
 assessment#:#log_create_new_test#:#Neuer Test erzeugt
 assessment#:#log_manual_feedback#:#%s hat eine manuelle Bewertung für den Teilnehmer %s und die Frage %s erstellt: %s
 assessment#:#log_mark_added#:#Note hinzugefügt
@@ -1168,13 +1167,15 @@ assessment#:#set_manscoring_done#:#Als bewertet markieren
 assessment#:#set_manual_feedback#:#Manuelle Rückmeldung
 assessment#:#shape#:#Form
 assessment#:#showSuggestedSolution#:#Art
+assessment#:#show_all_test_properties_on_info_page#:#Testeigenschaften anzeigen
+assessment#:#show_all_test_properties_on_info_page_byline#:#Den Benutzern werden auf dem 'Info'-Reiter alle Testeigenschaften angezeigt, z.B. Reihenfolge, Bewertung oder Ergebnisausgabe.
 assessment#:#show_answer_overview#:#Antwortübersicht zeigen
 assessment#:#show_detailed_results#:#Detaillierte Testergebnisse (bewerteter Testdurchlauf)
 assessment#:#show_examview_html#:#Am Bildschirm
+assessment#:#show_old_concluding_remarks#:#Alte Abschliessende Bemerkungen anzeigen
+assessment#:#show_old_introduction#:#Alten Einleitungstext anzeigen
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
-assessment#:#showinfo#:#Testeigenschaften anzeigen
-assessment#:#showinfo_desc#:#Den Benutzern werden auf dem 'Info'-Reiter alle Testeigenschaften angezeigt, z.B. Reihenfolge, Bewertung oder Ergebnisausgabe.
 assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#sign_submission#:#Digitale Signatur
 assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und aktiviert sein, damit Teilnehmer aufgefordert werden, ihre Testabgabe zu signieren.
@@ -1256,11 +1257,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Erlaubt formatierten Text f
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Sie haben den Test bestanden. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#tst_all_test_competences#:#Alle Test-Kompetenzen
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
-assessment#:#tst_allowed_users#:#Anzahl gleichzeitiger Teilnehmer begrenzen
-assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen Teilnehmer des Tests. Wenn über die maximal erlaubte Anzahl hinaus weitere Benutzer versuchen, den Test zu starten, werden sie am Zugriff gehindert.
-assessment#:#tst_allowed_users_max#:#Maximale Anzahl
-assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit der Teilnehmer
-assessment#:#tst_allowed_users_time_gap_desc#:#Teilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
 assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Antworten abgeschickt.
 assessment#:#tst_analysis#:#Analyse
 assessment#:#tst_anonymity#:#Datenschutz
@@ -1341,19 +1337,6 @@ assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
 assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
 assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
-assessment#:#tst_dyn_keep_answ_freeze#:#Belasse festgeschriebene Antworten
-assessment#:#tst_dyn_quest_set_pool_deleted#:#Der aktuell konfigurierte Fragenpool "%s" ist gelöscht worden.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Endgültig gelöscht)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Aktuell im Papierkorb) [%s Fragen]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Bisherige Antworten entfernen
-assessment#:#tst_dyn_test_pass_deletion_button#:#Zurücksetzen sämtlicher Testantworten
-assessment#:#tst_dyn_unfreeze_answers#:#Erneut beantworten
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Es sind Fragen enthalten, zu denen ihre initialen Antworten festgeschrieben wurden, so dass Sie keine Änderungen an den Antworten vornehmen können. Möchten Sie die Fragen jetzt erneut beantworten und die festgeschriebenen Antworten lösen?
-assessment#:#tst_dynamic_question_set_complete#:#Bearbeitungsstand aller verfügbaren Fragen
-assessment#:#tst_dynamic_question_set_selection#:#Auswahl der Testfragen und Auswahlstatistik
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
 assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
 assessment#:#tst_ending_time#:#Ende
@@ -1388,10 +1371,11 @@ assessment#:#tst_filter_taxonomy#:#Taxonomie
 assessment#:#tst_final_information#:#Test abschließen
 assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
 assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwort zurückgehen
-assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
+assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finish_notification#:#Benachrichtigung
 assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis pro Benutzer
-assessment#:#tst_finish_notification_content#:#Inhalt der Benachrichtigung
+assessment#:#tst_finish_notification_content_type#:#Inhalt der Benachrichtigung
 assessment#:#tst_finish_notification_desc#:#Für jede Person, die einen Test beendet, wird eine Mail versendet. Die Mail wird an den Benutzer versendet, welcher im Reiter „Rechte“ unter „Im Besitz von“ eingetragen ist. Die Mail enthält die folgenden Informationen:###Modified as part of gender mainstreaming activities for ILIAS 8
 assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
 assessment#:#tst_finish_notification_simple#:#Nur Anmeldename und Datum des Beendens
@@ -1506,8 +1490,6 @@ assessment#:#tst_mark_minimum_level#:#Mindestprozentsatz
 assessment#:#tst_mark_official_form#:#Offizielle Bezeichnung
 assessment#:#tst_mark_passed#:#Bestanden
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
-assessment#:#tst_max_allowed_users_heading#:#Die maximale Anzahl von gleichzeitiger Teilnehmern für diesen Test wurde erreicht
-assessment#:#tst_max_allowed_users_message#:#Die maximale Anzahl gleichzeitiger Teilnehmer für diesen Test wurde erreicht. Bitte versuchen Sie etwas später wieder den Test zu starten oder fortzusetzen. Wenn aktive Teilnehmer für mehr als %s Sekunden inaktiv sind, besteht für Sie die Möglichkeit, an diesem Test teilzunehmen. Wir danken Ihnen für Ihr Verständnis.
 assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
 assessment#:#tst_maximum_points#:#Maximale Punktezahl
 assessment#:#tst_mc_label_none_above#:#Keine der obigen Antworten
@@ -1615,6 +1597,7 @@ assessment#:#tst_password_form#:#Eingabe Testpasswort
 assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet bzw. fortgeführt werden. Bitte tragen Sie das Passwort hier ein.
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_player_answer_saved_and_locked#:#Antwort wird gespeichert und gesperrt. Dadurch kann die Antwort nicht mehr geändert werden.
+assessment#:#tst_please_select_source_pool#:#Bitte wählen Sie einen Fragenpool aus.
 assessment#:#tst_please_select_target_for_pool_derives#:#Bitte wählen Sie einen Zielcontainer aus.
 assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_position_without_total#:#Frage %s
@@ -1629,7 +1612,7 @@ assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_proceed#:#Fortfahren
 assessment#:#tst_processing_time#:#Bearbeitungsdauer begrenzen
 assessment#:#tst_processing_time_desc#:#Nutzen Sie diese Einstellung für E-Klausuren/Fernklausuren, damit Teilnehmer einen festen Zeitraum für die Bearbeitung des Tests bekommen. Die Zeit läuft für jeden Teilnehmer ab dem Moment, an dem der erste Testdurchlauf gestartet wurde. „Test unterbrechen“ stoppt den Ablauf der Bearbeitungsdauer nicht. Wurde die Anzahl möglicher Testdurchläufe eingeschränkt, erscheint im Reiter „Dashboard“ eine Funktion, um Teilnehmern zusätzliche Bearbeitungszeit zu gewähren.
-assessment#:#tst_processing_time_duration#:#Bearbeitungsdauer
+assessment#:#tst_processing_time_duration#:#Bearbeitungsdauer in Minuten
 assessment#:#tst_processing_time_duration_desc#:#Maximal zur Verfügung stehende Zeit zur Durchführung des Tests
 assessment#:#tst_qbt_filter_question_title#:#Fragentitel
 assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
@@ -1711,6 +1694,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Zwischen
 assessment#:#tst_questions_inserted#:#Fragen angefügt!
 assessment#:#tst_questions_removed#:#Fragen entfernt!
 assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
 assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
 assessment#:#tst_reached_points#:#Erreichte Punkte
 assessment#:#tst_reached_points_of_max#:#%s von %s
@@ -1804,7 +1788,9 @@ assessment#:#tst_setting_enable_obligations_info#:#Verpflichtende Fragen werden 
 assessment#:#tst_setting_enable_obligations_label#:#Verpflichtende Fragen
 assessment#:#tst_setting_offer_hints_info#:#Teilnehmer können Lösungshinweise anfordern, um eine Frage zu beantworten. Pro gegebenem Lösungshinweis verringern sich die Punkte für die richtige Antwort.
 assessment#:#tst_setting_offer_hints_label#:#Lösungshinweise
-assessment#:#tst_settings_conflict_message#:#Es wurden Kombinationen von Einstellungen gewählt, die nicht erlaubt sind.
+assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Verpflichtende Fragen" kann nicht zusammen mit "Antworten festschreiben" verwendet werden.
+assessment#:#tst_settings_conflict_postpone_and_lock#:#"Nicht beantwortete Fragen werden ans Testende geschoben" kann nicht zusammen mit "Antworten bei Anzeige der Folgefrage festschreiben" verwendet werden.
+assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Fragen mischen" kann nicht zusammen mit "Antworten bei Anzeige der Folgefrage festschreiben" verwendet werden.
 assessment#:#tst_settings_header_execution#:#Durchführung: Zugang
 assessment#:#tst_settings_header_intro#:#Informationen zum Einstieg
 assessment#:#tst_settings_header_test_run#:#Durchführung: Steuerung Testdurchlauf
@@ -2781,7 +2767,7 @@ chatroom#:#anonymous_hint#:#Bitte beachten Sie, dass für den Zugriff von anonym
 chatroom#:#auto_scroll#:#Automatisch an das Ende scrollen
 chatroom#:#autogen_usernames#:#Chat-Namen für anonyme Teilnahme
 chatroom#:#autogen_usernames_info#:#Nicht angemeldete Personen bekommen automatisch einen Chat-Namen, damit sie unterschieden werden können. Die Raute wird dabei automatisch durch eine Zahl ersetzt.
-chatroom#:#ban_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum ausschließen?
+chatroom#:#ban_question#:#Wollen Sie den Benutzer wirklich aus dem Chat ausschließen?
 chatroom#:#ban_table_title#:#Gesperrte Benutzer
 chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt.
 chatroom#:#bans#:#Gesperrte Benutzer
@@ -2805,6 +2791,7 @@ chatroom#:#chat_deletion_section_head#:#Löschen alter Nachrichten
 chatroom#:#chat_enable_history#:#Verlauf
 chatroom#:#chat_enable_history_info#:#Alle können im Reiter „Verlauf“ öffentliche Chat-Beiträge aus der Vergangenheit lesen und exportieren. Beiträge aus Séparées sind nur für Benutzer zugänglich, die dort eingeladen waren.
 chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat_errors.log), in die der Chat-Server Fehler protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
+chatroom#:#chat_functions#:#Chat Funktionen
 chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum SSL-Zertifikat an (bspw.: /etc/ssl/certs/server.pem).
 chatroom#:#chat_https_dhparam_info#:#Bitte geben Sie hier den absoluten Serverpfad zu einer Datei an (bspw.: /etc/ssl/private/dhparam.pem), um Diffie-Hellman-Parameter auszuhandeln (z.B. generiert via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Bitte geben Sie den absoluten Serverpfad zum privaten Schlüssel an (bspw.: /etc/ssl/private/server.key).
@@ -2890,7 +2877,7 @@ chatroom#:#chtr_ban_ts_tbl_head#:#Zeitpunkt
 chatroom#:#chtr_new#:#Neuen Chatraum anlegen
 chatroom#:#chtr_server_status#:#Server-Status
 chatroom#:#clear_room_history#:#Nachrichtenverlauf löschen
-chatroom#:#clear_room_history_question#:#Wollen Sie wirklich alle Nachrichten des aktuellen Raumes löschen?
+chatroom#:#clear_room_history_question#:#Wollen Sie wirklich alle Nachrichten löschen?
 chatroom#:#client_chatserver_connection#:#Verbindung Client zum Server
 chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen Client und Server zu definieren.
 chatroom#:#connection_url_info#:#Tragen Sie hier einen URL ein, über welchen der Server zu erreichen ist.
@@ -2899,7 +2886,6 @@ chatroom#:#delete_private_room#:#Séparée löschen
 chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Chat-Rückblick
-chatroom#:#display_past_msgs_suffix#:#Beiträge
 chatroom#:#duration_from#:#Von
 chatroom#:#duration_to#:#Bis
 chatroom#:#end_whisper#:#Beenden
@@ -2917,13 +2903,14 @@ chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Ad
 chatroom#:#invite_to_private_room#:#In Chatraum einladen
 chatroom#:#invite_username#:#Anmeldename
 chatroom#:#key#:#Schlüssel
-chatroom#:#kick_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum rauswerfen?
+chatroom#:#kick_question#:#Wollen Sie den Benutzer wirklich aus dem Chat rauswerfen?
 chatroom#:#kicked#:#Die Moderation hat Sie aus dem Chat entfernt.###Modified as part of gender mainstreaming activities for ILIAS 8
 chatroom#:#kicked_from_private_room#:#Sie wurden aus dem Separée <b>#title#</b> geworfen.
 chatroom#:#leave_private_room#:#Séparée verlassen
 chatroom#:#left_private_room#:#Séparée verlassen
 chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
 chatroom#:#main#:#Hauptraum
+chatroom#:#messages#:#Nachrichten
 chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend
 chatroom#:#no_messages#:#Es sind keine Nachrichten für den ausgewählten Zeitraum verfügbar.
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Anmeldenamen!
@@ -2959,6 +2946,7 @@ chatroom#:#user_kicked#:#Der Benutzer <b>#user#</b> wurde aus dem Chatraum gewor
 chatroom#:#users#:#Benutzer
 chatroom#:#welcome_to_chat#:#Willkommen im Chatraum
 chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
+chatroom#:#write_message#:#Neue Nachricht
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
 chatroom_adm#:#chat_enabled#:#Chat aktivieren
 chatroom_adm#:#chatserver_settings_title#:#Chat-Server
@@ -8096,6 +8084,8 @@ dateplaner#:#cal_create#:#Erzeuge
 dateplaner#:#cal_created_appointment#:#Ein neuer Termin wurde angelegt.
 dateplaner#:#cal_created_milestone#:#Der Meilenstein wurde angelegt.
 dateplaner#:#cal_created_milestone_resp_q#:#Der Meilenstein wurde angelegt. Bitte wählen Sie die Mitglieder aus, die für den Meilenstein verantwortlich sein sollen.
+dateplaner#:#cal_cronjob_remote_description#:#Wenn aktiviert, werden Termine des Kalendertyps "Web-Kalender" automatisch nach dem vorgegeben Zeitintervall synchronisiert.
+dateplaner#:#cal_cronjob_remote_title#:#Synchronisierung externer Kalender
 dateplaner#:#cal_crs_info#:#Course Information
 dateplaner#:#cal_crs_new_notification_body#:#ein neuer Termin ist im Kurs "%s" angelegt worden.
 dateplaner#:#cal_crs_new_notification_sub#:#Neuer Termin in Kurs "%s"
@@ -16662,6 +16652,8 @@ ui#:#datetime_required#:#Zeit/Datum erforderlich
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
+ui#:#presentaion_table_collapse#:#alle minimieren
+ui#:#presentaion_table_expand#:#alle zeigen
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben

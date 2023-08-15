@@ -149,6 +149,15 @@ class _DiffOp_Change extends _DiffOp
 class _DiffEngine
 {
     public const MAX_XREF_LENGTH = 10000;
+    private array $xchanged;
+    private array $xv;
+    private array $xind;
+    private array $ychanged;
+    private array $yv;
+    private array $yind;
+    private int $lcs;
+    private array $in_seq;
+    private array $seq = [];
 
     public function diff($from_lines, $to_lines)
     {
@@ -1016,6 +1025,11 @@ define('NBSP', '&#160;');			// iso-8859-x non-breaking space.
  */
 class _HWLDF_WordAccumulator
 {
+    private array $_lines;
+    private string $_line;
+    private string $_group;
+    private string $_tag;
+
     public function __construct()
     {
         $this->_lines = array();

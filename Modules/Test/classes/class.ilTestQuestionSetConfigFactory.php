@@ -50,15 +50,6 @@ class ilTestQuestionSetConfigFactory
      */
     public function getQuestionSetConfig(): ilTestQuestionSetConfig
     {
-        return $this->getQuestionSetConfigByType();
-    }
-
-    /**
-     * creates and returns an instance of a test question set config
-     * that corresponds to the passed question set type (test mode)
-     */
-    public function getQuestionSetConfigByType(): ilTestQuestionSetConfig
-    {
         if ($this->testQuestionSetConfig === null) {
             if ($this->testOBJ->isFixedTest()) {
                 $this->testQuestionSetConfig = new ilTestFixedQuestionSetConfig(
@@ -70,15 +61,6 @@ class ilTestQuestionSetConfigFactory
             }
             if ($this->testOBJ->isRandomTest()) {
                 $this->testQuestionSetConfig = new ilTestRandomQuestionSetConfig(
-                    $this->tree,
-                    $this->db,
-                    $this->component_repository,
-                    $this->testOBJ
-                );
-            }
-
-            if ($this->testOBJ->isDynamicTest()) {
-                $this->testQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
                     $this->tree,
                     $this->db,
                     $this->component_repository,

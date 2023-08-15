@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclCache
- * @author Oskar Truffer <ot@studer-raimann.ch>
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclCache
 {
     public const TYPE_DATACOLLECTION = 'dcl';
@@ -85,18 +82,20 @@ class ilDclCache
 
     protected static function initCloneMapping(): void
     {
-        self::$clone_mapping = array(
-            self::TYPE_DATACOLLECTION => array(),
-            self::TYPE_TABLE => array(),
-            self::TYPE_FIELD => array(),
-            self::TYPE_RECORD => array(),
-            self::TYPE_TABLEVIEW => array(),
-        );
+        self::$clone_mapping = [
+            self::TYPE_DATACOLLECTION => [],
+            self::TYPE_TABLE => [],
+            self::TYPE_FIELD => [],
+            self::TYPE_RECORD => [],
+            self::TYPE_TABLEVIEW => [],
+        ];
     }
 
     public static function getCloneOf(int $id, string $type): ?object
     {
         $type_cache = self::$clone_mapping[$type];
+        $clone_id = null;
+
         if (!is_array($type_cache)) {
             return null;
         }
@@ -197,9 +196,6 @@ class ilDclCache
     public static function getRecordRepresentation(
         ilDclBaseRecordFieldModel $record_field
     ): ilDclBaseRecordRepresentation {
-        if ($record_field == null) {
-            throw new ilDclException("Cannot get Representation of null object!");
-        }
 
         if (!isset(self::$record_representation_cache[$record_field->getId()])) {
             self::$record_representation_cache[$record_field->getId()] = ilDclFieldFactory::getRecordRepresentationInstance($record_field);
@@ -210,14 +206,13 @@ class ilDclCache
 
     /**
      * Cache Field properties
-     * @param int|string $field_id
      * @return ilDclFieldProperty[]
      */
-    public static function getFieldProperties($field_id): array
+    public static function getFieldProperties(string $field_id): array
     {
         if (!isset(self::$field_properties_cache[$field_id])) {
-            self::$field_properties_cache[$field_id] = array();
-            $result = ilDclFieldProperty::where(array('field_id' => $field_id))->get();
+            self::$field_properties_cache[$field_id] = [];
+            $result = ilDclFieldProperty::where(['field_id' => $field_id])->get();
             foreach ($result as $prop) {
                 self::$field_properties_cache[$field_id][$prop->getName()] = $prop;
             }
@@ -239,14 +234,14 @@ class ilDclCache
         }
 
         if (count($fields) > 0) {
-            $field_ids = array();
+            $field_ids = [];
             foreach ($fields as $field) {
                 $field_ids[] = $field->getId();
             }
-            $result = ilDclFieldProperty::where(array('field_id' => $field_ids), 'IN')->get();
+            $result = ilDclFieldProperty::where(['field_id' => $field_ids], 'IN')->get();
             foreach ($result as $prop) {
                 if (!isset(self::$field_properties_cache[$prop->getFieldId()])) {
-                    self::$field_properties_cache[$prop->getFieldId()] = array();
+                    self::$field_properties_cache[$prop->getFieldId()] = [];
                 }
                 self::$field_properties_cache[$prop->getFieldId()][$prop->getName()] = $prop;
             }
@@ -286,7 +281,7 @@ class ilDclCache
             $field->setDescription($rec["description"]);
         }
         $field->setDatatypeId($rec["datatype_id"]);
-        $field->setUnique($rec["is_unique"]);
+        $field->setUnique((bool)$rec["is_unique"]);
         $fields_cache[$rec["id"]] = $field;
 
         return $field;
@@ -297,8 +292,8 @@ class ilDclCache
      */
     public static function resetCache(): void
     {
-        self::$fields_cache = array();
-        self::$record_field_cache = array();
-        self::$records_cache = array();
+        self::$fields_cache = [];
+        self::$record_field_cache = [];
+        self::$records_cache = [];
     }
 }

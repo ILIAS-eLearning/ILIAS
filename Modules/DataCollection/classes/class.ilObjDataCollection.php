@@ -14,23 +14,18 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilObjDataCollection
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version $Id: class.ilObjFolder.php 25528 2010-09-03 10:37:11Z smeyer $
- * @extends ilObject2
- */
+
+declare(strict_types=1);
+
 class ilObjDataCollection extends ilObject2
 {
     private bool $is_online = false;
-    private string $rating = "";
-    private string $approval = "";
-    private string $public_notes = "";
-    private string $notification = "";
+    private bool $rating = false;
+    private bool $approval = false;
+    private bool $public_notes = false;
+    private bool $notification = false;
 
     protected function initType(): void
     {
@@ -39,103 +34,85 @@ class ilObjDataCollection extends ilObject2
 
     protected function doRead(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $result = $this->db->query("SELECT * FROM il_dcl_data WHERE id = " . $this->db->quote($this->getId(), "integer"));
 
-        $result = $ilDB->query("SELECT * FROM il_dcl_data WHERE id = " . $ilDB->quote($this->getId(), "integer"));
-
-        $data = $ilDB->fetchObject($result);
+        $data = $this->db->fetchObject($result);
         if ($data) {
-            $this->setOnline($data->is_online);
-            $this->setRating($data->rating);
-            $this->setApproval($data->approval);
-            $this->setPublicNotes($data->public_notes);
-            $this->setNotification($data->notification);
+            $this->setOnline((bool)$data->is_online);
+            $this->setRating((bool)$data->rating);
+            $this->setApproval((bool)$data->approval);
+            $this->setPublicNotes((bool)$data->public_notes);
+            $this->setNotification((bool)$data->notification);
         }
     }
 
     protected function doCreate(bool $clone_mode = false): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
-
-        $ilLog->write('doCreate');
+        $this->log->write('doCreate');
 
         if (!$clone_mode) {
             //Create Main Table - The title of the table is per default the title of the data collection object
             $main_table = ilDclCache::getTableCache();
             $main_table->setObjId($this->getId());
             $main_table->setTitle($this->getTitle());
-            $main_table->setAddPerm(1);
-            $main_table->setEditPerm(1);
-            $main_table->setDeletePerm(0);
-            $main_table->setDeleteByOwner(1);
-            $main_table->setEditByOwner(1);
-            $main_table->setLimited(0);
+            $main_table->setAddPerm(true);
+            $main_table->setEditPerm(true);
+            $main_table->setDeletePerm(false);
+            $main_table->setDeleteByOwner(true);
+            $main_table->setEditByOwner(true);
+            $main_table->setLimited(false);
             $main_table->setIsVisible(true);
             $main_table->doCreate();
         }
 
-        $ilDB->insert(
+        $this->db->insert(
             "il_dcl_data",
-            array(
-                "id" => array("integer", $this->getId()),
-                "is_online" => array("integer", (int) $this->getOnline()),
-                "rating" => array("integer", (int) $this->getRating()),
-                "public_notes" => array("integer", (int) $this->getPublicNotes()),
-                "approval" => array("integer", (int) $this->getApproval()),
-                "notification" => array("integer", (int) $this->getNotification()),
-            )
+            [
+                "id" => ["integer", $this->getId()],
+                "is_online" => ["integer", (int) $this->getOnline()],
+                "rating" => ["integer", (int) $this->getRating()],
+                "public_notes" => ["integer", (int) $this->getPublicNotes()],
+                "approval" => ["integer", (int) $this->getApproval()],
+                "notification" => ["integer", (int) $this->getNotification()],
+            ]
         );
     }
 
     protected function doDelete(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         foreach ($this->getTables() as $table) {
             $table->doDelete(false, true);
         }
 
-        $query = "DELETE FROM il_dcl_data WHERE id = " . $ilDB->quote($this->getId(), "integer");
-        $ilDB->manipulate($query);
+        $query = "DELETE FROM il_dcl_data WHERE id = " . $this->db->quote($this->getId(), "integer");
+        $this->db->manipulate($query);
     }
 
     protected function doUpdate(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $ilDB->update(
+        $this->db->update(
             "il_dcl_data",
-            array(
-                "id" => array("integer", $this->getId()),
-                "is_online" => array("integer", (int) $this->getOnline()),
-                "rating" => array("integer", (int) $this->getRating()),
-                "public_notes" => array("integer", (int) $this->getPublicNotes()),
-                "approval" => array("integer", (int) $this->getApproval()),
-                "notification" => array("integer", (int) $this->getNotification()),
-            ),
-            array(
-                "id" => array("integer", $this->getId()),
-            )
+            [
+                "id" => ["integer", $this->getId()],
+                "is_online" => ["integer", (int) $this->getOnline()],
+                "rating" => ["integer", (int) $this->getRating()],
+                "public_notes" => ["integer", (int) $this->getPublicNotes()],
+                "approval" => ["integer", (int) $this->getApproval()],
+                "notification" => ["integer", (int) $this->getNotification()],
+            ],
+            [
+                "id" => ["integer", $this->getId()],
+            ]
         );
     }
 
-    /**
-     * @param      $a_action
-     * @param      $a_table_id
-     * @param null $a_record_id
-     */
     public static function sendNotification($a_action, $a_table_id, $a_record_id = null)
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $ilAccess = $DIC['ilAccess'];
+
         $http = $DIC->http();
         $refinery = $DIC->refinery();
+        $user = $DIC->user();
 
         $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
 
@@ -146,7 +123,7 @@ class ilObjDataCollection extends ilObject2
 
         $dclObj = new ilObjDataCollection($ref_id);
 
-        if ($dclObj->getNotification() != 1) {
+        if ($dclObj->getNotification() != true) {
             return;
         }
         $obj_table = ilDclCache::getTableCache($a_table_id);
@@ -156,7 +133,7 @@ class ilObjDataCollection extends ilObject2
         $users = ilNotification::getNotificationsForObject(
             ilNotification::TYPE_DATA_COLLECTION,
             $obj_dcl->getId(),
-            true
+            1
         );
         if (!count($users)) {
             return;
@@ -178,7 +155,7 @@ class ilObjDataCollection extends ilObject2
             // the user responsible for the action should not be notified
             $record = ilDclCache::getRecordCache($a_record_id);
             $ilDclTable = new ilDclTable($record->getTableId());
-            if ($user_id != $ilUser->getId() && $ilDclTable->hasPermissionToViewRecord(filter_input(
+            if ($user_id != $user->getId() && $ilDclTable->hasPermissionToViewRecord(filter_input(
                 INPUT_GET,
                 'ref_id'
             ), $record, $user_id)) {
@@ -210,9 +187,10 @@ class ilObjDataCollection extends ilObject2
                         }
                         /** @var ilDclBaseFieldModel $field */
                         foreach ($visible_fields as $field) {
+                            $value = null;
                             if ($field->isStandardField()) {
                                 $value = $record->getStandardFieldPlainText($field->getId());
-                            } elseif ($record_field = $record->getRecordField($field->getId())) {
+                            } elseif ($record_field = $record->getRecordField((int)$field->getId())) {
                                 $value = $record_field->getPlainText();
                             }
 
@@ -224,7 +202,7 @@ class ilObjDataCollection extends ilObject2
                     $message .= $t;
                 }
                 $message .= "------------------------------------\n";
-                $message .= $ulng->txt('dcl_changed_by') . ": " . $ilUser->getFullname() . " " . ilUserUtil::getNamePresentation($ilUser->getId())
+                $message .= $ulng->txt('dcl_changed_by') . ": " . $user->getFullname() . " " . ilUserUtil::getNamePresentation($user->getId())
                     . "\n\n";
                 $message .= $ulng->txt('dcl_change_notification_link') . ": " . $link . "\n\n";
 
@@ -232,7 +210,7 @@ class ilObjDataCollection extends ilObject2
 
                 $mail_obj = new ilMail(ANONYMOUS_USER_ID);
                 $mail_obj->appendInstallationSignature(true);
-                $mail_obj->enqueue(ilObjUser::_lookupLogin($user_id), "", "", $subject, $message, array());
+                $mail_obj->enqueue(ilObjUser::_lookupLogin($user_id), "", "", $subject, $message, []);
             } else {
                 unset($users[$idx]);
             }
@@ -245,28 +223,25 @@ class ilObjDataCollection extends ilObject2
      */
     public function getFirstVisibleTableId(): int
     {
-        global $DIC;
-        /** @var ilDBInterface $ilDB */
-        $ilDB = $DIC['ilDB'];
-        $ilDB->setLimit(1);
+        $this->db->setLimit(1);
         $only_visible = ilObjDataCollectionAccess::hasWriteAccess($this->ref_id) ? '' : ' AND is_visible = 1 ';
-        $result = $ilDB->query(
+        $result = $this->db->query(
             'SELECT id FROM il_dcl_table
-                    WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') .
+                    WHERE obj_id = ' . $this->db->quote($this->getId(), 'integer') .
                     $only_visible . ' ORDER BY -table_order DESC'
         ); //"-table_order DESC" is ASC with NULL last
 
         // if there's no visible table, fetch first one not visible
         // this is to avoid confusion, since the default of a table after creation is not visible
         if (!$result->numRows() && $only_visible) {
-            $ilDB->setLimit(1);
-            $result = $ilDB->query(
+            $this->db->setLimit(1);
+            $result = $this->db->query(
                 'SELECT id FROM il_dcl_table
-                        WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ORDER BY -table_order DESC '
+                        WHERE obj_id = ' . $this->db->quote($this->getId(), 'integer') . ' ORDER BY -table_order DESC '
             );
         }
 
-        return $ilDB->fetchObject($result)->id;
+        return $this->db->fetchObject($result)->id;
     }
 
     public function reorderTables(array $table_order): void
@@ -339,7 +314,7 @@ class ilObjDataCollection extends ilObject2
     /**
      * setOnline
      */
-    public function setOnline($a_val): void
+    public function setOnline(bool $a_val): void
     {
         $this->is_online = $a_val;
     }
@@ -352,42 +327,42 @@ class ilObjDataCollection extends ilObject2
         return $this->is_online;
     }
 
-    public function setRating(string $a_val): void
+    public function setRating(bool $a_val): void
     {
         $this->rating = $a_val;
     }
 
-    public function getRating(): string
+    public function getRating(): bool
     {
         return $this->rating;
     }
 
-    public function setPublicNotes(string $a_val)
+    public function setPublicNotes(bool $a_val)
     {
         $this->public_notes = $a_val;
     }
 
-    public function getPublicNotes(): string
+    public function getPublicNotes(): bool
     {
         return $this->public_notes;
     }
 
-    public function setApproval(string $a_val): void
+    public function setApproval(bool $a_val): void
     {
         $this->approval = $a_val;
     }
 
-    public function getApproval(): string
+    public function getApproval(): bool
     {
         return $this->approval;
     }
 
-    public function setNotification(string $a_val): void
+    public function setNotification(bool $a_val): void
     {
         $this->notification = $a_val;
     }
 
-    public function getNotification(): string
+    public function getNotification(): bool
     {
         return $this->notification;
     }
@@ -417,15 +392,12 @@ class ilObjDataCollection extends ilObject2
      */
     public function getTables(): array
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $query = "SELECT id FROM il_dcl_table WHERE obj_id = " . $ilDB->quote($this->getId(), "integer") .
+        $query = "SELECT id FROM il_dcl_table WHERE obj_id = " . $this->db->quote($this->getId(), "integer") .
             " ORDER BY -table_order DESC";
-        $set = $ilDB->query($query);
-        $tables = array();
+        $set = $this->db->query($query);
+        $tables = [];
 
-        while ($rec = $ilDB->fetchAssoc($set)) {
+        while ($rec = $this->db->fetchAssoc($set)) {
             $tables[$rec['id']] = ilDclCache::getTableCache($rec['id']);
         }
 
@@ -439,7 +411,7 @@ class ilObjDataCollection extends ilObject2
 
     public function getVisibleTables(): array
     {
-        $tables = array();
+        $tables = [];
         foreach ($this->getTables() as $table) {
             if ($table->getIsVisible() && $table->getVisibleTableViews($this->ref_id)) {
                 $tables[$table->getId()] = $table;
@@ -451,9 +423,6 @@ class ilObjDataCollection extends ilObject2
 
     /**
      * Checks if a DataCollection has a table with a given title
-     * @param string $title  Title of table
-     * @param int    $obj_id Obj-ID of the table
-     * @return bool
      */
     public static function _hasTableByTitle(string $title, int $obj_id): bool
     {
@@ -464,7 +433,7 @@ class ilObjDataCollection extends ilObject2
             . $ilDB->quote($title, 'text')
         );
 
-        return ($ilDB->numRows($result)) ? true : false;
+        return (bool) $ilDB->numRows($result);
     }
 
     public function getStyleSheetId(): int

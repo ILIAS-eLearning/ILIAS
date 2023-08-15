@@ -51,15 +51,6 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 
     private $poolQuestionCount = null;
 
-    // fau: taxFilter/typeFilter - new class variables
-    #private $originalFilterTaxId = null;
-
-    #private $originalFilterTaxNodeId = null;
-
-    #private $mappedFilterTaxId = null;
-
-    #private $mappedFilterTaxNodeId = null;
-
     /**
      * @var array taxId => [nodeId, ...]
      */
@@ -97,7 +88,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         $this->id = $id;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -535,7 +526,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         }
 
         $poolInfoLabel = sprintf(
-            $lng->txt('tst_dynamic_question_set_source_questionpool_summary_string'),
+            $lng->txt('tst_random_question_set_source_questionpool_summary_string'),
             $this->getPoolTitle(),
             $pool_path,
             $this->getPoolQuestionCount()

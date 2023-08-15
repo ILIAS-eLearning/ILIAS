@@ -592,8 +592,6 @@ assessment#:#counter#:#Contatore
 assessment#:#create_date#:#Data creazione
 assessment#:#create_gaps#:#Crea uno spazio vuoto
 assessment#:#create_new#:#Crea nuova
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Stile personalizzato
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definizione
@@ -822,7 +820,6 @@ assessment#:#legend#:#Legenda
 assessment#:#locked#:#Bloccato
 assessment#:#log_added_extratime#:#Aggiunti minuti %d supplementari per l’id dei partecipanti %d
 assessment#:#log_answer_changed_points#:#Impostazione manuale dei punti da %d a %d da parte dell'autore del test
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#L'utente non può fare il test perchè è stato raggiunto il numero massimo di partecipanti
 assessment#:#log_create_new_test#:#Creato nuovo test
 assessment#:#log_manual_feedback#:#aggiunto feedback manuale per studente e domande del test
 assessment#:#log_mark_added#:#Aggiunto marcatore
@@ -1158,13 +1155,13 @@ assessment#:#set_manscoring_done#:#Segna questo partecipante come "Partecipante 
 assessment#:#set_manual_feedback#:#Imposta il feedback manuale
 assessment#:#shape#:#Forma
 assessment#:#showSuggestedSolution#:#Soluzione proposta
+assessment#:#show_all_test_properties_on_info_page#:#Mostra la Information Page completa
+assessment#:#show_all_test_properties_on_info_page_byline#:#Se selezionato, la Pagina Info Test viene mostrata (incluse le proprietà del test). Se non selezionato, solo il testo di introduzione (se disponibile) e le proprietà richieste verranno mostrate sulla Pagina Info Test.<br />
 assessment#:#show_answer_overview#:#Mostra panoramica risposte
 assessment#:#show_detailed_results#:#Mostra i risultati dettagliati del test (svolgimento del test valutato)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Mostra il sommario dei voti
 assessment#:#show_user_answers#:#Mostra le risposte valutate degli utenti
-assessment#:#showinfo#:#Mostra la Information Page completa
-assessment#:#showinfo_desc#:#Se selezionato, la Pagina Info Test viene mostrata (incluse le proprietà del test). Se non selezionato, solo il testo di introduzione (se disponibile) e le proprietà richieste verranno mostrate sulla Pagina Info Test.<br />
 assessment#:#shuffle_answers#:#Mescola le risposte
 assessment#:#sign_submission#:#Firma digitale dei test inviati
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
@@ -1246,11 +1243,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Tutte le competenze di test
 assessment#:#tst_all_user_data_deleted#:#Tutti i dati di questo test sono stati cancellati!
-assessment#:#tst_allowed_users#:#Massimo numero di partecipanti facenti contemporaneamente il test
-assessment#:#tst_allowed_users_desc#:#ILIAS monitorerà il numero di partecipanti che fanno il test allo stesso tempo. Se più utenti di quelli consentiti provano ad accedere, ILIAS impedirà di avviare il test.
-assessment#:#tst_allowed_users_max#:#Numero massimo di partecipanti
-assessment#:#tst_allowed_users_time_gap#:#Tempo di inattività dell'utente
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_already_submitted#:#Il test è gia' stato eseguito e inviato.
 assessment#:#tst_analysis#:#Analisi
 assessment#:#tst_anonymity#:#Anonimato
@@ -1330,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Ricava nuovo gruppo di domande
 assessment#:#tst_derive_new_pools#:#Ricava nuovi gruppi di domande
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#La tua risposta precedente non verrà usata come risposta di default per test successivi
-assessment#:#tst_dyn_keep_answ_freeze#:#Blocca le mie attuali risposte
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Deleted Permanently)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Deleted) [%s Questions]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the source questin pool successfully. When there are new or edited questions in the question pool you can proceed the test.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Con la selezione dell’attuale domanda hai risposto con successo a tutte le domande. Modifica la selezione della domanda per procedere con il test.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Delete Previous Answers
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Testanswers
-assessment#:#tst_dyn_unfreeze_answers#:#Rispondi ancora una volta
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your inital answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?
-assessment#:#tst_dynamic_question_set_complete#:#Statistica totale
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Percorso: %s) [%s Domande]
 assessment#:#tst_edit_competence_assign#:#Modifica delle proprietà di assegnazione
 assessment#:#tst_edit_scoring#:#Modifica il punteggio
 assessment#:#tst_ending_time#:#Ora di fine
@@ -1379,7 +1358,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#No, torna alla risposta preceden
 assessment#:#tst_finish_confirmation_question#:#Stai per finire il test e stai raggiungendo il numero massimo di tentativi disponibili. Non potrai rifare il test e cambaire le tue risposte. Sei sicuro di voler finire il test?
 assessment#:#tst_finish_notification#:#Segnalazione completata
 assessment#:#tst_finish_notification_advanced#:#Invia i risultati completi del test al responsabile
-assessment#:#tst_finish_notification_content#:#Contenuto dell’email
+assessment#:#tst_finish_notification_content_type#:#Contenuto dell’email
 assessment#:#tst_finish_notification_desc#:#Invia una mail al titolare del test per ogni utente che ha completato il test.
 assessment#:#tst_finish_notification_no#:#Nessun email
 assessment#:#tst_finish_notification_simple#:#Invia lo user name e la data di completamento al responsabile del test
@@ -1492,8 +1471,6 @@ assessment#:#tst_mark_minimum_level#:#Livello minimo (in %)
 assessment#:#tst_mark_official_form#:#Form ufficiale
 assessment#:#tst_mark_passed#:#Superato
 assessment#:#tst_mark_short_form#:#Form ridotto
-assessment#:#tst_max_allowed_users_heading#:#È stato ragguinto il numero massimo di partecipanti a questo test
-assessment#:#tst_max_allowed_users_message#:#È stato ragguinto il numero massimo di partecipanti a questo test. Per favore riprova più tardi. Se dei partecipanti sono inattivi per più di % secondi , avrai la possibilità di partecipare. Ti ringraziamo per la comprensione.
 assessment#:#tst_max_comp_points#:#Punti di massima competenza
 assessment#:#tst_maximum_points#:#Punteggi massimi
 assessment#:#tst_mc_label_none_above#:#Nessuna delle risposte in alto
@@ -1695,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reimpost
 assessment#:#tst_questions_inserted#:#Domande inserite!
 assessment#:#tst_questions_removed#:#Domande cancellate!
 assessment#:#tst_random_nr_of_questions#:#Quante domande vuoi inserire?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Percorso: %s) [%s Domande]
 assessment#:#tst_random_select_questionpool#:#Seleziona la raccolta dalla quale verranno prese le domande
 assessment#:#tst_reached_points#:#Punteggio raggiunto
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable

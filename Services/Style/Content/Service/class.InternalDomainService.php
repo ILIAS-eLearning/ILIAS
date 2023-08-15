@@ -34,6 +34,7 @@ class InternalDomainService
 {
     use GlobalDICDomainServices;
 
+    protected ?\ilLogger $log = null;
     protected Container $dic;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
@@ -119,5 +120,13 @@ class InternalDomainService
             $ref_id,
             $obj_id
         );
+    }
+
+    public function log(): \ilLogger
+    {
+        if (is_null($this->log)) {
+            $this->log = $this->logger()->styl();
+        }
+        return $this->log;
     }
 }

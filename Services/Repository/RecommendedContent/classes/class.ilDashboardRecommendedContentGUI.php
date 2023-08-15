@@ -76,6 +76,9 @@ class ilDashboardRecommendedContentGUI extends ilDashboardBlockGUI
             if ($obj) {
                 switch (get_class($obj)) {
                     case ilObjGroup::class:
+                        $start = new ilDateTime($obj->getStart());
+                        $end = new ilDateTime($obj->getEnd());
+                        break;
                     case ilObjCourse::class:
                         $start = new ilDateTime($obj->getActivationStart());
                         $end = new ilDateTime($obj->getActivationEnd());

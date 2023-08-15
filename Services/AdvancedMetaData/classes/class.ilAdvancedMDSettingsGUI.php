@@ -195,12 +195,12 @@ class ilAdvancedMDSettingsGUI
         return null;
     }
 
-    protected function getOidFromQuery(): ?int
+    protected function getOidFromQuery(): ?string
     {
         if ($this->http->wrapper()->query()->has('oid')) {
             return $this->http->wrapper()->query()->retrieve(
                 'oid',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->string()
             );
         }
         return null;

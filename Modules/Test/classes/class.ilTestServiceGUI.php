@@ -44,7 +44,12 @@ class ilTestServiceGUI
     public ?ilTestService $service = null;
     protected ilDBInterface $db;
     public ilLanguage $lng;
-    public ilGlobalTemplateInterface $tpl;
+    /**
+     * sk 2023-08-01: We need this union type, even if it is wrong! To change this
+     * @todo we have to fix the rendering of the feedback modal in
+     * `ilTestPlayerAbstractGUI::populateIntantResponseModal()`.
+     */
+    public ilGlobalTemplateInterface|ilTemplate $tpl;
     public ilCtrl $ctrl;
     protected ilTabsGUI $tabs;
     protected ilObjectDataCache $objCache;
@@ -623,7 +628,7 @@ class ilTestServiceGUI
     /**
      * Returns the user data for a test results output
      *
-     * @param ilTestSession|ilTestSessionDynamicQuestionSet
+     * @param ilTestSession
      * @param integer $user_id The user ID of the user
      * @param boolean $overwrite_anonymity TRUE if the anonymity status should be overwritten, FALSE otherwise
      * @return string HTML code of the user data for the test results
@@ -632,7 +637,7 @@ class ilTestServiceGUI
     public function getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, $overwrite_anonymity = false): string
     {
         if (!is_object($testSession)) {
-            throw new InvalidArgumentException('Not an object, expected ilTestSession|ilTestSessionDynamicQuestionSet');
+            throw new InvalidArgumentException('Not an object, expected ilTestSession');
         }
         $template = new ilTemplate("tpl.il_as_tst_results_userdata.html", true, true, "Modules/Test");
         $user_id = $this->object->_getUserIdFromActiveId($active_id);
@@ -666,7 +671,7 @@ class ilTestServiceGUI
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
         $title_client = '';
-        if ($invited_user["clientip"] !== null && strlen($invited_user["clientip"])) {
+        if (isset($invited_user['clientip']) && $invited_user["clientip"] !== '') {
             $template->setCurrentBlock("client_ip");
             $template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
             $template->setVariable("VALUE_CLIENT_IP", $invited_user["clientip"]);
@@ -746,7 +751,7 @@ class ilTestServiceGUI
     /**
      * Output of the pass overview for a test called by a test participant
      *
-     * @param ilTestSession|ilTestSessionDynamicQuestionSet $testSession
+     * @param ilTestSession $testSession
      * @param integer $active_id
      * @param integer $pass
      * @param boolean $show_pass_details
