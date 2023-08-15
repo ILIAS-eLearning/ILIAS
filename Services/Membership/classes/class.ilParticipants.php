@@ -312,10 +312,6 @@ abstract class ilParticipants
 
         $ilDB = $DIC['ilDB'];
 
-        if (!is_array($a_type)) {
-            $a_type = array($a_type);
-        }
-
         $j2 = '';
         $a2 = '';
         // this will also dismiss local roles!
