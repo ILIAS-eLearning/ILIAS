@@ -863,34 +863,40 @@ class ilRbacAdmin
      * - Delete role templates of parent roles that do not exist in new context
      * - Add permissions for parent roles that did not exist in old context
      */
-    public function adjustMovedObjectPermissions(int $a_ref_id, int $a_old_parent): void
+    public function adjustMovedObjectPermissions(int $ref_id, int $old_parent): void
     {
         global $DIC;
 
         $tree = $DIC['tree'];
 
-        $new_parent = $tree->getParentId($a_ref_id);
-        $old_context_roles = $this->rbacreview->getParentRoleIds($a_old_parent, false);
+        $new_parent = $tree->getParentId($ref_id);
+        $old_context_roles = $this->rbacreview->getParentRoleIds($old_parent, false);
         $new_context_roles = $this->rbacreview->getParentRoleIds($new_parent, false);
+
+        /**
+         * 2023-08-15 sk: We need to switch off the cache here, as otherwise there
+         * seems to be no way to get an adequate reading of the new path.
+         * We switch it back on again at the end of this function.
+         */
+        $tree->useCache(false);
 
         $for_addition = $for_deletion = [];
         foreach ($new_context_roles as $new_role_id => $new_role) {
             if (!isset($old_context_roles[$new_role_id])) {
-                $for_addition[$new_role_id] = $new_role;
+                $for_addition[] = $new_role_id;
             } elseif ($new_role['parent'] != $old_context_roles[$new_role_id]['parent']) {
                 // handle stopped inheritance
-                $for_deletion[$new_role_id] = $new_role;
-                $for_addition[$new_role_id] = $new_role;
+                $for_deletion[] = $new_role_id;
+                $for_addition[] = $new_role_id;
             }
         }
         foreach ($old_context_roles as $old_role_id => $old_role) {
             if (!isset($new_context_roles[$old_role_id])) {
-                $for_deletion[$old_role_id] = $old_role;
+                $for_deletion[] = $old_role_id;
             }
         }
-
         if ($for_deletion === [] && $for_addition === []) {
-            $this->applyMovedObjectDidacticTemplates($a_ref_id, $a_old_parent);
+            $this->applyMovedObjectDidacticTemplates($ref_id, $old_parent);
             return;
         }
 
@@ -899,7 +905,7 @@ class ilRbacAdmin
             $role_ids = array_unique(array_merge(array_keys($for_deletion), array_keys($for_addition)));
         }
 
-        foreach ($nodes = $tree->getSubTree($tree->getNodeData($a_ref_id), true) as $node_data) {
+        foreach ($tree->getSubTree($tree->getNodeData($ref_id), true) as $node_data) {
             $node_id = (int) $node_data['child'];
             if ($rbac_log_active) {
                 $log_old = ilRbacLog::gatherFaPa($node_id, $role_ids);
@@ -915,20 +921,20 @@ class ilRbacAdmin
                 continue;
             }
 
-            foreach (array_keys($for_deletion) as $role_id) {
-                $role_id = (int) $role_id;
+            foreach ($for_deletion as $role_id) {
                 $this->deleteLocalRole($role_id, $node_id);
                 $this->revokePermission($node_id, $role_id, false);
-                //var_dump("<pre>",'REVOKE',$role_id,$node_id,$rolf_id,"</pre>");
             }
-            foreach ($for_addition as $role_id => $role_data) {
+            foreach ($for_addition as $role_id) {
+                $role_parent_id = $this->rbacreview->getParentOfRole($role_id, $ref_id);
                 switch ($node_data['type']) {
                     case 'grp':
                         $tpl_id = ilObjGroup::lookupGroupStatusTemplateId((int) $node_data['obj_id']);
+
                         $this->initIntersectionPermissions(
                             $node_id,
                             $role_id,
-                            (int) $role_data['parent'],
+                            $role_parent_id,
                             $tpl_id,
                             ROLE_FOLDER_ID
                         );
@@ -939,7 +945,7 @@ class ilRbacAdmin
                         $this->initIntersectionPermissions(
                             $node_id,
                             $role_id,
-                            (int) $role_data['parent'],
+                            $role_parent_id,
                             $tpl_id,
                             ROLE_FOLDER_ID
                         );
@@ -948,11 +954,7 @@ class ilRbacAdmin
                     default:
                         $this->grantPermission(
                             $role_id,
-                            $ops = $this->rbacreview->getOperationsOfRole(
-                                $role_id,
-                                $node_data['type'],
-                                (int) $role_data['parent']
-                            ),
+                            $this->rbacreview->getOperationsOfRole($role_id, $node_data['type'], $role_parent_id),
                             $node_id
                         );
                         break;
@@ -967,6 +969,11 @@ class ilRbacAdmin
             }
         }
 
-        $this->applyMovedObjectDidacticTemplates($a_ref_id, $a_old_parent);
+        /**
+         * We switch the cache back on again. See above.
+         */
+        $tree->useCache();
+
+        $this->applyMovedObjectDidacticTemplates($ref_id, $old_parent);
     }
 }

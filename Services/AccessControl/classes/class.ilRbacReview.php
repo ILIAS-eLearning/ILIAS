@@ -1266,6 +1266,33 @@ class ilRbacReview
         return substr($title, 0, 3) == 'il_';
     }
 
+    public function getParentOfRole(int $role_id, ?int $object_ref = null): ?int
+    {
+        global $DIC;
+        /** @var ilTree $tree */
+        $tree = $DIC['tree'];
+
+        if ($object_ref === null || $object_ref === ROLE_FOLDER_ID) {
+            return $this->getRoleFolderOfRole($role_id);
+        }
+
+
+        $path_ids = $tree->getPathId($object_ref);
+        array_unshift($path_ids, ROLE_FOLDER_ID);
+
+        while ($ref_id = array_pop($path_ids)) {
+            $roles = $this->getRoleListByObject($ref_id, false);
+            foreach ($roles as $role) {
+                if ((int) $role['obj_id'] === $role_id) {
+                    return $ref_id;
+                }
+            }
+        }
+
+        return null;
+    }
+
+
     public function getRoleFolderOfRole(int $a_role_id): int
     {
         if (ilObject::_lookupType($a_role_id) == 'role') {
