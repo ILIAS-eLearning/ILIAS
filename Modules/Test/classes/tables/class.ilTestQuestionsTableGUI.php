@@ -222,7 +222,20 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
 
         if (ilObject::_lookupType((int) $a_set["orig_obj_fi"]) == 'qpl') {
-            $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($a_set["orig_obj_fi"]));
+            $qp_ref_id = ilObject::_getAllReferences($a_set["orig_obj_fi"]);
+            $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', current($qp_ref_id));
+            $this->tpl->setVariable(
+                "QUESTION_POOL",
+                $this->renderer->render(
+                    $this->factory->link()->standard(
+                        ilObject::_lookupTitle($a_set["orig_obj_fi"]),
+                        $this->ctrl->getLinkTargetByClass(
+                            [ilObjQuestionPoolGUI::class]
+                        )
+                    )
+                )
+            );
+            $this->ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
         } else {
             $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
         }

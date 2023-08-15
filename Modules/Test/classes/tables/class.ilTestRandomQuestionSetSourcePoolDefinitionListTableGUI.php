@@ -125,8 +125,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
                 $this->ui->factory()->link()->standard(
                     $a_set['source_pool_label'],
                     $this->ctrl->getLinkTargetByClass(
-                        [ilObjQuestionPoolGUI::class],
-                        'questions'
+                        [ilObjQuestionPoolGUI::class]
                     )
                 )
             )

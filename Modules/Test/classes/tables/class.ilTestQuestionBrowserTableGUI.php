@@ -61,7 +61,9 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         private InternalRequestService $testrequest,
         private ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
+        global $DIC;
         $this->setId('qpl_brows_tabl_' . $this->test_obj->getId());
+        $this->ui = $DIC->ui();
 
         parent::__construct($this, self::CMD_BROWSE_QUESTIONS);
         $this->setFilterCommand(self::CMD_APPLY_FILTER);
@@ -421,7 +423,33 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             "QUESTION_UPDATED",
             ilDatePresentation::formatDate(new ilDate($a_set["tstamp"], IL_CAL_UNIX))
         );
-        $this->tpl->setVariable("QUESTION_POOL", $a_set['parent_title']);
+        $qp_ref_id = ilObject::_getAllReferences($a_set["obj_fi"]);
+        if (ilObject::_lookupType((int) $a_set["obj_fi"]) === 'qpl') {
+            $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', current($qp_ref_id));
+            $question_pool_content = $this->ui->renderer()->render(
+                $this->ui->factory()->link()->standard(
+                    $a_set['parent_title'],
+                    $this->ctrl->getLinkTargetByClass(
+                        [ilObjQuestionPoolGUI::class]
+                    )
+                )
+            );
+            $this->ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
+        } elseif (ilObject::_lookupType((int) $a_set["obj_fi"]) === 'tst') {
+            $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'ref_id', current($qp_ref_id));
+            $question_pool_content = $this->ui->renderer()->render(
+                $this->ui->factory()->link()->standard(
+                    $a_set['parent_title'],
+                    $this->ctrl->getLinkTargetByClass(
+                        [ilObjTestGUI::class]
+                    )
+                )
+            );
+            $this->ctrl->clearParametersByClass(ilObjTestGUI::class);
+        } else {
+            $question_pool_content = $a_set['parent_title'];
+        }
+        $this->tpl->setVariable("QUESTION_POOL", $question_pool_content);
     }
 
     private function buildTestQuestionSetConfig(): ilTestQuestionSetConfig
