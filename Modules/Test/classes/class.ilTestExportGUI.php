@@ -238,7 +238,8 @@ class ilTestExportGUI extends ilExportGUI
         }
 
         $table->setData($data);
-        $tpl->setContent($table->getHTML());
+        $this->tpl->setOnScreenMessage('info', $lng->txt('exp_limitations_info'), true);
+        $tpl->setContent('Test' . $table->getHTML());
     }
 
     private function getExportTypeFromFileName(string $export_file)
